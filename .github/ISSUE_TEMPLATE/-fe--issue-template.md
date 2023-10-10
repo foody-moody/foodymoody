@@ -1,6 +1,6 @@
 ---
 name: "[FE] ISSUE-TEMPLATE"
-about: Describe this issue template's purpose here.
+about: FE 이슈템플릿 입니다
 title: "[FE] feat:  "
 labels: FE
 assignees: ''
