@@ -12,18 +12,18 @@ class MenuMapperTest {
     @Test
     void toMenu() {
         // given
-        FeedRegisterRequestMenu 피드요청마라탕 = new FeedRegisterRequestMenu("마라탕", 4);
-        FeedRegisterRequestMenu 피드요청떡볶이 = new FeedRegisterRequestMenu("떡볶이", 5);
-        List<FeedRegisterRequestMenu> menuRequest = List.of(피드요청마라탕, 피드요청떡볶이);
+        FeedRegisterRequestMenu MaratangRequest = new FeedRegisterRequestMenu("마라탕", 4);
+        FeedRegisterRequestMenu TToekBokkiRequest = new FeedRegisterRequestMenu("떡볶이", 5);
+        List<FeedRegisterRequestMenu> menuRequest = List.of(MaratangRequest, TToekBokkiRequest);
 
         // when
         List<Menu> actualMenus = MenuMapper.toMenu(menuRequest);
 
         // then
         // ctrl alt l
-        Menu 마라탕 = new Menu("마라탕", 4);
-        Menu 떡볶이 = new Menu("떡볶이", 5);
-        List<Menu> expectedMenus = List.of(마라탕, 떡볶이);
+        Menu Maratang = new Menu("마라탕", 4);
+        Menu TToekBokki = new Menu("떡볶이", 5);
+        List<Menu> expectedMenus = List.of(Maratang, TToekBokki);
         org.assertj.core.api.Assertions.assertThat(actualMenus)
                 .usingRecursiveComparison().isEqualTo(expectedMenus);
     }
