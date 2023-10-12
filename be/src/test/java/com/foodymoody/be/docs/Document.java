@@ -16,7 +16,6 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.restdocs.restassured3.RestAssuredRestDocumentation;
-import org.springframework.restdocs.restassured3.RestAssuredRestDocumentationConfigurer;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
