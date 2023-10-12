@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DocumentController {
 
-	@PostMapping("/api/feeds")
-	public ResponseEntity<Void> registerFeed() {
-		return ResponseEntity.ok().build();
-	}
+    @PostMapping("/api/feeds")
+    public ResponseEntity<Void> registerFeed() {
+        return ResponseEntity.ok().build();
+    }
 }

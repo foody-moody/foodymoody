@@ -45,7 +45,7 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured:4.5.1'
 
     // Rest Docs
-	implementation 'org.springframework.restdocs:spring-restdocs-restassured:2.0.4.RELEASE'
+    implementation 'org.springframework.restdocs:spring-restdocs-restassured:2.0.4.RELEASE'
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.5.RELEASE'
 }
 
