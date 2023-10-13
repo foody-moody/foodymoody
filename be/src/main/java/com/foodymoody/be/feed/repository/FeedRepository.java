@@ -1,10 +1,8 @@
 package com.foodymoody.be.feed.repository;
 
-import com.foodymoody.be.feed.entity.Feed;
+import com.foodymoody.be.feed.domain.Feed;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface FeedRepository extends JpaRepository<Feed, Long> {
 
 }

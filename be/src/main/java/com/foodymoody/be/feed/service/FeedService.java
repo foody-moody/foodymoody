@@ -1,11 +1,14 @@
 package com.foodymoody.be.feed.service;
 
+import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.dto.FeedRegisterRequest;
 import com.foodymoody.be.feed.dto.FeedRegisterResponse;
-import com.foodymoody.be.feed.entity.Feed;
-import com.foodymoody.be.feed.entity.Menu;
-import com.foodymoody.be.feed.mapper.MenuMapper;
 import com.foodymoody.be.feed.repository.FeedRepository;
+import com.foodymoody.be.feed.util.FeedMapper;
+import com.foodymoody.be.image.domain.Image;
+import com.foodymoody.be.image.util.ImageMapper;
+import com.foodymoody.be.menu.domain.Menu;
+import com.foodymoody.be.menu.util.MenuMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +21,8 @@ public class FeedService {
 
     public FeedRegisterResponse register(FeedRegisterRequest request) {
         List<Menu> menus = MenuMapper.toMenu(request.getMenus());
-
-        Feed feed = new Feed(request.getReview(), request.getImages(), menus);
-        return null;
+        List<Image> images = ImageMapper.toImage(request.getImageUrls());
+        Feed feed = FeedMapper.toFeed(request, images, menus);
+        return FeedMapper.toFeedRegisterResponse(feedRepository.save(feed));
     }
 }

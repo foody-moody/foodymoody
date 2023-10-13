@@ -1,7 +1,8 @@
 package com.foodymoody.be.feed.mapper;
 
 import com.foodymoody.be.feed.dto.FeedRegisterRequestMenu;
-import com.foodymoody.be.feed.entity.Menu;
+import com.foodymoody.be.menu.domain.Menu;
+import com.foodymoody.be.menu.util.MenuMapper;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,8 @@ class MenuMapperTest {
     void toMenu() {
         // given
         FeedRegisterRequestMenu MaratangRequest = new FeedRegisterRequestMenu("마라탕", 4);
-        FeedRegisterRequestMenu TToekBokkiRequest = new FeedRegisterRequestMenu("떡볶이", 5);
-        List<FeedRegisterRequestMenu> menuRequest = List.of(MaratangRequest, TToekBokkiRequest);
+        FeedRegisterRequestMenu TtoekBokkiRequest = new FeedRegisterRequestMenu("떡볶이", 5);
+        List<FeedRegisterRequestMenu> menuRequest = List.of(MaratangRequest, TtoekBokkiRequest);
 
         // when
         List<Menu> actualMenus = MenuMapper.toMenu(menuRequest);
@@ -22,8 +23,8 @@ class MenuMapperTest {
         // then
         // ctrl alt l
         Menu Maratang = new Menu("마라탕", 4);
-        Menu TToekBokki = new Menu("떡볶이", 5);
-        List<Menu> expectedMenus = List.of(Maratang, TToekBokki);
+        Menu TtoekBokki = new Menu("떡볶이", 5);
+        List<Menu> expectedMenus = List.of(Maratang, TtoekBokki);
         org.assertj.core.api.Assertions.assertThat(actualMenus)
                 .usingRecursiveComparison().isEqualTo(expectedMenus);
     }

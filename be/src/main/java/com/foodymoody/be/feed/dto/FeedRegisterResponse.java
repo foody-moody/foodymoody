@@ -1,11 +1,13 @@
 package com.foodymoody.be.feed.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class FeedRegisterResponse {
 
-    private String id;
+    private Long id;
+
+    public FeedRegisterResponse(Long id) {
+        this.id = id;
+    }
 }

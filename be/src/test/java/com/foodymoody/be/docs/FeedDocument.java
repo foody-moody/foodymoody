@@ -24,8 +24,8 @@ public class FeedDocument extends Document {
         // given
         Map<String, Object> body = new HashMap<>();
         body.put("review", "맛있게 먹었습니다.");
-        body.put("images", List.of("https://www.google.com/", "https://www.naver.com/"));
-        body.put("menu", List.of(Map.of("name", "마라탕", "numStar", 4), Map.of("name", "떡볶이", "numStar", 5)));
+        body.put("imageUrls", List.of("https://www.google.com/", "https://www.naver.com/"));
+        body.put("menus", List.of(Map.of("name", "마라탕", "numStar", 4), Map.of("name", "떡볶이", "numStar", 5)));
 
         // when
         var response = RestAssured
@@ -43,7 +43,9 @@ public class FeedDocument extends Document {
         // then
         Assertions.assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
-                () -> assertThat(response.jsonPath().getString("id")).isEqualTo("1")
+                () -> assertThat(response.jsonPath().getLong("id")).isEqualTo(1)
+                //TODO 피드 조회시 등록한 피드가 조회된다.
         );
     }
+
 }
