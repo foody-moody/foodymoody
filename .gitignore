@@ -1,4 +1,3 @@
 .idea
 build
 .gradle
-be/src/main/resources/application.yml
