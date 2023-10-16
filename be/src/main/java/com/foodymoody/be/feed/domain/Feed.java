@@ -12,7 +12,6 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Feed {
-    // 도메인은 최대한 다른 패키지에 의존하지 않도록! good
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
