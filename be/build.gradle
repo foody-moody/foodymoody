@@ -35,11 +35,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    // H2
-    runtimeOnly 'com.h2database:h2'
-
     // MySQL
-    runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'com.mysql:mysql-connector-j'
 
     // REST Assured
     testImplementation 'io.rest-assured:rest-assured:4.5.1'
@@ -47,6 +44,11 @@ dependencies {
     // Rest Docs
     implementation 'org.springframework.restdocs:spring-restdocs-restassured:2.0.4.RELEASE'
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.5.RELEASE'
+
+    // Test Containers
+    testImplementation 'org.testcontainers:testcontainers:1.18.3'
+    testImplementation 'org.testcontainers:junit-jupiter:1.18.3'
+    testImplementation 'org.testcontainers:mysql:1.18.3'
 }
 
 ext {
