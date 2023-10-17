@@ -21,7 +21,7 @@ import org.testcontainers.utility.DockerImageName;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ExtendWith(RestDocumentationExtension.class)
 @Testcontainers
-abstract class Document {
+public abstract class Document {
 
     public static final DockerImageName MYSQL_IMAGE = DockerImageName.parse("mysql:8.0");
     @Container
