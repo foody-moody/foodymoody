@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/foodymoody?TC_REUSABLE=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: bono
+    password: 1111
+  jpa:
+    hibernate:
+      ddl-auto: create-drop

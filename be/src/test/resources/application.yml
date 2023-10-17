@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    group:
+      test: db
+    active: test
