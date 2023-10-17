@@ -18,7 +18,7 @@ class MenuMapperTest {
         List<FeedRegisterRequestMenu> menuRequest = List.of(MaratangRequest, TtoekBokkiRequest);
 
         // when
-        List<Menu> actualMenus = MenuMapper.toMenu(menuRequest);
+        List<Menu> actualMenus = MenuMapper.toOnlyMenu(menuRequest);
 
         // then
         // ctrl alt l
@@ -28,4 +28,5 @@ class MenuMapperTest {
         org.assertj.core.api.Assertions.assertThat(actualMenus)
                 .usingRecursiveComparison().isEqualTo(expectedMenus);
     }
+
 }
