@@ -11,4 +11,5 @@ public class FeedRegisterResponse {
     public Long getId() {
         return id;
     }
+
 }

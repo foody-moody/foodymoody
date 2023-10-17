@@ -21,4 +21,5 @@ class Feed extends Document {
         // then
         응답코드가_200이고_id가_1이면_정상적으로_등록된_피드(response);
     }
+
 }

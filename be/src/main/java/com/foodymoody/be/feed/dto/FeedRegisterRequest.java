@@ -8,27 +8,33 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedRegisterRequest {
 
+    private String location;
     private String review;
-    private List<String> imageUrls;
-    private List<FeedRegisterRequestMenu> menus;
+    private String mood;
+    private List<ImageMenuPair> images;
 
     @Builder
-    public FeedRegisterRequest(String review, List<String> imageUrls, List<FeedRegisterRequestMenu> menus) {
+    public FeedRegisterRequest(String location, String review, String mood, List<ImageMenuPair> images) {
+        this.location = location;
         this.review = review;
-        this.imageUrls = imageUrls;
-        this.menus = menus;
+        this.mood = mood;
+        this.images = images;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public String getReview() {
         return review;
     }
 
-    public List<String> getImageUrls() {
-        return imageUrls;
+    public String getMood() {
+        return mood;
     }
 
-    public List<FeedRegisterRequestMenu> getMenus() {
-        return menus;
+    public List<ImageMenuPair> getImages() {
+        return images;
     }
 
 }
