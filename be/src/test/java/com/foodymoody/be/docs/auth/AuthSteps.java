@@ -9,6 +9,8 @@ import io.restassured.specification.RequestSpecification;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 public class AuthSteps {
 
@@ -28,6 +30,21 @@ public class AuthSteps {
                 .given().spec(spec).log().all()
                 .body(body)
                 .when().post("/auth/login")
+                .then().log().all()
+                .extract();
+    }
+
+    public static void 응답코드_204를_응답한다(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(204);
+    }
+
+    public static ExtractableResponse<Response> 로그아웃_한다(String accessToken, RequestSpecification spec1) {
+        return RestAssured
+                .given().log().all()
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.AUTHORIZATION, accessToken)
+                .spec(spec1)
+                .when().post("/auth/logout")
                 .then().log().all()
                 .extract();
     }
