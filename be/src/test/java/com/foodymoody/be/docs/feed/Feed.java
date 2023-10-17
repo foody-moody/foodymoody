@@ -1,8 +1,9 @@
-package com.foodymoody.be.docs;
+package com.foodymoody.be.docs.feed;
 
-import static com.foodymoody.be.docs.FeedSteps.응답코드가_200이고_id가_1이면_정상적으로_등록된_피드;
-import static com.foodymoody.be.docs.FeedSteps.피드를_등록한다;
+import static com.foodymoody.be.docs.feed.FeedSteps.응답코드가_200이고_id가_1이면_정상적으로_등록된_피드;
+import static com.foodymoody.be.docs.feed.FeedSteps.피드를_등록한다;
 
+import com.foodymoody.be.docs.Document;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
