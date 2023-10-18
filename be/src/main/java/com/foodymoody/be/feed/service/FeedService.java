@@ -33,10 +33,7 @@ public class FeedService {
         List<FeedReadAllResponse> responses = new ArrayList<>();
 
         for (Feed feed : feeds) {
-            List<Image> feedImages = feed.getImages();
-            List<Menu> feedMenus = feed.getMenus();
-            List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feedImages,
-                    feedMenus);
+            List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
 
             FeedReadAllResponse response = FeedReadAllResponse.builder()
                     .id(feed.getId())
@@ -57,6 +54,13 @@ public class FeedService {
         return responses;
     }
 
+    private List<FeedImageMenuResponse> getFeedImageMenuResponses(Feed feed) {
+        List<Image> feedImages = feed.getImages();
+        List<Menu> feedMenus = feed.getMenus();
+        return makeFeedImageMenuResponses(feedImages,
+                feedMenus);
+    }
+
     @Transactional
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
         List<ImageMenuPair> imageMenuPairs = request.getImages();
@@ -74,10 +78,7 @@ public class FeedService {
         String review = feed.getReview();
         String mood = feed.getMood();
 
-        List<Image> feedImages = feed.getImages();
-        List<Menu> feedMenus = feed.getMenus();
-        List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feedImages,
-                feedMenus);
+        List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
 
         return FeedReadResponse.builder()
                 .id(id)
