@@ -5,6 +5,8 @@ import com.foodymoody.be.feed.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
 import com.foodymoody.be.feed.dto.request.FeedUpdateRequest;
+import com.foodymoody.be.feed.dto.response.FeedImageMenuResponse;
+import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
@@ -18,6 +20,16 @@ public class FeedMapper {
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {
         return new FeedRegisterResponse(savedFeed.getId());
+    }
+
+    public static FeedReadResponse toFeedReadResponse(Feed feed, List<FeedImageMenuResponse> images) {
+        return FeedReadResponse.builder()
+                .id(feed.getId())
+                .location(feed.getLocation())
+                .review(feed.getReview())
+                .mood(feed.getMood())
+                .images(images)
+                .build();
     }
 
     public static FeedServiceRegisterRequest toServiceRegisterRequest(FeedRegisterRequest request) {
