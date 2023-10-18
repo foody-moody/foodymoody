@@ -28,7 +28,7 @@ public class FeedController {
      * 전체 Feed 조회
      */
     @GetMapping("/api/feeds")
-    public ResponseEntity<List<FeedReadAllResponse>> readAllFeed() {
+    public ResponseEntity<List<FeedReadAllResponse>> readAll() {
         List<FeedReadAllResponse> feedReadAllResponses = feedService.readAll();
         return ResponseEntity.ok().body(feedReadAllResponses);
     }
@@ -37,7 +37,7 @@ public class FeedController {
      *  Feed 등록
      */
     @PostMapping("/api/feeds")
-    public ResponseEntity<FeedRegisterResponse> registerFeed(@RequestBody FeedRegisterRequest feedRegisterRequest) {
+    public ResponseEntity<FeedRegisterResponse> register(@RequestBody FeedRegisterRequest feedRegisterRequest) {
         FeedRegisterResponse feedRegisterResponse = feedService.register(
                 FeedMapper.toServiceRegisterRequest(feedRegisterRequest));
         return ResponseEntity.ok().body(feedRegisterResponse);
@@ -47,7 +47,7 @@ public class FeedController {
      * 개별 Feed 조회
      */
     @GetMapping("/api/feeds/{id}")
-    public ResponseEntity<FeedReadResponse> readFeed(@PathVariable Long id) {
+    public ResponseEntity<FeedReadResponse> read(@PathVariable Long id) {
         FeedReadResponse feedReadResponse = feedService.read(id);
         return ResponseEntity.ok().body(feedReadResponse);
     }
@@ -56,7 +56,7 @@ public class FeedController {
      * Feed 수정
      */
     @PutMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> updateFeed(@PathVariable Long id, @RequestBody FeedUpdateRequest feedUpdateRequest) {
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody FeedUpdateRequest feedUpdateRequest) {
         feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest));
         return ResponseEntity.noContent().build();
     }
@@ -65,7 +65,7 @@ public class FeedController {
      * Feed 삭제
      */
     @DeleteMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> deleteFeed(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         feedService.delete(id);
         return ResponseEntity.noContent().build();
     }
