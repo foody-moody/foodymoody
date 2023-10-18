@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import { TextArea } from 'components/common/textarea/Textarea';
-
-// import { Logo } from 'components/common/Logo';
+import { Logo } from 'components/common/logo/Logo';
 
 export const TestPage = () => {
   const navigate = useNavigate();
@@ -17,12 +16,18 @@ export const TestPage = () => {
   return (
     <PageWrapper>
       <h1>Example</h1>
-      {/* <Logo
+      <Logo
         size="s"
         onClick={() => {
           navigate('/');
         }}
-      /> */}
+      />
+      <Logo
+        size="l"
+        onClick={() => {
+          navigate('/');
+        }}
+      />
       <TextArea
         value={value}
         placeholder="리뷰를 입력해주세요"
