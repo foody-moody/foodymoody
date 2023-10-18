@@ -25,7 +25,8 @@ class MenuMapperTest {
         // then
         List<Menu> expectedMenus = List.of(new Menu("마라탕", 4), new Menu("떡볶이", 5));
         assertThat(actualMenus)
-                .usingRecursiveComparison().isEqualTo(expectedMenus);
+                .usingRecursiveComparison()
+                .isEqualTo(expectedMenus);
     }
 
     @DisplayName("이미지와 메뉴 목록을 메뉴 List 엔티티로 매핑한다.")
@@ -41,7 +42,8 @@ class MenuMapperTest {
         // then
         List<Menu> expectedMenus = List.of(new Menu("마라탕", 4), new Menu("떡볶이", 5));
         assertThat(actualMenus)
-                .usingRecursiveComparison().isEqualTo(expectedMenus);
+                .usingRecursiveComparison()
+                .isEqualTo(expectedMenus);
     }
 
 }
