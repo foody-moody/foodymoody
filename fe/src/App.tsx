@@ -4,6 +4,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Reset } from 'styled-reset';
 import { RecoilRoot } from 'recoil';
+import { theme } from 'styles/designSystem';
+import { ThemeProvider } from 'styled-components';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,7 +23,9 @@ function App() {
         <ReactQueryDevtools initialIsOpen={false} />
         <RecoilRoot>
           <Reset />
-          <RouterProvider router={router} />
+          <ThemeProvider theme={theme}>
+            <RouterProvider router={router} />
+          </ThemeProvider>
         </RecoilRoot>
       </QueryClientProvider>
     </>
