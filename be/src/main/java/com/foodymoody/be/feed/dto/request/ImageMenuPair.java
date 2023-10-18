@@ -1,5 +1,6 @@
-package com.foodymoody.be.feed.dto;
+package com.foodymoody.be.feed.dto.request;
 
+import com.foodymoody.be.feed.dto.request.FeedRegisterRequestMenu;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;

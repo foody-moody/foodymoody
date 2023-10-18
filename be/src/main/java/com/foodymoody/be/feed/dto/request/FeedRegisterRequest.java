@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed.dto;
+package com.foodymoody.be.feed.dto.request;
 
 import java.util.List;
 import lombok.AccessLevel;
