@@ -1,4 +1,4 @@
-package com.foodymoody.be.docs.feed;
+package com.foodymoody.be.feed;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.http.MediaType;
 
-class FeedSteps {
+public class FeedSteps {
 
     public static ExtractableResponse<Response> 피드를_등록한다(RequestSpecification spec) {
         Map<String, Object> body = Map.of(
