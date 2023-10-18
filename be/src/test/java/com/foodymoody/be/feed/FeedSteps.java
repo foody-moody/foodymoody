@@ -13,6 +13,52 @@ import org.springframework.http.MediaType;
 
 public class FeedSteps {
 
+    public static ExtractableResponse<Response> 전체_피드를_조회한다(RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .when()
+                .get("/api/feeds")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static void 응답코드가_200이고_전체_피드가_조회되면_정상적으로_조회_가능한_전체_페이지(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(200);
+
+        List<Map<String, Object>> feeds = response.jsonPath().getList("$");
+
+        for (Map<String, Object> feed : feeds) {
+            assertAll(
+                    () -> assertThat(feed.get("id")).isNotNull(),
+                    // TODO: 회원 로직 구현 후  member 추가
+                    () -> assertThat(feed.get("location")).isNotNull(),
+                    () -> assertThat(feed.get("review")).isNotNull(),
+                    () -> assertThat(feed.get("mood")).isNotNull(),
+                    // TODO: BaseEntity 구현 후 createdAt, updatedAt 추가
+                    () -> {
+                        List<Map<String, Object>> images = (List<Map<String, Object>>) feed.get("images");
+
+                        assertThat(images.get(0).get("imageUrl")).isEqualTo("https://www.googles.com/");
+                        Map<String, Object> firstMenu = (Map<String, Object>) images.get(0).get("menu");
+                        assertThat(firstMenu.get("name")).isEqualTo("마라탕");
+                        assertThat(firstMenu.get("numStar")).isEqualTo(4);
+
+                        assertThat(images.get(1).get("imageUrl")).isEqualTo("https://www.google.com/");
+                        Map<String, Object> secondMenu = (Map<String, Object>) images.get(1).get("menu");
+                        assertThat(secondMenu.get("name")).isEqualTo("감자탕");
+                        assertThat(secondMenu.get("numStar")).isEqualTo(3);
+                    },
+                    // TODO: Count 로직 구현 후 수정
+                    () -> assertThat(feed.get("likeCount")).isEqualTo(0),
+                    () -> assertThat(feed.get("commentCount")).isEqualTo(0)
+            );
+        }
+    }
+
     public static ExtractableResponse<Response> 피드를_등록한다(RequestSpecification spec) {
         Map<String, Object> body = Map.of(
                 "location", "맛있게 매운 콩볼 범계점",
@@ -76,6 +122,7 @@ public class FeedSteps {
                 () -> assertThat(response.jsonPath().getString("location")).isEqualTo("맛있게 매운 콩볼 범계점"),
                 () -> assertThat(response.jsonPath().getString("review")).isEqualTo("맛있게 먹었습니다."),
                 () -> assertThat(response.jsonPath().getString("mood")).isEqualTo("기쁨"),
+                // TODO: BaseEntity 구현 후 createdAt, updatedAt 추가
                 () -> {
                     List<Map<String, Object>> images = response.jsonPath().getList("images");
                     assertThat(images.get(0)).containsEntry("imageUrl", "https://www.googles.com/");
