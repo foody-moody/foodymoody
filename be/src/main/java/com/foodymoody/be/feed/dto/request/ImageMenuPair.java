@@ -1,7 +1,6 @@
 package com.foodymoody.be.feed.dto.request;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -12,7 +11,6 @@ public class ImageMenuPair {
     private String imageUrl;
     private FeedRegisterRequestMenu menu;
 
-    @Builder
     public ImageMenuPair(String imageUrl, FeedRegisterRequestMenu menu) {
         this.imageUrl = imageUrl;
         this.menu = menu;
