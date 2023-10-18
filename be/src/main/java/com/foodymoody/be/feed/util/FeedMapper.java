@@ -6,10 +6,12 @@ import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
 import com.foodymoody.be.feed.dto.request.FeedUpdateRequest;
 import com.foodymoody.be.feed.dto.response.FeedImageMenuResponse;
+import com.foodymoody.be.feed.dto.response.FeedMenuResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FeedMapper {
@@ -48,6 +50,27 @@ public class FeedMapper {
                 .mood(request.getMood())
                 .images(request.getImages())
                 .build();
+    }
+
+    public static List<FeedImageMenuResponse> toFeedImageMenuResponses(List<Image> feedImages, List<Menu> feedMenus) {
+        validateFeedOfImagesAndMenus(feedImages, feedMenus);
+
+        List<FeedImageMenuResponse> images = new ArrayList<>();
+        for (int i = 0; i < feedImages.size(); i++) {
+            Image image = feedImages.get(i);
+            Menu menu = feedMenus.get(i);
+            images.add(
+                    new FeedImageMenuResponse(image.getUrl(), new FeedMenuResponse(menu.getName(), menu.getNumStar())));
+        }
+
+        return images;
+    }
+
+    // TODO: Validator로 분리하기
+    private static void validateFeedOfImagesAndMenus(List<Image> feedImages, List<Menu> feedMenus) {
+        if (feedImages.size() != feedMenus.size()) {
+            throw new IllegalArgumentException("피드의 이미지와 메뉴의 개수가 다릅니다.");
+        }
     }
 
 }

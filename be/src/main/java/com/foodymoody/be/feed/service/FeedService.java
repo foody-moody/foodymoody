@@ -5,7 +5,6 @@ import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
 import com.foodymoody.be.feed.dto.request.ImageMenuPair;
 import com.foodymoody.be.feed.dto.response.FeedImageMenuResponse;
-import com.foodymoody.be.feed.dto.response.FeedMenuResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
@@ -57,8 +56,7 @@ public class FeedService {
     private List<FeedImageMenuResponse> getFeedImageMenuResponses(Feed feed) {
         List<Image> feedImages = feed.getImages();
         List<Menu> feedMenus = feed.getMenus();
-        return makeFeedImageMenuResponses(feedImages,
-                feedMenus);
+        return FeedMapper.toFeedImageMenuResponses(feedImages, feedMenus);
     }
 
     @Transactional
@@ -77,26 +75,6 @@ public class FeedService {
         List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
 
         return FeedMapper.toFeedReadResponse(feed, images);
-    }
-
-    private List<FeedImageMenuResponse> makeFeedImageMenuResponses(List<Image> feedImages, List<Menu> feedMenus) {
-        validateFeedOfImagesAndMenus(feedImages, feedMenus);
-
-        List<FeedImageMenuResponse> images = new ArrayList<>();
-        for (int i = 0; i < feedImages.size(); i++) {
-            Image image = feedImages.get(i);
-            Menu menu = feedMenus.get(i);
-            images.add(
-                    new FeedImageMenuResponse(image.getUrl(), new FeedMenuResponse(menu.getName(), menu.getNumStar())));
-        }
-
-        return images;
-    }
-
-    private void validateFeedOfImagesAndMenus(List<Image> feedImages, List<Menu> feedMenus) {
-        if (feedImages.size() != feedMenus.size()) {
-            throw new IllegalArgumentException("피드의 이미지와 메뉴의 개수가 다릅니다.");
-        }
     }
 
     @Transactional
@@ -118,4 +96,5 @@ public class FeedService {
     public void delete(Long id) {
         feedRepository.deleteById(id);
     }
+
 }
