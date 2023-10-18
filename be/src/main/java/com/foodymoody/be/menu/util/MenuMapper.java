@@ -1,7 +1,7 @@
 package com.foodymoody.be.menu.util;
 
-import com.foodymoody.be.feed.dto.FeedRegisterRequestMenu;
-import com.foodymoody.be.feed.dto.ImageMenuPair;
+import com.foodymoody.be.feed.dto.request.FeedRegisterRequestMenu;
+import com.foodymoody.be.feed.dto.request.ImageMenuPair;
 import com.foodymoody.be.menu.domain.Menu;
 import java.util.List;
 import java.util.stream.Collectors;

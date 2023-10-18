@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed.mapper;
 
-import com.foodymoody.be.feed.dto.FeedRegisterRequestMenu;
+import com.foodymoody.be.feed.dto.request.FeedRegisterRequestMenu;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.util.MenuMapper;
 import java.util.List;

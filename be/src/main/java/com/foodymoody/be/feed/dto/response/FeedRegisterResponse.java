@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed.dto;
+package com.foodymoody.be.feed.dto.response;
 
 public class FeedRegisterResponse {
 
