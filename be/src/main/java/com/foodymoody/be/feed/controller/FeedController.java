@@ -7,6 +7,7 @@ import com.foodymoody.be.feed.service.FeedService;
 import com.foodymoody.be.feed.util.FeedMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,6 +30,12 @@ public class FeedController {
     @PutMapping("/api/feeds/{id}")
     public ResponseEntity<Void> updateFeed(@PathVariable Long id, @RequestBody FeedUpdateRequest feedUpdateRequest) {
         feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest));
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/api/feeds/{id}")
+    public ResponseEntity<Void> deleteFeed(@PathVariable Long id) {
+        feedService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
