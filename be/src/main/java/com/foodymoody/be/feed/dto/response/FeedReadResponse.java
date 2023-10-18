@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.dto.response;
 
+import com.foodymoody.be.feed.domain.Feed;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;

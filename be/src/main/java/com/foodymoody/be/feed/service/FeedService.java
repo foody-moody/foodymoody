@@ -74,19 +74,9 @@ public class FeedService {
 
     public FeedReadResponse read(Long id) {
         Feed feed = findFeed(id);
-        String location = feed.getLocation();
-        String review = feed.getReview();
-        String mood = feed.getMood();
-
         List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
 
-        return FeedReadResponse.builder()
-                .id(id)
-                .location(location)
-                .review(review)
-                .mood(mood)
-                .images(images)
-                .build();
+        return FeedMapper.toFeedReadResponse(feed, images);
     }
 
     private List<FeedImageMenuResponse> makeFeedImageMenuResponses(List<Image> feedImages, List<Menu> feedMenus) {
