@@ -2,10 +2,12 @@ package com.foodymoody.be.feed.controller;
 
 import com.foodymoody.be.feed.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedUpdateRequest;
+import com.foodymoody.be.feed.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.service.FeedService;
 import com.foodymoody.be.feed.util.FeedMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class FeedController {
 
     private final FeedService feedService;
+
+    /**
+     * 전체 Feed 조회
+     */
+    @GetMapping("/api/feeds")
+    public ResponseEntity<List<FeedReadAllResponse>> readAllFeed() {
+        List<FeedReadAllResponse> feedReadAllResponses = feedService.readAll();
+        return ResponseEntity.ok().body(feedReadAllResponses);
+    }
 
     @PostMapping("/api/feeds")
     public ResponseEntity<FeedRegisterResponse> registerFeed(@RequestBody FeedRegisterRequest feedRegisterRequest) {

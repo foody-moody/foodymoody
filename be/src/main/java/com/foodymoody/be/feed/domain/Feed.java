@@ -18,6 +18,7 @@ public class Feed {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String location;
+    // TODO: createdAt, updatedAt 추가 -> 테스트 코드 로직도 변경
     private String review;
     private String mood;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
