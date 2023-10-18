@@ -41,4 +41,44 @@ public class Feed {
         return id;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public String getMood() {
+        return mood;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public List<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
+    public void setMood(String mood) {
+        this.mood = mood;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
+    }
+
 }
