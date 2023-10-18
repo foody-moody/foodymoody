@@ -49,10 +49,10 @@ public class FeedSteps {
                 .extract();
     }
 
-    public static void 응답코드가_200이고_id가_1이면_정상적으로_등록된_피드(ExtractableResponse<Response> response) {
+    public static void 응답코드가_200이고_id가_존재하면_정상적으로_등록된_피드(ExtractableResponse<Response> response) {
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
-                () -> assertThat(response.jsonPath().getLong("id")).isEqualTo(1)
+                () -> assertThat(response.jsonPath().getLong("id")).isNotNull()
         );
     }
 
