@@ -36,8 +36,7 @@ public class FeedService {
 
     @Transactional
     public Long update(Long id, FeedServiceUpdateRequest request) {
-        Feed feed = feedRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 피드가 존재하지 않습니다."));
+        Feed feed = findFeed(id);
 
         feed.setLocation(request.getLocation());
         feed.setReview(request.getReview());
@@ -54,4 +53,13 @@ public class FeedService {
         return feed.getId();
     }
 
+    private Feed findFeed(Long id) {
+        return feedRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 피드가 존재하지 않습니다."));
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        feedRepository.deleteById(id);
+    }
 }
