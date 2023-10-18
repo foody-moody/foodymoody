@@ -1,0 +1,39 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { styled } from 'styled-components';
+
+import { TextArea } from 'components/common/textarea/Textarea';
+
+// import { Logo } from 'components/common/Logo';
+
+export const TestPage = () => {
+  const navigate = useNavigate();
+  const [value, setValue] = useState<string>('');
+
+  const onChangeValue = (value: string) => {
+    setValue(value);
+  };
+
+  return (
+    <PageWrapper>
+      <h1>Example</h1>
+      {/* <Logo
+        size="s"
+        onClick={() => {
+          navigate('/');
+        }}
+      /> */}
+      <TextArea
+        value={value}
+        placeholder="리뷰를 입력해주세요"
+        onChange={onChangeValue}
+      />
+    </PageWrapper>
+  );
+};
+const PageWrapper = styled.div`
+  width: 100%;
+  h1 {
+    font: ${({ theme: { fonts } }) => fonts.displayB24};
+  }
+`;
