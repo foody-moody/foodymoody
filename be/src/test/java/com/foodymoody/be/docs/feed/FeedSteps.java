@@ -53,7 +53,26 @@ class FeedSteps {
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
                 () -> assertThat(response.jsonPath().getLong("id")).isEqualTo(1)
-                //TODO 피드 조회시 등록한 피드가 조회된다.
+        );
+    }
+
+    public static ExtractableResponse<Response> 개별_피드를_조회한다(Long id, RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .when()
+                .post("/api/feeds/" + id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static void 응답코드가_200이고_개별_피드가_조회되면_정상적으로_등록된_피드(ExtractableResponse<Response> response) {
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(200),
+                () -> assertThat(response.jsonPath().getLong("id")).isEqualTo(1)
         );
     }
 

@@ -14,6 +14,8 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.restdocs.restassured3.RestAssuredRestDocumentation;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)

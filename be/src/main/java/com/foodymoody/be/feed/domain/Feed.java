@@ -61,24 +61,22 @@ public class Feed {
         return menus;
     }
 
-    public void setLocation(String location) {
+    public void update(String location, String review, String mood, List<Image> newImages, List<Menu> newMenus) {
         this.location = location;
-    }
-
-    public void setReview(String review) {
         this.review = review;
-    }
-
-    public void setMood(String mood) {
         this.mood = mood;
+        setImages(newImages);
+        setMenus(newMenus);
     }
 
-    public void setImages(List<Image> images) {
-        this.images = images;
+    private void setImages(List<Image> newImages) {
+        images.clear();
+        images.addAll(newImages);
     }
 
-    public void setMenus(List<Menu> menus) {
-        this.menus = menus;
+    private void setMenus(List<Menu> newMenus) {
+        menus.clear();
+        menus.addAll(newMenus);
     }
 
 }
