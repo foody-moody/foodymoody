@@ -6,8 +6,6 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from 'styles/designSystem';
 import { Reset } from 'styled-reset';
 import { RecoilRoot } from 'recoil';
-import { theme } from 'styles/designSystem';
-import { ThemeProvider } from 'styled-components';
 
 const queryClient = new QueryClient({
   defaultOptions: {
