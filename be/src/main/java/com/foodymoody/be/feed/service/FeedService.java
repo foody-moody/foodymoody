@@ -35,22 +35,13 @@ public class FeedService {
     }
 
     @Transactional
-    public Long update(Long id, FeedServiceUpdateRequest request) {
+    public void update(Long id, FeedServiceUpdateRequest request) {
         Feed feed = findFeed(id);
 
-        feed.setLocation(request.getLocation());
-        feed.setReview(request.getReview());
-        feed.setMood(request.getMood());
-
         List<Image> newImages = ImageMapper.toImage(request.getImages());
-        feed.getImages().clear();
-        feed.getImages().addAll(newImages);
+        List<Menu> newMenus = MenuMapper.toMenu(request.getImages());
 
-        List<Menu> newMenus = MenuMapper.toMenu(request.getImages());  // I assume this is correct, but double-check if you're mapping images to menus here.
-        feed.getMenus().clear();
-        feed.getMenus().addAll(newMenus);
-
-        return feed.getId();
+        feed.update(request.getLocation(), request.getReview(), request.getMood(), newImages, newMenus);
     }
 
     private Feed findFeed(Long id) {
