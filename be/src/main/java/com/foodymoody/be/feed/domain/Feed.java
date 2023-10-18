@@ -29,7 +29,6 @@ public class Feed {
     public Feed() {
     }
 
-    @Builder
     public Feed(String location, String review, String mood, List<Image> images, List<Menu> menus) {
         this.location = location;
         this.review = review;
