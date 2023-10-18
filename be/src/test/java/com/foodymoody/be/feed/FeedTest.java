@@ -1,12 +1,10 @@
-package com.foodymoody.be.docs.feed;
+package com.foodymoody.be.feed;
 
-import static com.foodymoody.be.docs.feed.FeedSteps.개별_피드를_조회한다;
-import static com.foodymoody.be.docs.feed.FeedSteps.응답코드가_200이고_id가_1이면_정상적으로_등록된_피드;
-import static com.foodymoody.be.docs.feed.FeedSteps.응답코드가_200이고_개별_피드가_조회되면_정상적으로_등록된_피드;
-import static com.foodymoody.be.docs.feed.FeedSteps.응답코드가_204라면_정상적으로_수정_삭제된_피드;
-import static com.foodymoody.be.docs.feed.FeedSteps.피드를_등록한다;
-import static com.foodymoody.be.docs.feed.FeedSteps.피드를_삭제한다;
-import static com.foodymoody.be.docs.feed.FeedSteps.피드를_수정한다;
+import static com.foodymoody.be.feed.FeedSteps.응답코드가_200이고_id가_1이면_정상적으로_등록된_피드;
+import static com.foodymoody.be.feed.FeedSteps.응답코드가_204라면_정상적으로_수정_삭제된_피드;
+import static com.foodymoody.be.feed.FeedSteps.피드를_등록한다;
+import static com.foodymoody.be.feed.FeedSteps.피드를_삭제한다;
+import static com.foodymoody.be.feed.FeedSteps.피드를_수정한다;
 
 import com.foodymoody.be.docs.Document;
 import org.junit.jupiter.api.DisplayName;
