@@ -9,13 +9,13 @@ type Props = {
 export const Logo: React.FC<Props> = ({ size, onClick }) => {
   const SelectedLogo = size === 's' ? LogoSmall : LogoLarge;
   return (
-    <LogoWrapper onClick={onClick}>
+    <Wrapper onClick={onClick}>
       <SelectedLogo />
-    </LogoWrapper>
+    </Wrapper>
   );
 };
 
-const LogoWrapper = styled.div`
+const Wrapper = styled.div`
   cursor: pointer;
   width: fit-content;
 `;
