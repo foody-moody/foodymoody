@@ -21,4 +21,9 @@ public class Image {
     public Image() {
 
     }
+
+    public String getUrl() {
+        return url;
+    }
+
 }
