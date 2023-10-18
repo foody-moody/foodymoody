@@ -74,7 +74,6 @@ const Wrapper = styled.div`
         background-color: transparent;
       }
     }
-    overflow-y: auto;
 
     &::placeholder {
       font: ${({ theme: { fonts } }) => fonts.displayM14};
