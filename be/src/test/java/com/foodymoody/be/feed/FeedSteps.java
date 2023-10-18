@@ -63,7 +63,7 @@ public class FeedSteps {
                 .spec(spec)
                 .log().all()
                 .when()
-                .post("/api/feeds/" + id)
+                .get("/api/feeds/" + id)
                 .then()
                 .log().all()
                 .extract();
@@ -72,7 +72,22 @@ public class FeedSteps {
     public static void 응답코드가_200이고_개별_피드가_조회되면_정상적으로_등록된_피드(ExtractableResponse<Response> response) {
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
-                () -> assertThat(response.jsonPath().getLong("id")).isEqualTo(1)
+                () -> assertThat(response.jsonPath().getLong("id")).isNotNull(),
+                () -> assertThat(response.jsonPath().getString("location")).isEqualTo("맛있게 매운 콩볼 범계점"),
+                () -> assertThat(response.jsonPath().getString("review")).isEqualTo("맛있게 먹었습니다."),
+                () -> assertThat(response.jsonPath().getString("mood")).isEqualTo("기쁨"),
+                () -> {
+                    List<Map<String, Object>> images = response.jsonPath().getList("images");
+                    assertThat(images.get(0)).containsEntry("imageUrl", "https://www.googles.com/");
+                    Map<String, Object> firstMenu = (Map<String, Object>) images.get(0).get("menu");
+                    assertThat(firstMenu).containsEntry("name", "마라탕");
+                    assertThat(firstMenu).containsEntry("numStar", 4);
+
+                    assertThat(images.get(1)).containsEntry("imageUrl", "https://www.google.com/");
+                    Map<String, Object> secondMenu = (Map<String, Object>) images.get(1).get("menu");
+                    assertThat(secondMenu).containsEntry("name", "감자탕");
+                    assertThat(secondMenu).containsEntry("numStar", 3);
+                }
         );
     }
 
