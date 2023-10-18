@@ -93,7 +93,20 @@ class FeedSteps {
                 .extract();
     }
 
-    public static void 응답코드가_204라면_정상적으로_수정된_피드(ExtractableResponse<Response> response) {
+    public static ExtractableResponse<Response> 피드를_삭제한다(Long id, RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .when()
+                .delete("/api/feeds/" + id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static void 응답코드가_204라면_정상적으로_수정_삭제된_피드(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(204);
     }
 
