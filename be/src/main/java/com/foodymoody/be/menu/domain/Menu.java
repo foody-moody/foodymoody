@@ -22,4 +22,13 @@ public class Menu {
     public Menu() {
 
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getNumStar() {
+        return numStar;
+    }
+
 }

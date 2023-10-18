@@ -4,6 +4,9 @@ import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
 import com.foodymoody.be.feed.dto.request.ImageMenuPair;
+import com.foodymoody.be.feed.dto.response.FeedImageMenuResponse;
+import com.foodymoody.be.feed.dto.response.FeedMenuResponse;
+import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.repository.FeedRepository;
 import com.foodymoody.be.feed.util.FeedMapper;
@@ -11,6 +14,7 @@ import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.util.ImageMapper;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.util.MenuMapper;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,35 @@ public class FeedService {
         Feed feed = FeedMapper.toFeed(request, images, menus);
 
         return FeedMapper.toFeedRegisterResponse(feedRepository.save(feed));
+    }
+
+    public FeedReadResponse read(Long id) {
+        Feed feed = findFeed(id);
+        String location = feed.getLocation();
+        String review = feed.getReview();
+        String mood = feed.getMood();
+
+        List<Image> feedImages = feed.getImages();
+        List<Menu> feedMenus = feed.getMenus();
+
+        List<FeedImageMenuResponse> images = new ArrayList<>();
+        if (feedImages.size() != feedMenus.size()) {
+            throw new IllegalArgumentException("피드의 이미지와 메뉴의 개수가 다릅니다.");
+        }
+        for (int i = 0; i < feedImages.size(); i++) {
+            Image image = feedImages.get(i);
+            Menu menu = feedMenus.get(i);
+            images.add(
+                    new FeedImageMenuResponse(image.getUrl(), new FeedMenuResponse(menu.getName(), menu.getNumStar())));
+        }
+
+        return FeedReadResponse.builder()
+                .id(id)
+                .location(location)
+                .review(review)
+                .mood(mood)
+                .images(images)
+                .build();
     }
 
     @Transactional
