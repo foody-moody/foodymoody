@@ -38,7 +38,7 @@ public class FeedService {
             List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feedImages,
                     feedMenus);
 
-            FeedReadAllResponse.builder()
+            FeedReadAllResponse response = FeedReadAllResponse.builder()
                     .id(feed.getId())
                     // TODO: 회원 정보 로직 구현 후 추가
                     .member(null)
@@ -50,6 +50,8 @@ public class FeedService {
                     .likeCount(0)
                     .commentCount(0)
                     .build();
+
+            responses.add(response);
         }
 
         return responses;

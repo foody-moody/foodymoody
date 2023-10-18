@@ -33,6 +33,9 @@ public class FeedController {
         return ResponseEntity.ok().body(feedReadAllResponses);
     }
 
+    /**
+     *  Feed 등록
+     */
     @PostMapping("/api/feeds")
     public ResponseEntity<FeedRegisterResponse> registerFeed(@RequestBody FeedRegisterRequest feedRegisterRequest) {
         FeedRegisterResponse feedRegisterResponse = feedService.register(
@@ -49,12 +52,18 @@ public class FeedController {
         return ResponseEntity.ok().body(feedReadResponse);
     }
 
+    /**
+     * Feed 수정
+     */
     @PutMapping("/api/feeds/{id}")
     public ResponseEntity<Void> updateFeed(@PathVariable Long id, @RequestBody FeedUpdateRequest feedUpdateRequest) {
         feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest));
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Feed 삭제
+     */
     @DeleteMapping("/api/feeds/{id}")
     public ResponseEntity<Void> deleteFeed(@PathVariable Long id) {
         feedService.delete(id);
