@@ -7,5 +7,20 @@
   "arrowParens": "always",
   "bracketSpacing": true,
   "bracketSameLine": false,
-  "endOfLine": "auto"
+  "endOfLine": "auto",
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "^utils/(.*)$",
+    "^apis/(.*)$",
+    "^hooks/(.*)$",
+    "^recoils/(.*)$",
+    "^pages/(.*)$",
+    "^common/(.*)$",
+    "^components/(.*)$",
+    "^[./]",
+    "^constants/(.*)$"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }
