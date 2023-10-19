@@ -4,7 +4,7 @@ on:
     branches:
       - dev-be
 env:
-  BUILD_FILE_PATH: "/home/runner/work/foodymoody/foodymoody/be"
+  BUILD_FILE_PATH: "./be"
 
 jobs:
   ci:
