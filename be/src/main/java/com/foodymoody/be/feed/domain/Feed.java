@@ -4,12 +4,12 @@ import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import lombok.Builder;
 
 @Entity
 public class Feed {
@@ -22,9 +22,10 @@ public class Feed {
     private String review;
     private String mood;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Image> images;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Menu> menus;
+
+    @Embedded
+    private Images images = new Images();
 
     public Feed() {
     }
@@ -33,7 +34,7 @@ public class Feed {
         this.location = location;
         this.review = review;
         this.mood = mood;
-        this.images = images;
+        this.images = new Images(images);
         this.menus = menus;
     }
 
@@ -54,7 +55,7 @@ public class Feed {
     }
 
     public List<Image> getImages() {
-        return images;
+        return images.getNewUnmodifiedImages();
     }
 
     public List<Menu> getMenus() {
@@ -65,16 +66,17 @@ public class Feed {
         this.location = location;
         this.review = review;
         this.mood = mood;
-        setImages(newImages);
-        setMenus(newMenus);
+        makeImages(newImages);
+        makeMenus(newMenus);
     }
 
-    private void setImages(List<Image> newImages) {
-        images.clear();
-        images.addAll(newImages);
+    // TODO: 일급 컬렉션 리팩토링
+    private void makeImages(List<Image> newImages) {
+        images.clearImages();
+        images.addAllImages(newImages);
     }
 
-    private void setMenus(List<Menu> newMenus) {
+    private void makeMenus(List<Menu> newMenus) {
         menus.clear();
         menus.addAll(newMenus);
     }
