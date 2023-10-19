@@ -1,5 +1,7 @@
 package com.foodymoody.be.feed.util;
 
+import static com.foodymoody.be.feed.util.validator.FeedValidator.validateFeedOfImagesAndMenus;
+
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
@@ -64,13 +66,6 @@ public class FeedMapper {
         }
 
         return images;
-    }
-
-    // TODO: Validator로 분리하기
-    private static void validateFeedOfImagesAndMenus(List<Image> feedImages, List<Menu> feedMenus) {
-        if (feedImages.size() != feedMenus.size()) {
-            throw new IllegalArgumentException("피드의 이미지와 메뉴의 개수가 다릅니다.");
-        }
     }
 
 }
