@@ -5,7 +5,7 @@ import { HomePage } from 'pages/HomePage';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { Logo } from 'components/common/logo/Logo';
 import { TextArea } from 'components/common/textarea/Textarea';
-import { PATH } from 'constants/path';
+import { Logo } from 'components/common/logo/Logo';
 
 export const TestPage = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export const TestPage = () => {
   const onChangeValue = (value: string) => {
     setValue(value);
   };
-  PATH;
+
   return (
     <PageWrapper>
       <HomePage />
