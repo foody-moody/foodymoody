@@ -7,28 +7,26 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.OneToMany;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  * 일급 컬렉션
  */
 @Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Images {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
 
-    public Images() {
-    }
-
     public Images(List<Image> newImages) {
-        this.images = newImages;
+        this.images.addAll(newImages);
     }
 
-    public void clearImages() {
+    public void replaceWith(List<Image> newImages) {
         images.clear();
-    }
-
-    public void addAllImages(List<Image> newImages) {
         images.addAll(newImages);
     }
 
