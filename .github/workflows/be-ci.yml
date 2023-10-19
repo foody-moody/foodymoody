@@ -42,3 +42,5 @@ jobs:
           ./gradlew test
       - name: CoverAlls를 실행한다
         uses: coverallsapp/github-action@v2
+        with:
+          base-path: ./be/build/test-results/test/*.xml
