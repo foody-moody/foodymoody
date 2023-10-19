@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed.dto;
+package com.foodymoody.be.feed.dto.response;
 
 public class FeedRegisterResponse {
 
@@ -11,4 +11,5 @@ public class FeedRegisterResponse {
     public Long getId() {
         return id;
     }
+
 }
