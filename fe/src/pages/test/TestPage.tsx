@@ -5,7 +5,8 @@ import { HomePage } from 'pages/HomePage';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { Logo } from 'components/common/logo/Logo';
 import { TextArea } from 'components/common/textarea/Textarea';
-import { Logo } from 'components/common/logo/Logo';
+import { UserImage } from 'components/common/userImage/UserImage';
+import { UserImageEdit } from 'components/common/userImage/UserImageEdit';
 
 export const TestPage = () => {
   const navigate = useNavigate();
@@ -33,6 +34,9 @@ export const TestPage = () => {
           navigate('/');
         }}
       />
+      <UserImage onClick={() => {}} />
+
+      <UserImageEdit />
       <TextArea
         value={value}
         placeholder="리뷰를 입력해주세요"
@@ -41,6 +45,7 @@ export const TestPage = () => {
     </PageWrapper>
   );
 };
+
 const PageWrapper = styled.div`
   width: 100%;
   h1 {
