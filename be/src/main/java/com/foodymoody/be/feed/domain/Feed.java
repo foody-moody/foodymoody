@@ -21,11 +21,11 @@ public class Feed {
     // TODO: createdAt, updatedAt 추가 -> 테스트 코드 로직도 변경
     private String review;
     private String mood;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Menu> menus;
 
     @Embedded
     private Images images = new Images();
+    @Embedded
+    private Menus menus = new Menus();
 
     public Feed() {
     }
@@ -35,7 +35,7 @@ public class Feed {
         this.review = review;
         this.mood = mood;
         this.images = new Images(images);
-        this.menus = menus;
+        this.menus = new Menus(menus);
     }
 
     public Long getId() {
@@ -59,7 +59,7 @@ public class Feed {
     }
 
     public List<Menu> getMenus() {
-        return menus;
+        return menus.getNewUnmodifiedMenus();
     }
 
     public void update(String location, String review, String mood, List<Image> newImages, List<Menu> newMenus) {
@@ -70,15 +70,14 @@ public class Feed {
         makeMenus(newMenus);
     }
 
-    // TODO: 일급 컬렉션 리팩토링
     private void makeImages(List<Image> newImages) {
         images.clearImages();
         images.addAllImages(newImages);
     }
 
     private void makeMenus(List<Menu> newMenus) {
-        menus.clear();
-        menus.addAll(newMenus);
+        menus.clearMenus();
+        menus.addAllMenus(newMenus);
     }
 
 }
