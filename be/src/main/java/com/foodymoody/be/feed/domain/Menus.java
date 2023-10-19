@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed.domain;
 
-import com.foodymoody.be.image.domain.Image;
+import com.foodymoody.be.menu.domain.Menu;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,31 +12,31 @@ import javax.persistence.OneToMany;
  * 일급 컬렉션
  */
 @Embeddable
-public class Images {
+public class Menus {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Image> images = new ArrayList<>();
+    private List<Menu> menus = new ArrayList<>();
 
-    public Images() {
+    public Menus() {
     }
 
-    public Images(List<Image> newImages) {
-        this.images = newImages;
+    public Menus(List<Menu> menus) {
+        this.menus = menus;
     }
 
-    public void clearImages() {
-        images.clear();
+    public void clearMenus() {
+        menus.clear();
     }
 
-    public void addAllImages(List<Image> newImages) {
-        images.addAll(newImages);
+    public void addAllMenus(List<Menu> newMenus) {
+        menus.addAll(newMenus);
     }
 
     /**
      * 밖에서 참조하지 못하도록 새로운 변경 불가능한 리스트로 만든 후 리턴
      */
-    public List<Image> getNewUnmodifiedImages() {
-        return Collections.unmodifiableList(images);
+    public List<Menu> getNewUnmodifiedMenus() {
+        return Collections.unmodifiableList(menus);
     }
 
 }
