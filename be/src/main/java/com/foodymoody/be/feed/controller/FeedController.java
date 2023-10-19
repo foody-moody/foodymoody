@@ -7,8 +7,9 @@ import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.service.FeedService;
 import com.foodymoody.be.feed.util.FeedMapper;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,13 +29,13 @@ public class FeedController {
      * 전체 Feed 조회
      */
     @GetMapping("/api/feeds")
-    public ResponseEntity<List<FeedReadAllResponse>> readAll() {
-        List<FeedReadAllResponse> feedReadAllResponses = feedService.readAll();
+    public ResponseEntity<Slice<FeedReadAllResponse>> readAll(Pageable pageable) {
+        Slice<FeedReadAllResponse> feedReadAllResponses = feedService.readAll(pageable);
         return ResponseEntity.ok().body(feedReadAllResponses);
     }
 
     /**
-     *  Feed 등록
+     * Feed 등록
      */
     @PostMapping("/api/feeds")
     public ResponseEntity<FeedRegisterResponse> register(@RequestBody FeedRegisterRequest feedRegisterRequest) {

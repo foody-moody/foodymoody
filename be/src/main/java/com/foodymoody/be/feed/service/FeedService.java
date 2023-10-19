@@ -16,7 +16,11 @@ import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.util.MenuMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +31,8 @@ public class FeedService {
 
     private final FeedRepository feedRepository;
 
-    public List<FeedReadAllResponse> readAll() {
-        List<Feed> feeds = feedRepository.findAll();
+    public Slice<FeedReadAllResponse> readAll(Pageable pageable) {
+        Slice<Feed> feeds = feedRepository.findAll(pageable);
         List<FeedReadAllResponse> responses = new ArrayList<>();
 
         for (Feed feed : feeds) {
@@ -50,7 +54,7 @@ public class FeedService {
             responses.add(response);
         }
 
-        return responses;
+        return new SliceImpl<>(responses, pageable, feeds.hasNext());
     }
 
     private List<FeedImageMenuResponse> getFeedImageMenuResponses(Feed feed) {
