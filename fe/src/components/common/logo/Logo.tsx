@@ -1,21 +1,45 @@
 import { styled } from 'styled-components';
 import { LogoLarge, LogoSmall } from '../icon/icons';
+import { media } from 'styles/mediaQuery';
 
 type Props = {
-  size: 's' | 'l';
   onClick(): void;
 };
 
-export const Logo: React.FC<Props> = ({ size, onClick }) => {
-  const SelectedLogo = size === 's' ? LogoSmall : LogoLarge;
+export const Logo: React.FC<Props> = ({ onClick }) => {
   return (
     <Wrapper onClick={onClick}>
-      <SelectedLogo />
+      <StyledSmallLogo />
+      <StyledLargeLogo/>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   cursor: pointer;
-  width: fit-content;
+`;
+
+const StyledLargeLogo = styled(LogoLarge)`
+  display: block;
+
+  ${media.lg}{
+    display: none;
+  }
+
+  ${media.xs}{
+    display: block;
+  }
+  
+`;
+
+const StyledSmallLogo = styled(LogoSmall)`
+  display: none;
+
+  ${media.lg} {
+    display: block;
+  }
+
+  ${media.xs} {
+    display: none;
+  }
 `;
