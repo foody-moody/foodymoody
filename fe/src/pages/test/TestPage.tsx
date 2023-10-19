@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-
+import { HomePage } from 'pages/HomePage';
 import { TextArea } from 'components/common/textarea/Textarea';
 import { Logo } from 'components/common/logo/Logo';
 
@@ -15,6 +15,7 @@ export const TestPage = () => {
 
   return (
     <PageWrapper>
+      <HomePage />
       <h1>Example</h1>
       <Logo
         size="s"

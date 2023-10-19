@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
-import { LogoLarge, LogoSmall } from '../icons';
+import { LogoLarge, LogoSmall } from '../icon/icons';
+
 
 type Props = {
   size: 's' | 'l';
@@ -17,4 +18,5 @@ const LargeLogo = styled(LogoLarge)`
 
 const SmallLogo = styled(LogoSmall)`
   cursor: pointer;
+
 `;
