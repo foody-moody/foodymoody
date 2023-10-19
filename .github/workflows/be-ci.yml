@@ -23,8 +23,8 @@ jobs:
         run: chmod +x ${{ env.BUILD_FILE_PATH }}
       - name: 빌드한다
         run: |
-          cd ${{ BUILD_FILE_PATH }}\
-          ./gradlew build
+          cd ${{ env.BUILD_FILE_PATH }} 
+          ./gradlew build 
 
   coverage:
     runs-on: ubuntu-latest
