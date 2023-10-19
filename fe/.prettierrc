@@ -20,7 +20,5 @@
     "^components/(.*)$",
     "^[./]",
     "^constants/(.*)$"
-  ],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  ]
 }

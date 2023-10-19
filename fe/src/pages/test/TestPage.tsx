@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-
 import { HomePage } from 'pages/HomePage';
-
-// import { Logo } from 'components/common/Logo';
 import { TextArea } from 'components/common/textarea/Textarea';
-
+// import { Logo } from 'components/common/Logo';
 import { PATH } from 'constants/path';
 
 export const TestPage = () => {
