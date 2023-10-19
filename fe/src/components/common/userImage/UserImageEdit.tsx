@@ -29,7 +29,7 @@ const Wrapper = styled.div`
   width: 100px;
   height: 100px;
 
-  ${media.sm}, ${media.xs} {
+  ${media.sm} {
     width: 75px;
     height: 75px;
   }
@@ -55,7 +55,7 @@ const EditBtn = styled.div`
     background: ${({ theme: { colors } }) => colors.bgGray200};
   }
 
-  ${media.sm}, ${media.xs} {
+  ${media.sm} {
     width: 24px;
     height: 24px;
   }
