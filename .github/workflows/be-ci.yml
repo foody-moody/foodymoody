@@ -4,7 +4,7 @@ on:
     branches:
       - dev-be
 env:
-  BUILD_FILE_PATH: "./be"
+  BUILD_FILE_PATH: "./be/gradlew"
 
 jobs:
   ci:
@@ -21,7 +21,7 @@ jobs:
         run: chmod +x ${{ env.BUILD_FILE_PATH }}
       - name: 빌드한다
         run: |
-          cd ${{ env.BUILD_FILE_PATH }} 
+          cd be
           ./gradlew build 
 
   coverage:
