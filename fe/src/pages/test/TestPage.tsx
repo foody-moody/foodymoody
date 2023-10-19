@@ -4,9 +4,8 @@ import { styled } from 'styled-components';
 import { HomePage } from 'pages/HomePage';
 import { TextArea } from 'components/common/textarea/Textarea';
 
-import { Logo } from 'components/common/Logo';
 import { PATH } from 'constants/path';
-
+import { Logo } from 'components/common/logo/Logo';
 
 export const TestPage = () => {
   const navigate = useNavigate();
