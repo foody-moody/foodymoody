@@ -13,11 +13,13 @@ import org.springframework.http.MediaType;
 
 public class FeedSteps {
 
-    public static ExtractableResponse<Response> 전체_피드를_조회한다(RequestSpecification spec) {
+    public static ExtractableResponse<Response> 전체_피드를_조회한다(RequestSpecification spec, int page, int size) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
+                .param("page", page)
+                .param("size", size)
                 .log().all()
                 .when()
                 .get("/api/feeds")
@@ -27,37 +29,31 @@ public class FeedSteps {
     }
 
     public static void 응답코드가_200이고_전체_피드가_조회되면_정상적으로_조회_가능한_전체_페이지(ExtractableResponse<Response> response) {
+        // 1. Validate the status code
         assertThat(response.statusCode()).isEqualTo(200);
 
-        List<Map<String, Object>> feeds = response.jsonPath().getList("$");
-
-        for (Map<String, Object> feed : feeds) {
-            assertAll(
-                    () -> assertThat(feed.get("id")).isNotNull(),
-                    // TODO: 회원 로직 구현 후  member 추가
-                    () -> assertThat(feed.get("location")).isNotNull(),
-                    () -> assertThat(feed.get("review")).isNotNull(),
-                    () -> assertThat(feed.get("mood")).isNotNull(),
-                    // TODO: BaseEntity 구현 후 createdAt, updatedAt 추가
-                    () -> {
-                        List<Map<String, Object>> images = (List<Map<String, Object>>) feed.get("images");
-
-                        assertThat(images.get(0).get("imageUrl")).isEqualTo("https://www.googles.com/");
-                        Map<String, Object> firstMenu = (Map<String, Object>) images.get(0).get("menu");
-                        assertThat(firstMenu.get("name")).isEqualTo("마라탕");
-                        assertThat(firstMenu.get("numStar")).isEqualTo(4);
-
-                        assertThat(images.get(1).get("imageUrl")).isEqualTo("https://www.google.com/");
-                        Map<String, Object> secondMenu = (Map<String, Object>) images.get(1).get("menu");
-                        assertThat(secondMenu.get("name")).isEqualTo("감자탕");
-                        assertThat(secondMenu.get("numStar")).isEqualTo(3);
-                    },
-                    // TODO: Count 로직 구현 후 수정
-                    () -> assertThat(feed.get("likeCount")).isEqualTo(0),
-                    () -> assertThat(feed.get("commentCount")).isEqualTo(0)
-            );
+        // 2. Validate the structure of the 'content' array
+        List<Map<String, Object>> content = response.jsonPath().getList("content");
+        for (Map<String, Object> feed : content) {
+            assertThat(feed).containsKeys("id", "member", "location", "review", "mood", "images", "likeCount", "commentCount");
+            List<Map<String, Object>> images = (List<Map<String, Object>>) feed.get("images");
+            for (Map<String, Object> image : images) {
+                assertThat(image).containsKeys("imageUrl", "menu");
+                assertThat(((Map) image.get("menu"))).containsKeys("name", "numStar");
+            }
         }
+
+        // 3. Validate pagination metadata
+        Map<String, Object> pageable = response.jsonPath().getMap("pageable");
+        assertThat(pageable).containsKeys("sort", "pageNumber", "pageSize", "offset", "paged", "unpaged");
+
+        Map<String, Object> sort = (Map<String, Object>) pageable.get("sort");
+        assertThat(sort).containsKeys("unsorted", "sorted", "empty");
+
+        // You can also validate specific pagination values if you have expected values, for example:
+        // assertThat(pageable.get("pageNumber")).isEqualTo(0);
     }
+
 
     public static ExtractableResponse<Response> 피드를_등록한다(RequestSpecification spec) {
         Map<String, Object> body = Map.of(

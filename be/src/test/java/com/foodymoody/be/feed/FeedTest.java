@@ -27,7 +27,7 @@ class FeedTest extends Document {
         long registeredId = registerResponse.jsonPath().getLong("id");
 
         // when
-        var readFeedResponse = 전체_피드를_조회한다(spec);
+        var readFeedResponse = 전체_피드를_조회한다(spec, 0 , 10);
 
         // then
         응답코드가_200이고_전체_피드가_조회되면_정상적으로_조회_가능한_전체_페이지(readFeedResponse);
