@@ -1,39 +1,33 @@
 import { styled } from 'styled-components';
 
-type Props = {
-  size?: 's' | 'm' | 'l';
+type UserImageProps = {
+  variant?: 'default' | 'edit';
   imageUrl?: string;
   onClick?(): void;
 };
 
-export const UserImage: React.FC<Props> = (
-  { size = 's', imageUrl, onClick }
+export const UserImage: React.FC<UserImageProps> = (
+  { variant = 'default', imageUrl, onClick }
 ) => {
   const randomGithubImageUrl =
     'https://avatars.githubusercontent.com/u/63034672?v=4';
-  // TODO 교체
   const userImage = imageUrl || randomGithubImageUrl;
 
-  const handleClick = () => {
-    onClick?.();
-  };
-
   return (
-    <Img onClick={handleClick} $size={size} src={userImage} alt="유저이미지" hasClickHandler={!!onClick}/>
+    <Img
+      onClick={onClick}
+      $variant={variant}
+      src={userImage}
+      alt="유저이미지"
+    />
   );
 };
 
-const Img = styled.img<{ $size: 's' | 'm' | 'l',hasClickHandler: boolean }>`
-  width: ${({ $size }) => SIZE_VARIANT[$size]};
-  height: ${({ $size }) => SIZE_VARIANT[$size]};
+const Img = styled.img<{ $variant: 'default' | 'edit' }>`
+  width: ${({ $variant }) => ($variant === 'default' ? '40px' : '100%')};
+  height: ${({ $variant }) => ($variant === 'default' ? '40px' : '100%')};
   object-fit: cover;
   border-radius: ${({ theme: { radius } }) => radius.half};
   border: 1px solid ${({ theme: { colors } }) => colors.black};
-  cursor: ${({ hasClickHandler }) => (hasClickHandler ? 'pointer' : 'default')};
+  cursor: ${({ $variant }) => ($variant === 'default' ? 'pointer' : 'default')};
 `;
-
-const SIZE_VARIANT = {
-  s: '40px',
-  m: '75px',
-  l: '100px',
-};

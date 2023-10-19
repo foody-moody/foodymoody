@@ -1,37 +1,41 @@
 import { styled } from 'styled-components';
+import { media } from 'styles/mediaQuery';
 import { EditIcon } from '../icon/icons';
 import { UserImage } from './UserImage';
 
-type Props = {
-  size?: 'm' | 'l';
+type UserImageEditProps = {
   imageUrl?: string;
 };
 
-export const UserImageEdit: React.FC<Props> = ({ size = 'm', imageUrl }) => {
+export const UserImageEdit: React.FC<UserImageEditProps> = ({ imageUrl }) => {
   const randomGithubImageUrl =
     'https://avatars.githubusercontent.com/u/63034672?v=4';
-  // TODO 교체
   const userImage = imageUrl || randomGithubImageUrl;
 
   const handleEditImage = () => {};
 
   return (
-    <Wrapper $size={size}>
-      <UserImage size={size} imageUrl={userImage} />
-      <EditBtn $size={size} onClick={handleEditImage}>
+    <Wrapper>
+      <UserImage variant="edit" imageUrl={userImage} />
+      <EditBtn onClick={handleEditImage}>
         <EditIcon />
       </EditBtn>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div<{ $size: 'm' | 'l' }>`
+const Wrapper = styled.div`
   position: relative;
-  width: ${({ $size }) => SIZE_VARIANT[$size].wrapper};
-  height: ${({ $size }) => SIZE_VARIANT[$size].wrapper};
+  width: 100px;
+  height: 100px;
+
+  ${media.sm}, ${media.xs} {
+    width: 75px;
+    height: 75px;
+  }
 `;
 
-const EditBtn = styled.div<{ $size: 'm' | 'l' }>`
+const EditBtn = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
@@ -39,25 +43,20 @@ const EditBtn = styled.div<{ $size: 'm' | 'l' }>`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  width: ${({ $size }) => SIZE_VARIANT[$size].editBtn};
-  height: ${({ $size }) => SIZE_VARIANT[$size].editBtn};
   border-radius: ${({ theme: { radius } }) => radius.half};
   background-color: ${({ theme: { colors } }) => colors.white};
   border: 1px solid ${({ theme: { colors } }) => colors.black};
+  transition: background 0.2s ease-in-out;
+  width: 32px;
+  height: 32px;
+
   &:hover,
   &:active {
     background: ${({ theme: { colors } }) => colors.bgGray200};
   }
-  transition: background 0.2s ease-in-out;
-`;
 
-const SIZE_VARIANT = {
-  m: {
-    wrapper: '75px',
-    editBtn: '24px',
-  },
-  l: {
-    wrapper: '100px',
-    editBtn: '32px',
-  },
-};
+  ${media.sm}, ${media.xs} {
+    width: 24px;
+    height: 24px;
+  }
+`;

@@ -30,9 +30,9 @@ export const TestPage = () => {
           navigate('/');
         }}
       />
-      <UserImage size="s" onClick={() => {}} />
-      <UserImageEdit size="m" />
-      <UserImageEdit size="l" />
+      <UserImage onClick={() => {}} />
+
+      <UserImageEdit />
       <TextArea
         value={value}
         placeholder="리뷰를 입력해주세요"
