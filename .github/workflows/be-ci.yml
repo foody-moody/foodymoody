@@ -17,8 +17,6 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '11'
-      - name: 도커를 설치한다
-        run:
       - name: 실행권한을 부여한다
         run: chmod +x ${{ env.BUILD_FILE_PATH }}
       - name: 빌드한다
