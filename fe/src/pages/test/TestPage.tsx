@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { HomePage } from 'pages/HomePage';
 import { TextArea } from 'components/common/textarea/Textarea';
+import { FeedAction } from 'components/common/feedAction/FeedAction';
 
 import { Logo } from 'components/common/Logo';
 import { PATH } from 'constants/path';
@@ -25,6 +26,8 @@ export const TestPage = () => {
         onClick={() => {
           navigate('/');
         }}
+      /> */}
+      <FeedAction likeCount={12} commentCount={11} />
       />
       <Logo
         size="l"
