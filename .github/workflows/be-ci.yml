@@ -43,4 +43,4 @@ jobs:
       - name: CoverAlls를 실행한다
         uses: coverallsapp/github-action@v2
         with:
-          base-path: ./be/build/test-results/test/*.xml
+          base-path: ./be/build/reports/jacoco/test/jacocoTestReport.xml
