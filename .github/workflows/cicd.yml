@@ -16,7 +16,7 @@ jobs:
       - name: 자바를 설치한다
         uses: actions/setup-java@v3
         with:
-          distribution: 'oracle'
+          distribution: 'corretto'
           java-version: '11'
       - name: 실행권한을 부여한다
         run: chmod +x ${{ env.BUILD_FILE_PATH }}
