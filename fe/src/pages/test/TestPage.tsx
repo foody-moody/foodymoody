@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { HomePage } from 'pages/HomePage';
 import { TextArea } from 'components/common/textarea/Textarea';
-
-import { PATH } from 'constants/path';
 import { Logo } from 'components/common/logo/Logo';
 
 export const TestPage = () => {
@@ -14,7 +12,7 @@ export const TestPage = () => {
   const onChangeValue = (value: string) => {
     setValue(value);
   };
-  PATH;
+
   return (
     <PageWrapper>
       <HomePage />

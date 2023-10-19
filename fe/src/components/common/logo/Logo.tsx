@@ -1,21 +1,22 @@
 import { styled } from 'styled-components';
 import { LogoLarge, LogoSmall } from '../icon/icons';
 
+
 type Props = {
   size: 's' | 'l';
   onClick(): void;
 };
 
 export const Logo: React.FC<Props> = ({ size, onClick }) => {
-  const SelectedLogo = size === 's' ? LogoSmall : LogoLarge;
-  return (
-    <Wrapper onClick={onClick}>
-      <SelectedLogo />
-    </Wrapper>
-  );
+  const SelectedLogo = size === 's' ? SmallLogo : LargeLogo;
+  return <SelectedLogo onClick={onClick} />;
 };
 
-const Wrapper = styled.div`
+const LargeLogo = styled(LogoLarge)`
   cursor: pointer;
-  width: fit-content;
+`;
+
+const SmallLogo = styled(LogoSmall)`
+  cursor: pointer;
+
 `;
