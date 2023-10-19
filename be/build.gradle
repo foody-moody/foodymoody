@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.16'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id "org.asciidoctor.jvm.convert" version "3.3.2"
+    id 'jacoco'
 }
 
 group = 'com.foodymoody'
@@ -49,6 +50,9 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers:1.18.3'
     testImplementation 'org.testcontainers:junit-jupiter:1.18.3'
     testImplementation 'org.testcontainers:mysql:1.18.3'
+
+    // JaCoCo
+    testImplementation 'org.jacoco:org.jacoco.agent:0.8.9'
 }
 
 ext {
@@ -67,6 +71,20 @@ tasks.register('copyDocument', Copy) {
 test {
     useJUnitPlatform()
     outputs.dir snippetsDir
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
+jacoco {
+    toolVersion = '0.8.9'
 }
 
 asciidoctor {
