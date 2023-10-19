@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { HomePage } from 'pages/HomePage';
-import { TextArea } from 'components/common/textarea/Textarea';
-
-import { PATH } from 'constants/path';
 import { Logo } from 'components/common/logo/Logo';
+import { TextArea } from 'components/common/textarea/Textarea';
+import { UserImage } from 'components/common/userImage/UserImage';
+import { UserImageEdit } from 'components/common/userImage/UserImageEdit';
 
 export const TestPage = () => {
   const navigate = useNavigate();
@@ -14,7 +14,6 @@ export const TestPage = () => {
   const onChangeValue = (value: string) => {
     setValue(value);
   };
-  PATH;
   return (
     <PageWrapper>
       <HomePage />
@@ -31,6 +30,9 @@ export const TestPage = () => {
           navigate('/');
         }}
       />
+      <UserImage size="s" onClick={() => {}} />
+      <UserImageEdit size="m" />
+      <UserImageEdit size="l" />
       <TextArea
         value={value}
         placeholder="리뷰를 입력해주세요"
@@ -39,6 +41,7 @@ export const TestPage = () => {
     </PageWrapper>
   );
 };
+
 const PageWrapper = styled.div`
   width: 100%;
   h1 {
