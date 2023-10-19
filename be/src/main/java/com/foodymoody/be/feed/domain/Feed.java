@@ -3,13 +3,11 @@ package com.foodymoody.be.feed.domain;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Feed {
@@ -23,11 +21,16 @@ public class Feed {
     private String mood;
 
     @Embedded
-    private Images images = new Images();
+    private Images images;
     @Embedded
-    private Menus menus = new Menus();
+    private Menus menus;
 
     public Feed() {
+    }
+
+    public Feed(Images images, Menus menus) {
+        this.images = images;
+        this.menus = menus;
     }
 
     public Feed(String location, String review, String mood, List<Image> images, List<Menu> menus) {
@@ -66,18 +69,8 @@ public class Feed {
         this.location = location;
         this.review = review;
         this.mood = mood;
-        makeImages(newImages);
-        makeMenus(newMenus);
-    }
-
-    private void makeImages(List<Image> newImages) {
-        images.clearImages();
-        images.addAllImages(newImages);
-    }
-
-    private void makeMenus(List<Menu> newMenus) {
-        menus.clearMenus();
-        menus.addAllMenus(newMenus);
+        this.images.replaceWith(newImages);
+        this.menus.replaceWith(newMenus);
     }
 
 }
