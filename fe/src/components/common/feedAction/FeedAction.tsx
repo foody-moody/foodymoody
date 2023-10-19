@@ -48,9 +48,7 @@ const Wrapper = styled.div`
   text-align: center;
   display: flex;
   gap: 16px;
-  border: 1px solid red;
 `;
-// border삭제
 
 const InfoItem = styled.div`
   display: flex;
