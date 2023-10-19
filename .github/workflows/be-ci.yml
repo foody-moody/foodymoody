@@ -37,6 +37,8 @@ jobs:
       - name: 실행권한을 부여한다
         run: chmod +x ${{ env.BUILD_FILE_PATH }}
       - name: 테스트를 실행한다
-        run: ${{ env.BUILD_FILE_PATH }} test
+        run: |
+          cd be
+          ./gradlew test
       - name: CoverAlls를 실행한다
         uses: coverallsapp/github-action@v2
