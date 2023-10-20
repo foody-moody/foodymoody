@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    default: local
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/foodymoody
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: bono
+    password: 1111
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.MySQL8Dialect

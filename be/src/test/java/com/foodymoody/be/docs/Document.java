@@ -21,6 +21,7 @@ import org.testcontainers.utility.DockerImageName;
 public abstract class Document {
 
     public static final DockerImageName MYSQL_IMAGE = DockerImageName.parse("mysql:8.0");
+
     public static final MySQLContainer<?> MYSQL = new MySQLContainer<>(MYSQL_IMAGE)
             .withDatabaseName("foodymoody")
             .withUsername("bono")
