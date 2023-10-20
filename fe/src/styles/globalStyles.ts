@@ -52,6 +52,7 @@ export const GlobalStyles = createGlobalStyle`
   }
   button {
     border: 0;
+    padding: 0;
     background: transparent;
     cursor: pointer;
   }
