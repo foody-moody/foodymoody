@@ -1,0 +1,99 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.16'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
+    id 'jacoco'
+}
+
+group = 'com.foodymoody'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '11'
+}
+
+configurations {
+    // 마크다운 플러그인
+    asciidoctorExt
+
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Spring
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // MySQL
+    implementation 'com.mysql:mysql-connector-j'
+
+    // REST Assured
+    testImplementation 'io.rest-assured:rest-assured:4.5.1'
+
+    // Rest Docs
+    implementation 'org.springframework.restdocs:spring-restdocs-restassured:2.0.4.RELEASE'
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.5.RELEASE'
+
+    // Test Containers
+    testImplementation 'org.testcontainers:testcontainers:1.18.3'
+    testImplementation 'org.testcontainers:junit-jupiter:1.18.3'
+    testImplementation 'org.testcontainers:mysql:1.18.3'
+
+    // JaCoCo
+    testImplementation 'org.jacoco:org.jacoco.agent:0.8.9'
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+tasks.register('copyDocument', Copy) {
+    dependsOn asciidoctor
+
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs")
+
+    enabled = true;
+}
+
+test {
+    useJUnitPlatform()
+    outputs.dir snippetsDir
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
+jacoco {
+    toolVersion = '0.8.9'
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    dependsOn test
+}
+
+bootJar {
+    dependsOn asciidoctor, copyDocument
+    enabled = true;
+}

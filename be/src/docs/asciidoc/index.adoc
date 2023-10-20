@@ -1,0 +1,24 @@
+= FoodyMoody Application API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+[[feed]]
+== 피드
+
+=== 피드 등록
+operation::registerFeed[snippets='http-request,http-response']
+
+[[auth]]
+== 보안
+
+=== 로그인
+
+operation::login_success[snippets='http-request,http-response']
+
+=== 로구아웃
+
+operation::logout_success[snippets='http-request,http-response']
