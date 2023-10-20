@@ -19,6 +19,9 @@ public class Feed {
     // TODO: createdAt, updatedAt 추가 -> 테스트 코드 로직도 변경
     private String review;
     private String mood;
+    private int likeCount;
+    private boolean isLiked;
+    private int commentCount;
 
     @Embedded
     private Images images;
@@ -63,6 +66,18 @@ public class Feed {
 
     public List<Menu> getMenus() {
         return menus.getNewUnmodifiedMenus();
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
     }
 
     public void update(String location, String review, String mood, List<Image> newImages, List<Menu> newMenus) {
