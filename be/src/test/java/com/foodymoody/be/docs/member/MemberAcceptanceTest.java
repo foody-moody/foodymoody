@@ -25,7 +25,7 @@ class MemberAcceptanceTest extends Document {
     @Test
     void when_registerMember_then_response200AndId_and_canLoadMemberProfile() {
         // docs
-        api_문서_타이틀("registerMember", spec);
+        api_문서_타이틀("signupMember", spec);
 
         // given, when
         var response = 회원보노가_회원가입한다(spec);
@@ -38,7 +38,7 @@ class MemberAcceptanceTest extends Document {
     @Test
     void when_deleteMember_then_response204_and_cannotLoadMemberProfile() {
         // docs
-        api_문서_타이틀("deleteMember", spec);
+        api_문서_타이틀("withdrawMember", spec);
 
         // given
         회원보노가_회원가입한다(FAKE_SPEC);
