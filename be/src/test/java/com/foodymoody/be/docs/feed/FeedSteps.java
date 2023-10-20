@@ -1,4 +1,4 @@
-package com.foodymoody.be.docs;
+package com.foodymoody.be.docs.feed;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
