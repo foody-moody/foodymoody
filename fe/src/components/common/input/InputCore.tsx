@@ -1,17 +1,14 @@
-
 import { styled } from 'styled-components';
 
 type Props = {
   type?: string;
   placeholder?: string;
-  isFocused?: boolean;
-  helperText?: string;
   onChange?(value: string): void;
   onPressEnter?(): void;
   onFocus?(): void;
 };
 
-export const InputCore: React.FC<Props> = ({ type = 'text', placeholder,isFocused, helperText, onChange, onPressEnter,onFocus }) => {
+export const InputCore: React.FC<Props> = ({ type = 'text', placeholder,onChange, onPressEnter,onFocus }) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(e.target.value);
@@ -31,7 +28,6 @@ export const InputCore: React.FC<Props> = ({ type = 'text', placeholder,isFocuse
       onKeyDown={handleKeyDown}
       onFocus={onFocus}
     />
-    {isFocused && helperText && <HelperText>{helperText}</HelperText>}
     </>
 
 };
@@ -47,10 +43,3 @@ const Wrapper = styled.input`
   }
 `;
 
-const HelperText = styled.div`
-  position: absolute;
-  top: 103%;
-  right: 0;
-  font: ${({ theme: { fonts } }) => fonts.displayM12};
-  color: ${({ theme: { colors } }) => colors.pink};
-`;

@@ -25,6 +25,7 @@ const fonts = {
 };
 
 const colors = {
+  bgGray50: 'rgba(166, 166, 166, 0.08)',
   bgGray100: '#FFF9F4',
   bgGray200: '#F3EBE2',
   bgGray400: '#E2DCD9',

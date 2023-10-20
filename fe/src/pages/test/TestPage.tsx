@@ -7,7 +7,7 @@ import { Input } from 'components/common/input/Input';
 import { InputCore } from 'components/common/input/InputCore';
 import { Logo } from 'components/common/logo/Logo';
 import { TextArea } from 'components/common/textarea/Textarea';
-import { useInput, useValidateInput } from 'hooks/useInput';
+import { useInput } from 'hooks/useInput';
 
 export const TestPage = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ export const TestPage = () => {
     isValid: isIdValid,
     handleChange: handleIdChange,
     helperText: idHelper,
-  } = useValidateInput({
+  } = useInput({
     validator: (value: string) => {
       return value.length > 2;
     },
@@ -30,7 +30,7 @@ export const TestPage = () => {
     isValid: isPasswordValid,
     handleChange: handlePasswordChange,
     helperText: passwordHelper,
-  } = useValidateInput({
+  } = useInput({
     validator: (value: string) => {
       return value.length > 5;
     },
@@ -67,8 +67,8 @@ export const TestPage = () => {
           onChange={() => {}}
         /> */}
         <FlexWrapper>
-          {/* <Input value={value} variant="ghost" />
-          <Input value={value} variant="underline" /> */}
+          <Input variant="ghost" />
+          <Input variant="underline" />
           <Input
             variant="default"
             placeholder="아이디"
@@ -82,7 +82,7 @@ export const TestPage = () => {
             variant="default"
             helperText={passwordHelper}
           />
-          {/* <Input value={value} variant="comment" /> */}
+          <Input variant="comment" />
         </FlexWrapper>
       </FlexWrapper>
     </PageWrapper>
