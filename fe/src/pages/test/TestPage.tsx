@@ -3,41 +3,88 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { HomePage } from 'pages/HomePage';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
+import { Input } from 'components/common/input/Input';
+import { InputCore } from 'components/common/input/InputCore';
 import { Logo } from 'components/common/logo/Logo';
 import { TextArea } from 'components/common/textarea/Textarea';
-import { Logo } from 'components/common/logo/Logo';
+import { useInput, useValidateInput } from 'hooks/useInput';
 
 export const TestPage = () => {
   const navigate = useNavigate();
-  const [value, setValue] = useState<string>('');
+  // const [value, setValue] = useState<string>('');
+  // const { value, handleChange } = useInput();
+  const {
+    value: idValue,
+    isValid: isIdValid,
+    handleChange: handleIdChange,
+    helperText: idHelper,
+  } = useValidateInput({
+    validator: (value: string) => {
+      return value.length > 2;
+    },
+    helperText: '3자 이상 입력해주세요',
+  });
 
-  const onChangeValue = (value: string) => {
-    setValue(value);
-  };
+  const {
+    value: passwordValue,
+    isValid: isPasswordValid,
+    handleChange: handlePasswordChange,
+    helperText: passwordHelper,
+  } = useValidateInput({
+    validator: (value: string) => {
+      return value.length > 5;
+    },
+    helperText: '6자 이상 입력해주세요',
+  });
+
+  // const onChangeValue = (value: string) => {
+  //   setValue(value);
+  // };
 
   return (
     <PageWrapper>
       <HomePage />
-      <h1>Example</h1>
-      <Logo
-        size="s"
-        onClick={() => {
-          navigate('/');
-        }}
-      />
-      <FeedAction likeCount={12} commentCount={11} />
+      <FlexWrapper>
+        <h1>Example</h1>
+        <Logo
+          size="s"
+          onClick={() => {
+            navigate('/');
+          }}
+        />
+        <FeedAction likeCount={12} commentCount={11} />
 
-      <Logo
-        size="l"
-        onClick={() => {
-          navigate('/');
-        }}
-      />
-      <TextArea
-        value={value}
-        placeholder="리뷰를 입력해주세요"
-        onChange={onChangeValue}
-      />
+        <Logo
+          size="l"
+          onClick={() => {
+            navigate('/');
+          }}
+        />
+        {/* <TextArea
+          value={value}
+          placeholder="리뷰를 입력해주세요"
+          // onChange={onChangeValue}
+          onChange={() => {}}
+        /> */}
+        <FlexWrapper>
+          {/* <Input value={value} variant="ghost" />
+          <Input value={value} variant="underline" /> */}
+          <Input
+            variant="default"
+            placeholder="아이디"
+            onChange={handleIdChange}
+            helperText={idHelper}
+          />
+          <Input
+            type="password"
+            placeholder="비밀번호"
+            onChange={handlePasswordChange}
+            variant="default"
+            helperText={passwordHelper}
+          />
+          {/* <Input value={value} variant="comment" /> */}
+        </FlexWrapper>
+      </FlexWrapper>
     </PageWrapper>
   );
 };
@@ -46,4 +93,10 @@ const PageWrapper = styled.div`
   h1 {
     font: ${({ theme: { fonts } }) => fonts.displayB24};
   }
+`;
+
+const FlexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `;
