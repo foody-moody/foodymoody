@@ -16,11 +16,12 @@ public class FeedReadAllResponse {
     private String mood;
     private List<FeedImageMenuResponse> images;
     private int likeCount;
+    private boolean isLiked;
     private int commentCount;
 
     @Builder
     public FeedReadAllResponse(Long id, FeedMemberResponse member, String location, String review, String mood,
-            List<FeedImageMenuResponse> images, int likeCount, int commentCount) {
+            List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, int commentCount) {
         this.id = id;
         this.member = member;
         this.location = location;
@@ -28,6 +29,7 @@ public class FeedReadAllResponse {
         this.mood = mood;
         this.images = images;
         this.likeCount = likeCount;
+        this.isLiked = isLiked;
         this.commentCount = commentCount;
     }
 
@@ -63,4 +65,7 @@ public class FeedReadAllResponse {
         return commentCount;
     }
 
+    public boolean isLiked() {
+        return isLiked;
+    }
 }

@@ -48,6 +48,7 @@ public class FeedService {
                     .images(images)
                     // TODO: Count 로직 구현 후 추가
                     .likeCount(0)
+                    .isLiked(false)
                     .commentCount(0)
                     .build();
 

@@ -15,14 +15,21 @@ public class FeedReadResponse {
     private String review;
     private String mood;
     private List<FeedImageMenuResponse> images;
+    private int likeCount;
+    private boolean isLiked;
+    private int commentCount;
 
     @Builder
-    public FeedReadResponse(Long id, String location, String review, String mood, List<FeedImageMenuResponse> images) {
+    public FeedReadResponse(Long id, String location, String review, String mood, List<FeedImageMenuResponse> images,
+            int likeCount, boolean isLiked, int commentCount) {
         this.id = id;
         this.location = location;
         this.review = review;
         this.mood = mood;
         this.images = images;
+        this.likeCount = likeCount;
+        this.isLiked = isLiked;
+        this.commentCount = commentCount;
     }
 
     public Long getId() {
@@ -43,6 +50,18 @@ public class FeedReadResponse {
 
     public List<FeedImageMenuResponse> getImages() {
         return images;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
     }
 
 }
