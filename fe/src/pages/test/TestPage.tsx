@@ -9,6 +9,7 @@ import { Logo } from 'components/common/logo/Logo';
 import { TextArea } from 'components/common/textarea/Textarea';
 import { useInput } from 'hooks/useInput';
 
+
 export const TestPage = () => {
   const navigate = useNavigate();
   // const [value, setValue] = useState<string>('');
@@ -54,6 +55,7 @@ export const TestPage = () => {
         />
         <FeedAction likeCount={12} commentCount={11} />
 
+
         <Logo
           size="l"
           onClick={() => {
@@ -85,9 +87,11 @@ export const TestPage = () => {
           <Input variant="comment" />
         </FlexWrapper>
       </FlexWrapper>
+
     </PageWrapper>
   );
 };
+
 const PageWrapper = styled.div`
   width: 100%;
   h1 {
