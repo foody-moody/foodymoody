@@ -18,25 +18,11 @@ class AuthTest extends Document {
         api_문서_타이틀("login_success", spec);
 
         // when
-        var response = 로그인_한다("test@example.com", "password", spec);
+        var response = 로그인_한다("test@example.com", spec);
 
         // then
         토큰과_응답코드_200을_응답한다(response);
     }
-
-//    TODO 패스워드 불일치 시 실패케이스 추가
-//    @DisplayName("로그인 요청시 비밀번호가 불일치하면 응답코드 401을 반환한다.")
-//    @Test
-//    void when_login_then_return_401() {
-//        // docs
-//        api_문서_타이틀("login_fail_incorrect_password", spec);
-//
-//        // when
-//        var response = 회원보노가_잘못된_비밀번호를_입력하고_로그인한다(spec);
-//
-//        // then
-//        응답코드가_401인지_검증한다(response);
-//    }
 
     @DisplayName("로그아웃 요청 성공하면 204코드를 반환한다.")
     @Test
