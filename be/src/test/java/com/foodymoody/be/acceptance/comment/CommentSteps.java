@@ -17,7 +17,7 @@ public class CommentSteps {
         body.put("content", "댓글 내용");
         body.put("feedId", feedId);
         return RestAssured.given().spec(spec).log().all()
-                .body(body).contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(body).contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE)
                 .when().post("/api/comments")
                 .then().log().all()
                 .extract();
