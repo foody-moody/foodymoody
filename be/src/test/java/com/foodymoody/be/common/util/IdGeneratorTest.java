@@ -41,9 +41,9 @@ class IdGeneratorTest {
         assertThat(isHexadecimal).isTrue();
     }
 
-    @DisplayName("생성된 ID가 24바이트인지 확인한다.")
+    @DisplayName("생성된 ID가 길이가 24인지 확인한다.")
     @Test
-    void test_id_is_24bytes() {
+    void test_id_is_24_length() {
         // given
         String id = IdGenerator.generate();
 
