@@ -68,7 +68,7 @@ class CommentTest extends AcceptanceTest {
     @Test
     void when_register_comment_if_content_is_blank_then_return_code_400() {
         // docs
-        api_문서_타이틀("registerComment_failed_by_content_is_blank", spec);
+        api_문서_타이틀("registerComment_failed_by_content_is_empty", spec);
 
         // given
         long feedId = 피드를_등록하고_아이디를_받는다();
