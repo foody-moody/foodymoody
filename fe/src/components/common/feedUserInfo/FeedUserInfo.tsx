@@ -10,7 +10,7 @@ type Props = {
   member: FeedMemberType;
 };
 
-export const UserFeedInfo: React.FC<Props> = ({ feed, member }) => {
+export const FeedUserInfo: React.FC<Props> = ({ feed, member }) => {
   const { navigateToProfile } = usePageNavigator();
 
   const formattedTimeStamp = formatTimeStamp(feed.createdAt);
