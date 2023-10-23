@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class CommentService {
 
     public void registerComment(RegisterCommentRequest request) {
-        if (request.getContent() == null) {
+        if (request.getContent() == null || request.getContent().isEmpty()) {
             throw new ContentNotExistsException();
         }
     }
