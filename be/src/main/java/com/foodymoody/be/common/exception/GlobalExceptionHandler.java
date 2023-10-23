@@ -14,4 +14,10 @@ public class GlobalExceptionHandler {
     public String handleContentNotExistsException(ContentNotExistsException e) {
         return e.getMessage();
     }
+
+    @ResponseStatus(value = BAD_REQUEST)
+    @ExceptionHandler(ContentIsEmptyException.class)
+    public String handleContentIsEmptyException(ContentIsEmptyException e) {
+        return e.getMessage();
+    }
 }
