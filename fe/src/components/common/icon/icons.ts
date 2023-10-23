@@ -16,6 +16,7 @@ export { default as HeartFillIcon } from 'assets/heartFill.svg?react';
 export { default as HeartNoBgIcon } from 'assets/heartNoBg.svg?react';
 export { default as HomeIcon } from 'assets/home.svg?react';
 export { default as MapPinLargeIcon } from 'assets/mapPinLarge.svg?react';
+export { default as MapPinSmallIcon } from 'assets/mapPinSmall.svg?react';
 export { default as MenuIcon } from 'assets/menu.svg?react';
 export { default as PencilLineIcon } from 'assets/pencilLine.svg?react';
 export { default as PlusIcon } from 'assets/plus.svg?react';
