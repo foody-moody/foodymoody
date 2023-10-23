@@ -1,7 +1,7 @@
 package com.foodymoody.be.comment.service;
 
 import com.foodymoody.be.comment.controller.RegisterCommentRequest;
-import com.foodymoody.be.comment.unit.CommentValidator;
+import com.foodymoody.be.comment.util.CommentValidator;
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.feed.service.FeedService;
 import lombok.RequiredArgsConstructor;

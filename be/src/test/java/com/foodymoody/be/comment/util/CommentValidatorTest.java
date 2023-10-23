@@ -1,4 +1,4 @@
-package com.foodymoody.be.comment.unit;
+package com.foodymoody.be.comment.util;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 

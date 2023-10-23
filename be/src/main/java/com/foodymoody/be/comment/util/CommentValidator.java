@@ -1,4 +1,4 @@
-package com.foodymoody.be.comment.unit;
+package com.foodymoody.be.comment.util;
 
 import com.foodymoody.be.comment.controller.RegisterCommentRequest;
 import com.foodymoody.be.common.exception.ContentIsEmptyException;
