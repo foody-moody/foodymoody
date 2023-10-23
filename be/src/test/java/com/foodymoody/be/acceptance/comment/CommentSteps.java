@@ -54,4 +54,16 @@ public class CommentSteps {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 피드에_여러_공백댓글_등록한다(long feedId, RequestSpecification spec) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("content", "   ");
+        body.put("feedId", feedId);
+        return RestAssured
+                .given().spec(spec).log().all()
+                .body(body).contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().post("/api/comments")
+                .then().log().all()
+                .extract();
+    }
 }
