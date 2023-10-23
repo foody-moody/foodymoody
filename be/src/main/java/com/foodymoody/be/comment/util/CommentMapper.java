@@ -9,7 +9,7 @@ public class CommentMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Comment toEntity(RegisterCommentRequest request, long id) {
+    public static Comment toEntity(RegisterCommentRequest request, String id) {
         return new Comment(id, request.getContent(), request.getFeedId());
     }
 }

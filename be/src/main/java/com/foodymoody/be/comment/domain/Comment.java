@@ -1,18 +1,26 @@
 package com.foodymoody.be.comment.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class Comment {
 
-    private long id;
+    @Id
+    private String id;
     private String content;
     private long feedId;
 
-    public Comment(long id, String content, long feedId) {
+    public Comment(String id, String content, long feedId) {
         this.id = id;
         this.content = content;
         this.feedId = feedId;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 

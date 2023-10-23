@@ -17,7 +17,7 @@ class CommentMapperTest {
         long feedId = 1L;
         String content = "content";
         RegisterCommentRequest request = new RegisterCommentRequest(feedId, content);
-        long commentId = 1L;
+        String commentId = "123232";
 
         // when
         Comment comment = CommentMapper.toEntity(request, commentId);

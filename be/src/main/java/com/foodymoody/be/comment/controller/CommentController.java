@@ -1,6 +1,7 @@
 package com.foodymoody.be.comment.controller;
 
 import com.foodymoody.be.comment.service.CommentService;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +15,8 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/api/comments")
-    public ResponseEntity<Void> registerComment(@RequestBody RegisterCommentRequest request) {
-        commentService.registerComment(request);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Map<String, String>> registerComment(@RequestBody RegisterCommentRequest request) {
+        String id = commentService.registerComment(request);
+        return ResponseEntity.ok(Map.of("id", id));
     }
 }
