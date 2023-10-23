@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { styled } from 'styled-components';
-import { useDetectClose } from 'hooks/useDetectClose';
+import { useDropdown } from 'hooks/useDropdown';
 
 type Props = {
   opener: React.ReactNode;
@@ -13,7 +13,7 @@ export const Dropdown: React.FC<Props> = (
 ) => {
   const dropdownRef = useRef<HTMLUListElement>(null);
   const openerRef = useRef<HTMLDivElement>(null);
-  const { isOpen, handleToggleDropdown } = useDetectClose({
+  const { isOpen, handleToggleDropdown } = useDropdown({
     dropdownRef,
     openerRef,
   });

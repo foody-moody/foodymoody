@@ -6,7 +6,7 @@ type PropsType = {
   initialValue?: boolean;
 };
 
-export const useDetectClose = ({ dropdownRef, openerRef, initialValue = false }: PropsType = {} ) => {
+export const useDropdown = ({ dropdownRef, openerRef, initialValue = false }: PropsType = {} ) => {
 
   const [isOpen, setIsOpen] = useState(initialValue);
 
@@ -16,11 +16,14 @@ export const useDetectClose = ({ dropdownRef, openerRef, initialValue = false }:
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (openerRef?.current && openerRef.current.contains(event.target as Node)) {
+
+      const target = event.target as Node;
+
+      if (openerRef?.current && openerRef.current.contains(target)) {
         return;
       }
 
-      if (dropdownRef?.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (dropdownRef?.current && !dropdownRef.current.contains(target)) {
         setIsOpen(!isOpen)
       }
     };
