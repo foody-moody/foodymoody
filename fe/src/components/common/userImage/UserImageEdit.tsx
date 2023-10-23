@@ -46,9 +46,9 @@ const EditBtn = styled.div`
   border-radius: ${({ theme: { radius } }) => radius.half};
   background-color: ${({ theme: { colors } }) => colors.white};
   border: 1px solid ${({ theme: { colors } }) => colors.black};
-  transition: background 0.2s ease-in-out;
   width: 32px;
   height: 32px;
+  transition: all 0.3s ease-in-out;
 
   &:hover,
   &:active {

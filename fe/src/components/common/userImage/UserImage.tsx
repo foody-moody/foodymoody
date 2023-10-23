@@ -33,6 +33,7 @@ const Img = styled.img<{
 }>`
   width: ${({ $variant }) => ($variant === 'default' ? '40px' : '100%')};
   height: ${({ $variant }) => ($variant === 'default' ? '40px' : '100%')};
+  transition: all 0.3s ease-in-out;
   object-fit: cover;
   border-radius: ${({ theme: { radius } }) => radius.half};
   border: 1px solid ${({ theme: { colors } }) => colors.black};
