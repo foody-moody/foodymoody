@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { styled } from 'styled-components';
+import { useAnimation } from 'hooks/useAnimation';
 import { useDropdown } from 'hooks/useDropdown';
 
 type Props = {
@@ -18,16 +19,21 @@ export const Dropdown: React.FC<Props> = (
     openerRef,
   });
 
+  const { shouldRender, handleTransitionEnd, animationTrigger } =
+    useAnimation(isOpen);
+
   return (
     <Wrapper>
       <Opener onClick={handleToggleDropdown} ref={openerRef}>
         {opener}
       </Opener>
-      {isOpen && (
+      {shouldRender && (
         <DropdownBox
           ref={dropdownRef}
           $align={align}
+          $animationTrigger={animationTrigger}
           onClick={handleToggleDropdown}
+          onTransitionEnd={handleTransitionEnd}
         >
           {children}
         </DropdownBox>
@@ -41,7 +47,10 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const DropdownBox = styled.ul<{ $align: 'left' | 'right' }>`
+const DropdownBox = styled.ul<{
+  $align: 'left' | 'right';
+  $animationTrigger: boolean;
+}>`
   display: flex;
   flex-direction: column;
   width: 270px;
@@ -49,7 +58,10 @@ const DropdownBox = styled.ul<{ $align: 'left' | 'right' }>`
   top: 100%;
   ${({ $align }) => $align}: 0;
   background-color: ${({ theme }) => theme.colors.white};
+  transform: ${({ $animationTrigger }) =>
+    $animationTrigger ? 'translateY(0);' : 'translateY(-10px);'};
 
+  transition: 0.2s ease;
   border-radius: 0px 0px 40px 0px;
   border: 1px solid ${({ theme }) => theme.colors.black};
   overflow: hidden;
@@ -63,9 +75,9 @@ const Opener = styled.div`
   align-items: center;
 
   cursor: pointer;
-  border-radius: ${({ theme }) => theme.radius.small};
+  border-radius: 4px;
 
   &:hover {
-    background: ${({ theme: { colors } }) => colors.bgGray200};
+    background: ${({ theme: { colors } }) => colors.bgGray50};
   }
 `;
