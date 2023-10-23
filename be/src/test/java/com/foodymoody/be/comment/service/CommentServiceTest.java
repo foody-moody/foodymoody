@@ -36,7 +36,7 @@ class CommentServiceTest {
         // given
         RegisterCommentRequest request = new RegisterCommentRequest();
         request.setFeedId(1L);
-        request.setContent("   ");
+        request.setContent("");
 
         // when,then
         assertThatThrownBy(() -> commentService.registerComment(request))

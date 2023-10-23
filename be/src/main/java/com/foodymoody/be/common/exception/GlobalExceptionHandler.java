@@ -20,4 +20,10 @@ public class GlobalExceptionHandler {
     public String handleContentIsEmptyException(ContentIsEmptyException e) {
         return e.getMessage();
     }
+
+    @ResponseStatus(value = BAD_REQUEST)
+    @ExceptionHandler(ContentIsSpaceException.class)
+    public String handleContentIsSpaceException(ContentIsSpaceException e) {
+        return e.getMessage();
+    }
 }
