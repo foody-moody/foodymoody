@@ -3,6 +3,7 @@ package com.foodymoody.be.comment.service;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.foodymoody.be.comment.controller.RegisterCommentRequest;
+import com.foodymoody.be.comment.util.CommentFixture;
 import com.foodymoody.be.common.exception.ContentIsEmptyException;
 import com.foodymoody.be.common.exception.ContentIsOver200Exception;
 import com.foodymoody.be.common.exception.ContentIsSpaceException;
@@ -25,8 +26,7 @@ class CommentServiceTest {
     @Test
     void when_register_comment_if_content_not_exists_throw_exception() {
         // given
-        RegisterCommentRequest request = new RegisterCommentRequest();
-        request.setFeedId(1L);
+        var request = CommentFixture.registerCommentRequestWithoutContent();
 
         // when,then
         assertThatThrownBy(() -> commentService.registerComment(request))
@@ -37,9 +37,7 @@ class CommentServiceTest {
     @Test
     void when_register_comment_if_content_is_blank_then_throw_exception() {
         // given
-        RegisterCommentRequest request = new RegisterCommentRequest();
-        request.setFeedId(1L);
-        request.setContent("");
+        var request = CommentFixture.registerCommentRequestWithEmptyContent();
 
         // when,then
         assertThatThrownBy(() -> commentService.registerComment(request))
@@ -50,9 +48,7 @@ class CommentServiceTest {
     @Test
     void when_register_comment_if_content_is_space_then_throw_exception() {
         // given
-        RegisterCommentRequest request = new RegisterCommentRequest();
-        request.setFeedId(1L);
-        request.setContent(" ");
+        var request = CommentFixture.registerCommentRequestWithSpace();
 
         // when,then
         assertThatThrownBy(() -> commentService.registerComment(request))
@@ -63,9 +59,7 @@ class CommentServiceTest {
     @Test
     void when_register_comment_if_content_is_larger_than_200_then_throw_exception() {
         // given
-        RegisterCommentRequest request = new RegisterCommentRequest();
-        request.setFeedId(1L);
-        request.setContent("a".repeat(201));
+        var request = CommentFixture.registerCommentRequestWithContentOver200();
 
         // when,then
         assertThatThrownBy(() -> commentService.registerComment(request))
@@ -76,8 +70,7 @@ class CommentServiceTest {
     @Test
     void when_register_comment_if_feed_id_not_exists_then_throw_exception() {
         // given
-        RegisterCommentRequest request = new RegisterCommentRequest();
-        request.setContent("댓글 내용");
+        RegisterCommentRequest request = CommentFixture.registerCommentRequestWithoutFeedId();
 
         // when,then
         assertThatThrownBy(() -> commentService.registerComment(request))

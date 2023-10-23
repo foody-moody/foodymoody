@@ -15,20 +15,17 @@ class CommentMapperTest {
     @Test
     void toEntity() {
         // given
-        long feedId = 1L;
-        String content = "content";
-        RegisterCommentRequest request = new RegisterCommentRequest(feedId, content);
-        String commentId = "123232";
+        RegisterCommentRequest request = CommentFixture.registerCommentRequest();
 
         // when
-        Comment comment = CommentMapper.toEntity(request, commentId);
+        Comment comment = CommentMapper.toEntity(request, CommentFixture.COMMENT_ID);
 
         // then
         Assertions.assertAll(
                 () -> assertThat(comment).isNotNull(),
-                () -> assertThat(comment.getId()).isEqualTo(commentId),
-                () -> assertThat(comment.getContent()).isEqualTo(content),
-                () -> assertThat(comment.getFeedId()).isEqualTo(feedId)
+                () -> assertThat(comment.getId()).isEqualTo(CommentFixture.COMMENT_ID),
+                () -> assertThat(comment.getContent()).isEqualTo(CommentFixture.CONTENT),
+                () -> assertThat(comment.getFeedId()).isEqualTo(CommentFixture.FEED_ID)
         );
     }
 }
