@@ -8,6 +8,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 public class CommentSteps {
@@ -25,5 +26,20 @@ public class CommentSteps {
 
     public static void 응답코드_200_검증한다(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(200);
+    }
+
+    public static void 응답코드_400_검증한다(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    public static ExtractableResponse<Response> 댓글없이_피드에_댓글_등록한다(long feedId, RequestSpecification spec) {
+
+        return RestAssured.given().log().all()
+                .given().spec(spec).log().all()
+                .body(Map.of("feedId", feedId))
+                .contentType("application/json")
+                .when().post("/api/comments")
+                .then().log().all()
+                .extract();
     }
 }
