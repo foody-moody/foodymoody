@@ -78,4 +78,16 @@ public class CommentSteps {
                 .then().log().all()
                 .extract();
     }
+
+
+    public static ExtractableResponse<Response> 피드에서_200자_넘는_댓글을_등록한다(long feedId, RequestSpecification spec) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("content", "200자".repeat(5) + "1");
+        body.put("feedId", feedId);
+        return RestAssured.given().spec(spec).log().all()
+                .body(body).contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().post("/api/comments")
+                .then().log().all()
+                .extract();
+    }
 }
