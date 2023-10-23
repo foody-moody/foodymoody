@@ -26,4 +26,10 @@ public class GlobalExceptionHandler {
     public String handleContentIsSpaceException(ContentIsSpaceException e) {
         return e.getMessage();
     }
+
+    @ResponseStatus(value = BAD_REQUEST)
+    @ExceptionHandler(FeedIdNotExistsException.class)
+    public String handleFeedIdNotExistsException(FeedIdNotExistsException e) {
+        return e.getMessage();
+    }
 }

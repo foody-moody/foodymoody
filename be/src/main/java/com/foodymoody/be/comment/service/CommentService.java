@@ -4,6 +4,7 @@ import com.foodymoody.be.comment.controller.RegisterCommentRequest;
 import com.foodymoody.be.common.exception.ContentIsEmptyException;
 import com.foodymoody.be.common.exception.ContentIsSpaceException;
 import com.foodymoody.be.common.exception.ContentNotExistsException;
+import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,9 @@ public class CommentService {
         }
         if (request.getContent().isBlank()) {
             throw new ContentIsSpaceException();
+        }
+        if (request.getFeedId() == 0) {
+            throw new FeedIdNotExistsException();
         }
     }
 }
