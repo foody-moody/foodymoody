@@ -1,6 +1,4 @@
-package com.foodymoody.be.comment.service;
-
-import com.foodymoody.be.common.exception.BusinessException;
+package com.foodymoody.be.common.exception;
 
 public class ContentNotExistsException extends BusinessException {
 

@@ -1,6 +1,7 @@
 package com.foodymoody.be.comment.service;
 
 import com.foodymoody.be.comment.controller.RegisterCommentRequest;
+import com.foodymoody.be.common.exception.ContentNotExistsException;
 import org.springframework.stereotype.Service;
 
 @Service
