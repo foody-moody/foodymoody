@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+@DisplayName("댓글 서비스 테스트")
 @ExtendWith(MockitoExtension.class)
 class CommentServiceTest {
 

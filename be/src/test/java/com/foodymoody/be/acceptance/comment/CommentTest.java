@@ -15,6 +15,7 @@ import com.foodymoody.be.acceptance.AcceptanceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("댓글 관련 기능 인수테스트")
 class CommentTest extends AcceptanceTest {
 
 
