@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -35,7 +36,8 @@ public class FeedSteps {
         // 2. Validate the structure of the 'content' array
         List<Map<String, Object>> content = response.jsonPath().getList("content");
         for (Map<String, Object> feed : content) {
-            assertThat(feed).containsKeys("id", "member", "location", "review", "mood", "images", "likeCount", "commentCount");
+            assertThat(feed).containsKeys("id", "member", "location", "review", "mood", "images", "likeCount",
+                    "commentCount");
             List<Map<String, Object>> images = (List<Map<String, Object>>) feed.get("images");
             for (Map<String, Object> image : images) {
                 assertThat(image).containsKeys("imageUrl", "menu");
@@ -54,6 +56,14 @@ public class FeedSteps {
         // assertThat(pageable.get("pageNumber")).isEqualTo(0);
     }
 
+
+    public static ExtractableResponse<Response> 피드를_등록한다() {
+        return 피드를_등록한다(new RequestSpecBuilder().build());
+    }
+
+    public static long 피드를_등록하고_아이디를_받는다() {
+        return 피드를_등록한다(new RequestSpecBuilder().build()).jsonPath().getLong("id");
+    }
 
     public static ExtractableResponse<Response> 피드를_등록한다(RequestSpecification spec) {
         Map<String, Object> body = Map.of(
@@ -92,9 +102,10 @@ public class FeedSteps {
     }
 
     public static void 응답코드가_200이고_id가_존재하면_정상적으로_등록된_피드(ExtractableResponse<Response> response) {
+        Object id = response.jsonPath().get("id");
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
-                () -> assertThat(response.jsonPath().getLong("id")).isNotNull()
+                assertThat(id)::isNotNull
         );
     }
 
@@ -112,9 +123,10 @@ public class FeedSteps {
     }
 
     public static void 응답코드가_200이고_개별_피드가_조회되면_정상적으로_등록된_피드(ExtractableResponse<Response> response) {
+        Object id = response.jsonPath().get("id");
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
-                () -> assertThat(response.jsonPath().getLong("id")).isNotNull(),
+                assertThat(id)::isNotNull,
                 () -> assertThat(response.jsonPath().getString("location")).isEqualTo("맛있게 매운 콩볼 범계점"),
                 () -> assertThat(response.jsonPath().getString("review")).isEqualTo("맛있게 먹었습니다."),
                 () -> assertThat(response.jsonPath().getString("mood")).isEqualTo("기쁨"),
