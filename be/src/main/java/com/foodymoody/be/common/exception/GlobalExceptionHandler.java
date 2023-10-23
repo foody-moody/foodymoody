@@ -32,4 +32,10 @@ public class GlobalExceptionHandler {
     public String handleFeedIdNotExistsException(FeedIdNotExistsException e) {
         return e.getMessage();
     }
+
+    @ResponseStatus(value = BAD_REQUEST)
+    @ExceptionHandler(ContentIsOver200Exception.class)
+    public String handleContentIsOver200Exception(ContentIsOver200Exception e) {
+        return e.getMessage();
+    }
 }
