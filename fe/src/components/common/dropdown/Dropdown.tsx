@@ -13,18 +13,10 @@ export const Dropdown: React.FC<Props> = (
 ) => {
   const dropdownRef = useRef<HTMLUListElement>(null);
   const openerRef = useRef<HTMLDivElement>(null);
-  const { isOpen, setIsOpen } = useDetectClose({
+  const { isOpen, handleToggleDropdown } = useDetectClose({
     dropdownRef,
     openerRef,
   });
-
-  const handleToggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
 
   return (
     <Wrapper>
@@ -56,6 +48,7 @@ const DropdownBox = styled.ul<{ $align: 'left' | 'right' }>`
   position: absolute;
   top: 100%;
   ${({ $align }) => $align}: 0;
+  background-color: ${({ theme }) => theme.colors.white};
 
   border-radius: 0px 0px 40px 0px;
   border: 1px solid ${({ theme }) => theme.colors.black};

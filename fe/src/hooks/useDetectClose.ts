@@ -21,7 +21,7 @@ export const useDetectClose = ({ dropdownRef, openerRef, initialValue = false }:
       }
 
       if (dropdownRef?.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+        setIsOpen(!isOpen)
       }
     };
 
