@@ -6,6 +6,7 @@ import com.foodymoody.be.comment.controller.RegisterCommentRequest;
 import com.foodymoody.be.common.exception.ContentIsEmptyException;
 import com.foodymoody.be.common.exception.ContentIsSpaceException;
 import com.foodymoody.be.common.exception.ContentNotExistsException;
+import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,5 +55,17 @@ class CommentServiceTest {
         // when,then
         assertThatThrownBy(() -> commentService.registerComment(request))
                 .isInstanceOf(ContentIsSpaceException.class);
+    }
+
+    @DisplayName("댓글 등록 시 피드 아이디가 없으면 피드 아이디 없음 예외가 발생한다.")
+    @Test
+    void when_register_comment_if_feed_id_not_exists_then_throw_exception() {
+        // given
+        RegisterCommentRequest request = new RegisterCommentRequest();
+        request.setContent("댓글 내용");
+
+        // when,then
+        assertThatThrownBy(() -> commentService.registerComment(request))
+                .isInstanceOf(FeedIdNotExistsException.class);
     }
 }
