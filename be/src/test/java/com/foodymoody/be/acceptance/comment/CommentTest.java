@@ -2,7 +2,7 @@ package com.foodymoody.be.acceptance.comment;
 
 import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글없이_피드에_댓글_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.요청_내용_없이_댓글_등록한다;
-import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200_검증한다;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200과_id를_반환한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_400_검증한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드_아이디_없이_댓글을_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_공백댓글_등록한다;
@@ -32,7 +32,7 @@ class CommentTest extends AcceptanceTest {
         var response = 피드에_댓글을_등록한다(feedId, spec);
 
         // then
-        응답코드_200_검증한다(response);
+        응답코드_200과_id를_반환한다(response);
     }
 
     @DisplayName("댓글 등록 요청시 요청 바디가 없으면 응답코드 400을 응답한다")

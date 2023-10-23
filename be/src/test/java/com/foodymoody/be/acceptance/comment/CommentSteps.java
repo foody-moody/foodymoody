@@ -8,6 +8,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.Assertions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -24,8 +25,11 @@ public class CommentSteps {
                 .extract();
     }
 
-    public static void 응답코드_200_검증한다(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(200);
+    public static void 응답코드_200과_id를_반환한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(200),
+                () -> assertThat(response.body().jsonPath().getString("id")).isNotNull()
+        );
     }
 
     public static void 응답코드_400_검증한다(ExtractableResponse<Response> response) {
