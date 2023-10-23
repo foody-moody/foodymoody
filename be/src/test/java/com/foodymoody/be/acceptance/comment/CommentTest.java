@@ -109,4 +109,21 @@ class CommentTest extends AcceptanceTest {
         // then
         응답코드_400_검증한다(response);
     }
+
+    @DisplayName("댓글 등록시 피디가 존재하지 않으면 응답코드 400을 응답한다")
+    @Test
+    void when_register_comment_if_feed_not_exists_then_return_code_400() {
+        // docs
+        api_문서_타이틀("registerComment_failed_by_feed_not_exists", spec);
+
+        // given
+        long notExistsRegisterId = 20000000L;
+        long feedId = notExistsRegisterId;
+
+        // when
+        var response = 피드에_댓글을_등록한다(feedId, spec);
+
+        // then
+        응답코드_400_검증한다(response);
+    }
 }
