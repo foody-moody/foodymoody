@@ -66,4 +66,16 @@ public class CommentSteps {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 피드_아이디_없이_댓글을_등록한다(RequestSpecification spec) {
+        Map<String, String> body = new HashMap<>();
+        body.put("content", "댓글 내용");
+        return RestAssured
+                .given().spec(spec).log().all()
+                .body(body)
+                .contentType("application/json")
+                .when().post("/api/comments")
+                .then().log().all()
+                .extract();
+    }
 }
