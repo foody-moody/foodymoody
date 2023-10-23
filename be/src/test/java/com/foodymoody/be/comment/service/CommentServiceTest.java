@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.foodymoody.be.comment.controller.RegisterCommentRequest;
 import com.foodymoody.be.common.exception.ContentIsEmptyException;
+import com.foodymoody.be.common.exception.ContentIsSpaceException;
 import com.foodymoody.be.common.exception.ContentNotExistsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,5 +41,18 @@ class CommentServiceTest {
         // when,then
         assertThatThrownBy(() -> commentService.registerComment(request))
                 .isInstanceOf(ContentIsEmptyException.class);
+    }
+
+    @DisplayName("댓글 등록 시 댓글 내용이 space 뿐이면 댓글 내용 공백 예외가 발생한다.")
+    @Test
+    void when_register_comment_if_content_is_space_then_throw_exception() {
+        // given
+        RegisterCommentRequest request = new RegisterCommentRequest();
+        request.setFeedId(1L);
+        request.setContent(" ");
+
+        // when,then
+        assertThatThrownBy(() -> commentService.registerComment(request))
+                .isInstanceOf(ContentIsSpaceException.class);
     }
 }
