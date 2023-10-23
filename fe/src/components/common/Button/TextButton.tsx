@@ -3,11 +3,17 @@ import styled from 'styled-components';
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   color: 'orange' | 'black';
   children: React.ReactNode;
+  size?: 's' | 'm' | 'l';
 };
 
-export const TextButton: React.FC<Props> = ({ color, children, ...props }) => {
+export const TextButton: React.FC<Props> = ({
+  color,
+  children,
+  size = 'l',
+  ...props
+}) => {
   return (
-    <Wrapper $color={color} {...props}>
+    <Wrapper $color={color} $size={size} {...props}>
       {children}
     </Wrapper>
   );
@@ -15,8 +21,14 @@ export const TextButton: React.FC<Props> = ({ color, children, ...props }) => {
 
 const Wrapper = styled.button<{
   $color: 'orange' | 'black';
+  $size: 's' | 'm' | 'l';
 }>`
-  font: ${({ theme: { fonts } }) => fonts.displayM16};
+  font: ${({ $size, theme: { fonts } }) =>
+    $size === 's'
+      ? fonts.displayM12
+      : $size === 'm'
+      ? fonts.displayM14
+      : fonts.displayM16};
   color: ${({ $color, theme: { colors } }) => colors[$color]};
   width: fit-content;
   background-color: transparent;
@@ -27,7 +39,6 @@ const Wrapper = styled.button<{
   transition: all 0.3s;
 
   &:hover {
-    border-color: ${({ theme: { colors } }) => colors.black};
     opacity: 0.85;
   }
 
