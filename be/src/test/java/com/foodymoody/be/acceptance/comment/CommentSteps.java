@@ -90,4 +90,14 @@ public class CommentSteps {
                 .then().log().all()
                 .extract();
     }
+
+
+    public static ExtractableResponse<Response> 요청_내용_없이_댓글_등록한다(RequestSpecification spec) {
+        return RestAssured
+                .given().spec(spec).log().all()
+                .contentType("application/json")
+                .when().post("/api/comments")
+                .then().log().all()
+                .extract();
+    }
 }
