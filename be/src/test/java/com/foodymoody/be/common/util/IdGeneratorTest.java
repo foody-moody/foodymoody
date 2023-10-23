@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("ID 생성기 테스트")
 class IdGeneratorTest {
 
     @DisplayName("생성된 ID가 unique한지 확인한다.")

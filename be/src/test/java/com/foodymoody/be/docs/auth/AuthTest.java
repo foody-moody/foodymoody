@@ -9,6 +9,7 @@ import com.foodymoody.be.docs.Document;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("인증 관련 기능 문서화")
 class AuthTest extends Document {
 
     @DisplayName("로그인 요청시 성공하면 토큰을 반환한다.")

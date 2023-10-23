@@ -83,6 +83,4 @@ class CommentServiceTest {
         assertThatThrownBy(() -> commentService.registerComment(request))
                 .isInstanceOf(FeedIdNotExistsException.class);
     }
-
-
 }
