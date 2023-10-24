@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useInput } from 'hooks/useInput';
+import { useMenuItem } from 'hooks/useMenuItem';
 import { useStarRating } from 'hooks/useStarRating';
 import { CloseSmallIcon } from '../icon/icons';
 import { Input } from '../input/Input';
@@ -34,12 +35,23 @@ export const MenuItemEditor: React.FC<Props> = (
               id="menu"
               variant="ghost"
               value={value}
-              onChange={handleChange}
+              onChange={(value) => {
+                handleChange(value);
+              }}
+              onBlur={() => {
+                onEditMenuName(index, value);
+              }}
             />
           </Content>
           <Content>
-            <label htmlFor="menu">메뉴 별점</label>
-            <StarRating index={rate} onClick={handleStarClick} />
+            <label>메뉴 별점</label>
+            <StarRating
+              index={rate}
+              onClick={(newRate) => {
+                const updatedRate = handleStarClick(newRate);
+                onEditStarRating(index, updatedRate);
+              }}
+            />
           </Content>
         </ContentBody>
       </LeftContent>
@@ -57,7 +69,6 @@ const Wrapper = styled.li`
   width: 100%;
   display: flex;
   box-sizing: border-box;
-  border: 1px solid ${({ theme: { colors } }) => colors.black};
   justify-content: space-between;
 
   svg {
@@ -70,51 +81,10 @@ const LeftContent = styled.div`
   box-sizing: border-box;
   width: 100%;
   gap: 16px;
-  border: 1px solid ${({ theme: { colors } }) => colors.black};
 `;
-
-// const ImageWrapper = styled.div`
-//   min-width: 95px;
-//   max-width: 95px;
-//   min-height: 95px;
-//   max-height: 95px;
-//   background-color: yellow;
-//   position: relative;
-
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-
-//   &::after {
-//     content: '';
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     width: 95px;
-//     height: 95px;
-//     background-color: rgba(0, 0, 0, 0.3);
-//     /* pointer-events: none; // Make sure the overlay doesn't block interaction */
-//     cursor: pointer;
-//   }
-
-//   img {
-//     width: 100%;
-//     height: 100%;
-//     object-fit: cover;
-//   }
-
-//   svg {
-//     position: absolute;
-//     top: 50%;
-//     left: 50%;
-//     transform: translate(-50%, -50%);
-//     z-index: 10;
-//   }
-// `;
 
 const ContentBody = styled.div`
   width: 100%;
-  border: 1px solid ${({ theme: { colors } }) => colors.black};
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -123,14 +93,11 @@ const ContentBody = styled.div`
 const Content = styled.div`
   width: 100%;
 
-  border: 1px solid ${({ theme: { colors } }) => colors.black};
-
   display: flex;
   flex-direction: column;
 
   label {
     font: ${({ theme: { fonts } }) => fonts.displayM10};
     color: ${({ theme: { colors } }) => colors.textPrimary};
-    border: 1px solid ${({ theme: { colors } }) => colors.black};
   }
 `;

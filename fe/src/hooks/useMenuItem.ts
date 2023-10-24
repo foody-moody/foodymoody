@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useInput } from './useInput';
+import { useStarRating } from './useStarRating';
 
 const DEFAULT_MENU_ITEM = {
   imageUrl: '',
@@ -13,27 +15,29 @@ export const useMenuItem = (initialMenuItems?: FeedImageType[]) => {
     initialMenuItems || [DEFAULT_MENU_ITEM]
   );
 
-  useEffect(() => {
-    if (initialMenuItems) {
-      setMenuItems(initialMenuItems);
-    } else {
-      setMenuItems([DEFAULT_MENU_ITEM]);
-    }
-  }, [initialMenuItems]);
+  // useEffect(() => {
+  //   if (initialMenuItems) {
+  //     setMenuItems(initialMenuItems);
+  //   } else {
+  //     setMenuItems([DEFAULT_MENU_ITEM]);
+  //   }
+  // }, [initialMenuItems]);
 
   const handleAddMenuItem = () => {
     if (menuItems.length === 3) {
       console.log('can not add more than 3 items');
-      // TODO : 에러 메시지 띄우는 방식 고려
+      // TODO : 헬퍼 메시지 띄우는 방식 고려
       return;
     }
+    console.log('add menu item', [...menuItems, DEFAULT_MENU_ITEM]);
+
     setMenuItems((prevItems) => [...prevItems, DEFAULT_MENU_ITEM]);
   };
 
   const handleRemoveMenuItem = (index: number) => {
     if (menuItems.length === 1) {
       console.log('can not remove last item');
-      // TODO : 에러 메시지 띄우는 방식 고려
+      // TODO : 헬퍼 메시지 띄우는 방식 고려
       return;
     }
 
@@ -42,5 +46,50 @@ export const useMenuItem = (initialMenuItems?: FeedImageType[]) => {
     );
   };
 
-  return { menuItems, handleAddMenuItem, handleRemoveMenuItem };
+  const handleEditMenuName = (index: number, name: string) => {
+    console.log(index, 'nameChange index');
+
+    setMenuItems((prevItems) => {
+      // 복사
+      const newItems = [...prevItems];
+
+      // 특정 index의 항목을 복사해서 변경
+      const updatedItem = {
+        ...newItems[index],
+        menu: { ...newItems[index].menu, name: name },
+      };
+
+      // 변경된 항목으로 교체
+      newItems[index] = updatedItem;
+
+      return newItems;
+    });
+  };
+
+  const handleEditStarRating = (index: number, rating: number) => {
+    console.log(index, 'ratingChange index');
+
+    setMenuItems((prevItems) => {
+      // 복사
+      const newItems = [...prevItems];
+
+      // 특정 index의 항목을 복사해서 변경
+      const updatedItem = {
+        ...newItems[index],
+        menu: { ...newItems[index].menu, numStar: rating },
+      };
+
+      // 변경된 항목으로 교체
+      newItems[index] = updatedItem;
+
+      return newItems;
+    });
+  };
+  return {
+    menuItems,
+    handleAddMenuItem,
+    handleRemoveMenuItem,
+    handleEditMenuName,
+    handleEditStarRating,
+  };
 };
