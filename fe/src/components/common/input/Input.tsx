@@ -5,16 +5,19 @@ import { InputCore } from './InputCore';
 
 type Props = {
   type?: 'password' | 'text';
+  value?: string;
   placeholder?: string;
   variant: 'ghost' | 'underline' | 'default' | 'comment';
   helperText?: string;
   onChange?(value: string): void;
   onPressEnter?(): void;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>;
+// TODO omit써야하나?
 
 export const Input: React.FC<Props> = (
   {
     type = 'text',
+    value,
     placeholder = '입력해주세요',
     variant,
     helperText,
@@ -39,6 +42,7 @@ export const Input: React.FC<Props> = (
         {variant === 'comment' && <BellIcon />}
         <InputCore
           type={type}
+          value={value}
           placeholder={variant !== 'default' ? placeholder : ''}
           onValueChange={onChange}
           onPressEnter={() => {

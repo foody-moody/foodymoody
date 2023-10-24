@@ -3,13 +3,14 @@ import { InputHTMLAttributes } from 'react';
 
 type Props = {
   type?: string;
+  value?: string;
   placeholder?: string;
   onValueChange?(value: string): void;
   onPressEnter?(): void;
   onInputFocus?(): void;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-export const InputCore: React.FC<Props> = ({ type = 'text', placeholder,onValueChange, onPressEnter,onInputFocus ,...props}) => {
+export const InputCore: React.FC<Props> = ({ type = 'text',value, placeholder,onValueChange, onPressEnter,onInputFocus ,...props}) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onValueChange?.(e.target.value);
@@ -24,6 +25,7 @@ export const InputCore: React.FC<Props> = ({ type = 'text', placeholder,onValueC
   return <>
     <Wrapper
       type={type}
+      value={value}
       placeholder={placeholder}
       onChange={handleInputChange}
       onKeyDown={handleKeyDown}
