@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, InputHTMLAttributes } from 'react';
 import { styled } from 'styled-components';
 import { BellIcon } from '../icon/icons';
 import { InputCore } from './InputCore';
@@ -10,7 +10,7 @@ type Props = {
   helperText?: string;
   onChange?(value: string): void;
   onPressEnter?(): void;
-};
+} & Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>;
 
 export const Input: React.FC<Props> = (
   {
@@ -20,6 +20,7 @@ export const Input: React.FC<Props> = (
     helperText,
     onChange,
     onPressEnter,
+    ...props
   }
 ) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -39,13 +40,14 @@ export const Input: React.FC<Props> = (
         <InputCore
           type={type}
           placeholder={variant !== 'default' ? placeholder : ''}
-          onChange={onChange}
+          onValueChange={onChange}
           onPressEnter={() => {
             console.log('press enter');
           }}
-          onFocus={() => {
+          onInputFocus={() => {
             setIsFocused(true);
           }}
+          {...props}
         />
         {variant === 'comment' && <Dummy />}
         {isFocused && helperText && <HelperText>{helperText}</HelperText>}
