@@ -16,7 +16,6 @@ import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.util.MenuMapper;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -56,6 +55,10 @@ public class FeedService {
         }
 
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
+    }
+
+    public boolean exists(long feedId) {
+        return feedRepository.existsById(feedId);
     }
 
     private List<FeedImageMenuResponse> getFeedImageMenuResponses(Feed feed) {
