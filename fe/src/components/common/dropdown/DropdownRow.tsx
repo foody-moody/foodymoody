@@ -6,7 +6,6 @@ type Props = {
 };
 
 export const DropdownRow: React.FC<Props> = ({  children, onClick }) => {
-
   const handleClick = () => {
     onClick?.();
   }

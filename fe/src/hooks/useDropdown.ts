@@ -7,7 +7,6 @@ type PropsType = {
 };
 
 export const useDropdown = ({ dropdownRef, openerRef, initialValue = false }: PropsType ) => {
-
   const [isOpen, setIsOpen] = useState(initialValue);
 
   const handleToggleDropdown = () => {
@@ -16,7 +15,6 @@ export const useDropdown = ({ dropdownRef, openerRef, initialValue = false }: Pr
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-
       const target = event.target as Node;
 
       if (openerRef.current?.contains(target)) {

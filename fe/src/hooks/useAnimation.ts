@@ -5,6 +5,7 @@ type UseAnimationReturn = {
   handleTransitionEnd: () => void;
   animationTrigger: boolean;
 };
+
 export const useAnimation = (condition: boolean): UseAnimationReturn => {
   const [isComplete, setComplete] = useState(false);
 

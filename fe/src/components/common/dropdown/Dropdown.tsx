@@ -55,25 +55,22 @@ const DropdownBox = styled.ul<{
   flex-direction: column;
   width: 270px;
   position: absolute;
-  top: 100%;
+  top: 102%;
   ${({ $align }) => $align}: 0;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme: { colors } }) => colors.white};
   transform: ${({ $animationTrigger }) =>
-    $animationTrigger ? 'translateY(0);' : 'translateY(-10px);'};
-
-  transition: 0.2s ease;
+    $animationTrigger ? 'translateY(0);' : 'translateY(-5px);'};
+  transition: 0.3s ease-in-out;
   border-radius: 0px 0px 40px 0px;
-  border: 1px solid ${({ theme }) => theme.colors.black};
+  border: 1px solid ${({ theme: { colors } }) => colors.black};
   overflow: hidden;
 `;
 
 const Opener = styled.div`
   display: flex;
-
+  align-items: center;
   width: fit-content;
   height: fit-content;
-  align-items: center;
-
   cursor: pointer;
   border-radius: 4px;
 
