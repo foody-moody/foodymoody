@@ -2,7 +2,14 @@ package com.foodymoody.be.common.exception;
 
 public class ContentIsEmptyException extends BusinessException {
 
+    private static final ErrorMessage errorMessage = ErrorMessage.CONTENT_IS_EMPTY;
+
     public ContentIsEmptyException() {
-        super("댓글 내용이 공백입니다.");
+        super(errorMessage.getMessage());
+    }
+
+    @Override
+    public String getCode() {
+        return errorMessage.getCode();
     }
 }

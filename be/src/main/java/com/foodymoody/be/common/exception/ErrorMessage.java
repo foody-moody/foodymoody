@@ -1,0 +1,28 @@
+package com.foodymoody.be.common.exception;
+
+public enum ErrorMessage {
+    // comment
+    CONTENT_NOT_EXISTS("댓글이 존재하지 않습니다.", "c001"),
+    CONTENT_IS_EMPTY("댓글 내용이 공백입니다.", "c002"),
+    CONTENT_IS_SPACE("댓글 내용이 공백입니다.", "c003"),
+    FEED_ID_NOT_EXISTS("피드가 존재하지 않습니다.", "c004"),
+    CONTENT_IS_OVER_200("댓글은 200자 이하여야 합니다.", "c005"),
+    REGISTER_COMMENT_REQUEST_NOT_NULL("등록 요청이 없으면 안된다", "c006"),
+    ;
+
+    private final String message;
+    private final String code;
+
+    ErrorMessage(String message, String code) {
+        this.message = message;
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getCode() {
+        return code;
+    }
+}
