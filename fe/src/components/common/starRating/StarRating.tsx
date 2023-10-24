@@ -1,12 +1,21 @@
+import { useState } from 'react';
 import { styled } from 'styled-components';
 import { StarLargeFillIcon, StarLargeEmptyIcon } from '../icon/icons';
 
 type Props = {
-  index: number;
+  currentRating: number;
   onClick: (rating: number) => void;
 };
 
-export const StarRating: React.FC<Props> = ({ index, onClick }) => {
+export const StarRating: React.FC<Props> = ({ onClick, currentRating }) => {
+  const [index, setIndex] = useState(currentRating);
+
+  const handleStarClick = (rating: number) => {
+    const selectedRating = index === rating ? 0 : rating;
+    setIndex(selectedRating);
+    onClick(selectedRating);
+  };
+
   return (
     <Wrapper>
       {[...Array(5)].map((_, i) => {
@@ -15,12 +24,12 @@ export const StarRating: React.FC<Props> = ({ index, onClick }) => {
         return starIndex <= index ? (
           <StarLargeFillIcon
             key={starIndex}
-            onClick={() => onClick(starIndex)}
+            onClick={() => handleStarClick(starIndex)}
           />
         ) : (
           <StarLargeEmptyIcon
             key={starIndex}
-            onClick={() => onClick(starIndex)}
+            onClick={() => handleStarClick(starIndex)}
           />
         );
       })}

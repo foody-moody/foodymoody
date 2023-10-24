@@ -10,7 +10,7 @@ type Props = {
   onInputFocus?(): void;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-export const InputCore: React.FC<Props> = ({ type = 'text',value, placeholder,onValueChange, onPressEnter,onInputFocus ,...props}) => {
+export const InputCore: React.FC<Props> = ({ type = 'text', value, placeholder,onValueChange, onPressEnter,onInputFocus ,...props}) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onValueChange?.(e.target.value);

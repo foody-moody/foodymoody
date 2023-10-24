@@ -1,33 +1,34 @@
-import React, { useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useInput } from 'hooks/useInput';
-import { useMenuItem } from 'hooks/useMenuItem';
-import { useStarRating } from 'hooks/useStarRating';
 import { CloseSmallIcon } from '../icon/icons';
 import { Input } from '../input/Input';
 import { StarRating } from '../starRating/StarRating';
+import { ImageBox } from './ImageBox';
 
 type Props = {
   index: number;
   menu: FeedMenuType;
-  imageBox: React.ReactNode;
   onEditMenuName: (index: number, name: string) => void;
   onEditStarRating: (index: number, rate: number) => void;
   onRemove: (index: number) => void;
 };
 
 export const MenuItemEditor: React.FC<Props> = (
-  { index, menu, imageBox, onEditMenuName, onEditStarRating, onRemove }
+  { index, menu, onEditMenuName, onEditStarRating, onRemove }
 ) => {
   const { value, handleChange } = useInput({
     initialValue: menu.name,
   });
-  const { rate, handleStarClick } = useStarRating(menu.numStar);
+
+  const handleUploadImage = () => {};
 
   return (
     <Wrapper>
       <LeftContent>
-        {imageBox}
+        <ImageBox
+          imageUrl={'https://picsum.photos/200'}
+          onClick={handleUploadImage}
+        />
         <ContentBody>
           <Content>
             <label htmlFor="menu">메뉴 이름</label>
@@ -35,7 +36,7 @@ export const MenuItemEditor: React.FC<Props> = (
               id="menu"
               variant="ghost"
               value={value}
-              onChange={(value) => {
+              onChangeValue={(value) => {
                 handleChange(value);
               }}
               onBlur={() => {
@@ -46,10 +47,9 @@ export const MenuItemEditor: React.FC<Props> = (
           <Content>
             <label>메뉴 별점</label>
             <StarRating
-              index={rate}
+              currentRating={menu.numStar}
               onClick={(newRate) => {
-                const updatedRate = handleStarClick(newRate);
-                onEditStarRating(index, updatedRate);
+                onEditStarRating(index, newRate);
               }}
             />
           </Content>

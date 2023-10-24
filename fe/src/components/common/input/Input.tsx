@@ -9,9 +9,9 @@ type Props = {
   placeholder?: string;
   variant: 'ghost' | 'underline' | 'default' | 'comment';
   helperText?: string;
-  onChange?(value: string): void;
+  onChangeValue?(value: string): void;
   onPressEnter?(): void;
-} & Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>;
+} & InputHTMLAttributes<HTMLInputElement>;
 // TODO omit써야하나?
 
 export const Input: React.FC<Props> = (
@@ -21,7 +21,7 @@ export const Input: React.FC<Props> = (
     placeholder = '입력해주세요',
     variant,
     helperText,
-    onChange,
+    onChangeValue,
     onPressEnter,
     ...props
   }
@@ -44,7 +44,7 @@ export const Input: React.FC<Props> = (
           type={type}
           value={value}
           placeholder={variant !== 'default' ? placeholder : ''}
-          onValueChange={onChange}
+          onValueChange={onChangeValue}
           onPressEnter={() => {
             console.log('press enter');
           }}

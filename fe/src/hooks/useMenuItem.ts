@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useInput } from './useInput';
-import { useStarRating } from './useStarRating';
+import { useState } from 'react';
 
 const DEFAULT_MENU_ITEM = {
   imageUrl: '',
@@ -15,21 +13,12 @@ export const useMenuItem = (initialMenuItems?: FeedImageType[]) => {
     initialMenuItems || [DEFAULT_MENU_ITEM]
   );
 
-  // useEffect(() => {
-  //   if (initialMenuItems) {
-  //     setMenuItems(initialMenuItems);
-  //   } else {
-  //     setMenuItems([DEFAULT_MENU_ITEM]);
-  //   }
-  // }, [initialMenuItems]);
-
   const handleAddMenuItem = () => {
     if (menuItems.length === 3) {
       console.log('can not add more than 3 items');
       // TODO : 헬퍼 메시지 띄우는 방식 고려
       return;
     }
-    console.log('add menu item', [...menuItems, DEFAULT_MENU_ITEM]);
 
     setMenuItems((prevItems) => [...prevItems, DEFAULT_MENU_ITEM]);
   };
@@ -47,8 +36,6 @@ export const useMenuItem = (initialMenuItems?: FeedImageType[]) => {
   };
 
   const handleEditMenuName = (index: number, name: string) => {
-    console.log(index, 'nameChange index');
-
     setMenuItems((prevItems) => {
       // 복사
       const newItems = [...prevItems];
@@ -67,8 +54,6 @@ export const useMenuItem = (initialMenuItems?: FeedImageType[]) => {
   };
 
   const handleEditStarRating = (index: number, rating: number) => {
-    console.log(index, 'ratingChange index');
-
     setMenuItems((prevItems) => {
       // 복사
       const newItems = [...prevItems];
