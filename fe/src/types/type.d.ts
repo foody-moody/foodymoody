@@ -34,3 +34,16 @@ type BadgeType = {
   name: string;
 };
 type BadgeListType = BadgeType[];
+
+type MenuItemType = {
+  id: number;
+  location: string;
+  createdAt: string;
+  updatedAt: string;
+  review: string;
+  mood: string;
+  images: FeedImageType[];
+  likeCount: number;
+  isLiked: boolean;
+  commentCount: number;
+};
