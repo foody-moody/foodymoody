@@ -2,13 +2,12 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 
 type Props = {
-  variant: 'store' | 'taste';
-  id: number;
-  name: string;
+  variant: BadgeVariantType;
+  badge: BadgeType;
   onClick?: (id: number, name: string) => void;
 };
 
-export const Badge: React.FC<Props> = ({ variant, id, name, onClick }) => {
+export const Badge: React.FC<Props> = ({ variant, badge, onClick }) => {
   const BadgeComponent = BADGE_VARIANT[variant];
   const [active, setActive] = useState(false);
   const isActive = onClick ? active : false;
@@ -16,13 +15,13 @@ export const Badge: React.FC<Props> = ({ variant, id, name, onClick }) => {
   const handleClick = () => {
     if (onClick) {
       setActive(!active);
-      onClick(id, name);
+      onClick(badge.id, badge.name);
     }
   };
 
   return (
     <BadgeComponent $isActive={isActive} onClick={handleClick}>
-      {name}
+      {badge.name}
     </BadgeComponent>
   );
 };

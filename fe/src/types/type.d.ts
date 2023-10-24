@@ -26,3 +26,11 @@ type FeedMenuType = {
   name: string;
   numStar: number;
 };
+
+type BadgeVariantType = 'store' | 'taste';
+
+type BadgeType = {
+  id: number;
+  name: string;
+};
+type BadgeListType = BadgeType[];
