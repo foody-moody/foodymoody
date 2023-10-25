@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.service;
 
+import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
@@ -74,7 +75,7 @@ public class FeedService {
         List<Menu> menus = MenuMapper.toMenu(imageMenuPairs);
         List<Image> images = ImageMapper.toImage(imageMenuPairs);
 
-        Feed feed = FeedMapper.toFeed(request, images, menus);
+        Feed feed = FeedMapper.toFeed(IdGenerator.generate(), request, images, menus);
 
         return FeedMapper.toFeedRegisterResponse(feedRepository.save(feed));
     }

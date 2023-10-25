@@ -1,5 +1,6 @@
 package com.foodymoody.be.menu.util;
 
+import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.dto.request.FeedRegisterRequestMenu;
 import com.foodymoody.be.feed.dto.request.ImageMenuPair;
 import com.foodymoody.be.menu.domain.Menu;
@@ -10,13 +11,13 @@ public class MenuMapper {
 
     public static List<Menu> toOnlyMenu(List<FeedRegisterRequestMenu> menus) {
         return menus.stream()
-                .map(m -> new Menu(m.getName(), m.getNumStar()))
+                .map(m -> new Menu(IdGenerator.generate(), m.getName(), m.getNumStar()))
                 .collect(Collectors.toUnmodifiableList());
     }
 
     public static List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
         return imageMenuPairs.stream()
-                .map(imageMenuPair -> new Menu(imageMenuPair.getMenu().getName(), imageMenuPair.getMenu().getNumStar()))
+                .map(imageMenuPair -> new Menu(IdGenerator.generate(), imageMenuPair.getMenu().getName(), imageMenuPair.getMenu().getNumStar()))
                 .collect(Collectors.toUnmodifiableList());
     }
 

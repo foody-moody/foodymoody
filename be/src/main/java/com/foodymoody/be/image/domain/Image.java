@@ -13,7 +13,8 @@ public class Image {
     private String id;
     private String url;
 
-    public Image(String url) {
+    public Image(String id, String url) {
+        this.id = id;
         this.url = url;
     }
 

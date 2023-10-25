@@ -13,13 +13,18 @@ public class Menu {
     private String name;
     private int numStar;
 
-    public Menu(String name, int numStar) {
+    public Menu(String id, String name, int numStar) {
+        this.id = id;
         this.name = name;
         this.numStar = numStar;
     }
 
     public Menu() {
 
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {

@@ -18,8 +18,8 @@ import java.util.List;
 
 public class FeedMapper {
 
-    public static Feed toFeed(FeedServiceRegisterRequest request, List<Image> images, List<Menu> menus) {
-        return new Feed(request.getLocation(), request.getReview(), request.getMood(), images, menus);
+    public static Feed toFeed(String id, FeedServiceRegisterRequest request, List<Image> images, List<Menu> menus) {
+        return new Feed(id, request.getLocation(), request.getReview(), request.getMood(), images, menus);
     }
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {

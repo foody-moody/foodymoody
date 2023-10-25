@@ -35,7 +35,8 @@ public class Feed {
         this.menus = menus;
     }
 
-    public Feed(String location, String review, String storeMood, List<Image> images, List<Menu> menus) {
+    public Feed(String id, String location, String review, String storeMood, List<Image> images, List<Menu> menus) {
+        this.id = id;
         this.location = location;
         this.review = review;
         this.storeMood = storeMood;
