@@ -1,6 +1,5 @@
 package com.foodymoody.be.comment.domain;
 
-import com.foodymoody.be.comment.util.CommentValidator;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import lombok.AccessLevel;

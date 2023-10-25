@@ -1,4 +1,4 @@
-package com.foodymoody.be.comment.util;
+package com.foodymoody.be.comment.service;
 
 import static com.foodymoody.be.common.util.Constants.UTILITY_CLASS;
 

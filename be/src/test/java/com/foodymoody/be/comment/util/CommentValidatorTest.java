@@ -3,6 +3,7 @@ package com.foodymoody.be.comment.util;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.foodymoody.be.comment.domain.CommentValidator;
 import com.foodymoody.be.common.exception.ContentIsEmptyException;
 import com.foodymoody.be.common.exception.ContentIsOver200Exception;
 import com.foodymoody.be.common.exception.ContentIsSpaceException;

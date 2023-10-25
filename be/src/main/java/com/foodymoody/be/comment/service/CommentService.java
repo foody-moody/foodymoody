@@ -3,7 +3,6 @@ package com.foodymoody.be.comment.service;
 import com.foodymoody.be.comment.controller.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.Comment;
 import com.foodymoody.be.comment.repository.CommentRepository;
-import com.foodymoody.be.comment.util.CommentMapper;
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.service.FeedService;
