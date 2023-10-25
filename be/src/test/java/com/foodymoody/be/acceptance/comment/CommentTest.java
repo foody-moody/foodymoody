@@ -1,6 +1,11 @@
 package com.foodymoody.be.acceptance.comment;
 
+import static com.foodymoody.be.acceptance.comment.CommentSteps._201자인_댓글로_댓글_수정한다;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.공백인_댓글로_댓글_수정한다;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글_수정한다;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글_없이_댓글_수정한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글없이_피드에_댓글_등록한다;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.비여있는_댓글로_댓글_수정한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.요청_내용_없이_댓글_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200과_id를_반환한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200을_반환한다;
@@ -14,9 +19,6 @@ import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에서_200
 import static com.foodymoody.be.feed.FeedSteps.피드를_등록하고_아이디를_받는다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
-import io.restassured.RestAssured;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -173,13 +175,7 @@ class CommentTest extends AcceptanceTest {
             api_문서_타이틀("editComment_success", spec);
 
             // when
-            Map<String, String> body = new HashMap<>();
-            body.put("content", "수정된 댓글");
-            var response = RestAssured
-                    .given().log().all().spec(spec).contentType("application/json").body(body)
-                    .when().put("/api/comments/{id}", memberId)
-                    .then().log().all()
-                    .extract();
+            var response = 댓글_수정한다(memberId, spec);
 
             // then
             응답코드_200을_반환한다(response);
@@ -192,11 +188,7 @@ class CommentTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_request_body_not_exists", spec);
 
             // when
-            var response = RestAssured
-                    .given().log().all().spec(spec).contentType("application/json")
-                    .when().put("/api/comments/{id}", memberId)
-                    .then().log().all()
-                    .extract();
+            var response = 댓글_없이_댓글_수정한다(spec, memberId);
 
             // then
             응답코드_400_검증한다(response);
@@ -209,13 +201,7 @@ class CommentTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_content_is_empty", spec);
 
             // when
-            Map<String, String> body = new HashMap<>();
-            body.put("content", "");
-            var response = RestAssured
-                    .given().log().all().spec(spec).contentType("application/json").body(body)
-                    .when().put("/api/comments/{id}", memberId)
-                    .then().log().all()
-                    .extract();
+            var response = 비여있는_댓글로_댓글_수정한다(spec, memberId);
 
             // then
             응답코드_400_검증한다(response);
@@ -228,13 +214,7 @@ class CommentTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_content_is_blank", spec);
 
             // when
-            Map<String, String> body = new HashMap<>();
-            body.put("content", "   ");
-            var response = RestAssured
-                    .given().log().all().spec(spec).contentType("application/json").body(body)
-                    .when().put("/api/comments/{id}", memberId)
-                    .then().log().all()
-                    .extract();
+            var response = 공백인_댓글로_댓글_수정한다(spec, memberId);
 
             // then
             응답코드_400_검증한다(response);
@@ -247,13 +227,7 @@ class CommentTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_content_is_larger_than_200", spec);
 
             // when
-            Map<String, String> body = new HashMap<>();
-            body.put("content", "a".repeat(201));
-            var response = RestAssured
-                    .given().log().all().spec(spec).contentType("application/json").body(body)
-                    .when().put("/api/comments/{id}", memberId)
-                    .then().log().all()
-                    .extract();
+            var response = _201자인_댓글로_댓글_수정한다(spec, memberId);
 
             // then
             응답코드_400_검증한다(response);
