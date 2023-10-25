@@ -15,8 +15,8 @@ export const useMenuItem = (initialMenuItems?: FeedImageType[]) => {
 
   const handleAddMenuItem = () => {
     if (menuItems.length >= 3) {
-      // TODO 상수화
-      console.log(`Can't add more than ${3} items.`);
+      // TODO 상수화, 헬퍼메시지 위치
+      console.log(`3개이상 등록불가`);
       return;
     }
 
@@ -25,7 +25,7 @@ export const useMenuItem = (initialMenuItems?: FeedImageType[]) => {
 
   const handleRemoveMenuItem = (index: number) => {
     if (menuItems.length === 1) {
-      console.log('Can not remove the last item');
+      console.log('1개 이상 필수');
       return;
     }
 
