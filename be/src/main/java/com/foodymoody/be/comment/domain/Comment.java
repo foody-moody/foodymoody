@@ -1,5 +1,6 @@
 package com.foodymoody.be.comment.domain;
 
+import com.foodymoody.be.comment.util.CommentValidator;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import lombok.AccessLevel;
@@ -15,6 +16,7 @@ public class Comment {
     private long feedId;
 
     public Comment(String id, String content, long feedId) {
+        CommentValidator.validate(id, content, feedId);
         this.id = id;
         this.content = content;
         this.feedId = feedId;

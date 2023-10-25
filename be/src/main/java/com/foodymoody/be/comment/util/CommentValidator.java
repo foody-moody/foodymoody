@@ -2,13 +2,11 @@ package com.foodymoody.be.comment.util;
 
 import static com.foodymoody.be.common.util.Constants.UTILITY_CLASS;
 
-import com.foodymoody.be.comment.controller.RegisterCommentRequest;
 import com.foodymoody.be.common.exception.ContentIsEmptyException;
 import com.foodymoody.be.common.exception.ContentIsOver200Exception;
 import com.foodymoody.be.common.exception.ContentIsSpaceException;
 import com.foodymoody.be.common.exception.ContentNotExistsException;
-import com.foodymoody.be.common.exception.FeedIdNotExistsException;
-import com.foodymoody.be.common.exception.RegisterCommentRequestNotNullException;
+import com.foodymoody.be.common.exception.InvalidIdException;
 
 public class CommentValidator {
 
@@ -19,11 +17,35 @@ public class CommentValidator {
         throw new IllegalStateException(UTILITY_CLASS);
     }
 
-    public static void validate(RegisterCommentRequest request) {
-        if (request == null) {
-            throw new RegisterCommentRequestNotNullException();
+    public static boolean isZero(long feedId) {
+        return feedId == ZERO;
+    }
+
+    public static boolean isOver200(String content) {
+        return content.length() > COUNT_MAX_SIZE;
+    }
+
+    public static boolean isBlank(String content) {
+        return content.isBlank();
+    }
+
+    public static boolean isEmpty(String content) {
+        return content.isEmpty();
+    }
+
+    public static boolean isNull(String content) {
+        return content == null;
+    }
+
+    public static void validate(String id, String content, long feedId) {
+        validateId(id);
+        validateContent(content);
+        if (isZero(feedId)) {
+            throw new InvalidIdException();
         }
-        String content = request.getContent();
+    }
+
+    public static void validateContent(String content) {
         if (isNull(content)) {
             throw new ContentNotExistsException();
         }
@@ -36,29 +58,11 @@ public class CommentValidator {
         if (isOver200(content)) {
             throw new ContentIsOver200Exception();
         }
-        long feedId = request.getFeedId();
-        if (isZero(feedId)) {
-            throw new FeedIdNotExistsException();
+    }
+
+    public static void validateId(String id) {
+        if (isNull(id)) {
+            throw new InvalidIdException();
         }
-    }
-
-    private static boolean isZero(long feedId) {
-        return feedId == ZERO;
-    }
-
-    private static boolean isOver200(String content) {
-        return content.length() > COUNT_MAX_SIZE;
-    }
-
-    private static boolean isBlank(String content) {
-        return content.isBlank();
-    }
-
-    private static boolean isEmpty(String content) {
-        return content.isEmpty();
-    }
-
-    private static boolean isNull(String content) {
-        return content == null;
     }
 }
