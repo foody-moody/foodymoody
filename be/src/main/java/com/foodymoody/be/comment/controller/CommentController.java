@@ -23,7 +23,7 @@ public class CommentController {
     }
 
     @PutMapping("/api/comments/{id}")
-    public ResponseEntity<Void> edit() {
+    public ResponseEntity<Void> edit(@RequestBody EditCommentRequest request) {
         return ResponseEntity.ok().build();
     }
 }

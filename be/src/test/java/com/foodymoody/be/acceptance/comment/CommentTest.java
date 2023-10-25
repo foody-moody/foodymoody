@@ -176,5 +176,25 @@ class CommentTest extends AcceptanceTest {
             // then
             응답코드_200을_반환한다(response);
         }
+
+        @DisplayName("댓글 수정 요청시 요청 바디가 없으면 응답코드 400을 응답한다")
+        @Test
+        void when_edit_comment_if_request_body_not_exists_then_return_code_400() {
+            // docs
+            api_문서_타이틀("editComment_failed_by_request_body_not_exists", spec);
+
+            // given
+            long feedId = 피드를_등록하고_아이디를_받는다();
+
+            // when
+            var response = RestAssured.given().log().all().spec(spec)
+                    .contentType("application/json")
+                    .when().put("/api/comments/{feedId}", feedId)
+                    .then().log().all()
+                    .extract();
+
+            // then
+            응답코드_400_검증한다(response);
+        }
     }
 }
