@@ -18,9 +18,12 @@ public class Comment {
     private LocalDateTime updatedAt;
 
     public Comment(String id, String content, String feedId) {
+        CommentValidator.validate(id, content, feedId);
         this.id = id;
         this.content = content;
         this.feedId = feedId;
+        this.createdAt = createdAt;
+        this.updatedAt = createdAt;
     }
 
     public String getId() {
@@ -35,7 +38,7 @@ public class Comment {
         return feedId;
     }
 
-    public void edit(String content) {
+    public void edit(String content, LocalDateTime updatedAt) {
         CommentValidator.validateContent(content);
         this.content = content;
         this.updatedAt = updatedAt;
@@ -43,5 +46,9 @@ public class Comment {
 
     public LocalDateTime getUpdatedAt() {
         return this.updatedAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
     }
 }

@@ -19,14 +19,16 @@ class CommentMapperTest {
         RegisterCommentRequest request = CommentFixture.registerCommentRequest();
 
         // when
-        Comment comment = CommentMapper.toEntity(request, CommentFixture.COMMENT_ID);
+        Comment comment = CommentMapper.toEntity(request, CommentFixture.COMMENT_ID, CommentFixture.CREATED_AT);
 
         // then
         Assertions.assertAll(
                 () -> assertThat(comment).isNotNull(),
                 () -> assertThat(comment.getId()).isEqualTo(CommentFixture.COMMENT_ID),
                 () -> assertThat(comment.getContent()).isEqualTo(CommentFixture.CONTENT),
-                () -> assertThat(comment.getFeedId()).isEqualTo(CommentFixture.FEED_ID)
+                () -> assertThat(comment.getFeedId()).isEqualTo(CommentFixture.FEED_ID),
+                () -> assertThat(comment.getCreatedAt()).isEqualTo(CommentFixture.CREATED_AT),
+                () -> assertThat(comment.getUpdatedAt()).isEqualTo(CommentFixture.CREATED_AT)
         );
     }
 }

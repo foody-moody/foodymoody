@@ -25,7 +25,8 @@ public class CommentService {
             throw new FeedIdNotExistsException();
         }
         String newId = IdGenerator.generate();
-        Comment comment = CommentMapper.toEntity(request, newId);
+        LocalDateTime now = LocalDateTime.now();
+        Comment comment = CommentMapper.toEntity(request, newId, now);
         Comment saved = commentRepository.save(comment);
         return saved.getId();
     }

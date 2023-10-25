@@ -14,6 +14,7 @@ public class CommentFixture {
     public static final String CONTENT_OVER_200 = "c".repeat(201);
     public static final String SPACE = " ";
     public static final String NEW_CONTENT = "new content";
+    public static final LocalDateTime CREATED_AT = LocalDateTime.of(2021, 1, 1, 1, 1, 1);
 
     public static RegisterCommentRequest registerCommentRequestWithoutContent() {
         RegisterCommentRequest registerCommentRequest = new RegisterCommentRequest();
@@ -56,7 +57,7 @@ public class CommentFixture {
     }
 
     public static Comment comment() {
-        return new Comment(COMMENT_ID, CONTENT, FEED_ID);
+        return new Comment(COMMENT_ID, CONTENT, FEED_ID, CREATED_AT);
     }
 
     public static LocalDateTime newUpdatedAt() {
