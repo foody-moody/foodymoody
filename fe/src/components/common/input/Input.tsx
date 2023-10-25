@@ -108,7 +108,6 @@ const DefaultWrapper = styled(BaseWrapper)`
     ${({ $isFocused, $isError, theme: { colors } }) =>
       $isFocused && $isError ? colors.pink : colors.black};
   border-radius: ${({ theme: { radius } }) => radius.large};
-
   padding: ${({ $isFocused }) =>
     $isFocused ? '20px 20px 4px 20px' : '12px 20px '};
 

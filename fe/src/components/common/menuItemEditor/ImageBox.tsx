@@ -18,13 +18,10 @@ export const ImageBox: React.FC<Props> = ({ imageUrl, onClick }) => {
 };
 
 const ImageWrapper = styled.div`
-  min-width: 95px;
-  max-width: 95px;
-  min-height: 95px;
-  max-height: 95px;
+  width: 95px;
+  height: 95px;
   background-color: yellow;
   position: relative;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,13 +34,13 @@ const ImageWrapper = styled.div`
     width: 95px;
     height: 95px;
     background-color: rgba(0, 0, 0, 0.3);
-    /* pointer-events: none; // Make sure the overlay doesn't block interaction */
+    pointer-events: none;
     cursor: pointer;
   }
 
   img {
-    width: 100%;
-    height: 100%;
+    width: 95px;
+    height: 95px;
     object-fit: cover;
   }
 
