@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class RegisterCommentRequest {
 
-    private long feedId;
+    private String feedId;
     private String content;
 }

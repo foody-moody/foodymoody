@@ -12,9 +12,9 @@ public class Comment {
     @Id
     private String id;
     private String content;
-    private long feedId;
+    private String feedId;
 
-    public Comment(String id, String content, long feedId) {
+    public Comment(String id, String content, String feedId) {
         this.id = id;
         this.content = content;
         this.feedId = feedId;
@@ -28,7 +28,7 @@ public class Comment {
         return content;
     }
 
-    public long getFeedId() {
+    public String getFeedId() {
         return feedId;
     }
 }

@@ -58,7 +58,7 @@ public class FeedService {
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
     }
 
-    public boolean exists(long feedId) {
+    public boolean exists(String feedId) {
         return feedRepository.existsById(feedId);
     }
 
@@ -79,7 +79,7 @@ public class FeedService {
         return FeedMapper.toFeedRegisterResponse(feedRepository.save(feed));
     }
 
-    public FeedReadResponse read(Long id) {
+    public FeedReadResponse read(String id) {
         Feed feed = findFeed(id);
         List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
 
@@ -87,7 +87,7 @@ public class FeedService {
     }
 
     @Transactional
-    public void update(Long id, FeedServiceUpdateRequest request) {
+    public void update(String id, FeedServiceUpdateRequest request) {
         Feed feed = findFeed(id);
 
         List<Image> newImages = ImageMapper.toImage(request.getImages());
@@ -96,13 +96,13 @@ public class FeedService {
         feed.update(request.getLocation(), request.getReview(), request.getMood(), newImages, newMenus);
     }
 
-    private Feed findFeed(Long id) {
+    private Feed findFeed(String id) {
         return feedRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 피드가 존재하지 않습니다."));
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(String id) {
         feedRepository.deleteById(id);
     }
 

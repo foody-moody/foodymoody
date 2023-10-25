@@ -7,6 +7,7 @@ import com.foodymoody.be.common.exception.ContentIsSpaceException;
 import com.foodymoody.be.common.exception.ContentNotExistsException;
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.exception.RegisterCommentRequestNotNullException;
+import java.util.Objects;
 
 public class CommentValidator {
 
@@ -31,14 +32,14 @@ public class CommentValidator {
         if (isOver200(content)) {
             throw new ContentIsOver200Exception();
         }
-        long feedId = request.getFeedId();
+        String feedId = request.getFeedId();
         if (isZero(feedId)) {
             throw new FeedIdNotExistsException();
         }
     }
 
-    private static boolean isZero(long feedId) {
-        return feedId == 0;
+    private static boolean isZero(String feedId) {
+        return Objects.equals(feedId, "0");
     }
 
     private static boolean isOver200(String content) {
