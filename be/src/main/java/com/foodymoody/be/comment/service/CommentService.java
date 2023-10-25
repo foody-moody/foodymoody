@@ -23,7 +23,8 @@ public class CommentService {
         if (!feedService.exists(request.getFeedId())) {
             throw new FeedIdNotExistsException();
         }
-        Comment comment = CommentMapper.toEntity(request, IdGenerator.generate());
+        String newId = IdGenerator.generate();
+        Comment comment = CommentMapper.toEntity(request, newId);
         Comment saved = commentRepository.save(comment);
         return saved.getId();
     }
@@ -31,7 +32,7 @@ public class CommentService {
     @Transactional
     public void edit(String id, EditCommentRequest request) {
         Comment comment = commentRepository.findById(id).orElseThrow();
-        comment.edit(request.getContent());
-        commentRepository.save(comment);
+        String content = request.getContent();
+        comment.edit(content);
     }
 }
