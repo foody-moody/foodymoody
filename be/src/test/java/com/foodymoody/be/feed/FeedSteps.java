@@ -41,7 +41,7 @@ public class FeedSteps {
             List<Map<String, Object>> images = (List<Map<String, Object>>) feed.get("images");
             for (Map<String, Object> image : images) {
                 assertThat(image).containsKeys("imageUrl", "menu");
-                assertThat(((Map) image.get("menu"))).containsKeys("name", "numStar");
+                assertThat(((Map) image.get("menu"))).containsKeys("name", "rating");
             }
         }
 
@@ -75,14 +75,14 @@ public class FeedSteps {
                                 "imageUrl", "https://www.googles.com/",
                                 "menu", Map.of(
                                         "name", "마라탕",
-                                        "numStar", 4
+                                        "rating", 4
                                 )
                         ),
                         Map.of(
                                 "imageUrl", "https://www.google.com/",
                                 "menu", Map.of(
                                         "name", "감자탕",
-                                        "numStar", 3
+                                        "rating", 3
                                 )
                         )
                 )
@@ -136,12 +136,12 @@ public class FeedSteps {
                     assertThat(images.get(0)).containsEntry("imageUrl", "https://www.googles.com/");
                     Map<String, Object> firstMenu = (Map<String, Object>) images.get(0).get("menu");
                     assertThat(firstMenu).containsEntry("name", "마라탕");
-                    assertThat(firstMenu).containsEntry("numStar", 4);
+                    assertThat(firstMenu).containsEntry("rating", 4);
 
                     assertThat(images.get(1)).containsEntry("imageUrl", "https://www.google.com/");
                     Map<String, Object> secondMenu = (Map<String, Object>) images.get(1).get("menu");
                     assertThat(secondMenu).containsEntry("name", "감자탕");
-                    assertThat(secondMenu).containsEntry("numStar", 3);
+                    assertThat(secondMenu).containsEntry("rating", 3);
                 }
         );
     }
@@ -156,14 +156,14 @@ public class FeedSteps {
                                 "imageUrl", "https://www.googles2.com/",
                                 "menu", Map.of(
                                         "name", "마라탕2",
-                                        "numStar", 5
+                                        "rating", 5
                                 )
                         ),
                         Map.of(
                                 "imageUrl", "https://www.google2.com/",
                                 "menu", Map.of(
                                         "name", "감자탕2",
-                                        "numStar", 6
+                                        "rating", 6
                                 )
                         )
                 )

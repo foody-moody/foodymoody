@@ -62,7 +62,7 @@ public class FeedMapper {
             Image image = feedImages.get(i);
             Menu menu = feedMenus.get(i);
             images.add(
-                    new FeedImageMenuResponse(image.getId(), image.getUrl(), new FeedMenuResponse(menu.getName(), menu.getNumStar())));
+                    new FeedImageMenuResponse(image.getId(), image.getUrl(), new FeedMenuResponse(menu.getName(), menu.getRating())));
         }
 
         return images;

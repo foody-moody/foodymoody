@@ -26,7 +26,7 @@ public class MenuMapper {
     }
 
     public static Menu getMenu(String generatedId, FeedRegisterRequestMenu menu) {
-        return new Menu(generatedId, menu.getName(), menu.getNumStar());
+        return new Menu(generatedId, menu.getName(), menu.getRating());
     }
 
 }

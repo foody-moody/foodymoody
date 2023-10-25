@@ -132,8 +132,7 @@ class CommentTest extends AcceptanceTest {
         api_문서_타이틀("registerComment_failed_by_feed_not_exists", spec);
 
         // given
-        String notExistsRegisterId = "20000000L";
-        String feedId = notExistsRegisterId;
+        String feedId = "20000000";
 
         // when
         var response = 피드에_댓글을_등록한다(feedId, spec);
