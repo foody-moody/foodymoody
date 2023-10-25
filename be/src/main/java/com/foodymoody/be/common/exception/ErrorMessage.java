@@ -1,6 +1,8 @@
 package com.foodymoody.be.common.exception;
 
 public enum ErrorMessage {
+    // input
+    INVALID_INPUT_VALUE("입력값이 올바르지 않습니다.", "I001"),
     // comment
     CONTENT_NOT_EXISTS("댓글이 존재하지 않습니다.", "c001"),
     CONTENT_IS_EMPTY("댓글 내용이 공백입니다.", "c002"),
