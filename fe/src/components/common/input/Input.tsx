@@ -12,7 +12,6 @@ type Props = {
   onChangeValue?(value: string): void;
   onPressEnter?(): void;
 } & InputHTMLAttributes<HTMLInputElement>;
-// TODO omit써야하나?
 
 export const Input: React.FC<Props> = (
   {
