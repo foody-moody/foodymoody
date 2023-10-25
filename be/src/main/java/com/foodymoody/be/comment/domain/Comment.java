@@ -33,6 +33,7 @@ public class Comment {
     }
 
     public void edit(String content) {
+        CommentValidator.validateContent(content);
         this.content = content;
     }
 }

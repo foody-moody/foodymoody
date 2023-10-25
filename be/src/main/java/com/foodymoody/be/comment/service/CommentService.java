@@ -9,6 +9,7 @@ import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.service.FeedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -17,6 +18,7 @@ public class CommentService {
     private final FeedService feedService;
     private final CommentRepository commentRepository;
 
+    @Transactional
     public String registerComment(RegisterCommentRequest request) {
         if (!feedService.exists(request.getFeedId())) {
             throw new FeedIdNotExistsException();
@@ -26,6 +28,7 @@ public class CommentService {
         return saved.getId();
     }
 
+    @Transactional
     public void edit(String id, EditCommentRequest request) {
         Comment comment = commentRepository.findById(id).orElseThrow();
         comment.edit(request.getContent());
