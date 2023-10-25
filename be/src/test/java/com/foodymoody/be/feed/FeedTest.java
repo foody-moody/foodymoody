@@ -50,7 +50,7 @@ class FeedTest extends Document {
 
         // given
         var registerResponse = 피드를_등록한다();
-        long registeredId = registerResponse.jsonPath().getLong("id");
+        String registeredId = registerResponse.jsonPath().getString("id");
 
         // when
         var readFeedResponse = 개별_피드를_조회한다(registeredId, spec);
@@ -67,7 +67,7 @@ class FeedTest extends Document {
 
         // given
         var registerResponse = 피드를_등록한다();
-        long registeredId = registerResponse.jsonPath().getLong("id");
+        String registeredId = registerResponse.jsonPath().getString("id");
 
         // when
         var updateResponse = 피드를_수정한다(registeredId, spec);
@@ -84,7 +84,7 @@ class FeedTest extends Document {
 
         // given
         var registerResponse = 피드를_등록한다();
-        long registeredId = registerResponse.jsonPath().getLong("id");
+        String registeredId = registerResponse.jsonPath().getString("id");
 
         // when
         var deleteResponse = 피드를_삭제한다(registeredId, spec);

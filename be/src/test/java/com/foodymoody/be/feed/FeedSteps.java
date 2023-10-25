@@ -109,7 +109,7 @@ public class FeedSteps {
         );
     }
 
-    public static ExtractableResponse<Response> 개별_피드를_조회한다(Long id, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 개별_피드를_조회한다(String id, RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -146,7 +146,7 @@ public class FeedSteps {
         );
     }
 
-    public static ExtractableResponse<Response> 피드를_수정한다(Long id, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드를_수정한다(String id, RequestSpecification spec) {
         Map<String, Object> body = Map.of(
                 "location", "맛있게 매운 콩볼 범계점2",
                 "review", "맛있게 먹었습니다.2",
@@ -182,7 +182,7 @@ public class FeedSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 피드를_삭제한다(Long id, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드를_삭제한다(String id, RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

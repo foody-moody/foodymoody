@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,6 +16,7 @@ public class FeedReadResponse {
     private String storeMood;
     private List<FeedImageMenuResponse> images;
     private int likeCount;
+    @JsonProperty("isLiked")
     private boolean isLiked;
     private int commentCount;
 
