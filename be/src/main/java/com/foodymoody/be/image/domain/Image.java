@@ -10,8 +10,7 @@ import javax.persistence.ManyToOne;
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String url;
 
     public Image(String url) {
@@ -20,6 +19,10 @@ public class Image {
 
     public Image() {
 
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getUrl() {

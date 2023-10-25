@@ -36,7 +36,7 @@ public class FeedSteps {
         // 2. Validate the structure of the 'content' array
         List<Map<String, Object>> content = response.jsonPath().getList("content");
         for (Map<String, Object> feed : content) {
-            assertThat(feed).containsKeys("id", "member", "location", "review", "mood", "images", "likeCount",
+            assertThat(feed).containsKeys("id", "member", "location", "review", "storeMood", "images", "likeCount", "isLiked",
                     "commentCount");
             List<Map<String, Object>> images = (List<Map<String, Object>>) feed.get("images");
             for (Map<String, Object> image : images) {
@@ -69,7 +69,7 @@ public class FeedSteps {
         Map<String, Object> body = Map.of(
                 "location", "맛있게 매운 콩볼 범계점",
                 "review", "맛있게 먹었습니다.",
-                "mood", "기쁨",
+                "storeMood", "기쁨",
                 "images", List.of(
                         Map.of(
                                 "imageUrl", "https://www.googles.com/",
@@ -129,7 +129,7 @@ public class FeedSteps {
                 assertThat(id)::isNotNull,
                 () -> assertThat(response.jsonPath().getString("location")).isEqualTo("맛있게 매운 콩볼 범계점"),
                 () -> assertThat(response.jsonPath().getString("review")).isEqualTo("맛있게 먹었습니다."),
-                () -> assertThat(response.jsonPath().getString("mood")).isEqualTo("기쁨"),
+                () -> assertThat(response.jsonPath().getString("storeMood")).isEqualTo("기쁨"),
                 // TODO: BaseEntity 구현 후 createdAt, updatedAt 추가
                 () -> {
                     List<Map<String, Object>> images = response.jsonPath().getList("images");
@@ -150,7 +150,7 @@ public class FeedSteps {
         Map<String, Object> body = Map.of(
                 "location", "맛있게 매운 콩볼 범계점2",
                 "review", "맛있게 먹었습니다.2",
-                "mood", "기쁨2",
+                "storeMood", "기쁨2",
                 "images", List.of(
                         Map.of(
                                 "imageUrl", "https://www.googles2.com/",

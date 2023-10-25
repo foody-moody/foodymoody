@@ -40,15 +40,16 @@ public class FeedService {
             FeedReadAllResponse response = FeedReadAllResponse.builder()
                     .id(feed.getId())
                     // TODO: 회원 정보 로직 구현 후 추가
+                    // MEMBER 객체로 주입하지 말고, DTO로 주입 (그 정보만)
                     .member(null)
                     .location(feed.getLocation())
                     .review(feed.getReview())
-                    .mood(feed.getMood())
+                    .storeMood(feed.getStoreMood())
                     .images(images)
-                    // TODO: Count 로직 구현 후 추가
-                    .likeCount(0)
-                    .isLiked(false)
-                    .commentCount(0)
+                    // TODO: 아래 로직 구현 후 추가
+                    .likeCount(feed.getLikeCount())
+                    .isLiked(feed.isLiked())
+                    .commentCount(feed.getCommentCount())
                     .build();
 
             responses.add(response);

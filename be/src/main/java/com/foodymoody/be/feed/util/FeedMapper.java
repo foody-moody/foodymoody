@@ -31,7 +31,7 @@ public class FeedMapper {
                 .id(feed.getId())
                 .location(feed.getLocation())
                 .review(feed.getReview())
-                .mood(feed.getMood())
+                .storeMood(feed.getStoreMood())
                 .images(images)
                 .build();
     }
@@ -62,7 +62,7 @@ public class FeedMapper {
             Image image = feedImages.get(i);
             Menu menu = feedMenus.get(i);
             images.add(
-                    new FeedImageMenuResponse(image.getUrl(), new FeedMenuResponse(menu.getName(), menu.getNumStar())));
+                    new FeedImageMenuResponse(image.getId(), image.getUrl(), new FeedMenuResponse(menu.getName(), menu.getNumStar())));
         }
 
         return images;

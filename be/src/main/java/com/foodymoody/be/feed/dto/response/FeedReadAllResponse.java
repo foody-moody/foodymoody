@@ -8,32 +8,32 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedReadAllResponse {
 
-    private Long id;
+    private String id;
     private FeedMemberResponse member;
-    private String location;
     // TODO: createdAt, updatedAt 추가 -> 테스트 코드 로직도 변경
+    private String location;
     private String review;
-    private String mood;
+    private String storeMood;
     private List<FeedImageMenuResponse> images;
     private int likeCount;
     private boolean isLiked;
     private int commentCount;
 
     @Builder
-    public FeedReadAllResponse(Long id, FeedMemberResponse member, String location, String review, String mood,
+    public FeedReadAllResponse(String id, FeedMemberResponse member, String location, String review, String storeMood,
             List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, int commentCount) {
         this.id = id;
         this.member = member;
         this.location = location;
         this.review = review;
-        this.mood = mood;
+        this.storeMood = storeMood;
         this.images = images;
         this.likeCount = likeCount;
         this.isLiked = isLiked;
         this.commentCount = commentCount;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -49,8 +49,8 @@ public class FeedReadAllResponse {
         return review;
     }
 
-    public String getMood() {
-        return mood;
+    public String getStoreMood() {
+        return storeMood;
     }
 
     public List<FeedImageMenuResponse> getImages() {

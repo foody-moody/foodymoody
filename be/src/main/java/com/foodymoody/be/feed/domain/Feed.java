@@ -13,12 +13,11 @@ import javax.persistence.Id;
 public class Feed {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String location;
     // TODO: createdAt, updatedAt 추가 -> 테스트 코드 로직도 변경
     private String review;
-    private String mood;
+    private String storeMood;
     private int likeCount;
     private boolean isLiked;
     private int commentCount;
@@ -36,15 +35,15 @@ public class Feed {
         this.menus = menus;
     }
 
-    public Feed(String location, String review, String mood, List<Image> images, List<Menu> menus) {
+    public Feed(String location, String review, String storeMood, List<Image> images, List<Menu> menus) {
         this.location = location;
         this.review = review;
-        this.mood = mood;
+        this.storeMood = storeMood;
         this.images = new Images(images);
         this.menus = new Menus(menus);
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -56,8 +55,8 @@ public class Feed {
         return review;
     }
 
-    public String getMood() {
-        return mood;
+    public String getStoreMood() {
+        return storeMood;
     }
 
     public List<Image> getImages() {
@@ -80,10 +79,10 @@ public class Feed {
         return commentCount;
     }
 
-    public void update(String location, String review, String mood, List<Image> newImages, List<Menu> newMenus) {
+    public void update(String location, String review, String storeMood, List<Image> newImages, List<Menu> newMenus) {
         this.location = location;
         this.review = review;
-        this.mood = mood;
+        this.storeMood = storeMood;
         this.images.replaceWith(newImages);
         this.menus.replaceWith(newMenus);
     }
