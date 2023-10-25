@@ -3,6 +3,7 @@ package com.foodymoody.be.acceptance.comment;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -23,6 +24,10 @@ public class CommentSteps {
                 .when().post("/api/comments")
                 .then().log().all()
                 .extract();
+    }
+
+    public static String 피드에_댓글을_등록하고_아이디를_받는다(long feedId) {
+        return 피드에_댓글을_등록한다(feedId, new RequestSpecBuilder().build()).jsonPath().getString("id");
     }
 
     public static void 응답코드_200과_id를_반환한다(ExtractableResponse<Response> response) {
