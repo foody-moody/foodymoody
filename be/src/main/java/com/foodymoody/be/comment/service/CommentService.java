@@ -7,6 +7,7 @@ import com.foodymoody.be.comment.repository.CommentRepository;
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.service.FeedService;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,6 @@ public class CommentService {
     public void edit(String id, EditCommentRequest request) {
         Comment comment = commentRepository.findById(id).orElseThrow();
         String content = request.getContent();
-        comment.edit(content);
+        comment.edit(content, LocalDateTime.now());
     }
 }

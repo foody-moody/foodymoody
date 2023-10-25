@@ -2,6 +2,7 @@ package com.foodymoody.be.comment.util;
 
 import com.foodymoody.be.comment.controller.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.Comment;
+import java.time.LocalDateTime;
 
 public class CommentFixture {
 
@@ -56,5 +57,9 @@ public class CommentFixture {
 
     public static Comment comment() {
         return new Comment(COMMENT_ID, CONTENT, FEED_ID);
+    }
+
+    public static LocalDateTime newUpdatedAt() {
+        return LocalDateTime.of(2021, 1, 2, 3, 4, 5);
     }
 }
