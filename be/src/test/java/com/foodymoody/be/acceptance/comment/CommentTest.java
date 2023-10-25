@@ -239,5 +239,24 @@ class CommentTest extends AcceptanceTest {
             // then
             응답코드_400_검증한다(response);
         }
+
+        @DisplayName("댓글 수정 요청시 댓글이 200자를 초과하면 응답코드 400을 응답한다")
+        @Test
+        void when_edit_comment_if_content_is_larger_than_200_return_code_400() {
+            // docs
+            api_문서_타이틀("editComment_failed_by_content_is_larger_than_200", spec);
+
+            // when
+            Map<String, String> body = new HashMap<>();
+            body.put("content", "a".repeat(201));
+            var response = RestAssured
+                    .given().log().all().spec(spec).contentType("application/json").body(body)
+                    .when().put("/api/comments/{id}", memberId)
+                    .then().log().all()
+                    .extract();
+
+            // then
+            응답코드_400_검증한다(response);
+        }
     }
 }
