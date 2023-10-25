@@ -1,5 +1,6 @@
 package com.foodymoody.be.comment.service;
 
+import com.foodymoody.be.comment.controller.EditCommentRequest;
 import com.foodymoody.be.comment.controller.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.Comment;
 import com.foodymoody.be.comment.repository.CommentRepository;
@@ -23,5 +24,11 @@ public class CommentService {
         Comment comment = CommentMapper.toEntity(request, IdGenerator.generate());
         Comment saved = commentRepository.save(comment);
         return saved.getId();
+    }
+
+    public void edit(String id, EditCommentRequest request) {
+        Comment comment = commentRepository.findById(id).orElseThrow();
+        comment.edit(request.getContent());
+        commentRepository.save(comment);
     }
 }

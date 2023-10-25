@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +24,8 @@ public class CommentController {
     }
 
     @PutMapping("/api/comments/{id}")
-    public ResponseEntity<Void> edit(@Valid @RequestBody EditCommentRequest request) {
+    public ResponseEntity<Void> edit(@PathVariable String id, @Valid @RequestBody EditCommentRequest request) {
+        commentService.edit(id, request);
         return ResponseEntity.ok().build();
     }
 }

@@ -31,4 +31,8 @@ public class Comment {
     public String getFeedId() {
         return feedId;
     }
+
+    public void edit(String content) {
+        this.content = content;
+    }
 }
