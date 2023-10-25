@@ -67,7 +67,6 @@ public class FeedSteps {
 
     public static ExtractableResponse<Response> 피드를_등록한다(RequestSpecification spec) {
         Map<String, Object> body = Map.of(
-                "id", "1",
                 "location", "맛있게 매운 콩볼 범계점",
                 "review", "맛있게 먹었습니다.",
                 "storeMood", "기쁨",
@@ -103,7 +102,7 @@ public class FeedSteps {
     }
 
     public static void 응답코드가_200이고_id가_존재하면_정상적으로_등록된_피드(ExtractableResponse<Response> response) {
-        Object id = response.jsonPath().getString("id");
+        String id = response.jsonPath().getString("id");
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
                 assertThat(id)::isNotNull
