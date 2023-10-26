@@ -10,11 +10,11 @@ public class FeedRegisterRequest {
 
     private String location;
     private String review;
-    private String storeMood;
+    private List<String> storeMood;
     private List<ImageMenuPair> images;
 
     @Builder
-    public FeedRegisterRequest(String location, String review, String storeMood, List<ImageMenuPair> images) {
+    public FeedRegisterRequest(String location, String review, List<String> storeMood, List<ImageMenuPair> images) {
         this.location = location;
         this.review = review;
         this.storeMood = storeMood;
@@ -29,7 +29,7 @@ public class FeedRegisterRequest {
         return review;
     }
 
-    public String getStoreMood() {
+    public List<String> getStoreMood() {
         return storeMood;
     }
 

@@ -49,7 +49,7 @@ public class FeedMapper {
         return FeedServiceUpdateRequest.builder()
                 .location(request.getLocation())
                 .review(request.getReview())
-                .mood(request.getMood())
+                .storeMood(request.getStoreMood())
                 .images(request.getImages())
                 .build();
     }
@@ -62,7 +62,8 @@ public class FeedMapper {
             Image image = feedImages.get(i);
             Menu menu = feedMenus.get(i);
             images.add(
-                    new FeedImageMenuResponse(image.getId(), image.getUrl(), new FeedMenuResponse(menu.getName(), menu.getRating())));
+                    new FeedImageMenuResponse(image.getId(), image.getUrl(),
+                            new FeedMenuResponse(menu.getName(), menu.getRating())));
         }
 
         return images;

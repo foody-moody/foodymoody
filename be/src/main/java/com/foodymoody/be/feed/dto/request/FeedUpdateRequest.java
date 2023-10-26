@@ -10,14 +10,14 @@ public class FeedUpdateRequest {
 
     private String location;
     private String review;
-    private String mood;
+    private List<String> storeMood;
     private List<ImageMenuPair> images;
 
     @Builder
-    public FeedUpdateRequest(String location, String review, String mood, List<ImageMenuPair> images) {
+    public FeedUpdateRequest(String location, String review, List<String> storeMood, List<ImageMenuPair> images) {
         this.location = location;
         this.review = review;
-        this.mood = mood;
+        this.storeMood = storeMood;
         this.images = images;
     }
 
@@ -29,8 +29,8 @@ public class FeedUpdateRequest {
         return review;
     }
 
-    public String getMood() {
-        return mood;
+    public List<String> getStoreMood() {
+        return storeMood;
     }
 
     public List<ImageMenuPair> getImages() {

@@ -13,7 +13,7 @@ public class FeedReadResponse {
     private String location;
     // TODO: createdAt, updatedAt 추가 -> 테스트 코드 로직도 변경
     private String review;
-    private String storeMood;
+    private List<String> storeMood;
     private List<FeedImageMenuResponse> images;
     private int likeCount;
     @JsonProperty("isLiked")
@@ -21,7 +21,8 @@ public class FeedReadResponse {
     private int commentCount;
 
     @Builder
-    public FeedReadResponse(String id, String location, String review, String storeMood, List<FeedImageMenuResponse> images,
+    public FeedReadResponse(String id, String location, String review, List<String> storeMood,
+            List<FeedImageMenuResponse> images,
             int likeCount, boolean isLiked, int commentCount) {
         this.id = id;
         this.location = location;
@@ -45,7 +46,7 @@ public class FeedReadResponse {
         return review;
     }
 
-    public String getStoreMood() {
+    public List<String> getStoreMood() {
         return storeMood;
     }
 

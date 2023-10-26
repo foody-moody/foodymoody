@@ -94,7 +94,7 @@ public class FeedService {
         List<Image> newImages = ImageMapper.toImage(request.getImages());
         List<Menu> newMenus = MenuMapper.toMenu(request.getImages());
 
-        feed.update(request.getLocation(), request.getReview(), request.getMood(), newImages, newMenus);
+        feed.update(request.getLocation(), request.getReview(), request.getStoreMood(), newImages, newMenus);
     }
 
     private Feed findFeed(String id) {
