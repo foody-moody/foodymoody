@@ -7,10 +7,6 @@ type Props = {
 };
 
 export const UserFeedTabs: React.FC<Props> = ({ index, onClick }) => {
-  const handleTabClick = (index: number) => {
-    onClick(index);
-  };
-
   const Tabs = [
     {
       id: 0,
@@ -32,9 +28,8 @@ export const UserFeedTabs: React.FC<Props> = ({ index, onClick }) => {
         {Tabs.map((tab) => (
           <Tab
             key={tab.id}
-            onClick={() => handleTabClick(tab.id)}
-            $id={tab.id}
-            $index={index}
+            onClick={() => onClick(tab.id)}
+            $isActive={tab.id === index}
           >
             {tab.title}
           </Tab>
@@ -57,15 +52,15 @@ const TabWrapper = styled.div`
   width: 244px;
 `;
 
-const Tab = styled.div<{ $id: number; $index: number }>`
+const Tab = styled.div<{ $isActive: boolean }>`
   padding: 4px 0;
   transition: all 0.2s ease-in-out;
 
-  border-bottom: ${({ $index, $id }) =>
-    $index === $id ? '3px solid black' : '3px solid transparent'};
+  border-bottom: ${({ $isActive }) =>
+    $isActive ? '3px solid black' : '3px solid transparent'};
 
-  color: ${({ $index, $id, theme: { colors } }) =>
-    $index === $id ? colors.textPrimary : colors.textTertiary};
+  color: ${({ $isActive, theme: { colors } }) =>
+    $isActive ? colors.textPrimary : colors.textTertiary};
 
   font: ${({ theme: { fonts } }) => fonts.displayM14};
 
