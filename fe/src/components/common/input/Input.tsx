@@ -14,16 +14,9 @@ type Props = {
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export const Input: React.FC<Props> = (
-  {
-    type = 'text',
-    value,
-    placeholder = '입력해주세요',
-    variant,
-    helperText,
-    onChangeValue,
-    onPressEnter,
-    ...props
-  }
+
+  { type = 'text', placeholder = '입력해주세요', variant, helperText, onChange,  ...props }
+
 ) => {
   const [isFocused, setIsFocused] = useState(false);
 
