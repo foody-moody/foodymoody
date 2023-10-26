@@ -36,7 +36,7 @@ class FeedTest extends Document {
         api_문서_타이틀("registerFeed", spec);
 
         // given,when
-        var response = 피드를_등록한다();
+        var response = 피드를_등록한다(spec);
 
         // then
         응답코드가_200이고_id가_존재하면_정상적으로_등록된_피드(response);

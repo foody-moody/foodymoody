@@ -12,6 +12,18 @@
 === 피드 등록
 operation::registerFeed[snippets='http-request,http-response']
 
+=== 피드 전체 조회
+operation::readAllFeed[snippets='http-request,http-response']
+
+=== 피드 개별 조회
+operation::readFeed[snippets='http-request,http-response']
+
+=== 피드 수정
+operation::updateFeed[snippets='http-request']
+
+=== 피드 삭제
+operation::deleteFeed[snippets='http-request']
+
 [[auth]]
 == 보안
 
