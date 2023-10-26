@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
-import { TextButton } from 'components/common/Button/TextButton';
 import { useInput } from 'hooks/useInput';
-import { usePageNavigator } from 'hooks/usePageNavigator';
 import { Button } from '../common/Button/Button';
-import { ArrowDownIcon, LogoXLarge } from '../common/icon/icons';
+import { ArrowDownIcon } from '../common/icon/icons';
 import { Input } from '../common/input/Input';
 
 export const Register: React.FC = () => {
-  const { navigateToHome, navigateToLogin } = usePageNavigator();
   const [selectedTaste, setSelectedTaste] = useState('');
 
   const {
@@ -65,67 +62,55 @@ export const Register: React.FC = () => {
 
   return (
     <Wrapper>
-      <Header>
-        <LogoXLarge onClick={navigateToHome} />
-      </Header>
-      <ContentBody>
-        <Input
-          variant="default"
-          placeholder="이메일"
-          // value={emailValue}
-          onChangeValue={handleEmailChange}
-          helperText={emailHelperText}
-        />
-        <Input
-          variant="default"
-          placeholder="닉네임"
-          // value={nicknameValue}
-          onChangeValue={handleNicknameChange}
-          helperText={nicknameHelperText}
-        />
-        <Input
-          type="password"
-          variant="default"
-          placeholder="비밀번호"
-          // value={passwordValue}
-          onChangeValue={handlePasswordChange}
-          helperText={passwordHelperText}
-        />
-        <Input
-          type="password"
-          variant="default"
-          placeholder="비밀번호 확인"
-          value={confirmPasswordValue}
-          onChangeValue={handleConfirmPasswordChange}
-          helperText={confirmPasswordHelperText}
-        />
-        <SelectLabel>
-          <Select
-            value={selectedTaste}
-            onChange={(e) => setSelectedTaste(e.target.value)}
-          >
-            <Option value="" disabled={true}>
-              무디를 선택해주세요!
+      <Input
+        variant="default"
+        placeholder="이메일"
+        // value={emailValue}
+        onChangeValue={handleEmailChange}
+        helperText={emailHelperText}
+      />
+      <Input
+        variant="default"
+        placeholder="닉네임"
+        // value={nicknameValue}
+        onChangeValue={handleNicknameChange}
+        helperText={nicknameHelperText}
+      />
+      <Input
+        type="password"
+        variant="default"
+        placeholder="비밀번호"
+        // value={passwordValue}
+        onChangeValue={handlePasswordChange}
+        helperText={passwordHelperText}
+      />
+      <Input
+        type="password"
+        variant="default"
+        placeholder="비밀번호 확인"
+        value={confirmPasswordValue}
+        onChangeValue={handleConfirmPasswordChange}
+        helperText={confirmPasswordHelperText}
+      />
+      <SelectLabel>
+        <Select
+          value={selectedTaste}
+          onChange={(e) => setSelectedTaste(e.target.value)}
+        >
+          <Option value="" disabled={true}>
+            무디를 선택해주세요!
+          </Option>
+          {MOCK_TASTES.map((taste) => (
+            <Option key={taste.id} value={taste.name}>
+              {taste.name}
             </Option>
-            {MOCK_TASTES.map((taste) => (
-              <Option key={taste.id} value={taste.name}>
-                {taste.name}
-              </Option>
-            ))}
-          </Select>
-          <ArrowDownIcon />
-        </SelectLabel>
-        <Button size="l" backgroundColor="orange" onClick={handleRegister}>
-          회원가입
-        </Button>
-      </ContentBody>
-
-      <ButtonWrapper>
-        <span>계정이 있으신가요?</span>
-        <TextButton color="orange" size="m" onClick={navigateToLogin}>
-          로그인
-        </TextButton>
-      </ButtonWrapper>
+          ))}
+        </Select>
+        <ArrowDownIcon />
+      </SelectLabel>
+      <Button size="l" backgroundColor="orange" onClick={handleRegister}>
+        회원가입
+      </Button>
     </Wrapper>
   );
 };
@@ -143,38 +128,10 @@ const MOCK_TASTES = [
 ];
 
 const Wrapper = styled.div`
-  width: 375px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 48px;
-  padding: 40px 24px;
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-`;
-
-const ContentBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-
-  span {
-    cursor: default;
-    color: ${({ theme: { colors } }) => colors.textPrimary};
-    font: ${({ theme: { fonts } }) => fonts.displayM14};
-  }
 `;
 
 const SelectLabel = styled.label`

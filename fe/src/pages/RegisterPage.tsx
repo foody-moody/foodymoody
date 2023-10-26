@@ -1,10 +1,27 @@
 import { styled } from 'styled-components';
+import { TextButton } from 'components/common/Button/TextButton';
+import { LogoXLarge } from 'components/common/icon/icons';
 import { Register } from 'components/register/Register';
+import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const RegisterPage = () => {
+  const { navigateToHome, navigateToLogin } = usePageNavigator();
   return (
     <Wrapper>
-      <Register />
+      <ContentBody>
+        <Header>
+          <LogoXLarge onClick={navigateToHome} />
+        </Header>
+
+        <Register />
+
+        <ButtonWrapper>
+          <span>계정이 있으신가요?</span>
+          <TextButton color="orange" size="m" onClick={navigateToLogin}>
+            로그인
+          </TextButton>
+        </ButtonWrapper>
+      </ContentBody>
     </Wrapper>
   );
 };
@@ -14,4 +31,32 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const ContentBody = styled.div`
+  width: 375px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 48px;
+  padding: 40px 24px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+
+  span {
+    cursor: default;
+    color: ${({ theme: { colors } }) => colors.textPrimary};
+    font: ${({ theme: { fonts } }) => fonts.displayM14};
+  }
 `;
