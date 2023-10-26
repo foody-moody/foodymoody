@@ -4,7 +4,6 @@ import com.foodymoody.be.comment.controller.EditCommentRequest;
 import com.foodymoody.be.comment.controller.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.Comment;
 import com.foodymoody.be.comment.repository.CommentRepository;
-import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.service.FeedService;
 import java.time.LocalDateTime;
@@ -21,9 +20,7 @@ public class CommentService {
 
     @Transactional
     public String registerComment(RegisterCommentRequest request) {
-        if (!feedService.exists(request.getFeedId())) {
-            throw new FeedIdNotExistsException();
-        }
+        feedService.validate(request.getFeedId());
         String newId = IdGenerator.generate();
         LocalDateTime now = LocalDateTime.now();
         Comment comment = CommentMapper.toEntity(request, newId, now);
