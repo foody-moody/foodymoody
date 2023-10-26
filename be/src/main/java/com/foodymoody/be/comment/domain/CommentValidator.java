@@ -19,10 +19,6 @@ public class CommentValidator {
         throw new IllegalStateException(UTILITY_CLASS);
     }
 
-    public static boolean isZero(long feedId) {
-        return feedId == ZERO;
-    }
-
     public static boolean isOver200(String content) {
         return content.length() > COUNT_MAX_SIZE;
     }
