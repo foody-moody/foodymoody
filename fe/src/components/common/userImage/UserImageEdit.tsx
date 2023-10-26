@@ -14,12 +14,16 @@ export const UserImageEdit: React.FC<UserImageEditProps> = ({ imageUrl }) => {
 
   const handleEditImage = () => {};
 
+  const inAuthor = false;
+
   return (
     <Wrapper>
       <UserImage variant="edit" imageUrl={userImage} />
-      <EditBtn onClick={handleEditImage}>
-        <EditIcon />
-      </EditBtn>
+      {inAuthor && (
+        <EditBtn onClick={handleEditImage}>
+          <EditIcon />
+        </EditBtn>
+      )}
     </Wrapper>
   );
 };
