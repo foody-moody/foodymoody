@@ -56,11 +56,7 @@ const ProfileWrapper = styled.div`
 const FeedsWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-
-  ${media.xs} {
-    gap: 2px;
-  }
+  gap: 2px;
 `;
 
 const generateDefaultImage = (imageUrl: string) =>
