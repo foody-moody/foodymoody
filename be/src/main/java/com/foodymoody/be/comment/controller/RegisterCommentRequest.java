@@ -9,4 +9,5 @@ public class RegisterCommentRequest {
 
     private String feedId;
     private String content;
+
 }

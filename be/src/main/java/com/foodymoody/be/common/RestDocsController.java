@@ -1,13 +1,13 @@
 package com.foodymoody.be.common;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class RestDocsController {
 
     @GetMapping("/api/docs")
     public String getDocs() {
-        return "index.html";
+        return "/docs/index.html";
     }
 }

@@ -1,5 +1,7 @@
 package com.foodymoody.be.common.util;
 
+import static com.foodymoody.be.common.util.Constants.UTILITY_CLASS;
+
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -31,7 +33,7 @@ public class IdGenerator {
 
     // 기본 생성자 - 이 유틸리티 클래스는 인스턴스화되어서는 안됨
     private IdGenerator() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException(UTILITY_CLASS);
     }
 
     // 현재 시간을 기반으로 ID 생성
