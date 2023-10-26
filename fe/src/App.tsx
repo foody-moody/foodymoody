@@ -17,6 +17,8 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
+
   return (
     <>
       <QueryClientProvider client={queryClient}>
