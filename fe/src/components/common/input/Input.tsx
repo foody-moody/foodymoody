@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, InputHTMLAttributes } from 'react';
 import { styled } from 'styled-components';
 import { BellIcon } from '../icon/icons';
 import { InputCore } from './InputCore';
@@ -8,12 +8,19 @@ type Props = {
   placeholder?: string;
   variant: 'ghost' | 'underline' | 'default' | 'comment';
   helperText?: string;
-  onChange?(value: string): void;
+  onChangeValue?(value: string): void;
   onPressEnter?(): void;
-};
+} & InputHTMLAttributes<HTMLInputElement>;
 
 export const Input: React.FC<Props> = (
-  { type = 'text', placeholder = '입력해주세요', variant, helperText, onChange }
+  {
+    type = 'text',
+    placeholder = '입력해주세요',
+    variant,
+    helperText,
+    onChangeValue,
+    ...props
+  }
 ) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -32,13 +39,14 @@ export const Input: React.FC<Props> = (
         <InputCore
           type={type}
           placeholder={variant !== 'default' ? placeholder : ''}
-          onChange={onChange}
+          onChangeValue={onChangeValue}
           onPressEnter={() => {
             console.log('press enter');
           }}
-          onFocus={() => {
+          onInputFocus={() => {
             setIsFocused(true);
           }}
+          {...props}
         />
         {variant === 'comment' && <Dummy />}
         {isFocused && helperText && <HelperText>{helperText}</HelperText>}
@@ -59,6 +67,7 @@ const LabelText = styled.label<{
       ? 'translate(0, -12px) scale(0.75)'
       : 'translate(0, 0px) scale(1)'};
   transform-origin: top left;
+  pointer-events: none;
   font: ${({ theme: { fonts } }) => fonts.displayM14};
   color: ${({ theme: { colors } }) => colors.textPlaceholder};
 `;
@@ -71,6 +80,7 @@ const BaseWrapper = styled.div<{
   width: 100%;
   position: relative;
   box-sizing: border-box;
+  background-color: ${({ theme: { colors } }) => colors.white};
 `;
 
 const GhostWrapper = styled(BaseWrapper)`
@@ -130,8 +140,8 @@ const Dummy = styled.div`
 
 const HelperText = styled.div`
   position: absolute;
-  top: 103%;
-  right: 0;
-  font: ${({ theme: { fonts } }) => fonts.displayM12};
+  top: 100%;
+  right: 5%;
+  font: ${({ theme: { fonts } }) => fonts.displayM10};
   color: ${({ theme: { colors } }) => colors.pink};
 `;

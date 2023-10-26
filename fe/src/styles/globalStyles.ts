@@ -30,6 +30,7 @@ export const GlobalStyles = createGlobalStyle`
   }
   body {
     font-family: 'IBM Plex Sans KR', sans-serif;
+    background-color: ${({ theme: { colors } }) => colors.bgGray100};
   }
   ol, ul, li {
     list-style: none;
