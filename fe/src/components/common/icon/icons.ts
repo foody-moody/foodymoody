@@ -1,5 +1,7 @@
 export { default as LogoLarge } from 'assets/logoLarge.svg?react';
 export { default as LogoSmall } from 'assets/logoSmall.svg?react';
+export { default as LogoXLarge } from 'assets/logoXLarge.svg?react';
+export { default as ArrowDownIcon } from 'assets/arrowDown.svg?react';
 export { default as AreaIcon } from 'assets/area.svg?react';
 export { default as NotiFalse } from 'assets/notiFalse.svg?react';
 export { default as NotiTrue } from 'assets/notiTrue.svg?react';
