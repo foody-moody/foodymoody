@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,7 +12,8 @@ public class FeedReadAllResponse {
 
     private String id;
     private FeedMemberResponse member;
-    // TODO: createdAt, updatedAt 추가 -> 테스트 코드 로직도 변경
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private String location;
     private String review;
     private List<String> storeMood;
@@ -22,11 +24,13 @@ public class FeedReadAllResponse {
     private int commentCount;
 
     @Builder
-    public FeedReadAllResponse(String id, FeedMemberResponse member, String location, String review,
-            List<String> storeMood,
-            List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, int commentCount) {
+    public FeedReadAllResponse(String id, FeedMemberResponse member, LocalDateTime createdAt, LocalDateTime updatedAt,
+            String location, String review, List<String> storeMood, List<FeedImageMenuResponse> images, int likeCount,
+            boolean isLiked, int commentCount) {
         this.id = id;
         this.member = member;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.location = location;
         this.review = review;
         this.storeMood = storeMood;
@@ -42,6 +46,14 @@ public class FeedReadAllResponse {
 
     public FeedMemberResponse getMember() {
         return member;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     public String getLocation() {
@@ -64,11 +76,11 @@ public class FeedReadAllResponse {
         return likeCount;
     }
 
-    public int getCommentCount() {
-        return commentCount;
-    }
-
     public boolean isLiked() {
         return isLiked;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
     }
 }

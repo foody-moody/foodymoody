@@ -47,6 +47,8 @@ public class FeedService {
                     .review(feed.getReview())
                     .storeMood(feed.getStoreMood())
                     .images(images)
+                    .createdAt(feed.getCreatedAt())
+                    .updatedAt(feed.getUpdatedAt())
                     // TODO: 아래 로직 구현 후 추가
                     .likeCount(feed.getLikeCount())
                     .isLiked(feed.isLiked())
