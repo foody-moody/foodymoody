@@ -18,7 +18,7 @@ public class Comment {
     private LocalDateTime updatedAt;
 
     public Comment(String id, String content, String feedId, LocalDateTime createdAt) {
-        CommentValidator.validate(id, content, feedId);
+        CommentValidator.validate(id, content, feedId, createdAt);
         this.id = id;
         this.content = content;
         this.feedId = feedId;
