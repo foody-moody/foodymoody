@@ -8,6 +8,7 @@ import com.foodymoody.be.common.exception.ContentIsEmptyException;
 import com.foodymoody.be.common.exception.ContentIsOver200Exception;
 import com.foodymoody.be.common.exception.ContentIsSpaceException;
 import com.foodymoody.be.common.exception.ContentNotExistsException;
+import com.foodymoody.be.common.exception.CreateTimeIsNullException;
 import com.foodymoody.be.common.exception.InvalidIdException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,5 +63,13 @@ class CommentValidatorTest {
         // when,then
         assertThatThrownBy(() -> CommentValidator.validateId(null))
                 .isInstanceOf(InvalidIdException.class);
+    }
+
+    @Test
+    @DisplayName("생성시간이 null이면 예외가 발생한다.")
+    void when_created_at_is_null_then_throw_exception() {
+        // when,then
+        assertThatThrownBy(() -> CommentValidator.validateCreateTime(null))
+                .isInstanceOf(CreateTimeIsNullException.class);
     }
 }
