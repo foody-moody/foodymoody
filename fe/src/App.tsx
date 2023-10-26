@@ -1,11 +1,12 @@
-import router from 'routes/router';
-import { RouterProvider } from 'react-router-dom';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { RouterProvider } from 'react-router-dom';
+import { RecoilRoot, RecoilEnv } from 'recoil';
 import { ThemeProvider } from 'styled-components';
+import router from 'routes/router';
 import { theme } from 'styles/designSystem';
-import { RecoilRoot } from 'recoil';
 import { GlobalStyles } from 'styles/globalStyles.ts';
+import { GlobalModals } from 'components/common/modal/Modal';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,6 +27,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <RecoilRoot>
             <GlobalStyles />
+            <GlobalModals />
             <RouterProvider router={router} />
           </RecoilRoot>
         </ThemeProvider>
