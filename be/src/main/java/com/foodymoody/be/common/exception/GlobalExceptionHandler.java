@@ -55,7 +55,8 @@ public class GlobalExceptionHandler {
                 .filter(FieldError.class::isInstance)
                 .collect(Collectors.toMap(
                         error -> ((FieldError) error).getField(),
-                        ObjectError::getDefaultMessage
+                        ObjectError::getDefaultMessage,
+                        (msg1, msg2) -> msg1 + ";" + msg2
                 ));
     }
 }

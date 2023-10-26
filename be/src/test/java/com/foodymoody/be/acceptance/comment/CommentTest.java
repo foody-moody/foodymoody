@@ -124,7 +124,7 @@ class CommentTest extends AcceptanceTest {
             응답코드_400_검증한다(response);
         }
 
-        @DisplayName("댓글 등록 요청시 피드 아이디가 없으면 응답코드 400을 응답한다")
+        @DisplayName("댓글 등록 요청시 피드 아이디가 null이면 응답코드 400을 응답한다")
         @Test
         void when_register_comment_if_feed_id_not_exists_then_return_code_400() {
             // docs
@@ -159,7 +159,7 @@ class CommentTest extends AcceptanceTest {
     @DisplayName("댓글 수정 인스테스트")
     class UpdateCommentTest {
 
-        long feedId;
+        String feedId;
         String memberId;
 
         @BeforeEach

@@ -37,12 +37,10 @@ public class CommentValidator {
         return content == null;
     }
 
-    public static void validate(String id, String content, long feedId) {
+    public static void validate(String id, String content, String feedId) {
         validateId(id);
         validateContent(content);
-        if (isZero(feedId)) {
-            throw new InvalidIdException();
-        }
+        validateId(feedId);
     }
 
     public static void validateContent(String content) {
