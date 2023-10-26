@@ -18,7 +18,7 @@ export const Register: React.FC = () => {
     // isValid: isEmailValid,
   } = useInput({
     initialValue: '',
-    validator: (value) => value.length > 5, // 예시 검증 로직
+    validator: (value) => value.length > 5, // 검증 로직 변경
     helperText: '올바른 이메일 형식이 아닙니다',
   });
 
@@ -29,7 +29,7 @@ export const Register: React.FC = () => {
     // isValid: isNicknameValid,
   } = useInput({
     initialValue: '',
-    validator: (value) => value.length > 0, // 예시 검증 로직
+    validator: (value) => value.length > 0, // 검증 로직 변경
   });
 
   const {
@@ -39,7 +39,7 @@ export const Register: React.FC = () => {
     // isValid: isPasswordValid,
   } = useInput({
     initialValue: '',
-    validator: (value) => value.length > 5, // 예시 검증 로직
+    validator: (value) => value.length > 5, // 검증 로직 변경
   });
 
   const {
@@ -49,10 +49,19 @@ export const Register: React.FC = () => {
     // isValid: isConfirmPasswordValid,
   } = useInput({
     initialValue: '',
-    validator: (value) => value.length > 5, // 예시 검증 로직
+    validator: (value) => value.length > 5, // 검증 로직 변경
   });
 
-  const handleRegister = () => {};
+  const handleRegister = () => {
+    const registerData = {
+      email: emailValue,
+      nickname: nicknameValue,
+      password: passwordValue,
+      confirmPassword: confirmPasswordValue,
+      taste: selectedTaste,
+    };
+    console.log(registerData);
+  };
 
   return (
     <Wrapper>
@@ -63,25 +72,27 @@ export const Register: React.FC = () => {
         <Input
           variant="default"
           placeholder="이메일"
-          value={emailValue}
+          // value={emailValue}
           onChangeValue={handleEmailChange}
           helperText={emailHelperText}
         />
         <Input
           variant="default"
           placeholder="닉네임"
-          value={nicknameValue}
+          // value={nicknameValue}
           onChangeValue={handleNicknameChange}
           helperText={nicknameHelperText}
         />
         <Input
+          type="password"
           variant="default"
           placeholder="비밀번호"
-          value={passwordValue}
+          // value={passwordValue}
           onChangeValue={handlePasswordChange}
           helperText={passwordHelperText}
         />
         <Input
+          type="password"
           variant="default"
           placeholder="비밀번호 확인"
           value={confirmPasswordValue}
@@ -97,7 +108,7 @@ export const Register: React.FC = () => {
               무디를 선택해주세요!
             </Option>
             {MOCK_TASTES.map((taste) => (
-              <Option key={taste.id} value={taste.id}>
+              <Option key={taste.id} value={taste.name}>
                 {taste.name}
               </Option>
             ))}

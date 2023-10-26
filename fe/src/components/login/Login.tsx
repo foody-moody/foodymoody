@@ -16,7 +16,7 @@ export const Login: React.FC = () => {
     // isValid: isIdValid,
   } = useInput({
     initialValue: '',
-    validator: (value) => value.length > 0, // 예시 검증 로직
+    validator: (value) => value.length > 0, // 검증 로직 변경
   });
 
   const {
@@ -26,10 +26,16 @@ export const Login: React.FC = () => {
     // isValid: isPasswordValid,
   } = useInput({
     initialValue: '',
-    validator: (value) => value.length > 5, // 예시 검증 로직
+    validator: (value) => value.length > 5, // 검증 로직 변경
   });
 
-  const handleLogin = () => {};
+  const handleLogin = () => {
+    const loginData = {
+      id: idValue,
+      password: passwordValue,
+    };
+    console.log(loginData);
+  };
 
   return (
     <Wrapper>
