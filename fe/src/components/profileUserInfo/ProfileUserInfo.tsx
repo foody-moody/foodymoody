@@ -9,21 +9,20 @@ type Props = {
   member: ProfileMemberInfoType;
 };
 
+const MOCK_BADGE = {
+  id: 0,
+  name: '도전적인',
+};
+
 export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
   const handleAddCollection = () => {};
-
   const handleEditProfile = () => {};
-
-  const MOCK_BADGE = {
-    id: 0,
-    name: '도전적인',
-  };
 
   return (
     <Wrapper>
       <ContentLeft>
         <UserImageEdit imageUrl={member.imageUrl} />
-        <FlexColumnBox>
+        <Column>
           <ContentHeader>
             <p>{member.nickname}</p>
             <Badge badge={MOCK_BADGE} variant="taste" />
@@ -43,7 +42,7 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
               <span>팔로워</span>
             </InfoItem>
           </ContentBody>
-        </FlexColumnBox>
+        </Column>
       </ContentLeft>
       <ButtonBox>
         <Button size="s" backgroundColor="orange" onClick={handleAddCollection}>
@@ -63,27 +62,26 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
   );
 };
 
-export const FlexRowBox = styled.div`
+const Flex = styled.div`
   display: flex;
 `;
 
-export const FlexColumnBox = styled.div`
-  display: flex;
+const Column = styled(Flex)`
   flex-direction: column;
 `;
 
-const Wrapper = styled(FlexColumnBox)`
+const Wrapper = styled(Column)`
   width: 100%;
   gap: 24px;
 `;
 
-const ContentWrapper = styled(FlexRowBox)`
+const ContentWrapper = styled(Flex)`
   width: fit-content;
   align-items: center;
   gap: 8px;
 `;
 
-const ContentLeft = styled(FlexRowBox)`
+const ContentLeft = styled(Flex)`
   justify-content: center;
   align-items: center;
   gap: 32px;
@@ -93,36 +91,32 @@ const ContentLeft = styled(FlexRowBox)`
   }
 `;
 
-const ContentHeader = styled(FlexRowBox)`
+const ContentHeader = styled(Flex)`
   align-items: center;
   justify-content: space-between;
-
   p {
     font: ${({ theme }) => theme.fonts.displayM20};
   }
-
   span {
     font: ${({ theme }) => theme.fonts.displayM12};
     color: ${({ theme }) => theme.colors.textSecondary};
   }
 `;
 
-const ContentBody = styled(FlexRowBox)`
+const ContentBody = styled(Flex)`
   gap: 16px;
   width: 280px;
   justify-content: space-between;
-
   ${media.xs} {
     width: 206px;
   }
 `;
 
-const ButtonBox = styled(FlexRowBox)`
+const ButtonBox = styled(Flex)`
   gap: 8px;
   span {
     font: ${({ theme: { fonts } }) => fonts.displayM14};
   }
-
   ${media.xs} {
     span {
       font: ${({ theme: { fonts } }) => fonts.displayM12};
@@ -133,7 +127,6 @@ const ButtonBox = styled(FlexRowBox)`
 const InfoItem = styled(ContentWrapper)`
   gap: 4px;
   font: ${({ theme: { fonts } }) => fonts.displayB14};
-
   span {
     font: ${({ theme: { fonts } }) => fonts.displayM14};
     color: ${({ theme: { colors } }) => colors.textSecondary};
