@@ -1,7 +1,8 @@
 export { default as LogoLarge } from 'assets/logoLarge.svg?react';
 export { default as LogoSmall } from 'assets/logoSmall.svg?react';
 export { default as AreaIcon } from 'assets/area.svg?react';
-export { default as BellIcon } from 'assets/bell.svg?react';
+export { default as NotiFalse } from 'assets/notiFalse.svg?react';
+export { default as NotiTrue } from 'assets/notiTrue.svg?react';
 export { default as ChatDotsIcon } from 'assets/chatDots.svg?react';
 export { default as CloseLargeIcon } from 'assets/closeLarge.svg?react';
 export { default as CloseSmallIcon } from 'assets/closeSmall.svg?react';
