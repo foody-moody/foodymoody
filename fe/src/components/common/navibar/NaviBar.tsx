@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import {
-  BellIcon,
   CollectableDefaultIcon,
   HomeIcon,
   SearchIcon,
@@ -12,6 +11,7 @@ import {
 } from 'components/common/icon/icons';
 import { Logo } from 'components/common/logo/Logo';
 import { usePageNavigator } from 'hooks/usePageNavigator';
+import { NotiIcon } from '../notiIcon/NotiIcon';
 import { PATH } from 'constants/path';
 
 export const NaviBar = () => {
@@ -25,7 +25,7 @@ export const NaviBar = () => {
       icon: <CollectableDefaultIcon />,
       path: PATH.COLLECTION,
     },
-    { label: '알림', icon: <BellIcon />, path: PATH.NOTI },
+    { label: '알림', icon: <NotiIcon />, path: PATH.NOTI },
     { label: '프로필', icon: <UserIcon />, path: PATH.PROFILE },
     { label: '글쓰기', icon: <PencilLineIcon />, path: PATH.NEW_FEED },
   ];

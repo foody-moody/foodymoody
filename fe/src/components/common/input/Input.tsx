@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
-import { BellIcon } from '../icon/icons';
 import { InputCore } from './InputCore';
 
 type Props = {
@@ -28,7 +27,7 @@ export const Input: React.FC<Props> = (
         {variant === 'default' && (
           <LabelText $isFocused={isFocused}>{placeholder}</LabelText>
         )}
-        {variant === 'comment' && <BellIcon />}
+        {variant === 'comment' && <Dummy />}
         <InputCore
           type={type}
           placeholder={variant !== 'default' ? placeholder : ''}
