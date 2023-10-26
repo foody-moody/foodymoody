@@ -11,6 +11,21 @@ type FeedType = {
   commentCount: number;
 };
 
+type ProfileMemberInfoType = {
+  memberId: number;
+  imageUrl: string;
+  nickname: string;
+  email: string;
+  mood: string;
+  myFeeds: MyFeedsType[];
+  myFeedsCount: number;
+};
+
+type MyFeedsType = {
+  id: number;
+  imageUrl: string;
+};
+
 type FeedMemberType = {
   imageUrl: string;
   nickname: string;
