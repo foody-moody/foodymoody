@@ -10,7 +10,6 @@ import { NotiPage } from 'pages/NotiPage';
 import { ProfilePage } from 'pages/ProfilePage';
 import { RegisterPage } from 'pages/RegisterPage';
 import { SearchPage } from 'pages/SearchPage';
-import { TestPage } from 'pages/test/TestPage';
 import { PATH } from 'constants/path';
 
 const router = createBrowserRouter([
@@ -54,10 +53,7 @@ const router = createBrowserRouter([
       },
     ],
   },
-  {
-    path: PATH.TEST,
-    element: <TestPage />,
-  },
+
   {
     path: PATH.LOGIN,
     element: <LoginPage />,

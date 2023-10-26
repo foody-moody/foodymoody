@@ -13,14 +13,7 @@ type Props = {
 };
 
 export const Input: React.FC<Props> = (
-  {
-    type = 'text',
-    placeholder = '입력해주세요',
-    variant,
-    helperText,
-    onChange,
-    onPressEnter,
-  }
+  { type = 'text', placeholder = '입력해주세요', variant, helperText, onChange }
 ) => {
   const [isFocused, setIsFocused] = useState(false);
 
