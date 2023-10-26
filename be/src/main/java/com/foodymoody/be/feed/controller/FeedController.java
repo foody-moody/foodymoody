@@ -48,7 +48,7 @@ public class FeedController {
      * 개별 Feed 조회
      */
     @GetMapping("/api/feeds/{id}")
-    public ResponseEntity<FeedReadResponse> read(@PathVariable Long id) {
+    public ResponseEntity<FeedReadResponse> read(@PathVariable String id) {
         FeedReadResponse feedReadResponse = feedService.read(id);
         return ResponseEntity.ok().body(feedReadResponse);
     }
@@ -57,7 +57,7 @@ public class FeedController {
      * Feed 수정
      */
     @PutMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody FeedUpdateRequest feedUpdateRequest) {
+    public ResponseEntity<Void> update(@PathVariable String id, @RequestBody FeedUpdateRequest feedUpdateRequest) {
         feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest));
         return ResponseEntity.noContent().build();
     }
@@ -66,7 +66,7 @@ public class FeedController {
      * Feed 삭제
      */
     @DeleteMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         feedService.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -5,7 +5,7 @@ import com.foodymoody.be.comment.controller.RegisterCommentRequest;
 public class CommentFixture {
 
     public static final String CONTENT = "content";
-    public static final long FEED_ID = 1L;
+    public static final String FEED_ID = "1";
     public static final String COMMENT_ID = "12313113";
 
     public static final String EMPTY_CONTENT = "";

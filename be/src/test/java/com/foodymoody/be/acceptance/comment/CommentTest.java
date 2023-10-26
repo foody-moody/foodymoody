@@ -26,7 +26,7 @@ class CommentTest extends AcceptanceTest {
         api_문서_타이틀("registerComment_success", spec);
 
         // given
-        long feedId = 피드를_등록하고_아이디를_받는다();
+        String feedId = 피드를_등록하고_아이디를_받는다();
 
         // when
         var response = 피드에_댓글을_등록한다(feedId, spec);
@@ -55,7 +55,7 @@ class CommentTest extends AcceptanceTest {
         api_문서_타이틀("registerComment_failed_by_content_not_exists", spec);
 
         // given
-        long feedId = 피드를_등록하고_아이디를_받는다();
+        String feedId = 피드를_등록하고_아이디를_받는다();
 
         // when
         var response = 댓글없이_피드에_댓글_등록한다(feedId, spec);
@@ -71,7 +71,7 @@ class CommentTest extends AcceptanceTest {
         api_문서_타이틀("registerComment_failed_by_content_is_empty", spec);
 
         // given
-        long feedId = 피드를_등록하고_아이디를_받는다();
+        String feedId = 피드를_등록하고_아이디를_받는다();
 
         // when
         var response = 피드에_공백댓글_등록한다(feedId, spec);
@@ -87,7 +87,7 @@ class CommentTest extends AcceptanceTest {
         api_문서_타이틀("registerComment_failed_by_content_is_blank", spec);
 
         // given
-        long feedId = 피드를_등록하고_아이디를_받는다();
+        String feedId = 피드를_등록하고_아이디를_받는다();
 
         // when
         var response = 피드에_여러_공백댓글_등록한다(feedId, spec);
@@ -103,7 +103,7 @@ class CommentTest extends AcceptanceTest {
         api_문서_타이틀("registerComment_failed_by_content_is_larger_than_200", spec);
 
         // given
-        long feedId = 피드를_등록하고_아이디를_받는다();
+        String feedId = 피드를_등록하고_아이디를_받는다();
 
         // when
         var response = 피드에서_200자_넘는_댓글을_등록한다(feedId, spec);
@@ -132,8 +132,7 @@ class CommentTest extends AcceptanceTest {
         api_문서_타이틀("registerComment_failed_by_feed_not_exists", spec);
 
         // given
-        long notExistsRegisterId = 20000000L;
-        long feedId = notExistsRegisterId;
+        String feedId = "20000000";
 
         // when
         var response = 피드에_댓글을_등록한다(feedId, spec);

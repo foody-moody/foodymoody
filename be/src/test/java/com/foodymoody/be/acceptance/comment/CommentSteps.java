@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 
 public class CommentSteps {
 
-    public static ExtractableResponse<Response> 피드에_댓글을_등록한다(long feedId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드에_댓글을_등록한다(String feedId, RequestSpecification spec) {
         Map<String, Object> body = new HashMap<>();
         body.put("content", "댓글 내용");
         body.put("feedId", feedId);
@@ -36,7 +36,7 @@ public class CommentSteps {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
-    public static ExtractableResponse<Response> 댓글없이_피드에_댓글_등록한다(long feedId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 댓글없이_피드에_댓글_등록한다(String feedId, RequestSpecification spec) {
 
         return RestAssured.given().log().all()
                 .given().spec(spec).log().all()
@@ -47,7 +47,7 @@ public class CommentSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 피드에_공백댓글_등록한다(long feedId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드에_공백댓글_등록한다(String feedId, RequestSpecification spec) {
         Map<String, Object> body = new HashMap<>();
         body.put("content", "");
         body.put("feedId", feedId);
@@ -59,7 +59,7 @@ public class CommentSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 피드에_여러_공백댓글_등록한다(long feedId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드에_여러_공백댓글_등록한다(String feedId, RequestSpecification spec) {
         Map<String, Object> body = new HashMap<>();
         body.put("content", "   ");
         body.put("feedId", feedId);
@@ -84,7 +84,7 @@ public class CommentSteps {
     }
 
 
-    public static ExtractableResponse<Response> 피드에서_200자_넘는_댓글을_등록한다(long feedId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드에서_200자_넘는_댓글을_등록한다(String feedId, RequestSpecification spec) {
         Map<String, Object> body = new HashMap<>();
         body.put("content", "200자".repeat(50) + "1");
         body.put("feedId", feedId);

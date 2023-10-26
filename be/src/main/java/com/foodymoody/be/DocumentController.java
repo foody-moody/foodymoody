@@ -56,13 +56,13 @@ public class DocumentController {
                                                         "imageUrl", "https://www.googles.com",
                                                         "menu", Map.of(
                                                                 "name", "마라탕",
-                                                                "numStar", 4)
+                                                                "rating", 4)
                                                 ),
                                                 Map.of(
                                                         "imageUrl", "https://www.googles.com",
                                                         "menu", Map.of(
                                                                 "name", "감자탕",
-                                                                "numStar", 3
+                                                                "rating", 3
                                                         )
                                                 )
                                         ),
@@ -80,13 +80,13 @@ public class DocumentController {
                                                         "imageUrl", "https://www.googles.com",
                                                         "menu", Map.of(
                                                                 "name", "마라탕",
-                                                                "numStar", 4)
+                                                                "rating", 4)
                                                 ),
                                                 Map.of(
                                                         "imageUrl", "https://www.googles.com",
                                                         "menu", Map.of(
                                                                 "name", "감자탕",
-                                                                "numStar", 3
+                                                                "rating", 3
                                                         )
                                                 )
                                         ),
