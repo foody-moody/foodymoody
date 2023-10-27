@@ -33,6 +33,8 @@ public class FeedMapper {
                 .review(feed.getReview())
                 .storeMood(feed.getStoreMood())
                 .images(images)
+                .createdAt(feed.getCreatedAt())
+                .updatedAt(feed.getUpdatedAt())
                 .build();
     }
 

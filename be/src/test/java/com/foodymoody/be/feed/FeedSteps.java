@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import io.restassured.RestAssured;
@@ -8,6 +9,8 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.MediaType;
@@ -39,6 +42,20 @@ public class FeedSteps {
             assertThat(feed).containsKeys("id", "member", "location", "review", "storeMood", "images", "likeCount",
                     "isLiked",
                     "commentCount");
+
+            String createdAt = (String) feed.get("createdAt");
+            String updatedAt = (String) feed.get("updatedAt");
+
+            assertThat(createdAt).isNotNull();
+            assertThat(updatedAt).isNotNull();
+
+            try {
+                LocalDateTime.parse(createdAt);
+                LocalDateTime.parse(updatedAt);
+            } catch (DateTimeParseException e) {
+                fail("Invalid date-time format for createdAt or updatedAt");
+            }
+
             List<Map<String, Object>> images = (List<Map<String, Object>>) feed.get("images");
             for (Map<String, Object> image : images) {
                 assertThat(image).containsKeys("imageUrl", "menu");
@@ -132,7 +149,21 @@ public class FeedSteps {
                 () -> assertThat(response.jsonPath().getString("review")).isEqualTo("맛있게 먹었습니다."),
                 () -> assertThat(response.jsonPath().getList("storeMood", String.class)).containsExactly("베지테리언", "무드1",
                         "무드2"),
-                // TODO: BaseEntity 구현 후 createdAt, updatedAt 추가
+                () -> {
+                    String createdAt = response.jsonPath().getString("createdAt");
+                    String updatedAt = response.jsonPath().getString("updatedAt");
+
+                    assertThat(createdAt).isNotNull();
+                    assertThat(updatedAt).isNotNull();
+
+                    // Assuming you're using a standard ISO format (like "2023-10-17T16:54:03"), you can do:
+                    try {
+                        LocalDateTime.parse(createdAt);
+                        LocalDateTime.parse(updatedAt);
+                    } catch (DateTimeParseException e) {
+                        fail("Invalid date-time format for createdAt or updatedAt");
+                    }
+                },
                 () -> {
                     List<Map<String, Object>> images = response.jsonPath().getList("images");
                     assertThat(images.get(0)).containsEntry("imageUrl", "https://www.googles.com/");

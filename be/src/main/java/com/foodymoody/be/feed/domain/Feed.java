@@ -2,10 +2,13 @@ package com.foodymoody.be.feed.domain;
 
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 public class Feed {
@@ -13,7 +16,10 @@ public class Feed {
     @Id
     private String id;
     private String location;
-    // TODO: createdAt, updatedAt 추가 -> 테스트 코드 로직도 변경
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
     private String review;
     private int likeCount;
     private boolean isLiked;
@@ -73,6 +79,14 @@ public class Feed {
 
     public int getCommentCount() {
         return commentCount;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     public void update(String location, String review, List<String> storeMood, List<Image> newImages,

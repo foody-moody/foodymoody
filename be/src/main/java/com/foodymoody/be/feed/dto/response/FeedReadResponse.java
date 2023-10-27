@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,7 +12,8 @@ public class FeedReadResponse {
 
     private String id;
     private String location;
-    // TODO: createdAt, updatedAt 추가 -> 테스트 코드 로직도 변경
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private String review;
     private List<String> storeMood;
     private List<FeedImageMenuResponse> images;
@@ -21,11 +23,13 @@ public class FeedReadResponse {
     private int commentCount;
 
     @Builder
-    public FeedReadResponse(String id, String location, String review, List<String> storeMood,
-            List<FeedImageMenuResponse> images,
-            int likeCount, boolean isLiked, int commentCount) {
+    public FeedReadResponse(String id, String location, LocalDateTime createdAt, LocalDateTime updatedAt, String review,
+            List<String> storeMood, List<FeedImageMenuResponse> images, int likeCount, boolean isLiked,
+            int commentCount) {
         this.id = id;
         this.location = location;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.review = review;
         this.storeMood = storeMood;
         this.images = images;
@@ -40,6 +44,14 @@ public class FeedReadResponse {
 
     public String getLocation() {
         return location;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     public String getReview() {
@@ -65,5 +77,4 @@ public class FeedReadResponse {
     public int getCommentCount() {
         return commentCount;
     }
-
 }
