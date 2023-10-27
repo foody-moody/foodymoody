@@ -72,7 +72,7 @@ const Column = styled(Flex)`
 
 const Wrapper = styled(Column)`
   width: 100%;
-  gap: 24px;
+  gap: 16px;
 `;
 
 const ContentWrapper = styled(Flex)`
