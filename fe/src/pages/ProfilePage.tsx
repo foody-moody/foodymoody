@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { HeaderMob } from 'components/common/headerMob/HeaderMob';
 import { UserFeedTabs } from 'components/common/userFeedTabs/UserFeedTabs';
+import { ProfileUserInfo } from 'components/profileUserInfo/ProfileUserInfo';
 
 export const ProfilePage = () => {
   const [index, setIndex] = useState(0);
@@ -15,11 +16,18 @@ export const ProfilePage = () => {
     <Wrapper>
       <ContentWrapper>
         <HeaderMob />
-        <ProfileWrapper></ProfileWrapper>
+        <ProfileWrapper>
+          <ProfileUserInfo member={MOCK} />
+        </ProfileWrapper>
         <UserFeedTabs index={index} onClick={handleFeedTab} />
         <FeedsWrapper>
           {MOCK_FEEDS.map((feed) => (
-            <img key={feed.id} src={feed.imageUrl} alt={feed.imageUrl} />
+            <img
+              key={feed.id}
+              src={feed.imageUrl}
+              alt={feed.imageUrl}
+              onClick={() => {}}
+            />
           ))}
         </FeedsWrapper>
       </ContentWrapper>
@@ -49,14 +57,22 @@ const ContentWrapper = styled.div`
 `;
 
 const ProfileWrapper = styled.div`
-  padding: 16px;
+  padding: 24px 16px 16px 16px;
   border-bottom: 1px solid ${({ theme: { colors } }) => colors.black};
+
+  ${media.xs} {
+    padding: 16px;
+  }
 `;
 
 const FeedsWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px;
+
+  img {
+    cursor: pointer;
+  }
 `;
 
 const generateDefaultImage = (imageUrl: string) =>
@@ -66,3 +82,23 @@ const MOCK_FEEDS = Array.from({ length: 20 }, (_, index) => ({
   id: index + 1,
   imageUrl: generateDefaultImage(`githubrandomProfileimageurl${index + 1}`),
 }));
+
+const MOCK = {
+  memberId: 1,
+  imageUrl: 'https://www.dskadsl.com',
+  nickname: '보노',
+  image: 'url',
+  email: 'test@email.com',
+  mood: '기쁨',
+  myFeeds: [
+    {
+      id: 1,
+      imageUrl: 'https://www.googles.com/',
+    },
+    {
+      id: 2,
+      imageUrl: 'https://www.googles.com/',
+    },
+  ],
+  myFeedsCount: 7,
+};
