@@ -3,11 +3,12 @@ on:
   pull_request:
     branches:
       - dev-be
+
 env:
-  BUILD_FILE_PATH: "./be/gradlew"
+  ROOT_PATH: "./be"
 
 jobs:
-  ci:
+  be-ci:
     runs-on: ubuntu-latest
     steps:
       - name: 레포지토리를 체크아웃한다
@@ -17,14 +18,13 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '11'
-      - name: 실행권한을 부여한다
-        run: chmod +x ${{ env.BUILD_FILE_PATH }}
       - name: 빌드한다
         run: |
-          cd be
-          ./gradlew build 
+          chmod +x gradlew
+          ./gradlew build
+        working-directory: ${{ env.ROOT_PATH }}
 
-  coverage:
+  be-coverage:
     runs-on: ubuntu-latest
     steps:
       - name: 레포지토리를 체크아웃한다
@@ -34,12 +34,12 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '11'
-      - name: 실행권한을 부여한다
-        run: chmod +x ${{ env.BUILD_FILE_PATH }}
+      - name: 그레이들 래퍼에 실행권한을 부여한다
+        run: chmod +x gradlew
+        working-directory: ${{ env.ROOT_PATH }}
       - name: 테스트를 실행한다
-        run: |
-          cd be
-          ./gradlew test
+        run: ./gradlew test
+        working-directory: ${{ env.ROOT_PATH }}
       - name: CoverAlls를 실행한다
         uses: coverallsapp/github-action@v2
         with:
