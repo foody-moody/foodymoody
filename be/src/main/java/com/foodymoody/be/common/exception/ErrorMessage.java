@@ -4,6 +4,7 @@ public enum ErrorMessage {
     // global
     INVALID_INPUT_VALUE("입력값이 올바르지 않습니다.", "g001"),
     INVALID_ID("유효하지 않은 아이디입니다.", "g002"),
+    CREATE_TIME_IS_NULL("생성시간이 null이면 안된다", "g003"),
     // comment
     CONTENT_NOT_EXISTS("댓글이 존재하지 않습니다.", "c001"),
     CONTENT_IS_EMPTY("댓글 내용이 공백입니다.", "c002"),

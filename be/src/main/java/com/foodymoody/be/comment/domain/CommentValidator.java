@@ -6,7 +6,9 @@ import com.foodymoody.be.common.exception.ContentIsEmptyException;
 import com.foodymoody.be.common.exception.ContentIsOver200Exception;
 import com.foodymoody.be.common.exception.ContentIsSpaceException;
 import com.foodymoody.be.common.exception.ContentNotExistsException;
+import com.foodymoody.be.common.exception.CreateTimeIsNullException;
 import com.foodymoody.be.common.exception.InvalidIdException;
+import java.time.LocalDateTime;
 
 public class CommentValidator {
 
@@ -15,10 +17,6 @@ public class CommentValidator {
 
     private CommentValidator() {
         throw new IllegalStateException(UTILITY_CLASS);
-    }
-
-    public static boolean isZero(long feedId) {
-        return feedId == ZERO;
     }
 
     public static boolean isOver200(String content) {
@@ -33,16 +31,15 @@ public class CommentValidator {
         return content.isEmpty();
     }
 
-    public static boolean isNull(String content) {
-        return content == null;
+    public static boolean isNull(Object object) {
+        return object == null;
     }
 
-    public static void validate(String id, String content, long feedId) {
+    public static void validate(String id, String content, String feedId, LocalDateTime createdAt) {
         validateId(id);
         validateContent(content);
-        if (isZero(feedId)) {
-            throw new InvalidIdException();
-        }
+        validateId(feedId);
+        validateCreateTime(createdAt);
     }
 
     public static void validateContent(String content) {
@@ -63,6 +60,12 @@ public class CommentValidator {
     public static void validateId(String id) {
         if (isNull(id)) {
             throw new InvalidIdException();
+        }
+    }
+
+    public static void validateCreateTime(LocalDateTime createdAt) {
+        if (isNull(createdAt)) {
+            throw new CreateTimeIsNullException();
         }
     }
 }

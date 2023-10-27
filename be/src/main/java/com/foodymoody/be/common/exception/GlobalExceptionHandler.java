@@ -5,7 +5,6 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -24,13 +23,6 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleBusinessException(BusinessException e) {
         log.error("handleBusinessException", e);
         return new ErrorResponse(e.getMessage(), e.getCode());
-    }
-
-    @ResponseStatus(value = BAD_REQUEST)
-    @ExceptionHandler(ValidationException.class)
-    public ErrorResponse handleMethodArgumentNotValidException(ValidationException e) {
-        log.error("handleMethodArgumentNotValidException", e);
-        return new ErrorResponse(INVALID_INPUT_VALUE.getMessage(), INVALID_INPUT_VALUE.getCode());
     }
 
     @ResponseStatus(value = BAD_REQUEST)
@@ -55,7 +47,8 @@ public class GlobalExceptionHandler {
                 .filter(FieldError.class::isInstance)
                 .collect(Collectors.toMap(
                         error -> ((FieldError) error).getField(),
-                        ObjectError::getDefaultMessage
+                        ObjectError::getDefaultMessage,
+                        (msg1, msg2) -> msg1 + ";" + msg2
                 ));
     }
 }

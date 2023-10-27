@@ -72,3 +72,24 @@ operation::registerComment_failed_by_feed_not_exists[snippets='http-request,http
 
 operation::registerComment_failed_by_feed_id_not_exists[snippets='http-request,http-response']
 
+=== 댓글 수정
+
+==== 성공
+
+operation::editComment_success[snippets='http-request,http-response']
+
+==== 바디가 없을 때
+
+operation::editComment_failed_by_request_body_not_exists[snippets='http-request,http-response']
+
+==== 댓글이 비여 있으면
+
+operation::editComment_failed_by_content_is_empty[snippets='http-request,http-response']
+
+==== 댓글이 공백 일때
+
+operation::editComment_failed_by_content_is_blank[snippets='http-request,http-response']
+
+==== 댓글이 200자를 넘을 때
+
+operation::editComment_failed_by_content_is_larger_than_200[snippets='http-request,http-response']

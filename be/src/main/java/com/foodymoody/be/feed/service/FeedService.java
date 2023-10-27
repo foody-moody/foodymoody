@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.service;
 
+import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
@@ -65,10 +66,10 @@ public class FeedService {
         return feedRepository.existsById(feedId);
     }
 
-    private List<FeedImageMenuResponse> getFeedImageMenuResponses(Feed feed) {
-        List<Image> feedImages = feed.getImages();
-        List<Menu> feedMenus = feed.getMenus();
-        return FeedMapper.toFeedImageMenuResponses(feedImages, feedMenus);
+    public void validate(String feedId) {
+        if (!exists(feedId)) {
+            throw new FeedIdNotExistsException();
+        }
     }
 
     @Transactional
@@ -99,14 +100,20 @@ public class FeedService {
         feed.update(request.getLocation(), request.getReview(), request.getStoreMood(), newImages, newMenus);
     }
 
-    private Feed findFeed(String id) {
-        return feedRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 피드가 존재하지 않습니다."));
-    }
-
     @Transactional
     public void delete(String id) {
         feedRepository.deleteById(id);
+    }
+
+    private List<FeedImageMenuResponse> getFeedImageMenuResponses(Feed feed) {
+        List<Image> feedImages = feed.getImages();
+        List<Menu> feedMenus = feed.getMenus();
+        return FeedMapper.toFeedImageMenuResponses(feedImages, feedMenus);
+    }
+
+    private Feed findFeed(String id) {
+        return feedRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 피드가 존재하지 않습니다."));
     }
 
 }
