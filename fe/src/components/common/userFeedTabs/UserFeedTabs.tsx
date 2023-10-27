@@ -53,7 +53,7 @@ const TabWrapper = styled.div`
 `;
 
 const Tab = styled.div<{ $isActive: boolean }>`
-  padding: 4px 0;
+  padding: 8px 0 4px 0;
   transition: all 0.2s ease-in-out;
 
   border-bottom: ${({ $isActive }) =>
