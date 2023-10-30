@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { TextButton } from 'components/common/Button/TextButton';
+import { TextButton } from 'components/common/button/TextButton';
 import { LogoXLarge } from 'components/common/icon/icons';
 import { Register } from 'components/register/Register';
 import { usePageNavigator } from 'hooks/usePageNavigator';
