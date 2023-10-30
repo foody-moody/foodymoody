@@ -1,0 +1,46 @@
+name: be-ci
+on:
+  pull_request:
+    branches:
+      - dev-be
+
+env:
+  ROOT_PATH: "./be"
+
+jobs:
+  be-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 레포지토리를 체크아웃한다
+        uses: actions/checkout@v4
+      - name: 자바를 설치한다
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '11'
+      - name: 빌드한다
+        run: |
+          chmod +x gradlew
+          ./gradlew build
+        working-directory: ${{ env.ROOT_PATH }}
+
+  be-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 레포지토리를 체크아웃한다
+        uses: actions/checkout@v4
+      - name: 자바를 설치한다
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '11'
+      - name: 그레이들 래퍼에 실행권한을 부여한다
+        run: chmod +x gradlew
+        working-directory: ${{ env.ROOT_PATH }}
+      - name: 테스트를 실행한다
+        run: ./gradlew test
+        working-directory: ${{ env.ROOT_PATH }}
+      - name: CoverAlls를 실행한다
+        uses: coverallsapp/github-action@v2
+        with:
+          base-path: ./be/build/reports/jacoco/test/jacocoTestReport.xml
