@@ -48,18 +48,8 @@ privateApi.interceptors.response.use(
     console.log(error.response.status, '페쳐 error.response.status');
     console.log(error.response, '페쳐 error.response');
 
-    // const originalRequest = error.config;
-    // if (error.response.status === 401 && !originalRequest._retry) {
-    //   originalRequest._retry = true;
-    //   const refreshToken = localStorage.getItem('refreshToken');
-    //   const res = await publicApi.post('/auth/refresh', {
-    //     refreshToken,
-    //   });
-    //   if (res.status === 200) {
-    //     localStorage.setItem('accessToken', res.data.accessToken);
-    //     return privateApi(originalRequest);
-    //   }
-    // }
+    // TODO 리프레시 토큰 및 에러
+
     return Promise.reject(error);
   }
 );
