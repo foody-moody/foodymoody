@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
-import { FlexColumnBox } from '../feedUserInfo/FeedUserInfo';
 import { Input } from '../input/Input';
 import { UserImage } from '../userImage/UserImage';
 
@@ -71,9 +70,18 @@ const Wrapper = styled.li`
 `;
 
 const ContentLeft = styled.div`
+  width: 100%;
+
   display: flex;
   gap: 20px;
   align-items: center;
+`;
+
+const FlexColumnBox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 `;
 
 const ContentHeader = styled.div`
@@ -92,8 +100,9 @@ const ContentRight = styled.div`
   display: flex;
   gap: 12px;
   cursor: pointer;
-
+  width: fit-content;
   height: fit-content;
+  white-space: nowrap;
   font: ${({ theme: { fonts } }) => fonts.displayM12};
 `;
 
