@@ -14,6 +14,6 @@ public class CommentMapper {
     }
 
     public static Comment toEntity(RegisterCommentRequest request, LocalDateTime createdAt, CommentId commentId) {
-        return new Comment(commentId, request.getContent(), request.getFeedId(), createdAt);
+        return new Comment(commentId, request.getContent(), request.getFeedId(), createdAt, false);
     }
 }

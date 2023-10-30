@@ -59,7 +59,7 @@ public class CommentFixture {
     }
 
     public static Comment comment() {
-        return new Comment(new CommentId(COMMENT_ID), CONTENT, FEED_ID, CREATED_AT);
+        return new Comment(new CommentId(COMMENT_ID), CONTENT, FEED_ID, CREATED_AT, false);
     }
 
     public static CommentId commentId() {
@@ -72,5 +72,9 @@ public class CommentFixture {
 
     public static CommentId notExistsCommentId() {
         return new CommentId(NOT_EXISTS_ID);
+    }
+
+    public static Comment deletedComment() {
+        return new Comment(commentId(), CONTENT, FEED_ID, CREATED_AT, true);
     }
 }

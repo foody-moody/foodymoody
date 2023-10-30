@@ -233,6 +233,22 @@ class CommentTest extends AcceptanceTest {
             // then
             응답코드_400_검증한다(response);
         }
+
+        @DisplayName("댓글 수정 요청시 댓글이 이미 삭제되어 있으면 응답코드 400을 응답한다")
+        @Test
+        void when_edit_comment_if_comment_is_deleted_then_return_code_400() {
+            // docs
+            api_문서_타이틀("editComment_failed_by_comment_is_deleted", spec);
+
+            // given
+            댓글을_삭제한다(memberId, spec);
+
+            // when
+            var response = 댓글_수정한다(memberId, spec);
+
+            // then
+            응답코드_400_검증한다(response);
+        }
     }
 
     @Nested
