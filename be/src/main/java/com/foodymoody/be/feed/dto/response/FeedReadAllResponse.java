@@ -1,5 +1,7 @@
 package com.foodymoody.be.feed.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -8,37 +10,50 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedReadAllResponse {
 
-    private Long id;
+    private String id;
     private FeedMemberResponse member;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private String location;
-    // TODO: createdAt, updatedAt 추가 -> 테스트 코드 로직도 변경
     private String review;
-    private String mood;
+    private List<String> storeMood;
     private List<FeedImageMenuResponse> images;
     private int likeCount;
+    @JsonProperty("isLiked")
     private boolean isLiked;
     private int commentCount;
 
     @Builder
-    public FeedReadAllResponse(Long id, FeedMemberResponse member, String location, String review, String mood,
-            List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, int commentCount) {
+    public FeedReadAllResponse(String id, FeedMemberResponse member, LocalDateTime createdAt, LocalDateTime updatedAt,
+            String location, String review, List<String> storeMood, List<FeedImageMenuResponse> images, int likeCount,
+            boolean isLiked, int commentCount) {
         this.id = id;
         this.member = member;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.location = location;
         this.review = review;
-        this.mood = mood;
+        this.storeMood = storeMood;
         this.images = images;
         this.likeCount = likeCount;
         this.isLiked = isLiked;
         this.commentCount = commentCount;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
     public FeedMemberResponse getMember() {
         return member;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     public String getLocation() {
@@ -49,8 +64,8 @@ public class FeedReadAllResponse {
         return review;
     }
 
-    public String getMood() {
-        return mood;
+    public List<String> getStoreMood() {
+        return storeMood;
     }
 
     public List<FeedImageMenuResponse> getImages() {
@@ -61,11 +76,11 @@ public class FeedReadAllResponse {
         return likeCount;
     }
 
-    public int getCommentCount() {
-        return commentCount;
-    }
-
     public boolean isLiked() {
         return isLiked;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
     }
 }

@@ -2,23 +2,25 @@ package com.foodymoody.be.feed.domain;
 
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 public class Feed {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String location;
-    // TODO: createdAt, updatedAt 추가 -> 테스트 코드 로직도 변경
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
     private String review;
-    private String mood;
     private int likeCount;
     private boolean isLiked;
     private int commentCount;
@@ -27,24 +29,23 @@ public class Feed {
     private Images images;
     @Embedded
     private Menus menus;
+    @Embedded
+    private StoreMood storeMood;
 
     public Feed() {
     }
 
-    public Feed(Images images, Menus menus) {
-        this.images = images;
-        this.menus = menus;
-    }
-
-    public Feed(String location, String review, String mood, List<Image> images, List<Menu> menus) {
+    public Feed(String id, String location, String review, List<String> storeMood, List<Image> images,
+            List<Menu> menus) {
+        this.id = id;
         this.location = location;
         this.review = review;
-        this.mood = mood;
+        this.storeMood = new StoreMood(storeMood);
         this.images = new Images(images);
         this.menus = new Menus(menus);
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -56,8 +57,8 @@ public class Feed {
         return review;
     }
 
-    public String getMood() {
-        return mood;
+    public List<String> getStoreMood() {
+        return storeMood.getStoreMood();
     }
 
     public List<Image> getImages() {
@@ -80,10 +81,19 @@ public class Feed {
         return commentCount;
     }
 
-    public void update(String location, String review, String mood, List<Image> newImages, List<Menu> newMenus) {
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void update(String location, String review, List<String> storeMood, List<Image> newImages,
+            List<Menu> newMenus) {
         this.location = location;
         this.review = review;
-        this.mood = mood;
+        this.storeMood = new StoreMood(storeMood);
         this.images.replaceWith(newImages);
         this.menus.replaceWith(newMenus);
     }

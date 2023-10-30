@@ -1,5 +1,7 @@
 package com.foodymoody.be.feed.service;
 
+import com.foodymoody.be.common.exception.FeedIdNotExistsException;
+import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
@@ -16,7 +18,6 @@ import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.util.MenuMapper;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -41,15 +42,18 @@ public class FeedService {
             FeedReadAllResponse response = FeedReadAllResponse.builder()
                     .id(feed.getId())
                     // TODO: 회원 정보 로직 구현 후 추가
+                    // MEMBER 객체로 주입하지 말고, DTO로 주입 (그 정보만)
                     .member(null)
                     .location(feed.getLocation())
                     .review(feed.getReview())
-                    .mood(feed.getMood())
+                    .storeMood(feed.getStoreMood())
                     .images(images)
-                    // TODO: Count 로직 구현 후 추가
-                    .likeCount(0)
-                    .isLiked(false)
-                    .commentCount(0)
+                    .createdAt(feed.getCreatedAt())
+                    .updatedAt(feed.getUpdatedAt())
+                    // TODO: 아래 로직 구현 후 추가
+                    .likeCount(feed.getLikeCount())
+                    .isLiked(feed.isLiked())
+                    .commentCount(feed.getCommentCount())
                     .build();
 
             responses.add(response);
@@ -58,10 +62,14 @@ public class FeedService {
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
     }
 
-    private List<FeedImageMenuResponse> getFeedImageMenuResponses(Feed feed) {
-        List<Image> feedImages = feed.getImages();
-        List<Menu> feedMenus = feed.getMenus();
-        return FeedMapper.toFeedImageMenuResponses(feedImages, feedMenus);
+    public boolean exists(String feedId) {
+        return feedRepository.existsById(feedId);
+    }
+
+    public void validate(String feedId) {
+        if (!exists(feedId)) {
+            throw new FeedIdNotExistsException();
+        }
     }
 
     @Transactional
@@ -70,12 +78,12 @@ public class FeedService {
         List<Menu> menus = MenuMapper.toMenu(imageMenuPairs);
         List<Image> images = ImageMapper.toImage(imageMenuPairs);
 
-        Feed feed = FeedMapper.toFeed(request, images, menus);
+        Feed feed = FeedMapper.toFeed(IdGenerator.generate(), request, images, menus);
 
         return FeedMapper.toFeedRegisterResponse(feedRepository.save(feed));
     }
 
-    public FeedReadResponse read(Long id) {
+    public FeedReadResponse read(String id) {
         Feed feed = findFeed(id);
         List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
 
@@ -83,23 +91,29 @@ public class FeedService {
     }
 
     @Transactional
-    public void update(Long id, FeedServiceUpdateRequest request) {
+    public void update(String id, FeedServiceUpdateRequest request) {
         Feed feed = findFeed(id);
 
         List<Image> newImages = ImageMapper.toImage(request.getImages());
         List<Menu> newMenus = MenuMapper.toMenu(request.getImages());
 
-        feed.update(request.getLocation(), request.getReview(), request.getMood(), newImages, newMenus);
-    }
-
-    private Feed findFeed(Long id) {
-        return feedRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 피드가 존재하지 않습니다."));
+        feed.update(request.getLocation(), request.getReview(), request.getStoreMood(), newImages, newMenus);
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(String id) {
         feedRepository.deleteById(id);
+    }
+
+    private List<FeedImageMenuResponse> getFeedImageMenuResponses(Feed feed) {
+        List<Image> feedImages = feed.getImages();
+        List<Menu> feedMenus = feed.getMenus();
+        return FeedMapper.toFeedImageMenuResponses(feedImages, feedMenus);
+    }
+
+    private Feed findFeed(String id) {
+        return feedRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 피드가 존재하지 않습니다."));
     }
 
 }

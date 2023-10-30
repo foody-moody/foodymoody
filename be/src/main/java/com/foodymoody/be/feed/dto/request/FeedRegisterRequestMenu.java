@@ -8,20 +8,20 @@ import lombok.NoArgsConstructor;
 public class FeedRegisterRequestMenu {
 
     private String name;
-    private int numStar;
+    private int rating;
 
     @Builder
-    public FeedRegisterRequestMenu(String name, int numStar) {
+    public FeedRegisterRequestMenu(String name, int rating) {
         this.name = name;
-        this.numStar = numStar;
+        this.rating = rating;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getNumStar() {
-        return numStar;
+    public int getRating() {
+        return rating;
     }
 
 }

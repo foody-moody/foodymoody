@@ -12,6 +12,18 @@
 === 피드 등록
 operation::registerFeed[snippets='http-request,http-response']
 
+=== 피드 전체 조회
+operation::readAllFeed[snippets='http-request,http-response']
+
+=== 피드 개별 조회
+operation::readFeed[snippets='http-request,http-response']
+
+=== 피드 수정
+operation::updateFeed[snippets='http-request']
+
+=== 피드 삭제
+operation::deleteFeed[snippets='http-request']
+
 [[auth]]
 == 보안
 
@@ -19,6 +31,65 @@ operation::registerFeed[snippets='http-request,http-response']
 
 operation::login_success[snippets='http-request,http-response']
 
-=== 로구아웃
+=== 로그아웃
 
 operation::logout_success[snippets='http-request,http-response']
+
+[[comment]]
+== 댓글
+
+=== 댓글 등록
+
+==== 성공
+
+operation::registerComment_success[snippets='http-request,http-response']
+
+==== 바디가 없을 때
+
+operation::registerComment_failed_by_request_body_not_exists[snippets='http-request,http-response']
+
+==== 댓글이 없을 때
+
+operation::registerComment_failed_by_content_not_exists[snippets='http-request,http-response']
+
+==== 댓글이 비여 있으면
+
+operation::registerComment_failed_by_content_is_empty[snippets='http-request,http-response']
+
+==== 댓글이 공백 일때
+
+operation::registerComment_failed_by_content_is_blank[snippets='http-request,http-response']
+
+==== 댓글이 200자를 넘을 때
+
+operation::registerComment_failed_by_content_is_larger_than_200[snippets='http-request,http-response']
+
+==== 피드가 존재하지 않을 때
+
+operation::registerComment_failed_by_feed_not_exists[snippets='http-request,http-response']
+
+==== 피드 아이디가 없을 때
+
+operation::registerComment_failed_by_feed_id_not_exists[snippets='http-request,http-response']
+
+=== 댓글 수정
+
+==== 성공
+
+operation::editComment_success[snippets='http-request,http-response']
+
+==== 바디가 없을 때
+
+operation::editComment_failed_by_request_body_not_exists[snippets='http-request,http-response']
+
+==== 댓글이 비여 있으면
+
+operation::editComment_failed_by_content_is_empty[snippets='http-request,http-response']
+
+==== 댓글이 공백 일때
+
+operation::editComment_failed_by_content_is_blank[snippets='http-request,http-response']
+
+==== 댓글이 200자를 넘을 때
+
+operation::editComment_failed_by_content_is_larger_than_200[snippets='http-request,http-response']

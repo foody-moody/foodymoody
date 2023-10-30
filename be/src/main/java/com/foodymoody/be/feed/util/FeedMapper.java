@@ -18,8 +18,8 @@ import java.util.List;
 
 public class FeedMapper {
 
-    public static Feed toFeed(FeedServiceRegisterRequest request, List<Image> images, List<Menu> menus) {
-        return new Feed(request.getLocation(), request.getReview(), request.getMood(), images, menus);
+    public static Feed toFeed(String id, FeedServiceRegisterRequest request, List<Image> images, List<Menu> menus) {
+        return new Feed(id, request.getLocation(), request.getReview(), request.getStoreMood(), images, menus);
     }
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {
@@ -31,8 +31,10 @@ public class FeedMapper {
                 .id(feed.getId())
                 .location(feed.getLocation())
                 .review(feed.getReview())
-                .mood(feed.getMood())
+                .storeMood(feed.getStoreMood())
                 .images(images)
+                .createdAt(feed.getCreatedAt())
+                .updatedAt(feed.getUpdatedAt())
                 .build();
     }
 
@@ -40,7 +42,7 @@ public class FeedMapper {
         return FeedServiceRegisterRequest.builder()
                 .location(request.getLocation())
                 .review(request.getReview())
-                .mood(request.getMood())
+                .storeMood(request.getStoreMood())
                 .images(request.getImages())
                 .build();
     }
@@ -49,7 +51,7 @@ public class FeedMapper {
         return FeedServiceUpdateRequest.builder()
                 .location(request.getLocation())
                 .review(request.getReview())
-                .mood(request.getMood())
+                .storeMood(request.getStoreMood())
                 .images(request.getImages())
                 .build();
     }
@@ -62,7 +64,8 @@ public class FeedMapper {
             Image image = feedImages.get(i);
             Menu menu = feedMenus.get(i);
             images.add(
-                    new FeedImageMenuResponse(image.getUrl(), new FeedMenuResponse(menu.getName(), menu.getNumStar())));
+                    new FeedImageMenuResponse(image.getId(), image.getUrl(),
+                            new FeedMenuResponse(menu.getName(), menu.getRating())));
         }
 
         return images;
