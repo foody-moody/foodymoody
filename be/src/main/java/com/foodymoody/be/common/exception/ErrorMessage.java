@@ -12,6 +12,7 @@ public enum ErrorMessage {
     FEED_ID_NOT_EXISTS("피드가 존재하지 않습니다.", "c004"),
     CONTENT_IS_OVER_200("댓글은 200자 이하여야 합니다.", "c005"),
     REGISTER_COMMENT_REQUEST_NOT_NULL("등록 요청이 없으면 안된다", "c006"),
+    COMMENT_NOT_EXISTS("댓글이 존재하지 않는다", "c007"),
     ;
 
     private final String message;

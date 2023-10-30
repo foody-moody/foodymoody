@@ -15,6 +15,7 @@ public class CommentFixture {
     public static final String SPACE = " ";
     public static final String NEW_CONTENT = "new content";
     public static final LocalDateTime CREATED_AT = LocalDateTime.of(2021, 1, 1, 1, 1, 1);
+    public static final String NOT_EXISTS_ID = "not exists id";
 
     public static RegisterCommentRequest registerCommentRequestWithoutContent() {
         RegisterCommentRequest registerCommentRequest = new RegisterCommentRequest();

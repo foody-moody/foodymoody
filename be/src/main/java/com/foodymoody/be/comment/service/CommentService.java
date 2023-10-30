@@ -4,6 +4,7 @@ import com.foodymoody.be.comment.controller.EditCommentRequest;
 import com.foodymoody.be.comment.controller.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.Comment;
 import com.foodymoody.be.comment.repository.CommentRepository;
+import com.foodymoody.be.common.exception.CommentNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.service.FeedService;
 import java.time.LocalDateTime;
@@ -30,11 +31,18 @@ public class CommentService {
 
     @Transactional
     public void edit(String id, EditCommentRequest request) {
-        Comment comment = commentRepository.findById(id).orElseThrow();
+        Comment comment = fetchById(id);
         String content = request.getContent();
         comment.edit(content, LocalDateTime.now());
     }
 
+    @Transactional
     public void delete(String id) {
+        Comment comment = fetchById(id);
+        comment.delete(LocalDateTime.now());
+    }
+
+    public Comment fetchById(String id) {
+        return commentRepository.findById(id).orElseThrow(CommentNotExistsException::new);
     }
 }
