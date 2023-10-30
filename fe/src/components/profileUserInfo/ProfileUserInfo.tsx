@@ -10,7 +10,7 @@ type Props = {
 };
 
 const MOCK_BADGE = {
-  id: 0,
+  id: '0',
   name: '도전적인',
 };
 

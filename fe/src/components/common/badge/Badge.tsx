@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 type Props = {
   variant: BadgeVariantType;
   badge: BadgeType;
-  onClick?: (id: number, name: string) => void;
+  onClick?: (id: string, name: string) => void;
 };
 
 export const Badge: React.FC<Props> = ({ variant, badge, onClick }) => {

@@ -35,7 +35,7 @@ export const FeedUserInfo: React.FC<Props> = ({ feed, member }) => {
       </ContentLeft>
 
       <ContentRight>
-        <Badge variant="taste" badge={{ id: 1, name: '' }} />
+        <Badge variant="taste" badge={{ id: '1', name: '' }} />
         <DotGhostIcon onClick={handleClickMenu} />
       </ContentRight>
     </Wrapper>
