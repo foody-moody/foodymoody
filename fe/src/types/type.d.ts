@@ -1,5 +1,5 @@
 type FeedType = {
-  id: number;
+  id: string;
   member: FeedMemberType;
   createdAt: string;
   updatedAt: string;
@@ -12,7 +12,7 @@ type FeedType = {
 };
 
 type ProfileMemberInfoType = {
-  memberId: number;
+  memberId: string;
   imageUrl: string;
   nickname: string;
   email: string;
@@ -22,7 +22,7 @@ type ProfileMemberInfoType = {
 };
 
 type MyFeedsType = {
-  id: number;
+  id: string;
   imageUrl: string;
 };
 
@@ -45,7 +45,7 @@ type FeedMenuType = {
 type BadgeVariantType = 'store' | 'taste';
 
 type BadgeType = {
-  id: number;
+  id: string;
   name: string;
 };
 type BadgeListType = BadgeType[];
