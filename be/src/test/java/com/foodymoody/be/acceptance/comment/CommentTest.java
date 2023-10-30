@@ -241,10 +241,26 @@ class CommentTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_comment_is_deleted", spec);
 
             // given
-            댓글을_삭제한다(memberId, spec);
+            댓글을_삭제한다(memberId);
 
             // when
             var response = 댓글_수정한다(memberId, spec);
+
+            // then
+            응답코드_400_검증한다(response);
+        }
+
+        @DisplayName("댓글 수정 요청시 댓글이 존재하지 않으면 응답코드 400을 응답한다")
+        @Test
+        void when_edit_comment_if_comment_not_exists_then_return_code_400() {
+            // docs
+            api_문서_타이틀("editComment_failed_by_comment_not_exists", spec);
+
+            // given
+            String notExistsMemberId = "notExistsMemberId";
+
+            // when
+            var response = 댓글_수정한다(notExistsMemberId, spec);
 
             // then
             응답코드_400_검증한다(response);
@@ -268,6 +284,36 @@ class CommentTest extends AcceptanceTest {
 
             // then
             응답코드_200을_반환한다(response);
+        }
+
+        @DisplayName("댓글 삭제 요청시 댓글이 이미 삭제되어 있으면 응답코드 400을 응답한다")
+        @Test
+        void when_delete_comment_if_comment_is_deleted_then_return_code_400() {
+            // docs
+            api_문서_타이틀("deleteComment_failed_by_comment_is_deleted", spec);
+            String feedId = 피드를_등록하고_아이디를_받는다();
+            String memberId = 피드에_댓글을_등록하고_아이디를_받는다(feedId);
+            댓글을_삭제한다(memberId);
+
+            // when
+            var response = 댓글을_삭제한다(memberId, spec);
+
+            // then
+            응답코드_400_검증한다(response);
+        }
+
+        @DisplayName("댓글 삭제 요청시 댓글이 존재하지 않으면 응답코드 400을 응답한다")
+        @Test
+        void when_delete_comment_if_comment_not_exists_then_return_code_400() {
+            // docs
+            api_문서_타이틀("deleteComment_failed_by_comment_not_exists", spec);
+            String notExistsMemberId = "notExistsMemberId";
+
+            // when
+            var response = 댓글을_삭제한다(notExistsMemberId, spec);
+
+            // then
+            응답코드_400_검증한다(response);
         }
     }
 }

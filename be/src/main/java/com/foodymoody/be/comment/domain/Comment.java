@@ -59,6 +59,9 @@ public class Comment {
     }
 
     public void delete(LocalDateTime deletedAt) {
+        if (this.deleted) {
+            throw new CommentDeletedException();
+        }
         this.deleted = true;
         this.updatedAt = deletedAt;
     }

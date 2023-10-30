@@ -151,4 +151,8 @@ public class CommentSteps {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 댓글을_삭제한다(String memberId) {
+        return 댓글을_삭제한다(memberId, new RequestSpecBuilder().build());
+    }
 }
