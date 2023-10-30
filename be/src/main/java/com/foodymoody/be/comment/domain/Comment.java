@@ -14,6 +14,7 @@ public class Comment {
     private String id;
     private String content;
     private String feedId;
+    private boolean deleted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -50,5 +51,14 @@ public class Comment {
 
     public LocalDateTime getCreatedAt() {
         return this.createdAt;
+    }
+
+    public void delete(LocalDateTime deletedAt) {
+        this.deleted = true;
+        this.updatedAt = deletedAt;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 }
