@@ -1,8 +1,8 @@
 package com.foodymoody.be.comment.domain;
 
 import java.time.LocalDateTime;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -10,15 +10,15 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Comment {
 
-    @Id
-    private String id;
+    @EmbeddedId
+    private CommentId id;
     private String content;
     private String feedId;
     private boolean deleted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Comment(String id, String content, String feedId, LocalDateTime createdAt) {
+    public Comment(CommentId id, String content, String feedId, LocalDateTime createdAt) {
         CommentValidator.validate(id, content, feedId, createdAt);
         this.id = id;
         this.content = content;
@@ -27,7 +27,7 @@ public class Comment {
         this.updatedAt = createdAt;
     }
 
-    public String getId() {
+    public CommentId getId() {
         return id;
     }
 

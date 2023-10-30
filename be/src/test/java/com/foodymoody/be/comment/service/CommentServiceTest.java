@@ -78,7 +78,7 @@ class CommentServiceTest {
     @Test
     void when_fetch_comment_if_comment_not_exists_then_throw_exception() {
         // given
-        var id = CommentFixture.NOT_EXISTS_ID;
+        var id = CommentFixture.notExistsCommentId();
         given(commentRepository.findById(id))
                 .willReturn(Optional.empty());
 

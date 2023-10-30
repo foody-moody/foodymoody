@@ -2,6 +2,7 @@ package com.foodymoody.be.comment.util;
 
 import com.foodymoody.be.comment.controller.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.Comment;
+import com.foodymoody.be.comment.domain.CommentId;
 import java.time.LocalDateTime;
 
 public class CommentFixture {
@@ -58,10 +59,18 @@ public class CommentFixture {
     }
 
     public static Comment comment() {
-        return new Comment(COMMENT_ID, CONTENT, FEED_ID, CREATED_AT);
+        return new Comment(new CommentId(COMMENT_ID), CONTENT, FEED_ID, CREATED_AT);
+    }
+
+    public static CommentId commentId() {
+        return new CommentId(COMMENT_ID);
     }
 
     public static LocalDateTime newUpdatedAt() {
         return LocalDateTime.of(2021, 1, 2, 3, 4, 5);
+    }
+
+    public static CommentId notExistsCommentId() {
+        return new CommentId(NOT_EXISTS_ID);
     }
 }
