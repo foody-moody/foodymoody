@@ -34,4 +34,7 @@ public class CommentService {
         String content = request.getContent();
         comment.edit(content, LocalDateTime.now());
     }
+
+    public void delete(String id) {
+    }
 }
