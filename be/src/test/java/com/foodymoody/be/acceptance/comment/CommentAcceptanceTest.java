@@ -333,8 +333,9 @@ class CommentAcceptanceTest extends AcceptanceTest {
             // when
             var response = RestAssured.given().log().all()
                     .spec(spec)
+                    .param("feedId", feedId)
                     .when()
-                    .get("/api/feeds/{feedId}/comments", feedId)
+                    .get("/api/comments")
                     .then()
                     .log().all()
                     .extract();
