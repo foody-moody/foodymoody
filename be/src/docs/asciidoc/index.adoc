@@ -115,3 +115,12 @@ operation::deleteComment_failed_by_comment_not_exists[snippets='http-response']
 ==== 댓글이 이미 삭제되었을 때
 
 operation::deleteComment_failed_by_comment_is_deleted[snippets='http-response']
+
+[[member]]
+== 회원
+
+=== 회원 가입
+
+==== 성공
+
+operation::signupMember_success[snippets='http-request,http-response']
