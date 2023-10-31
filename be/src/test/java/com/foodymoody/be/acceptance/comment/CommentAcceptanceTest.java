@@ -364,7 +364,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_fetch_comments_if_success_then_return_code_200() {
             // docs
-            api_문서_타이틀("fetchComments_success", spec);
+            api_문서_타이틀("fetchComments_with_page_success", spec);
 
             // when
             var response = 피드별_댓글을_조회한다(feedId, spec);
