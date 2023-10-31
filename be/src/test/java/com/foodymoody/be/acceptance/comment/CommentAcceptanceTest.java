@@ -322,9 +322,22 @@ class CommentAcceptanceTest extends AcceptanceTest {
     @DisplayName("댓글 조회 인수테스트")
     class FetchComments {
 
-        @DisplayName("댓글 조회 요청시 성공하면, 응답코드 200을 응답한다")
+        @DisplayName("댓글 조회 요청시 피드 아이디가 null이면 응답코드 400을 응답한다")
         @Test
-        void when_fetch_comments_if_success_then_return_code_200() {
+        void when_fetch_comments_if_feed_id_not_exists_then_return_code_400() {
+            // docs
+            api_문서_타이틀("fetchComments_failed_by_feed_id_not_exists", spec);
+
+            // when
+            var response = 피드별_댓글을_조회한다(null, spec);
+
+            // then
+            응답코드_400_검증한다(response);
+        }
+
+        @DisplayName("댓글 조회 요청시 패이지와 사이즈 정보를 넣으면 해당 페이지와 사이즈의 댓글을 조회한다")
+        @Test
+        void when_fetch_comments_if_page_and_size_exists_then_return_page_and_size() {
             // docs
             api_문서_타이틀("fetchComments_success", spec);
             String feedId = 피드를_등록하고_아이디를_받는다();

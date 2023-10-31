@@ -161,9 +161,13 @@ public class CommentSteps {
     }
 
     public static ExtractableResponse<Response> 피드별_댓글을_조회한다(String feedId, RequestSpecification spec) {
+        Map<String, String> params = new HashMap<>();
+        params.put("feedId", feedId);
+        params.put("page", "0");
+        params.put("size", "10");
         return RestAssured.given().log().all()
                 .spec(spec)
-                .param("feedId", feedId)
+                .params(params)
                 .when()
                 .get("/api/comments")
                 .then()
