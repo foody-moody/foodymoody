@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("댓글 관련 기능 인수테스트")
-class CommentTest extends AcceptanceTest {
+class CommentAcceptanceTest extends AcceptanceTest {
 
     @Nested
     @DisplayName("댓글 등록 인수테스트")
