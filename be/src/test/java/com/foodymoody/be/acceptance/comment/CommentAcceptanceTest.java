@@ -20,6 +20,7 @@ import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에서_200
 import static com.foodymoody.be.feed.FeedSteps.피드를_등록하고_아이디를_받는다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
+import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -314,6 +315,32 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
             // then
             응답코드_400_검증한다(response);
+        }
+    }
+
+    @Nested
+    @DisplayName("댓글 조회 인수테스트")
+    class FetchComments {
+
+        @DisplayName("댓글 조회 요청시 성공하면, 응답코드 200을 응답한다")
+        @Test
+        void when_fetch_comments_if_success_then_return_code_200() {
+            // docs
+            api_문서_타이틀("fetchComments_success", spec);
+            String feedId = 피드를_등록하고_아이디를_받는다();
+            피드에_댓글을_등록한다(feedId, spec);
+
+            // when
+            var response = RestAssured.given().log().all()
+                    .spec(spec)
+                    .when()
+                    .get("/api/feeds/{feedId}/comments", feedId)
+                    .then()
+                    .log().all()
+                    .extract();
+
+            // then
+            응답코드_200을_반환한다(response);
         }
     }
 }
