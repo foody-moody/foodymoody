@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @DisplayName("댓글 서비스 테스트")
@@ -30,6 +31,8 @@ class CommentServiceTest {
     private FeedService feedService;
     @Mock
     private CommentRepository commentRepository;
+    @Spy
+    private CommentMapper commentMapper = new CommentMapper();
 
     @DisplayName("댓글 등록 시 댓글 내용이 없으면 댓글 내용 없음 예외가 발생한다.")
     @Test
