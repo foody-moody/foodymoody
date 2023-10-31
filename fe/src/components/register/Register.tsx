@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
+import { useRegister } from 'queries/auth';
 import { useInput } from 'hooks/useInput';
-import { Button } from '../common/Button/Button';
+import { Button } from '../common/button/Button';
 import { ArrowDownIcon } from '../common/icon/icons';
 import { Input } from '../common/input/Input';
 
 export const Register: React.FC = () => {
+  const register = useRegister();
   const [selectedTaste, setSelectedTaste] = useState('');
 
   const {
@@ -49,15 +51,16 @@ export const Register: React.FC = () => {
     validator: (value) => value.length > 5, // 검증 로직 변경
   });
 
-  const handleRegister = () => {
+  const handleSubmit = () => {
     const registerData = {
       email: emailValue,
       nickname: nicknameValue,
       password: passwordValue,
-      confirmPassword: confirmPasswordValue,
+      reconfirmPassword: confirmPasswordValue,
       taste: selectedTaste,
     };
     console.log(registerData);
+    register.mutate(registerData);
   };
 
   return (
@@ -65,14 +68,12 @@ export const Register: React.FC = () => {
       <Input
         variant="default"
         placeholder="이메일"
-        // value={emailValue}
         onChangeValue={handleEmailChange}
         helperText={emailHelperText}
       />
       <Input
         variant="default"
         placeholder="닉네임"
-        // value={nicknameValue}
         onChangeValue={handleNicknameChange}
         helperText={nicknameHelperText}
       />
@@ -80,7 +81,6 @@ export const Register: React.FC = () => {
         type="password"
         variant="default"
         placeholder="비밀번호"
-        // value={passwordValue}
         onChangeValue={handlePasswordChange}
         helperText={passwordHelperText}
       />
@@ -88,7 +88,6 @@ export const Register: React.FC = () => {
         type="password"
         variant="default"
         placeholder="비밀번호 확인"
-        value={confirmPasswordValue}
         onChangeValue={handleConfirmPasswordChange}
         helperText={confirmPasswordHelperText}
       />
@@ -108,7 +107,8 @@ export const Register: React.FC = () => {
         </Select>
         <ArrowDownIcon />
       </SelectLabel>
-      <Button size="l" backgroundColor="orange" onClick={handleRegister}>
+      <Button size="l" backgroundColor="orange" onClick={handleSubmit}>
+        {/* status={register.status} */}
         회원가입
       </Button>
     </Wrapper>
@@ -116,15 +116,15 @@ export const Register: React.FC = () => {
 };
 
 const MOCK_TASTES = [
-  { id: 1, name: '어린이 입맛' },
-  { id: 2, name: '스파이시 킹' },
-  { id: 3, name: '으른 입맛' },
-  { id: 4, name: '디저트 킬러' },
-  { id: 5, name: '육식파' },
-  { id: 6, name: '도전적인' },
-  { id: 7, name: '초식파' },
-  { id: 8, name: '맵찔이' },
-  { id: 9, name: '자칭 미식가' },
+  { id: 'f47ac10b-58cc-4372-a567-0e02b2c3d479', name: '어린이 입맛' },
+  { id: '7e57d004-2b97-0e7a-b45f-5387367791cd', name: '스파이시 킹' },
+  { id: 'e2a63f33-9e8f-40be-8c04-bb351d70d7d7', name: '으른 입맛' },
+  { id: 'a5f4f3e7-f716-4f73-a5f0-825babbbbbbb', name: '디저트 킬러' },
+  { id: '0f14d0ab-9604-4e80-bb3c-60082eeb8eef', name: '육식파' },
+  { id: '7e414d03-7e7e-4f02-953d-3a0f049a6a37', name: '도전적인' },
+  { id: '83a7363b-384d-3c6d-a166-8c4d270a37a8', name: '초식파' },
+  { id: '2a9f910c-3d10-11e8-b467-0ed5f89f718b', name: '맵찔이' },
+  { id: '2a9f90c0-3d10-11e8-b467-0ed5f89f71aa', name: '자칭 미식가' },
 ];
 
 const Wrapper = styled.div`
