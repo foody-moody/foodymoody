@@ -50,7 +50,7 @@ export const NaviBar = () => {
             <Logo onClick={navigateToHome} />
           </LogoBox>
           {NaviItems.map((item) => (
-            <NaviLink to={item.path}>
+            <NaviLink to={item.path} key={item.label}>
               {item.icon}
               <span>{item.label}</span>
             </NaviLink>
@@ -59,7 +59,9 @@ export const NaviBar = () => {
 
         <NaviM>
           {NaviItemsM.map((item) => (
-            <NaviLink to={item.path}>{item.icon}</NaviLink>
+            <NaviLink to={item.path} key={item.label}>
+              {item.icon}
+            </NaviLink>
           ))}
         </NaviM>
 
