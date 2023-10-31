@@ -8,6 +8,8 @@ import { theme } from 'styles/designSystem';
 import { GlobalStyles } from 'styles/globalStyles.ts';
 import { GlobalModals } from 'components/common/modal/Modal';
 
+// import { useRefreshToken } from 'hooks/auth/useAuth';
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -19,6 +21,7 @@ const queryClient = new QueryClient({
 
 function App() {
   RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
+  // useRefreshToken();
 
   return (
     <>

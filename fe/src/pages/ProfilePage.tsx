@@ -84,7 +84,7 @@ const MOCK_FEEDS = Array.from({ length: 20 }, (_, index) => ({
 }));
 
 const MOCK = {
-  memberId: 1,
+  memberId: '1',
   imageUrl: 'https://www.dskadsl.com',
   nickname: '보노',
   image: 'url',
@@ -92,11 +92,11 @@ const MOCK = {
   mood: '기쁨',
   myFeeds: [
     {
-      id: 1,
+      id: '1',
       imageUrl: 'https://www.googles.com/',
     },
     {
-      id: 2,
+      id: '2',
       imageUrl: 'https://www.googles.com/',
     },
   ],

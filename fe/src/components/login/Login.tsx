@@ -1,9 +1,12 @@
 import { styled } from 'styled-components';
+import { Button } from 'components/common/button/Button';
+import { useLogin } from 'queries/auth';
 import { useInput } from 'hooks/useInput';
-import { Button } from '../common/Button/Button';
 import { Input } from '../common/input/Input';
 
 export const Login: React.FC = () => {
+  const login = useLogin();
+
   const {
     value: idValue,
     handleChange: handleIdChange,
@@ -24,12 +27,14 @@ export const Login: React.FC = () => {
     validator: (value) => value.length > 5, // 검증 로직 변경
   });
 
-  const handleLogin = () => {
+  const handleSubmit = () => {
     const loginData = {
-      id: idValue,
+      email: idValue,
       password: passwordValue,
     };
     console.log(loginData);
+
+    login.mutate(loginData);
   };
 
   return (
@@ -37,18 +42,16 @@ export const Login: React.FC = () => {
       <Input
         variant="default"
         placeholder="아이디"
-        value={idValue}
         onChangeValue={handleIdChange}
         helperText={idHelperText}
       />
       <Input
         variant="default"
         placeholder="비밀번호"
-        value={passwordValue}
         onChangeValue={handlePasswordChange}
         helperText={passwordHelperText}
       />
-      <Button size="l" backgroundColor="orange" onClick={handleLogin}>
+      <Button size="l" backgroundColor="orange" onClick={handleSubmit}>
         로그인
       </Button>
     </Wrapper>
