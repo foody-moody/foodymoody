@@ -2,10 +2,10 @@ import { styled } from 'styled-components';
 import { Badge } from '../badge/Badge';
 
 type Props = {
-  variant: BadgeVariantType;
+  variant: MoodVariant;
   maxCount: number;
-  selectedBadgeList: BadgeListType;
-  onActiveBadge: (badges: BadgeListType) => void;
+  selectedBadgeList: Mood[];
+  onActiveBadge: (badges: Mood[]) => void;
 };
 
 export const BadgeSelector: React.FC<Props> = ({
@@ -38,7 +38,7 @@ export const BadgeSelector: React.FC<Props> = ({
     return selectedBadgeList.filter((badge) => badge.id !== badgeId);
   };
 
-  const getOnClickHandler = (badge: BadgeType) => {
+  const getOnClickHandler = (badge: Mood) => {
     if (!isBadgeSelectable(badge.id)) {
       return undefined;
     }

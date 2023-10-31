@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 
 type Props = {
-  variant: BadgeVariantType;
-  badge: BadgeType;
+  variant: MoodVariant;
+  badge: Mood;
   onClick?: (id: string, name: string) => void;
 };
 

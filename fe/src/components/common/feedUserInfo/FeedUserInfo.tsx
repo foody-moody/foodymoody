@@ -6,14 +6,19 @@ import { DotGhostIcon, MapPinSmallIcon } from '../icon/icons';
 import { UserImage } from '../userImage/UserImage';
 
 type Props = {
-  feed: FeedType;
-  member: FeedMemberType;
+  member: FeedMemberInfo;
+  createdAt: string;
+  location: string;
 };
 
-export const FeedUserInfo: React.FC<Props> = ({ feed, member }) => {
+export const FeedUserInfo: React.FC<Props> = ({
+  member,
+  createdAt,
+  location,
+}) => {
   const { navigateToProfile } = usePageNavigator();
 
-  const formattedTimeStamp = formatTimeStamp(feed.createdAt);
+  const formattedTimeStamp = formatTimeStamp(createdAt);
 
   const handleClickMenu = () => {};
 
@@ -29,13 +34,13 @@ export const FeedUserInfo: React.FC<Props> = ({ feed, member }) => {
 
           <ContentBody>
             <MapPinSmallIcon />
-            <p>{feed.location}</p>
+            <p>{location}</p>
           </ContentBody>
         </FlexColumnBox>
       </ContentLeft>
 
       <ContentRight>
-        <Badge variant="taste" badge={{ id: '1', name: '' }} />
+        <Badge variant="taste" badge={member.tasteMood} />
         <DotGhostIcon onClick={handleClickMenu} />
       </ContentRight>
     </Wrapper>
