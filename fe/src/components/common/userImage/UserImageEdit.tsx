@@ -30,12 +30,16 @@ export const UserImageEdit: React.FC<UserImageEditProps> = ({ imageUrl }) => {
 
 const Wrapper = styled.div`
   position: relative;
-  width: 100px;
-  height: 100px;
+  img {
+    width: 100px;
+    height: 100px;
+  }
 
   ${media.md} {
-    width: 75px;
-    height: 75px;
+    img {
+      width: 75px;
+      height: 75px;
+    }
   }
 `;
 
