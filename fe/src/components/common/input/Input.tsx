@@ -12,18 +12,14 @@ type Props = {
   onPressEnter?(): void;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-export const Input: React.FC<Props> = (
-
-  {
-    type = 'text',
-    placeholder = '입력해주세요',
-    variant,
-    helperText,
-    onChangeValue,
-    ...props
-  }
-
-) => {
+export const Input: React.FC<Props> = ({
+  type = 'text',
+  placeholder = '입력해주세요',
+  variant,
+  helperText,
+  onChangeValue,
+  ...props
+}) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const WrapperShape = SHAPE_VARIANT[variant];
@@ -40,11 +36,9 @@ export const Input: React.FC<Props> = (
         {variant === 'comment' && <Dummy />}
         <InputCore
           type={type}
-          value={value}
+          // value={value}
           placeholder={variant !== 'default' ? placeholder : ''}
-
           onChangeValue={onChangeValue}
-
           onPressEnter={() => {
             console.log('press enter');
           }}
