@@ -1,6 +1,5 @@
 import { useState, InputHTMLAttributes } from 'react';
 import { styled } from 'styled-components';
-import { BellIcon } from '../icon/icons';
 import { InputCore } from './InputCore';
 
 type Props = {
@@ -15,7 +14,14 @@ type Props = {
 
 export const Input: React.FC<Props> = (
 
-  { type = 'text', placeholder = '입력해주세요', variant, helperText, onChange,  ...props }
+  {
+    type = 'text',
+    placeholder = '입력해주세요',
+    variant,
+    helperText,
+    onChangeValue,
+    ...props
+  }
 
 ) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -31,12 +37,14 @@ export const Input: React.FC<Props> = (
         {variant === 'default' && (
           <LabelText $isFocused={isFocused}>{placeholder}</LabelText>
         )}
-        {variant === 'comment' && <BellIcon />}
+        {variant === 'comment' && <Dummy />}
         <InputCore
           type={type}
           value={value}
           placeholder={variant !== 'default' ? placeholder : ''}
-          onValueChange={onChangeValue}
+
+          onChangeValue={onChangeValue}
+
           onPressEnter={() => {
             console.log('press enter');
           }}
@@ -64,6 +72,7 @@ const LabelText = styled.label<{
       ? 'translate(0, -12px) scale(0.75)'
       : 'translate(0, 0px) scale(1)'};
   transform-origin: top left;
+  pointer-events: none;
   font: ${({ theme: { fonts } }) => fonts.displayM14};
   color: ${({ theme: { colors } }) => colors.textPlaceholder};
 `;
@@ -76,6 +85,7 @@ const BaseWrapper = styled.div<{
   width: 100%;
   position: relative;
   box-sizing: border-box;
+  background-color: ${({ theme: { colors } }) => colors.white};
 `;
 
 const GhostWrapper = styled(BaseWrapper)`
@@ -134,8 +144,8 @@ const Dummy = styled.div`
 
 const HelperText = styled.div`
   position: absolute;
-  top: 103%;
-  right: 0;
-  font: ${({ theme: { fonts } }) => fonts.displayM12};
+  top: 100%;
+  right: 5%;
+  font: ${({ theme: { fonts } }) => fonts.displayM10};
   color: ${({ theme: { colors } }) => colors.pink};
 `;

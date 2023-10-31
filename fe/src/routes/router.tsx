@@ -8,6 +8,7 @@ import { LoginPage } from 'pages/LoginPage';
 import { NewFeedPage } from 'pages/NewFeedPage';
 import { NotiPage } from 'pages/NotiPage';
 import { ProfilePage } from 'pages/ProfilePage';
+import { ProtectedRoute } from 'pages/ProtectedRoute';
 import { RegisterPage } from 'pages/RegisterPage';
 import { SearchPage } from 'pages/SearchPage';
 import { PATH } from 'constants/path';
@@ -26,6 +27,19 @@ const router = createBrowserRouter([
             element: <HomePage />,
           },
           {
+            element: <ProtectedRoute />,
+            children: [
+              {
+                path: PATH.NOTI,
+                element: <NotiPage />,
+              },
+              {
+                path: PATH.NEW_FEED,
+                element: <NewFeedPage />,
+              },
+            ],
+          },
+          {
             path: PATH.PROFILE,
             element: <ProfilePage />,
           },
@@ -34,16 +48,8 @@ const router = createBrowserRouter([
             element: <CollectionPage />,
           },
           {
-            path: PATH.NOTI,
-            element: <NotiPage />,
-          },
-          {
             path: PATH.SEARCH,
             element: <SearchPage />,
-          },
-          {
-            path: PATH.NEW_FEED,
-            element: <NewFeedPage />,
           },
           {
             path: PATH.DETAIL_FEED,

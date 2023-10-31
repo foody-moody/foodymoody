@@ -14,24 +14,32 @@ export const UserImageEdit: React.FC<UserImageEditProps> = ({ imageUrl }) => {
 
   const handleEditImage = () => {};
 
+  const isAuthor = false;
+
   return (
     <Wrapper>
       <UserImage variant="edit" imageUrl={userImage} />
-      <EditBtn onClick={handleEditImage}>
-        <EditIcon />
-      </EditBtn>
+      {isAuthor && (
+        <EditBtn onClick={handleEditImage}>
+          <EditIcon />
+        </EditBtn>
+      )}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   position: relative;
-  width: 100px;
-  height: 100px;
+  img {
+    width: 100px;
+    height: 100px;
+  }
 
   ${media.md} {
-    width: 75px;
-    height: 75px;
+    img {
+      width: 75px;
+      height: 75px;
+    }
   }
 `;
 
