@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 public class CommentValidator {
 
     public static final int COUNT_MAX_SIZE = 200;
-    public static final int ZERO = 0;
 
     private CommentValidator() {
         throw new IllegalStateException(UTILITY_CLASS);
@@ -35,10 +34,12 @@ public class CommentValidator {
         return object == null;
     }
 
-    public static void validate(String id, String content, String feedId, LocalDateTime createdAt) {
+    public static void validate(CommentId id, String content, String feedId, LocalDateTime createdAt) {
         validateId(id);
         validateContent(content);
-        validateId(feedId);
+        if (isNull(feedId)) {
+            throw new ContentNotExistsException();
+        }
         validateCreateTime(createdAt);
     }
 
@@ -57,8 +58,8 @@ public class CommentValidator {
         }
     }
 
-    public static void validateId(String id) {
-        if (isNull(id)) {
+    public static void validateId(CommentId id) {
+        if (isNull(id) || isNull(id.getId())) {
             throw new InvalidIdException();
         }
     }

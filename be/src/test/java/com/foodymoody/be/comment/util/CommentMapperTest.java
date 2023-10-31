@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.comment.controller.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.Comment;
+import com.foodymoody.be.comment.domain.CommentId;
 import com.foodymoody.be.comment.service.CommentMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -19,12 +20,13 @@ class CommentMapperTest {
         RegisterCommentRequest request = CommentFixture.registerCommentRequest();
 
         // when
-        Comment comment = CommentMapper.toEntity(request, CommentFixture.COMMENT_ID, CommentFixture.CREATED_AT);
+        Comment comment = CommentMapper.toEntity(request, CommentFixture.CREATED_AT,
+                new CommentId(CommentFixture.COMMENT_ID));
 
         // then
         Assertions.assertAll(
                 () -> assertThat(comment).isNotNull(),
-                () -> assertThat(comment.getId()).isEqualTo(CommentFixture.COMMENT_ID),
+                () -> assertThat(comment.getId()).usingRecursiveComparison().isEqualTo(CommentFixture.commentId()),
                 () -> assertThat(comment.getContent()).isEqualTo(CommentFixture.CONTENT),
                 () -> assertThat(comment.getFeedId()).isEqualTo(CommentFixture.FEED_ID),
                 () -> assertThat(comment.getCreatedAt()).isEqualTo(CommentFixture.CREATED_AT),

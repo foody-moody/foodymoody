@@ -5,6 +5,7 @@ import static com.foodymoody.be.acceptance.comment.CommentSteps.공백인_댓글
 import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글_수정한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글_없이_댓글_수정한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글없이_피드에_댓글_등록한다;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글을_삭제한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.비여있는_댓글로_댓글_수정한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.요청_내용_없이_댓글_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200과_id를_반환한다;
@@ -228,6 +229,88 @@ class CommentTest extends AcceptanceTest {
 
             // when
             var response = _201자인_댓글로_댓글_수정한다(spec, memberId);
+
+            // then
+            응답코드_400_검증한다(response);
+        }
+
+        @DisplayName("댓글 수정 요청시 댓글이 이미 삭제되어 있으면 응답코드 400을 응답한다")
+        @Test
+        void when_edit_comment_if_comment_is_deleted_then_return_code_400() {
+            // docs
+            api_문서_타이틀("editComment_failed_by_comment_is_deleted", spec);
+
+            // given
+            댓글을_삭제한다(memberId);
+
+            // when
+            var response = 댓글_수정한다(memberId, spec);
+
+            // then
+            응답코드_400_검증한다(response);
+        }
+
+        @DisplayName("댓글 수정 요청시 댓글이 존재하지 않으면 응답코드 400을 응답한다")
+        @Test
+        void when_edit_comment_if_comment_not_exists_then_return_code_400() {
+            // docs
+            api_문서_타이틀("editComment_failed_by_comment_not_exists", spec);
+
+            // given
+            String notExistsMemberId = "notExistsMemberId";
+
+            // when
+            var response = 댓글_수정한다(notExistsMemberId, spec);
+
+            // then
+            응답코드_400_검증한다(response);
+        }
+    }
+
+    @Nested
+    @DisplayName("댓글 삭제 인수테스트")
+    class DeleteComment {
+
+        @DisplayName("댓글 삭제 요청시 성공하면, 응답코드 200을 응답한다")
+        @Test
+        void when_delete_comment_if_success_then_return_code_200() {
+            // docs
+            api_문서_타이틀("deleteComment_success", spec);
+            String feedId = 피드를_등록하고_아이디를_받는다();
+            String memberId = 피드에_댓글을_등록하고_아이디를_받는다(feedId);
+
+            // when
+            var response = 댓글을_삭제한다(memberId, spec);
+
+            // then
+            응답코드_200을_반환한다(response);
+        }
+
+        @DisplayName("댓글 삭제 요청시 댓글이 이미 삭제되어 있으면 응답코드 400을 응답한다")
+        @Test
+        void when_delete_comment_if_comment_is_deleted_then_return_code_400() {
+            // docs
+            api_문서_타이틀("deleteComment_failed_by_comment_is_deleted", spec);
+            String feedId = 피드를_등록하고_아이디를_받는다();
+            String memberId = 피드에_댓글을_등록하고_아이디를_받는다(feedId);
+            댓글을_삭제한다(memberId);
+
+            // when
+            var response = 댓글을_삭제한다(memberId, spec);
+
+            // then
+            응답코드_400_검증한다(response);
+        }
+
+        @DisplayName("댓글 삭제 요청시 댓글이 존재하지 않으면 응답코드 400을 응답한다")
+        @Test
+        void when_delete_comment_if_comment_not_exists_then_return_code_400() {
+            // docs
+            api_문서_타이틀("deleteComment_failed_by_comment_not_exists", spec);
+            String notExistsMemberId = "notExistsMemberId";
+
+            // when
+            var response = 댓글을_삭제한다(notExistsMemberId, spec);
 
             // then
             응답코드_400_검증한다(response);

@@ -144,4 +144,15 @@ public class CommentSteps {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 댓글을_삭제한다(String memberId, RequestSpecification spec) {
+        return RestAssured.given().spec(spec).log().all()
+                .when().delete("/api/comments/{commentId}", memberId)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 댓글을_삭제한다(String memberId) {
+        return 댓글을_삭제한다(memberId, new RequestSpecBuilder().build());
+    }
 }
