@@ -18,9 +18,10 @@ class CommentMapperTest {
     void toEntity() {
         // given
         RegisterCommentRequest request = CommentFixture.registerCommentRequest();
+        CommentMapper commentMapper = new CommentMapper();
 
         // when
-        Comment comment = CommentMapper.toEntity(request, CommentFixture.CREATED_AT,
+        Comment comment = commentMapper.toEntity(request, CommentFixture.CREATED_AT,
                 new CommentId(CommentFixture.COMMENT_ID));
 
         // then
