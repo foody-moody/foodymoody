@@ -27,6 +27,9 @@ const Wrapper = styled.div`
   align-items: center;
   padding: 8px 12px;
   gap: 8px;
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
 `;
 
 const Rating = styled.span`
