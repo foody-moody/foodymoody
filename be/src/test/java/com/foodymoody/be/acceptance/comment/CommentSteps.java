@@ -167,7 +167,7 @@ public class CommentSteps {
                 .extract();
     }
 
-    public static void 페이지_적용_검증(ExtractableResponse<Response> response) {
+    public static void 페이지_적용_조회_검증(ExtractableResponse<Response> response) {
         Assertions.assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
                 () -> assertThat(response.body().jsonPath().getLong("number")).isEqualTo(1),

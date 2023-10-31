@@ -11,7 +11,7 @@ import static com.foodymoody.be.acceptance.comment.CommentSteps.요청_내용_�
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200과_id를_반환한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200을_반환한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_400_검증한다;
-import static com.foodymoody.be.acceptance.comment.CommentSteps.페이지_적용_검증;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.페이지_적용_조회_검증;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.페이지_적용_피드별_댓글을_조회한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드_아이디_없이_댓글을_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드별_댓글을_조회한다;
@@ -357,7 +357,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             var response = 페이지_적용_피드별_댓글을_조회한다(feedId, spec);
 
             // then
-            페이지_적용_검증(response);
+            페이지_적용_조회_검증(response);
         }
 
         @DisplayName("댓글 조회 요청시 성공하면 응답코드 200을 응답한다")
