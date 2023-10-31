@@ -23,6 +23,7 @@ export { default as MapPinSmallIcon } from 'assets/mapPinSmall.svg?react';
 export { default as MenuIcon } from 'assets/menu.svg?react';
 export { default as PencilLineIcon } from 'assets/pencilLine.svg?react';
 export { default as PlusIcon } from 'assets/plus.svg?react';
+export { default as PlusGhostIcon } from 'assets/plusGhost.svg?react';
 export { default as SearchIcon } from 'assets/search.svg?react';
 export { default as StarLargeEmptyIcon } from 'assets/starLargeEmpty.svg?react';
 export { default as StarLargeFillIcon } from 'assets/starLargeFill.svg?react';

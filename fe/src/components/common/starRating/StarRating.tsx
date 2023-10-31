@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { styled } from 'styled-components';
 import { StarLargeFillIcon, StarLargeEmptyIcon } from '../icon/icons';
 
 type Props = {
@@ -16,7 +17,7 @@ export const StarRating: React.FC<Props> = ({ onClick, currentRating }) => {
   };
 
   return (
-    <>
+    <Wrapper>
       {[...Array(5)].map((_, i) => {
         const starIndex = i + 1;
 
@@ -32,6 +33,10 @@ export const StarRating: React.FC<Props> = ({ onClick, currentRating }) => {
           />
         );
       })}
-    </>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  display: flex;
+`;

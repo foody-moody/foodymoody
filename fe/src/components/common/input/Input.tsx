@@ -4,6 +4,7 @@ import { InputCore } from './InputCore';
 
 type Props = {
   type?: 'password' | 'text';
+  value?: string;
   placeholder?: string;
   variant: 'ghost' | 'underline' | 'default' | 'comment';
   helperText?: string;
@@ -12,6 +13,7 @@ type Props = {
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export const Input: React.FC<Props> = (
+
   {
     type = 'text',
     placeholder = '입력해주세요',
@@ -20,6 +22,7 @@ export const Input: React.FC<Props> = (
     onChangeValue,
     ...props
   }
+
 ) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -37,8 +40,11 @@ export const Input: React.FC<Props> = (
         {variant === 'comment' && <Dummy />}
         <InputCore
           type={type}
+          value={value}
           placeholder={variant !== 'default' ? placeholder : ''}
+
           onChangeValue={onChangeValue}
+
           onPressEnter={() => {
             console.log('press enter');
           }}
@@ -105,7 +111,6 @@ const DefaultWrapper = styled(BaseWrapper)`
     ${({ $isFocused, $isError, theme: { colors } }) =>
       $isFocused && $isError ? colors.pink : colors.black};
   border-radius: ${({ theme: { radius } }) => radius.large};
-
   padding: ${({ $isFocused }) =>
     $isFocused ? '20px 20px 4px 20px' : '12px 20px '};
 

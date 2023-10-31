@@ -1,18 +1,24 @@
 import { InputHTMLAttributes } from 'react';
 import { styled } from 'styled-components';
+import { InputHTMLAttributes } from 'react';
 
 type Props = {
   type?: string;
+  value?: string;
   placeholder?: string;
+
   onChangeValue?(value: string): void;
+
   onPressEnter?(): void;
   onInputFocus?(): void;
 } & InputHTMLAttributes<HTMLInputElement>;
+
 
 export const InputCore: React.FC<Props> = ({ type = 'text', placeholder,onChangeValue, onPressEnter,onInputFocus ,...props}) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChangeValue?.(e.target.value);
+
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -24,6 +30,7 @@ export const InputCore: React.FC<Props> = ({ type = 'text', placeholder,onChange
   return <>
     <Wrapper
       type={type}
+      value={value}
       placeholder={placeholder}
       onChange={handleInputChange}
       onKeyDown={handleKeyDown}
