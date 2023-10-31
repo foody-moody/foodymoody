@@ -3,6 +3,7 @@ package com.foodymoody.be.feed.service;
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.domain.Feed;
+import com.foodymoody.be.feed.domain.ImageMenu;
 import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
 import com.foodymoody.be.feed.dto.request.ImageMenuPair;
@@ -46,7 +47,7 @@ public class FeedService {
                     .member(null)
                     .location(feed.getLocation())
                     .review(feed.getReview())
-                    .storeMood(feed.getStoreMood())
+                    .storeMood(feed.getStoreMoodIds())
                     .images(images)
                     .createdAt(feed.getCreatedAt())
                     .updatedAt(feed.getUpdatedAt())
@@ -106,9 +107,8 @@ public class FeedService {
     }
 
     private List<FeedImageMenuResponse> getFeedImageMenuResponses(Feed feed) {
-        List<Image> feedImages = feed.getImages();
-        List<Menu> feedMenus = feed.getMenus();
-        return FeedMapper.toFeedImageMenuResponses(feedImages, feedMenus);
+        List<ImageMenu> imageMenus = feed.getImageMenus();
+        return FeedMapper.toFeedImageMenuResponses(imageMenus);
     }
 
     private Feed findFeed(String id) {
