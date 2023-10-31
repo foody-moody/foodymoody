@@ -22,6 +22,10 @@ public class CommentSteps {
         return 피드에_댓글_등록_요청한다(spec, body);
     }
 
+    public static ExtractableResponse<Response> 피드에_댓글을_등록한다(String feedId) {
+        return 피드에_댓글을_등록한다(feedId, new RequestSpecBuilder().build());
+    }
+
     public static String 피드에_댓글을_등록하고_아이디를_받는다(String feedId) {
         return 피드에_댓글을_등록한다(feedId, new RequestSpecBuilder().build()).jsonPath().getString("id");
     }
@@ -154,5 +158,16 @@ public class CommentSteps {
 
     public static ExtractableResponse<Response> 댓글을_삭제한다(String memberId) {
         return 댓글을_삭제한다(memberId, new RequestSpecBuilder().build());
+    }
+
+    public static ExtractableResponse<Response> 피드별_댓글을_조회한다(String feedId, RequestSpecification spec) {
+        return RestAssured.given().log().all()
+                .spec(spec)
+                .param("feedId", feedId)
+                .when()
+                .get("/api/comments")
+                .then()
+                .log().all()
+                .extract();
     }
 }
