@@ -11,6 +11,8 @@ import static com.foodymoody.be.acceptance.comment.CommentSteps.요청_내용_�
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200과_id를_반환한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200을_반환한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_400_검증한다;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.페이지_적용_검증;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.페이지_적용_피드별_댓글을_조회한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드_아이디_없이_댓글을_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드별_댓글을_조회한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_공백댓글_등록한다;
@@ -322,6 +324,16 @@ class CommentAcceptanceTest extends AcceptanceTest {
     @DisplayName("댓글 조회 인수테스트")
     class FetchComments {
 
+        private String feedId;
+
+        @BeforeEach
+        void setUp() {
+            feedId = 피드를_등록하고_아이디를_받는다();
+            for (int i = 0; i < 20; i++) {
+                피드에_댓글을_등록한다(feedId);
+            }
+        }
+
         @DisplayName("댓글 조회 요청시 피드 아이디가 null이면 응답코드 400을 응답한다")
         @Test
         void when_fetch_comments_if_feed_id_not_exists_then_return_code_400() {
@@ -340,8 +352,19 @@ class CommentAcceptanceTest extends AcceptanceTest {
         void when_fetch_comments_if_page_and_size_exists_then_return_page_and_size() {
             // docs
             api_문서_타이틀("fetchComments_success", spec);
-            String feedId = 피드를_등록하고_아이디를_받는다();
-            피드에_댓글을_등록한다(feedId);
+
+            // when
+            var response = 페이지_적용_피드별_댓글을_조회한다(feedId, spec);
+
+            // then
+            페이지_적용_검증(response);
+        }
+
+        @DisplayName("댓글 조회 요청시 성공하면 응답코드 200을 응답한다")
+        @Test
+        void when_fetch_comments_if_success_then_return_code_200() {
+            // docs
+            api_문서_타이틀("fetchComments_success", spec);
 
             // when
             var response = 피드별_댓글을_조회한다(feedId, spec);
