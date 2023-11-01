@@ -33,12 +33,12 @@ public class Feed {
     public Feed() {
     }
 
-    public Feed(String id, String location, String review, List<String> storeMood, List<Image> images,
-            List<Menu> menus) {
+    public Feed(String id, String location, String review, List<String> moodIds, List<Image> images,
+                List<Menu> menus) {
         this.id = id;
         this.location = location;
         this.review = review;
-        this.storeMood = new StoreMood(storeMood);
+        this.storeMood = new StoreMood(moodIds);
         this.imageMenus = new ImageMenus(images, menus);
     }
 
@@ -82,11 +82,11 @@ public class Feed {
         return updatedAt;
     }
 
-    public void update(String location, String review, List<String> storeMood, List<Image> newImages,
-            List<Menu> newMenus) {
+    public void update(String location, String review, List<String> newMoodIds, List<Image> newImages,
+                       List<Menu> newMenus) {
         this.location = location;
         this.review = review;
-        this.storeMood = new StoreMood(storeMood);
+        this.storeMood = new StoreMood(newMoodIds);
         this.imageMenus.replaceWith(newImages, newMenus);
     }
 

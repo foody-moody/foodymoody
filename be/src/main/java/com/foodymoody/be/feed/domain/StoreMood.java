@@ -20,15 +20,14 @@ public class StoreMood {
     @ElementCollection
     private List<String> moodIds;
 
-    // TODO: moodId로 관리하도록 리팩토링
-    public StoreMood(List<String> moods) {
-        validate(moods);
-        this.moodIds = new ArrayList<>(moods);
+    public StoreMood(List<String> moodIds) {
+        validate(moodIds);
+        this.moodIds = new ArrayList<>(moodIds);
     }
 
-    private void validate(List<String> moods) {
-        if (moods == null || moods.size() > MAX_MOOD_COUNT) {
-            throw new IllegalArgumentException("StoreMood는 길이가 3 이하여야 합니다.");
+    private void validate(List<String> moodIds) {
+        if (moodIds == null || moodIds.size() > MAX_MOOD_COUNT) {
+            throw new IllegalArgumentException("Mood는 길이가 " + MAX_MOOD_COUNT + "이하여야 합니다.");
         }
     }
 

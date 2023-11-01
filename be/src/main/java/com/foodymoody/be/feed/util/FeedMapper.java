@@ -12,26 +12,27 @@ import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class FeedMapper {
 
-    public static Feed toFeed(String id, FeedServiceRegisterRequest request, List<Image> images, List<Menu> menus) {
-        return new Feed(id, request.getLocation(), request.getReview(), request.getStoreMood(), images, menus);
+    public static Feed toFeed(String id, FeedServiceRegisterRequest request, List<String> moodIds, List<Image> images,
+                              List<Menu> menus) {
+        return new Feed(id, request.getLocation(), request.getReview(), moodIds, images, menus);
     }
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {
         return new FeedRegisterResponse(savedFeed.getId());
     }
 
-    public static FeedReadResponse toFeedReadResponse(Feed feed, List<FeedImageMenuResponse> images) {
+    public static FeedReadResponse toFeedReadResponse(Feed feed, List<FeedImageMenuResponse> images,
+                                                      List<String> moodNames) {
         return FeedReadResponse.builder()
                 .id(feed.getId())
                 .location(feed.getLocation())
                 .review(feed.getReview())
-                .storeMood(feed.getStoreMoodIds())
+                .storeMood(moodNames)
                 .images(images)
                 .createdAt(feed.getCreatedAt())
                 .updatedAt(feed.getUpdatedAt())
