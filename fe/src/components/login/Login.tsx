@@ -11,20 +11,23 @@ export const Login: React.FC = () => {
     value: idValue,
     handleChange: handleIdChange,
     helperText: idHelperText,
-    // isValid: isIdValid,
+    isValid: isIdValid,
   } = useInput({
     initialValue: '',
-    validator: (value) => value.length > 0, // 검증 로직 변경
+    validator: (value) =>
+      /^[a-zA-Z0-9._-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$/.test(value),
+    helperText: '이메일 형식에 맞게 입력해주세요',
   });
 
   const {
     value: passwordValue,
     handleChange: handlePasswordChange,
     helperText: passwordHelperText,
-    // isValid: isPasswordValid,
+    isValid: isPasswordValid,
   } = useInput({
     initialValue: '',
-    validator: (value) => value.length > 5, // 검증 로직 변경
+    validator: (value) => value.length > 7,
+    helperText: '비밀번호는 8자 이상 입력해주세요',
   });
 
   const handleSubmit = () => {
@@ -34,7 +37,7 @@ export const Login: React.FC = () => {
     };
     console.log(loginData);
 
-    login.mutate(loginData);
+    isIdValid && isPasswordValid && login.mutate(loginData);
   };
 
   return (
@@ -46,12 +49,18 @@ export const Login: React.FC = () => {
         helperText={idHelperText}
       />
       <Input
+        type="password"
         variant="default"
         placeholder="비밀번호"
         onChangeValue={handlePasswordChange}
         helperText={passwordHelperText}
       />
-      <Button size="l" backgroundColor="orange" onClick={handleSubmit}>
+      <Button
+        size="l"
+        backgroundColor="orange"
+        onClick={handleSubmit}
+        disabled={!isIdValid || !isPasswordValid}
+      >
         로그인
       </Button>
     </Wrapper>
