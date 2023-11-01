@@ -116,6 +116,20 @@ operation::deleteComment_failed_by_comment_not_exists[snippets='http-response']
 
 operation::deleteComment_failed_by_comment_is_deleted[snippets='http-response']
 
+=== 피드별 댓글 조회
+
+==== 성공
+
+operation::fetchComments_success[snippets='http-request,http-response']
+
+==== 성공 - 페이징
+
+operation::fetchComments_with_page_success[snippets='http-request,http-response']
+
+==== 피드가 존재하지 않을 때
+
+operation::fetchComments_failed_by_feed_id_not_exists[snippets='http-response']
+
 [[member]]
 == 회원
 
