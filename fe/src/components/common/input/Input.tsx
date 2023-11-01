@@ -24,6 +24,7 @@ export const Input: React.FC<Props> = ({
   const [isFocused, setIsFocused] = useState(false);
 
   const WrapperShape = SHAPE_VARIANT[variant];
+
   return (
     <>
       <WrapperShape
@@ -49,7 +50,9 @@ export const Input: React.FC<Props> = ({
           {...props}
         />
         {variant === 'comment' && <Dummy />}
-        {isFocused && helperText && <HelperText>{helperText}</HelperText>}
+        {isFocused && helperText && (
+          <HelperText $variant={variant}>{helperText}</HelperText>
+        )}
       </WrapperShape>
     </>
   );
@@ -137,10 +140,12 @@ const Dummy = styled.div`
   background-color: ${({ theme: { colors } }) => colors.textTertiary};
 `;
 
-const HelperText = styled.div`
+const HelperText = styled.div<{
+  $variant: 'ghost' | 'underline' | 'default' | 'comment';
+}>`
   position: absolute;
   top: 100%;
-  right: 5%;
+  right: ${({ $variant }) => ($variant === 'default' ? '5%' : '5px')};
   font: ${({ theme: { fonts } }) => fonts.displayM10};
   color: ${({ theme: { colors } }) => colors.pink};
 `;

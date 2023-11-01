@@ -23,8 +23,10 @@ export const MenuItemEditor: React.FC<Props> = ({
     menu: { name, rating },
   } = menuItem;
 
-  const { value, handleChange } = useInput({
+  const { value, handleChange, helperText } = useInput({
     initialValue: name,
+    validator: (value) => value.trim().length > 0,
+    helperText: '메뉴 이름을 입력해주세요',
   });
 
   const handleUploadImage = () => {};
@@ -42,7 +44,7 @@ export const MenuItemEditor: React.FC<Props> = ({
             <Input
               id="menu"
               variant="ghost"
-              value={value}
+              helperText={helperText}
               onChangeValue={(value) => {
                 handleChange(value);
               }}

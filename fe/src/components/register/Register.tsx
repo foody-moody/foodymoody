@@ -14,10 +14,11 @@ export const Register: React.FC = () => {
     value: emailValue,
     handleChange: handleEmailChange,
     helperText: emailHelperText,
-    // isValid: isEmailValid,
+    isValid: isEmailValid,
   } = useInput({
     initialValue: '',
-    validator: (value) => value.length > 5, // 검증 로직 변경
+    validator: (value) =>
+      /^[a-zA-Z0-9._-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$/.test(value), // 검증 로직 변경
     helperText: '올바른 이메일 형식이 아닙니다',
   });
 
@@ -25,30 +26,33 @@ export const Register: React.FC = () => {
     value: nicknameValue,
     handleChange: handleNicknameChange,
     helperText: nicknameHelperText,
-    // isValid: isNicknameValid,
+    isValid: isNicknameValid,
   } = useInput({
     initialValue: '',
-    validator: (value) => value.length > 0, // 검증 로직 변경
+    validator: (value) => value.length > 1, // 검증 로직 변경
+    helperText: '닉네임은 2자 이상 입력해주세요',
   });
 
   const {
     value: passwordValue,
     handleChange: handlePasswordChange,
     helperText: passwordHelperText,
-    // isValid: isPasswordValid,
+    isValid: isPasswordValid,
   } = useInput({
     initialValue: '',
-    validator: (value) => value.length > 5, // 검증 로직 변경
+    validator: (value) => value.length > 7, // 검증 로직 변경
+    helperText: '비밀번호는 8자 이상 입력해주세요',
   });
 
   const {
     value: confirmPasswordValue,
     handleChange: handleConfirmPasswordChange,
     helperText: confirmPasswordHelperText,
-    // isValid: isConfirmPasswordValid,
+    isValid: isConfirmPasswordValid,
   } = useInput({
     initialValue: '',
-    validator: (value) => value.length > 5, // 검증 로직 변경
+    validator: (value) => value === passwordValue, // 검증 로직 변경
+    helperText: '비밀번호가 일치하지 않습니다',
   });
 
   const handleSubmit = () => {
@@ -62,6 +66,13 @@ export const Register: React.FC = () => {
     console.log(registerData);
     register.mutate(registerData);
   };
+
+  const isFormValid =
+    isEmailValid &&
+    isNicknameValid &&
+    isPasswordValid &&
+    isConfirmPasswordValid &&
+    selectedTaste;
 
   return (
     <Wrapper>
@@ -107,7 +118,12 @@ export const Register: React.FC = () => {
         </Select>
         <ArrowDownIcon />
       </SelectLabel>
-      <Button size="l" backgroundColor="orange" onClick={handleSubmit}>
+      <Button
+        size="l"
+        backgroundColor="orange"
+        onClick={handleSubmit}
+        disabled={!isFormValid}
+      >
         {/* status={register.status} */}
         회원가입
       </Button>

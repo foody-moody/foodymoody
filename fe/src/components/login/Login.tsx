@@ -26,7 +26,7 @@ export const Login: React.FC = () => {
     isValid: isPasswordValid,
   } = useInput({
     initialValue: '',
-    validator: (value) => value.length > 7,
+    validator: (value) => value.trim().length > 7,
     helperText: '비밀번호는 8자 이상 입력해주세요',
   });
 
