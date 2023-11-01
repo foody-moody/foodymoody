@@ -89,6 +89,7 @@ const Caption = styled.div`
   justify-content: flex-end;
   gap: 8px;
   box-sizing: border-box;
+  background-color: ${({ theme: { colors } }) => colors.white};
   font: ${({ theme: { fonts } }) => fonts.displayM10};
   color: ${({ theme: { colors } }) => colors.textPlaceholder};
 `;
