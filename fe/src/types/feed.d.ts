@@ -29,3 +29,13 @@ type MenuTag = {
   name: string;
   rating: number;
 };
+
+type NewFeedBody = {
+  location: string;
+  review: string;
+  storeMood: string[];
+  images: {
+    menu: MenuTag;
+    imageUrl: string;
+  }[];
+};
