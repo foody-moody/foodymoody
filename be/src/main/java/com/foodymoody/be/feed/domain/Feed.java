@@ -26,9 +26,7 @@ public class Feed {
     private int commentCount;
 
     @Embedded
-    private Images images;
-    @Embedded
-    private Menus menus;
+    private ImageMenus imageMenus;
     @Embedded
     private StoreMood storeMood;
 
@@ -41,8 +39,7 @@ public class Feed {
         this.location = location;
         this.review = review;
         this.storeMood = new StoreMood(storeMood);
-        this.images = new Images(images);
-        this.menus = new Menus(menus);
+        this.imageMenus = new ImageMenus(images, menus);
     }
 
     public String getId() {
@@ -57,16 +54,12 @@ public class Feed {
         return review;
     }
 
-    public List<String> getStoreMood() {
-        return storeMood.getStoreMood();
+    public List<String> getStoreMoodIds() {
+        return storeMood.getStoreMoodIds();
     }
 
-    public List<Image> getImages() {
-        return images.getNewUnmodifiedImages();
-    }
-
-    public List<Menu> getMenus() {
-        return menus.getNewUnmodifiedMenus();
+    public List<ImageMenu> getImageMenus() {
+        return imageMenus.getNewUnmodifiedImageMenus();
     }
 
     public int getLikeCount() {
@@ -94,8 +87,7 @@ public class Feed {
         this.location = location;
         this.review = review;
         this.storeMood = new StoreMood(storeMood);
-        this.images.replaceWith(newImages);
-        this.menus.replaceWith(newMenus);
+        this.imageMenus.replaceWith(newImages, newMenus);
     }
 
 }
