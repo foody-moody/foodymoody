@@ -3,11 +3,9 @@ import { styled } from 'styled-components';
 
 type Props = {
   type?: string;
-  value?: string;
   placeholder?: string;
-
+  limitedLength?: number;
   onChangeValue?(value: string): void;
-
   onPressEnter?(): void;
   onInputFocus?(): void;
 } & InputHTMLAttributes<HTMLInputElement>;
@@ -15,13 +13,16 @@ type Props = {
 export const InputCore: React.FC<Props> = ({
   type = 'text',
   placeholder,
+  limitedLength,
   onChangeValue,
   onPressEnter,
   onInputFocus,
   ...props
 }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChangeValue?.(e.target.value);
+    const { value } = e.target;
+    if (limitedLength && value.length > limitedLength) return;
+    onChangeValue?.(value);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -34,7 +35,6 @@ export const InputCore: React.FC<Props> = ({
     <>
       <Wrapper
         type={type}
-        // value={value}
         placeholder={placeholder}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
@@ -44,6 +44,7 @@ export const InputCore: React.FC<Props> = ({
     </>
   );
 };
+
 const Wrapper = styled.input`
   outline: none;
   border: none;

@@ -4,10 +4,10 @@ import { InputCore } from './InputCore';
 
 type Props = {
   type?: 'password' | 'text';
-  value?: string;
   placeholder?: string;
   variant: 'ghost' | 'underline' | 'default' | 'comment';
   helperText?: string;
+  limitedLength?: number;
   onChangeValue?(value: string): void;
   onPressEnter?(): void;
 } & InputHTMLAttributes<HTMLInputElement>;
@@ -17,6 +17,7 @@ export const Input: React.FC<Props> = ({
   placeholder = '입력해주세요',
   variant,
   helperText,
+  limitedLength,
   onChangeValue,
   ...props
 }) => {
@@ -36,8 +37,8 @@ export const Input: React.FC<Props> = ({
         {variant === 'comment' && <Dummy />}
         <InputCore
           type={type}
-          // value={value}
           placeholder={variant !== 'default' ? placeholder : ''}
+          limitedLength={limitedLength}
           onChangeValue={onChangeValue}
           onPressEnter={() => {
             console.log('press enter');
