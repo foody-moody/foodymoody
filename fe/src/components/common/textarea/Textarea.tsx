@@ -21,11 +21,7 @@ export const TextArea: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      <textarea
-        value={value}
-        placeholder={placeholder}
-        onChange={onChangeTextarea}
-      />
+      <textarea placeholder={placeholder} onChange={onChangeTextarea} />
       <Caption>
         {value.length} / {limitedLength}
       </Caption>
@@ -38,7 +34,6 @@ const Wrapper = styled.div`
   border-radius: 0px 40px 0px 0px;
   width: 100%;
   overflow: hidden;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -50,9 +45,13 @@ const Wrapper = styled.div`
     border: none;
     outline: none;
     border-radius: 0px 40px 0px 0px;
-
     font: ${({ theme: { fonts } }) => fonts.displayM14};
     color: ${({ theme: { colors } }) => colors.textPrimary};
+
+    &::placeholder {
+      font: ${({ theme: { fonts } }) => fonts.displayM14};
+      color: ${({ theme: { colors } }) => colors.textPlaceholder};
+    }
 
     &::-webkit-scrollbar {
       width: 10px;
@@ -73,11 +72,6 @@ const Wrapper = styled.div`
       &-track {
         background-color: transparent;
       }
-    }
-
-    &::placeholder {
-      font: ${({ theme: { fonts } }) => fonts.displayM14};
-      color: ${({ theme: { colors } }) => colors.textPlaceholder};
     }
   }
 `;
