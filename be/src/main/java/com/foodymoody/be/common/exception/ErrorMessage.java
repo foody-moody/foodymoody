@@ -14,7 +14,11 @@ public enum ErrorMessage {
     REGISTER_COMMENT_REQUEST_NOT_NULL("등록 요청이 없으면 안된다", "c006"),
     COMMENT_NOT_EXISTS("댓글이 존재하지 않는다", "c007"),
     COMMENT_DELETED("삭제된 댓글입니다.", "c008"),
-    ;
+    // member
+    MEMBER_NOT_FOUND("존재하지 않는 회원입니다", "m001"),
+    DUPLICATE_MEMBER_EMAIL("이미 가입된 이메일입니다", "m002"),
+    DUPLICATE_MEMBER_NICKNAME("이미 존재하는 닉네임입니다", "m003"),
+    INVALID_CONFIRM_PASSWORD("입력하신 패스워드와 일치하지 않습니다", "m004");
 
     private final String message;
     private final String code;

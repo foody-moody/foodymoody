@@ -129,3 +129,12 @@ operation::fetchComments_with_page_success[snippets='http-request,http-response'
 ==== 피드가 존재하지 않을 때
 
 operation::fetchComments_failed_by_feed_id_not_exists[snippets='http-response']
+
+[[member]]
+== 회원
+
+=== 회원 가입
+
+==== 성공
+
+operation::signupMember_success[snippets='http-request,http-response']
