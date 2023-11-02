@@ -39,3 +39,7 @@ type NewFeedBody = {
     imageUrl: string;
   }[];
 };
+/* TODO. 수정 예정 */
+type DetailFeedProps = {
+  feed: MainFeed;
+};

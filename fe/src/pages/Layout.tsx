@@ -1,11 +1,13 @@
 import { Outlet } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
+import { HeaderMob } from 'components/common/headerMob/HeaderMob';
 import { NaviBar } from 'components/common/navibar/NaviBar';
 
 export const Layout = () => {
   return (
     <>
+      <HeaderMob />
       <NaviBar />
       <Body>
         <Outlet />
@@ -25,5 +27,6 @@ const Body = styled.div`
 
   ${media.xs} {
     padding: 0;
+    padding-top: 61px;
   }
 `;
