@@ -10,6 +10,7 @@ import com.foodymoody.be.feed.dto.response.FeedImageMenuResponse;
 import com.foodymoody.be.feed.dto.response.FeedMenuResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
+import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
 import java.util.List;
@@ -27,7 +28,7 @@ public class FeedMapper {
     }
 
     public static FeedReadResponse toFeedReadResponse(Feed feed, List<FeedImageMenuResponse> images,
-                                                      List<String> moodNames) {
+                                                      List<FeedStoreMoodResponse> moodNames) {
         return FeedReadResponse.builder()
                 .id(feed.getId())
                 .location(feed.getLocation())
