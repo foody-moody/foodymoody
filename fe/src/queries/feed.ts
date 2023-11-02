@@ -1,8 +1,20 @@
-import { useMutation } from '@tanstack/react-query';
-import { deleteFeed, postNewFeed, putEditFeed } from 'api/feed/feed';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  deleteFeed,
+  getFeedDetail,
+  postNewFeed,
+  putEditFeed,
+} from 'api/feed/feed';
 import { usePageNavigator } from 'hooks/usePageNavigator';
+import { QUERY_KEY } from 'constants/queryKey';
 
-export const useFeedMutation = (id?: string) => {
+export const useFeedDetail = (id: string) =>
+  useQuery({
+    queryKey: [QUERY_KEY.feedDetail, id],
+    queryFn: () => getFeedDetail(id),
+  });
+
+export const useFeedEditor = (id?: string) => {
   const { navigateToHome } = usePageNavigator();
 
   return useMutation({
