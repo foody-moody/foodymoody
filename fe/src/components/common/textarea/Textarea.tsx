@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { customScrollStyle } from 'styles/customScrollStyle';
 
 type Props = {
   value: string;
@@ -54,31 +55,12 @@ const Wrapper = styled.div`
     font: ${({ theme: { fonts } }) => fonts.displayM14};
     color: ${({ theme: { colors } }) => colors.textPrimary};
 
-    &::-webkit-scrollbar {
-      width: 10px;
-      background-color: transparent;
-
-      &-button {
-        width: 0;
-        height: 0;
-      }
-
-      &-thumb {
-        width: 4px;
-        border-radius: 10px;
-        background-color: ${({ theme: { colors } }) => colors.textTertiary};
-        border: 3px solid ${({ theme: { colors } }) => colors.white};
-      }
-
-      &-track {
-        background-color: transparent;
-      }
-    }
-
     &::placeholder {
       font: ${({ theme: { fonts } }) => fonts.displayM14};
       color: ${({ theme: { colors } }) => colors.textPlaceholder};
     }
+
+    ${customScrollStyle}
   }
 `;
 
