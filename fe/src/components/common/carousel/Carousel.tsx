@@ -24,7 +24,7 @@ export const Carousel: React.FC<Props> = ({ images }) => {
       <CustomCarousel {...settings}>
         {images.map((image) => (
           <Slide key={image.id}>
-            <Image src={image.imageUrl} />
+            <Image src={image.imageUrl} /> {/* alt 추가하기. */}
             <MenuRateTag
               menu={{ name: image.menu.name, rating: image.menu.rating }}
             />
@@ -37,6 +37,7 @@ export const Carousel: React.FC<Props> = ({ images }) => {
 
 const CustomCarousel = styled(Slider)`
   margin-bottom: -8px; /* 수정 예정 */
+  width: 100%;
   .slick-dots {
     width: 100%;
     bottom: 34px;
