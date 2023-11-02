@@ -12,12 +12,12 @@ export const fetchLogout = async () => {
 };
 
 export const fetchRegister = async (body: RegisterBody) => {
-  const { data } = await publicApi.post(END_POINT.register, body);
+  const { data } = await publicApi.post(END_POINT.member(), body);
   return data;
 };
 
 export const fetchUnRegister = async (id: string) => {
-  const { data } = await privateApi.delete(END_POINT.unRegister(id));
+  const { data } = await privateApi.delete(END_POINT.member(id));
   return data;
 };
 

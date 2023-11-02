@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const { MODE, VITE_API_URL } = import.meta.env;
 
-const DEV = MODE === 'development'; // 얘까지 상수화?
-const LOCALHOST_API_URL = 'http://localhost:3000'; //어디에 둘까요
+const DEV = MODE === 'development';
+const LOCALHOST_API_URL = 'http://localhost:5173';
 const BASE_API_URL = DEV ? LOCALHOST_API_URL : VITE_API_URL;
 
 export const publicApi = axios.create({
