@@ -29,3 +29,8 @@ type MenuTag = {
   name: string;
   rating: number;
 };
+
+/* TODO. 수정 예정 */
+type DetailFeedProps = {
+  feed: MainFeed;
+};
