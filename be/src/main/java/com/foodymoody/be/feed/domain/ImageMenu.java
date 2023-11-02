@@ -12,14 +12,12 @@ public class ImageMenu {
     @Id
     private String id;
     private String imageId;
-    private String imageUrl;
     private String menuName;
     private int rating;
 
-    public ImageMenu(String id, String imageId, String imageUrl, String menuName, int rating) {
+    public ImageMenu(String id, String imageId, String menuName, int rating) {
         this.id = id;
         this.imageId = imageId;
-        this.imageUrl = imageUrl;
         this.menuName = menuName;
         this.rating = rating;
     }
@@ -30,10 +28,6 @@ public class ImageMenu {
 
     public String getImageId() {
         return imageId;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
     }
 
     public String getMenuName() {

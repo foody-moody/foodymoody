@@ -15,6 +15,7 @@ import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
 import com.foodymoody.be.feed.repository.FeedRepository;
 import com.foodymoody.be.feed.util.FeedMapper;
 import com.foodymoody.be.image.domain.Image;
+import com.foodymoody.be.image.repository.ImageRepository;
 import com.foodymoody.be.image.util.ImageMapper;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.util.MenuMapper;
@@ -37,6 +38,7 @@ public class FeedService {
 
     private final FeedRepository feedRepository;
     private final MoodRepository moodRepository;
+    private final ImageRepository imageRepository;
 
     public Slice<FeedReadAllResponse> readAll(Pageable pageable) {
         Slice<Feed> feeds = feedRepository.findAll(pageable);
@@ -148,6 +150,11 @@ public class FeedService {
         feed.update(request.getLocation(), request.getReview(), newStoreMoodIds, newImages, newMenus);
     }
 
+    private Feed findFeed(String id) {
+        return feedRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 피드가 존재하지 않습니다."));
+    }
+
     @Transactional
     public void delete(String id) {
         feedRepository.deleteById(id);
@@ -155,12 +162,19 @@ public class FeedService {
 
     private List<FeedImageMenuResponse> getFeedImageMenuResponses(Feed feed) {
         List<ImageMenu> imageMenus = feed.getImageMenus();
-        return FeedMapper.toFeedImageMenuResponses(imageMenus);
+        List<Image> imageUrls = getImageUrls(imageMenus);
+        return FeedMapper.toFeedImageMenuResponses(imageMenus, imageUrls);
     }
 
-    private Feed findFeed(String id) {
-        return feedRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 피드가 존재하지 않습니다."));
+    private List<Image> getImageUrls(List<ImageMenu> imageMenus) {
+        return imageMenus.stream()
+                .map(imageMenu -> findImage(imageMenu.getImageId()))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    private Image findImage(String id) {
+        return imageRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이미지가 존재하지 않습니다."));
     }
 
 }

@@ -13,8 +13,8 @@ import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FeedMapper {
 
@@ -58,11 +58,16 @@ public class FeedMapper {
                 .build();
     }
 
-    public static List<FeedImageMenuResponse> toFeedImageMenuResponses(List<ImageMenu> imageMenus) {
-        return imageMenus.stream()
-                .map(imageMenu -> new FeedImageMenuResponse(imageMenu.getImageId(), imageMenu.getImageUrl(),
-                        new FeedMenuResponse(imageMenu.getMenuName(), imageMenu.getRating())))
-                .collect(Collectors.toUnmodifiableList());
+    public static List<FeedImageMenuResponse> toFeedImageMenuResponses(List<ImageMenu> imageMenus,
+                                                                       List<Image> imageUrls) {
+        List<FeedImageMenuResponse> feedImageMenuResponses = new ArrayList<>();
+        for (int i = 0; i < imageMenus.size(); i++) {
+            feedImageMenuResponses.add(
+                    new FeedImageMenuResponse(imageMenus.get(i).getImageId(), imageUrls.get(i).getUrl(),
+                            new FeedMenuResponse(imageMenus.get(i).getMenuName(), imageMenus.get(i).getRating())));
+        }
+
+        return feedImageMenuResponses;
     }
 
 }
