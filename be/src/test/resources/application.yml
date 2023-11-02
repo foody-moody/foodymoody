@@ -3,3 +3,7 @@ spring:
     group:
       test: db
     active: test
+jwt:
+  token:
+    secret: asdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    issuer: bono
