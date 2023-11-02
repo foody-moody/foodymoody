@@ -61,7 +61,7 @@ export const Register: React.FC = () => {
       nickname: nicknameValue,
       password: passwordValue,
       reconfirmPassword: confirmPasswordValue,
-      taste: selectedTaste,
+      tasteMood: selectedTaste,
     };
     console.log(registerData);
     register.mutate(registerData);
