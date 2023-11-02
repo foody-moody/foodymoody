@@ -49,34 +49,7 @@ export const useRefreshToken = () => {
   }, []);
 };
 
-// export const useLogin = () => {
-//   // const setIsLogin = useSetRecoilState(isLoginState);
-//   const { navigateToPath } = usePageNavigator();
-//   const location = useLocation();
-//   const from = location.state?.redirectedFrom?.pathname || PATH.HOME;
-//   //  사용자가 로그인 전에 접근하려고 했던 페이지의 정보
-
-//   const handleLogin = async (body: LoginBody) => {
-//     try {
-//       const { accessToken, refreshToken } = await fetchLogin(body);
-
-//       const payload = jwtDecode(accessToken);
-
-//       setAccessToken(accessToken);
-//       setRefreshToken(refreshToken);
-//       setUserInfo(JSON.stringify(payload));
-//       // setIsLogin(true); // 근데 이 상태도 새로고침하면 사라지지않나? => localstorage확인으로 변경
-//       navigateToPath(from);
-//     } catch (error) {
-//       console.error('Login error:', error);
-//     }
-//   };
-
-//   return { handleLogin };
-// };
-
 export const useLogout = () => {
-  //훅일 필요가 있나
   // const setIsLogin = useSetRecoilState(isLoginState);
   const { navigateToHome } = usePageNavigator();
 
@@ -93,21 +66,6 @@ export const useLogout = () => {
 
   return { handleLogout };
 };
-
-// export const useRegister = () => {
-//   const { navigateToLogin } = usePageNavigator();
-
-//   const handleRegister = async (body: RegisterBody) => {
-//     try {
-//       await fetchRegister(body);
-//       // 성공시 로그인페이지로
-//       navigateToLogin();
-//     } catch (error) {
-//       console.error('Error during registration:', error);
-//     }
-//   };
-//   return { handleRegister };
-// };
 
 export const useUnRegister = () => {
   const { navigateToHome } = usePageNavigator();
