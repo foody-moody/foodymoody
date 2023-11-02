@@ -45,6 +45,7 @@ export const MenuItemEditor: React.FC<Props> = ({
               id="menu"
               variant="ghost"
               helperText={helperText}
+              value={value}
               onChangeValue={(value) => {
                 handleChange(value);
               }}
@@ -79,6 +80,8 @@ const Wrapper = styled.li`
   display: flex;
   box-sizing: border-box;
   justify-content: space-between;
+  border-bottom: 1px dashed ${({ theme: { colors } }) => colors.black};
+  padding: 16px 0;
 
   svg {
     cursor: pointer;
