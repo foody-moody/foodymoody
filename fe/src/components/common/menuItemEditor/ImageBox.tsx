@@ -7,12 +7,14 @@ type Props = {
 };
 
 export const ImageBox: React.FC<Props> = ({ imageUrl, onClick }) => {
-  const githubRandomProfileUrl = 'https://picsum.photos/200';
+  imageUrl = 'https://picsum.photos/200';
+  // const githubRandomProfileUrl = 'https://picsum.photos/200';
 
   return (
     <ImageWrapper onClick={onClick}>
-      <img src={githubRandomProfileUrl} alt="menu item image" />
-      <PlusGhostIcon></PlusGhostIcon>
+      {/* <img src={githubRandomProfileUrl} alt="menu item image" /> */}
+      <img src={imageUrl} alt="menu item image" />
+      <PlusGhostIcon />
     </ImageWrapper>
   );
 };
