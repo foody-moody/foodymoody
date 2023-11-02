@@ -5,6 +5,7 @@ import { InputCore } from './InputCore';
 type Props = {
   type?: 'password' | 'text';
   placeholder?: string;
+  value?: string;
   variant: 'ghost' | 'underline' | 'default' | 'comment';
   helperText?: string;
   limitedLength?: number;
@@ -15,6 +16,7 @@ type Props = {
 export const Input: React.FC<Props> = ({
   type = 'text',
   placeholder = '입력해주세요',
+  value,
   variant,
   helperText,
   limitedLength,
@@ -40,6 +42,7 @@ export const Input: React.FC<Props> = ({
           type={type}
           placeholder={variant !== 'default' ? placeholder : ''}
           limitedLength={limitedLength}
+          value={value}
           onChangeValue={onChangeValue}
           onPressEnter={() => {
             console.log('press enter');
