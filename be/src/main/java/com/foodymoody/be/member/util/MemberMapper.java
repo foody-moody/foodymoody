@@ -3,6 +3,7 @@ package com.foodymoody.be.member.util;
 import static com.foodymoody.be.common.util.Constants.UTILITY_CLASS;
 
 import com.foodymoody.be.common.util.IdGenerator;
+import com.foodymoody.be.member.repository.dto.MemberCredential;
 import com.foodymoody.be.member.controller.dto.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.member.controller.dto.MemberProfileResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
@@ -40,5 +41,9 @@ public class MemberMapper {
                 member.getMood(),
                 feedPreviews
         );
+    }
+
+    public static MemberCredential toMemberCredential(Member member) {
+        return MemberCredential.of(member.getId(), member.getEmail(), member.getPassword());
     }
 }
