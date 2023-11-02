@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
-import { HeaderMob } from 'components/common/headerMob/HeaderMob';
 import { UserFeedTabs } from 'components/common/userFeedTabs/UserFeedTabs';
 import { ProfileUserInfo } from 'components/profileUserInfo/ProfileUserInfo';
 
@@ -15,7 +14,6 @@ export const ProfilePage = () => {
   return (
     <Wrapper>
       <ContentWrapper>
-        <HeaderMob />
         <ProfileWrapper>
           <ProfileUserInfo member={MOCK} />
         </ProfileWrapper>
@@ -50,7 +48,11 @@ const ContentWrapper = styled.div`
   border-right: 1px solid ${({ theme: { colors } }) => colors.black};
 
   ${media.md} {
+    max-width: 568px;
     width: 100%;
+  }
+
+  ${media.xs} {
     border-left: none;
     border-right: none;
   }

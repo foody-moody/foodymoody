@@ -30,9 +30,13 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 16px;
   border-bottom: 1px solid ${({ theme: { colors } }) => colors.black};
+  background-color: ${({ theme: { colors } }) => colors.bgGray50};
 
   ${media.xs} {
+    position: fixed;
     display: block;
+    z-index: 100;
+    background-color: ${({ theme: { colors } }) => colors.bgGray100};
   }
 
   svg {
