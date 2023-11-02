@@ -82,11 +82,11 @@ public class Feed {
         return updatedAt;
     }
 
-    public void update(String location, String review, List<String> newMoodIds, List<Image> newImages,
+    public void update(String newLocation, String newReview, List<String> newStoreMoodIds, List<Image> newImages,
                        List<Menu> newMenus) {
-        this.location = location;
-        this.review = review;
-        this.storeMood = new StoreMood(newMoodIds);
+        this.location = newLocation;
+        this.review = newReview;
+        this.storeMood = new StoreMood(newStoreMoodIds);
         this.imageMenus.replaceWith(newImages, newMenus);
     }
 

@@ -100,7 +100,7 @@ public class FeedSteps {
         Map<String, Object> body = Map.of(
                 "location", "맛있게 매운 콩볼 범계점",
                 "review", "맛있게 먹었습니다.",
-                "storeMood", List.of("베지테리언", "무드1", "무드2"),
+                "storeMood", List.of("1", "3", "4"),
                 "images", List.of(
                         Map.of(
                                 "imageUrl", "https://www.googles.com/",
@@ -202,7 +202,7 @@ public class FeedSteps {
         Map<String, Object> body = Map.of(
                 "location", "맛있게 매운 콩볼 범계점2",
                 "review", "맛있게 먹었습니다.2",
-                "storeMood", List.of("베지테리언2", "무드3", "무드4"),
+                "storeMood", List.of("2", "5", "6"),
                 "images", List.of(
                         Map.of(
                                 "imageUrl", "https://www.googles2.com/",

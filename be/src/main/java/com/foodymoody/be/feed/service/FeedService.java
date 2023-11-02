@@ -95,10 +95,9 @@ public class FeedService {
         List<Menu> menus = MenuMapper.toMenu(imageMenuPairs);
         List<Image> images = ImageMapper.toImage(imageMenuPairs);
 
-        List<String> storeMoodNames = request.getStoreMood();
-        List<String> moodIds = findMoodIds(storeMoodNames);
+        List<String> storeMoodIds = request.getStoreMood();
 
-        Feed feed = FeedMapper.toFeed(IdGenerator.generate(), request, moodIds, images, menus);
+        Feed feed = FeedMapper.toFeed(IdGenerator.generate(), request, storeMoodIds, images, menus);
 
         return FeedMapper.toFeedRegisterResponse(feedRepository.save(feed));
     }
@@ -144,10 +143,9 @@ public class FeedService {
         List<Image> newImages = ImageMapper.toImage(request.getImages());
         List<Menu> newMenus = MenuMapper.toMenu(request.getImages());
 
-        List<String> newStoreMood = request.getStoreMood();
-        List<String> newMoodIds = findMoodIds(newStoreMood);
+        List<String> newStoreMoodIds = request.getStoreMood();
 
-        feed.update(request.getLocation(), request.getReview(), newMoodIds, newImages, newMenus);
+        feed.update(request.getLocation(), request.getReview(), newStoreMoodIds, newImages, newMenus);
     }
 
     @Transactional
