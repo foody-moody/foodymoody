@@ -10,16 +10,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedReadResponse {
 
+    @JsonProperty
     private String id;
+    @JsonProperty
     private String location;
+    @JsonProperty
     private LocalDateTime createdAt;
+    @JsonProperty
     private LocalDateTime updatedAt;
+    @JsonProperty
     private String review;
+    @JsonProperty
     private List<String> storeMood;
+    @JsonProperty
     private List<FeedImageMenuResponse> images;
+    @JsonProperty
     private int likeCount;
-    @JsonProperty("isLiked")
+    @JsonProperty
     private boolean isLiked;
+    @JsonProperty
     private int commentCount;
 
     @Builder
@@ -38,43 +47,4 @@ public class FeedReadResponse {
         this.commentCount = commentCount;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public String getReview() {
-        return review;
-    }
-
-    public List<String> getStoreMood() {
-        return storeMood;
-    }
-
-    public List<FeedImageMenuResponse> getImages() {
-        return images;
-    }
-
-    public int getLikeCount() {
-        return likeCount;
-    }
-
-    public boolean isLiked() {
-        return isLiked;
-    }
-
-    public int getCommentCount() {
-        return commentCount;
-    }
 }

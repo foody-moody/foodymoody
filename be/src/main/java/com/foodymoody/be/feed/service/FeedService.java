@@ -17,8 +17,11 @@ import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.util.ImageMapper;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.util.MenuMapper;
+import com.foodymoody.be.mood.domain.Mood;
+import com.foodymoody.be.mood.repository.MoodRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -32,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedService {
 
     private final FeedRepository feedRepository;
+    private final MoodRepository moodRepository;
 
     public Slice<FeedReadAllResponse> readAll(Pageable pageable) {
         Slice<Feed> feeds = feedRepository.findAll(pageable);
@@ -47,7 +51,7 @@ public class FeedService {
                     .member(null)
                     .location(feed.getLocation())
                     .review(feed.getReview())
-                    .storeMood(feed.getStoreMoodIds())
+                    .storeMood(findMoodNames(feed.getStoreMoodIds()))
                     .images(images)
                     .createdAt(feed.getCreatedAt())
                     .updatedAt(feed.getUpdatedAt())
@@ -79,16 +83,45 @@ public class FeedService {
         List<Menu> menus = MenuMapper.toMenu(imageMenuPairs);
         List<Image> images = ImageMapper.toImage(imageMenuPairs);
 
-        Feed feed = FeedMapper.toFeed(IdGenerator.generate(), request, images, menus);
+        List<String> storeMoodNames = request.getStoreMood();
+        List<String> moodIds = findMoodIds(storeMoodNames);
+
+        Feed feed = FeedMapper.toFeed(IdGenerator.generate(), request, moodIds, images, menus);
 
         return FeedMapper.toFeedRegisterResponse(feedRepository.save(feed));
+    }
+
+    // TODO: JPA에서 제공하는 메서드인지 찾아보기 (속도 개선)
+    private List<String> findMoodIds(List<String> storeMoodNames) {
+        return storeMoodNames.stream()
+                .map(this::findMoodByName)
+                .map(Mood::getId)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    // TODO: JPA에서 제공하는 메서드인지 찾아보기 (속도 개선)
+    public List<String> findMoodNames(List<String> moodIds) {
+        return moodIds.stream()
+                .map(this::findMoodById)
+                .map(Mood::getName)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    public Mood findMoodByName(String s) {
+        return moodRepository.findByName(s)
+                .orElseThrow(() -> new IllegalArgumentException("Mood를 찾을 수 없습니다."));
+    }
+
+    public Mood findMoodById(String id) {
+        return moodRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Mood를 찾을 수 없습니다."));
     }
 
     public FeedReadResponse read(String id) {
         Feed feed = findFeed(id);
         List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
 
-        return FeedMapper.toFeedReadResponse(feed, images);
+        return FeedMapper.toFeedReadResponse(feed, images, findMoodNames(feed.getStoreMoodIds()));
     }
 
     @Transactional
@@ -98,7 +131,10 @@ public class FeedService {
         List<Image> newImages = ImageMapper.toImage(request.getImages());
         List<Menu> newMenus = MenuMapper.toMenu(request.getImages());
 
-        feed.update(request.getLocation(), request.getReview(), request.getStoreMood(), newImages, newMenus);
+        List<String> newStoreMood = request.getStoreMood();
+        List<String> newMoodIds = findMoodIds(newStoreMood);
+
+        feed.update(request.getLocation(), request.getReview(), newMoodIds, newImages, newMenus);
     }
 
     @Transactional
