@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const DEFAULT_MENU_ITEM = {
-  id: '',
+  id: uuidv4(),
   imageUrl: '',
   menu: {
     name: '',
