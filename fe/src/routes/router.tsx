@@ -5,7 +5,7 @@ import { ErrorPage } from 'pages/ErrorPage';
 import { HomePage } from 'pages/HomePage';
 import { Layout } from 'pages/Layout';
 import { LoginPage } from 'pages/LoginPage';
-import { NewFeedPage } from 'pages/NewFeedPage';
+import { NewFeedModalPage } from 'pages/NewFeedPage';
 import { NotiPage } from 'pages/NotiPage';
 import { ProfilePage } from 'pages/ProfilePage';
 import { ProtectedRoute } from 'pages/ProtectedRoute';
@@ -30,9 +30,22 @@ const router = createBrowserRouter([
                 path: PATH.DETAIL_FEED + '/:id',
                 element: <DetailFeedModalPage />,
               },
+              // {
+              //   path: PATH.NEW_FEED /* TODO. 비로그인 유저 관련 처리 */,
+              //   element: <NewFeedPage />,
+              // },
               {
-                path: PATH.NEW_FEED /* TODO. 비로그인 유저 관련 처리 */,
-                element: <NewFeedPage />,
+                element: <ProtectedRoute />,
+                children: [
+                  {
+                    path: PATH.NEW_FEED,
+                    element: <NewFeedModalPage />,
+                  },
+                  {
+                    path: PATH.EDIT_FEED,
+                    element: <NewFeedModalPage />,
+                  },
+                ],
               },
             ],
           },
@@ -43,12 +56,24 @@ const router = createBrowserRouter([
                 path: PATH.NOTI,
                 element: <NotiPage />,
               },
+              {
+                path: PATH.PROFILE,
+                element: <ProfilePage />,
+              },
+              // {
+              //   path: PATH.NEW_FEED,
+              //   element: <NewFeedPage />,
+              // },
+              // {
+              //   path: PATH.EDIT_FEED,
+              //   element: <NewFeedPage />,
+              // },
             ],
           },
-          {
-            path: PATH.PROFILE,
-            element: <ProfilePage />,
-          },
+          // {
+          //   path: PATH.PROFILE, // 현재  api상 내 피드 접근만 허용돼있음
+          //   element: <ProfilePage />,
+          // },
           {
             path: PATH.COLLECTION,
             element: <CollectionPage />,
