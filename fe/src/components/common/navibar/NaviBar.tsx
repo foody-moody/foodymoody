@@ -27,13 +27,23 @@ export const NaviBar = () => {
     },
     { label: '알림', icon: <NotiIcon />, path: PATH.NOTI },
     { label: '프로필', icon: <UserIcon />, path: PATH.PROFILE },
-    { label: '글쓰기', icon: <PencilLineIcon />, path: PATH.NEW_FEED },
+    {
+      label: '글쓰기',
+      icon: <PencilLineIcon />,
+      path: PATH.NEW_FEED,
+      state: { background: 'newFeed' },
+    },
   ];
 
   const NaviItemsM = [
     { label: '홈', icon: <HomeIcon />, path: PATH.HOME },
     { label: '탐색', icon: <SearchIcon />, path: PATH.SEARCH },
-    { label: '글쓰기', icon: <PencilLineIcon />, path: PATH.NEW_FEED },
+    {
+      label: '글쓰기',
+      icon: <PencilLineIcon />,
+      path: PATH.NEW_FEED,
+      state: { background: 'newFeed' },
+    },
     {
       label: '컬렉션',
       icon: <CollectableDefaultIcon />,
@@ -50,7 +60,7 @@ export const NaviBar = () => {
             <Logo onClick={navigateToHome} />
           </LogoBox>
           {NaviItems.map((item) => (
-            <NaviLink to={item.path} key={item.label}>
+            <NaviLink to={item.path} state={item.state} key={item.label}>
               {item.icon}
               <span>{item.label}</span>
             </NaviLink>
@@ -59,7 +69,7 @@ export const NaviBar = () => {
 
         <NaviM>
           {NaviItemsM.map((item) => (
-            <NaviLink to={item.path} key={item.label}>
+            <NaviLink to={item.path} state={item?.state} key={item.label}>
               {item.icon}
             </NaviLink>
           ))}

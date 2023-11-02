@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { CollectionPage } from 'pages/CollectionPage';
-import { DetailFeedPage } from 'pages/DetailFeedPage';
+import { DetailFeedModalPage } from 'pages/DetailFeedPage';
 import { ErrorPage } from 'pages/ErrorPage';
 import { HomePage } from 'pages/HomePage';
 import { Layout } from 'pages/Layout';
@@ -23,8 +23,18 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
           {
-            index: true,
+            path: '/',
             element: <HomePage />,
+            children: [
+              {
+                path: PATH.DETAIL_FEED + '/:id',
+                element: <DetailFeedModalPage />,
+              },
+              {
+                path: PATH.NEW_FEED /* TODO. 비로그인 유저 관련 처리 */,
+                element: <NewFeedPage />,
+              },
+            ],
           },
           {
             element: <ProtectedRoute />,
@@ -32,10 +42,6 @@ const router = createBrowserRouter([
               {
                 path: PATH.NOTI,
                 element: <NotiPage />,
-              },
-              {
-                path: PATH.NEW_FEED,
-                element: <NewFeedPage />,
               },
             ],
           },
@@ -50,10 +56,6 @@ const router = createBrowserRouter([
           {
             path: PATH.SEARCH,
             element: <SearchPage />,
-          },
-          {
-            path: PATH.DETAIL_FEED,
-            element: <DetailFeedPage />,
           },
         ],
       },
