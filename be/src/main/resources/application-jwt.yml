@@ -1,4 +1,4 @@
 jwt:
   token:
-    secret: fake
-    issuer: fake.com
+    secret: asdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    issuer: bono
