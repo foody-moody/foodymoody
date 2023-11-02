@@ -11,6 +11,7 @@ import com.foodymoody.be.feed.dto.response.FeedImageMenuResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
+import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
 import com.foodymoody.be.feed.repository.FeedRepository;
 import com.foodymoody.be.feed.util.FeedMapper;
 import com.foodymoody.be.image.domain.Image;
@@ -43,6 +44,7 @@ public class FeedService {
 
         for (Feed feed : feeds) {
             List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
+            List<String> storeMoodIds = feed.getStoreMoodIds();
 
             FeedReadAllResponse response = FeedReadAllResponse.builder()
                     .id(feed.getId())
@@ -51,7 +53,7 @@ public class FeedService {
                     .member(null)
                     .location(feed.getLocation())
                     .review(feed.getReview())
-                    .storeMood(findMoodNames(feed.getStoreMoodIds()))
+                    .storeMood(makeFeedStoreMoodResponses(storeMoodIds))
                     .images(images)
                     .createdAt(feed.getCreatedAt())
                     .updatedAt(feed.getUpdatedAt())
@@ -65,6 +67,16 @@ public class FeedService {
         }
 
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
+    }
+
+    private List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<String> storeMoodIds) {
+        List<String> storeMoodNames = findMoodNames(storeMoodIds);
+        List<FeedStoreMoodResponse> feedStoreMoodResponses = new ArrayList<>();
+        for (int i = 0; i < storeMoodIds.size(); i++) {
+            feedStoreMoodResponses.add(new FeedStoreMoodResponse(storeMoodIds.get(i), storeMoodNames.get(i)));
+        }
+
+        return feedStoreMoodResponses;
     }
 
     public boolean exists(String feedId) {

@@ -56,6 +56,18 @@ public class FeedSteps {
                 fail("Invalid date-time format for createdAt or updatedAt");
             }
 
+            // Modify storeMood validation here
+            List<Map<String, Object>> storeMoods = (List<Map<String, Object>>) feed.get("storeMood");
+            for (Map<String, Object> storeMood : storeMoods) {
+                assertThat(storeMood).containsKeys("id", "name");
+
+                assertThat(storeMood.get("id")).isInstanceOf(String.class); // Make sure 'id' is a Number
+                assertThat(storeMood.get("name")).isInstanceOf(String.class); // Make sure 'name' is a String
+
+                assertThat(storeMood.get("id")).isNotNull();
+                assertThat(storeMood.get("name")).isNotNull();
+            }
+
             List<Map<String, Object>> images = (List<Map<String, Object>>) feed.get("images");
             for (Map<String, Object> image : images) {
                 assertThat(image).containsKeys("imageUrl", "menu");
