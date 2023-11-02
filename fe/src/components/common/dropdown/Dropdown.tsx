@@ -9,9 +9,11 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const Dropdown: React.FC<Props> = (
-  { opener, align = 'left', children }
-) => {
+export const Dropdown: React.FC<Props> = ({
+  opener,
+  align = 'left',
+  children,
+}) => {
   const dropdownRef = useRef<HTMLUListElement>(null);
   const openerRef = useRef<HTMLDivElement>(null);
   const { isOpen, handleToggleDropdown } = useDropdown({
@@ -64,6 +66,7 @@ const DropdownBox = styled.ul<{
   border-radius: 0px 0px 40px 0px;
   border: 1px solid ${({ theme: { colors } }) => colors.black};
   overflow: hidden;
+  z-index: 200;
 `;
 
 const Opener = styled.div`
