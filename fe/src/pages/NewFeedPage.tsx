@@ -70,3 +70,4 @@ const Div = styled.div`
   font: ${({ theme: { fonts } }) => fonts.displayB16};
   color: ${({ theme: { colors } }) => colors.black};
 `;
+
