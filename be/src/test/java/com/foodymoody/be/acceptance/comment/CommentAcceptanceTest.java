@@ -11,7 +11,10 @@ import static com.foodymoody.be.acceptance.comment.CommentSteps.요청_내용_�
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200과_id를_반환한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200을_반환한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_400_검증한다;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.페이지_적용_조회_검증;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.페이지_적용_피드별_댓글을_조회한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드_아이디_없이_댓글을_등록한다;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.피드별_댓글을_조회한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_공백댓글_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글을_등록하고_아이디를_받는다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글을_등록한다;
@@ -26,7 +29,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("댓글 관련 기능 인수테스트")
-class CommentTest extends AcceptanceTest {
+class CommentAcceptanceTest extends AcceptanceTest {
 
     @Nested
     @DisplayName("댓글 등록 인수테스트")
@@ -314,6 +317,60 @@ class CommentTest extends AcceptanceTest {
 
             // then
             응답코드_400_검증한다(response);
+        }
+    }
+
+    @Nested
+    @DisplayName("댓글 조회 인수테스트")
+    class FetchComments {
+
+        private String feedId;
+
+        @BeforeEach
+        void setUp() {
+            feedId = 피드를_등록하고_아이디를_받는다();
+            for (int i = 0; i < 20; i++) {
+                피드에_댓글을_등록한다(feedId);
+            }
+        }
+
+        @DisplayName("댓글 조회 요청시 피드 아이디가 null이면 응답코드 400을 응답한다")
+        @Test
+        void when_fetch_comments_if_feed_id_not_exists_then_return_code_400() {
+            // docs
+            api_문서_타이틀("fetchComments_failed_by_feed_id_not_exists", spec);
+
+            // when
+            var response = 피드별_댓글을_조회한다(null, spec);
+
+            // then
+            응답코드_400_검증한다(response);
+        }
+
+        @DisplayName("댓글 조회 요청시 패이지와 사이즈 정보를 넣으면 해당 페이지와 사이즈의 댓글을 조회한다")
+        @Test
+        void when_fetch_comments_if_page_and_size_exists_then_return_page_and_size() {
+            // docs
+            api_문서_타이틀("fetchComments_success", spec);
+
+            // when
+            var response = 페이지_적용_피드별_댓글을_조회한다(feedId, spec);
+
+            // then
+            페이지_적용_조회_검증(response);
+        }
+
+        @DisplayName("댓글 조회 요청시 성공하면 응답코드 200을 응답한다")
+        @Test
+        void when_fetch_comments_if_success_then_return_code_200() {
+            // docs
+            api_문서_타이틀("fetchComments_with_page_success", spec);
+
+            // when
+            var response = 피드별_댓글을_조회한다(feedId, spec);
+
+            // then
+            응답코드_200을_반환한다(response);
         }
     }
 }

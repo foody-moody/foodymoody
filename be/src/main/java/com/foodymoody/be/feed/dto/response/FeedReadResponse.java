@@ -10,21 +10,30 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedReadResponse {
 
+    @JsonProperty
     private String id;
+    @JsonProperty
     private String location;
+    @JsonProperty
     private LocalDateTime createdAt;
+    @JsonProperty
     private LocalDateTime updatedAt;
+    @JsonProperty
     private String review;
-    private List<String> storeMood;
+    @JsonProperty
+    private List<FeedStoreMoodResponse> storeMood;
+    @JsonProperty
     private List<FeedImageMenuResponse> images;
+    @JsonProperty
     private int likeCount;
-    @JsonProperty("isLiked")
+    @JsonProperty
     private boolean isLiked;
+    @JsonProperty
     private int commentCount;
 
     @Builder
     public FeedReadResponse(String id, String location, LocalDateTime createdAt, LocalDateTime updatedAt, String review,
-            List<String> storeMood, List<FeedImageMenuResponse> images, int likeCount, boolean isLiked,
+            List<FeedStoreMoodResponse> storeMood, List<FeedImageMenuResponse> images, int likeCount, boolean isLiked,
             int commentCount) {
         this.id = id;
         this.location = location;
@@ -38,43 +47,4 @@ public class FeedReadResponse {
         this.commentCount = commentCount;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public String getReview() {
-        return review;
-    }
-
-    public List<String> getStoreMood() {
-        return storeMood;
-    }
-
-    public List<FeedImageMenuResponse> getImages() {
-        return images;
-    }
-
-    public int getLikeCount() {
-        return likeCount;
-    }
-
-    public boolean isLiked() {
-        return isLiked;
-    }
-
-    public int getCommentCount() {
-        return commentCount;
-    }
 }

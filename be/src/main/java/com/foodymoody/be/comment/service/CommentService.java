@@ -19,6 +19,7 @@ public class CommentService {
 
     private final FeedService feedService;
     private final CommentRepository commentRepository;
+    private final CommentMapper commentMapper;
 
     @Transactional
     public CommentId registerComment(RegisterCommentRequest request) {
@@ -26,7 +27,7 @@ public class CommentService {
         String newId = IdGenerator.generate();
         LocalDateTime now = LocalDateTime.now();
         CommentId commentId = new CommentId(newId);
-        Comment comment = CommentMapper.toEntity(request, now, commentId);
+        Comment comment = commentMapper.toEntity(request, now, commentId);
         Comment saved = commentRepository.save(comment);
         return saved.getId();
     }
