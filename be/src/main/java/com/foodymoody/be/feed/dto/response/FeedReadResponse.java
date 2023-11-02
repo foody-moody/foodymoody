@@ -21,7 +21,7 @@ public class FeedReadResponse {
     @JsonProperty
     private String review;
     @JsonProperty
-    private List<String> storeMood;
+    private List<FeedStoreMoodResponse> storeMood;
     @JsonProperty
     private List<FeedImageMenuResponse> images;
     @JsonProperty
@@ -33,7 +33,7 @@ public class FeedReadResponse {
 
     @Builder
     public FeedReadResponse(String id, String location, LocalDateTime createdAt, LocalDateTime updatedAt, String review,
-            List<String> storeMood, List<FeedImageMenuResponse> images, int likeCount, boolean isLiked,
+            List<FeedStoreMoodResponse> storeMood, List<FeedImageMenuResponse> images, int likeCount, boolean isLiked,
             int commentCount) {
         this.id = id;
         this.location = location;

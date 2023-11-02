@@ -133,7 +133,8 @@ public class FeedService {
         Feed feed = findFeed(id);
         List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
 
-        return FeedMapper.toFeedReadResponse(feed, images, findMoodNames(feed.getStoreMoodIds()));
+        List<String> storeMoodIds = feed.getStoreMoodIds();
+        return FeedMapper.toFeedReadResponse(feed, images, makeFeedStoreMoodResponses(storeMoodIds));
     }
 
     @Transactional

@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.http.MediaType;
 
 public class FeedSteps {
@@ -159,8 +160,14 @@ public class FeedSteps {
                 assertThat(id)::isNotNull,
                 () -> assertThat(response.jsonPath().getString("location")).isEqualTo("맛있게 매운 콩볼 범계점"),
                 () -> assertThat(response.jsonPath().getString("review")).isEqualTo("맛있게 먹었습니다."),
-                () -> assertThat(response.jsonPath().getList("storeMood", String.class)).containsExactly("베지테리언", "무드1",
-                        "무드2"),
+                () -> {
+                    List<Map<String, String>> storeMoods = response.jsonPath().getList("storeMood");
+                    assertThat(storeMoods).hasSize(3);
+
+                    assertThat(storeMoods.get(0)).containsEntry("name", "베지테리언");
+                    assertThat(storeMoods.get(1)).containsEntry("name", "무드1");
+                    assertThat(storeMoods.get(2)).containsEntry("name", "무드2");
+                },
                 () -> {
                     String createdAt = response.jsonPath().getString("createdAt");
                     String updatedAt = response.jsonPath().getString("updatedAt");
