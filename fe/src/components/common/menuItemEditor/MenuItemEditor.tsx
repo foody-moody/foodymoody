@@ -6,18 +6,27 @@ import { StarRating } from '../starRating/StarRating';
 import { ImageBox } from './ImageBox';
 
 type Props = {
-  index: number;
-  menu: FeedMenuType;
-  onEditMenuName: (index: number, name: string) => void;
-  onEditStarRating: (index: number, rate: number) => void;
-  onRemove: (index: number) => void;
+  menuItem: FeedImage; //feedimage로 바꿔야하는지 확인
+  onEditMenuName: (id: string, name: string) => void;
+  onEditStarRating: (id: string, rate: number) => void;
+  onRemove: (id: string) => void;
 };
 
-export const MenuItemEditor: React.FC<Props> = (
-  { index, menu, onEditMenuName, onEditStarRating, onRemove }
-) => {
-  const { value, handleChange } = useInput({
-    initialValue: menu.name,
+export const MenuItemEditor: React.FC<Props> = ({
+  menuItem,
+  onEditMenuName,
+  onEditStarRating,
+  onRemove,
+}) => {
+  const {
+    id,
+    menu: { name, rating },
+  } = menuItem;
+
+  const { value, handleChange, helperText } = useInput({
+    initialValue: name,
+    validator: (value) => value.trim().length > 0,
+    helperText: '메뉴 이름을 입력해주세요',
   });
 
   const handleUploadImage = () => {};
@@ -35,21 +44,22 @@ export const MenuItemEditor: React.FC<Props> = (
             <Input
               id="menu"
               variant="ghost"
+              helperText={helperText}
               value={value}
               onChangeValue={(value) => {
                 handleChange(value);
               }}
               onBlur={() => {
-                onEditMenuName(index, value);
+                onEditMenuName(id, value);
               }}
             />
           </Content>
           <Content>
             <label>메뉴 별점</label>
             <StarRating
-              currentRating={menu.numStar}
+              currentRating={rating}
               onClick={(newRate) => {
-                onEditStarRating(index, newRate);
+                onEditStarRating(id, newRate);
               }}
             />
           </Content>
@@ -58,7 +68,7 @@ export const MenuItemEditor: React.FC<Props> = (
 
       <CloseSmallIcon
         onClick={() => {
-          onRemove(index);
+          onRemove(id);
         }}
       />
     </Wrapper>
@@ -70,6 +80,8 @@ const Wrapper = styled.li`
   display: flex;
   box-sizing: border-box;
   justify-content: space-between;
+  border-bottom: 1px dashed ${({ theme: { colors } }) => colors.black};
+  padding: 16px 0;
 
   svg {
     cursor: pointer;

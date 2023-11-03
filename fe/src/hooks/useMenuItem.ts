@@ -1,56 +1,56 @@
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 const DEFAULT_MENU_ITEM = {
+  id: uuidv4(),
   imageUrl: '',
   menu: {
     name: '',
-    numStar: 0,
+    rating: 0,
   },
 };
 
-export const useMenuItem = (initialMenuItems?: FeedImageType[]) => {
+export const useMenuItem = (initialMenuItems?: FeedImage[]) => {
   const [menuItems, setMenuItems] = useState(
     initialMenuItems || [DEFAULT_MENU_ITEM]
   );
 
   const handleAddMenuItem = () => {
     if (menuItems.length >= 3) {
-      // TODO 상수화, 헬퍼메시지 위치
       console.log(`3개이상 등록불가`);
       return;
     }
-
-    setMenuItems((prevItems) => [...prevItems, DEFAULT_MENU_ITEM]);
+    const newItem = { ...DEFAULT_MENU_ITEM, id: uuidv4() };
+    setMenuItems((prevItems) => [...prevItems, newItem]);
   };
 
-  const handleRemoveMenuItem = (index: number) => {
+  const handleRemoveMenuItem = (id: string) => {
     if (menuItems.length === 1) {
       console.log('1개 이상 필수');
       return;
     }
+    const newItems = menuItems.filter((item) => item.id !== id);
+    console.log(newItems, 'newItems');
 
-    const newItems = menuItems.filter((_, itemIndex) => itemIndex !== index);
     setMenuItems(newItems);
   };
 
   const updateMenu = (
-    index: number,
+    id: string,
     updates: Partial<(typeof DEFAULT_MENU_ITEM)['menu']>
   ) => {
-    const newItems = [...menuItems];
-    newItems[index] = {
-      ...newItems[index],
-      menu: { ...newItems[index].menu, ...updates },
-    };
+    const newItems = menuItems.map((item) =>
+      item.id === id ? { ...item, menu: { ...item.menu, ...updates } } : item
+    );
     setMenuItems(newItems);
   };
 
-  const handleEditMenuName = (index: number, name: string) => {
-    updateMenu(index, { name });
+  const handleEditMenuName = (id: string, name: string) => {
+    updateMenu(id, { name });
   };
 
-  const handleEditStarRating = (index: number, numStar: number) => {
-    updateMenu(index, { numStar });
+  const handleEditStarRating = (id: string, rating: number) => {
+    updateMenu(id, { rating });
   };
 
   return {

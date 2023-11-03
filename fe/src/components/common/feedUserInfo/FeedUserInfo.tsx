@@ -1,9 +1,15 @@
+import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
+import { useDeleteFeed } from 'queries/feed';
+// import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { Badge } from '../badge/Badge';
+import { Dropdown } from '../dropdown/Dropdown';
+import { DropdownRow } from '../dropdown/DropdownRow';
 import { DotGhostIcon, MapPinSmallIcon } from '../icon/icons';
 import { UserImage } from '../userImage/UserImage';
+import { PATH } from 'constants/path';
 
 type Props = {
   member: FeedMemberInfo;
@@ -16,11 +22,59 @@ export const FeedUserInfo: React.FC<Props> = ({
   createdAt,
   location,
 }) => {
-  const { navigateToProfile } = usePageNavigator();
-
+  const { navigateToProfile, navigateToPath } = usePageNavigator();
+  const { mutate: deleteMutate } = useDeleteFeed();
+  const { id: feedId } = useParams();
+  // const { isLogin } = useAuthState();
+  const isLogin = true;
   const formattedTimeStamp = formatTimeStamp(createdAt);
 
-  const handleClickMenu = () => {};
+  const publicMenu = [
+    {
+      id: 1,
+      content: '신고하기',
+      onClick: () => {},
+    },
+    {
+      id: 2,
+      content: '컬렉션 추가하기',
+      onClick: () => {},
+    },
+    {
+      id: 3,
+      content: '팔로우',
+      onClick: () => {},
+    },
+    {
+      id: 4,
+      content: '공유하기',
+      onClick: () => {},
+    },
+  ];
+
+  const privateMenu = [
+    {
+      id: 1,
+      content: '컬렉션 추가하기',
+      onClick: () => {},
+    },
+    {
+      id: 2,
+      content: '수정하기',
+      onClick: () => {
+        navigateToPath(`${PATH.EDIT_FEED}/${feedId}}`);
+      },
+    },
+    {
+      id: 3,
+      content: '삭제하기',
+      onClick: () => {
+        feedId && deleteMutate(feedId);
+      },
+    },
+  ];
+
+  const menu = isLogin ? privateMenu : publicMenu;
 
   return (
     <Wrapper>
@@ -41,7 +95,14 @@ export const FeedUserInfo: React.FC<Props> = ({
 
       <ContentRight>
         <Badge variant="taste" badge={member.tasteMood} />
-        <DotGhostIcon onClick={handleClickMenu} />
+
+        <Dropdown align="right" opener={<DotGhostIcon />}>
+          {menu.map((item) => (
+            <DropdownRow key={item.id} onClick={item.onClick}>
+              {item.content}
+            </DropdownRow>
+          ))}
+        </Dropdown>
       </ContentRight>
     </Wrapper>
   );

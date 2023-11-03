@@ -30,6 +30,15 @@ type MenuTag = {
   rating: number;
 };
 
+type NewFeedBody = {
+  location: string;
+  review: string;
+  storeMood: string[];
+  images: {
+    menu: MenuTag;
+    imageUrl: string;
+  }[];
+};
 /* TODO. 수정 예정 */
 type DetailFeedProps = {
   feed: MainFeed;

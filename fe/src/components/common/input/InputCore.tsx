@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 type Props = {
   type?: string;
   placeholder?: string;
+  value?: string;
   limitedLength?: number;
   onChangeValue?(value: string): void;
   onPressEnter?(): void;
@@ -13,6 +14,7 @@ type Props = {
 export const InputCore: React.FC<Props> = ({
   type = 'text',
   placeholder,
+  value,
   limitedLength,
   onChangeValue,
   onPressEnter,
@@ -36,6 +38,7 @@ export const InputCore: React.FC<Props> = ({
       <Wrapper
         type={type}
         placeholder={placeholder}
+        value={value}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         onFocus={onInputFocus}
@@ -44,6 +47,7 @@ export const InputCore: React.FC<Props> = ({
     </>
   );
 };
+
 const Wrapper = styled.input`
   outline: none;
   border: none;

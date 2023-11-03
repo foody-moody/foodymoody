@@ -8,5 +8,5 @@ type RegisterBody = {
   password: string;
   nickname: string;
   reconfirmPassword: string;
-  taste: string;
+  tasteMood: string;
 };

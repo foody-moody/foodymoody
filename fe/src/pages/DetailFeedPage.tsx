@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { customScrollStyle } from 'styles/customScrollStyle';
+import { customScrollStyle } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
 import { Badge } from 'components/common/badge/Badge';
 import { Carousel } from 'components/common/carousel/Carousel';

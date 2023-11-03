@@ -6,7 +6,7 @@ import { CollectableAddIcon } from '../common/icon/icons';
 import { UserImageEdit } from '../common/userImage/UserImageEdit';
 
 type Props = {
-  member: ProfileMemberInfoType;
+  member: ProfileMemberInfo;
 };
 
 const MOCK_BADGE = {
