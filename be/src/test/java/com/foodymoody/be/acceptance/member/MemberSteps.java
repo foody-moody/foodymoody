@@ -113,6 +113,7 @@ public class MemberSteps {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
                 .log().all()
                 .body(memberRegisterRequest)
                 .when()
