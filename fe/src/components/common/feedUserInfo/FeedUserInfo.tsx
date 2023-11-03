@@ -1,3 +1,4 @@
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useDeleteFeed } from 'queries/feed';
@@ -22,6 +23,7 @@ export const FeedUserInfo: React.FC<Props> = ({
   createdAt,
   location,
 }) => {
+
   const { navigateToProfile } = usePageNavigator();
   const navigate = useNavigate();
   const { mutate: deleteMutate } = useDeleteFeed();
