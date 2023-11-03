@@ -60,19 +60,19 @@ export const NewFeedModalPage = () => {
     handleRemoveMenuItem,
     handleEditMenuName,
     handleEditStarRating,
-  } = useMenuItem(MOCK_MENU.images); // feedDetailData로 교체
+  } = useMenuItem(); // feedDetailData로 교체
   const {
     value: locationName,
     handleChange: handleLocationChange,
     isValid: isLocationNameVaild,
     helperText: locationNameHelperText,
   } = useInput({
-    initialValue: MOCK_MENU.location,
+    initialValue: '',
     validator: (value) => value.trim().length > 0,
     helperText: '가게 이름을 입력해주세요',
   });
   const { value: reviewValue, handleChange: handleReviewChange } = useInput({
-    initialValue: MOCK_MENU.review,
+    initialValue: '',
   });
 
   const handleSubmit = () => {

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useDeleteFeed } from 'queries/feed';
 // import { useAuthState } from 'hooks/auth/useAuth';
@@ -22,7 +22,8 @@ export const FeedUserInfo: React.FC<Props> = ({
   createdAt,
   location,
 }) => {
-  const { navigateToProfile, navigateToPath } = usePageNavigator();
+  const { navigateToProfile } = usePageNavigator();
+  const navigate = useNavigate();
   const { mutate: deleteMutate } = useDeleteFeed();
   const { id: feedId } = useParams();
   // const { isLogin } = useAuthState();
@@ -62,7 +63,10 @@ export const FeedUserInfo: React.FC<Props> = ({
       id: 2,
       content: '수정하기',
       onClick: () => {
-        navigateToPath(`${PATH.EDIT_FEED}/${feedId}}`);
+        // navigateToPath(`${PATH.EDIT_FEED}/${feedId}}`);
+        navigate(PATH.NEW_FEED, {
+          state: { background: 'newFeed' },
+        });
       },
     },
     {
