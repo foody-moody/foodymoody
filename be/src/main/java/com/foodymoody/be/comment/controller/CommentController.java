@@ -2,6 +2,7 @@ package com.foodymoody.be.comment.controller;
 
 import com.foodymoody.be.comment.domain.CommentId;
 import com.foodymoody.be.comment.service.CommentService;
+import com.foodymoody.be.common.annotation.MemberId;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,9 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/api/comments")
-    public ResponseEntity<CommentId> register(@Valid @RequestBody RegisterCommentRequest request) {
-        CommentId id = commentService.registerComment(request);
+    public ResponseEntity<CommentId> register(@Valid @RequestBody RegisterCommentRequest request,
+            @MemberId String memberId) {
+        CommentId id = commentService.registerComment(request, memberId);
         return ResponseEntity.ok(id);
     }
 

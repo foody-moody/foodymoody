@@ -50,6 +50,22 @@ class CommentAcceptanceTest extends AcceptanceTest {
             // then
             응답코드_200과_id를_반환한다(response);
         }
+// TODO : 회원에 로직 리펙토링 후 테스트 코드 작성
+//        @DisplayName("댓글 등록시 로그인 된 유저가 아니면 응답코드 401을 응답한다")
+//        @Test
+//        void when_register_comment_if_not_login_then_return_code_401() {
+//            // docs
+//            api_문서_타이틀("registerComment_failed_by_not_login", spec);
+//
+//            // given
+//            String feedId = 피드를_등록하고_아이디를_받는다();
+//
+//            // when
+//            var response = 피드에_댓글을_등록한다(feedId, spec);
+//
+//            // then
+//            응답코드_401_검증한다(response);
+//        }
 
         @DisplayName("댓글 등록 요청시 요청 바디가 없으면 응답코드 400을 응답한다")
         @Test

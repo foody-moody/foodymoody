@@ -41,6 +41,10 @@ public class CommentSteps {
         assertThat(response.statusCode()).isEqualTo(200);
     }
 
+    public static void 응답코드_401_검증한다(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
+
     public static void 응답코드_400_검증한다(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }

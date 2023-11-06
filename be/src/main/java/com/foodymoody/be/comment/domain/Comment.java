@@ -16,17 +16,20 @@ public class Comment {
     private String content;
     private String feedId;
     private boolean deleted;
+    private String memberId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Comment(CommentId id, String content, String feedId, LocalDateTime createdAt, boolean deleted) {
+    public Comment(CommentId id, String content, String feedId, boolean deleted,
+            String memberId, LocalDateTime createdAt) {
         CommentValidator.validate(id, content, feedId, createdAt);
         this.id = id;
         this.content = content;
         this.feedId = feedId;
+        this.deleted = deleted;
+        this.memberId = memberId;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-        this.deleted = deleted;
     }
 
     public CommentId getId() {
@@ -68,5 +71,9 @@ public class Comment {
 
     public boolean isDeleted() {
         return deleted;
+    }
+
+    public String getMemberId() {
+        return memberId;
     }
 }

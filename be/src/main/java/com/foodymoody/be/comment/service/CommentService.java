@@ -22,12 +22,12 @@ public class CommentService {
     private final CommentMapper commentMapper;
 
     @Transactional
-    public CommentId registerComment(RegisterCommentRequest request) {
+    public CommentId registerComment(RegisterCommentRequest request, String memberId) {
         feedService.validate(request.getFeedId());
         String newId = IdGenerator.generate();
         LocalDateTime now = LocalDateTime.now();
         CommentId commentId = new CommentId(newId);
-        Comment comment = commentMapper.toEntity(request, now, commentId);
+        Comment comment = commentMapper.toEntity(request, now, commentId, memberId);
         Comment saved = commentRepository.save(comment);
         return saved.getId();
     }
