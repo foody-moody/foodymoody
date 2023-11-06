@@ -1,12 +1,14 @@
 package com.foodymoody.be.notification.service;
 
-import com.foodymoody.be.common.event.NotificationEvent;
+import com.foodymoody.be.comment.domain.CommentAddNotificationEvent;
 import com.foodymoody.be.member.service.MemberService;
+import com.foodymoody.be.notification.controller.dto.NotificationResponse;
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationId;
 import com.foodymoody.be.notification.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +21,8 @@ public class NotificationService {
     private final MemberService memberService;
     private final NotificationMapper notificationMapper;
 
-    @EventListener(NotificationEvent.class)
-    public void saveNotification(NotificationEvent event) {
+    @EventListener(CommentAddNotificationEvent.class)
+    public void saveNotification(CommentAddNotificationEvent event) {
         NotificationId notificationId = NotificationId.newId();
         Notification notification = notificationMapper.toEntity(notificationId, event);
         notificationRepository.save(notification);
@@ -33,9 +35,10 @@ public class NotificationService {
         notification.read();
     }
 
-    public Slice<Notification> request(String memberId) {
+    public Slice<NotificationResponse> request(String memberId, Pageable pageable) {
         memberService.findById(memberId);
-        return notificationRepository.findAllByMemberId(memberId);
+        Slice<Notification> notifications = notificationRepository.findAllByMemberId(memberId, pageable);
+        return notificationMapper.toDto(notifications);
     }
 
     @Transactional

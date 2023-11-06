@@ -1,9 +1,11 @@
 package com.foodymoody.be.notification.controller;
 
-import com.foodymoody.be.notification.domain.Notification;
+import com.foodymoody.be.notification.controller.dto.NotificationResponse;
 import com.foodymoody.be.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,9 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @GetMapping("/api/notifications/{memberId}")
-    public ResponseEntity<Slice<Notification>> request(@PathVariable String memberId) {
-        Slice<Notification> notifications = notificationService.request(memberId);
+    public ResponseEntity<Slice<NotificationResponse>> request(@PathVariable String memberId,
+            @PageableDefault Pageable pageable) {
+        Slice<NotificationResponse> notifications = notificationService.request(memberId, pageable);
         return ResponseEntity.ok(notifications);
     }
 

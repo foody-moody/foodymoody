@@ -36,4 +36,20 @@ public class Notification {
     public void unRead() {
         this.isRead = false;
     }
+
+    public NotificationId getId() {
+        return id;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public NotificationType getType() {
+        return type;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
 }
