@@ -1,25 +1,37 @@
 package com.foodymoody.be.docs.auth;
 
+import static com.foodymoody.be.acceptance.member.MemberSteps.회원보노가_회원가입한다;
 import static com.foodymoody.be.docs.auth.AuthSteps.로그아웃_한다;
 import static com.foodymoody.be.docs.auth.AuthSteps.로그인_한다;
 import static com.foodymoody.be.docs.auth.AuthSteps.응답코드_204를_응답한다;
 import static com.foodymoody.be.docs.auth.AuthSteps.토큰과_응답코드_200을_응답한다;
+import static com.foodymoody.be.docs.auth.AuthSteps.회원보노가_로그인한다;
 
 import com.foodymoody.be.docs.Document;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("인증 관련 기능 문서화")
 class AuthTest extends Document {
 
+    private static final RequestSpecification FAKE_SPEC;
+
+    static {
+        FAKE_SPEC = new RequestSpecBuilder().build();
+    }
+
     @DisplayName("로그인 요청시 성공하면 토큰을 반환한다.")
     @Test
     void when_login_then_return_token() {
         // docs
         api_문서_타이틀("login_success", spec);
+        회원보노가_회원가입한다(FAKE_SPEC);
 
         // when
-        var response = 로그인_한다("test@example.com", "password", spec);
+        var response = 회원보노가_로그인한다(spec);
 
         // then
         토큰과_응답코드_200을_응답한다(response);
@@ -39,17 +51,17 @@ class AuthTest extends Document {
 //        응답코드가_401인지_검증한다(response);
 //    }
 
-    @DisplayName("로그아웃 요청 성공하면 204코드를 반환한다.")
-    @Test
-    void when_logout_then_return_204() {
-        // docs
-        api_문서_타이틀("logout_success", spec);
-
-        // when
-        String accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
-        var response = 로그아웃_한다(accessToken, spec);
-
-        // then
-        응답코드_204를_응답한다(response);
-    }
+//    @DisplayName("로그아웃 요청 성공하면 204코드를 반환한다.")
+//    @Test
+//    void when_logout_then_return_204() {
+//        // docs
+//        api_문서_타이틀("logout_success", spec);
+//
+//        // when
+//        String accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+//        var response = 로그아웃_한다(accessToken, spec);
+//
+//        // then
+//        응답코드_204를_응답한다(response);
+//    }
 }

@@ -26,4 +26,7 @@ public class MemberSignupRequest {
         this.reconfirmPassword = reconfirmPassword;
         this.mood = mood;
     }
+
+    public MemberSignupRequest() {
+    }
 }

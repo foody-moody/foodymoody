@@ -1,11 +1,20 @@
 package com.foodymoody.be.member.repository;
 
+import com.foodymoody.be.member.repository.dto.MemberCredential;
 import com.foodymoody.be.member.domain.Member;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, String> {
+public interface MemberRepository{
 
     boolean existsByEmail(String email);
 
     boolean existsByNickname(String nickname);
+
+    Member findByEmail(String email);
+
+    Member save(Member entity);
+
+    Optional<Member> findById(String id);
+
+    Optional<MemberCredential> getCredentialByEmail(String email);
 }

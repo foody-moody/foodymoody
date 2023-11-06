@@ -12,19 +12,31 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.회원보노의_�
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원보노의_회원프로필을_조회한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
+import com.foodymoody.be.acceptance.util.DatabaseCleanup;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("회원 관련 기능 인수테스트")
 class MemberTest extends AcceptanceTest {
 
+    @Autowired
+    private DatabaseCleanup cleanup;
     private static final RequestSpecification FAKE_SPEC;
 
     static {
         FAKE_SPEC = new RequestSpecBuilder().build();
+    }
+
+    @BeforeEach
+    @AfterEach
+    void clearMemberTable() {
+        cleanup.execute();
     }
 
     @DisplayName("회원 가입 성공하면, 응답코드 200과 id를 반환하고 회원 프로필이 조회된다.")

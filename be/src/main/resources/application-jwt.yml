@@ -1,0 +1,4 @@
+jwt:
+  token:
+    secret: asdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    issuer: bono
