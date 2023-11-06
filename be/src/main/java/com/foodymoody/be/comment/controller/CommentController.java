@@ -27,8 +27,9 @@ public class CommentController {
     }
 
     @PutMapping("/api/comments/{id}")
-    public ResponseEntity<Void> edit(@PathVariable String id, @Valid @RequestBody EditCommentRequest request) {
-        commentService.edit(id, request);
+    public ResponseEntity<Void> edit(@PathVariable String id, @Valid @RequestBody EditCommentRequest request,
+            @MemberId String memberId) {
+        commentService.edit(id, request, memberId);
         return ResponseEntity.ok().build();
     }
 

@@ -21,12 +21,13 @@ class CommentTest {
         LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
 
         // when
-        comment.edit(CommentFixture.NEW_CONTENT, updatedAt);
+        comment.edit(CommentFixture.MEMBER_ID, CommentFixture.NEW_CONTENT, updatedAt);
 
         // then
         assertAll(
                 () -> assertThat(comment.getContent()).isEqualTo(CommentFixture.NEW_CONTENT),
-                () -> assertThat(comment.getUpdatedAt()).isEqualTo(updatedAt)
+                () -> assertThat(comment.getUpdatedAt()).isEqualTo(updatedAt),
+                () -> assertThat(comment.getUpdatedAt()).isNotEqualTo(comment.getCreatedAt())
         );
     }
 
@@ -38,9 +39,23 @@ class CommentTest {
         LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
 
         // when
-        Assertions.assertThatThrownBy(() -> comment.edit(CommentFixture.NEW_CONTENT, updatedAt))
+        Assertions.assertThatThrownBy(
+                        () -> comment.edit(CommentFixture.MEMBER_ID, CommentFixture.NEW_CONTENT, updatedAt))
                 .isInstanceOf(CommentDeletedException.class)
                 .message().isEqualTo(ErrorMessage.COMMENT_DELETED.getMessage());
+    }
+
+    @DisplayName("댓글을 수정할 때 댓글 작성자가 아니면 IllegalArgumentException이 발생한다")
+    @Test
+    void edit_fail_if_not_comment_writer() {
+        // given
+        Comment comment = CommentFixture.comment();
+        LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
+
+        // when
+        Assertions.assertThatThrownBy(
+                        () -> comment.edit(CommentFixture.NOT_MEMBER_ID, CommentFixture.NEW_CONTENT, updatedAt))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("댓글을 삭제 하면 댓글 삭제 여북 ture이고 삭제된 시간이 저장된다")

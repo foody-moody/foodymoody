@@ -18,6 +18,7 @@ public class CommentFixture {
     public static final LocalDateTime CREATED_AT = LocalDateTime.of(2021, 1, 1, 1, 1, 1);
     public static final String NOT_EXISTS_ID = "not exists id";
     public static final boolean DELETED = false;
+    public static final String NOT_MEMBER_ID = "not member id";
 
     public static RegisterCommentRequest registerCommentRequestWithoutContent() {
         RegisterCommentRequest registerCommentRequest = new RegisterCommentRequest();

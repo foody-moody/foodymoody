@@ -44,7 +44,10 @@ public class Comment {
         return feedId;
     }
 
-    public void edit(String content, LocalDateTime updatedAt) {
+    public void edit(String memberId, String content, LocalDateTime updatedAt) {
+        if (!this.memberId.equals(memberId)) {
+            throw new IllegalArgumentException();
+        }
         if (this.deleted) {
             throw new CommentDeletedException();
         }

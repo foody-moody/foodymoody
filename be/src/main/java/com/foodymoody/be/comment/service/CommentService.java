@@ -33,11 +33,11 @@ public class CommentService {
     }
 
     @Transactional
-    public void edit(String id, EditCommentRequest request) {
+    public void edit(String id, EditCommentRequest request, String memberId) {
         CommentId commentId = new CommentId(id);
         Comment comment = fetchById(commentId);
         String content = request.getContent();
-        comment.edit(content, LocalDateTime.now());
+        comment.edit(memberId, content, LocalDateTime.now());
     }
 
     @Transactional
