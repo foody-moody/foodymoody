@@ -74,7 +74,7 @@ public class MemberSteps {
     public static void 응답코드가_200이고_회원보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
         Assertions.assertAll(
                 () -> 응답코드를_검증한다(response, HttpStatus.OK),
-                () -> assertThat(response.jsonPath().getLong("memberId")).isEqualTo(회원_보노.getId()),
+                () -> assertThat(response.jsonPath().getString("memberId")).isEqualTo(회원_보노.getId()),
                 () -> assertThat(response.jsonPath().getString("myImageUrl")).isEqualTo(회원_보노.getMyImageUrl()),
                 () -> assertThat(response.jsonPath().getString("nickname")).isEqualTo(회원_보노.getNickname()),
                 () -> assertThat(response.jsonPath().getString("email")).isEqualTo(회원_보노.getEmail()),
