@@ -34,6 +34,10 @@ public class MemberSteps {
         return 회원가입한다(memberRegisterRequest, spec);
     }
 
+    public static String 회원보노가_회원가입하고_아이디를_반환한다(RequestSpecification spec) {
+        return 회원보노가_회원가입한다(spec).jsonPath().getString("id");
+    }
+
     public static ExtractableResponse<Response> 회원보노의_회원프로필을_조회한다(RequestSpecification spec) {
         return 회원프로필을_조회한다(회원_보노.getId(), spec);
     }
