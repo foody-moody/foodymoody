@@ -66,7 +66,7 @@ class CommentTest {
         LocalDateTime localDateTime = CommentFixture.newUpdatedAt();
 
         // when
-        comment.delete(localDateTime);
+        comment.delete(CommentFixture.MEMBER_ID, localDateTime);
 
         // then
         assertAll(
@@ -84,8 +84,20 @@ class CommentTest {
         LocalDateTime localDateTime = CommentFixture.newUpdatedAt();
 
         // when
-        Assertions.assertThatThrownBy(() -> comment.delete(localDateTime))
+        Assertions.assertThatThrownBy(() -> comment.delete(CommentFixture.MEMBER_ID, localDateTime))
                 .isInstanceOf(CommentDeletedException.class)
                 .message().isEqualTo(ErrorMessage.COMMENT_DELETED.getMessage());
+    }
+
+    @DisplayName("댓글을 삭제할 때 댓글 작성자가 아니면 IllegalArgumentException이 발생한다")
+    @Test
+    void delete_fail_if_not_comment_writer() {
+        // given
+        Comment comment = CommentFixture.comment();
+        LocalDateTime localDateTime = CommentFixture.newUpdatedAt();
+
+        // when
+        Assertions.assertThatThrownBy(() -> comment.delete(CommentFixture.NOT_MEMBER_ID, localDateTime))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -41,10 +41,10 @@ public class CommentService {
     }
 
     @Transactional
-    public void delete(String id) {
+    public void delete(String id, String memberId) {
         CommentId commentId = new CommentId(id);
         Comment comment = fetchById(commentId);
-        comment.delete(LocalDateTime.now());
+        comment.delete(memberId, LocalDateTime.now());
     }
 
     public Comment fetchById(CommentId id) {

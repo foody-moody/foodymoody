@@ -64,7 +64,10 @@ public class Comment {
         return this.createdAt;
     }
 
-    public void delete(LocalDateTime deletedAt) {
+    public void delete(String memberId, LocalDateTime deletedAt) {
+        if (!this.memberId.equals(memberId)) {
+            throw new IllegalArgumentException();
+        }
         if (this.deleted) {
             throw new CommentDeletedException();
         }
