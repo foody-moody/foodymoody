@@ -1,6 +1,7 @@
 package com.foodymoody.be.notification.controller;
 
 import com.foodymoody.be.notification.controller.dto.NotificationResponse;
+import com.foodymoody.be.notification.controller.dto.NotificationStatus;
 import com.foodymoody.be.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -26,10 +28,11 @@ public class NotificationController {
         return ResponseEntity.ok(notifications);
     }
 
-    @PostMapping("/api/notifications/{memberId}/{notificationId}")
-    public ResponseEntity<Void> read(@PathVariable String memberId, @PathVariable String notificationId) {
-        notificationService.read(memberId, notificationId);
-        return ResponseEntity.ok().build();
+    @PutMapping("/api/notifications/{memberId}/{notificationId}")
+    public ResponseEntity<Void> changeStatus(@PathVariable String memberId, @PathVariable String notificationId,
+            @RequestBody NotificationStatus status) {
+        notificationService.changeStatus(memberId, notificationId, status.isRead());
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/api/notifications/{memberId}/{notificationId}")

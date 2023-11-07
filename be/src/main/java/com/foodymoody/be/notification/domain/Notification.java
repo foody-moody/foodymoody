@@ -25,16 +25,8 @@ public class Notification {
         this.isRead = isRead;
     }
 
-    public void read() {
-        this.isRead = true;
-    }
-
     public boolean isSameMember(String memberId) {
         return this.memberId.equals(memberId);
-    }
-
-    public void unRead() {
-        this.isRead = false;
     }
 
     public NotificationId getId() {
@@ -51,5 +43,9 @@ public class Notification {
 
     public boolean isRead() {
         return isRead;
+    }
+
+    public void changeStatus(boolean isRead) {
+        this.isRead = isRead;
     }
 }

@@ -22,6 +22,7 @@ public class NotificationService {
     private final NotificationMapper notificationMapper;
 
     @EventListener(CommentAddNotificationEvent.class)
+    @Transactional
     public void saveNotification(CommentAddNotificationEvent event) {
         NotificationId notificationId = NotificationId.newId();
         Notification notification = notificationMapper.toEntity(notificationId, event);
@@ -29,12 +30,13 @@ public class NotificationService {
     }
 
     @Transactional
-    public void read(String memberId, String notificationId) {
+    public void changeStatus(String memberId, String notificationId, boolean isRead) {
         Notification notification = getNotification(notificationId);
         hasAuthentication(notification, memberId, "해당 알림을 읽을 수 없습니다.");
-        notification.read();
+        notification.changeStatus(isRead);
     }
 
+    @Transactional(readOnly = true)
     public Slice<NotificationResponse> request(String memberId, Pageable pageable) {
         memberService.findById(memberId);
         Slice<Notification> notifications = notificationRepository.findAllByMemberId(memberId, pageable);
@@ -54,20 +56,13 @@ public class NotificationService {
         notificationRepository.deleteAllByMemberId(memberId);
     }
 
-    @Transactional
-    public void unRead(String memberId, String notificationId) {
-        Notification notification = getNotification(notificationId);
-        hasAuthentication(notification, memberId, "해당 알림을 읽지 않을 수 없습니다.");
-        notification.unRead();
-    }
-
     private Notification getNotification(String notificationId) {
         return notificationRepository.findById(NotificationId.from(notificationId))
                 .orElseThrow();
     }
 
     private static void hasAuthentication(Notification notification, String memberId, String message) {
-        if (notification.isSameMember(memberId)) {
+        if (!notification.isSameMember(memberId)) {
             throw new IllegalArgumentException(message);
         }
     }
