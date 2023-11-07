@@ -22,9 +22,9 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @GetMapping("/api/notifications/{memberId}")
-    public ResponseEntity<Slice<NotificationResponse>> request(@PathVariable String memberId,
+    public ResponseEntity<Slice<NotificationResponse>> requestAll(@PathVariable String memberId,
             @PageableDefault Pageable pageable) {
-        Slice<NotificationResponse> notifications = notificationService.request(memberId, pageable);
+        Slice<NotificationResponse> notifications = notificationService.requestAll(memberId, pageable);
         return ResponseEntity.ok(notifications);
     }
 

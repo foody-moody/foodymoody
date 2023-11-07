@@ -38,7 +38,7 @@ public class NotificationService {
     }
 
     @Transactional(readOnly = true)
-    public Slice<NotificationResponse> request(String memberId, Pageable pageable) {
+    public Slice<NotificationResponse> requestAll(String memberId, Pageable pageable) {
         memberService.findById(memberId);
         Slice<Notification> notifications = notificationRepository.findAllByMemberId(memberId, pageable);
         return notificationMapper.generateResponseDtoSliceFromNotifications(notifications);
