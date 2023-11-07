@@ -44,6 +44,6 @@ public class NotificationController {
     @DeleteMapping("/api/notifications/{memberId}")
     public ResponseEntity<Void> deleteAll(@PathVariable String memberId) {
         notificationService.deleteAll(memberId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

@@ -102,6 +102,29 @@ class NotificationTest extends AcceptanceTest {
         );
     }
 
+    @DisplayName("알람을 모두 삭제하면 응답코드 204와 알람을 모두 삭제한다.")
+    @Test
+    void when_delete_all_notification_if_success_then_return_code_204() {
+        // given
+        String 보노_아이디 = 회원보노가_회원가입하고_아이디를_반환한다();
+        LocalDateTime createdAt = LocalDateTime.of(2021, 1, 1, 1, 1, 1);
+        CommentAddNotificationEvent event = CommentAddNotificationEvent.of(보노_아이디, "피드에 새로운 댓글이 추가했습니다",
+                NotificationType.COMMENT_ADDED,
+                createdAt);
+        NotificationEvents.publish(event);
+
+        // when
+        var response = RestAssured.given().log().all()
+                .when().delete("/api/notifications/{memberId}", 보노_아이디)
+                .then().log().all()
+                .extract();
+
+        // then
+        Assertions.assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(204)
+        );
+    }
+
     private static ExtractableResponse<Response> 회원의_모든_알람을_조회한다(String 회원_아이디) {
         return RestAssured.given().log().all()
                 .when().get("/api/notifications/{memberId}", 회원_아이디)
