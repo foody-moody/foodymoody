@@ -12,7 +12,7 @@ public class NotificationMapper {
 
     public Notification toEntity(NotificationId notificationId, NotificationEvent event) {
         return new Notification(notificationId, event.getMemberId(), event.getMessage(),
-                event.getNotificationType(), false);
+                event.getNotificationType(), false, false);
     }
 
     public Slice<NotificationResponse> toDto(Slice<Notification> notifications) {

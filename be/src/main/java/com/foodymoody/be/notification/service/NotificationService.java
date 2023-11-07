@@ -21,6 +21,12 @@ public class NotificationService {
     private final MemberService memberService;
     private final NotificationMapper notificationMapper;
 
+    public static void hasAuthentication(Notification notification, String memberId, String message) {
+        if (!notification.isSameMember(memberId)) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
     @EventListener(CommentAddNotificationEvent.class)
     @Transactional
     public void saveNotification(CommentAddNotificationEvent event) {
@@ -32,8 +38,7 @@ public class NotificationService {
     @Transactional
     public void changeStatus(String memberId, String notificationId, boolean isRead) {
         Notification notification = getNotification(notificationId);
-        hasAuthentication(notification, memberId, "해당 알림을 읽을 수 없습니다.");
-        notification.changeStatus(isRead);
+        notification.changeStatus(isRead, memberId);
     }
 
     @Transactional(readOnly = true)
@@ -46,8 +51,7 @@ public class NotificationService {
     @Transactional
     public void delete(String memberId, String notificationId) {
         Notification notification = getNotification(notificationId);
-        hasAuthentication(notification, memberId, "해당 알림을 삭제할 수 없습니다.");
-        notificationRepository.delete(notification);
+        notification.delete(memberId);
     }
 
     @Transactional
@@ -59,12 +63,6 @@ public class NotificationService {
     private Notification getNotification(String notificationId) {
         return notificationRepository.findById(NotificationId.from(notificationId))
                 .orElseThrow();
-    }
-
-    private static void hasAuthentication(Notification notification, String memberId, String message) {
-        if (!notification.isSameMember(memberId)) {
-            throw new IllegalArgumentException(message);
-        }
     }
 
 }

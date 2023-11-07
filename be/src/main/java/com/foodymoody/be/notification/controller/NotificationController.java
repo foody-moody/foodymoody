@@ -38,7 +38,7 @@ public class NotificationController {
     @DeleteMapping("/api/notifications/{memberId}/{notificationId}")
     public ResponseEntity<Void> delete(@PathVariable String memberId, @PathVariable String notificationId) {
         notificationService.delete(memberId, notificationId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/api/notifications/{memberId}")

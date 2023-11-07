@@ -16,13 +16,16 @@ public class Notification {
     private String message;
     private NotificationType type;
     private boolean isRead;
+    private boolean isDeleted;
 
-    public Notification(NotificationId id, String memberId, String message, NotificationType type, boolean isRead) {
+    public Notification(NotificationId id, String memberId, String message, NotificationType type, boolean isRead,
+            boolean isDeleted) {
         this.id = id;
         this.memberId = memberId;
         this.message = message;
         this.type = type;
         this.isRead = isRead;
+        this.isDeleted = isDeleted;
     }
 
     public boolean isSameMember(String memberId) {
@@ -45,7 +48,19 @@ public class Notification {
         return isRead;
     }
 
-    public void changeStatus(boolean isRead) {
+    public void changeStatus(boolean isRead, String memberId) {
+        checkMemberId(memberId);
         this.isRead = isRead;
+    }
+
+    public void delete(String memberId) {
+        checkMemberId(memberId);
+        this.isDeleted = true;
+    }
+
+    private void checkMemberId(String memberId) {
+        if (!isSameMember(memberId)) {
+            throw new IllegalArgumentException("해당 알림을 수정할 수 없습니다.");
+        }
     }
 }
