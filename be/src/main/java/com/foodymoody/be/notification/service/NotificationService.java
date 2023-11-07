@@ -31,7 +31,7 @@ public class NotificationService {
     @Transactional
     public void saveNotification(CommentAddNotificationEvent event) {
         NotificationId notificationId = NotificationId.newId();
-        Notification notification = notificationMapper.toEntity(notificationId, event);
+        Notification notification = notificationMapper.createNotificationEntityFromEvent(notificationId, event);
         notificationRepository.save(notification);
     }
 
@@ -45,7 +45,7 @@ public class NotificationService {
     public Slice<NotificationResponse> request(String memberId, Pageable pageable) {
         memberService.findById(memberId);
         Slice<Notification> notifications = notificationRepository.findAllByMemberId(memberId, pageable);
-        return notificationMapper.toDto(notifications);
+        return notificationMapper.generateResponseDtoSliceFromNotifications(notifications);
     }
 
     @Transactional

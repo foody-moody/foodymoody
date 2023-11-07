@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class NotificationMapper {
 
-    public Notification toEntity(NotificationId notificationId, NotificationEvent event) {
+    public Notification createNotificationEntityFromEvent(NotificationId notificationId, NotificationEvent event) {
         return new Notification(notificationId, event.getMemberId(), event.getMessage(),
                 event.getNotificationType(), false, false);
     }
 
-    public Slice<NotificationResponse> toDto(Slice<Notification> notifications) {
+    public Slice<NotificationResponse> generateResponseDtoSliceFromNotifications(Slice<Notification> notifications) {
         return notifications.map(notification -> new NotificationResponse(notification.getId().getValue(),
                 notification.getMessage(), notification.getType(),
                 notification.isRead()));

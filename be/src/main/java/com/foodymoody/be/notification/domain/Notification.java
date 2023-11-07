@@ -48,6 +48,14 @@ public class Notification {
         return isRead;
     }
 
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
     public void changeStatus(boolean isRead, String memberId) {
         checkMemberId(memberId);
         this.isRead = isRead;
