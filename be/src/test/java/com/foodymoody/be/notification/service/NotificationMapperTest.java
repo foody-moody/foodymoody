@@ -34,7 +34,9 @@ class NotificationMapperTest {
                 () -> Assertions.assertEquals(commentAddNotificationEvent.getNotificationType(),
                         notification.getType()),
                 () -> Assertions.assertFalse(notification.isRead()),
-                () -> Assertions.assertFalse(notification.isDeleted())
+                () -> Assertions.assertFalse(notification.isDeleted()),
+                () -> Assertions.assertEquals(commentAddNotificationEvent.getCreatedAt(), notification.getCreatedAt()),
+                () -> Assertions.assertEquals(commentAddNotificationEvent.getCreatedAt(), notification.getUpdatedAt())
         );
     }
 

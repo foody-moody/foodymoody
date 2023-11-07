@@ -1,6 +1,7 @@
 package com.foodymoody.be.notification.domain;
 
 import com.foodymoody.be.common.event.NotificationType;
+import java.time.LocalDateTime;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.AccessLevel;
@@ -17,15 +18,19 @@ public class Notification {
     private NotificationType type;
     private boolean isRead;
     private boolean isDeleted;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public Notification(NotificationId id, String memberId, String message, NotificationType type, boolean isRead,
-            boolean isDeleted) {
+            boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.memberId = memberId;
         this.message = message;
         this.type = type;
         this.isRead = isRead;
         this.isDeleted = isDeleted;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public boolean isSameMember(String memberId) {
@@ -56,14 +61,24 @@ public class Notification {
         return isDeleted;
     }
 
-    public void changeStatus(boolean isRead, String memberId) {
+    public void changeStatus(boolean isRead, String memberId, LocalDateTime updatedAt) {
         checkMemberId(memberId);
+        this.updatedAt = updatedAt;
         this.isRead = isRead;
     }
 
-    public void delete(String memberId) {
+    public void delete(String memberId, LocalDateTime updatedAt) {
         checkMemberId(memberId);
         this.isDeleted = true;
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     private void checkMemberId(String memberId) {

@@ -6,6 +6,7 @@ import com.foodymoody.be.notification.controller.dto.NotificationResponse;
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationId;
 import com.foodymoody.be.notification.repository.NotificationRepository;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Pageable;
@@ -21,12 +22,6 @@ public class NotificationService {
     private final MemberService memberService;
     private final NotificationMapper notificationMapper;
 
-    public static void hasAuthentication(Notification notification, String memberId, String message) {
-        if (!notification.isSameMember(memberId)) {
-            throw new IllegalArgumentException(message);
-        }
-    }
-
     @EventListener(CommentAddNotificationEvent.class)
     @Transactional
     public void saveNotification(CommentAddNotificationEvent event) {
@@ -38,7 +33,8 @@ public class NotificationService {
     @Transactional
     public void changeStatus(String memberId, String notificationId, boolean isRead) {
         Notification notification = getNotification(notificationId);
-        notification.changeStatus(isRead, memberId);
+        var updatedAt = LocalDateTime.now();
+        notification.changeStatus(isRead, memberId, updatedAt);
     }
 
     @Transactional(readOnly = true)
@@ -51,7 +47,8 @@ public class NotificationService {
     @Transactional
     public void delete(String memberId, String notificationId) {
         Notification notification = getNotification(notificationId);
-        notification.delete(memberId);
+        LocalDateTime updatedAt = LocalDateTime.now();
+        notification.delete(memberId, updatedAt);
     }
 
     @Transactional
