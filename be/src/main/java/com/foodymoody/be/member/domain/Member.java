@@ -1,5 +1,6 @@
 package com.foodymoody.be.member.domain;
 
+import com.foodymoody.be.common.exception.IncorrectMemberPasswordException;
 import com.foodymoody.be.common.exception.InvalidReconfirmPasswordException;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.mood.domain.Mood;
@@ -53,10 +54,6 @@ public class Member {
         return nickname;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public String getProfileImageUrl() {
         if (Objects.nonNull(this.profileImage)) {
             return this.profileImage.getUrl();
@@ -66,6 +63,13 @@ public class Member {
 
     public String getMood() {
         return mood.getName();
+    }
+
+    public boolean equalsPassword(String password) {
+        if (Objects.isNull(password)) {
+            throw new IncorrectMemberPasswordException();
+        }
+        return Objects.equals(password, this.password);
     }
 
     //    TODO 프로필 이미지 기능 구현

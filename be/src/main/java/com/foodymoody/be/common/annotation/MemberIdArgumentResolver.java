@@ -1,6 +1,8 @@
 package com.foodymoody.be.common.annotation;
 
-import com.foodymoody.be.auth.service.TokenService;
+import com.foodymoody.be.common.util.HttpHeaderParser;
+import com.foodymoody.be.common.util.HttpHeaderType;
+import com.foodymoody.be.auth.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -13,7 +15,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @RequiredArgsConstructor
 public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final TokenService tokenService;
+    private final JwtUtil jwtUtil;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -23,6 +25,8 @@ public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public String resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return tokenService.extractMemberId(webRequest);
+        String header = webRequest.getHeader(HttpHeaderType.AUTHORIZATION.NAME);
+        String token = HttpHeaderParser.parse(header, HttpHeaderType.AUTHORIZATION);
+        return jwtUtil.extractId(token);
     }
 }

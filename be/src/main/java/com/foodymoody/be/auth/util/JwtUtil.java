@@ -1,12 +1,19 @@
 package com.foodymoody.be.auth.util;
 
-import com.foodymoody.be.common.exception.UnsupportedClaimException;
+import com.foodymoody.be.common.exception.InvalidAccessTokenException;
+import com.foodymoody.be.common.exception.InvalidTokenException;
+import com.foodymoody.be.common.exception.ClaimNotFoundException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
@@ -23,6 +30,7 @@ public class JwtUtil {
     private String secret;
     private String issuer;
     private SecretKey secretKey;
+    private JwtParser parser;
 
     public JwtUtil(
             @Value("${jwt.token.exp.access}") long accessTokenExp,
@@ -34,30 +42,40 @@ public class JwtUtil {
         this.secret = secret;
         this.issuer = issuer;
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
+        this.parser = Jwts.parserBuilder().setSigningKey(secretKey).build();
     }
 
     public String createAccessToken(String id, String email) {
         Map<String, Object> idClaim = createClaim("id", id);
         Map<String, Object> emailClaim = createClaim("email", email);
-        return createToken(accessTokenExp, issuer, secretKey, idClaim, emailClaim);
+        Date now = Date.from(Instant.now());
+        return createToken(now, accessTokenExp, issuer, secretKey, idClaim, emailClaim);
     }
 
     public String createRefreshToken(String id) {
         Map<String, Object> idClaim = createClaim("id", id);
-        return createToken(refreshTokenExp, issuer, secretKey, idClaim);
+        Date now = Date.from(Instant.now());
+        return createToken(now, refreshTokenExp, issuer, secretKey, idClaim);
     }
 
     public String extractEmail(String token) {
-        return String.valueOf(extractClaim(token, "email"));
+        return extractClaim(token, "email", String.class);
     }
 
     public String extractId(String token) {
-        return String.valueOf(extractClaim(token, "id"));
+        return extractClaim(token, "id", String.class);
+    }
+
+    public void validateAccessToken(String token) {
+        Claims claims = extractClaims(token);
+        if (Objects.isNull(claims.get("id", String.class))
+                || Objects.isNull(claims.get("email", String.class))) {
+            throw new InvalidAccessTokenException();
+        }
     }
 
     @SafeVarargs
-    private String createToken(long exp, String issuer, SecretKey secretKey, Map<String, Object>... claims) {
-        Date now = new Date();
+    private String createToken(Date now, long exp, String issuer, SecretKey secretKey, Map<String, Object>... claims) {
         Date expiration = new Date(now.getTime() + exp);
 
         JwtBuilder builder = Jwts.builder()
@@ -73,17 +91,20 @@ public class JwtUtil {
         return Map.of(key, value);
     }
 
-    private Object extractClaim(String token, String key) {
+    private <T> T extractClaim(String token, String key, Class<T> type) {
         Claims claims = extractClaims(token);
         Object claim = claims.get(key);
         if (Objects.isNull(claim)) {
-            throw new UnsupportedClaimException();
+            throw new ClaimNotFoundException();
         }
-        return claim;
+        return claims.get(key, type);
     }
 
     private Claims extractClaims(String token) {
-        JwtParser parser = Jwts.parserBuilder().setSigningKey(secretKey).build();
-        return parser.parseClaimsJws(token).getBody();
+        try {
+            return parser.parseClaimsJws(token).getBody();
+        } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | ExpiredJwtException exception) {
+            throw new InvalidTokenException();
+        }
     }
 }

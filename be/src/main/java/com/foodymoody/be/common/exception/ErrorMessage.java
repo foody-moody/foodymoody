@@ -5,6 +5,7 @@ public enum ErrorMessage {
     INVALID_INPUT_VALUE("입력값이 올바르지 않습니다.", "g001"),
     INVALID_ID("유효하지 않은 아이디입니다.", "g002"),
     CREATE_TIME_IS_NULL("생성시간이 null이면 안된다", "g003"),
+    REQUEST_HEADER_NOT_FOUND("요청에 해당 헤더가 존재하지 않습니다", "g004"),
     // comment
     CONTENT_NOT_EXISTS("댓글이 존재하지 않습니다.", "c001"),
     CONTENT_IS_EMPTY("댓글 내용이 공백입니다.", "c002"),
@@ -21,10 +22,11 @@ public enum ErrorMessage {
     INVALID_CONFIRM_PASSWORD("입력하신 패스워드와 일치하지 않습니다", "m004"),
     MEMBER_INCORRECT_PASSWORD("사용자 정보와 패스워드가 일치하지 않습니다", "m005"),
     // auth
-    INVALID_ACCESS_TOKEN("유효하지 않은 액세스 토큰입니다", "a001"),
+    INVALID_TOKEN("토큰이 유효하지 않습니다", "a001"),
     IS_NOT_HTTP_REQUEST("http 요청이 아닙니다", "a002"),
-    CLAIM_NOT_EXISTS("토큰에 해당 클레임이 존재하지 않습니다", "a003"),
-    AUTHORIZATION_FAILED("권한이 없습니다", "a004");
+    CLAIM_NOT_FOUND("토큰에 해당 클레임이 존재하지 않습니다", "a003"),
+    AUTHORIZATION_FAILED("권한이 없습니다", "a004"),
+    INVALID_ACCESS_TOKEN("유효하지 않은 액세스 토큰입니다", "a005");
 
     private final String message;
     private final String code;
