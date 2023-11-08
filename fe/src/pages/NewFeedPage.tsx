@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { v4 as uuidv4 } from 'uuid';
 import { customScrollStyle, flexColumn, flexRow } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
 import { BadgeSelector } from 'components/common/badgeSelector/BadgeSelector';
@@ -27,7 +26,7 @@ const MOCK_MENU = {
   mood: '기쁨',
   images: [
     {
-      id: uuidv4(),
+      id: crypto.randomUUID(),
       imageUrl: 'https://www.googles.com/',
       menu: {
         name: '마라탕',
@@ -35,7 +34,7 @@ const MOCK_MENU = {
       },
     },
     {
-      id: uuidv4(),
+      id: crypto.randomUUID(),
       imageUrl: 'https://www.google.com/',
       menu: {
         name: '감자탕',
