@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.http.MediaType;
 
 public class FeedSteps {
@@ -56,6 +57,18 @@ public class FeedSteps {
                 fail("Invalid date-time format for createdAt or updatedAt");
             }
 
+            // Modify storeMood validation here
+            List<Map<String, Object>> storeMoods = (List<Map<String, Object>>) feed.get("storeMood");
+            for (Map<String, Object> storeMood : storeMoods) {
+                assertThat(storeMood).containsKeys("id", "name");
+
+                assertThat(storeMood.get("id")).isInstanceOf(String.class); // Make sure 'id' is a Number
+                assertThat(storeMood.get("name")).isInstanceOf(String.class); // Make sure 'name' is a String
+
+                assertThat(storeMood.get("id")).isNotNull();
+                assertThat(storeMood.get("name")).isNotNull();
+            }
+
             List<Map<String, Object>> images = (List<Map<String, Object>>) feed.get("images");
             for (Map<String, Object> image : images) {
                 assertThat(image).containsKeys("imageUrl", "menu");
@@ -87,7 +100,7 @@ public class FeedSteps {
         Map<String, Object> body = Map.of(
                 "location", "맛있게 매운 콩볼 범계점",
                 "review", "맛있게 먹었습니다.",
-                "storeMood", List.of("베지테리언", "무드1", "무드2"),
+                "storeMood", List.of("1", "3", "4"),
                 "images", List.of(
                         Map.of(
                                 "imageUrl", "https://www.googles.com/",
@@ -147,8 +160,14 @@ public class FeedSteps {
                 assertThat(id)::isNotNull,
                 () -> assertThat(response.jsonPath().getString("location")).isEqualTo("맛있게 매운 콩볼 범계점"),
                 () -> assertThat(response.jsonPath().getString("review")).isEqualTo("맛있게 먹었습니다."),
-                () -> assertThat(response.jsonPath().getList("storeMood", String.class)).containsExactly("베지테리언", "무드1",
-                        "무드2"),
+                () -> {
+                    List<Map<String, String>> storeMoods = response.jsonPath().getList("storeMood");
+                    assertThat(storeMoods).hasSize(3);
+
+                    assertThat(storeMoods.get(0)).containsEntry("name", "베지테리언");
+                    assertThat(storeMoods.get(1)).containsEntry("name", "무드1");
+                    assertThat(storeMoods.get(2)).containsEntry("name", "무드2");
+                },
                 () -> {
                     String createdAt = response.jsonPath().getString("createdAt");
                     String updatedAt = response.jsonPath().getString("updatedAt");
@@ -183,7 +202,7 @@ public class FeedSteps {
         Map<String, Object> body = Map.of(
                 "location", "맛있게 매운 콩볼 범계점2",
                 "review", "맛있게 먹었습니다.2",
-                "storeMood", List.of("베지테리언2", "무드3", "무드4"),
+                "storeMood", List.of("2", "5", "6"),
                 "images", List.of(
                         Map.of(
                                 "imageUrl", "https://www.googles2.com/",

@@ -1,5 +1,6 @@
 package com.foodymoody.be.docs.auth;
 
+import static com.foodymoody.be.member.util.MemberFixture.회원_보노;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.restassured.RestAssured;
@@ -15,6 +16,10 @@ import org.springframework.http.MediaType;
 
 public class AuthSteps {
 
+    public static ExtractableResponse<Response> 회원보노가_로그인한다(RequestSpecification spec) {
+        return 로그인_한다(회원_보노.getEmail(), 회원_보노.getPassword(), spec);
+    }
+
     public static void 토큰과_응답코드_200을_응답한다(ExtractableResponse<Response> response) {
         Assertions.assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
@@ -28,9 +33,12 @@ public class AuthSteps {
         body.put("email", email);
         body.put("password", password);
         return RestAssured
-                .given().spec(spec).log().all()
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
                 .body(body)
-                .when().post("/auth/login")
+                .when().post("/api/auth/login")
                 .then().log().all()
                 .extract();
     }

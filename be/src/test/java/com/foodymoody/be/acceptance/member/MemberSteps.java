@@ -1,9 +1,11 @@
-package com.foodymoody.be.docs.member;
+package com.foodymoody.be.acceptance.member;
 
-import static com.foodymoody.be.docs.member.MemberFixture.회원_보노;
+import static com.foodymoody.be.member.util.MemberFixture.회원_보노;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -15,7 +17,11 @@ import org.springframework.http.MediaType;
 
 public class MemberSteps {
 
-    private static final RequestSpecification FAKE_SPEC = RestAssured.given();
+    private static final RequestSpecification FAKE_SPEC;
+
+    static {
+        FAKE_SPEC = new RequestSpecBuilder().build();
+    }
 
     public static ExtractableResponse<Response> 회원보노가_회원가입한다(RequestSpecification spec) {
         Map<String, Object> memberRegisterRequest = Map.of(
@@ -26,6 +32,10 @@ public class MemberSteps {
                 "mood", 회원_보노.getMood());
 
         return 회원가입한다(memberRegisterRequest, spec);
+    }
+
+    public static String 회원보노가_회원가입하고_아이디를_반환한다(RequestSpecification spec) {
+        return 회원보노가_회원가입한다(spec).jsonPath().getString("id");
     }
 
     public static ExtractableResponse<Response> 회원보노의_회원프로필을_조회한다(RequestSpecification spec) {
@@ -50,11 +60,12 @@ public class MemberSteps {
     }
 
     public static void 응답코드가_200이고_응답에_id가_존재하며_회원보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
-        var 회원보노_회원프로필_조회_응답 = 회원프로필을_조회한다(회원_보노.getId(), FAKE_SPEC);
+        String 회원보노_아이디 = response.jsonPath().getObject("id", String.class);
+        var 회원보노_회원프로필_조회_응답 = 회원프로필을_조회한다(회원보노_아이디, FAKE_SPEC);
 
         Assertions.assertAll(
                 () -> 응답코드를_검증한다(response, HttpStatus.OK),
-                () -> assertThat(response.jsonPath().getObject("id", Long.class)).isNotNull(),
+                () -> assertThat(response.jsonPath().getObject("id", String.class)).isNotNull(),
                 () -> 응답코드를_검증한다(회원보노_회원프로필_조회_응답, HttpStatus.OK),
                 () -> assertThat(회원보노_회원프로필_조회_응답.jsonPath().getString("email")).isEqualTo(회원_보노.getEmail())
         );
@@ -63,7 +74,7 @@ public class MemberSteps {
     public static void 응답코드가_200이고_회원보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
         Assertions.assertAll(
                 () -> 응답코드를_검증한다(response, HttpStatus.OK),
-                () -> assertThat(response.jsonPath().getLong("memberId")).isEqualTo(회원_보노.getId()),
+                () -> assertThat(response.jsonPath().getString("memberId")).isEqualTo(회원_보노.getId()),
                 () -> assertThat(response.jsonPath().getString("myImageUrl")).isEqualTo(회원_보노.getMyImageUrl()),
                 () -> assertThat(response.jsonPath().getString("nickname")).isEqualTo(회원_보노.getNickname()),
                 () -> assertThat(response.jsonPath().getString("email")).isEqualTo(회원_보노.getEmail()),
@@ -116,7 +127,7 @@ public class MemberSteps {
                 .extract();
     }
 
-    private static ExtractableResponse<Response> 회원프로필을_조회한다(Long memberId, RequestSpecification spec) {
+    private static ExtractableResponse<Response> 회원프로필을_조회한다(String memberId, RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -129,7 +140,7 @@ public class MemberSteps {
                 .extract();
     }
 
-    private static ExtractableResponse<Response> 회원탈퇴한다(long memberId, RequestSpecification spec) {
+    private static ExtractableResponse<Response> 회원탈퇴한다(String memberId, RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -143,7 +154,7 @@ public class MemberSteps {
     }
 
     private static ExtractableResponse<Response> 회원프로필을_수정한다(
-            long memberId,
+            String memberId,
             Map<String, Object> updateMemberProfileRequest,
             RequestSpecification spec) {
         return RestAssured
@@ -160,7 +171,7 @@ public class MemberSteps {
     }
 
     private static ExtractableResponse<Response> 회원비밀번호를_수정한다(
-            long memberId,
+            String memberId,
             Map<String, Object> updateMemberPasswordRequest,
             RequestSpecification spec) {
         return RestAssured

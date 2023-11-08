@@ -26,23 +26,20 @@ public class Feed {
     private int commentCount;
 
     @Embedded
-    private Images images;
-    @Embedded
-    private Menus menus;
+    private ImageMenus imageMenus;
     @Embedded
     private StoreMood storeMood;
 
     public Feed() {
     }
 
-    public Feed(String id, String location, String review, List<String> storeMood, List<Image> images,
-            List<Menu> menus) {
+    public Feed(String id, String location, String review, List<String> moodIds, List<Image> images,
+                List<Menu> menus) {
         this.id = id;
         this.location = location;
         this.review = review;
-        this.storeMood = new StoreMood(storeMood);
-        this.images = new Images(images);
-        this.menus = new Menus(menus);
+        this.storeMood = new StoreMood(moodIds);
+        this.imageMenus = new ImageMenus(images, menus);
     }
 
     public String getId() {
@@ -57,16 +54,12 @@ public class Feed {
         return review;
     }
 
-    public List<String> getStoreMood() {
-        return storeMood.getStoreMood();
+    public List<String> getStoreMoodIds() {
+        return storeMood.getStoreMoodIds();
     }
 
-    public List<Image> getImages() {
-        return images.getNewUnmodifiedImages();
-    }
-
-    public List<Menu> getMenus() {
-        return menus.getNewUnmodifiedMenus();
+    public List<ImageMenu> getImageMenus() {
+        return imageMenus.getNewUnmodifiedImageMenus();
     }
 
     public int getLikeCount() {
@@ -89,13 +82,12 @@ public class Feed {
         return updatedAt;
     }
 
-    public void update(String location, String review, List<String> storeMood, List<Image> newImages,
-            List<Menu> newMenus) {
-        this.location = location;
-        this.review = review;
-        this.storeMood = new StoreMood(storeMood);
-        this.images.replaceWith(newImages);
-        this.menus.replaceWith(newMenus);
+    public void update(String newLocation, String newReview, List<String> newStoreMoodIds, List<Image> newImages,
+                       List<Menu> newMenus) {
+        this.location = newLocation;
+        this.review = newReview;
+        this.storeMood = new StoreMood(newStoreMoodIds);
+        this.imageMenus.replaceWith(newImages, newMenus);
     }
 
 }

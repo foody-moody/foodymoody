@@ -1,6 +1,8 @@
 package com.foodymoody.be.feed.domain;
 
+import com.foodymoody.be.feed.domain.util.ImageMenuMapper;
 import com.foodymoody.be.image.domain.Image;
+import com.foodymoody.be.menu.domain.Menu;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,25 +17,25 @@ import lombok.NoArgsConstructor;
  */
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Images {
+public class ImageMenus {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Image> images = new ArrayList<>();
+    private List<ImageMenu> imageMenus = new ArrayList<>();
 
-    public Images(List<Image> newImages) {
-        this.images.addAll(newImages);
+    public ImageMenus(List<Image> newImages, List<Menu> newMenus) {
+        this.imageMenus.addAll(ImageMenuMapper.toImageMenu(newImages, newMenus));
     }
 
-    public void replaceWith(List<Image> newImages) {
-        images.clear();
-        images.addAll(newImages);
+    public void replaceWith(List<Image> newImages, List<Menu> newMenus) {
+        imageMenus.clear();
+        imageMenus.addAll(ImageMenuMapper.toImageMenu(newImages, newMenus));
     }
 
     /**
      * 밖에서 참조하지 못하도록 새로운 변경 불가능한 리스트로 만든 후 리턴
      */
-    public List<Image> getNewUnmodifiedImages() {
-        return Collections.unmodifiableList(images);
+    public List<ImageMenu> getNewUnmodifiedImageMenus() {
+        return Collections.unmodifiableList(imageMenus);
     }
 
 }
