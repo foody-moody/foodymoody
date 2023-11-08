@@ -30,3 +30,4 @@ export { default as StarLargeEmptyIcon } from 'assets/starLargeEmpty.svg?react';
 export { default as StarLargeFillIcon } from 'assets/starLargeFill.svg?react';
 export { default as StarSmallIcon } from 'assets/starSmall.svg?react';
 export { default as UserIcon } from 'assets/user.svg?react';
+export { default as UserPlusIcon } from 'assets/userPlus.svg?react';
