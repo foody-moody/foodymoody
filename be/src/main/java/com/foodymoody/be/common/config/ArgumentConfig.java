@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
-public class WebConfig implements WebMvcConfigurer {
+public class ArgumentConfig implements WebMvcConfigurer {
 
     private final MemberIdArgumentResolver memberIdArgumentResolver;
     private final MemberEmailArgumentResolver memberEmailArgumentResolver;
