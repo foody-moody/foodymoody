@@ -1,0 +1,9 @@
+jwt:
+  token:
+    secret: asdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    issuer: bono
+    exp:
+      access: 100000
+      refresh: 100000
+filter:
+  whitelist: POST /api/members, POST /api/auth/login
