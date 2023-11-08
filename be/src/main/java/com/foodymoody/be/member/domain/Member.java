@@ -53,7 +53,7 @@ public class Member {
     public String getPassword() {
         return password;
     }
-
+  
     public String getProfileImageUrl() {
         if (Objects.nonNull(this.profileImage)) {
             return this.profileImage.getUrl();
