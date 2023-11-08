@@ -2,17 +2,24 @@ import { styled } from 'styled-components';
 import { customScrollStyle } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
 import { Badge } from 'components/common/badge/Badge';
+import { TextButton } from 'components/common/button/TextButton';
 import { Carousel } from 'components/common/carousel/Carousel';
 import { CommentItem } from 'components/common/commentItem/CommentItem';
 import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
+import { PlusIcon } from 'components/common/icon/icons';
 import { Input } from 'components/common/input/Input';
+import { useInput } from 'hooks/useInput';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const DetailFeedModalPage = () => {
   /* TODO. 주소로 Detail 데이터 가져오깅 */
   const { navigateToHome } = usePageNavigator();
+  const { value, handleChange, isValid } = useInput({
+    validator: (value) =>
+      value.trim().length === 0 || value.trim().length > 200,
+  });
 
   const MOCK = {
     id: '2',
@@ -57,6 +64,13 @@ export const DetailFeedModalPage = () => {
     commentCount: 3,
   };
 
+  const handleSubmit = () => {
+    console.log('is Comment Valid', {
+      isCommentValid: isValid,
+      commentValue: value,
+    });
+  };
+
   return (
     <>
       <Dim onClick={navigateToHome} />
@@ -85,7 +99,17 @@ export const DetailFeedModalPage = () => {
               commentCount={MOCK.commentCount}
             />
             <CommentBox>
-              <Input variant="comment" />
+              <Input
+                variant="comment"
+                value={value}
+                onChangeValue={handleChange}
+                leftBtn={<PlusIcon />}
+                rightBtn={
+                  <TextButton color="orange" size="s" onClick={handleSubmit}>
+                    게시
+                  </TextButton>
+                }
+              />
 
               <CommentItem
                 imageUrl="123"

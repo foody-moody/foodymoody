@@ -9,6 +9,8 @@ type Props = {
   variant: 'ghost' | 'underline' | 'default' | 'comment';
   helperText?: string;
   limitedLength?: number;
+  leftBtn?: React.ReactNode;
+  rightBtn?: React.ReactNode;
   onChangeValue?(value: string): void;
   onPressEnter?(): void;
 } & InputHTMLAttributes<HTMLInputElement>;
@@ -20,6 +22,8 @@ export const Input: React.FC<Props> = ({
   variant,
   helperText,
   limitedLength,
+  leftBtn,
+  rightBtn,
   onChangeValue,
   ...props
 }) => {
@@ -37,7 +41,7 @@ export const Input: React.FC<Props> = ({
         {variant === 'default' && (
           <LabelText $isFocused={isFocused}>{placeholder}</LabelText>
         )}
-        {variant === 'comment' && <Dummy />}
+        {leftBtn}
         <InputCore
           type={type}
           placeholder={variant !== 'default' ? placeholder : ''}
@@ -52,7 +56,7 @@ export const Input: React.FC<Props> = ({
           }}
           {...props}
         />
-        {variant === 'comment' && <Dummy />}
+        {rightBtn}
         {isFocused && helperText && (
           <HelperText $variant={variant}>{helperText}</HelperText>
         )}
@@ -87,6 +91,9 @@ const BaseWrapper = styled.div<{
   position: relative;
   box-sizing: border-box;
   background-color: ${({ theme: { colors } }) => colors.white};
+  svg {
+    cursor: pointer;
+  }
 `;
 
 const GhostWrapper = styled(BaseWrapper)`
@@ -123,6 +130,7 @@ const DefaultWrapper = styled(BaseWrapper)`
 
 const CommentWrapper = styled(BaseWrapper)`
   display: flex;
+  align-items: center;
   gap: 8px;
   padding: 12px 20px;
   border: 1px solid ${({ theme: { colors } }) => colors.black};
