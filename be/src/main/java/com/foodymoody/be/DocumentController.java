@@ -27,14 +27,4 @@ public class DocumentController {
     public ResponseEntity<Void> updatePassword(@PathVariable Long memberId) {
         return ResponseEntity.noContent().build();
     }
-
-    @PostMapping("auth/login")
-    public ResponseEntity<Map<String, Object>> login() {
-        return ResponseEntity.ok().body(
-                Map.of(
-                        "accessToken", "dfsfsa-fsdafs-fsdfsa",
-                        "refreshToken", "fdasfsdfs-fsdfsad-fdsfas"
-                )
-        );
-    }
 }

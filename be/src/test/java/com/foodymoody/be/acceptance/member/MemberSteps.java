@@ -34,6 +34,10 @@ public class MemberSteps {
         return 회원가입한다(memberRegisterRequest, spec);
     }
 
+    public static String 회원보노가_회원가입하고_아이디를_반환한다(RequestSpecification spec) {
+        return 회원보노가_회원가입한다(spec).jsonPath().getString("id");
+    }
+
     public static ExtractableResponse<Response> 회원보노의_회원프로필을_조회한다(RequestSpecification spec) {
         return 회원프로필을_조회한다(회원_보노.getId(), spec);
     }
@@ -70,7 +74,7 @@ public class MemberSteps {
     public static void 응답코드가_200이고_회원보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
         Assertions.assertAll(
                 () -> 응답코드를_검증한다(response, HttpStatus.OK),
-                () -> assertThat(response.jsonPath().getLong("memberId")).isEqualTo(회원_보노.getId()),
+                () -> assertThat(response.jsonPath().getString("memberId")).isEqualTo(회원_보노.getId()),
                 () -> assertThat(response.jsonPath().getString("myImageUrl")).isEqualTo(회원_보노.getMyImageUrl()),
                 () -> assertThat(response.jsonPath().getString("nickname")).isEqualTo(회원_보노.getNickname()),
                 () -> assertThat(response.jsonPath().getString("email")).isEqualTo(회원_보노.getEmail()),
@@ -113,6 +117,7 @@ public class MemberSteps {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
                 .log().all()
                 .body(memberRegisterRequest)
                 .when()

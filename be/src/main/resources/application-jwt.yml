@@ -1,9 +1,3 @@
-spring:
-  profiles:
-    group:
-      test: db
-    active: test
-
 jwt:
   token:
     secret: asdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

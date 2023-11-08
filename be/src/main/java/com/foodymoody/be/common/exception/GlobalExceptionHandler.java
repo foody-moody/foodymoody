@@ -40,6 +40,13 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(INVALID_INPUT_VALUE.getMessage(), INVALID_INPUT_VALUE.getCode());
     }
 
+    @ResponseStatus(value = BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ErrorResponse handleIllegalArgumentException(HttpMessageNotReadableException e) {
+        log.error("handleIllegalArgumentException", e);
+        return new ErrorResponse(INVALID_INPUT_VALUE.getMessage(), INVALID_INPUT_VALUE.getCode());
+    }
+
     private static Map<String, String> getErrors(MethodArgumentNotValidException e) {
         return e.getBindingResult()
                 .getAllErrors()
