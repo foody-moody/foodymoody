@@ -31,6 +31,7 @@ const Wrapper = styled.button<{
       : fonts.displayM16};
   color: ${({ $color, theme: { colors } }) => colors[$color]};
   width: fit-content;
+  white-space: nowrap;
   background-color: transparent;
   display: flex;
   align-items: center;
