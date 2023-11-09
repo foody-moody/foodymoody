@@ -7,7 +7,6 @@ import { UserImageEdit } from '../common/userImage/UserImageEdit';
 
 type Props = {
   member: ProfileMemberInfo;
-  isAuthor: boolean;
 };
 
 const MOCK_BADGE = {
@@ -15,9 +14,12 @@ const MOCK_BADGE = {
   name: '도전적인',
 };
 
-export const ProfileUserInfo: React.FC<Props> = ({ member, isAuthor }) => {
+export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
   const handleAddCollection = () => {};
   const handleEditProfile = () => {};
+
+  // const isAuthor = member.id === '1';
+  const isAuthor = true;
 
   return (
     <Wrapper>

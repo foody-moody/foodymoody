@@ -144,13 +144,6 @@ const SHAPE_VARIANT = {
   comment: CommentWrapper,
 };
 
-// TODO comment 인풋 - Icon교체, 버튼 교체
-const Dummy = styled.div`
-  width: 50px;
-  height: 24px;
-  background-color: ${({ theme: { colors } }) => colors.textTertiary};
-`;
-
 const HelperText = styled.div<{
   $variant: 'ghost' | 'underline' | 'default' | 'comment';
 }>`
