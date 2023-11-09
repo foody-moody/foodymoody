@@ -9,6 +9,7 @@ import com.foodymoody.be.member.controller.dto.MemberProfileResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.domain.Member;
+import com.foodymoody.be.mood.domain.Mood;
 import java.util.List;
 
 public class MemberMapper {
@@ -17,14 +18,14 @@ public class MemberMapper {
         throw new IllegalStateException(UTILITY_CLASS);
     }
 
-    public static Member toEntity(MemberSignupRequest request) {
+    public static Member toEntity(MemberSignupRequest request, Mood mood) {
         return Member.of(
                 IdGenerator.generate(),
                 request.getEmail(),
                 request.getNickname(),
                 request.getPassword(),
                 request.getReconfirmPassword(),
-                request.getMood()
+                mood
         );
     }
 
