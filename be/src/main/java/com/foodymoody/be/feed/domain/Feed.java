@@ -92,8 +92,9 @@ public class Feed {
         return memberId;
     }
 
-    public void update(String newLocation, String newReview, List<String> newStoreMoodIds, List<Image> newImages,
+    public void update(String memberId, String newLocation, String newReview, List<String> newStoreMoodIds, List<Image> newImages,
                        List<Menu> newMenus) {
+        this.memberId = memberId;
         this.location = newLocation;
         this.review = newReview;
         this.storeMood = new StoreMood(newStoreMoodIds);

@@ -60,7 +60,8 @@ public class FeedController {
      */
     @PutMapping("/api/feeds/{id}")
     public ResponseEntity<Void> update(@PathVariable String id, @RequestBody FeedUpdateRequest feedUpdateRequest) {
-        feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest));
+        // TODO: 회원 기능 완료되면 "@MemberId String memberId" 추가
+        feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest, "8f141f9db75ef7083d62ca6a"));
         return ResponseEntity.noContent().build();
     }
 

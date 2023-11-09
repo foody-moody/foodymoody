@@ -50,8 +50,9 @@ public class FeedMapper {
                 .build();
     }
 
-    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedUpdateRequest request) {
+    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedUpdateRequest request, String memberId) {
         return FeedServiceUpdateRequest.builder()
+                .memberId(memberId)
                 .location(request.getLocation())
                 .review(request.getReview())
                 .storeMood(request.getStoreMood())

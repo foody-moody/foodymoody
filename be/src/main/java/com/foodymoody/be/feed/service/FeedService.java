@@ -140,12 +140,12 @@ public class FeedService {
     public void update(String id, FeedServiceUpdateRequest request) {
         Feed feed = findFeed(id);
 
+        String memberId = request.getMemberId();
         List<Image> newImages = ImageMapper.toImage(request.getImages());
         List<Menu> newMenus = MenuMapper.toMenu(request.getImages());
-
         List<String> newStoreMoodIds = request.getStoreMood();
 
-        feed.update(request.getLocation(), request.getReview(), newStoreMoodIds, newImages, newMenus);
+        feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoodIds, newImages, newMenus);
     }
 
     @Transactional
