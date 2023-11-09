@@ -98,8 +98,8 @@ public class FeedSteps {
 
     public static ExtractableResponse<Response> 피드를_등록한다(RequestSpecification spec) {
         Map<String, Object> body = Map.of(
-                "location", "맛있게 매운 콩볼 범계점",
-                "review", "맛있게 먹었습니다.",
+                "location", "역삼동",
+                "review", "맛있어요!",
                 "storeMood", List.of("1", "3", "4"),
                 "images", List.of(
                         Map.of(
@@ -158,8 +158,8 @@ public class FeedSteps {
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
                 assertThat(id)::isNotNull,
-                () -> assertThat(response.jsonPath().getString("location")).isEqualTo("맛있게 매운 콩볼 범계점"),
-                () -> assertThat(response.jsonPath().getString("review")).isEqualTo("맛있게 먹었습니다."),
+                () -> assertThat(response.jsonPath().getString("location")).isEqualTo("역삼동"),
+                () -> assertThat(response.jsonPath().getString("review")).isEqualTo("맛있어요!"),
                 () -> {
                     List<Map<String, String>> storeMoods = response.jsonPath().getList("storeMood");
                     assertThat(storeMoods).hasSize(3);

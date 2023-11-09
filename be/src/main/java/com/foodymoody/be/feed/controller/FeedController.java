@@ -42,7 +42,7 @@ public class FeedController {
     public ResponseEntity<FeedRegisterResponse> register(@RequestBody FeedRegisterRequest feedRegisterRequest) {
         // TODO: 회원 기능 완료되면 "@MemberId String memberId" 추가
         FeedRegisterResponse feedRegisterResponse = feedService.register(
-                FeedMapper.toServiceRegisterRequest(feedRegisterRequest, "8f141f9db75ef7083d62ca6a"));
+                FeedMapper.toServiceRegisterRequest(feedRegisterRequest, "2"));
         return ResponseEntity.ok().body(feedRegisterResponse);
     }
 
@@ -61,7 +61,7 @@ public class FeedController {
     @PutMapping("/api/feeds/{id}")
     public ResponseEntity<Void> update(@PathVariable String id, @RequestBody FeedUpdateRequest feedUpdateRequest) {
         // TODO: 회원 기능 완료되면 "@MemberId String memberId" 추가
-        feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest, "8f141f9db75ef7083d62ca6a"));
+        feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest, "2"));
         return ResponseEntity.noContent().build();
     }
 

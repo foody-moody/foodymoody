@@ -101,7 +101,7 @@ values ("1", "정말 맛있는 음식이었어요!", "2023-11-07 11:11:11", 1, 1
 
 # 피드
 INSERT INTO feed (id, comment_count, created_at, is_liked, like_count, location, review, updated_at)
-VALUES ('1', 0, '2023-11-07T11:11:11', 1, 10, '역삼동', '맛있어요!', '2023-11-08T14:11:11')
+VALUES ('1', 0, '2023-11-07T11:11:11', 1, 10, '역삼동', '맛있어요!', '2023-11-08T14:11:11');
 INSERT INTO feed (id, comment_count, created_at, is_liked, like_count, location, review, updated_at)
 VALUES ('2', 5, '2023-11-06T10:10:10', 0, 0, '강남구', '좋아요!', '2023-11-07T13:10:10');
 INSERT INTO feed (id, comment_count, created_at, is_liked, like_count, location, review, updated_at)
