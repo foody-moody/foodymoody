@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.controller;
 
+import com.foodymoody.be.common.annotation.MemberId;
 import com.foodymoody.be.feed.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedUpdateRequest;
 import com.foodymoody.be.feed.dto.response.FeedReadAllResponse;
@@ -39,8 +40,9 @@ public class FeedController {
      */
     @PostMapping("/api/feeds")
     public ResponseEntity<FeedRegisterResponse> register(@RequestBody FeedRegisterRequest feedRegisterRequest) {
+        // TODO: 회원 기능 완료되면 "@MemberId String memberId" 추가
         FeedRegisterResponse feedRegisterResponse = feedService.register(
-                FeedMapper.toServiceRegisterRequest(feedRegisterRequest));
+                FeedMapper.toServiceRegisterRequest(feedRegisterRequest, "8f141f9db75ef7083d62ca6a"));
         return ResponseEntity.ok().body(feedRegisterResponse);
     }
 

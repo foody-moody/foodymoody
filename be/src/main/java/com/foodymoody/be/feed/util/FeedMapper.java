@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 
 public class FeedMapper {
 
-    public static Feed toFeed(String id, FeedServiceRegisterRequest request, List<String> moodIds, List<Image> images,
+    public static Feed toFeed(String id, String memberId, FeedServiceRegisterRequest request, List<String> moodIds, List<Image> images,
                               List<Menu> menus) {
-        return new Feed(id, request.getLocation(), request.getReview(), moodIds, images, menus);
+        return new Feed(id, memberId, request.getLocation(), request.getReview(), moodIds, images, menus);
     }
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {
@@ -40,8 +40,9 @@ public class FeedMapper {
                 .build();
     }
 
-    public static FeedServiceRegisterRequest toServiceRegisterRequest(FeedRegisterRequest request) {
+    public static FeedServiceRegisterRequest toServiceRegisterRequest(FeedRegisterRequest request, String memberId) {
         return FeedServiceRegisterRequest.builder()
+                .memberId(memberId)
                 .location(request.getLocation())
                 .review(request.getReview())
                 .storeMood(request.getStoreMood())

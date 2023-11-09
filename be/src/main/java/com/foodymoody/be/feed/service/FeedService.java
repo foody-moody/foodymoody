@@ -91,13 +91,13 @@ public class FeedService {
 
     @Transactional
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
+        String memberId = request.getMemberId();
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = MenuMapper.toMenu(imageMenuPairs);
         List<Image> images = ImageMapper.toImage(imageMenuPairs);
-
         List<String> storeMoodIds = request.getStoreMood();
 
-        Feed feed = FeedMapper.toFeed(IdGenerator.generate(), request, storeMoodIds, images, menus);
+        Feed feed = FeedMapper.toFeed(IdGenerator.generate(), memberId, request, storeMoodIds, images, menus);
 
         return FeedMapper.toFeedRegisterResponse(feedRepository.save(feed));
     }
