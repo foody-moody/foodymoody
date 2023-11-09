@@ -8,18 +8,23 @@ import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
 import com.foodymoody.be.feed.dto.request.ImageMenuPair;
 import com.foodymoody.be.feed.dto.response.FeedImageMenuResponse;
+import com.foodymoody.be.feed.dto.response.FeedMemberResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
+import com.foodymoody.be.feed.dto.response.FeedTasteMoodResponse;
 import com.foodymoody.be.feed.repository.FeedRepository;
 import com.foodymoody.be.feed.util.FeedMapper;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.util.ImageMapper;
+import com.foodymoody.be.member.domain.Member;
+import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.util.MenuMapper;
 import com.foodymoody.be.mood.domain.Mood;
 import com.foodymoody.be.mood.repository.MoodRepository;
+import com.foodymoody.be.mood.service.MoodService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +41,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedService {
 
     private final FeedRepository feedRepository;
-    private final MoodRepository moodRepository;
+    private final MoodService moodService;
+    private final MemberService memberService;
 
     public Slice<FeedReadAllResponse> readAll(Pageable pageable) {
         Slice<Feed> feeds = feedRepository.findAll(pageable);
@@ -105,7 +111,7 @@ public class FeedService {
     // TODO: JPA에서 제공하는 메서드인지 찾아보기 (속도 개선)
     private List<String> findMoodIds(List<String> storeMoodNames) {
         return storeMoodNames.stream()
-                .map(this::findMoodByName)
+                .map(moodService::findMoodByName)
                 .map(Mood::getId)
                 .collect(Collectors.toUnmodifiableList());
     }
@@ -113,27 +119,32 @@ public class FeedService {
     // TODO: JPA에서 제공하는 메서드인지 찾아보기 (속도 개선)
     public List<String> findMoodNames(List<String> moodIds) {
         return moodIds.stream()
-                .map(this::findMoodById)
+                .map(moodService::findMoodById)
                 .map(Mood::getName)
                 .collect(Collectors.toUnmodifiableList());
-    }
-
-    public Mood findMoodByName(String s) {
-        return moodRepository.findByName(s)
-                .orElseThrow(() -> new IllegalArgumentException("Mood를 찾을 수 없습니다."));
-    }
-
-    public Mood findMoodById(String id) {
-        return moodRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Mood를 찾을 수 없습니다."));
     }
 
     public FeedReadResponse read(String id) {
         Feed feed = findFeed(id);
         List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
-
         List<String> storeMoodIds = feed.getStoreMoodIds();
-        return FeedMapper.toFeedReadResponse(feed, images, makeFeedStoreMoodResponses(storeMoodIds));
+
+        Member member = memberService.findById(feed.getMemberId());
+        String moodName = moodService.findMoodById(member.getMood()).getName();
+        FeedMemberResponse feedMemberResponse = toFeedMemberResponse(member, moodName);
+
+        return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
+                makeFeedStoreMoodResponses(storeMoodIds));
+    }
+
+    private FeedMemberResponse toFeedMemberResponse(Member member, String moodName) {
+        return FeedMemberResponse.builder()
+                .id(member.getId())
+                .imageUrl(member.getProfileImageUrl())
+                .nickname(member.getNickname())
+                // TODO: member의 mood가 moodId로 수정되면 주석 풀기
+//                .tasteMood(new FeedTasteMoodResponse(member.getMoodId(), moodName))
+                .build();
     }
 
     @Transactional

@@ -7,10 +7,12 @@ import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
 import com.foodymoody.be.feed.dto.request.FeedUpdateRequest;
 import com.foodymoody.be.feed.dto.response.FeedImageMenuResponse;
+import com.foodymoody.be.feed.dto.response.FeedMemberResponse;
 import com.foodymoody.be.feed.dto.response.FeedMenuResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
+import com.foodymoody.be.feed.dto.response.FeedTasteMoodResponse;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
 import java.util.List;
@@ -27,10 +29,11 @@ public class FeedMapper {
         return new FeedRegisterResponse(savedFeed.getId());
     }
 
-    public static FeedReadResponse toFeedReadResponse(Feed feed, List<FeedImageMenuResponse> images,
+    public static FeedReadResponse toFeedReadResponse(FeedMemberResponse feedMemberResponse, Feed feed, List<FeedImageMenuResponse> images,
                                                       List<FeedStoreMoodResponse> moodNames) {
         return FeedReadResponse.builder()
                 .id(feed.getId())
+                .member(feedMemberResponse)
                 .location(feed.getLocation())
                 .review(feed.getReview())
                 .storeMood(moodNames)
