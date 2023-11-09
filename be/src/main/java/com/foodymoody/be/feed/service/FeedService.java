@@ -54,9 +54,7 @@ public class FeedService {
 
             FeedReadAllResponse response = FeedReadAllResponse.builder()
                     .id(feed.getId())
-                    // TODO: 회원 정보 로직 구현 후 추가
-                    // MEMBER 객체로 주입하지 말고, DTO로 주입 (그 정보만)
-                    .member(null)
+                    .member(makeFeedMemberResponse(feed))
                     .location(feed.getLocation())
                     .review(feed.getReview())
                     .storeMood(makeFeedStoreMoodResponses(storeMoodIds))
@@ -129,12 +127,16 @@ public class FeedService {
         List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
         List<String> storeMoodIds = feed.getStoreMoodIds();
 
-        Member member = memberService.findById(feed.getMemberId());
-        String moodName = moodService.findMoodById(member.getMood()).getName();
-        FeedMemberResponse feedMemberResponse = toFeedMemberResponse(member, moodName);
+        FeedMemberResponse feedMemberResponse = makeFeedMemberResponse(feed);
 
         return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
                 makeFeedStoreMoodResponses(storeMoodIds));
+    }
+
+    private FeedMemberResponse makeFeedMemberResponse(Feed feed) {
+        Member member = memberService.findById(feed.getMemberId());
+        String moodName = moodService.findMoodById(member.getMood()).getName();
+        return toFeedMemberResponse(member, moodName);
     }
 
     private FeedMemberResponse toFeedMemberResponse(Member member, String moodName) {
