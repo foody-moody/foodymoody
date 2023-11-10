@@ -1,7 +1,5 @@
 package com.foodymoody.be.common.annotation;
 
-import com.foodymoody.be.auth.service.TokenService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -10,10 +8,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
-@RequiredArgsConstructor
 public class MemberEmailArgumentResolver implements HandlerMethodArgumentResolver {
-
-    private final TokenService tokenService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -23,6 +18,6 @@ public class MemberEmailArgumentResolver implements HandlerMethodArgumentResolve
     @Override
     public String resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return tokenService.extractMemberEmail(webRequest);
+        return String.valueOf(webRequest.getAttribute("email", 0));
     }
 }
