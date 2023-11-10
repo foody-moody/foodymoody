@@ -35,37 +35,25 @@ class CommentAcceptanceTest extends AcceptanceTest {
     @DisplayName("댓글 등록 인수테스트")
     class RegisterCommentTest {
 
+        String feedId;
+
+        @BeforeEach
+        void setFeedId() {
+            feedId = 피드를_등록하고_아이디를_받는다();
+        }
+
         @DisplayName("댓글 등록 요청시 성공하면, 응답코드 200을 응답한다")
         @Test
         void when_register_comment_if_success_then_return_code_200() {
             // docs
             api_문서_타이틀("registerComment_success", spec);
 
-            // given
-            String feedId = 피드를_등록하고_아이디를_받는다();
-
             // when
-            var response = 피드에_댓글을_등록한다(feedId, spec);
+            var response = 피드에_댓글을_등록한다(feedId, 회원아티_액세스토큰, spec);
 
             // then
             응답코드_200과_id를_반환한다(response);
         }
-// TODO : 회원에 로직 리펙토링 후 테스트 코드 작성
-//        @DisplayName("댓글 등록시 로그인 된 유저가 아니면 응답코드 401을 응답한다")
-//        @Test
-//        void when_register_comment_if_not_login_then_return_code_401() {
-//            // docs
-//            api_문서_타이틀("registerComment_failed_by_not_login", spec);
-//
-//            // given
-//            String feedId = 피드를_등록하고_아이디를_받는다();
-//
-//            // when
-//            var response = 피드에_댓글을_등록한다(feedId, spec);
-//
-//            // then
-//            응답코드_401_검증한다(response);
-//        }
 
         @DisplayName("댓글 등록 요청시 요청 바디가 없으면 응답코드 400을 응답한다")
         @Test
@@ -74,7 +62,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("registerComment_failed_by_request_body_not_exists", spec);
 
             // when
-            var response = 요청_내용_없이_댓글_등록한다(spec);
+            var response = 요청_내용_없이_댓글_등록한다(회원아티_액세스토큰, spec);
 
             // then
             응답코드_400_검증한다(response);
@@ -86,11 +74,8 @@ class CommentAcceptanceTest extends AcceptanceTest {
             // docs
             api_문서_타이틀("registerComment_failed_by_content_not_exists", spec);
 
-            // given
-            String feedId = 피드를_등록하고_아이디를_받는다();
-
             // when
-            var response = 댓글없이_피드에_댓글_등록한다(feedId, spec);
+            var response = 댓글없이_피드에_댓글_등록한다(feedId, 회원아티_액세스토큰, spec);
 
             // then
             응답코드_400_검증한다(response);
@@ -102,11 +87,8 @@ class CommentAcceptanceTest extends AcceptanceTest {
             // docs
             api_문서_타이틀("registerComment_failed_by_content_is_empty", spec);
 
-            // given
-            String feedId = 피드를_등록하고_아이디를_받는다();
-
             // when
-            var response = 피드에_공백댓글_등록한다(feedId, spec);
+            var response = 피드에_공백댓글_등록한다(feedId, 회원아티_액세스토큰, spec);
 
             // then
             응답코드_400_검증한다(response);
@@ -118,11 +100,8 @@ class CommentAcceptanceTest extends AcceptanceTest {
             // docs
             api_문서_타이틀("registerComment_failed_by_content_is_blank", spec);
 
-            // given
-            String feedId = 피드를_등록하고_아이디를_받는다();
-
             // when
-            var response = 피드에_여러_공백댓글_등록한다(feedId, spec);
+            var response = 피드에_여러_공백댓글_등록한다(feedId, 회원아티_액세스토큰, spec);
 
             // then
             응답코드_400_검증한다(response);
@@ -134,11 +113,8 @@ class CommentAcceptanceTest extends AcceptanceTest {
             // docs
             api_문서_타이틀("registerComment_failed_by_content_is_larger_than_200", spec);
 
-            // given
-            String feedId = 피드를_등록하고_아이디를_받는다();
-
             // when
-            var response = 피드에서_200자_넘는_댓글을_등록한다(feedId, spec);
+            var response = 피드에서_200자_넘는_댓글을_등록한다(feedId, 회원아티_액세스토큰, spec);
 
             // then
             응답코드_400_검증한다(response);
@@ -151,7 +127,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("registerComment_failed_by_feed_id_not_exists", spec);
 
             // when
-            var response = 피드_아이디_없이_댓글을_등록한다(spec);
+            var response = 피드_아이디_없이_댓글을_등록한다(회원아티_액세스토큰, spec);
 
             // then
             응답코드_400_검증한다(response);
@@ -168,7 +144,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             String feedId = notExistsRegisterId;
 
             // when
-            var response = 피드에_댓글을_등록한다(feedId, spec);
+            var response = 피드에_댓글을_등록한다(feedId, 회원아티_액세스토큰, spec);
 
             // then
             응답코드_400_검증한다(response);
@@ -180,12 +156,12 @@ class CommentAcceptanceTest extends AcceptanceTest {
     class UpdateCommentTest {
 
         String feedId;
-        String memberId;
+        String commentId;
 
         @BeforeEach
         void setUp() {
             feedId = 피드를_등록하고_아이디를_받는다();
-            memberId = 피드에_댓글을_등록하고_아이디를_받는다(feedId);
+            commentId = 피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원아티_액세스토큰);
         }
 
         @DisplayName("댓글 수정 요청시 성공하면, 응답코드 200을 응답한다")
@@ -195,7 +171,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("editComment_success", spec);
 
             // when
-            var response = 댓글_수정한다(memberId, spec);
+            var response = 댓글_수정한다(commentId, spec);
 
             // then
             응답코드_200을_반환한다(response);
@@ -208,7 +184,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_request_body_not_exists", spec);
 
             // when
-            var response = 댓글_없이_댓글_수정한다(spec, memberId);
+            var response = 댓글_없이_댓글_수정한다(spec, commentId);
 
             // then
             응답코드_400_검증한다(response);
@@ -221,7 +197,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_content_is_empty", spec);
 
             // when
-            var response = 비여있는_댓글로_댓글_수정한다(spec, memberId);
+            var response = 비여있는_댓글로_댓글_수정한다(spec, commentId);
 
             // then
             응답코드_400_검증한다(response);
@@ -234,7 +210,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_content_is_blank", spec);
 
             // when
-            var response = 공백인_댓글로_댓글_수정한다(spec, memberId);
+            var response = 공백인_댓글로_댓글_수정한다(spec, commentId);
 
             // then
             응답코드_400_검증한다(response);
@@ -247,7 +223,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_content_is_larger_than_200", spec);
 
             // when
-            var response = _201자인_댓글로_댓글_수정한다(spec, memberId);
+            var response = _201자인_댓글로_댓글_수정한다(spec, commentId);
 
             // then
             응답코드_400_검증한다(response);
@@ -260,10 +236,10 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_comment_is_deleted", spec);
 
             // given
-            댓글을_삭제한다(memberId);
+            댓글을_삭제한다(commentId);
 
             // when
-            var response = 댓글_수정한다(memberId, spec);
+            var response = 댓글_수정한다(commentId, spec);
 
             // then
             응답코드_400_검증한다(response);
@@ -296,7 +272,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             // docs
             api_문서_타이틀("deleteComment_success", spec);
             String feedId = 피드를_등록하고_아이디를_받는다();
-            String memberId = 피드에_댓글을_등록하고_아이디를_받는다(feedId);
+            String memberId = 피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원아티_액세스토큰);
 
             // when
             var response = 댓글을_삭제한다(memberId, spec);
@@ -311,7 +287,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             // docs
             api_문서_타이틀("deleteComment_failed_by_comment_is_deleted", spec);
             String feedId = 피드를_등록하고_아이디를_받는다();
-            String memberId = 피드에_댓글을_등록하고_아이디를_받는다(feedId);
+            String memberId = 피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원아티_액세스토큰);
             댓글을_삭제한다(memberId);
 
             // when
@@ -346,7 +322,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         void setUp() {
             feedId = 피드를_등록하고_아이디를_받는다();
             for (int i = 0; i < 20; i++) {
-                피드에_댓글을_등록한다(feedId);
+                피드에_댓글을_등록한다(feedId, 회원아티_액세스토큰);
             }
         }
 
