@@ -5,6 +5,7 @@ import com.foodymoody.be.common.util.HttpHeaderParser;
 import com.foodymoody.be.auth.util.JwtUtil;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -32,7 +33,9 @@ public class AccessTokenFilter implements Filter {
         if(!isInWhiteList(customUri)) {
             String header = httpRequest.getHeader(HttpHeaderType.AUTHORIZATION.NAME);
             String token = HttpHeaderParser.parse(header, HttpHeaderType.AUTHORIZATION);
-            jwtUtil.validateAccessToken(token);
+            Map<String, String> parsed = jwtUtil.parseAccessToken(token);
+            request.setAttribute("id", parsed.get("id"));
+            request.setAttribute("email", parsed.get("email"));
         }
         chain.doFilter(request, response);
     }

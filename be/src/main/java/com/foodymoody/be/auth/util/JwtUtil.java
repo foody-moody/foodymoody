@@ -1,6 +1,5 @@
 package com.foodymoody.be.auth.util;
 
-import com.foodymoody.be.common.exception.InvalidAccessTokenException;
 import com.foodymoody.be.common.exception.InvalidTokenException;
 import com.foodymoody.be.common.exception.ClaimNotFoundException;
 import io.jsonwebtoken.Claims;
@@ -58,20 +57,11 @@ public class JwtUtil {
         return createToken(now, refreshTokenExp, issuer, secretKey, idClaim);
     }
 
-    public String extractEmail(String token) {
-        return extractClaim(token, "email", String.class);
-    }
-
-    public String extractId(String token) {
-        return extractClaim(token, "id", String.class);
-    }
-
-    public void validateAccessToken(String token) {
+    public Map<String, String> parseAccessToken(String token) {
         Claims claims = extractClaims(token);
-        if (Objects.isNull(claims.get("id", String.class))
-                || Objects.isNull(claims.get("email", String.class))) {
-            throw new InvalidAccessTokenException();
-        }
+        String id = claims.get("id", String.class);
+        String email = claims.get("email", String.class);
+        return Map.of("id", id, "email", email);
     }
 
     @SafeVarargs
@@ -104,6 +94,8 @@ public class JwtUtil {
         try {
             return parser.parseClaimsJws(token).getBody();
         } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | ExpiredJwtException exception) {
+//          TODO 예외 더 상세하게 분류
+            exception.printStackTrace();
             throw new InvalidTokenException();
         }
     }
