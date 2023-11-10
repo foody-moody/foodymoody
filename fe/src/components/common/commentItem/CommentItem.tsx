@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
+import { useInput } from 'hooks/useInput';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { TextButton } from '../button/TextButton';
 import { DotGhostIcon } from '../icon/icons';
@@ -20,6 +21,10 @@ export const CommentItem: React.FC<Props> = ({
   createdAt,
   comment,
 }) => {
+  const { value, handleChange, isValid } = useInput({
+    validator: (value) =>
+      value.trim().length !== 0 && value.trim().length < 200,
+  });
   const [isEdit, setIsEdit] = useState(false);
   // TODO 로그인된 유저의 id와 comment의 userId가 같으면 수정, 삭제 가능
   // TODO alert에 isAuthor 등
@@ -32,7 +37,7 @@ export const CommentItem: React.FC<Props> = ({
   };
 
   const handleSubmit = () => {
-    console.log('submit comment');
+    console.log('submit comment', isValid);
     setIsEdit(false);
   };
 
@@ -51,7 +56,16 @@ export const CommentItem: React.FC<Props> = ({
             <Nickname>{nickname}</Nickname>
             <TimeStamp>{formattedTimeStamp}</TimeStamp>
           </ContentHeader>
-          {isEdit ? <Input variant="ghost" /> : comment}
+          {isEdit ? (
+            <Input
+              variant="ghost"
+              limitedLength={200}
+              value={value}
+              onChangeValue={handleChange}
+            />
+          ) : (
+            comment
+          )}
           <ContentBody>
             <TextButton color="orange" size="s" onClick={() => {}}>
               답글 달기
