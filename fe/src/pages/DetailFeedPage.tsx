@@ -107,7 +107,7 @@ export const DetailFeedModalPage = () => {
                 imageUrl="123"
                 nickname="댓글닉넴"
                 createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ"
+                comment="댓글임니당 ㅎㅎ댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당"
               />
               <CommentItem
                 imageUrl="123"

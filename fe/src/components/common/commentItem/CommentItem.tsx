@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
+import { useAuthState } from 'hooks/auth/useAuth';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
+import { TextButton } from '../button/TextButton';
+import { DotGhostIcon } from '../icon/icons';
 import { Input } from '../input/Input';
 import { UserImage } from '../userImage/UserImage';
 
@@ -18,7 +21,10 @@ export const CommentItem: React.FC<Props> = ({
   comment,
 }) => {
   const [isEdit, setIsEdit] = useState(false);
-
+  // TODO 로그인된 유저의 id와 comment의 userId가 같으면 수정, 삭제 가능
+  // TODO alert에 isAuthor 등
+  const { isLogin } = useAuthState();
+  // const isAuthor = userInfo.id === ;
   const isAuthor = true;
 
   const handleEdit = () => {
@@ -42,20 +48,24 @@ export const CommentItem: React.FC<Props> = ({
         <UserImage imageUrl={imageUrl} />
         <FlexColumnBox>
           <ContentHeader>
-            <p>{nickname}</p>
-            <span>{formattedTimeStamp}</span>
+            <Nickname>{nickname}</Nickname>
+            <TimeStamp>{formattedTimeStamp}</TimeStamp>
           </ContentHeader>
-          {isEdit ? <Input variant="ghost" /> : <p>{comment}</p>}
+          {isEdit ? <Input variant="ghost" /> : comment}
+          <ContentBody>
+            <TextButton color="orange" size="s" onClick={() => {}}>
+              답글 달기
+            </TextButton>
+          </ContentBody>
         </FlexColumnBox>
       </ContentLeft>
-      {isAuthor && (
+      {isLogin && (
         <ContentRight>
-          {isEdit ? (
-            <p onClick={handleSubmit}>완료</p>
-          ) : (
-            <p onClick={handleEdit}>수정</p>
-          )}
-          <Delete onClick={handleDelete}>삭제</Delete>
+          <DotGhostIcon
+            onClick={() => {
+              console.log(isAuthor, handleEdit, handleDelete, handleSubmit);
+            }}
+          />
         </ContentRight>
       )}
     </Wrapper>
@@ -71,10 +81,14 @@ const Wrapper = styled.li`
 
 const ContentLeft = styled.div`
   width: 100%;
-
   display: flex;
   gap: 20px;
-  align-items: center;
+  align-items: flex-start;
+`;
+
+const ContentBody = styled.div`
+  display: flex;
+  gap: 8px;
 `;
 
 const FlexColumnBox = styled.div`
@@ -88,12 +102,10 @@ const ContentHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  p {
-    font: ${({ theme: { fonts } }) => fonts.displayB14};
-  }
-  span {
-    color: ${({ theme: { colors } }) => colors.textSecondary};
-  }
+`;
+
+const Nickname = styled.p`
+  font: ${({ theme: { fonts } }) => fonts.displayB14};
 `;
 
 const ContentRight = styled.div`
@@ -106,6 +118,10 @@ const ContentRight = styled.div`
   font: ${({ theme: { fonts } }) => fonts.displayM12};
 `;
 
-const Delete = styled.span`
-  color: ${({ theme: { colors } }) => colors.red};
+// const Delete = styled.span`
+//   color: ${({ theme: { colors } }) => colors.red};
+// `;
+
+const TimeStamp = styled.span`
+  color: ${({ theme: { colors } }) => colors.textSecondary};
 `;
