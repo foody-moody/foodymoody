@@ -93,44 +93,50 @@ public class CommentSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 댓글_수정한다(String commentId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 댓글_수정한다(String commentId, String accessToken,
+            RequestSpecification spec) {
         Map<String, String> body = new HashMap<>();
         body.put("content", "수정된 댓글");
-        return 댓글_수정_요청한다(spec, commentId, body);
+        return 댓글_수정_요청한다(spec, accessToken, commentId, body);
     }
 
 
-    public static ExtractableResponse<Response> 댓글_없이_댓글_수정한다(RequestSpecification spec, String commentId) {
-        return 댓글_수정_요청한다(spec, commentId, new HashMap<>());
+    public static ExtractableResponse<Response> 댓글_없이_댓글_수정한다(RequestSpecification spec, String accessToken,
+            String commentId) {
+        return 댓글_수정_요청한다(spec, accessToken, commentId, new HashMap<>());
     }
 
-    public static ExtractableResponse<Response> 비여있는_댓글로_댓글_수정한다(RequestSpecification spec, String commentId) {
+    public static ExtractableResponse<Response> 비여있는_댓글로_댓글_수정한다(RequestSpecification spec, String accessToken,
+            String commentId) {
         Map<String, String> body = new HashMap<>();
         body.put("content", "");
-        return 댓글_수정_요청한다(spec, commentId, body);
+        return 댓글_수정_요청한다(spec, accessToken, commentId, body);
     }
 
-    public static ExtractableResponse<Response> 공백인_댓글로_댓글_수정한다(RequestSpecification spec, String commentId) {
+    public static ExtractableResponse<Response> 공백인_댓글로_댓글_수정한다(RequestSpecification spec, String accessToken,
+            String commentId) {
         Map<String, String> body = new HashMap<>();
         body.put("content", "   ");
-        return 댓글_수정_요청한다(spec, commentId, body);
+        return 댓글_수정_요청한다(spec, accessToken, commentId, body);
     }
 
-    public static ExtractableResponse<Response> _201자인_댓글로_댓글_수정한다(RequestSpecification spec, String commentId) {
+    public static ExtractableResponse<Response> _201자인_댓글로_댓글_수정한다(RequestSpecification spec, String accessToken,
+            String commentId) {
         Map<String, String> body = new HashMap<>();
         body.put("content", "a".repeat(201));
-        return 댓글_수정_요청한다(spec, commentId, body);
+        return 댓글_수정_요청한다(spec, accessToken, commentId, body);
     }
 
-    public static ExtractableResponse<Response> 댓글을_삭제한다(String commentId, RequestSpecification spec) {
-        return RestAssured.given().spec(spec).log().all()
+    public static ExtractableResponse<Response> 댓글을_삭제한다(String commentId, String accessToken,
+            RequestSpecification spec) {
+        return RestAssured.given().spec(spec).log().all().auth().oauth2(accessToken)
                 .when().delete("/api/comments/{commentId}", commentId)
                 .then().log().all()
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 댓글을_삭제한다(String commentId) {
-        return 댓글을_삭제한다(commentId, new RequestSpecBuilder().build());
+    public static ExtractableResponse<Response> 댓글을_삭제한다(String commentId, String accessToken) {
+        return 댓글을_삭제한다(commentId, accessToken, new RequestSpecBuilder().build());
     }
 
     public static ExtractableResponse<Response> 피드별_댓글을_조회한다(String feedId, RequestSpecification spec) {
@@ -174,10 +180,11 @@ public class CommentSteps {
                 .extract();
     }
 
-    private static ExtractableResponse<Response> 댓글_수정_요청한다(RequestSpecification spec, String commentId,
+    private static ExtractableResponse<Response> 댓글_수정_요청한다(RequestSpecification spec, String accessToken,
+            String commentId,
             Map<String, String> body) {
         return RestAssured
-                .given().log().all().spec(spec).contentType("application/json").body(body)
+                .given().log().all().spec(spec).contentType("application/json").body(body).auth().oauth2(accessToken)
                 .when().put("/api/comments/{id}", commentId)
                 .then().log().all()
                 .extract();

@@ -171,7 +171,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("editComment_success", spec);
 
             // when
-            var response = 댓글_수정한다(commentId, spec);
+            var response = 댓글_수정한다(commentId, 회원아티_액세스토큰, spec);
 
             // then
             응답코드_200을_반환한다(response);
@@ -184,7 +184,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_request_body_not_exists", spec);
 
             // when
-            var response = 댓글_없이_댓글_수정한다(spec, commentId);
+            var response = 댓글_없이_댓글_수정한다(spec, 회원아티_액세스토큰, commentId);
 
             // then
             응답코드_400_검증한다(response);
@@ -197,7 +197,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_content_is_empty", spec);
 
             // when
-            var response = 비여있는_댓글로_댓글_수정한다(spec, commentId);
+            var response = 비여있는_댓글로_댓글_수정한다(spec, 회원아티_액세스토큰, commentId);
 
             // then
             응답코드_400_검증한다(response);
@@ -210,7 +210,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_content_is_blank", spec);
 
             // when
-            var response = 공백인_댓글로_댓글_수정한다(spec, commentId);
+            var response = 공백인_댓글로_댓글_수정한다(spec, 회원아티_액세스토큰, commentId);
 
             // then
             응답코드_400_검증한다(response);
@@ -223,7 +223,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_content_is_larger_than_200", spec);
 
             // when
-            var response = _201자인_댓글로_댓글_수정한다(spec, commentId);
+            var response = _201자인_댓글로_댓글_수정한다(spec, 회원아티_액세스토큰, commentId);
 
             // then
             응답코드_400_검증한다(response);
@@ -236,10 +236,10 @@ class CommentAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("editComment_failed_by_comment_is_deleted", spec);
 
             // given
-            댓글을_삭제한다(commentId);
+            댓글을_삭제한다(commentId, 회원아티_액세스토큰);
 
             // when
-            var response = 댓글_수정한다(commentId, spec);
+            var response = 댓글_수정한다(commentId, 회원아티_액세스토큰, spec);
 
             // then
             응답코드_400_검증한다(response);
@@ -255,7 +255,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             String notExistsMemberId = "notExistsMemberId";
 
             // when
-            var response = 댓글_수정한다(notExistsMemberId, spec);
+            var response = 댓글_수정한다(notExistsMemberId, 회원아티_액세스토큰, spec);
 
             // then
             응답코드_400_검증한다(response);
@@ -266,16 +266,23 @@ class CommentAcceptanceTest extends AcceptanceTest {
     @DisplayName("댓글 삭제 인수테스트")
     class DeleteComment {
 
+        String feedId;
+        String commentId;
+
+        @BeforeEach
+        void setUp() {
+            feedId = 피드를_등록하고_아이디를_받는다();
+            commentId = 피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원아티_액세스토큰);
+        }
+
         @DisplayName("댓글 삭제 요청시 성공하면, 응답코드 200을 응답한다")
         @Test
         void when_delete_comment_if_success_then_return_code_200() {
             // docs
             api_문서_타이틀("deleteComment_success", spec);
-            String feedId = 피드를_등록하고_아이디를_받는다();
-            String memberId = 피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원아티_액세스토큰);
 
             // when
-            var response = 댓글을_삭제한다(memberId, spec);
+            var response = 댓글을_삭제한다(commentId, 회원아티_액세스토큰, spec);
 
             // then
             응답코드_200을_반환한다(response);
@@ -286,12 +293,12 @@ class CommentAcceptanceTest extends AcceptanceTest {
         void when_delete_comment_if_comment_is_deleted_then_return_code_400() {
             // docs
             api_문서_타이틀("deleteComment_failed_by_comment_is_deleted", spec);
-            String feedId = 피드를_등록하고_아이디를_받는다();
-            String memberId = 피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원아티_액세스토큰);
-            댓글을_삭제한다(memberId);
+
+            // given
+            댓글을_삭제한다(commentId, 회원아티_액세스토큰);
 
             // when
-            var response = 댓글을_삭제한다(memberId, spec);
+            var response = 댓글을_삭제한다(commentId, 회원아티_액세스토큰, spec);
 
             // then
             응답코드_400_검증한다(response);
@@ -302,10 +309,10 @@ class CommentAcceptanceTest extends AcceptanceTest {
         void when_delete_comment_if_comment_not_exists_then_return_code_400() {
             // docs
             api_문서_타이틀("deleteComment_failed_by_comment_not_exists", spec);
-            String notExistsMemberId = "notExistsMemberId";
+            String notExistsCommentId = "notExistsCommentId";
 
             // when
-            var response = 댓글을_삭제한다(notExistsMemberId, spec);
+            var response = 댓글을_삭제한다(notExistsCommentId, 회원아티_액세스토큰, spec);
 
             // then
             응답코드_400_검증한다(response);
