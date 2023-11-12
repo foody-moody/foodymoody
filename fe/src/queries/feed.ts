@@ -21,7 +21,7 @@ export const useFeedEditor = (id?: string) => {
     mutationFn: (body: NewFeedBody) =>
       id ? putEditFeed(id, body) : postNewFeed(body),
     onSuccess: () => {
-      navigateToHome(); // 수정 예정
+      navigateToHome(); // 수정 예정(post시에는 home으로, put시에는 detail로)
     },
     onError: (error) => {
       console.log('put editFeed error: ', error);
