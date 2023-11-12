@@ -53,6 +53,7 @@ export const NewFeedModalPage = () => {
   const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
   const { mutate: feedMutate } = useFeedEditor(feedId);
   // const { data: feedDetailData } = useFeedDetail(feedId);
+
   const {
     menuItems,
     handleAddMenuItem,
@@ -82,14 +83,14 @@ export const NewFeedModalPage = () => {
     );
     console.log(
       'submit Badge',
-      selectedBadgeList.map((badge) => badge.name)
+      selectedBadgeList.map((badge) => badge.id)
     );
     console.log('submit review', reviewValue);
 
     feedMutate({
       location: locationName,
       images: menuItems.map(({ imageUrl, menu }) => ({ imageUrl, menu })),
-      storeMood: selectedBadgeList.map((badge) => badge.name),
+      storeMood: selectedBadgeList.map((badge) => badge.id),
       review: reviewValue,
     });
   };
