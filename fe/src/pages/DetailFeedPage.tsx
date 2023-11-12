@@ -8,11 +8,13 @@ import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
 import { CommentInput } from 'components/common/input/CommentInput';
+import { usePostComment } from 'queries/comment';
 import { useInput } from 'hooks/useInput';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const DetailFeedModalPage = () => {
   /* TODO. 주소로 Detail 데이터 가져오깅 */
+  const { mutate: commentMutate } = usePostComment();
   const { navigateToHome } = usePageNavigator();
   const { value, handleChange, isValid } = useInput({
     validator: (value) =>
@@ -66,6 +68,11 @@ export const DetailFeedModalPage = () => {
     console.log('is Comment Valid', {
       isCommentValid: isValid,
       commentValue: value,
+    });
+
+    commentMutate({
+      feedId: MOCK.id,
+      content: value,
     });
   };
 
