@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
+import { usePutComment } from 'queries/comment';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
@@ -21,6 +22,8 @@ export const CommentItem: React.FC<Props> = ({
   createdAt,
   comment,
 }) => {
+  const COMMENT_ID = '1';
+  const { mutate: editMutate } = usePutComment();
   const { value, handleChange, isValid } = useInput({
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
@@ -36,8 +39,12 @@ export const CommentItem: React.FC<Props> = ({
     setIsEdit(true);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (commentId: string) => {
     console.log('submit comment', isValid);
+    editMutate({
+      id: commentId,
+      body: { content: value },
+    });
     setIsEdit(false);
   };
 
@@ -77,7 +84,12 @@ export const CommentItem: React.FC<Props> = ({
         <ContentRight>
           <DotGhostIcon
             onClick={() => {
-              console.log(isAuthor, handleEdit, handleDelete, handleSubmit);
+              console.log(
+                isAuthor,
+                handleEdit,
+                handleDelete,
+                handleSubmit(COMMENT_ID)
+              );
             }}
           />
         </ContentRight>
