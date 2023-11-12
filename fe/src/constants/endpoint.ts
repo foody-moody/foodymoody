@@ -5,4 +5,5 @@ export const END_POINT = {
 
   member: (id?: string) => (id ? `/members/${id}` : `/members`),
   feed: (id?: string) => (id ? `/feeds/${id}` : `/feeds`),
+  comment: (id?: string) => (id ? `/comments/${id}` : `/comments`),
 };
