@@ -101,7 +101,12 @@ asciidoctor {
     dependsOn test
 }
 
+jar {
+    enabled = false
+}
+
 bootJar {
     dependsOn asciidoctor, copyDocument
-    enabled = true;
+    enabled = true
 }
+
