@@ -1,0 +1,48 @@
+name: fe-cd
+on:
+  push:
+    branches:
+      - release
+
+env:
+  ROOT_PATH: "./fe"
+
+jobs:
+  fe-cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 레포지토리를 체크아웃한다
+        uses: actions/checkout@v4
+      - name: 노드를 설치한다
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: 어플리케이션을 빌드한다
+        run: |
+          npm install
+          npm run build
+        working-directory: ${{ env.ROOT_PATH }}
+      - name: 도커 허브에 로그인한다
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: 어플리케이션의 도커 이미지를 빌드하고 도커 허브에 푸시한다
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile.fe
+          push: true
+          tags: ${{ secrets.FE_DOCKER_IMAGE_NAME }}
+      - name: 어플리케이션을 배포한다
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_ADDRESS }}
+          username: ${{ secrets.HOST_USERNAME }}
+          key: ${{ secrets.HOST_KEY }}
+          port: ${{ secrets.HOST_PORT }}
+          script: |
+            sudo docker compose -f docker-compose-fe-app.yml down -v
+            sudo docker compose -f docker-compose-fe-app.yml pull
+            sudo docker compose -f docker-compose-fe-app.yml up -d
+            sudo docker image prune -f

@@ -27,6 +27,7 @@ class MemberTest extends AcceptanceTest {
 
     @Autowired
     private DatabaseCleanup cleanup;
+
     private static final RequestSpecification FAKE_SPEC;
 
     static {

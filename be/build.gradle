@@ -106,7 +106,9 @@ jar {
 }
 
 bootJar {
-    dependsOn asciidoctor, copyDocument
-    enabled = true
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}") {
+        into 'static/docs'
+    }
 }
 
