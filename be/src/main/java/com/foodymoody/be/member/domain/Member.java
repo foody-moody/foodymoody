@@ -65,11 +65,10 @@ public class Member {
         return mood.getName();
     }
 
-    public boolean equalsPassword(String password) {
+    public void validatePassword(String password) {
         if (Objects.isNull(password)) {
             throw new IncorrectMemberPasswordException();
         }
-        return Objects.equals(password, this.password);
     }
 
     //    TODO 프로필 이미지 기능 구현
