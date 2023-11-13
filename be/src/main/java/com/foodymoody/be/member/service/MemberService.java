@@ -32,6 +32,10 @@ public class MemberService {
         return MemberMapper.toSignupResponse(savedMemberId);
     }
 
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+    }
+
     private Mood findMoodByNameOrElseNull(String requested) {
         if (Objects.isNull(requested)) {
             return null;
