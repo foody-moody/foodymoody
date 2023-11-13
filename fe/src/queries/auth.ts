@@ -16,7 +16,8 @@ export const useLogin = () => {
   const from = location.state?.redirectedFrom?.pathname || PATH.HOME;
   //  사용자가 로그인 전에 접근하려고 했던 경로
 
-  const login = useMutation((body: LoginBody) => fetchLogin(body), {
+  const login = useMutation({
+    mutationFn: (body: LoginBody) => fetchLogin(body),
     onSuccess: (data) => {
       const { accessToken, refreshToken } = data;
       const payload = jwtDecode(accessToken);
@@ -37,7 +38,8 @@ export const useLogin = () => {
 export const useRegister = () => {
   const { navigateToLogin } = usePageNavigator();
 
-  const register = useMutation((body: RegisterBody) => fetchRegister(body), {
+  const register = useMutation({
+    mutationFn: (body: RegisterBody) => fetchRegister(body),
     onSuccess: () => {
       navigateToLogin();
     },

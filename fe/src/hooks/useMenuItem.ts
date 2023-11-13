@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 const DEFAULT_MENU_ITEM = {
-  id: uuidv4(),
+  id: crypto.randomUUID(),
   imageUrl: '',
   menu: {
     name: '',
@@ -20,7 +19,7 @@ export const useMenuItem = (initialMenuItems?: FeedImage[]) => {
       console.log(`3개이상 등록불가`);
       return;
     }
-    const newItem = { ...DEFAULT_MENU_ITEM, id: uuidv4() };
+    const newItem = { ...DEFAULT_MENU_ITEM, id: crypto.randomUUID() };
     setMenuItems((prevItems) => [...prevItems, newItem]);
   };
 

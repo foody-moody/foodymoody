@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { Badge } from '../common/badge/Badge';
 import { Button } from '../common/button/Button';
-import { CollectableAddIcon } from '../common/icon/icons';
+import { CollectableAddIcon, UserPlusIcon } from '../common/icon/icons';
 import { UserImageEdit } from '../common/userImage/UserImageEdit';
 
 type Props = {
@@ -17,6 +17,9 @@ const MOCK_BADGE = {
 export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
   const handleAddCollection = () => {};
   const handleEditProfile = () => {};
+
+  // const isAuthor = member.id === '1';
+  const isAuthor = true;
 
   return (
     <Wrapper>
@@ -49,14 +52,26 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
           <CollectableAddIcon />
           <span>나만의 컬렉션 만들기</span>
         </Button>
-        <Button
-          size="s"
-          backgroundColor="white"
-          width={114}
-          onClick={handleEditProfile}
-        >
-          <span>프로필 수정</span>
-        </Button>
+        {isAuthor ? (
+          <Button
+            size="s"
+            backgroundColor="white"
+            width={130}
+            onClick={handleEditProfile}
+          >
+            <span>프로필 수정</span>
+          </Button>
+        ) : (
+          <Button
+            size="s"
+            backgroundColor="white"
+            width={140}
+            onClick={handleEditProfile}
+          >
+            <UserPlusIcon />
+            <span>팔로우</span>
+          </Button>
+        )}
       </ButtonBox>
     </Wrapper>
   );

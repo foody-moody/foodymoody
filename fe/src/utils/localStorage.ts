@@ -7,7 +7,8 @@ export const getRefreshToken = () => {
 };
 
 export const getUserInfo = () => {
-  return localStorage.getItem('userInfo');
+  const userInfo = localStorage.getItem('userInfo');
+  return userInfo && JSON.parse(userInfo);
 };
 
 export const setAccessToken = (accessToken: string) => {

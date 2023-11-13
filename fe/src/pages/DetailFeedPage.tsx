@@ -7,12 +7,17 @@ import { CommentItem } from 'components/common/commentItem/CommentItem';
 import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
-import { Input } from 'components/common/input/Input';
+import { CommentInput } from 'components/common/input/CommentInput';
+import { useInput } from 'hooks/useInput';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const DetailFeedModalPage = () => {
   /* TODO. 주소로 Detail 데이터 가져오깅 */
   const { navigateToHome } = usePageNavigator();
+  const { value, handleChange, isValid } = useInput({
+    validator: (value) =>
+      value.trim().length !== 0 && value.trim().length < 200,
+  });
 
   const MOCK = {
     id: '2',
@@ -57,6 +62,13 @@ export const DetailFeedModalPage = () => {
     commentCount: 3,
   };
 
+  const handleSubmit = () => {
+    console.log('is Comment Valid', {
+      isCommentValid: isValid,
+      commentValue: value,
+    });
+  };
+
   return (
     <>
       <Dim onClick={navigateToHome} />
@@ -85,13 +97,17 @@ export const DetailFeedModalPage = () => {
               commentCount={MOCK.commentCount}
             />
             <CommentBox>
-              <Input variant="comment" />
-
+              <CommentInput
+                value={value}
+                limitedLength={200}
+                onChangeValue={handleChange}
+                onSubmitComment={handleSubmit}
+              />
               <CommentItem
                 imageUrl="123"
                 nickname="댓글닉넴"
                 createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ"
+                comment="댓글임니당 ㅎㅎ댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당"
               />
               <CommentItem
                 imageUrl="123"

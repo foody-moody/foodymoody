@@ -1,10 +1,6 @@
 import axios from 'axios';
 
-const { MODE, VITE_API_URL } = import.meta.env;
-
-const DEV = MODE === 'development';
-const LOCALHOST_API_URL = 'http://localhost:5173';
-const BASE_API_URL = DEV ? LOCALHOST_API_URL : VITE_API_URL;
+const BASE_API_URL = import.meta.env.VITE_API_URL;
 
 export const publicApi = axios.create({
   baseURL: `${BASE_API_URL}/api`,

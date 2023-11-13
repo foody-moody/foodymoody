@@ -100,7 +100,7 @@ const Wrapper = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
-  z-index: 10;
+  z-index: 100;
 
   ${media.lg} {
     width: 72px;

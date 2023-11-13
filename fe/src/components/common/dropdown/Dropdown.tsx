@@ -66,7 +66,7 @@ const DropdownBox = styled.ul<{
   border-radius: 0px 0px 40px 0px;
   border: 1px solid ${({ theme: { colors } }) => colors.black};
   overflow: hidden;
-  z-index: 200;
+  z-index: 50;
 `;
 
 const Opener = styled.div`
