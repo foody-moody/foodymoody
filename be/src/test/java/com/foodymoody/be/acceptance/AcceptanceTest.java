@@ -9,6 +9,7 @@ import com.foodymoody.be.acceptance.util.SqlFileExecutor;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,6 +66,11 @@ public abstract class AcceptanceTest {
         회원아티_액세스토큰 = 회원아티_로그인응답.jsonPath().getString("accessToken");
         var 회원푸반_로그인응답 = 로그인_한다("puban@puban.com", "puban123!", new RequestSpecBuilder().build());
         회원푸반_액세스토큰 = 회원푸반_로그인응답.jsonPath().getString("accessToken");
+    }
+
+    @AfterEach
+    void cleanup() {
+        databaseCleanup.execute();
     }
 
     @BeforeAll

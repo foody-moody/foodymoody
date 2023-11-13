@@ -1,5 +1,8 @@
 package com.foodymoody.be.comment.domain;
 
+import static com.foodymoody.be.comment.domain.CommentDomainMapper.mapperToNotificationEvent;
+
+import com.foodymoody.be.common.event.NotificationEvents;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import java.time.LocalDateTime;
 import javax.persistence.EmbeddedId;
@@ -30,6 +33,7 @@ public class Comment {
         this.memberId = memberId;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
+        NotificationEvents.publish(mapperToNotificationEvent(feedId));
     }
 
     public CommentId getId() {
