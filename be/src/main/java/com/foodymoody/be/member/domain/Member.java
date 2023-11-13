@@ -1,22 +1,24 @@
 package com.foodymoody.be.member.domain;
 
+import com.foodymoody.be.common.BaseEntity;
+import com.foodymoody.be.common.WrappedId;
 import com.foodymoody.be.common.exception.IncorrectMemberPasswordException;
 import com.foodymoody.be.common.exception.InvalidReconfirmPasswordException;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.mood.domain.Mood;
 import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @NoArgsConstructor
-public class Member {
+@EntityListeners(AuditingEntityListener.class)
+public class Member extends BaseEntity {
 
-    @Id
-    private String id;
     private String email;
     private String nickname;
     private String password;
@@ -28,7 +30,7 @@ public class Member {
     private Mood mood;
 
     private Member(String id, String email, String nickname, String password, Mood mood) {
-        this.id = id;
+        this.id = new WrappedId(id);
         this.email = email;
         this.nickname = nickname;
         this.password = password;
@@ -43,7 +45,7 @@ public class Member {
     }
 
     public String getId() {
-        return id;
+        return id.getId();
     }
 
     public String getEmail() {
