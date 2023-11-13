@@ -1,13 +1,7 @@
 spring:
   profiles:
     group:
-      test: db
-    active: test
+      common: auth
+      local: common, db
+    active: local
 
-jwt:
-  token:
-    secret: asdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-    issuer: bono
-    exp:
-      access: 100000
-      refresh: 100000
