@@ -83,7 +83,7 @@ public class AccessTokenFilter implements Filter {
     }
 
     private boolean isInWhiteList(String uri) {
-        return whiteList.contains(uri);
+        return whiteList.stream().anyMatch(whitelist -> Pattern.matches(whitelist, uri));
     }
 
 }
