@@ -10,8 +10,9 @@ import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.repository.MemberRepository;
 import com.foodymoody.be.member.util.MemberMapper;
 import com.foodymoody.be.mood.domain.Mood;
-import com.foodymoody.be.mood.repository.MoodRepository;
+import com.foodymoody.be.mood.service.MoodService;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,15 +22,21 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final MoodRepository moodRepository;
+    private final MoodService moodService;
 
     @Transactional
     public MemberSignupResponse create(MemberSignupRequest request) {
         validateDuplication(request);
-        Mood mood = moodRepository.findByName(request.getMood())
-                .orElseThrow(() -> new IllegalArgumentException("Mood를 찾을 수 없습니다."));
+        Mood mood = findMoodByNameOrElseNull(request.getMood());
         String savedMemberId = memberRepository.save(MemberMapper.toEntity(request, mood)).getId();
         return MemberMapper.toSignupResponse(savedMemberId);
+    }
+
+    private Mood findMoodByNameOrElseNull(String requested) {
+        if (Objects.isNull(requested)) {
+            return null;
+        }
+        return moodService.findMoodByName(requested);
     }
 
     @Transactional(readOnly = true)
