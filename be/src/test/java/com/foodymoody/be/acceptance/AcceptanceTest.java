@@ -59,6 +59,7 @@ public abstract class AcceptanceTest {
 
     @BeforeEach
     void setSpec(RestDocumentationContextProvider provider) {
+//        cleanup.execute();
         this.spec = new RequestSpecBuilder()
                 .addFilter(RestAssuredRestDocumentation.documentationConfiguration(provider))
                 .build();
