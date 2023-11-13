@@ -1,5 +1,6 @@
 spring:
   profiles:
     group:
-      local: localdb, jwt
+      common: auth
+      local: common, localdb
     active: local

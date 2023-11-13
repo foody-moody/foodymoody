@@ -1,5 +1,6 @@
 package com.foodymoody.be.acceptance;
 
+import static com.foodymoody.be.docs.auth.AuthSteps.로그인_한다;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import io.restassured.builder.RequestSpecBuilder;
@@ -21,6 +22,8 @@ import org.testcontainers.utility.DockerImageName;
 public abstract class AcceptanceTest {
 
     public static final DockerImageName MYSQL_IMAGE = DockerImageName.parse("mysql:8.0");
+    public static String 회원아티_액세스토큰;
+    public static String 회원푸반_액세스토큰;
 
     public static final MySQLContainer<?> MYSQL = new MySQLContainer<>(MYSQL_IMAGE)
             .withDatabaseName("foodymoody")
@@ -47,6 +50,10 @@ public abstract class AcceptanceTest {
         this.spec = new RequestSpecBuilder()
                 .addFilter(RestAssuredRestDocumentation.documentationConfiguration(provider))
                 .build();
+        var 회원아티_로그인응답 = 로그인_한다("ati@ati.com", "ati123!", new RequestSpecBuilder().build());
+        회원아티_액세스토큰 = 회원아티_로그인응답.jsonPath().getString("accessToken");
+        var 회원푸반_로그인응답 = 로그인_한다("puban@puban.com", "puban123!", new RequestSpecBuilder().build());
+        회원푸반_액세스토큰 = 회원푸반_로그인응답.jsonPath().getString("accessToken");
     }
 
     @BeforeAll
