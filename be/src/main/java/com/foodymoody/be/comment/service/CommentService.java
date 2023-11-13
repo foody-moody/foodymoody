@@ -22,29 +22,29 @@ public class CommentService {
     private final CommentMapper commentMapper;
 
     @Transactional
-    public CommentId registerComment(RegisterCommentRequest request) {
+    public CommentId registerComment(RegisterCommentRequest request, String memberId) {
         feedService.validate(request.getFeedId());
         String newId = IdGenerator.generate();
         LocalDateTime now = LocalDateTime.now();
         CommentId commentId = new CommentId(newId);
-        Comment comment = commentMapper.toEntity(request, now, commentId);
+        Comment comment = commentMapper.toEntity(request, now, commentId, memberId);
         Comment saved = commentRepository.save(comment);
         return saved.getId();
     }
 
     @Transactional
-    public void edit(String id, EditCommentRequest request) {
+    public void edit(String id, EditCommentRequest request, String memberId) {
         CommentId commentId = new CommentId(id);
         Comment comment = fetchById(commentId);
         String content = request.getContent();
-        comment.edit(content, LocalDateTime.now());
+        comment.edit(memberId, content, LocalDateTime.now());
     }
 
     @Transactional
-    public void delete(String id) {
+    public void delete(String id, String memberId) {
         CommentId commentId = new CommentId(id);
         Comment comment = fetchById(commentId);
-        comment.delete(LocalDateTime.now());
+        comment.delete(memberId, LocalDateTime.now());
     }
 
     public Comment fetchById(CommentId id) {

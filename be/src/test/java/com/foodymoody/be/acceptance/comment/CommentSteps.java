@@ -15,19 +15,20 @@ import org.springframework.http.MediaType;
 
 public class CommentSteps {
 
-    public static ExtractableResponse<Response> 피드에_댓글을_등록한다(String feedId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드에_댓글을_등록한다(String feedId, String accessToken,
+            RequestSpecification spec) {
         Map<String, Object> body = new HashMap<>();
         body.put("content", "댓글 내용");
         body.put("feedId", feedId);
-        return 피드에_댓글_등록_요청한다(spec, body);
+        return 피드에_댓글_등록_요청한다(spec, accessToken, body);
     }
 
-    public static ExtractableResponse<Response> 피드에_댓글을_등록한다(String feedId) {
-        return 피드에_댓글을_등록한다(feedId, new RequestSpecBuilder().build());
+    public static ExtractableResponse<Response> 피드에_댓글을_등록한다(String feedId, String accessToken) {
+        return 피드에_댓글을_등록한다(feedId, accessToken, new RequestSpecBuilder().build());
     }
 
-    public static String 피드에_댓글을_등록하고_아이디를_받는다(String feedId) {
-        return 피드에_댓글을_등록한다(feedId, new RequestSpecBuilder().build()).jsonPath().getString("id");
+    public static String 피드에_댓글을_등록하고_아이디를_받는다(String feedId, String accessToken) {
+        return 피드에_댓글을_등록한다(feedId, accessToken, new RequestSpecBuilder().build()).jsonPath().getString("id");
     }
 
     public static void 응답코드_200과_id를_반환한다(ExtractableResponse<Response> response) {
@@ -45,102 +46,97 @@ public class CommentSteps {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
-    public static ExtractableResponse<Response> 댓글없이_피드에_댓글_등록한다(String feedId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 댓글없이_피드에_댓글_등록한다(String feedId, String accessToken,
+            RequestSpecification spec) {
 
-        return RestAssured.given().log().all()
-                .given().spec(spec).log().all()
-                .body(Map.of("feedId", feedId))
-                .contentType("application/json")
-                .when().post("/api/comments")
-                .then().log().all()
-                .extract();
+        Map<String, Object> body = Map.of("feedId", feedId);
+        return 피드에_댓글_등록_요청한다(spec, accessToken, body);
     }
 
-    public static ExtractableResponse<Response> 피드에_공백댓글_등록한다(String feedId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드에_공백댓글_등록한다(String feedId, String accessToken,
+            RequestSpecification spec) {
         Map<String, Object> body = new HashMap<>();
         body.put("content", "");
         body.put("feedId", feedId);
-        return 피드에_댓글_등록_요청한다(spec, body);
+        return 피드에_댓글_등록_요청한다(spec, accessToken, body);
     }
 
-    public static ExtractableResponse<Response> 피드에_여러_공백댓글_등록한다(String feedId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드에_여러_공백댓글_등록한다(String feedId, String accessToken,
+            RequestSpecification spec) {
         Map<String, Object> body = new HashMap<>();
         body.put("content", "   ");
         body.put("feedId", feedId);
-        return 피드에_댓글_등록_요청한다(spec, body);
+        return 피드에_댓글_등록_요청한다(spec, accessToken, body);
     }
 
-    public static ExtractableResponse<Response> 피드_아이디_없이_댓글을_등록한다(RequestSpecification spec) {
-        Map<String, String> body = new HashMap<>();
+    public static ExtractableResponse<Response> 피드_아이디_없이_댓글을_등록한다(String accessToken, RequestSpecification spec) {
+        Map<String, Object> body = new HashMap<>();
         body.put("content", "댓글 내용");
-        return RestAssured
-                .given().spec(spec).log().all()
-                .body(body)
-                .contentType("application/json")
-                .when().post("/api/comments")
-                .then().log().all()
-                .extract();
+        return 피드에_댓글_등록_요청한다(spec, accessToken, body);
     }
 
 
-    public static ExtractableResponse<Response> 피드에서_200자_넘는_댓글을_등록한다(String feedId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드에서_200자_넘는_댓글을_등록한다(String feedId, String accessToken,
+            RequestSpecification spec) {
         Map<String, Object> body = new HashMap<>();
         body.put("content", "200자".repeat(50) + "1");
         body.put("feedId", feedId);
-        return 피드에_댓글_등록_요청한다(spec, body);
+        return 피드에_댓글_등록_요청한다(spec, accessToken, body);
     }
 
-    public static ExtractableResponse<Response> 댓글_수정한다(String memberId, RequestSpecification spec) {
-        Map<String, String> body = new HashMap<>();
-        body.put("content", "수정된 댓글");
-        return 댓글_등록_요청한다(spec, memberId, body);
-    }
-
-
-    public static ExtractableResponse<Response> 요청_내용_없이_댓글_등록한다(RequestSpecification spec) {
+    public static ExtractableResponse<Response> 요청_내용_없이_댓글_등록한다(String accessToken, RequestSpecification spec) {
         return RestAssured
-                .given().spec(spec).log().all()
+                .given().spec(spec).log().all().auth().oauth2(accessToken)
                 .contentType("application/json")
                 .when().post("/api/comments")
                 .then().log().all()
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 댓글_없이_댓글_수정한다(RequestSpecification spec, String memberId) {
-        return RestAssured
-                .given().log().all().spec(spec).contentType("application/json")
-                .when().put("/api/comments/{id}", memberId)
-                .then().log().all()
-                .extract();
+    public static ExtractableResponse<Response> 댓글_수정한다(String commentId, String accessToken,
+            RequestSpecification spec) {
+        Map<String, String> body = new HashMap<>();
+        body.put("content", "수정된 댓글");
+        return 댓글_수정_요청한다(spec, accessToken, commentId, body);
     }
 
-    public static ExtractableResponse<Response> 비여있는_댓글로_댓글_수정한다(RequestSpecification spec, String memberId) {
+
+    public static ExtractableResponse<Response> 댓글_없이_댓글_수정한다(RequestSpecification spec, String accessToken,
+            String commentId) {
+        return 댓글_수정_요청한다(spec, accessToken, commentId, new HashMap<>());
+    }
+
+    public static ExtractableResponse<Response> 비여있는_댓글로_댓글_수정한다(RequestSpecification spec, String accessToken,
+            String commentId) {
         Map<String, String> body = new HashMap<>();
         body.put("content", "");
-        return 댓글_등록_요청한다(spec, memberId, body);
+        return 댓글_수정_요청한다(spec, accessToken, commentId, body);
     }
 
-    public static ExtractableResponse<Response> 공백인_댓글로_댓글_수정한다(RequestSpecification spec, String memberId) {
+    public static ExtractableResponse<Response> 공백인_댓글로_댓글_수정한다(RequestSpecification spec, String accessToken,
+            String commentId) {
         Map<String, String> body = new HashMap<>();
         body.put("content", "   ");
-        return 댓글_등록_요청한다(spec, memberId, body);
+        return 댓글_수정_요청한다(spec, accessToken, commentId, body);
     }
 
-    public static ExtractableResponse<Response> _201자인_댓글로_댓글_수정한다(RequestSpecification spec, String memberId) {
+    public static ExtractableResponse<Response> _201자인_댓글로_댓글_수정한다(RequestSpecification spec, String accessToken,
+            String commentId) {
         Map<String, String> body = new HashMap<>();
         body.put("content", "a".repeat(201));
-        return 댓글_등록_요청한다(spec, memberId, body);
+        return 댓글_수정_요청한다(spec, accessToken, commentId, body);
     }
 
-    public static ExtractableResponse<Response> 댓글을_삭제한다(String memberId, RequestSpecification spec) {
-        return RestAssured.given().spec(spec).log().all()
-                .when().delete("/api/comments/{commentId}", memberId)
+    public static ExtractableResponse<Response> 댓글을_삭제한다(String commentId, String accessToken,
+            RequestSpecification spec) {
+        return RestAssured.given().spec(spec).log().all().auth().oauth2(accessToken)
+                .when().delete("/api/comments/{commentId}", commentId)
                 .then().log().all()
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 댓글을_삭제한다(String memberId) {
-        return 댓글을_삭제한다(memberId, new RequestSpecBuilder().build());
+    public static ExtractableResponse<Response> 댓글을_삭제한다(String commentId, String accessToken) {
+        return 댓글을_삭제한다(commentId, accessToken, new RequestSpecBuilder().build());
     }
 
     public static ExtractableResponse<Response> 피드별_댓글을_조회한다(String feedId, RequestSpecification spec) {
@@ -175,19 +171,21 @@ public class CommentSteps {
         );
     }
 
-    private static ExtractableResponse<Response> 피드에_댓글_등록_요청한다(RequestSpecification spec, Map<String, Object> body) {
-        return RestAssured.given().spec(spec).log().all()
+    private static ExtractableResponse<Response> 피드에_댓글_등록_요청한다(RequestSpecification spec, String accessToken,
+            Map<String, Object> body) {
+        return RestAssured.given().spec(spec).log().all().auth().oauth2(accessToken)
                 .body(body).contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE)
                 .when().post("/api/comments")
                 .then().log().all()
                 .extract();
     }
 
-    private static ExtractableResponse<Response> 댓글_등록_요청한다(RequestSpecification spec, String memberId,
+    private static ExtractableResponse<Response> 댓글_수정_요청한다(RequestSpecification spec, String accessToken,
+            String commentId,
             Map<String, String> body) {
         return RestAssured
-                .given().log().all().spec(spec).contentType("application/json").body(body)
-                .when().put("/api/comments/{id}", memberId)
+                .given().log().all().spec(spec).contentType("application/json").body(body).auth().oauth2(accessToken)
+                .when().put("/api/comments/{id}", commentId)
                 .then().log().all()
                 .extract();
     }
