@@ -1,5 +1,6 @@
 package com.foodymoody.be.comment.service;
 
+import static com.foodymoody.be.comment.util.CommentFixture.MEMBER_ID;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
@@ -41,7 +42,7 @@ class CommentServiceTest {
         var request = CommentFixture.registerCommentRequestWithoutContent();
 
         // when,then
-        assertThatThrownBy(() -> commentService.registerComment(request))
+        assertThatThrownBy(() -> commentService.registerComment(request, MEMBER_ID))
                 .isInstanceOf(ContentNotExistsException.class)
                 .message().isEqualTo(ErrorMessage.CONTENT_NOT_EXISTS.getMessage());
     }
@@ -53,7 +54,7 @@ class CommentServiceTest {
         var request = CommentFixture.registerCommentRequestWithEmptyContent();
 
         // when,then
-        assertThatThrownBy(() -> commentService.registerComment(request))
+        assertThatThrownBy(() -> commentService.registerComment(request, MEMBER_ID))
                 .isInstanceOf(ContentIsEmptyException.class)
                 .message().isEqualTo(ErrorMessage.CONTENT_IS_EMPTY.getMessage());
     }
@@ -65,7 +66,7 @@ class CommentServiceTest {
         var request = CommentFixture.registerCommentRequestWithSpace();
 
         // when,then
-        assertThatThrownBy(() -> commentService.registerComment(request))
+        assertThatThrownBy(() -> commentService.registerComment(request, MEMBER_ID))
                 .isInstanceOf(ContentIsSpaceException.class)
                 .message().isEqualTo(ErrorMessage.CONTENT_IS_SPACE.getMessage());
     }
@@ -77,7 +78,7 @@ class CommentServiceTest {
         var request = CommentFixture.registerCommentRequestWithContentOver200();
 
         // when,then
-        assertThatThrownBy(() -> commentService.registerComment(request))
+        assertThatThrownBy(() -> commentService.registerComment(request, MEMBER_ID))
                 .isInstanceOf(ContentIsOver200Exception.class)
                 .message().isEqualTo(ErrorMessage.CONTENT_IS_OVER_200.getMessage());
     }

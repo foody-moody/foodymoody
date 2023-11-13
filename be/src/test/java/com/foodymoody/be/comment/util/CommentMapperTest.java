@@ -23,7 +23,7 @@ class CommentMapperTest {
 
         // when
         Comment comment = commentMapper.toEntity(request, CommentFixture.CREATED_AT,
-                new CommentId(CommentFixture.COMMENT_ID));
+                new CommentId(CommentFixture.COMMENT_ID), CommentFixture.MEMBER_ID);
 
         // then
         Assertions.assertAll(
@@ -32,7 +32,9 @@ class CommentMapperTest {
                 () -> assertThat(comment.getContent()).isEqualTo(CommentFixture.CONTENT),
                 () -> assertThat(comment.getFeedId()).isEqualTo(CommentFixture.FEED_ID),
                 () -> assertThat(comment.getCreatedAt()).isEqualTo(CommentFixture.CREATED_AT),
-                () -> assertThat(comment.getUpdatedAt()).isEqualTo(CommentFixture.CREATED_AT)
+                () -> assertThat(comment.getUpdatedAt()).isEqualTo(CommentFixture.CREATED_AT),
+                () -> assertThat(comment.isDeleted()).isEqualTo(CommentFixture.DELETED),
+                () -> assertThat(comment.getMemberId()).isEqualTo(CommentFixture.MEMBER_ID)
         );
     }
 
