@@ -16,8 +16,11 @@ public class NotificationMapper {
     }
 
     public Slice<NotificationResponse> generateResponseDtoSliceFromNotifications(Slice<Notification> notifications) {
-        return notifications.map(notification -> new NotificationResponse(notification.getId().getValue(),
-                notification.getMessage(), notification.getType(),
-                notification.isRead()));
+        return notifications.map(this::generateResponseDtoFromNotification);
+    }
+
+    public NotificationResponse generateResponseDtoFromNotification(Notification notification) {
+        return new NotificationResponse(notification.getId().getValue(), notification.getMessage(),
+                notification.getType(), notification.isRead());
     }
 }

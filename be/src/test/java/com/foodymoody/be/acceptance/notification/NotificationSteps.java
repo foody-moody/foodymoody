@@ -18,38 +18,45 @@ import org.junit.jupiter.api.Assertions;
 
 public class NotificationSteps {
 
-    public static ExtractableResponse<Response> 회원의_모든_알람을_조회한다(String 회원_아이디) {
-        return 회원의_모든_알람을_조회한다(회원_아이디, new RequestSpecBuilder().build());
+    public static ExtractableResponse<Response> 회원의_모든_알람을_조회한다(String accessToken) {
+        return 회원의_모든_알람을_조회한다(accessToken, new RequestSpecBuilder().build());
     }
 
-    public static ExtractableResponse<Response> 회원의_모든_알람을_조회한다(String 회원_아이디, RequestSpecification spec) {
-        return RestAssured.given().log().all().spec(spec).when().get("/api/notifications/{memberId}", 회원_아이디).then()
-                .log().all().extract();
+    public static ExtractableResponse<Response> 회원의_모든_알람을_조회한다(String accessToken, RequestSpecification spec) {
+        return RestAssured
+                .given().log().all().spec(spec).auth().oauth2(accessToken)
+                .when().get("/api/notifications/")
+                .then().log().all()
+                .extract();
     }
 
     public static String 회원보노가_회원가입하고_아이디를_반환한다() {
         return MemberSteps.회원보노가_회원가입한다(new RequestSpecBuilder().build()).jsonPath().getString("id");
     }
 
-    public static ExtractableResponse<Response> 알람을_읽음으로_변경(String 회원_아이디, String 알람_아이디, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 알람을_읽음으로_변경(String 알람_아이디, String 회원보노_액세스토큰,
+            RequestSpecification spec) {
         Map<String, Object> body = Map.of("isRead", true);
-        return RestAssured.given().log().all().spec(spec).body(body).contentType("application/json;charset=UTF-8")
-                .accept("application/json;charset=UTF-8").when()
-                .put("/api/notifications/{memberId}/{eventId}", 회원_아이디, 알람_아이디).then().log().all().extract();
+        return RestAssured.given().log().all().spec(spec).auth().oauth2(회원보노_액세스토큰).body(body)
+                .contentType("application/json;charset=UTF-8")
+                .accept("application/json;charset=UTF-8")
+                .when().put("/api/notifications/{notificationId}", 알람_아이디)
+                .then().log().all().extract();
     }
 
-    public static ExtractableResponse<Response> 유저의_모든_알람을_삭제한다(String 회원_아이디, RequestSpecification spec) {
-        return RestAssured.given().log().all().spec(spec).when().delete("/api/notifications/{memberId}", 회원_아이디).then()
+    public static ExtractableResponse<Response> 유저의_모든_알람을_삭제한다(String accessToken, RequestSpecification spec) {
+        return RestAssured.given().log().all().spec(spec).auth().oauth2(accessToken).when().delete("/api/notifications")
+                .then()
                 .log().all().extract();
     }
 
-    public static ExtractableResponse<Response> 알람을_삭제한다(String 알람_아이디, String 회원_아이디, RequestSpecification spec) {
-        return RestAssured.given().log().all().spec(spec).when()
-                .delete("/api/notifications/{memberId}/{eventId}", 회원_아이디, 알람_아이디).then().log().all().extract();
+    public static ExtractableResponse<Response> 알람을_삭제한다(String 알람_아이디, String accessToken, RequestSpecification spec) {
+        return RestAssured.given().log().all().spec(spec).auth().oauth2(accessToken).when()
+                .delete("/api/notifications/{eventId}", 알람_아이디).then().log().all().extract();
     }
 
-    public static String 회원의_모든_알람을_조회하고_첫번째_알람을_가져온다(String 회원_아이디) {
-        return 회원의_모든_알람을_조회한다(회원_아이디).jsonPath().getList("content.id", String.class).get(0);
+    public static String 회원의_모든_알람을_조회하고_첫번째_알람을_가져온다(String accessToken) {
+        return 회원의_모든_알람을_조회한다(accessToken).jsonPath().getList("content.id", String.class).get(0);
     }
 
     @NotNull
@@ -71,9 +78,9 @@ public class NotificationSteps {
         NotificationEvents.publish(event);
     }
 
-    public static ExtractableResponse 알람_아이디로_알람을_조회한다(String 알람_아이디, String 회원_아이디, RequestSpecification spec) {
-        return RestAssured.given().log().all().spec(spec)
-                .when().get("/api/members/{memberId}/notifications/{notificationId}", 회원_아이디, 알람_아이디)
+    public static ExtractableResponse 알람_아이디로_알람을_조회한다(String 알람_아이디, String accessToken, RequestSpecification spec) {
+        return RestAssured.given().log().all().spec(spec).auth().oauth2(accessToken)
+                .when().get("/api/notifications/{notificationId}", 알람_아이디)
                 .then().log().all()
                 .extract();
     }

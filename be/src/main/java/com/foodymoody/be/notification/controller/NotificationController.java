@@ -1,5 +1,6 @@
 package com.foodymoody.be.notification.controller;
 
+import com.foodymoody.be.common.annotation.MemberId;
 import com.foodymoody.be.notification.controller.dto.NotificationResponse;
 import com.foodymoody.be.notification.controller.dto.NotificationStatus;
 import com.foodymoody.be.notification.service.NotificationService;
@@ -26,28 +27,35 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    @GetMapping("/api/notifications/{memberId}")
-    public ResponseEntity<Slice<NotificationResponse>> requestAll(@PathVariable String memberId,
+    @GetMapping("/api/notifications")
+    public ResponseEntity<Slice<NotificationResponse>> requestAll(@MemberId String memberId,
             @PageableDefault Pageable pageable) {
         Slice<NotificationResponse> notifications = notificationService.requestAll(memberId, pageable);
         return ResponseEntity.ok(notifications);
     }
 
-    @PutMapping("/api/notifications/{memberId}/{notificationId}")
-    public ResponseEntity<Void> changeStatus(@PathVariable String memberId, @PathVariable String notificationId,
+    @GetMapping("/api/notifications/{notificationId}")
+    public ResponseEntity<NotificationResponse> requestOne(@MemberId String memberId,
+            @PathVariable String notificationId) {
+        NotificationResponse notification = notificationService.requestOne(memberId, notificationId);
+        return ResponseEntity.ok(notification);
+    }
+
+    @PutMapping("/api/notifications/{notificationId}")
+    public ResponseEntity<Void> changeStatus(@MemberId String memberId, @PathVariable String notificationId,
             @RequestBody NotificationStatus status) {
         notificationService.changeStatus(memberId, notificationId, status.isRead());
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/api/notifications/{memberId}/{notificationId}")
-    public ResponseEntity<Void> delete(@PathVariable String memberId, @PathVariable String notificationId) {
+    @DeleteMapping("/api/notifications/{notificationId}")
+    public ResponseEntity<Void> delete(@MemberId String memberId, @PathVariable String notificationId) {
         notificationService.delete(memberId, notificationId);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/api/notifications/{memberId}")
-    public ResponseEntity<Void> deleteAll(@PathVariable String memberId) {
+    @DeleteMapping("/api/notifications")
+    public ResponseEntity<Void> deleteAll(@MemberId String memberId) {
         notificationService.deleteAll(memberId);
         return ResponseEntity.noContent().build();
     }

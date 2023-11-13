@@ -57,6 +57,14 @@ public class NotificationService {
         notificationRepository.deleteAllByMemberId(memberId);
     }
 
+    @Transactional
+    public NotificationResponse requestOne(String memberId, String notificationId) {
+        memberService.findById(memberId);
+        Notification notification = getNotification(notificationId);
+        notification.changeStatus(true, memberId, LocalDateTime.now());
+        return notificationMapper.generateResponseDtoFromNotification(notification);
+    }
+
     private Notification getNotification(String notificationId) {
         return notificationRepository.findById(NotificationId.from(notificationId))
                 .orElseThrow();
