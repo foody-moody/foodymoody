@@ -46,6 +46,12 @@ public class MemberService {
         return MemberMapper.toMemberProfileResponse(member, List.of());
     }
 
+    public void validateIdExists(String id) {
+        if (!memberRepository.existsById(id)) {
+            throw new MemberNotFoundException();
+        }
+    }
+
     public Member findById(String id) {
         return memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
     }
