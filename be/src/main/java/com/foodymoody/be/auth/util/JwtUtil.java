@@ -1,18 +1,14 @@
 package com.foodymoody.be.auth.util;
 
-import com.foodymoody.be.common.exception.InvalidTokenException;
 import com.foodymoody.be.common.exception.ClaimNotFoundException;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.IncorrectClaimException;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.RequiredTypeException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
@@ -44,23 +40,21 @@ public class JwtUtil {
         this.parser = Jwts.parserBuilder().setSigningKey(secretKey).build();
     }
 
-    public String createAccessToken(String id, String email) {
+    public String createAccessToken(Date now, String id, String email) {
         Map<String, Object> idClaim = createClaim("id", id);
         Map<String, Object> emailClaim = createClaim("email", email);
-        Date now = Date.from(Instant.now());
         return createToken(now, accessTokenExp, issuer, secretKey, idClaim, emailClaim);
     }
 
-    public String createRefreshToken(String id) {
+    public String createRefreshToken(Date now, String id) {
         Map<String, Object> idClaim = createClaim("id", id);
-        Date now = Date.from(Instant.now());
         return createToken(now, refreshTokenExp, issuer, secretKey, idClaim);
     }
 
     public Map<String, String> parseAccessToken(String token) {
         Claims claims = extractClaims(token);
-        String id = claims.get("id", String.class);
-        String email = claims.get("email", String.class);
+        String id = getClaim(claims, "id", String.class);
+        String email = getClaim(claims, "email", String.class);
         return Map.of("id", id, "email", email);
     }
 
@@ -68,35 +62,32 @@ public class JwtUtil {
     private String createToken(Date now, long exp, String issuer, SecretKey secretKey, Map<String, Object>... claims) {
         Date expiration = new Date(now.getTime() + exp);
 
-        JwtBuilder builder = Jwts.builder()
-                .setIssuer(issuer)
-                .setIssuedAt(now)
-                .setExpiration(expiration);
+        JwtBuilder builder = Jwts.builder();
         Arrays.stream(claims).forEach(builder::addClaims);
 
-        return builder.signWith(secretKey, SignatureAlgorithm.HS256).compact();
+        return builder.setIssuer(issuer)
+                .setIssuedAt(now)
+                .setExpiration(expiration)
+                .signWith(secretKey, SignatureAlgorithm.HS256).compact();
     }
 
     private Map<String, Object> createClaim(String key, String value) {
         return Map.of(key, value);
     }
 
-    private <T> T extractClaim(String token, String key, Class<T> type) {
-        Claims claims = extractClaims(token);
-        Object claim = claims.get(key);
-        if (Objects.isNull(claim)) {
-            throw new ClaimNotFoundException();
+    private <T> T getClaim(Claims claims, String key, Class<T> type) {
+        try {
+            T claim = claims.get(key, type);
+            if (Objects.isNull(claim)) {
+                throw new ClaimNotFoundException();
+            }
+            return claim;
+        } catch (RequiredTypeException | ClassCastException e) {
+            throw new IncorrectClaimException(null, claims, key);
         }
-        return claims.get(key, type);
     }
 
     private Claims extractClaims(String token) {
-        try {
-            return parser.parseClaimsJws(token).getBody();
-        } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | ExpiredJwtException exception) {
-//          TODO 예외 더 상세하게 분류
-            exception.printStackTrace();
-            throw new InvalidTokenException();
-        }
+        return parser.parseClaimsJws(token).getBody();
     }
 }

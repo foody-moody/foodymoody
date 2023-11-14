@@ -1,49 +1,43 @@
 package com.foodymoody.be.member.domain;
 
+import com.foodymoody.be.common.BaseEntity;
+import com.foodymoody.be.common.WrappedId;
 import com.foodymoody.be.common.exception.IncorrectMemberPasswordException;
 import com.foodymoody.be.common.exception.InvalidReconfirmPasswordException;
-import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.mood.domain.Mood;
 import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.EntityListeners;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @NoArgsConstructor
-public class Member {
+@EntityListeners(AuditingEntityListener.class)
+public class Member extends BaseEntity {
 
-    @Id
-    private String id;
     private String email;
     private String nickname;
     private String password;
-    @OneToOne
-    @JoinColumn(name = "profile_image_id")
-    private Image profileImage;
-    @OneToOne
-    @JoinColumn(name = "mood_id")
-    private Mood mood;
+    private String profileImageId;
+    private String moodId;
 
-    private Member(String id, String email, String nickname, String password, Mood mood) {
-        this.id = id;
+    private Member(WrappedId id, String email, String nickname, String password, String moodId) {
+        this.wrappedId = id;
         this.email = email;
         this.nickname = nickname;
         this.password = password;
-        this.mood = mood;
+        this.moodId = moodId;
     }
 
-    public static Member of(String id, String email, String nickname, String password, String reconfirmPassword, Mood mood) {
+    public static Member of(String id, String email, String nickname, String password, String reconfirmPassword, String moodId) {
         if (!Objects.equals(reconfirmPassword, password)) {
             throw new InvalidReconfirmPasswordException();
         }
-        return new Member(id, email, nickname, password, mood);
+        return new Member(new WrappedId(id), email, nickname, password, moodId);
     }
 
     public String getId() {
-        return id;
+        return wrappedId.getId();
     }
 
     public String getEmail() {
@@ -54,22 +48,18 @@ public class Member {
         return nickname;
     }
 
-    public String getProfileImageUrl() {
-        if (Objects.nonNull(this.profileImage)) {
-            return this.profileImage.getUrl();
-        }
-        return null;
+    public String getProfileImageId() {
+        return profileImageId;
     }
 
-    public String getMood() {
-        return mood.getName();
+    public String getMoodId() {
+        return moodId;
     }
 
-    public boolean equalsPassword(String password) {
+    public void validatePassword(String password) {
         if (Objects.isNull(password)) {
             throw new IncorrectMemberPasswordException();
         }
-        return Objects.equals(password, this.password);
     }
 
     //    TODO 프로필 이미지 기능 구현
