@@ -26,6 +26,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MoodService moodService;
 
+    @Transactional
     public MemberSignupResponse create(MemberSignupRequest request) {
         validateNicknameDuplication(request.getNickname());
         validateEmailDuplication(request.getEmail());
@@ -42,7 +43,6 @@ public class MemberService {
         return memberRepository.loadFeedDataById(id).orElseThrow(MemberNotFoundException::new);
     }
 
-    @Transactional(readOnly = true)
     public MemberProfileResponse loadProfile(String id) {
         MemberProfileData data = findProfileData(id);
 //        TODO 피드 미리보기 기능 구현 후 추가
