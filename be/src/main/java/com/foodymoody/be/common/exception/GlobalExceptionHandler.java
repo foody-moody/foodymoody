@@ -10,6 +10,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -42,8 +43,15 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(value = BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
-    public ErrorResponse handleIllegalArgumentException(HttpMessageNotReadableException e) {
+    public ErrorResponse handleIllegalArgumentException(IllegalArgumentException e) {
         log.error("handleIllegalArgumentException", e);
+        return new ErrorResponse(INVALID_INPUT_VALUE.getMessage(), INVALID_INPUT_VALUE.getCode());
+    }
+
+    @ResponseStatus(value = BAD_REQUEST)
+    @ExceptionHandler(MissingRequestValueException.class)
+    public ErrorResponse handleIllegalArgumentException(MissingRequestValueException e) {
+        log.error("handleMissingRequestValueExceptionException", e);
         return new ErrorResponse(INVALID_INPUT_VALUE.getMessage(), INVALID_INPUT_VALUE.getCode());
     }
 
