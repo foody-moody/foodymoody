@@ -39,10 +39,10 @@ public class FeedController {
      * Feed 등록
      */
     @PostMapping("/api/feeds")
-    public ResponseEntity<FeedRegisterResponse> register(@RequestBody FeedRegisterRequest feedRegisterRequest) {
-        // TODO: 회원 기능 완료되면 "@MemberId String memberId" 추가
+    public ResponseEntity<FeedRegisterResponse> register(@RequestBody FeedRegisterRequest feedRegisterRequest,
+                                                         @MemberId String memberId) {
         FeedRegisterResponse feedRegisterResponse = feedService.register(
-                FeedMapper.toServiceRegisterRequest(feedRegisterRequest, "2"));
+                FeedMapper.toServiceRegisterRequest(feedRegisterRequest, memberId));
         return ResponseEntity.ok().body(feedRegisterResponse);
     }
 
@@ -59,9 +59,9 @@ public class FeedController {
      * Feed 수정
      */
     @PutMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> update(@PathVariable String id, @RequestBody FeedUpdateRequest feedUpdateRequest) {
-        // TODO: 회원 기능 완료되면 "@MemberId String memberId" 추가
-        feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest, "2"));
+    public ResponseEntity<Void> update(@PathVariable String id, @RequestBody FeedUpdateRequest feedUpdateRequest,
+                                       @MemberId String memberId) {
+        feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest, memberId));
         return ResponseEntity.noContent().build();
     }
 

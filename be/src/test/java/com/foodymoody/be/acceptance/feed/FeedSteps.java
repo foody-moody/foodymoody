@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed;
+package com.foodymoody.be.acceptance.feed;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -88,15 +88,15 @@ public class FeedSteps {
     }
 
 
-    public static ExtractableResponse<Response> 피드를_등록한다() {
-        return 피드를_등록한다(new RequestSpecBuilder().build());
+    public static ExtractableResponse<Response> 피드를_등록한다(String accessToken) {
+        return 피드를_등록한다(accessToken, new RequestSpecBuilder().build());
     }
 
-    public static String 피드를_등록하고_아이디를_받는다() {
-        return 피드를_등록한다(new RequestSpecBuilder().build()).jsonPath().getString("id");
+    public static String 피드를_등록하고_아이디를_받는다(String accessToken) {
+        return 피드를_등록한다(accessToken, new RequestSpecBuilder().build()).jsonPath().getString("id");
     }
 
-    public static ExtractableResponse<Response> 피드를_등록한다(RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드를_등록한다(String accessToken, RequestSpecification spec) {
         Map<String, Object> body = Map.of(
                 "location", "역삼동",
                 "review", "맛있어요!",
@@ -124,6 +124,8 @@ public class FeedSteps {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
                 .log().all()
+                .auth()
+                .oauth2(accessToken)
                 .body(body)
                 .when()
                 .post("/api/feeds")
@@ -198,7 +200,7 @@ public class FeedSteps {
         );
     }
 
-    public static ExtractableResponse<Response> 피드를_수정한다(String id, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드를_수정한다(String accessToken, String id, RequestSpecification spec) {
         Map<String, Object> body = Map.of(
                 "location", "맛있게 매운 콩볼 범계점2",
                 "review", "맛있게 먹었습니다.2",
@@ -226,6 +228,8 @@ public class FeedSteps {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
                 .log().all()
+                .auth()
+                .oauth2(accessToken)
                 .body(body)
                 .when()
                 .put("/api/feeds/" + id)
@@ -234,12 +238,14 @@ public class FeedSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 피드를_삭제한다(String id, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드를_삭제한다(String accessToken, String id, RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
                 .log().all()
+                .auth()
+                .oauth2(accessToken)
                 .when()
                 .delete("/api/feeds/" + id)
                 .then()
