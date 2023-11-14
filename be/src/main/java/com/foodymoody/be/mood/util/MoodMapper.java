@@ -2,6 +2,8 @@ package com.foodymoody.be.mood.util;
 
 import static com.foodymoody.be.common.util.Constants.UTILITY_CLASS;
 
+import com.foodymoody.be.common.util.IdGenerator;
+import com.foodymoody.be.mood.controller.dto.MoodRegisterResponse;
 import com.foodymoody.be.mood.controller.dto.MoodResponse;
 import com.foodymoody.be.mood.controller.dto.RandomMoodResponse;
 import com.foodymoody.be.mood.domain.Mood;
@@ -24,5 +26,13 @@ public class MoodMapper {
 
     public static Slice<MoodResponse> toSliceResponse(Slice<Mood> slice) {
         return slice.map(MoodMapper::toResponse);
+    }
+
+    public static Mood toEntity(String mood) {
+        return new Mood(IdGenerator.generate(), mood);
+    }
+
+    public static MoodRegisterResponse toRegisterResponse(Mood saved) {
+        return new MoodRegisterResponse(saved.getId(), saved.getName());
     }
 }

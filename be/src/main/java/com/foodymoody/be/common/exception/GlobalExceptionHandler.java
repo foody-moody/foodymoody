@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ErrorResponse handleIllegalArgumentException(IllegalArgumentException e) {
         log.error("handleIllegalArgumentException", e);
-        return new ErrorResponse(INVALID_INPUT_VALUE.getMessage(), INVALID_INPUT_VALUE.getCode());
+        return new ErrorResponse(e.getMessage(), INVALID_INPUT_VALUE.getCode());
     }
 
     @ResponseStatus(value = BAD_REQUEST)

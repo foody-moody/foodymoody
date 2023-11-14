@@ -26,7 +26,9 @@ public enum ErrorMessage {
     IS_NOT_HTTP_REQUEST("http 요청이 아닙니다", "a002"),
     CLAIM_NOT_FOUND("토큰에 해당 클레임이 존재하지 않습니다", "a003"),
     UNAUTHORIZED("권한이 없습니다", "a004"),
-    INVALID_ACCESS_TOKEN("유효하지 않은 액세스 토큰입니다", "a005");
+    INVALID_ACCESS_TOKEN("유효하지 않은 액세스 토큰입니다", "a005"),
+    // mood
+    DUPLICATE_MOOD("이미 존재하는 무드입니다", "o001");
 
     private final String message;
     private final String code;

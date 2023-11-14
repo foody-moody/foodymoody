@@ -166,7 +166,25 @@ operation::fetchRandomMood_whenMoodNotExists_success[snippets='http-response']
 
 operation::fetchRandomMood_failedByCountNull[snippets='http-request,http-response']
 
+=== 무드 추가
 
+==== 성공
+
+operation::registerMood_success[snippets='http-request,http-response']
+
+==== 이미 존재하는 무드일 때
+
+operation::registerMood_failedByDuplicateName[snippets='http-response']
+
+==== 요청으로 받은 무드가 null일 때
+
+operation::registerMood_failedByNullName[snippets='http-response']
+
+=== 개별 무드 조회
+
+==== 성공
+
+operation::findMoodyById_success[snippets='http-request,http-response']
 
 
 
