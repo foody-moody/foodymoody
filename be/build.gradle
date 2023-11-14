@@ -66,17 +66,7 @@ ext {
     snippetsDir = file('build/generated-snippets')
 }
 
-tasks.register('copyDocument', Copy) {
-    dependsOn asciidoctor
-
-    from file("build/docs/asciidoc")
-    into file("src/main/resources/static/docs")
-
-    enabled = true;
-}
-
 test {
-    ignoreFailures = true
     useJUnitPlatform()
     outputs.dir snippetsDir
     finalizedBy jacocoTestReport
@@ -97,6 +87,7 @@ jacoco {
 
 asciidoctor {
     inputs.dir snippetsDir
+    outputDir file("src/main/resources/static/docs")
     configurations 'asciidoctorExt'
     dependsOn test
 }
