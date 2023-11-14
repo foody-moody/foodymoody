@@ -13,17 +13,15 @@ import com.foodymoody.be.feed.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
-import com.foodymoody.be.feed.dto.response.FeedTasteMoodResponse;
 import com.foodymoody.be.feed.repository.FeedRepository;
 import com.foodymoody.be.feed.util.FeedMapper;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.util.ImageMapper;
-import com.foodymoody.be.member.domain.Member;
+import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.util.MenuMapper;
 import com.foodymoody.be.mood.domain.Mood;
-import com.foodymoody.be.mood.repository.MoodRepository;
 import com.foodymoody.be.mood.service.MoodService;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,15 +132,15 @@ public class FeedService {
     }
 
     private FeedMemberResponse makeFeedMemberResponse(Feed feed) {
-        Member member = memberService.findById(feed.getMemberId());
-        String moodName = moodService.findMoodById(member.getMood()).getName();
-        return toFeedMemberResponse(member, moodName);
+        MemberFeedData memberData = memberService.findFeedDataById(feed.getMemberId());
+        return toFeedMemberResponse(memberData);
     }
 
-    private FeedMemberResponse toFeedMemberResponse(Member member, String moodName) {
+    private FeedMemberResponse toFeedMemberResponse(MemberFeedData member) {
+        MemberFeedData memberData = memberService.findFeedDataById(member.getId());
         return FeedMemberResponse.builder()
                 .id(member.getId())
-                .imageUrl(member.getProfileImageUrl())
+                .imageUrl(memberData.getProfileImageUrl())
                 .nickname(member.getNickname())
                 // TODO: member의 mood가 moodId로 수정되면 주석 풀기
 //                .tasteMood(new FeedTasteMoodResponse(member.getMoodId(), moodName))
