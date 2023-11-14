@@ -20,24 +20,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MoodService moodService;
 
-    @Transactional
     public MemberSignupResponse create(MemberSignupRequest request) {
-        validateDuplication(request);
+        validateNicknameDuplication(request.getNickname());
+        validateEmailDuplication(request.getEmail());
         String moodId = findMoodIdByNameOrElseNull(request.getMood());
         String savedMemberId = memberRepository.save(MemberMapper.toEntity(request, moodId)).getId();
         return MemberMapper.toSignupResponse(savedMemberId);
-    }
-
-    private String findMoodIdByNameOrElseNull(String requested) {
-        if (Objects.isNull(requested)) {
-            return null;
-        }
-        return moodService.findMoodByName(requested).getId();
     }
 
     public Member findByEmail(String email) {
@@ -55,11 +49,6 @@ public class MemberService {
         return MemberMapper.toMemberProfileResponse(data, List.of());
     }
 
-    private MemberProfileData findProfileData(String id) {
-        return memberRepository.loadProfileDataById(id)
-                .orElseThrow(MemberNotFoundException::new);
-    }
-
     public void validateIdExists(String id) {
         if (!memberRepository.existsById(id)) {
             throw new MemberNotFoundException();
@@ -70,9 +59,16 @@ public class MemberService {
         return memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
     }
 
-    private void validateDuplication(MemberSignupRequest request) {
-        validateEmailDuplication(request.getEmail());
-        validateNicknameDuplication(request.getNickname());
+    private String findMoodIdByNameOrElseNull(String requested) {
+        if (Objects.isNull(requested)) {
+            return null;
+        }
+        return moodService.findMoodByName(requested).getId();
+    }
+
+    private MemberProfileData findProfileData(String id) {
+        return memberRepository.loadProfileDataById(id)
+                .orElseThrow(MemberNotFoundException::new);
     }
 
     private void validateEmailDuplication(String email) {
