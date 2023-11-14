@@ -9,7 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 public class BaseEntity {
 
     @EmbeddedId
-    protected WrappedId id;
+    protected WrappedId wrappedId;
 
     @CreatedDate
     protected LocalDateTime createdAt;

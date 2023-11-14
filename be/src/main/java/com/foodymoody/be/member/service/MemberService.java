@@ -7,9 +7,10 @@ import com.foodymoody.be.member.controller.dto.MemberProfileResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.domain.Member;
+import com.foodymoody.be.member.repository.MemberFeedData;
+import com.foodymoody.be.member.repository.MemberProfileData;
 import com.foodymoody.be.member.repository.MemberRepository;
 import com.foodymoody.be.member.util.MemberMapper;
-import com.foodymoody.be.mood.domain.Mood;
 import com.foodymoody.be.mood.service.MoodService;
 import java.util.List;
 import java.util.Objects;
@@ -27,27 +28,36 @@ public class MemberService {
     @Transactional
     public MemberSignupResponse create(MemberSignupRequest request) {
         validateDuplication(request);
-        Mood mood = findMoodByNameOrElseNull(request.getMood());
-        String savedMemberId = memberRepository.save(MemberMapper.toEntity(request, mood)).getId();
+        String moodId = findMoodIdByNameOrElseNull(request.getMood());
+        String savedMemberId = memberRepository.save(MemberMapper.toEntity(request, moodId)).getId();
         return MemberMapper.toSignupResponse(savedMemberId);
+    }
+
+    private String findMoodIdByNameOrElseNull(String requested) {
+        if (Objects.isNull(requested)) {
+            return null;
+        }
+        return moodService.findMoodByName(requested).getId();
     }
 
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
     }
 
-    private Mood findMoodByNameOrElseNull(String requested) {
-        if (Objects.isNull(requested)) {
-            return null;
-        }
-        return moodService.findMoodByName(requested);
+    public MemberFeedData findFeedDataById(String id) {
+        return memberRepository.loadFeedDataById(id).orElseThrow(MemberNotFoundException::new);
     }
 
     @Transactional(readOnly = true)
     public MemberProfileResponse loadProfile(String id) {
-        Member member = findById(id);
+        MemberProfileData data = findProfileData(id);
 //        TODO 피드 미리보기 기능 구현 후 추가
-        return MemberMapper.toMemberProfileResponse(member, List.of());
+        return MemberMapper.toMemberProfileResponse(data, List.of());
+    }
+
+    private MemberProfileData findProfileData(String id) {
+        return memberRepository.loadProfileDataById(id)
+                .orElseThrow(MemberNotFoundException::new);
     }
 
     public void validateIdExists(String id) {
