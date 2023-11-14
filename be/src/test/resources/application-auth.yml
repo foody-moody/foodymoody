@@ -6,4 +6,4 @@ jwt:
       access: 100000
       refresh: 100000
 filter:
-  whitelist: POST /api/members, POST /api/auth/login , POST /api/feeds , GET /api/comments, GET /api/docs, GET /api/members/.*
+  whitelist: POST /api/members, POST /api/auth/login , POST /api/feeds , GET /api/comments, GET /api/docs, GET /api/members
