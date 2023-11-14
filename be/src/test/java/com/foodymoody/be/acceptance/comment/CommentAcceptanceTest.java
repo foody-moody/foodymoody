@@ -20,7 +20,7 @@ import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글을_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_여러_공백댓글_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에서_200자_넘는_댓글을_등록한다;
-import static com.foodymoody.be.feed.FeedSteps.피드를_등록하고_아이디를_받는다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고_아이디를_받는다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +39,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
         @BeforeEach
         void setFeedId() {
-            feedId = 피드를_등록하고_아이디를_받는다();
+            feedId = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰);
         }
 
         @DisplayName("댓글 등록 요청시 성공하면, 응답코드 200을 응답한다")
@@ -160,7 +160,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
         @BeforeEach
         void setUp() {
-            feedId = 피드를_등록하고_아이디를_받는다();
+            feedId = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰);
             commentId = 피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원아티_액세스토큰);
         }
 
@@ -271,7 +271,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
         @BeforeEach
         void setUp() {
-            feedId = 피드를_등록하고_아이디를_받는다();
+            feedId = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰);
             commentId = 피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원아티_액세스토큰);
         }
 
@@ -327,7 +327,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
         @BeforeEach
         void setUp() {
-            feedId = 피드를_등록하고_아이디를_받는다();
+            feedId = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰);
             for (int i = 0; i < 20; i++) {
                 피드에_댓글을_등록한다(feedId, 회원아티_액세스토큰);
             }
