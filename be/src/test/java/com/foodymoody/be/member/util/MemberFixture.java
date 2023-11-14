@@ -1,9 +1,9 @@
 package com.foodymoody.be.member.util;
 
 public enum MemberFixture {
-    회원_알버트(null,"albert@albert.com", "testtest123!", "알버트", "베지테리안", "https://www.image.com"),
-    회원_설리(null,"sully@sully.com", "testtest123!", "설리", "베지테리안", "https://www.image.com"),
-    회원_보노(null,"bono@bono.com", "testtest123!", "보노", "베지테리안", "https://www.image.com"),
+    회원_알버트(null,"albert@albert.com", "testtest123!", "알버트", "베지테리언", "https://www.image.com"),
+    회원_설리(null,"sully@sully.com", "testtest123!", "설리", "베지테리언", "https://www.image.com"),
+    회원_보노(null,"bono@bono.com", "testtest123!", "보노", "베지테리언", "https://www.image.com"),
     회원_아티("1", "ati@ati.com", "ati123!", "아티", "베지테리언", null),
     회원_푸반("2", "puban@puban.com", "puban123!", "푸반", "베지테리언", null);
 
