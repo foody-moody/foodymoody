@@ -1,4 +1,4 @@
-package com.foodymoody.be.docs.auth;
+package com.foodymoody.be.acceptance.auth;
 
 import static com.foodymoody.be.member.util.MemberFixture.회원_보노;
 import static org.assertj.core.api.Assertions.assertThat;

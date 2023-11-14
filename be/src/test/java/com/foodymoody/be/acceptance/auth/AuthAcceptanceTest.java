@@ -1,21 +1,16 @@
-package com.foodymoody.be.docs.auth;
+package com.foodymoody.be.acceptance.auth;
 
+import static com.foodymoody.be.acceptance.auth.AuthSteps.토큰과_응답코드_200을_응답한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원보노가_회원가입한다;
-import static com.foodymoody.be.docs.auth.AuthSteps.로그아웃_한다;
-import static com.foodymoody.be.docs.auth.AuthSteps.로그인_한다;
-import static com.foodymoody.be.docs.auth.AuthSteps.응답코드_204를_응답한다;
-import static com.foodymoody.be.docs.auth.AuthSteps.토큰과_응답코드_200을_응답한다;
-import static com.foodymoody.be.docs.auth.AuthSteps.회원보노가_로그인한다;
 
-import com.foodymoody.be.docs.Document;
+import com.foodymoody.be.acceptance.AcceptanceTest;
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.response.ExtractableResponse;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("인증 관련 기능 문서화")
-class AuthTest extends Document {
+@DisplayName("인증 관련 기능 인수테스트")
+class AuthAcceptanceTest extends AcceptanceTest {
 
     private static final RequestSpecification FAKE_SPEC;
 
@@ -31,7 +26,7 @@ class AuthTest extends Document {
         회원보노가_회원가입한다(FAKE_SPEC);
 
         // when
-        var response = 회원보노가_로그인한다(spec);
+        var response = AuthSteps.회원보노가_로그인한다(spec);
 
         // then
         토큰과_응답코드_200을_응답한다(response);
