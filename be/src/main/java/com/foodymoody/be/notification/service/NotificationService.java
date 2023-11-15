@@ -40,7 +40,7 @@ public class NotificationService {
 
     @Transactional(readOnly = true)
     public Slice<NotificationResponse> requestAll(String memberId, Pageable pageable) {
-//        memberService.validateIdExists(memberId);
+        memberService.findById(memberId);
         Slice<Notification> notifications = notificationRepository.findAllByMemberId(memberId, pageable);
         return notificationMapper.generateResponseDtoSliceFromNotifications(notifications);
     }
@@ -54,13 +54,13 @@ public class NotificationService {
 
     @Transactional
     public void deleteAll(String memberId) {
-//        memberService.validateIdExists(memberId);
+        memberService.findById(memberId);
         notificationRepository.deleteAllByMemberId(memberId, LocalDateTime.now());
     }
 
     @Transactional
     public NotificationResponse requestOne(String memberId, String notificationId) {
-//        memberService.validateIdExists(memberId);
+        memberService.findById(memberId);
         Notification notification = getNotification(notificationId);
         notification.changeStatus(true, memberId, LocalDateTime.now());
         return notificationMapper.generateResponseDtoFromNotification(notification);
@@ -68,7 +68,7 @@ public class NotificationService {
 
     @Transactional
     public void changeAllStatus(String memberId, List<String> notificationIds, boolean read) {
-//        memberService.validateIdExists(memberId);
+        memberService.findById(memberId);
         notificationRepository.updateAllStatus(read, memberId, LocalDateTime.now(),
                 NotificationMapper.toNotificationID(notificationIds));
     }
@@ -79,7 +79,7 @@ public class NotificationService {
 
     @Transactional
     public void deleteAll(String memberId, List<String> notificationIds) {
-//        memberService.validateIdExists(memberId);
+        memberService.findById(memberId);
         notificationRepository.deleteAllByIdIn(
                 NotificationMapper.toNotificationID(notificationIds),
                 LocalDateTime.now(),
