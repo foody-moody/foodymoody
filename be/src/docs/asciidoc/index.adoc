@@ -146,6 +146,10 @@ operation::fetchComments_failed_by_feed_id_not_exists[snippets='http-response']
 
 operation::signupMember_success[snippets='http-request,http-response']
 
+==== 입력값이 잘못됐을 때
+
+operation::signupMember_failedByMultipleInvalidInput[snippets='http-response']
+
 ==== 이미 가입된 이메일일 때
 
 operation::signupMember_failedByDuplicateEmail[snippets='http-response']

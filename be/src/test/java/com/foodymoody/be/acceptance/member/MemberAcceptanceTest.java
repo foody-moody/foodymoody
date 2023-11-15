@@ -49,7 +49,20 @@ class MemberAcceptanceTest extends AcceptanceTest {
             데이터베이스를_초기화한다();
         }
 
-        @DisplayName("이미 가입된 이메일이면, 상태코드 400과 오류코드 m002를 응답한다")
+        @DisplayName("회원 가입 시 잘못된 입력값을 입력하면, 상태코드 400과 오류코드 g001를 응답한다")
+        @Test
+        void when_registerMemberFailedByMultipleInvalidInput_then_response400Andm004() {
+            // docs
+            api_문서_타이틀("signupMember_failedByMultipleInvalidInput", spec);
+
+            // when
+            var response = 비회원보노가_유효하지_않은_이메일을_입력하고_닉네임을_입력하지_않고_패스워드를_입력하지_않고_회원가입한다(spec);
+
+            // then
+            상태코드가_400이고_오류코드가_g001이고_errors에_email과_nickname과_password가_존재하는지_검증한다(response);
+        }
+
+        @DisplayName("회원 가입 시 이미 가입된 이메일이면, 상태코드 400과 오류코드 m002를 응답한다")
         @Test
         void when_signupMemberFailedByDuplicateEmail_then_response400Andm002() {
             // docs
