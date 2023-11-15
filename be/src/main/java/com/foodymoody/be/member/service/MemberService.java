@@ -50,13 +50,15 @@ public class MemberService {
     }
 
     public void validateIdExists(String id) {
-        if (!memberRepository.existsById(id)) {
+        WrappedId key = new WrappedId(id);
+        if (!memberRepository.existsById(key)) {
             throw new MemberNotFoundException();
         }
     }
 
     public Member findById(String id) {
-        return memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+        WrappedId key = new WrappedId(id);
+        return memberRepository.findById(key).orElseThrow(MemberNotFoundException::new);
     }
 
     private String findMoodIdByNameOrElseNull(String requested) {

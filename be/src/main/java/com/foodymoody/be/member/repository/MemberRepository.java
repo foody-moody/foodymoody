@@ -1,11 +1,14 @@
 package com.foodymoody.be.member.repository;
 
+import com.foodymoody.be.common.WrappedId;
 import com.foodymoody.be.member.domain.Member;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-public interface MemberRepository extends JpaRepository<Member, String> {
+@Repository
+public interface MemberRepository extends JpaRepository<Member, WrappedId> {
 
     Optional<Member> findByEmail(String email);
 
