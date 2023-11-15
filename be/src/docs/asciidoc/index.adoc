@@ -146,6 +146,18 @@ operation::fetchComments_failed_by_feed_id_not_exists[snippets='http-response']
 
 operation::signupMember_success[snippets='http-request,http-response']
 
+==== 이미 가입된 이메일일 때
+
+operation::signupMember_failedByDuplicateEmail[snippets='http-response']
+
+==== 이미 가입된 닉네임일 때
+
+operation::signupMember_failedByDuplicateNickname[snippets='http-response']
+
+==== 재입력한 패스워드가 다를 때
+
+operation::signupMember_failedByReconfirmPasswordUnmatch[snippets='http-response']
+
 [[mood]]
 == 무드
 
