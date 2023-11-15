@@ -65,9 +65,9 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(value = NOT_FOUND)
-    @ExceptionHandler(GlobalNotFoundException.class)
-    public ErrorResponse handleNotFoundException(GlobalNotFoundException e) {
-        log.error("handleGlobalNotFoundExceptionException", e);
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ErrorResponse handleResourceNotFoundException(ResourceNotFoundException e) {
+        log.error("handleResourceNotFoundExceptionException", e);
         return new ErrorResponse(e.getMessage(), e.getCode());
     }
 
