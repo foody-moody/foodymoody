@@ -64,6 +64,16 @@ public class NotificationSteps {
                 .delete("/api/notifications/{eventId}", 알람_아이디).then().log().all().extract();
     }
 
+    public static ExtractableResponse<Response> 알람을_일괄적으로_삭졔한다(List<String> 알람들, String accessToken,
+            RequestSpecification spec) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("notificationIds", 알람들);
+        return RestAssured.given().log().all().spec(spec).auth().oauth2(accessToken)
+                .body(body).contentType("application/json;charset=UTF-8")
+                .when().delete("/api/notifications")
+                .then().log().all().extract();
+    }
+
     public static String 회원의_모든_알람을_조회하고_첫번째_알람을_가져온다(String accessToken) {
         return 회원의_모든_알람을_조회한다(accessToken).jsonPath().getList("content.id", String.class).get(0);
     }

@@ -55,7 +55,7 @@ public class NotificationService {
     @Transactional
     public void deleteAll(String memberId) {
         memberService.findById(memberId);
-        notificationRepository.deleteAllByMemberId(memberId);
+        notificationRepository.deleteAllByMemberId(memberId, LocalDateTime.now());
     }
 
     @Transactional
@@ -74,8 +74,16 @@ public class NotificationService {
     }
 
     public Notification getNotification(String notificationId) {
-        return notificationRepository.findById(NotificationId.from(notificationId))
-                .orElseThrow();
+        return notificationRepository.findById(NotificationId.from(notificationId)).orElseThrow();
     }
 
+    @Transactional
+    public void deleteAll(String memberId, List<String> notificationIds) {
+        memberService.findById(memberId);
+        notificationRepository.deleteAllByIdIn(
+                NotificationMapper.toNotificationID(notificationIds),
+                LocalDateTime.now(),
+                memberId
+        );
+    }
 }

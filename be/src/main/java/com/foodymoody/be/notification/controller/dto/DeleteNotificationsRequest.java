@@ -2,10 +2,9 @@ package com.foodymoody.be.notification.controller.dto;
 
 import java.util.List;
 
-public class ChangeAllNotificationStatusRequest {
+public class DeleteNotificationsRequest {
 
     private List<String> notificationIds;
-    private boolean isRead;
 
     public List<String> getNotificationIds() {
         return notificationIds;
@@ -13,13 +12,5 @@ public class ChangeAllNotificationStatusRequest {
 
     public void setNotificationIds(List<String> notificationIds) {
         this.notificationIds = notificationIds;
-    }
-
-    public boolean isRead() {
-        return isRead;
-    }
-
-    public void setRead(boolean read) {
-        isRead = read;
     }
 }

@@ -2,6 +2,7 @@ package com.foodymoody.be.notification.controller;
 
 import com.foodymoody.be.common.annotation.MemberId;
 import com.foodymoody.be.notification.controller.dto.ChangeAllNotificationStatusRequest;
+import com.foodymoody.be.notification.controller.dto.DeleteNotificationsRequest;
 import com.foodymoody.be.notification.controller.dto.NotificationResponse;
 import com.foodymoody.be.notification.controller.dto.NotificationStatus;
 import com.foodymoody.be.notification.service.NotificationService;
@@ -63,7 +64,12 @@ public class NotificationController {
     }
 
     @DeleteMapping("/api/notifications")
-    public ResponseEntity<Void> deleteAll(@MemberId String memberId) {
+    public ResponseEntity<Void> deleteAll(@MemberId String memberId, @RequestBody(required = false)
+    DeleteNotificationsRequest request) {
+        if (request != null) {
+            notificationService.deleteAll(memberId, request.getNotificationIds());
+            return ResponseEntity.noContent().build();
+        }
         notificationService.deleteAll(memberId);
         return ResponseEntity.noContent().build();
     }

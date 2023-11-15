@@ -14,10 +14,16 @@ public interface NotificationRepository extends JpaRepository<Notification, Noti
 
     Slice<Notification> findAllByMemberId(String memberId, Pageable pageable);
 
-    void deleteAllByMemberId(String memberId);
+    @Modifying
+    @Query("UPDATE Notification _notification SET _notification.isRead = :status, _notification.updatedAt = :updatedAt WHERE _notification.id IN :notificationIds AND _notification.memberId = :memberId")
+    void updateAllStatus(boolean status, String memberId, LocalDateTime updatedAt,
+            List<NotificationId> notificationIds);
 
     @Modifying
-    @Query("UPDATE Notification _notification SET _notification.isRead = :status, _notification.updatedAt = :modifiedDate WHERE _notification.id IN :notificationIds AND _notification.memberId = :memberId")
-    void updateAllStatus(boolean status, String memberId, LocalDateTime modifiedDate,
-            List<NotificationId> notificationIds);
+    @Query("UPDATE Notification _notification SET _notification.isDeleted = true , _notification.updatedAt = :updatedAt WHERE _notification.memberId = :memberId")
+    void deleteAllByMemberId(String memberId, LocalDateTime updatedAt);
+
+    @Modifying
+    @Query("UPDATE Notification _notification SET _notification.isDeleted = true , _notification.updatedAt = :updatedAt WHERE _notification.id IN :notificationIds AND _notification.memberId = :memberId")
+    void deleteAllByIdIn(List<NotificationId> notificationIds, LocalDateTime updatedAt, String memberId);
 }
