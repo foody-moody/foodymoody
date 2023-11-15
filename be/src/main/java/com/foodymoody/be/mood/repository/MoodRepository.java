@@ -13,5 +13,5 @@ public interface MoodRepository extends JpaRepository<Mood, String> {
     @Query(value = "SELECT * FROM mood ORDER BY rand() LIMIT :count", nativeQuery = true)
     List<Mood> findRandom(int count);
 
-    boolean existsByName(String mood);
+    boolean existsByName(String name);
 }
