@@ -57,7 +57,7 @@ public class Member extends BaseEntity {
     }
 
     public void validatePassword(String password) {
-        if (Objects.isNull(password)) {
+        if (Objects.isNull(password) || !Objects.equals(password, this.password)) {
             throw new IncorrectMemberPasswordException();
         }
     }
