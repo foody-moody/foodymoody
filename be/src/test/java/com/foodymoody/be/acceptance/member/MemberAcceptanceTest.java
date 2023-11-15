@@ -1,13 +1,19 @@
 package com.foodymoody.be.acceptance.member;
 
+import static com.foodymoody.be.acceptance.member.MemberSteps.id가_test인_회원프로필을_조회한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_유효하지_않은_이메일을_입력하고_닉네임을_입력하지_않고_패스워드를_입력하지_않고_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_틀린_재입력_패스워드로_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_회원푸반의_닉네임으로_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_회원푸반의_이메일로_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_회원가입한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_회원푸반의_회원프로필을_응답하는지_검증한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_g001이고_errors에_email과_nickname과_password가_존재하는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m002인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m003인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m004인지_검증한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_404이고_오류코드가_m001인지_검증한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.회원푸반의_회원프로필을_조회한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
 import io.restassured.builder.RequestSpecBuilder;
@@ -25,7 +31,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @DisplayName("회원 가입 인수테스트")
     class SignUp {
 
-        @DisplayName("회원 가입에 성공하면, 상태코드 200과 id를 반환하고 회원 프로필이 조회된다.")
+        @DisplayName("회원 가입 시 성공하면, 상태코드 200과 id를 반환하고 회원 프로필이 조회된다.")
         @Test
         void when_signupMember_then_response200AndId_and_canLoadMemberProfile() {
             // docs
@@ -49,33 +55,33 @@ class MemberAcceptanceTest extends AcceptanceTest {
             // docs
             api_문서_타이틀("signupMember_failedByDuplicateEmail", spec);
 
-            // given, when
+            // when
             var response = 비회원보노가_회원푸반의_이메일로_회원가입한다(spec);
 
             // then
             상태코드가_400이고_오류코드가_m002인지_검증한다(response);
         }
 
-        @DisplayName("이미 가입된 닉네임이면, 상태코드 400과 오류코드 m003를 응답한다")
+        @DisplayName("회원 가입 시 이미 가입된 닉네임이면, 상태코드 400과 오류코드 m003를 응답한다")
         @Test
         void when_registerMemberFailedByDuplicateNickname_then_response400Andm003() {
             // docs
             api_문서_타이틀("signupMember_failedByDuplicateNickname", spec);
 
-            // given, when
+            // when
             var response = 비회원보노가_회원푸반의_닉네임으로_회원가입한다(spec);
 
             // then
             상태코드가_400이고_오류코드가_m003인지_검증한다(response);
         }
 
-        @DisplayName("재입력한 패스워드가 일치하지 않으면, 상태코드 400과 오류코드 m004를 반환한다")
+        @DisplayName("회원 가입 시 재입력한 패스워드가 일치하지 않으면, 상태코드 400과 오류코드 m004를 응답한다")
         @Test
         void when_registerMemberFailedByReconfirmPasswordUnmatch_then_response400Andm004() {
             // docs
             api_문서_타이틀("signupMember_failedByReconfirmPasswordUnmatch", spec);
 
-            // given, when
+            // when
             var response = 비회원보노가_틀린_재입력_패스워드로_회원가입한다(spec);
 
             // then
@@ -83,7 +89,39 @@ class MemberAcceptanceTest extends AcceptanceTest {
         }
 
     }
-//     FIXME 회원가입시 id가 랜덤으로 생성되므로 이에 맞게 테스트 코드 수정 필요
+
+    @Nested
+    @DisplayName("회원 프로필 조회")
+    class loadProfile {
+
+        @DisplayName("회원 프로필 조회 시 성공하면, 상태코드 200과 회원 프로필을 응답한다")
+        @Test
+        void when_loadProfileSuccess_then_response200AndProfile() {
+            // docs
+            api_문서_타이틀("loadMemberProfile_success", spec);
+
+            // when
+            var response = 회원푸반의_회원프로필을_조회한다(spec);
+
+            // then
+            상태코드가_200이고_회원푸반의_회원프로필을_응답하는지_검증한다(response);
+        }
+
+        @DisplayName("회원 프로필 조회 시 존재하지 않는 회원 id이면, 상태코드 404와 오류코드 m001을 응답한다")
+        @Test
+        void when_loadProfileFailedByIdNotFound_then_response404Andm001() {
+            // docs
+            api_문서_타이틀("loadMemberProfile_failedByIdNotFound", spec);
+
+            // when
+            var response = id가_test인_회원프로필을_조회한다(spec);
+
+            // then
+            상태코드가_404이고_오류코드가_m001인지_검증한다(response);
+        }
+
+    }
+
 //    @DisplayName("회원 탈퇴 성공하면, 응답코드 204를 반환하고 회원 프로필이 조회되지 않는다.")
 //    @Test
 //    void when_deleteMember_then_response204_and_cannotLoadMemberProfile() {
@@ -132,19 +170,4 @@ class MemberAcceptanceTest extends AcceptanceTest {
 //        응답코드가_204이고_회원보노가_수정_전의_비밀번호로_로그인에_실패하는지_검증한다(response);
 //    }
 //
-//    @DisplayName("회원 프로필 조회 성공하면, 응답코드 200과 회원 프로필을 반환한다.")
-//    @Test
-//    void when_loadMemberProfile_then_response200AndMemberProfile() {
-//        // docs
-//        api_문서_타이틀("loadMemberProfile", spec);
-//
-//        // given
-//        회원보노가_회원가입한다(FAKE_SPEC);
-//
-//        // when
-//        var response = 회원보노의_회원프로필을_조회한다(spec);
-//
-//        // then
-//        응답코드가_200이고_회원보노의_회원프로필이_조회되는지_검증한다(response);
-//    }
 }

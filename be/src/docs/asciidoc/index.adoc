@@ -158,6 +158,17 @@ operation::signupMember_failedByDuplicateNickname[snippets='http-response']
 
 operation::signupMember_failedByReconfirmPasswordUnmatch[snippets='http-response']
 
+=== 회원 프로필 조회
+
+==== 성공
+
+operation::loadMemberProfile_success[snippets='http-request,http-response']
+
+==== 존재하지 않는 회원 id일 때
+
+operation::loadMemberProfile_failedByIdNotFound[snippets='http-response']
+
+
 [[mood]]
 == 무드
 

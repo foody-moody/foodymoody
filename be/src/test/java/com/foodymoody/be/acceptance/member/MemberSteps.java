@@ -20,6 +20,14 @@ public class MemberSteps {
 
     private static final RequestSpecification MOCK_SPEC = new RequestSpecBuilder().build();;
 
+    public static ExtractableResponse<Response> 회원푸반의_회원프로필을_조회한다(RequestSpecification spec) {
+        return 회원프로필을_조회한다(회원_푸반.getId(), spec);
+    }
+
+    public static ExtractableResponse<Response> id가_test인_회원프로필을_조회한다(RequestSpecification spec) {
+        return 회원프로필을_조회한다("test", spec);
+    }
+
     public static ExtractableResponse<Response> 비회원보노가_회원가입한다(RequestSpecification spec) {
         Map<String, Object> memberRegisterRequest = Map.of(
                 "nickname", 비회원_보노.getNickname(),
@@ -64,6 +72,14 @@ public class MemberSteps {
         return 회원가입한다(memberRegisterRequest, spec);
     }
 
+    public static ExtractableResponse<Response> 비회원보노가_유효하지_않은_이메일을_입력하고_닉네임을_입력하지_않고_패스워드를_입력하지_않고_회원가입한다(RequestSpecification spec) {
+        Map<String, Object> memberRegisterRequest = Map.of(
+                "email", "test",
+                "mood", 비회원_보노.getMood());
+
+        return 회원가입한다(memberRegisterRequest, spec);
+    }
+
     public static void 상태코드가_400이고_오류코드가_m002인지_검증한다(ExtractableResponse<Response> response) {
         Assertions.assertAll(
                 () -> 상태코드를_검증한다(response, HttpStatus.BAD_REQUEST),
@@ -85,12 +101,43 @@ public class MemberSteps {
         );
     }
 
-    public static String 회원보노가_회원가입하고_아이디를_반환한다(RequestSpecification spec) {
-        return 비회원보노가_회원가입한다(spec).jsonPath().getString("id");
+    public static void 상태코드가_404이고_오류코드가_m001인지_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.NOT_FOUND),
+                () -> 오류코드를_검증한다(response, "m001")
+        );
     }
 
-    public static ExtractableResponse<Response> 회원보노의_회원프로필을_조회한다(RequestSpecification spec) {
-        return 회원프로필을_조회한다(비회원_보노.getId(), spec);
+    public static void 상태코드가_400이고_오류코드가_g001이고_errors에_email과_nickname과_password가_존재하는지_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.BAD_REQUEST),
+                () -> 오류코드를_검증한다(response, "g001"),
+                () -> assertThat(response.jsonPath().getMap("errors")).containsOnlyKeys("email", "nickname", "password")
+        );
+
+    }
+
+    public static void 상태코드가_200이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
+        String 회원보노_아이디 = response.jsonPath().getObject("id", String.class);
+        var 회원보노_회원프로필_조회_응답 = 회원프로필을_조회한다(회원보노_아이디, MOCK_SPEC);
+
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                () -> assertThat(response.jsonPath().getObject("id", String.class)).isNotNull(),
+                () -> 상태코드를_검증한다(회원보노_회원프로필_조회_응답, HttpStatus.OK),
+                () -> assertThat(회원보노_회원프로필_조회_응답.jsonPath().getString("email")).isEqualTo(비회원_보노.getEmail())
+        );
+    }
+
+    public static void 상태코드가_200이고_회원푸반의_회원프로필을_응답하는지_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                () -> assertThat(response.jsonPath().getString("email")).isEqualTo(회원_푸반.getEmail())
+        );
+    }
+
+    public static String 회원보노가_회원가입하고_아이디를_반환한다(RequestSpecification spec) {
+        return 비회원보노가_회원가입한다(spec).jsonPath().getString("id");
     }
 
     public static ExtractableResponse<Response> 회원보노가_회원탈퇴한다(RequestSpecification spec) {
@@ -108,18 +155,6 @@ public class MemberSteps {
                 "reconfirmPassword", "newpassword123!");
 
         return 회원비밀번호를_수정한다(비회원_보노.getId(), updateMemberPasswordRequest, spec);
-    }
-
-    public static void 상태코드가_200이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
-        String 회원보노_아이디 = response.jsonPath().getObject("id", String.class);
-        var 회원보노_회원프로필_조회_응답 = 회원프로필을_조회한다(회원보노_아이디, MOCK_SPEC);
-
-        Assertions.assertAll(
-                () -> 상태코드를_검증한다(response, HttpStatus.OK),
-                () -> assertThat(response.jsonPath().getObject("id", String.class)).isNotNull(),
-                () -> 상태코드를_검증한다(회원보노_회원프로필_조회_응답, HttpStatus.OK),
-                () -> assertThat(회원보노_회원프로필_조회_응답.jsonPath().getString("email")).isEqualTo(비회원_보노.getEmail())
-        );
     }
 
     public static void 응답코드가_200이고_회원보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
