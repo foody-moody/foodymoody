@@ -2,7 +2,6 @@ package com.foodymoody.be.acceptance.notification;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.foodymoody.be.acceptance.member.MemberSteps;
 import com.foodymoody.be.comment.domain.CommentAddNotificationEvent;
 import com.foodymoody.be.common.event.NotificationEvents;
 import com.foodymoody.be.common.event.NotificationType;
@@ -12,6 +11,8 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
@@ -30,17 +31,25 @@ public class NotificationSteps {
                 .extract();
     }
 
-    public static String 회원보노가_회원가입하고_아이디를_반환한다() {
-        return MemberSteps.회원보노가_회원가입한다(new RequestSpecBuilder().build()).jsonPath().getString("id");
-    }
-
-    public static ExtractableResponse<Response> 알람을_읽음으로_변경(String 알람_아이디, String 회원보노_액세스토큰,
+    public static ExtractableResponse<Response> 알람을_읽음으로_변경(String 알람_아이디, String accessToken,
             RequestSpecification spec) {
         Map<String, Object> body = Map.of("isRead", true);
-        return RestAssured.given().log().all().spec(spec).auth().oauth2(회원보노_액세스토큰).body(body)
+        return RestAssured.given().log().all().spec(spec).auth().oauth2(accessToken).body(body)
                 .contentType("application/json;charset=UTF-8")
                 .accept("application/json;charset=UTF-8")
                 .when().put("/api/notifications/{notificationId}", 알람_아이디)
+                .then().log().all().extract();
+    }
+
+    public static ExtractableResponse<Response> 알람을_일괄적으로_변경(List<String> 알람_아이디들, String accessToken,
+            RequestSpecification spec) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("isRead", true);
+        body.put("notificationIds", 알람_아이디들);
+        return RestAssured.given().log().all().spec(spec).auth().oauth2(accessToken).body(body)
+                .contentType("application/json;charset=UTF-8")
+                .accept("application/json;charset=UTF-8")
+                .when().put("/api/notifications")
                 .then().log().all().extract();
     }
 

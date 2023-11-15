@@ -7,6 +7,7 @@ import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationId;
 import com.foodymoody.be.notification.repository.NotificationRepository;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Pageable;
@@ -65,7 +66,15 @@ public class NotificationService {
         return notificationMapper.generateResponseDtoFromNotification(notification);
     }
 
-    private Notification getNotification(String notificationId) {
+    @Transactional
+    public void changeAllStatus(String memberId, List<String> notificationIds, boolean read) {
+        memberService.findById(memberId);
+        List<Notification> notifications = notificationRepository.findAllById(
+                NotificationMapper.toNotificationID(notificationIds));
+        notifications.forEach(notification -> notification.changeStatus(read, memberId, LocalDateTime.now()));
+    }
+
+    public Notification getNotification(String notificationId) {
         return notificationRepository.findById(NotificationId.from(notificationId))
                 .orElseThrow();
     }

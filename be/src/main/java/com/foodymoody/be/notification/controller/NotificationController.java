@@ -1,6 +1,7 @@
 package com.foodymoody.be.notification.controller;
 
 import com.foodymoody.be.common.annotation.MemberId;
+import com.foodymoody.be.notification.controller.dto.ChangeAllNotificationStatusRequest;
 import com.foodymoody.be.notification.controller.dto.NotificationResponse;
 import com.foodymoody.be.notification.controller.dto.NotificationStatus;
 import com.foodymoody.be.notification.service.NotificationService;
@@ -45,6 +46,13 @@ public class NotificationController {
     public ResponseEntity<Void> changeStatus(@MemberId String memberId, @PathVariable String notificationId,
             @RequestBody NotificationStatus status) {
         notificationService.changeStatus(memberId, notificationId, status.isRead());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/api/notifications")
+    public ResponseEntity<Void> changeAllStatus(@MemberId String memberId,
+            @RequestBody ChangeAllNotificationStatusRequest status) {
+        notificationService.changeAllStatus(memberId, status.getNotificationIds(), status.isRead());
         return ResponseEntity.noContent().build();
     }
 
