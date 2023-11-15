@@ -1,5 +1,6 @@
 package com.foodymoody.be.member.service;
 
+import com.foodymoody.be.common.WrappedId;
 import com.foodymoody.be.common.exception.DuplicateMemberEmailException;
 import com.foodymoody.be.common.exception.DuplicateNicknameException;
 import com.foodymoody.be.common.exception.MemberNotFoundException;
@@ -39,12 +40,12 @@ public class MemberService {
         return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
     }
 
-    public MemberFeedData findFeedDataById(String id) {
-        return memberRepository.loadFeedDataById(id).orElseThrow(MemberNotFoundException::new);
+    public MemberFeedData fetchFeedDataById(String id) {
+        return memberRepository.fetchFeedDataById(id).orElseThrow(MemberNotFoundException::new);
     }
 
-    public MemberProfileResponse loadProfile(String id) {
-        MemberProfileData data = findProfileData(id);
+    public MemberProfileResponse fetchProfile(String id) {
+        MemberProfileData data = fetchProfileData(id);
 //        TODO 피드 미리보기 기능 구현 후 추가
         return MemberMapper.toMemberProfileResponse(data, List.of());
     }
@@ -68,8 +69,8 @@ public class MemberService {
         return moodService.findMoodByName(requested).getId();
     }
 
-    private MemberProfileData findProfileData(String id) {
-        return memberRepository.loadProfileDataById(id)
+    private MemberProfileData fetchProfileData(String id) {
+        return memberRepository.fetchProfileDataById(id)
                 .orElseThrow(MemberNotFoundException::new);
     }
 

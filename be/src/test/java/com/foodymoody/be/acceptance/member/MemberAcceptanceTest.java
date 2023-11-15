@@ -33,7 +33,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
         @DisplayName("회원 가입 시 성공하면, 상태코드 200과 id를 반환하고 회원 프로필이 조회된다.")
         @Test
-        void when_signupMember_then_response200AndId_and_canLoadMemberProfile() {
+        void when_signupMember_then_response200AndId_and_canFetchMemberProfile() {
             // docs
             api_문서_타이틀("signupMember_success", spec);
 
@@ -105,13 +105,13 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
     @Nested
     @DisplayName("회원 프로필 조회")
-    class loadProfile {
+    class fetchProfile {
 
         @DisplayName("회원 프로필 조회 시 성공하면, 상태코드 200과 회원 프로필을 응답한다")
         @Test
-        void when_loadProfileSuccess_then_response200AndProfile() {
+        void when_fetchProfileSuccess_then_response200AndProfile() {
             // docs
-            api_문서_타이틀("loadMemberProfile_success", spec);
+            api_문서_타이틀("fetchMemberProfile_success", spec);
 
             // when
             var response = 회원푸반의_회원프로필을_조회한다(spec);
@@ -122,9 +122,9 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
         @DisplayName("회원 프로필 조회 시 존재하지 않는 회원 id이면, 상태코드 404와 오류코드 m001을 응답한다")
         @Test
-        void when_loadProfileFailedByIdNotFound_then_response404Andm001() {
+        void when_fetchProfileFailedByIdNotFound_then_response404Andm001() {
             // docs
-            api_문서_타이틀("loadMemberProfile_failedByIdNotFound", spec);
+            api_문서_타이틀("fetchMemberProfile_failedByIdNotFound", spec);
 
             // when
             var response = id가_test인_회원프로필을_조회한다(spec);
@@ -137,7 +137,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
 //    @DisplayName("회원 탈퇴 성공하면, 응답코드 204를 반환하고 회원 프로필이 조회되지 않는다.")
 //    @Test
-//    void when_deleteMember_then_response204_and_cannotLoadMemberProfile() {
+//    void when_deleteMember_then_response204_and_cannotfetchMemberProfile() {
 //        // docs
 //        api_문서_타이틀("withdrawMember", spec);
 //
@@ -153,7 +153,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
 //
 //    @DisplayName("회원 프로필 수정 성공하면, 응답코드 204를 반환하고 수정된 회원프로필이 조회된다.")
 //    @Test
-//    void when_updateMemberProfile_then_response204_and_loadUpdatedMemberProfile() {
+//    void when_updateMemberProfile_then_response204_and_fetchUpdatedMemberProfile() {
 //        // docs
 //        api_문서_타이틀("updateMemberProfile", spec);
 //

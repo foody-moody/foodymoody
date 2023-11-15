@@ -27,13 +27,13 @@ public class MoodController {
 
     @GetMapping("/random")
     public ResponseEntity<RandomMoodResponse> fetchRandom(@RequestParam(required = true) int count) {
-        RandomMoodResponse response = moodService.findRandom(count);
+        RandomMoodResponse response = moodService.fetchRandom(count);
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping
     public ResponseEntity<Slice<MoodResponse>> fetchSlice(@PageableDefault Pageable pageable) {
-        Slice<MoodResponse> response = moodService.findSlice(pageable);
+        Slice<MoodResponse> response = moodService.fetchSlice(pageable);
         return ResponseEntity.ok().body(response);
     }
 
@@ -45,7 +45,7 @@ public class MoodController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MoodResponse> fetchById(@PathVariable String id) {
-        MoodResponse response = moodService.findById(id);
+        MoodResponse response = moodService.fetchById(id);
         return ResponseEntity.ok().body(response);
     }
 }

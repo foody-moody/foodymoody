@@ -33,16 +33,16 @@ public class MoodService {
                 .orElseThrow(() -> new IllegalArgumentException("Mood를 찾을 수 없습니다."));
     }
 
-    public MoodResponse findById(String id) {
+    public MoodResponse fetchById(String id) {
         return MoodMapper.toResponse(findMoodById(id));
     }
 
-    public RandomMoodResponse findRandom(int count) {
+    public RandomMoodResponse fetchRandom(int count) {
         List<Mood> moods = moodRepository.findRandom(count);
         return MoodMapper.toRandomResponse(moods);
     }
 
-    public Slice<MoodResponse> findSlice(Pageable pageable) {
+    public Slice<MoodResponse> fetchSlice(Pageable pageable) {
         //    TODO 정렬 조건 필요
         Slice<Mood> slice = moodRepository.findAll(pageable);
         return MoodMapper.toSliceResponse(slice);
@@ -52,7 +52,6 @@ public class MoodService {
     public MoodRegisterResponse create(MoodRegisterRequest request) {
         String moodName = request.getMood();
         if (Objects.isNull(moodName)) {
-//            TODO 커스텀 예외로 리팩토링 (커스텀 에러 코드 필요)
             throw new IllegalArgumentException("무드를 입력해주세요");
         }
         validateNameExits(moodName);

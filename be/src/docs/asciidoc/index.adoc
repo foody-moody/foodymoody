@@ -166,11 +166,11 @@ operation::signupMember_failedByReconfirmPasswordUnmatch[snippets='http-response
 
 ==== 성공
 
-operation::loadMemberProfile_success[snippets='http-request,http-response']
+operation::fetchMemberProfile_success[snippets='http-request,http-response']
 
 ==== 존재하지 않는 회원 id일 때
 
-operation::loadMemberProfile_failedByIdNotFound[snippets='http-response']
+operation::fetchMemberProfile_failedByIdNotFound[snippets='http-response']
 
 
 [[mood]]
