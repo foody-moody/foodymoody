@@ -244,6 +244,12 @@ operation::notification_request_single_success[snippets='http-request,http-respo
 
 operation::notification_change_status_success[snippets='http-request,http-response']
 
+=== 알람 일괄 상태 변경
+
+==== 성공 - 읽음
+
+operation::notification_change_all_status_success[snippets='http-request,http-response']
+
 === 알람 개별 삭제
 
 ==== 성공

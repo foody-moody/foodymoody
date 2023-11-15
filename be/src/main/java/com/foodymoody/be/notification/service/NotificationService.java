@@ -69,9 +69,8 @@ public class NotificationService {
     @Transactional
     public void changeAllStatus(String memberId, List<String> notificationIds, boolean read) {
         memberService.findById(memberId);
-        List<Notification> notifications = notificationRepository.findAllById(
+        notificationRepository.updateAllStatus(read, memberId, LocalDateTime.now(),
                 NotificationMapper.toNotificationID(notificationIds));
-        notifications.forEach(notification -> notification.changeStatus(read, memberId, LocalDateTime.now()));
     }
 
     public Notification getNotification(String notificationId) {
