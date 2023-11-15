@@ -1,50 +1,68 @@
 package com.foodymoody.be.acceptance.auth;
 
-import static com.foodymoody.be.acceptance.auth.AuthSteps.토큰과_응답코드_200을_응답한다;
-import static com.foodymoody.be.acceptance.member.MemberSteps.회원보노가_회원가입한다;
+import static com.foodymoody.be.acceptance.auth.AuthSteps.상태코드_401과_오류코드_a005를_반환하는지_검증한다;
+import static com.foodymoody.be.acceptance.auth.AuthSteps.상태코드_404와_오류코드_m001을_반환하는지_검증한다;
+import static com.foodymoody.be.acceptance.auth.AuthSteps.토큰과_상태코드_200을_응답하는지_검증한다;
+import static com.foodymoody.be.acceptance.auth.AuthSteps.비회원보노가_로그인한다;
+import static com.foodymoody.be.acceptance.auth.AuthSteps.회원푸반이_로그인한다;
+import static com.foodymoody.be.acceptance.auth.AuthSteps.회원푸반이_틀린_비밀번호로_로그인한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("인증 관련 기능 인수테스트")
 class AuthAcceptanceTest extends AcceptanceTest {
 
-    private static final RequestSpecification FAKE_SPEC;
+    private final RequestSpecification MOCK_SPEC = new RequestSpecBuilder().build();
 
-    static {
-        FAKE_SPEC = new RequestSpecBuilder().build();
+    @Nested
+    @DisplayName("로그인 인수테스트")
+    class Login {
+
+        @DisplayName("로그인 요청시 성공하면 토큰을 반환한다.")
+        @Test
+        void when_login_then_return_200AndToken() {
+            // docs
+            api_문서_타이틀("login_success", spec);
+
+            // when
+            var response = 회원푸반이_로그인한다(spec);
+
+            // then
+            토큰과_상태코드_200을_응답하는지_검증한다(response);
+        }
+
+        @DisplayName("로그인 요청시 이메일에 해당하는 회원이 없으면 404와 오류코드 m001을 반환한다")
+        @Test
+        void when_loginFailedByUnregisteredEmail_then_return_400AndCodem001() {
+            // docs
+            api_문서_타이틀("login_failedByUnregisteredEmail", spec);
+
+            // when
+            var response = 비회원보노가_로그인한다(spec);
+
+            // then
+            상태코드_404와_오류코드_m001을_반환하는지_검증한다(response);
+        }
+
+        @DisplayName("로그인 요청시 비밀번호가 일치하지 않으면 401과 오류코드 a005를 반환한다")
+        @Test
+        void when_loginFailedByWrongPassword_then_return_400AndCodem001() {
+            // docs
+            api_문서_타이틀("login_failedByWrongPassword", spec);
+
+            // when
+            var response = 회원푸반이_틀린_비밀번호로_로그인한다(spec);
+
+            // then
+            상태코드_401과_오류코드_a005를_반환하는지_검증한다(response);
+        }
+
     }
-
-    @DisplayName("로그인 요청시 성공하면 토큰을 반환한다.")
-    @Test
-    void when_login_then_return_token() {
-        // docs
-        api_문서_타이틀("login_success", spec);
-        회원보노가_회원가입한다(FAKE_SPEC);
-
-        // when
-        var response = AuthSteps.회원보노가_로그인한다(spec);
-
-        // then
-        토큰과_응답코드_200을_응답한다(response);
-    }
-
-//    TODO 패스워드 불일치 시 실패케이스 추가
-//    @DisplayName("로그인 요청시 비밀번호가 불일치하면 응답코드 401을 반환한다.")
-//    @Test
-//    void when_login_then_return_401() {
-//        // docs
-//        api_문서_타이틀("login_fail_incorrect_password", spec);
-//
-//        // when
-//        var response = 회원보노가_잘못된_비밀번호를_입력하고_로그인한다(spec);
-//
-//        // then
-//        응답코드가_401인지_검증한다(response);
-//    }
 
 //    @DisplayName("로그아웃 요청 성공하면 204코드를 반환한다.")
 //    @Test
