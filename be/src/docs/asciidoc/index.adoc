@@ -261,3 +261,9 @@ operation::notification_delete_success[snippets='http-request,http-response']
 ==== 성공
 
 operation::notification_delete_all_success[snippets='http-request,http-response']
+
+=== 알람 일괄적으로 삭제
+
+==== 성공
+
+operation::notification_delete_notification_list_success[snippets='http-request,http-response']
