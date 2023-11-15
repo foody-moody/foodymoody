@@ -10,7 +10,6 @@ import com.foodymoody.be.mood.domain.Mood;
 import com.foodymoody.be.mood.repository.MoodRepository;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -40,10 +39,7 @@ public class MoodService {
 
     public RandomMoodResponse findRandom(int count) {
         List<Mood> moods = moodRepository.findRandom(count);
-        List<MoodResponse> moodResponses = moods.stream()
-                .map(MoodMapper::toResponse)
-                .collect(Collectors.toUnmodifiableList());
-        return MoodMapper.toRandomResponse(moodResponses);
+        return MoodMapper.toRandomResponse(moods);
     }
 
     public Slice<MoodResponse> findSlice(Pageable pageable) {

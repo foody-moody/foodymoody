@@ -8,6 +8,7 @@ import com.foodymoody.be.mood.controller.dto.MoodResponse;
 import com.foodymoody.be.mood.controller.dto.RandomMoodResponse;
 import com.foodymoody.be.mood.domain.Mood;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Slice;
 
 public class MoodMapper {
@@ -20,7 +21,10 @@ public class MoodMapper {
         return new MoodResponse(mood.getId(), mood.getName());
     }
 
-    public static RandomMoodResponse toRandomResponse(List<MoodResponse> moodResponses) {
+    public static RandomMoodResponse toRandomResponse(List<Mood> moods) {
+        List<MoodResponse> moodResponses = moods.stream()
+                .map(MoodMapper::toResponse)
+                .collect(Collectors.toUnmodifiableList());
         return new RandomMoodResponse(moodResponses);
     }
 
