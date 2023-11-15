@@ -2,6 +2,8 @@ package com.foodymoody.be.common.exception;
 
 import static com.foodymoody.be.common.exception.ErrorMessage.INVALID_INPUT_VALUE;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -53,6 +55,20 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleIllegalArgumentException(MissingRequestValueException e) {
         log.error("handleMissingRequestValueExceptionException", e);
         return new ErrorResponse(INVALID_INPUT_VALUE.getMessage(), INVALID_INPUT_VALUE.getCode());
+    }
+
+    @ResponseStatus(value = UNAUTHORIZED)
+    @ExceptionHandler(UnauthorizedException.class)
+    public ErrorResponse handleUnauthorizedException(UnauthorizedException e) {
+        log.error("handleUnauthorizedExceptionException", e);
+        return new ErrorResponse(e.getMessage(), e.getCode());
+    }
+
+    @ResponseStatus(value = NOT_FOUND)
+    @ExceptionHandler(GlobalNotFoundException.class)
+    public ErrorResponse handleNotFoundException(GlobalNotFoundException e) {
+        log.error("handleGlobalNotFoundExceptionException", e);
+        return new ErrorResponse(e.getMessage(), e.getCode());
     }
 
     private static Map<String, String> getErrors(MethodArgumentNotValidException e) {
