@@ -29,6 +29,10 @@ class NotificationAcceptanceTest extends AcceptanceTest {
     void setUp() {
         아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
         알람_발행(아티_아이디);
+        알람_발행(아티_아이디);
+        알람_발행(아티_아이디);
+        알람_발행(아티_아이디);
+        알람_발행(아티_아이디);
     }
 
     @DisplayName("전체 알람 요청 성공하면 응답코드 200과 알람을 받는다.")
