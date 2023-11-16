@@ -4,7 +4,7 @@ import { usePutComment } from 'queries/comment';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
-import { TextButton } from '../button/TextButton';
+// import { TextButton } from '../button/TextButton';
 import { DotGhostIcon } from '../icon/icons';
 import { Input } from '../input/Input';
 import { UserImage } from '../userImage/UserImage';
@@ -13,14 +13,14 @@ type Props = {
   imageUrl: string;
   nickname: string;
   createdAt: string;
-  comment: string;
+  content: string;
 };
 
 export const CommentItem: React.FC<Props> = ({
   imageUrl,
   nickname,
   createdAt,
-  comment,
+  content,
 }) => {
   const COMMENT_ID = '1';
   const { mutate: editMutate } = usePutComment();
@@ -71,13 +71,13 @@ export const CommentItem: React.FC<Props> = ({
               onChangeValue={handleChange}
             />
           ) : (
-            comment
+            content
           )}
-          <ContentBody>
+          {/* <ContentBody>
             <TextButton color="orange" size="s" onClick={() => {}}>
               답글 달기
             </TextButton>
-          </ContentBody>
+          </ContentBody> */}
         </FlexColumnBox>
       </ContentLeft>
       {isLogin && (
@@ -112,10 +112,10 @@ const ContentLeft = styled.div`
   align-items: flex-start;
 `;
 
-const ContentBody = styled.div`
-  display: flex;
-  gap: 8px;
-`;
+// const ContentBody = styled.div`
+//   display: flex;
+//   gap: 8px;
+// `;
 
 const FlexColumnBox = styled.div`
   width: 100%;
