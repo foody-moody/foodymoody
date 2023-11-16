@@ -7,6 +7,7 @@ import router from 'routes/router';
 import { theme } from 'styles/designSystem';
 import { GlobalStyles } from 'styles/globalStyles.ts';
 import { GlobalModals } from 'components/common/modal/Modal';
+import { GlobalToasts } from 'components/common/toast/Toast';
 
 // import { useRefreshToken } from 'hooks/auth/useAuth';
 
@@ -31,6 +32,7 @@ function App() {
           <RecoilRoot>
             <GlobalStyles />
             <GlobalModals />
+            <GlobalToasts />
             <RouterProvider router={router} />
           </RecoilRoot>
         </ThemeProvider>
