@@ -4,12 +4,12 @@ public enum HttpHeaderType {
 
     AUTHORIZATION("Authorization", "Bearer");
 
-    public final String NAME;
-    public final String SKIM;
+    public final String headerName;
+    public final String skim;
 
     HttpHeaderType(String headerName, String skim) {
-        this.NAME = headerName;
-        this.SKIM = skim;
+        this.headerName = headerName;
+        this.skim = skim;
     }
 
 }

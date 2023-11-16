@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed;
+package com.foodymoody.be.acceptance.feed;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -71,7 +71,7 @@ public class FeedSteps {
 
             List<Map<String, Object>> images = (List<Map<String, Object>>) feed.get("images");
             for (Map<String, Object> image : images) {
-                assertThat(image).containsKeys("imageUrl", "menu");
+                assertThat(image).containsKeys("imageId", "menu");
                 assertThat(((Map) image.get("menu"))).containsKeys("name", "rating");
             }
         }
@@ -88,29 +88,29 @@ public class FeedSteps {
     }
 
 
-    public static ExtractableResponse<Response> 피드를_등록한다() {
-        return 피드를_등록한다(new RequestSpecBuilder().build());
+    public static ExtractableResponse<Response> 피드를_등록한다(String accessToken) {
+        return 피드를_등록한다(accessToken, new RequestSpecBuilder().build());
     }
 
-    public static String 피드를_등록하고_아이디를_받는다() {
-        return 피드를_등록한다(new RequestSpecBuilder().build()).jsonPath().getString("id");
+    public static String 피드를_등록하고_아이디를_받는다(String accessToken) {
+        return 피드를_등록한다(accessToken, new RequestSpecBuilder().build()).jsonPath().getString("id");
     }
 
-    public static ExtractableResponse<Response> 피드를_등록한다(RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드를_등록한다(String accessToken, RequestSpecification spec) {
         Map<String, Object> body = Map.of(
                 "location", "역삼동",
                 "review", "맛있어요!",
                 "storeMood", List.of("1", "3", "4"),
                 "images", List.of(
                         Map.of(
-                                "imageUrl", "https://www.googles.com/",
+                                "imageId", "1",
                                 "menu", Map.of(
                                         "name", "마라탕",
                                         "rating", 4
                                 )
                         ),
                         Map.of(
-                                "imageUrl", "https://www.google.com/",
+                                "imageId", "2",
                                 "menu", Map.of(
                                         "name", "감자탕",
                                         "rating", 3
@@ -124,6 +124,8 @@ public class FeedSteps {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
                 .log().all()
+                .auth()
+                .oauth2(accessToken)
                 .body(body)
                 .when()
                 .post("/api/feeds")
@@ -185,12 +187,12 @@ public class FeedSteps {
                 },
                 () -> {
                     List<Map<String, Object>> images = response.jsonPath().getList("images");
-                    assertThat(images.get(0)).containsEntry("imageUrl", "https://www.googles.com/");
+                    assertThat(images.get(0)).containsEntry("imageUrl", "1");
                     Map<String, Object> firstMenu = (Map<String, Object>) images.get(0).get("menu");
                     assertThat(firstMenu).containsEntry("name", "마라탕");
                     assertThat(firstMenu).containsEntry("rating", 4);
 
-                    assertThat(images.get(1)).containsEntry("imageUrl", "https://www.google.com/");
+                    assertThat(images.get(1)).containsEntry("imageUrl", "2");
                     Map<String, Object> secondMenu = (Map<String, Object>) images.get(1).get("menu");
                     assertThat(secondMenu).containsEntry("name", "감자탕");
                     assertThat(secondMenu).containsEntry("rating", 3);
@@ -198,21 +200,21 @@ public class FeedSteps {
         );
     }
 
-    public static ExtractableResponse<Response> 피드를_수정한다(String id, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드를_수정한다(String accessToken, String id, RequestSpecification spec) {
         Map<String, Object> body = Map.of(
                 "location", "맛있게 매운 콩볼 범계점2",
                 "review", "맛있게 먹었습니다.2",
                 "storeMood", List.of("2", "5", "6"),
                 "images", List.of(
                         Map.of(
-                                "imageUrl", "https://www.googles2.com/",
+                                "imageId", "3",
                                 "menu", Map.of(
                                         "name", "마라탕2",
                                         "rating", 5
                                 )
                         ),
                         Map.of(
-                                "imageUrl", "https://www.google2.com/",
+                                "imageId", "4",
                                 "menu", Map.of(
                                         "name", "감자탕2",
                                         "rating", 6
@@ -226,6 +228,8 @@ public class FeedSteps {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
                 .log().all()
+                .auth()
+                .oauth2(accessToken)
                 .body(body)
                 .when()
                 .put("/api/feeds/" + id)
@@ -234,12 +238,14 @@ public class FeedSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 피드를_삭제한다(String id, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드를_삭제한다(String accessToken, String id, RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
                 .log().all()
+                .auth()
+                .oauth2(accessToken)
                 .when()
                 .delete("/api/feeds/" + id)
                 .then()

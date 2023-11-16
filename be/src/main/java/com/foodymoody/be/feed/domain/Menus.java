@@ -18,22 +18,22 @@ import lombok.NoArgsConstructor;
 public class Menus {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Menu> menus = new ArrayList<>();
+    private List<Menu> menusList = new ArrayList<>();
 
-    public Menus(List<Menu> menus) {
-        this.menus.addAll(menus);
+    public Menus(List<Menu> menusList) {
+        this.menusList.addAll(menusList);
     }
 
     public void replaceWith(List<Menu> newMenus) {
-        menus.clear();
-        menus.addAll(newMenus);
+        menusList.clear();
+        menusList.addAll(newMenus);
     }
 
     /**
      * 밖에서 참조하지 못하도록 새로운 변경 불가능한 리스트로 만든 후 리턴
      */
     public List<Menu> getNewUnmodifiedMenus() {
-        return Collections.unmodifiableList(menus);
+        return Collections.unmodifiableList(menusList);
     }
 
 }

@@ -28,8 +28,8 @@ public class MemberController {
     }
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<MemberProfileResponse> loadProfile(@PathVariable String memberId) {
-        MemberProfileResponse response = memberService.loadProfile(memberId);
+    public ResponseEntity<MemberProfileResponse> fetchProfile(@PathVariable String memberId) {
+        MemberProfileResponse response = memberService.fetchProfile(memberId);
         return ResponseEntity.ok().body(response);
     }
 }

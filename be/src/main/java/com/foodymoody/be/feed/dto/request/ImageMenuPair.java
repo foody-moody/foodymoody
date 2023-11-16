@@ -8,16 +8,16 @@ import lombok.Setter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ImageMenuPair {
 
-    private String imageUrl;
+    private String imageId;
     private FeedRegisterRequestMenu menu;
 
-    public ImageMenuPair(String imageUrl, FeedRegisterRequestMenu menu) {
-        this.imageUrl = imageUrl;
+    public ImageMenuPair(String imageId, FeedRegisterRequestMenu menu) {
+        this.imageId = imageId;
         this.menu = menu;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImageId() {
+        return imageId;
     }
 
     public FeedRegisterRequestMenu getMenu() {
