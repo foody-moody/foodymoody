@@ -10,6 +10,6 @@ public abstract class BusinessException extends RuntimeException {
     }
 
     public String getCode() {
-        return errorMessage.getMessage();
+        return errorMessage.getCode();
     }
 }

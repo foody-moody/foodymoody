@@ -20,22 +20,22 @@ import lombok.NoArgsConstructor;
 public class ImageMenus {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ImageMenu> imageMenus = new ArrayList<>();
+    private List<ImageMenu> imageMenusList = new ArrayList<>();
 
     public ImageMenus(List<Image> newImages, List<Menu> newMenus) {
-        this.imageMenus.addAll(ImageMenuMapper.toImageMenu(newImages, newMenus));
+        this.imageMenusList.addAll(ImageMenuMapper.toImageMenu(newImages, newMenus));
     }
 
     public void replaceWith(List<Image> newImages, List<Menu> newMenus) {
-        imageMenus.clear();
-        imageMenus.addAll(ImageMenuMapper.toImageMenu(newImages, newMenus));
+        imageMenusList.clear();
+        imageMenusList.addAll(ImageMenuMapper.toImageMenu(newImages, newMenus));
     }
 
     /**
      * 밖에서 참조하지 못하도록 새로운 변경 불가능한 리스트로 만든 후 리턴
      */
     public List<ImageMenu> getNewUnmodifiedImageMenus() {
-        return Collections.unmodifiableList(imageMenus);
+        return Collections.unmodifiableList(imageMenusList);
     }
 
 }
