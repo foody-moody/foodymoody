@@ -1,7 +1,6 @@
 spring:
   profiles:
     group:
-      common: auth
-      local: common, db
+      common: auth, aws
+      local: common, localdb
     active: local
-
