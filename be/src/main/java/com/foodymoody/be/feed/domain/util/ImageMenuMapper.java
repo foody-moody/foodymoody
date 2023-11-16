@@ -22,7 +22,7 @@ public class ImageMenuMapper {
         for (int i = 0; i < newImages.size(); i++) {
             Image image = newImages.get(i);
             Menu menu = newMenus.get(i);
-            imageMenus.add(new ImageMenu(IdGenerator.generate(), image.getId(), menu.getName(), menu.getRating()));
+            imageMenus.add(new ImageMenu(IdGenerator.generate(), image.getId(), menu.getId()));
         }
 
         return imageMenus;
