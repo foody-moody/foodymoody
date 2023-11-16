@@ -2,7 +2,9 @@ package com.foodymoody.be.image.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import lombok.Getter;
 
+@Getter
 @Entity
 public class Image {
 
@@ -19,12 +21,8 @@ public class Image {
 
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getUrl() {
-        return url;
+    public static Image of(String id, String url) {
+        return new Image(id, url);
     }
 
 }
