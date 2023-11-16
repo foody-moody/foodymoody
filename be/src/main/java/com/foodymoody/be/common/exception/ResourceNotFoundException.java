@@ -1,10 +1,10 @@
 package com.foodymoody.be.common.exception;
 
-public class UnauthorizedException extends RuntimeException{
+public abstract class ResourceNotFoundException extends RuntimeException{
 
     private final ErrorMessage errorMessage;
 
-    protected UnauthorizedException(ErrorMessage errorMessage) {
+    protected ResourceNotFoundException(ErrorMessage errorMessage) {
         super(errorMessage.getMessage());
         this.errorMessage = errorMessage;
     }

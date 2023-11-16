@@ -10,7 +10,7 @@ public class WrappedId implements Serializable {
 
     protected String id;
 
-    public WrappedId() {
+    protected WrappedId() {
     }
 
     public WrappedId(String id) {

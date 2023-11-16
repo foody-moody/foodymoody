@@ -1,9 +1,9 @@
 package com.foodymoody.be.acceptance.member;
 
-import static com.foodymoody.be.member.util.MemberFixture.회원_보노;
+import static com.foodymoody.be.member.util.MemberFixture.비회원_보노;
+import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
@@ -11,44 +11,142 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.util.Map;
 import org.assertj.core.api.AbstractIntegerAssert;
+import org.assertj.core.api.AbstractStringAssert;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 public class MemberSteps {
 
-    private static final RequestSpecification FAKE_SPEC;
+    private static final RequestSpecification MOCK_SPEC = new RequestSpecBuilder().build();;
 
-    static {
-        FAKE_SPEC = new RequestSpecBuilder().build();
+    public static ExtractableResponse<Response> 회원푸반의_회원프로필을_조회한다(RequestSpecification spec) {
+        return 회원프로필을_조회한다(회원_푸반.getId(), spec);
     }
 
-    public static ExtractableResponse<Response> 회원보노가_회원가입한다(RequestSpecification spec) {
+    public static ExtractableResponse<Response> id가_test인_회원프로필을_조회한다(RequestSpecification spec) {
+        return 회원프로필을_조회한다("test", spec);
+    }
+
+    public static ExtractableResponse<Response> 비회원보노가_회원가입한다(RequestSpecification spec) {
         Map<String, Object> memberRegisterRequest = Map.of(
-                "nickname", 회원_보노.getNickname(),
-                "email", 회원_보노.getEmail(),
-                "password", 회원_보노.getPassword(),
-                "reconfirmPassword", 회원_보노.getPassword(),
-                "mood", 회원_보노.getMood());
+                "nickname", 비회원_보노.getNickname(),
+                "email", 비회원_보노.getEmail(),
+                "password", 비회원_보노.getPassword(),
+                "reconfirmPassword", 비회원_보노.getPassword(),
+                "mood", 비회원_보노.getMood());
 
         return 회원가입한다(memberRegisterRequest, spec);
     }
 
-    public static String 회원보노가_회원가입하고_아이디를_반환한다(RequestSpecification spec) {
-        return 회원보노가_회원가입한다(spec).jsonPath().getString("id");
+    public static ExtractableResponse<Response> 비회원보노가_회원푸반의_이메일로_회원가입한다(RequestSpecification spec) {
+        Map<String, Object> memberRegisterRequest = Map.of(
+                "nickname", 비회원_보노.getNickname(),
+                "email", 회원_푸반.getEmail(),
+                "password", 비회원_보노.getPassword(),
+                "reconfirmPassword", 비회원_보노.getPassword(),
+                "mood", 비회원_보노.getMood());
+
+        return 회원가입한다(memberRegisterRequest, spec);
     }
 
-    public static ExtractableResponse<Response> 회원보노의_회원프로필을_조회한다(RequestSpecification spec) {
-        return 회원프로필을_조회한다(회원_보노.getId(), spec);
+    public static ExtractableResponse<Response> 비회원보노가_회원푸반의_닉네임으로_회원가입한다(RequestSpecification spec) {
+        Map<String, Object> memberRegisterRequest = Map.of(
+                "nickname", 회원_푸반.getNickname(),
+                "email", 비회원_보노.getEmail(),
+                "password", 비회원_보노.getPassword(),
+                "reconfirmPassword", 비회원_보노.getPassword(),
+                "mood", 비회원_보노.getMood());
+
+        return 회원가입한다(memberRegisterRequest, spec);
+    }
+
+    public static ExtractableResponse<Response> 비회원보노가_틀린_재입력_패스워드로_회원가입한다(RequestSpecification spec) {
+        Map<String, Object> memberRegisterRequest = Map.of(
+                "nickname", 비회원_보노.getNickname(),
+                "email", 비회원_보노.getEmail(),
+                "password", 비회원_보노.getPassword(),
+                "reconfirmPassword", "diffrentPassword",
+                "mood", 비회원_보노.getMood());
+
+        return 회원가입한다(memberRegisterRequest, spec);
+    }
+
+    public static ExtractableResponse<Response> 비회원보노가_유효하지_않은_이메일을_입력하고_닉네임을_입력하지_않고_패스워드를_입력하지_않고_회원가입한다(RequestSpecification spec) {
+        Map<String, Object> memberRegisterRequest = Map.of(
+                "email", "test",
+                "mood", 비회원_보노.getMood());
+
+        return 회원가입한다(memberRegisterRequest, spec);
+    }
+
+    public static void 상태코드가_400이고_오류코드가_m002인지_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.BAD_REQUEST),
+                () -> 오류코드를_검증한다(response, "m002")
+        );
+    }
+
+    public static void 상태코드가_400이고_오류코드가_m003인지_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.BAD_REQUEST),
+                () -> 오류코드를_검증한다(response, "m003")
+        );
+    }
+
+    public static void 상태코드가_400이고_오류코드가_m004인지_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.BAD_REQUEST),
+                () -> 오류코드를_검증한다(response, "m004")
+        );
+    }
+
+    public static void 상태코드가_404이고_오류코드가_m001인지_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.NOT_FOUND),
+                () -> 오류코드를_검증한다(response, "m001")
+        );
+    }
+
+    public static void 상태코드가_400이고_오류코드가_g001이고_errors에_email과_nickname과_password가_존재하는지_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.BAD_REQUEST),
+                () -> 오류코드를_검증한다(response, "g001"),
+                () -> assertThat(response.jsonPath().getMap("errors")).containsOnlyKeys("email", "nickname", "password")
+        );
+
+    }
+
+    public static void 상태코드가_200이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
+        String 회원보노_아이디 = response.jsonPath().getObject("id", String.class);
+        var 회원보노_회원프로필_조회_응답 = 회원프로필을_조회한다(회원보노_아이디, MOCK_SPEC);
+
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                () -> assertThat(response.jsonPath().getObject("id", String.class)).isNotNull(),
+                () -> 상태코드를_검증한다(회원보노_회원프로필_조회_응답, HttpStatus.OK),
+                () -> assertThat(회원보노_회원프로필_조회_응답.jsonPath().getString("email")).isEqualTo(비회원_보노.getEmail())
+        );
+    }
+
+    public static void 상태코드가_200이고_회원푸반의_회원프로필을_응답하는지_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                () -> assertThat(response.jsonPath().getString("email")).isEqualTo(회원_푸반.getEmail())
+        );
+    }
+
+    public static String 회원보노가_회원가입하고_아이디를_반환한다(RequestSpecification spec) {
+        return 비회원보노가_회원가입한다(spec).jsonPath().getString("id");
     }
 
     public static ExtractableResponse<Response> 회원보노가_회원탈퇴한다(RequestSpecification spec) {
-        return 회원탈퇴한다(회원_보노.getId(), spec);
+        return 회원탈퇴한다(비회원_보노.getId(), spec);
     }
 
     public static ExtractableResponse<Response> 회원보노가_닉네임을_보노보노로_수정한다(RequestSpecification spec) {
         Map<String, Object> updateMemberProfileRequest = Map.of("nickname", "보노보노");
-        return 회원프로필을_수정한다(회원_보노.getId(), updateMemberProfileRequest, spec);
+        return 회원프로필을_수정한다(비회원_보노.getId(), updateMemberProfileRequest, spec);
     }
 
     public static ExtractableResponse<Response> 회원보노의_회원비밀번호를_수정한다(RequestSpecification spec) {
@@ -56,37 +154,25 @@ public class MemberSteps {
                 "password", "newpassword123!",
                 "reconfirmPassword", "newpassword123!");
 
-        return 회원비밀번호를_수정한다(회원_보노.getId(), updateMemberPasswordRequest, spec);
-    }
-
-    public static void 응답코드가_200이고_응답에_id가_존재하며_회원보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
-        String 회원보노_아이디 = response.jsonPath().getObject("id", String.class);
-        var 회원보노_회원프로필_조회_응답 = 회원프로필을_조회한다(회원보노_아이디, FAKE_SPEC);
-
-        Assertions.assertAll(
-                () -> 응답코드를_검증한다(response, HttpStatus.OK),
-                () -> assertThat(response.jsonPath().getObject("id", String.class)).isNotNull(),
-                () -> 응답코드를_검증한다(회원보노_회원프로필_조회_응답, HttpStatus.OK),
-                () -> assertThat(회원보노_회원프로필_조회_응답.jsonPath().getString("email")).isEqualTo(회원_보노.getEmail())
-        );
+        return 회원비밀번호를_수정한다(비회원_보노.getId(), updateMemberPasswordRequest, spec);
     }
 
     public static void 응답코드가_200이고_회원보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
         Assertions.assertAll(
-                () -> 응답코드를_검증한다(response, HttpStatus.OK),
-                () -> assertThat(response.jsonPath().getString("memberId")).isEqualTo(회원_보노.getId()),
-                () -> assertThat(response.jsonPath().getString("myImageUrl")).isEqualTo(회원_보노.getMyImageUrl()),
-                () -> assertThat(response.jsonPath().getString("nickname")).isEqualTo(회원_보노.getNickname()),
-                () -> assertThat(response.jsonPath().getString("email")).isEqualTo(회원_보노.getEmail()),
-                () -> assertThat(response.jsonPath().getString("mood")).isEqualTo(회원_보노.getMood())
+                () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                () -> assertThat(response.jsonPath().getString("memberId")).isEqualTo(비회원_보노.getId()),
+                () -> assertThat(response.jsonPath().getString("myImageUrl")).isEqualTo(비회원_보노.getMyImageUrl()),
+                () -> assertThat(response.jsonPath().getString("nickname")).isEqualTo(비회원_보노.getNickname()),
+                () -> assertThat(response.jsonPath().getString("email")).isEqualTo(비회원_보노.getEmail()),
+                () -> assertThat(response.jsonPath().getString("mood")).isEqualTo(비회원_보노.getMood())
         );
     }
 
     public static void 응답코드가_204이고_회원보노의_회원프로필이_조회되지_않는지_검증한다(ExtractableResponse<Response> response) {
-        var 회원보노_회원프로필_조회_응답 = 회원프로필을_조회한다(회원_보노.getId(), FAKE_SPEC);
+        var 회원보노_회원프로필_조회_응답 = 회원프로필을_조회한다(비회원_보노.getId(), MOCK_SPEC);
 
         Assertions.assertAll(
-                () -> 응답코드를_검증한다(response, HttpStatus.NO_CONTENT)
+                () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT)
 //                TODO 회원프로필 조회 실패 구현 기능 구현 뒤 실패 케이스 검증 추가
 //                () -> 응답코드를_검증한다(회원보노_회원프로필_조회_응답, HttpStatus.NOT_FOUND)
         );
@@ -96,7 +182,7 @@ public class MemberSteps {
 //        var 보노_회원프로필_조회_응답 = 회원프로필을_조회한다(회원_보노.getId(), FAKE_SPEC);
 
         Assertions.assertAll(
-                () -> 응답코드를_검증한다(response, HttpStatus.NO_CONTENT)
+                () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT)
 //                TODO 회원 프로필 수정 로직 구현 뒤 회원 프로필 검증 추가
 //                () -> assertThat(보노_회원프로필_조회_응답.jsonPath().getString("nickname")).isEqualTo("보노보노")
         );
@@ -107,7 +193,7 @@ public class MemberSteps {
 //        var bonoLoginByWrongPasswordResponse = 회원보노가_잘못된_비밀번호를_입력하고_로그인한다(FAKE_SPEC);
 
         Assertions.assertAll(
-                () -> 응답코드를_검증한다(response, HttpStatus.NO_CONTENT)
+                () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT)
 //                () -> 응답코드를_검증한다(bonoLoginByWrongPasswordResponse, HttpStatus.UNAUTHORIZED)
         );
     }
@@ -187,8 +273,12 @@ public class MemberSteps {
                 .extract();
     }
 
-    private static AbstractIntegerAssert<?> 응답코드를_검증한다(ExtractableResponse<Response> response,
+    private static AbstractIntegerAssert<?> 상태코드를_검증한다(ExtractableResponse<Response> response,
             HttpStatus expectedHttpStatus) {
         return assertThat(response.statusCode()).isEqualTo(expectedHttpStatus.value());
+    }
+
+    private static AbstractStringAssert<?> 오류코드를_검증한다(ExtractableResponse<Response> response, String code) {
+        return assertThat(response.jsonPath().getString("code")).isEqualTo(code);
     }
 }

@@ -17,7 +17,12 @@ public class DatabaseCleanup {
 
     private List<String> tableNames;
 
-    private final List<String> excludeTables = Arrays.asList("mood");
+    private List<String> excludeTables = Arrays.asList("mood");
+
+    public void setExcludeTables(List<String> excludeTables) {
+        this.excludeTables = excludeTables;
+        init();
+    }
 
     @PostConstruct
     public void init() {

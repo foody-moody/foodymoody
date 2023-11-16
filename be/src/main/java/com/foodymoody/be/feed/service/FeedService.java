@@ -132,12 +132,12 @@ public class FeedService {
     }
 
     private FeedMemberResponse makeFeedMemberResponse(Feed feed) {
-        MemberFeedData memberData = memberService.findFeedDataById(feed.getMemberId());
+        MemberFeedData memberData = memberService.fetchFeedDataById(feed.getMemberId());
         return toFeedMemberResponse(memberData);
     }
 
     private FeedMemberResponse toFeedMemberResponse(MemberFeedData member) {
-        MemberFeedData memberData = memberService.findFeedDataById(member.getId());
+        MemberFeedData memberData = memberService.fetchFeedDataById(member.getId());
         return FeedMemberResponse.builder()
                 .id(member.getId())
                 .imageUrl(memberData.getProfileImageUrl())

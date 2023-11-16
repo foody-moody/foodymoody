@@ -25,15 +25,22 @@ operation::updateFeed[snippets='http-request']
 operation::deleteFeed[snippets='http-request']
 
 [[auth]]
-== 보안
+== 인증/인가
 
 === 로그인
 
+==== 성공
+
 operation::login_success[snippets='http-request,http-response']
 
-=== 로그아웃
+==== 가입되지 않은 이메일일 때
 
-operation::logout_success[snippets='http-request,http-response']
+operation::login_failedByUnregisteredEmail[snippets='http-response']
+
+==== 비밀번호가 틀렸을 때
+
+operation::login_failedByWrongPassword[snippets='http-response']
+
 
 [[comment]]
 == 댓글
@@ -138,3 +145,80 @@ operation::fetchComments_failed_by_feed_id_not_exists[snippets='http-response']
 ==== 성공
 
 operation::signupMember_success[snippets='http-request,http-response']
+
+==== 입력값이 잘못됐을 때
+
+operation::signupMember_failedByMultipleInvalidInput[snippets='http-response']
+
+==== 이미 가입된 이메일일 때
+
+operation::signupMember_failedByDuplicateEmail[snippets='http-response']
+
+==== 이미 가입된 닉네임일 때
+
+operation::signupMember_failedByDuplicateNickname[snippets='http-response']
+
+==== 재입력한 패스워드가 다를 때
+
+operation::signupMember_failedByReconfirmPasswordUnmatch[snippets='http-response']
+
+=== 회원 프로필 조회
+
+==== 성공
+
+operation::fetchMemberProfile_success[snippets='http-request,http-response']
+
+==== 존재하지 않는 회원 id일 때
+
+operation::fetchMemberProfile_failedByIdNotFound[snippets='http-response']
+
+
+[[mood]]
+== 무드
+
+=== 무드 조회
+
+==== 성공
+
+operation::fetchSliceMood_success[snippets='http-request,http-response']
+
+==== 성공 - 페이징
+
+operation::fetchSliceMood_whenPageAndSizeExists_success[snippets='http-request,http-response']
+
+=== 무드 랜덤 조회
+
+==== 성공
+
+operation::fetchRandomMood_success[snippets='http-request,http-response']
+
+==== 성공 - DB에 무드가 없을 때
+
+operation::fetchRandomMood_whenMoodNotExists_success[snippets='http-response']
+
+==== 요청의 쿼리 파라미터에 count가 없을 때
+
+operation::fetchRandomMood_failedByCountNull[snippets='http-request,http-response']
+
+=== 무드 추가
+
+==== 성공
+
+operation::registerMood_success[snippets='http-request,http-response']
+
+==== 이미 존재하는 무드일 때
+
+operation::registerMood_failedByDuplicateName[snippets='http-response']
+
+==== 요청으로 받은 무드가 null일 때
+
+operation::registerMood_failedByNullName[snippets='http-response']
+
+=== 개별 무드 조회
+
+==== 성공
+
+operation::findMoodyById_success[snippets='http-request,http-response']
+
+
+
