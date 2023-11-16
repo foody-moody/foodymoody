@@ -7,7 +7,7 @@ import { ArrowDownIcon } from '../common/icon/icons';
 import { Input } from '../common/input/Input';
 
 export const Register: React.FC = () => {
-  const register = useRegister();
+  const { mutate: resisterMutate } = useRegister();
   const [selectedTaste, setSelectedTaste] = useState('');
 
   const {
@@ -64,7 +64,7 @@ export const Register: React.FC = () => {
       tasteMood: selectedTaste,
     };
     console.log(registerData);
-    register.mutate(registerData);
+    resisterMutate(registerData);
   };
 
   const isFormValid =

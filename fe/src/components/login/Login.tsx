@@ -5,7 +5,7 @@ import { useInput } from 'hooks/useInput';
 import { Input } from '../common/input/Input';
 
 export const Login: React.FC = () => {
-  const login = useLogin();
+  const { mutate: loginMutate } = useLogin();
 
   const {
     value: idValue,
@@ -37,7 +37,7 @@ export const Login: React.FC = () => {
     };
     console.log(loginData);
 
-    isIdValid && isPasswordValid && login.mutate(loginData);
+    isIdValid && isPasswordValid && loginMutate(loginData);
   };
 
   return (
