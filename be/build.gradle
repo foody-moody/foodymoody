@@ -56,19 +56,18 @@ dependencies {
 
     // JaCoCo
     testImplementation 'org.jacoco:org.jacoco.agent:0.8.9'
+
+    //Jwt
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+    // AWS
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.587'
+
 }
 
 ext {
     snippetsDir = file('build/generated-snippets')
-}
-
-tasks.register('copyDocument', Copy) {
-    dependsOn asciidoctor
-
-    from file("build/docs/asciidoc")
-    into file("src/main/resources/static/docs")
-
-    enabled = true;
 }
 
 test {
@@ -92,11 +91,19 @@ jacoco {
 
 asciidoctor {
     inputs.dir snippetsDir
+    outputDir file("src/main/resources/static/docs")
     configurations 'asciidoctorExt'
     dependsOn test
 }
 
-bootJar {
-    dependsOn asciidoctor, copyDocument
-    enabled = true;
+jar {
+    enabled = false
 }
+
+bootJar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}") {
+        into 'static/docs'
+    }
+}
+

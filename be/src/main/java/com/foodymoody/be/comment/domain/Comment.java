@@ -1,5 +1,8 @@
 package com.foodymoody.be.comment.domain;
 
+import static com.foodymoody.be.comment.domain.CommentDomainMapper.mapperToNotificationEvent;
+
+import com.foodymoody.be.common.event.NotificationEvents;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import java.time.LocalDateTime;
 import javax.persistence.EmbeddedId;
@@ -16,17 +19,21 @@ public class Comment {
     private String content;
     private String feedId;
     private boolean deleted;
+    private String memberId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Comment(CommentId id, String content, String feedId, LocalDateTime createdAt, boolean deleted) {
+    public Comment(CommentId id, String content, String feedId, boolean deleted,
+            String memberId, LocalDateTime createdAt) {
         CommentValidator.validate(id, content, feedId, createdAt);
         this.id = id;
         this.content = content;
         this.feedId = feedId;
+        this.deleted = deleted;
+        this.memberId = memberId;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-        this.deleted = deleted;
+        NotificationEvents.publish(mapperToNotificationEvent(feedId));
     }
 
     public CommentId getId() {
@@ -41,7 +48,10 @@ public class Comment {
         return feedId;
     }
 
-    public void edit(String content, LocalDateTime updatedAt) {
+    public void edit(String memberId, String content, LocalDateTime updatedAt) {
+        if (!this.memberId.equals(memberId)) {
+            throw new IllegalArgumentException();
+        }
         if (this.deleted) {
             throw new CommentDeletedException();
         }
@@ -58,7 +68,10 @@ public class Comment {
         return this.createdAt;
     }
 
-    public void delete(LocalDateTime deletedAt) {
+    public void delete(String memberId, LocalDateTime deletedAt) {
+        if (!this.memberId.equals(memberId)) {
+            throw new IllegalArgumentException();
+        }
         if (this.deleted) {
             throw new CommentDeletedException();
         }
@@ -68,5 +81,9 @@ public class Comment {
 
     public boolean isDeleted() {
         return deleted;
+    }
+
+    public String getMemberId() {
+        return memberId;
     }
 }

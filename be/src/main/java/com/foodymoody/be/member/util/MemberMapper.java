@@ -8,6 +8,7 @@ import com.foodymoody.be.member.controller.dto.MemberProfileResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.domain.Member;
+import com.foodymoody.be.member.repository.MemberProfileData;
 import java.util.List;
 
 public class MemberMapper {
@@ -16,14 +17,14 @@ public class MemberMapper {
         throw new IllegalStateException(UTILITY_CLASS);
     }
 
-    public static Member toEntity(MemberSignupRequest request) {
+    public static Member toEntity(MemberSignupRequest request, String moodId) {
         return Member.of(
                 IdGenerator.generate(),
                 request.getEmail(),
                 request.getNickname(),
                 request.getPassword(),
                 request.getReconfirmPassword(),
-                request.getMood()
+                moodId
         );
     }
 
@@ -31,13 +32,13 @@ public class MemberMapper {
         return MemberSignupResponse.from(savedMemberId);
     }
 
-    public static MemberProfileResponse toMemberProfileResponse(Member member, List<MemberProfileFeedPreviewResponse> feedPreviews) {
+    public static MemberProfileResponse toMemberProfileResponse(MemberProfileData data, List<MemberProfileFeedPreviewResponse> feedPreviews) {
         return MemberProfileResponse.of(
-                member.getId(),
-                member.getProfileImageUrl(),
-                member.getNickname(),
-                member.getEmail(),
-                member.getMood(),
+                data.getId(),
+                data.getProfileImageUrl(),
+                data.getNickname(),
+                data.getEmail(),
+                data.getMoodName(),
                 feedPreviews
         );
     }

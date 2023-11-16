@@ -25,15 +25,22 @@ operation::updateFeed[snippets='http-request']
 operation::deleteFeed[snippets='http-request']
 
 [[auth]]
-== 보안
+== 인증/인가
 
 === 로그인
 
+==== 성공
+
 operation::login_success[snippets='http-request,http-response']
 
-=== 로그아웃
+==== 가입되지 않은 이메일일 때
 
-operation::logout_success[snippets='http-request,http-response']
+operation::login_failedByUnregisteredEmail[snippets='http-response']
+
+==== 비밀번호가 틀렸을 때
+
+operation::login_failedByWrongPassword[snippets='http-response']
+
 
 [[comment]]
 == 댓글
@@ -42,45 +49,45 @@ operation::logout_success[snippets='http-request,http-response']
 
 ==== 성공
 
-operation::registerComment_success[snippets='http-request,http-response']
+operation::comment_register_success[snippets='http-request,http-response']
 
 ==== 바디가 없을 때
 
-operation::registerComment_failed_by_request_body_not_exists[snippets='http-response']
+operation::comment_register_failed_by_request_body_not_exists[snippets='http-response']
 
 ==== 댓글이 없을 때
 
-operation::registerComment_failed_by_content_not_exists[snippets='http-response']
+operation::comment_register_failed_by_content_not_exists[snippets='http-response']
 
 ==== 댓글이 비여 있으면
 
-operation::registerComment_failed_by_content_is_empty[snippets='http-response']
+operation::comment_register_failed_by_content_is_empty[snippets='http-response']
 
 ==== 댓글이 공백 일때
 
-operation::registerComment_failed_by_content_is_blank[snippets='http-response']
+operation::comment_register_failed_by_content_is_blank[snippets='http-response']
 
 ==== 댓글이 200자를 넘을 때
 
-operation::registerComment_failed_by_content_is_larger_than_200[snippets='http-response']
+operation::comment_register_failed_by_content_is_larger_than_200[snippets='http-response']
 
 ==== 피드가 존재하지 않을 때
 
-operation::registerComment_failed_by_feed_not_exists[snippets='http-response']
+operation::comment_register_failed_by_feed_not_exists[snippets='http-response']
 
 ==== 피드 아이디가 없을 때
 
-operation::registerComment_failed_by_feed_id_not_exists[snippets='http-response']
+operation::comment_register_failed_by_feed_id_not_exists[snippets='http-response']
 
 === 댓글 수정
 
 ==== 성공
 
-operation::editComment_success[snippets='http-request,http-response']
+operation::comment_edit_success[snippets='http-request,http-response']
 
 ==== 바디가 없을 때
 
-operation::editComment_failed_by_request_body_not_exists[snippets='http-response']
+operation::comment_edit_failed_by_request_body_not_exists[snippets='http-response']
 
 ==== 댓글이 비여 있으면
 
@@ -88,47 +95,47 @@ operation::editComment_failed_by_content_is_empty[snippets='http-response']
 
 ==== 댓글이 공백 일때
 
-operation::editComment_failed_by_content_is_blank[snippets='http-response']
+operation::comment_edit_failed_by_content_is_blank[snippets='http-response']
 
 ==== 댓글이 200자를 넘을 때
 
-operation::editComment_failed_by_content_is_larger_than_200[snippets='http-response']
+operation::comment_edit_failed_by_content_is_larger_than_200[snippets='http-response']
 
 ==== 댓글이 존재하지 않을 때
 
-operation::editComment_failed_by_comment_not_exists[snippets='http-response']
+operation::comment_edit_failed_by_comment_not_exists[snippets='http-response']
 
 ==== 댓글이 이미 삭제되었을 때
 
-operation::editComment_failed_by_comment_is_deleted[snippets='http-response']
+operation::comment_edit_failed_by_comment_is_deleted[snippets='http-response']
 
 === 댓글 삭제
 
 ==== 성공
 
-operation::deleteComment_success[snippets='http-request,http-response']
+operation::comment_delete_success[snippets='http-request,http-response']
 
 ==== 댓글이 존재하지 않을 때
 
-operation::deleteComment_failed_by_comment_not_exists[snippets='http-response']
+operation::comment_delete_failed_by_comment_not_exists[snippets='http-response']
 
 ==== 댓글이 이미 삭제되었을 때
 
-operation::deleteComment_failed_by_comment_is_deleted[snippets='http-response']
+operation::comment_delete_failed_by_comment_is_deleted[snippets='http-response']
 
 === 피드별 댓글 조회
 
 ==== 성공
 
-operation::fetchComments_success[snippets='http-request,http-response']
+operation::comments_fetch_success[snippets='http-request,http-response']
 
 ==== 성공 - 페이징
 
-operation::fetchComments_with_page_success[snippets='http-request,http-response']
+operation::comments_fetch_with_page_success[snippets='http-request,http-response']
 
 ==== 피드가 존재하지 않을 때
 
-operation::fetchComments_failed_by_feed_id_not_exists[snippets='http-response']
+operation::comments_fetch_failed_by_feed_id_not_exists[snippets='http-response']
 
 [[member]]
 == 회원
@@ -138,3 +145,125 @@ operation::fetchComments_failed_by_feed_id_not_exists[snippets='http-response']
 ==== 성공
 
 operation::signupMember_success[snippets='http-request,http-response']
+
+==== 입력값이 잘못됐을 때
+
+operation::signupMember_failedByMultipleInvalidInput[snippets='http-response']
+
+==== 이미 가입된 이메일일 때
+
+operation::signupMember_failedByDuplicateEmail[snippets='http-response']
+
+==== 이미 가입된 닉네임일 때
+
+operation::signupMember_failedByDuplicateNickname[snippets='http-response']
+
+==== 재입력한 패스워드가 다를 때
+
+operation::signupMember_failedByReconfirmPasswordUnmatch[snippets='http-response']
+
+=== 회원 프로필 조회
+
+==== 성공
+
+operation::fetchMemberProfile_success[snippets='http-request,http-response']
+
+==== 존재하지 않는 회원 id일 때
+
+operation::fetchMemberProfile_failedByIdNotFound[snippets='http-response']
+
+
+[[mood]]
+== 무드
+
+=== 무드 조회
+
+==== 성공
+
+operation::fetchSliceMood_success[snippets='http-request,http-response']
+
+==== 성공 - 페이징
+
+operation::fetchSliceMood_whenPageAndSizeExists_success[snippets='http-request,http-response']
+
+=== 무드 랜덤 조회
+
+==== 성공
+
+operation::fetchRandomMood_success[snippets='http-request,http-response']
+
+==== 성공 - DB에 무드가 없을 때
+
+operation::fetchRandomMood_whenMoodNotExists_success[snippets='http-response']
+
+==== 요청의 쿼리 파라미터에 count가 없을 때
+
+operation::fetchRandomMood_failedByCountNull[snippets='http-request,http-response']
+
+=== 무드 추가
+
+==== 성공
+
+operation::registerMood_success[snippets='http-request,http-response']
+
+==== 이미 존재하는 무드일 때
+
+operation::registerMood_failedByDuplicateName[snippets='http-response']
+
+==== 요청으로 받은 무드가 null일 때
+
+operation::registerMood_failedByNullName[snippets='http-response']
+
+=== 개별 무드 조회
+
+==== 성공
+
+operation::findMoodyById_success[snippets='http-request,http-response']
+
+
+
+
+[[notification]]
+== 알람
+
+=== 알람 전체 조회
+
+==== 성공 - 페이징
+
+operation::notification_request_all_success[snippets='http-request,http-response']
+
+=== 개별 알람 조회
+
+==== 성공 (예시: 읽음으로 변경 )
+
+operation::notification_request_single_success[snippets='http-request,http-response']
+
+=== 알람 개별 상태 변경
+
+==== 성공 - 읽음
+
+operation::notification_change_status_success[snippets='http-request,http-response']
+
+=== 알람 일괄 상태 변경
+
+==== 성공 - 읽음
+
+operation::notification_change_all_status_success[snippets='http-request,http-response']
+
+=== 알람 개별 삭제
+
+==== 성공
+
+operation::notification_delete_success[snippets='http-request,http-response']
+
+=== 알람 전체 삭제
+
+==== 성공
+
+operation::notification_delete_all_success[snippets='http-request,http-response']
+
+=== 알람 일괄적으로 삭제
+
+==== 성공
+
+operation::notification_delete_notification_list_success[snippets='http-request,http-response']

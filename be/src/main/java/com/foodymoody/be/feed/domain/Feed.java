@@ -15,6 +15,7 @@ public class Feed {
 
     @Id
     private String id;
+    private String memberId;
     private String location;
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -33,9 +34,10 @@ public class Feed {
     public Feed() {
     }
 
-    public Feed(String id, String location, String review, List<String> moodIds, List<Image> images,
+    public Feed(String id, String memberId, String location, String review, List<String> moodIds, List<Image> images,
                 List<Menu> menus) {
         this.id = id;
+        this.memberId = memberId;
         this.location = location;
         this.review = review;
         this.storeMood = new StoreMood(moodIds);
@@ -82,8 +84,17 @@ public class Feed {
         return updatedAt;
     }
 
-    public void update(String newLocation, String newReview, List<String> newStoreMoodIds, List<Image> newImages,
+    public StoreMood getStoreMood() {
+        return storeMood;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void update(String memberId, String newLocation, String newReview, List<String> newStoreMoodIds, List<Image> newImages,
                        List<Menu> newMenus) {
+        this.memberId = memberId;
         this.location = newLocation;
         this.review = newReview;
         this.storeMood = new StoreMood(newStoreMoodIds);

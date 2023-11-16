@@ -7,6 +7,7 @@ import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
 import com.foodymoody.be.feed.dto.request.FeedUpdateRequest;
 import com.foodymoody.be.feed.dto.response.FeedImageMenuResponse;
+import com.foodymoody.be.feed.dto.response.FeedMemberResponse;
 import com.foodymoody.be.feed.dto.response.FeedMenuResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
@@ -18,19 +19,26 @@ import java.util.List;
 
 public class FeedMapper {
 
-    public static Feed toFeed(String id, FeedServiceRegisterRequest request, List<String> moodIds, List<Image> images,
-                              List<Menu> menus) {
-        return new Feed(id, request.getLocation(), request.getReview(), moodIds, images, menus);
+    private FeedMapper() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static Feed toFeed(String id, String memberId, FeedServiceRegisterRequest request, List<String> moodIds,
+            List<Image> images,
+            List<Menu> menus) {
+        return new Feed(id, memberId, request.getLocation(), request.getReview(), moodIds, images, menus);
     }
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {
         return new FeedRegisterResponse(savedFeed.getId());
     }
 
-    public static FeedReadResponse toFeedReadResponse(Feed feed, List<FeedImageMenuResponse> images,
-                                                      List<FeedStoreMoodResponse> moodNames) {
+    public static FeedReadResponse toFeedReadResponse(FeedMemberResponse feedMemberResponse, Feed feed,
+            List<FeedImageMenuResponse> images,
+            List<FeedStoreMoodResponse> moodNames) {
         return FeedReadResponse.builder()
                 .id(feed.getId())
+                .member(feedMemberResponse)
                 .location(feed.getLocation())
                 .review(feed.getReview())
                 .storeMood(moodNames)
@@ -40,8 +48,9 @@ public class FeedMapper {
                 .build();
     }
 
-    public static FeedServiceRegisterRequest toServiceRegisterRequest(FeedRegisterRequest request) {
+    public static FeedServiceRegisterRequest toServiceRegisterRequest(FeedRegisterRequest request, String memberId) {
         return FeedServiceRegisterRequest.builder()
+                .memberId(memberId)
                 .location(request.getLocation())
                 .review(request.getReview())
                 .storeMood(request.getStoreMood())
@@ -49,8 +58,9 @@ public class FeedMapper {
                 .build();
     }
 
-    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedUpdateRequest request) {
+    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedUpdateRequest request, String memberId) {
         return FeedServiceUpdateRequest.builder()
+                .memberId(memberId)
                 .location(request.getLocation())
                 .review(request.getReview())
                 .storeMood(request.getStoreMood())

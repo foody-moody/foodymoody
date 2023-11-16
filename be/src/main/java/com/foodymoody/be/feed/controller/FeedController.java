@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.controller;
 
+import com.foodymoody.be.common.annotation.MemberId;
 import com.foodymoody.be.feed.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedUpdateRequest;
 import com.foodymoody.be.feed.dto.response.FeedReadAllResponse;
@@ -38,9 +39,10 @@ public class FeedController {
      * Feed 등록
      */
     @PostMapping("/api/feeds")
-    public ResponseEntity<FeedRegisterResponse> register(@RequestBody FeedRegisterRequest feedRegisterRequest) {
+    public ResponseEntity<FeedRegisterResponse> register(@RequestBody FeedRegisterRequest feedRegisterRequest,
+                                                         @MemberId String memberId) {
         FeedRegisterResponse feedRegisterResponse = feedService.register(
-                FeedMapper.toServiceRegisterRequest(feedRegisterRequest));
+                FeedMapper.toServiceRegisterRequest(feedRegisterRequest, memberId));
         return ResponseEntity.ok().body(feedRegisterResponse);
     }
 
@@ -57,8 +59,9 @@ public class FeedController {
      * Feed 수정
      */
     @PutMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> update(@PathVariable String id, @RequestBody FeedUpdateRequest feedUpdateRequest) {
-        feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest));
+    public ResponseEntity<Void> update(@PathVariable String id, @RequestBody FeedUpdateRequest feedUpdateRequest,
+                                       @MemberId String memberId) {
+        feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest, memberId));
         return ResponseEntity.noContent().build();
     }
 
