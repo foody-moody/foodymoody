@@ -11,4 +11,5 @@ filter:
     POST /api/members, GET /api/members/.*,
     GET /api/feeds, GET /api/feeds/.*,
     GET /api/comments,
-    GET /api/moods/random, GET /api/moods, GET /api/moods/.*, POST /api/moods
+    GET /api/moods/random, GET /api/moods, GET /api/moods/.*, POST /api/moods,
+    GET /api/notifications, GET /api/notifications/.*

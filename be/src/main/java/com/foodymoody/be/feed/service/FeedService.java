@@ -105,14 +105,6 @@ public class FeedService {
     }
 
     // TODO: JPA에서 제공하는 메서드인지 찾아보기 (속도 개선)
-    private List<String> findMoodIds(List<String> storeMoodNames) {
-        return storeMoodNames.stream()
-                .map(moodService::findMoodByName)
-                .map(Mood::getId)
-                .collect(Collectors.toUnmodifiableList());
-    }
-
-    // TODO: JPA에서 제공하는 메서드인지 찾아보기 (속도 개선)
     public List<String> findMoodNames(List<String> moodIds) {
         return moodIds.stream()
                 .map(moodService::findMoodById)

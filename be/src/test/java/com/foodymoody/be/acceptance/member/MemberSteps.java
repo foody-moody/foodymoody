@@ -198,7 +198,7 @@ public class MemberSteps {
         );
     }
 
-    private static ExtractableResponse<Response> 회원가입한다(Map<String, Object> memberRegisterRequest,
+    public static ExtractableResponse<Response> 회원가입한다(Map<String, Object> memberRegisterRequest,
             RequestSpecification spec) {
         return RestAssured
                 .given()

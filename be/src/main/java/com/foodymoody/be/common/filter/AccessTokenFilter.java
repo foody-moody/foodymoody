@@ -1,11 +1,11 @@
 package com.foodymoody.be.common.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.foodymoody.be.auth.util.JwtUtil;
 import com.foodymoody.be.common.exception.ErrorMessage;
 import com.foodymoody.be.common.exception.ErrorResponse;
-import com.foodymoody.be.common.util.HttpHeaderType;
 import com.foodymoody.be.common.util.HttpHeaderParser;
-import com.foodymoody.be.auth.util.JwtUtil;
+import com.foodymoody.be.common.util.HttpHeaderType;
 import io.jsonwebtoken.JwtException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,7 +46,7 @@ public class AccessTokenFilter implements Filter {
         try {
             String customUri = extractCustomUri(httpRequest);
             if (!isInWhiteList(customUri)) {
-                String header = httpRequest.getHeader(HttpHeaderType.AUTHORIZATION.NAME);
+                String header = httpRequest.getHeader(HttpHeaderType.AUTHORIZATION.headerName);
                 String token = HttpHeaderParser.parse(header, HttpHeaderType.AUTHORIZATION);
                 Map<String, String> parsed = jwtUtil.parseAccessToken(token);
                 request.setAttribute("id", parsed.get("id"));

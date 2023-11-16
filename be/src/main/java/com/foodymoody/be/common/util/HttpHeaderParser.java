@@ -12,7 +12,7 @@ public class HttpHeaderParser {
     }
 
     public static String parse(String header, HttpHeaderType type) {
-        return parse(header, type.SKIM);
+        return parse(header, type.skim);
     }
 
     private static String parse(String header, String skim) {

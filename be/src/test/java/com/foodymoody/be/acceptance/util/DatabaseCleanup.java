@@ -1,6 +1,5 @@
 package com.foodymoody.be.acceptance.util;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -17,18 +16,10 @@ public class DatabaseCleanup {
 
     private List<String> tableNames;
 
-    private List<String> excludeTables = Arrays.asList("mood");
-
-    public void setExcludeTables(List<String> excludeTables) {
-        this.excludeTables = excludeTables;
-        init();
-    }
-
     @PostConstruct
     public void init() {
         tableNames = (List<String>) entityManager.createNativeQuery("SHOW TABLES").getResultList()
                 .stream()
-                .filter(tableNames -> !excludeTables.contains(tableNames))
                 .collect(Collectors.toList());
     }
 
