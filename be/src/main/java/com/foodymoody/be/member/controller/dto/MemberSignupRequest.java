@@ -17,7 +17,4 @@ public class MemberSignupRequest {
     private String password;
     private String reconfirmPassword;
     private String mood;
-
-    public MemberSignupRequest() {
-    }
 }

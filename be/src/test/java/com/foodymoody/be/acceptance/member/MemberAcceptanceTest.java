@@ -3,10 +3,10 @@ package com.foodymoody.be.acceptance.member;
 import static com.foodymoody.be.acceptance.member.MemberSteps.id가_test인_회원프로필을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_유효하지_않은_이메일을_입력하고_닉네임을_입력하지_않고_패스워드를_입력하지_않고_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_틀린_재입력_패스워드로_회원가입한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_회원푸반의_닉네임으로_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_회원푸반의_이메일로_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다;
-import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_회원푸반의_회원프로필을_응답하는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_g001이고_errors에_email과_nickname과_password가_존재하는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m002인지_검증한다;
@@ -45,8 +45,6 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
             // then
             상태코드가_200이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다(response);
-
-            데이터베이스를_초기화한다();
         }
 
         @DisplayName("회원 가입 시 잘못된 입력값을 입력하면, 상태코드 400과 오류코드 g001를 응답한다")

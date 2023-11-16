@@ -17,20 +17,18 @@ public class JwtUtil {
 
     private long accessTokenExp;
     private long refreshTokenExp;
-    private String secret;
     private String issuer;
     private SecretKey secretKey;
     private ClaimUtil claimUtil;
 
     public JwtUtil(
             @Value("${jwt.token.exp.access}") long accessTokenExp,
-            @Value("${jwt.token.exp.refresh}")long refreshTokenExp,
+            @Value("${jwt.token.exp.refresh}") long refreshTokenExp,
             @Value("${jwt.token.secret}") String secret,
             @Value("${jwt.token.issuer}") String issuer,
             ClaimUtil claimUtil) {
         this.accessTokenExp = accessTokenExp;
         this.refreshTokenExp = refreshTokenExp;
-        this.secret = secret;
         this.issuer = issuer;
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
         this.claimUtil = claimUtil;

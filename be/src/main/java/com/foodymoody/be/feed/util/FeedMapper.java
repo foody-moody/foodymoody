@@ -12,7 +12,6 @@ import com.foodymoody.be.feed.dto.response.FeedMenuResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
-import com.foodymoody.be.feed.dto.response.FeedTasteMoodResponse;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
 import java.util.List;
@@ -20,8 +19,13 @@ import java.util.stream.Collectors;
 
 public class FeedMapper {
 
-    public static Feed toFeed(String id, String memberId, FeedServiceRegisterRequest request, List<String> moodIds, List<Image> images,
-                              List<Menu> menus) {
+    private FeedMapper() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static Feed toFeed(String id, String memberId, FeedServiceRegisterRequest request, List<String> moodIds,
+            List<Image> images,
+            List<Menu> menus) {
         return new Feed(id, memberId, request.getLocation(), request.getReview(), moodIds, images, menus);
     }
 
@@ -29,8 +33,9 @@ public class FeedMapper {
         return new FeedRegisterResponse(savedFeed.getId());
     }
 
-    public static FeedReadResponse toFeedReadResponse(FeedMemberResponse feedMemberResponse, Feed feed, List<FeedImageMenuResponse> images,
-                                                      List<FeedStoreMoodResponse> moodNames) {
+    public static FeedReadResponse toFeedReadResponse(FeedMemberResponse feedMemberResponse, Feed feed,
+            List<FeedImageMenuResponse> images,
+            List<FeedStoreMoodResponse> moodNames) {
         return FeedReadResponse.builder()
                 .id(feed.getId())
                 .member(feedMemberResponse)
