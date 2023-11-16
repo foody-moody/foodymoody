@@ -32,3 +32,6 @@ export { default as StarLargeFillIcon } from 'assets/starLargeFill.svg?react';
 export { default as StarSmallIcon } from 'assets/starSmall.svg?react';
 export { default as UserIcon } from 'assets/user.svg?react';
 export { default as UserPlusIcon } from 'assets/userPlus.svg?react';
+export { default as ToastErrorIcon } from 'assets/toastError.svg?react';
+export { default as ToastNotiIcon } from 'assets/toastNoti.svg?react';
+export { default as ToastSuccessIcon } from 'assets/toastSuccess.svg?react';
