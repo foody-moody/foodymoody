@@ -20,7 +20,7 @@ export const useToast = () => {
           currentToasts.filter((toast) => toast.id !== id)
         );
       }, 500);
-    }, 15000);
+    }, 3000);
   };
 
   return {
