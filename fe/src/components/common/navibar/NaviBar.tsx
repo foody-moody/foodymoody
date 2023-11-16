@@ -10,13 +10,18 @@ import {
   PencilLineIcon,
 } from 'components/common/icon/icons';
 import { Logo } from 'components/common/logo/Logo';
+import { useLogout } from 'queries/auth';
+import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
+import { Dropdown } from '../dropdown/Dropdown';
+import { DropdownRow } from '../dropdown/DropdownRow';
 import { NotiIcon } from '../notiIcon/NotiIcon';
 import { PATH } from 'constants/path';
 
 export const NaviBar = () => {
-  const { navigateToHome } = usePageNavigator();
-
+  const { navigateToHome, navigateToLogin } = usePageNavigator();
+  const { mutate: logoutMutate } = useLogout();
+  const { isLogin } = useAuthState();
   const NaviItems = [
     { label: '홈', icon: <HomeIcon />, path: PATH.HOME },
     { label: '탐색', icon: <SearchIcon />, path: PATH.SEARCH },
@@ -52,6 +57,38 @@ export const NaviBar = () => {
     { label: '프로필', icon: <UserIcon />, path: PATH.PROFILE },
   ];
 
+  const publicMenu = [
+    {
+      id: 1,
+      content: '로그인',
+      onClick: () => {
+        navigateToLogin();
+      },
+    },
+  ];
+
+  const privateMenu = [
+    {
+      id: 1,
+      content: '설정',
+      onClick: () => {},
+    },
+    {
+      id: 2,
+      content: '문제 신고',
+      onClick: () => {},
+    },
+    {
+      id: 3,
+      content: '로그아웃',
+      onClick: () => {
+        logoutMutate();
+      },
+    },
+  ];
+
+  const dropdownRows = isLogin ? privateMenu : publicMenu;
+
   return (
     <>
       <Wrapper>
@@ -75,10 +112,20 @@ export const NaviBar = () => {
           ))}
         </NaviM>
 
-        <MoreBtn>
-          <DotRoundIcon />
-          <span>더보기</span>
-        </MoreBtn>
+        <Dropdown
+          opener={
+            <MoreBtn>
+              <DotRoundIcon />
+              <span>더보기</span>
+            </MoreBtn>
+          }
+        >
+          {dropdownRows.map((item) => (
+            <DropdownRow key={item.id} onClick={item.onClick}>
+              {item.content}
+            </DropdownRow>
+          ))}
+        </Dropdown>
       </Wrapper>
     </>
   );
@@ -123,14 +170,14 @@ const Wrapper = styled.div`
 `;
 
 const MoreBtn = styled.button`
-  width: 100%;
+  width: 208px;
   padding: 12px;
   display: flex;
   gap: 16px;
   align-items: center;
   margin-top: 16px;
   font: ${({ theme: { fonts } }) => fonts.displayM16};
-
+  transition: all 0.3s;
   &:hover {
     background-color: ${({ theme: { colors } }) => colors.bgGray200};
     border-radius: ${({ theme: { radius } }) => radius.small};
@@ -139,6 +186,7 @@ const MoreBtn = styled.button`
 
   ${media.lg} {
     align-items: center;
+    width: 47px;
     span {
       display: none;
     }

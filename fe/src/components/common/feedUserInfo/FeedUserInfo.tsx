@@ -1,4 +1,3 @@
-
 import { useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useDeleteFeed } from 'queries/feed';
@@ -23,7 +22,6 @@ export const FeedUserInfo: React.FC<Props> = ({
   createdAt,
   location,
 }) => {
-
   const { navigateToProfile } = usePageNavigator();
   const navigate = useNavigate();
   const { mutate: deleteMutate } = useDeleteFeed();
@@ -65,8 +63,8 @@ export const FeedUserInfo: React.FC<Props> = ({
       id: 2,
       content: '수정하기',
       onClick: () => {
-        // navigateToPath(`${PATH.EDIT_FEED}/${feedId}}`);
-        navigate(PATH.NEW_FEED, {
+        // feedId가 안나와서 임시경로 NEWFEED
+        navigate(`${PATH.EDIT_FEED}/${feedId}}`, {
           state: { background: 'newFeed' },
         });
       },
