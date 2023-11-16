@@ -19,7 +19,7 @@ public class ImageMapper {
     }
 
     public static Image getImage(String generatedId, ImageMenuPair imageMenuPair) {
-        return new Image(generatedId, imageMenuPair.getImageUrl());
+        return new Image(generatedId, imageMenuPair.getImageId());
     }
 
 }
