@@ -3,7 +3,7 @@ import { customScrollStyle } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
 import { Badge } from 'components/common/badge/Badge';
 import { Carousel } from 'components/common/carousel/Carousel';
-import { CommentItem } from 'components/common/commentItem/CommentItem';
+import { CommentBox } from 'components/common/commentItem/CommentBox';
 import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
@@ -103,50 +103,63 @@ export const DetailFeedModalPage = () => {
               likeCount={MOCK.likeCount}
               commentCount={MOCK.commentCount}
             />
-            <CommentBox>
+            <CommentContainer>
               <CommentInput
                 value={value}
                 limitedLength={200}
                 onChangeValue={handleChange}
                 onSubmitComment={handleSubmit}
               />
-              <CommentItem
+              {/* <CommentItem
                 imageUrl="123"
                 nickname="댓글닉넴"
                 createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당"
+                content="댓글임니당 ㅎㅎ댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당"
               />
               <CommentItem
                 imageUrl="123"
                 nickname="댓글닉넴"
                 createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ"
+                content="댓글임니당 ㅎㅎ"
               />
               <CommentItem
                 imageUrl="123"
                 nickname="댓글닉넴"
                 createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ"
+                content="댓글임니당 ㅎㅎ"
               />
               <CommentItem
                 imageUrl="123"
                 nickname="댓글닉넴"
                 createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ"
+                content="댓글임니당 ㅎㅎ"
               />
               <CommentItem
                 imageUrl="123"
                 nickname="댓글닉넴"
                 createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ"
+                content="댓글임니당 ㅎㅎ"
               />
               <CommentItem
                 imageUrl="123"
                 nickname="댓글닉넴"
                 createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ"
-              />
-            </CommentBox>
+                content="댓글임니당 ㅎㅎ"
+              /> */}
+              <Comment>
+                {Array.from({ length: 7 }).map((_, index) => (
+                  <CommentBox
+                    key={index}
+                    imageUrl="이미지"
+                    nickname="댓글닉넴"
+                    createdAt="2023-11-01T14:55:47.88735"
+                    content="댓글임니당 ㅎㅎ댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당"
+                    hasReply={index % 2 === 0}
+                    replyCount={index % 2 === 0 ? 3 : 0}
+                  />
+                ))}
+              </Comment>
+            </CommentContainer>
           </Content>
         </Box>
       </Wrapper>
@@ -181,12 +194,18 @@ const Review = styled.p`
   color: ${({ theme: { colors } }) => colors.black};
 `;
 
-const CommentBox = styled.div`
+const CommentContainer = styled.div`
   border-top: 1px solid ${({ theme: { colors } }) => colors.black};
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+`;
+
+const Comment = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 `;
 
 const Info = styled.div`
