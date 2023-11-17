@@ -20,10 +20,6 @@ export const DetailFeedModalPage = () => {
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
   });
-  const { value, handleChange, isValid } = useInput({
-    validator: (value) =>
-      value.trim().length !== 0 && value.trim().length < 200,
-  });
 
   const MOCK = {
     id: '2',
