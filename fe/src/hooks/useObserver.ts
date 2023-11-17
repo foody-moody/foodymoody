@@ -1,42 +1,40 @@
 import { useRef, useEffect, useCallback } from 'react';
 
-type UseIntersectionObserverType = {
-  inviewCallback: () => void;
-  outviewCallback?: () => void;
+type UseObserverType = {
+  callbackFn: () => void;
+  rootRef?: React.RefObject<HTMLElement>;
 };
 
 export const useIntersectionObserver = ({
-  inviewCallback,
-  outviewCallback,
-}: UseIntersectionObserverType) => {
-  const observeTarget = useRef<HTMLDivElement | null>(null);
+  callbackFn,
+  rootRef,
+}: UseObserverType) => {
+  const observeTarget = useRef(null);
 
   const observerCallback = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          inviewCallback();
-          return;
-        }
-        outviewCallback?.();
+        console.log(entry.isIntersecting);
+
+        entry.isIntersecting && callbackFn();
       });
     },
-    [inviewCallback, outviewCallback]
+    [callbackFn]
   );
 
   useEffect(() => {
     const observer = new IntersectionObserver(observerCallback, {
+      root: rootRef?.current,
       threshold: 0.5,
     });
 
-    if (observeTarget.current) {
-      observer.observe(observeTarget.current);
-    }
+    observeTarget.current && observer.observe(observeTarget.current);
 
     return () => {
       observer.disconnect();
+      console.log('unobserve');
     };
-  }, [observerCallback]);
+  }, [observerCallback, rootRef]);
 
   return { observeTarget };
 };
