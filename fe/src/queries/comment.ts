@@ -25,14 +25,18 @@ export const useGetComments = (id: string) => {
     queryKey: [QUERY_KEY.comments, id],
     queryFn: ({ pageParam = 0 }) => getAllComments(pageParam, 10, id),
     getNextPageParam: (lastPage) => {
-      lastPage.size < 10 ? null : lastPage.number + 1;
+      console.log('lastPage.empty', lastPage.empty);
+
+      return lastPage.empty ? null : lastPage.number + 1;
     },
   });
+
+  console.log('hasNextPage', hasNextPage);
 
   const allComments = useMemo(() => {
     return data?.pages.flatMap((page) => page.content) ?? [];
   }, [data]);
-
+  // sort 반대로 해서 가져오기
   return {
     comments: allComments,
     hasNextPage,
@@ -43,13 +47,13 @@ export const useGetComments = (id: string) => {
   };
 };
 
-export const usePostComment = () => {
+export const usePostComment = (id: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (body: NewCommentBody) => postNewComment(body),
     onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEY.comments]);
+      queryClient.invalidateQueries([QUERY_KEY.comments, id]);
     },
     onError: (error) => {
       console.log('put editComment error: ', error);
