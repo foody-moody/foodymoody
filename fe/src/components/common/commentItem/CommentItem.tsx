@@ -98,7 +98,7 @@ export const CommentItem: React.FC<Props> = ({
   );
 };
 
-const Wrapper = styled.li`
+const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
