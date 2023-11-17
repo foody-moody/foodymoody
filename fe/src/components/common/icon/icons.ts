@@ -14,7 +14,6 @@ export { default as CollectableDefaultIcon } from 'assets/collectableDefault.svg
 export { default as DotGhostIcon } from 'assets/dotGhost.svg?react';
 export { default as DotRoundIcon } from 'assets/dotRound.svg?react';
 export { default as FaceIcon } from 'assets/face.svg?react';
-export { default as FaceIcon } from 'assets/face.svg?react';
 export { default as EditIcon } from 'assets/edit.svg?react';
 export { default as GearIcon } from 'assets/gear.svg?react';
 export { default as HeartBgIcon } from 'assets/heartBg.svg?react';
