@@ -20,6 +20,7 @@ public class Comment {
     private String feedId;
     private boolean deleted;
     private String memberId;
+    private boolean hasReply;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
