@@ -5,6 +5,8 @@ import static com.foodymoody.be.comment.domain.CommentDomainMapper.mapperToNotif
 import com.foodymoody.be.common.event.NotificationEvents;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import java.time.LocalDateTime;
+import java.util.List;
+import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.AccessLevel;
@@ -23,6 +25,8 @@ public class Comment {
     private boolean hasReply;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    @Embedded
+    private ReplyComments replyComments;
 
     public Comment(CommentId id, String content, String feedId, boolean deleted,
             String memberId, LocalDateTime createdAt) {
@@ -86,5 +90,14 @@ public class Comment {
 
     public String getMemberId() {
         return memberId;
+    }
+
+    public List<Comment> getReplyComments() {
+        return replyComments.getCommentList();
+    }
+
+    public void addReply(Comment replyComment) {
+        this.replyComments.add(replyComment);
+        this.hasReply = true;
     }
 }

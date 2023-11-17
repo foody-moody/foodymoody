@@ -1,10 +1,13 @@
 package com.foodymoody.be.comment.controller;
 
+import com.foodymoody.be.comment.controller.dto.EditCommentRequest;
+import com.foodymoody.be.comment.controller.dto.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.CommentId;
 import com.foodymoody.be.comment.service.CommentService;
 import com.foodymoody.be.common.annotation.MemberId;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,5 +41,12 @@ public class CommentController {
             @MemberId String memberId) {
         commentService.delete(id, memberId);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/api/comments/{id}")
+    public ResponseEntity<Void> reply(@PathVariable String id, @Valid @RequestBody RegisterCommentRequest request,
+            @MemberId String memberId) {
+        commentService.reply(id, request, memberId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

@@ -1,6 +1,6 @@
 package com.foodymoody.be.comment.service;
 
-import com.foodymoody.be.comment.controller.RegisterCommentRequest;
+import com.foodymoody.be.comment.controller.dto.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.Comment;
 import com.foodymoody.be.comment.domain.CommentId;
 import java.time.LocalDateTime;
