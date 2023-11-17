@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { styled } from 'styled-components';
 import { customScrollStyle } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
@@ -8,18 +9,30 @@ import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
 import { CommentInput } from 'components/common/input/CommentInput';
-import { usePostComment } from 'queries/comment';
+import { useGetComments, usePostComment } from 'queries/comment';
+import { useFeedDetail } from 'queries/feed';
 import { useInput } from 'hooks/useInput';
+import { useIntersectionObserver } from 'hooks/useObserver';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const DetailFeedModalPage = () => {
-  /* TODO. 주소로 Detail 데이터 가져오깅 */
-  const { mutate: commentMutate } = usePostComment();
+  const { data: feed } = useFeedDetail('10'); // params로 feedId 받아오기
+  const { comments, hasNextPage, fetchNextPage } = useGetComments('10'); // params로 feedId 받아오기
+  const wrapperRef = useRef(null);
+  const { observeTarget } = useIntersectionObserver({
+    callbackFn: () => {
+      hasNextPage && fetchNextPage();
+    },
+    rootRef: wrapperRef,
+  });
+  const { mutate: commentMutate } = usePostComment('10');
   const { navigateToHome } = usePageNavigator();
   const { value, handleChange, isValid } = useInput({
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
   });
+  console.log(feed);
+  console.log('comment', comments);
 
   const MOCK = {
     id: '2',
@@ -71,7 +84,9 @@ export const DetailFeedModalPage = () => {
     });
 
     commentMutate({
-      feedId: MOCK.id,
+      // feedId: MOCK.id,
+      // feedId: '10',
+      feedId: feed.id,
       content: value,
     });
   };
@@ -79,7 +94,7 @@ export const DetailFeedModalPage = () => {
   return (
     <>
       <Dim onClick={navigateToHome} />
-      <Wrapper>
+      <Wrapper ref={wrapperRef}>
         <Box>
           <Carousel images={MOCK.images} />
 
@@ -100,8 +115,10 @@ export const DetailFeedModalPage = () => {
               </StoreMoodList>
             </Info>
             <FeedAction
-              likeCount={MOCK.likeCount}
-              commentCount={MOCK.commentCount}
+              // likeCount={MOCK.likeCount}
+              // commentCount={MOCK.commentCount}
+              likeCount={feed?.likeCount}
+              commentCount={feed?.commentCount}
             />
             <CommentContainer>
               <CommentInput
@@ -111,15 +128,20 @@ export const DetailFeedModalPage = () => {
                 onSubmitComment={handleSubmit}
               />
               <Comment>
-                {Array.from({ length: 7 }).map((_, index) => (
+                {comments?.map((comment) => (
                   <CommentBox
-                    key={index}
+                    ref={comment === comments.at(-1) ? observeTarget : null}
+                    key={comment.id}
                     imageUrl="이미지"
                     nickname="댓글닉넴"
-                    createdAt="2023-11-01T14:55:47.88735"
-                    content="댓글임니당 ㅎㅎ댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당"
-                    hasReply={index % 2 === 0}
-                    replyCount={index % 2 === 0 ? 3 : 0}
+                    createdAt={
+                      comment.createdAt === comment.updatedAt
+                        ? comment.createdAt
+                        : comment.updatedAt
+                    }
+                    content={comment.content}
+                    hasReply={comments.length % 2 === 0}
+                    replyCount={comments.length % 2 === 0 ? 3 : 0}
                   />
                 ))}
               </Comment>
@@ -170,6 +192,7 @@ const Comment = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  padding-bottom: 10px;
 `;
 
 const Info = styled.div`
