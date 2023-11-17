@@ -14,6 +14,7 @@ export { default as CollectableDefaultIcon } from 'assets/collectableDefault.svg
 export { default as DotGhostIcon } from 'assets/dotGhost.svg?react';
 export { default as DotRoundIcon } from 'assets/dotRound.svg?react';
 export { default as FaceIcon } from 'assets/face.svg?react';
+export { default as FaceIcon } from 'assets/face.svg?react';
 export { default as EditIcon } from 'assets/edit.svg?react';
 export { default as GearIcon } from 'assets/gear.svg?react';
 export { default as HeartBgIcon } from 'assets/heartBg.svg?react';
@@ -32,4 +33,7 @@ export { default as StarLargeEmptyIcon } from 'assets/starLargeEmpty.svg?react';
 export { default as StarLargeFillIcon } from 'assets/starLargeFill.svg?react';
 export { default as StarSmallIcon } from 'assets/starSmall.svg?react';
 export { default as UserIcon } from 'assets/user.svg?react';
+export { default as ToastErrorIcon } from 'assets/toastError.svg?react';
+export { default as ToastNotiIcon } from 'assets/toastNoti.svg?react';
+export { default as ToastSuccessIcon } from 'assets/toastSuccess.svg?react';
 export { default as UserPlusIcon } from 'assets/userPlus.svg?react';
