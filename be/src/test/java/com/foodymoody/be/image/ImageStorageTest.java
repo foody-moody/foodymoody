@@ -40,7 +40,7 @@ class ImageStorageTest {
     @DisplayName("업로드 테스트")
     class Upload {
 
-        @DisplayName("jpg 파일을 업로드하면, s3에 파일이 업로드된다")
+        @DisplayName("jpg 파일을 업로드하면, 파일이 저장된 s3경로를 반환한다")
         @Test
         void whenUploadJpgFile_thenUploadToS3() {
 //            given
@@ -60,7 +60,7 @@ class ImageStorageTest {
     @DisplayName("삭제 테스트")
     class Delete {
 
-        @DisplayName("이미지 삭제 테스트")
+        @DisplayName("jpg 파일을 s3에 업로드 후 삭제하면, 예외가 발생하지 않는다")
         @Test
         void whenUploadJpgFileAndDelete_thenSuccess() {
 //            given
