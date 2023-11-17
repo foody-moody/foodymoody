@@ -1,7 +1,7 @@
 package com.foodymoody.be.comment.service;
 
-import com.foodymoody.be.comment.controller.EditCommentRequest;
-import com.foodymoody.be.comment.controller.RegisterCommentRequest;
+import com.foodymoody.be.comment.controller.dto.EditCommentRequest;
+import com.foodymoody.be.comment.controller.dto.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.Comment;
 import com.foodymoody.be.comment.domain.CommentId;
 import com.foodymoody.be.comment.repository.CommentRepository;
@@ -49,5 +49,15 @@ public class CommentService {
 
     public Comment fetchById(CommentId id) {
         return commentRepository.findById(id).orElseThrow(CommentNotExistsException::new);
+    }
+
+    @Transactional
+    public void reply(String id, RegisterCommentRequest request, String memberId) {
+        CommentId commentId = new CommentId(id);
+        Comment comment = fetchById(commentId);
+        LocalDateTime now = LocalDateTime.now();
+        CommentId replyId = new CommentId(IdGenerator.generate());
+        Comment replyComment = commentMapper.toEntity(request, now, replyId, memberId);
+        comment.addReply(replyComment);
     }
 }
