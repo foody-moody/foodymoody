@@ -14,6 +14,7 @@ import {
 import { PATH } from 'constants/path';
 
 export const useLogin = () => {
+  const toast = useToast();
   const { navigateToPath } = usePageNavigator();
   const location = useLocation();
   const from = location.state?.redirectedFrom?.pathname || PATH.HOME;
@@ -30,8 +31,10 @@ export const useLogin = () => {
       setUserInfo(JSON.stringify(payload));
       navigateToPath(from);
     },
-    onError: () => {
-      console.log('Login error:');
+    onError: (error: AxiosError<ErrorResponse>) => {
+      const errorData = error?.response?.data;
+
+      errorData && toast.error(errorData.message);
     },
   });
 };
