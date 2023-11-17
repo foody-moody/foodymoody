@@ -2,8 +2,10 @@ export const formatTimeStamp = (createdAt?: string) => {
   if (!createdAt) return;
   const currentTime = new Date();
 
-  const userTimezoneOffset = getUserTimezoneOffset();
-  const time = new Date(new Date(createdAt).getTime() - userTimezoneOffset);
+  // const userTimezoneOffset = getUserTimezoneOffset();
+
+  // const time = new Date(new Date(createdAt).getTime() - userTimezoneOffset);
+  const time = new Date(new Date(createdAt).getTime());
 
   const timeDiff = currentTime.getTime() - time.getTime();
 
@@ -21,7 +23,7 @@ export const formatTimeStamp = (createdAt?: string) => {
   return '방금 전';
 };
 
-const getUserTimezoneOffset = () => {
-  const currentDate = new Date();
-  return currentDate.getTimezoneOffset() * 60000;
-};
+// const getUserTimezoneOffset = () => {
+//   const currentDate = new Date();
+//   return currentDate.getTimezoneOffset() * 60000;
+// };
