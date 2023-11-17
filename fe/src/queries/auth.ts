@@ -1,7 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { fetchLogin, fetchLogout, fetchRegister } from 'api/auth/login';
+import { AxiosError } from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useLocation } from 'react-router-dom';
+import { useToast } from 'recoil/toast/useToast';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import {
   clearLoginInfo,
@@ -53,14 +55,17 @@ export const useLogout = () => {
 
 export const useRegister = () => {
   const { navigateToLogin } = usePageNavigator();
+  const toast = useToast();
 
   return useMutation({
     mutationFn: (body: RegisterBody) => fetchRegister(body),
     onSuccess: () => {
       navigateToLogin();
     },
-    onError: (error) => {
-      console.error('Error during registration:', error);
+    onError: (error: AxiosError<ErrorResponse>) => {
+      const errorData = error?.response?.data;
+
+      errorData && toast.error(errorData.message);
     },
   });
 };
