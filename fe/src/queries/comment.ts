@@ -1,17 +1,47 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import {
   deleteComment,
+  getAllComments,
   postNewComment,
   putEditComment,
 } from 'api/comment/comment';
 import 'api/feed/feed';
+import { useMemo } from 'react';
 import { QUERY_KEY } from 'constants/queryKey';
 
-// export const useGetComments = (id: string) =>
-//   useQuery({
-//     queryKey: [QUERY_KEY.comments, id],
-//     queryFn: () => getFeedDetail(id),
-//   });
+export const useGetComments = (id: string) => {
+  const {
+    data,
+    hasNextPage,
+    status,
+    isFetchingNextPage,
+    fetchNextPage,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: [QUERY_KEY.comments, id],
+    queryFn: ({ pageParam = 0 }) => getAllComments(pageParam, 10, id),
+    getNextPageParam: (lastPage) => {
+      lastPage.size < 10 ? null : lastPage.number + 1;
+    },
+  });
+
+  const allComments = useMemo(() => {
+    return data?.pages.flatMap((page) => page.content) ?? [];
+  }, [data]);
+
+  return {
+    comments: allComments,
+    hasNextPage,
+    status,
+    isFetchingNextPage,
+    fetchNextPage,
+    refetch,
+  };
+};
 
 export const usePostComment = () => {
   const queryClient = useQueryClient();

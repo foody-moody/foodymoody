@@ -110,42 +110,6 @@ export const DetailFeedModalPage = () => {
                 onChangeValue={handleChange}
                 onSubmitComment={handleSubmit}
               />
-              {/* <CommentItem
-                imageUrl="123"
-                nickname="댓글닉넴"
-                createdAt="2023-11-01T14:55:47.88735"
-                content="댓글임니당 ㅎㅎ댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당"
-              />
-              <CommentItem
-                imageUrl="123"
-                nickname="댓글닉넴"
-                createdAt="2023-11-01T14:55:47.88735"
-                content="댓글임니당 ㅎㅎ"
-              />
-              <CommentItem
-                imageUrl="123"
-                nickname="댓글닉넴"
-                createdAt="2023-11-01T14:55:47.88735"
-                content="댓글임니당 ㅎㅎ"
-              />
-              <CommentItem
-                imageUrl="123"
-                nickname="댓글닉넴"
-                createdAt="2023-11-01T14:55:47.88735"
-                content="댓글임니당 ㅎㅎ"
-              />
-              <CommentItem
-                imageUrl="123"
-                nickname="댓글닉넴"
-                createdAt="2023-11-01T14:55:47.88735"
-                content="댓글임니당 ㅎㅎ"
-              />
-              <CommentItem
-                imageUrl="123"
-                nickname="댓글닉넴"
-                createdAt="2023-11-01T14:55:47.88735"
-                content="댓글임니당 ㅎㅎ"
-              /> */}
               <Comment>
                 {Array.from({ length: 7 }).map((_, index) => (
                   <CommentBox
