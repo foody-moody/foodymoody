@@ -14,13 +14,16 @@ import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
 import com.foodymoody.be.feed.repository.FeedRepository;
+import com.foodymoody.be.feed.service.dto.ImageIdNamePair;
+import com.foodymoody.be.feed.service.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed.util.FeedMapper;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.image.repository.ImageRepository;
+import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.image.util.ImageMapper;
 import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
+import com.foodymoody.be.menu.service.MenuService;
 import com.foodymoody.be.menu.util.MenuMapper;
 import com.foodymoody.be.mood.domain.Mood;
 import com.foodymoody.be.mood.service.MoodService;
@@ -40,9 +43,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedService {
 
     private final FeedRepository feedRepository;
-    private final ImageRepository imageRepository;
+    private final ImageService imageService;
     private final MoodService moodService;
     private final MemberService memberService;
+    private final MenuService menuService;
 
     public Slice<FeedReadAllResponse> readAll(Pageable pageable) {
         Slice<Feed> feeds = feedRepository.findAll(pageable);
@@ -98,12 +102,22 @@ public class FeedService {
         String memberId = request.getMemberId();
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = MenuMapper.toMenu(imageMenuPairs);
-        List<Image> images = ImageMapper.toImage(imageMenuPairs);
+        List<Image> images = toImage(imageMenuPairs);
         List<String> storeMoodIds = request.getStoreMood();
 
         Feed feed = FeedMapper.toFeed(IdGenerator.generate(), memberId, request, storeMoodIds, images, menus);
 
         return FeedMapper.toFeedRegisterResponse(feedRepository.save(feed));
+    }
+
+    private List<Image> toImage(List<ImageMenuPair> imageMenuPairs) {
+        return imageMenuPairs.stream()
+                .map(imageMenuPair -> new Image(imageMenuPair.getImageId(), findImageUrl(imageMenuPair)))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    private String findImageUrl(ImageMenuPair imageMenuPair) {
+        return imageService.findBy(imageMenuPair.getImageId()).getUrl();
     }
 
     // TODO: JPA에서 제공하는 메서드인지 찾아보기 (속도 개선)
@@ -146,7 +160,7 @@ public class FeedService {
         Feed feed = findFeed(id);
 
         String memberId = request.getMemberId();
-        List<Image> newImages = ImageMapper.toImage(request.getImages());
+        List<Image> newImages = toImage(request.getImages());
         List<Menu> newMenus = MenuMapper.toMenu(request.getImages());
         List<String> newStoreMoodIds = request.getStoreMood();
 
@@ -165,19 +179,29 @@ public class FeedService {
 
     private List<FeedImageMenuResponse> getFeedImageMenuResponses(Feed feed) {
         List<ImageMenu> imageMenus = feed.getImageMenus();
-        List<Image> imageUrls = getImageUrls(imageMenus);
-        return FeedMapper.toFeedImageMenuResponses(imageMenus, imageUrls);
+
+        List<ImageIdNamePair> imageIdUrlList = findImageIdUrlList(imageMenus);
+        List<MenuNameRatingPair> menuNameRatingList = findMenuNameRatingList(imageMenus);
+
+        return FeedMapper.toFeedImageMenuResponses(imageIdUrlList, menuNameRatingList);
     }
 
-    private List<Image> getImageUrls(List<ImageMenu> imageMenus) {
+    private List<ImageIdNamePair> findImageIdUrlList(List<ImageMenu> imageMenus) {
         return imageMenus.stream()
-                .map(imageMenu -> findImage(imageMenu.getImageId()))
+                .map(imageMenu -> {
+                    Image image = imageService.findBy(imageMenu.getImageId());
+                    return new ImageIdNamePair(image.getId(), image.getUrl());
+                })
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private Image findImage(String id) {
-        return imageRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 이미지가 존재하지 않습니다."));
+    private List<MenuNameRatingPair> findMenuNameRatingList(List<ImageMenu> imageMenus) {
+        return imageMenus.stream()
+                .map(imageMenu -> {
+                    Menu menu = menuService.findBy(imageMenu.getMenuId());
+                    return new MenuNameRatingPair(menu.getName(), menu.getRating());
+                })
+                .collect(Collectors.toUnmodifiableList());
     }
 
 }

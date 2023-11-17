@@ -1,7 +1,6 @@
 package com.foodymoody.be.feed.util;
 
 import com.foodymoody.be.feed.domain.Feed;
-import com.foodymoody.be.feed.domain.ImageMenu;
 import com.foodymoody.be.feed.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
@@ -12,6 +11,8 @@ import com.foodymoody.be.feed.dto.response.FeedMenuResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
+import com.foodymoody.be.feed.service.dto.ImageIdNamePair;
+import com.foodymoody.be.feed.service.dto.MenuNameRatingPair;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
 import java.util.ArrayList;
@@ -68,13 +69,12 @@ public class FeedMapper {
                 .build();
     }
 
-    public static List<FeedImageMenuResponse> toFeedImageMenuResponses(List<ImageMenu> imageMenus,
-                                                                       List<Image> imageUrls) {
+    public static List<FeedImageMenuResponse> toFeedImageMenuResponses(List<ImageIdNamePair> imageIdUrlList, List<MenuNameRatingPair> menuNameRatingList) {
         List<FeedImageMenuResponse> feedImageMenuResponses = new ArrayList<>();
-        for (int i = 0; i < imageMenus.size(); i++) {
+        for (int i = 0; i < imageIdUrlList.size(); i++) {
             feedImageMenuResponses.add(
-                    new FeedImageMenuResponse(imageMenus.get(i).getImageId(), imageUrls.get(i).getUrl(),
-                            new FeedMenuResponse(imageMenus.get(i).getMenuName(), imageMenus.get(i).getRating())));
+                    new FeedImageMenuResponse(imageIdUrlList.get(i).getId(), imageIdUrlList.get(i).getUrl(),
+                            new FeedMenuResponse(menuNameRatingList.get(i).getName(), menuNameRatingList.get(i).getRating())));
         }
 
         return feedImageMenuResponses;

@@ -24,5 +24,10 @@ public class ImageService {
         return ImageMapper.toUploadResponse(saved);
     }
 
+    public Image findBy(String imageId) {
+        return imageRepository.findById(imageId)
+                .orElseThrow(() -> new IllegalArgumentException("이미지를 찾을 수 없습니다."));
+    }
+
 }
 
