@@ -29,7 +29,7 @@ export const useGetComments = (id: string) => {
     getNextPageParam: (lastPage) => {
       console.log('lastPage.empty', lastPage.empty);
 
-      return lastPage.empty ? null : lastPage.number + 1;
+      return lastPage.empty ? undefined : lastPage.number + 1;
     },
   });
 
