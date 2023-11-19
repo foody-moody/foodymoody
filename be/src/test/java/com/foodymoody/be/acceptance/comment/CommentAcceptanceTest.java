@@ -46,7 +46,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_register_comment_if_success_then_return_code_200() {
             // docs
-            api_문서_타이틀("registerComment_success", spec);
+            api_문서_타이틀("comment_register_success", spec);
 
             // when
             var response = 피드에_댓글을_등록한다(feedId, 회원아티_액세스토큰, spec);
@@ -59,7 +59,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_register_comment_if_request_body_not_exists_then_return_code_400() {
             // docs
-            api_문서_타이틀("registerComment_failed_by_request_body_not_exists", spec);
+            api_문서_타이틀("comment_register_failed_by_request_body_not_exists", spec);
 
             // when
             var response = 요청_내용_없이_댓글_등록한다(회원아티_액세스토큰, spec);
@@ -72,7 +72,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_register_comment_if_content_not_exists_then_return_code_400() {
             // docs
-            api_문서_타이틀("registerComment_failed_by_content_not_exists", spec);
+            api_문서_타이틀("comment_register_failed_by_content_not_exists", spec);
 
             // when
             var response = 댓글없이_피드에_댓글_등록한다(feedId, 회원아티_액세스토큰, spec);
@@ -85,7 +85,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_register_comment_if_content_is_blank_then_return_code_400() {
             // docs
-            api_문서_타이틀("registerComment_failed_by_content_is_empty", spec);
+            api_문서_타이틀("comment_register_failed_by_content_is_empty", spec);
 
             // when
             var response = 피드에_공백댓글_등록한다(feedId, 회원아티_액세스토큰, spec);
@@ -98,7 +98,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_register_comment_if_content_is_space_then_return_code_400() {
             // docs
-            api_문서_타이틀("registerComment_failed_by_content_is_blank", spec);
+            api_문서_타이틀("comment_register_failed_by_content_is_blank", spec);
 
             // when
             var response = 피드에_여러_공백댓글_등록한다(feedId, 회원아티_액세스토큰, spec);
@@ -111,7 +111,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_register_comment_if_content_is_larger_than_200_then_return_code_400() {
             // docs
-            api_문서_타이틀("registerComment_failed_by_content_is_larger_than_200", spec);
+            api_문서_타이틀("comment_register_failed_by_content_is_larger_than_200", spec);
 
             // when
             var response = 피드에서_200자_넘는_댓글을_등록한다(feedId, 회원아티_액세스토큰, spec);
@@ -124,7 +124,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_register_comment_if_feed_id_not_exists_then_return_code_400() {
             // docs
-            api_문서_타이틀("registerComment_failed_by_feed_id_not_exists", spec);
+            api_문서_타이틀("comment_register_failed_by_feed_id_not_exists", spec);
 
             // when
             var response = 피드_아이디_없이_댓글을_등록한다(회원아티_액세스토큰, spec);
@@ -137,7 +137,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_register_comment_if_feed_not_exists_then_return_code_400() {
             // docs
-            api_문서_타이틀("registerComment_failed_by_feed_not_exists", spec);
+            api_문서_타이틀("comment_register_failed_by_feed_not_exists", spec);
 
             // given
             String notExistsRegisterId = "notExistsRegisterId";
@@ -168,7 +168,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_edit_comment_if_success_then_return_code_200() {
             // docs
-            api_문서_타이틀("editComment_success", spec);
+            api_문서_타이틀("comment_edit_success", spec);
 
             // when
             var response = 댓글_수정한다(commentId, 회원아티_액세스토큰, spec);
@@ -181,7 +181,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_edit_comment_if_request_body_not_exists_then_return_code_400() {
             // docs
-            api_문서_타이틀("editComment_failed_by_request_body_not_exists", spec);
+            api_문서_타이틀("comment_edit_failed_by_request_body_not_exists", spec);
 
             // when
             var response = 댓글_없이_댓글_수정한다(spec, 회원아티_액세스토큰, commentId);
@@ -207,7 +207,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_edit_comment_if_content_is_space_then_return_code_400() {
             // docs
-            api_문서_타이틀("editComment_failed_by_content_is_blank", spec);
+            api_문서_타이틀("comment_edit_failed_by_content_is_blank", spec);
 
             // when
             var response = 공백인_댓글로_댓글_수정한다(spec, 회원아티_액세스토큰, commentId);
@@ -220,7 +220,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_edit_comment_if_content_is_larger_than_200_return_code_400() {
             // docs
-            api_문서_타이틀("editComment_failed_by_content_is_larger_than_200", spec);
+            api_문서_타이틀("comment_edit_failed_by_content_is_larger_than_200", spec);
 
             // when
             var response = _201자인_댓글로_댓글_수정한다(spec, 회원아티_액세스토큰, commentId);
@@ -233,7 +233,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_edit_comment_if_comment_is_deleted_then_return_code_400() {
             // docs
-            api_문서_타이틀("editComment_failed_by_comment_is_deleted", spec);
+            api_문서_타이틀("comment_edit_failed_by_comment_is_deleted", spec);
 
             // given
             댓글을_삭제한다(commentId, 회원아티_액세스토큰);
@@ -249,7 +249,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_edit_comment_if_comment_not_exists_then_return_code_400() {
             // docs
-            api_문서_타이틀("editComment_failed_by_comment_not_exists", spec);
+            api_문서_타이틀("comment_edit_failed_by_comment_not_exists", spec);
 
             // given
             String notExistsMemberId = "notExistsMemberId";
@@ -279,7 +279,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_delete_comment_if_success_then_return_code_200() {
             // docs
-            api_문서_타이틀("deleteComment_success", spec);
+            api_문서_타이틀("comment_delete_success", spec);
 
             // when
             var response = 댓글을_삭제한다(commentId, 회원아티_액세스토큰, spec);
@@ -292,7 +292,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_delete_comment_if_comment_is_deleted_then_return_code_400() {
             // docs
-            api_문서_타이틀("deleteComment_failed_by_comment_is_deleted", spec);
+            api_문서_타이틀("comment_delete_failed_by_comment_not_exists", spec);
 
             // given
             댓글을_삭제한다(commentId, 회원아티_액세스토큰);
@@ -308,7 +308,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_delete_comment_if_comment_not_exists_then_return_code_400() {
             // docs
-            api_문서_타이틀("deleteComment_failed_by_comment_not_exists", spec);
+            api_문서_타이틀("comment_delete_failed_by_comment_is_deleted", spec);
             String notExistsCommentId = "notExistsCommentId";
 
             // when
@@ -337,7 +337,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_fetch_comments_if_feed_id_not_exists_then_return_code_400() {
             // docs
-            api_문서_타이틀("fetchComments_failed_by_feed_id_not_exists", spec);
+            api_문서_타이틀("comments_fetch_failed_by_feed_id_not_exists", spec);
 
             // when
             var response = 피드별_댓글을_조회한다(null, spec);
@@ -350,7 +350,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_fetch_comments_if_page_and_size_exists_then_return_page_and_size() {
             // docs
-            api_문서_타이틀("fetchComments_success", spec);
+            api_문서_타이틀("comments_fetch_success", spec);
 
             // when
             var response = 페이지_적용_피드별_댓글을_조회한다(feedId, spec);
@@ -363,7 +363,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
         @Test
         void when_fetch_comments_if_success_then_return_code_200() {
             // docs
-            api_문서_타이틀("fetchComments_with_page_success", spec);
+            api_문서_타이틀("comments_fetch_with_page_success", spec);
 
             // when
             var response = 피드별_댓글을_조회한다(feedId, spec);
