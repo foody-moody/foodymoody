@@ -18,7 +18,6 @@ public class Image {
     }
 
     public Image() {
-
     }
 
     public static Image of(String id, String url) {
