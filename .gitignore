@@ -2,3 +2,7 @@
 build
 .gradle
 /be/out/
+/be/src/main/resources/application-aws.yml
+/be/src/main/resources/application-jwt.yml
+/be/src/test/resources/application-aws.yml
+/be/src/test/resources/application-jwt.yml

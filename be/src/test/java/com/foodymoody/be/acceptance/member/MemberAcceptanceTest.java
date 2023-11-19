@@ -102,7 +102,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     @Nested
-    @DisplayName("회원 프로필 조회")
+    @DisplayName("회원 프로필 조회 인수테스트")
     class fetchProfile {
 
         @DisplayName("회원 프로필 조회 시 성공하면, 상태코드 200과 회원 프로필을 응답한다")
