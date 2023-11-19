@@ -14,13 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ImageService {
 
     private final ImageStorage imageStorage;
     private final ImageRepository imageRepository;
 
+    @Transactional
     public ImageUploadResponse save(MultipartFile file) {
         String uuid = UUID.randomUUID().toString();
         String url = imageStorage.upload(file, uuid);
@@ -29,18 +30,16 @@ public class ImageService {
         return ImageMapper.toUploadResponse(saved);
     }
 
+    public Image findBy(String imageId) {
+        return imageRepository.findById(imageId)
+                .orElseThrow(ImageNotFoundException::new);
+    }
+
+    @Transactional
     public void delete(Image image) {
         String key = image.getUrl().split("\\/")[3];
         imageStorage.delete(key);
         imageRepository.delete(image);
-    }
-
-    public Image findById(String id) {
-        return imageRepository.findById(id).orElseThrow(ImageNotFoundException::new);
-    }
-    public Image findBy(String imageId) {
-        return imageRepository.findById(imageId)
-                .orElseThrow(() -> new IllegalArgumentException("이미지를 찾을 수 없습니다."));
     }
 
 }
