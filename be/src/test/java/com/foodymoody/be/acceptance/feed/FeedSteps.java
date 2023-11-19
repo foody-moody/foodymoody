@@ -226,7 +226,6 @@ public class FeedSteps {
                 () -> {
                     List<Map<String, Object>> images = response.jsonPath().getList("images");
                     assertThat(images.get(0)).containsEntry("imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1");
-                    // TODO: menu의 id가 randomId로 생성되므로 findBy(menuId)에서 오류가 발생함 -> data.sql 말고 Mock을 써야 하나?
                     Map<String, Object> firstMenu = (Map<String, Object>) images.get(0).get("menu");
                     assertThat(firstMenu).containsEntry("name", "마라탕");
                     assertThat(firstMenu).containsEntry("rating", 4);

@@ -61,10 +61,6 @@ class FeedAcceptanceTest extends AcceptanceTest {
         var registerResponse = 피드를_등록한다(회원아티_액세스토큰);
         String registeredId = registerResponse.jsonPath().getString("id");
 
-        // TODO
-        //  이 메서드 안에서 피드를 등록하고
-        //  성공적으로 uuid도 받아와서 그 uuid를 가지고 바로 조회하는데
-        //  왜 db 조회가 안 되지
         // when
         var readFeedResponse = 개별_피드를_조회한다(registeredId, spec);
 

@@ -80,10 +80,10 @@ public class FeedService {
     }
 
     private List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<String> storeMoodIds) {
-        List<String> storeMoodNames = findMoodNames(storeMoodIds);
+        List<Mood> storeMoods = moodService.findAllBy(storeMoodIds);
         List<FeedStoreMoodResponse> feedStoreMoodResponses = new ArrayList<>();
         for (int i = 0; i < storeMoodIds.size(); i++) {
-            feedStoreMoodResponses.add(new FeedStoreMoodResponse(storeMoodIds.get(i), storeMoodNames.get(i)));
+            feedStoreMoodResponses.add(new FeedStoreMoodResponse(storeMoodIds.get(i), storeMoods.get(i).getName()));
         }
 
         return feedStoreMoodResponses;
@@ -126,14 +126,6 @@ public class FeedService {
 
     private String findImageUrl(ImageMenuPair imageMenuPair) {
         return imageService.findBy(imageMenuPair.getImageId()).getUrl();
-    }
-
-    // TODO: JPA에서 제공하는 메서드인지 찾아보기 (속도 개선)
-    public List<String> findMoodNames(List<String> moodIds) {
-        return moodIds.stream()
-                .map(moodService::findMoodById)
-                .map(Mood::getName)
-                .collect(Collectors.toUnmodifiableList());
     }
 
     public FeedReadResponse read(String id) {
