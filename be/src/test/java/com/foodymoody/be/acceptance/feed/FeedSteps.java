@@ -71,7 +71,7 @@ public class FeedSteps {
 
             List<Map<String, Object>> images = (List<Map<String, Object>>) feed.get("images");
             for (Map<String, Object> image : images) {
-                assertThat(image).containsKeys("imageId", "menu");
+                assertThat(image).containsKeys("imageUrl", "menu");
 //                assertThat(((Map) image.get("menu"))).containsKeys("name", "rating");
             }
         }
@@ -114,6 +114,44 @@ public class FeedSteps {
                                 "menu", Map.of(
                                         "name", "감자탕",
                                         "rating", 3
+                                )
+                        )
+                )
+        );
+
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .auth()
+                .oauth2(accessToken)
+                .body(body)
+                .when()
+                .post("/api/feeds")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 피드를_또_등록한다(String accessToken, RequestSpecification spec) {
+        Map<String, Object> body = Map.of(
+                "location", "중동",
+                "review", "맛없어요!",
+                "storeMood", List.of("1", "2", "4"),
+                "images", List.of(
+                        Map.of(
+                                "imageId", "3",
+                                "menu", Map.of(
+                                        "name", "크림 파스타",
+                                        "rating", 1
+                                )
+                        ),
+                        Map.of(
+                                "imageId", "4",
+                                "menu", Map.of(
+                                        "name", "토마토 파스타",
+                                        "rating", 2
                                 )
                         )
                 )

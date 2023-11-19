@@ -19,7 +19,6 @@ import com.foodymoody.be.feed.service.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed.util.FeedMapper;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
-import com.foodymoody.be.image.util.ImageMapper;
 import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
@@ -53,7 +52,7 @@ public class FeedService {
         List<FeedReadAllResponse> responses = new ArrayList<>();
 
         for (Feed feed : feeds) {
-            List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
+            List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feed);
             List<String> storeMoodIds = feed.getStoreMoodIds();
 
             FeedReadAllResponse response = FeedReadAllResponse.builder()
@@ -130,7 +129,7 @@ public class FeedService {
 
     public FeedReadResponse read(String id) {
         Feed feed = findFeed(id);
-        List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
+        List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feed);
         List<String> storeMoodIds = feed.getStoreMoodIds();
 
         FeedMemberResponse feedMemberResponse = makeFeedMemberResponse(feed);
@@ -177,7 +176,7 @@ public class FeedService {
         feedRepository.deleteById(id);
     }
 
-    private List<FeedImageMenuResponse> getFeedImageMenuResponses(Feed feed) {
+    private List<FeedImageMenuResponse> makeFeedImageMenuResponses(Feed feed) {
         List<ImageMenu> imageMenus = feed.getImageMenus();
 
         List<ImageIdNamePair> imageIdUrlList = findImageIdUrlList(imageMenus);
