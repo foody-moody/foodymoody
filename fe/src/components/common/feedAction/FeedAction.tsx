@@ -5,12 +5,14 @@ import { ChatDotsIcon, HeartBgIcon, HeartFillIcon } from '../icon/icons';
 type Props = {
   likeCount: number;
   commentCount: number;
+  onClickCommentIcon?: () => void;
 };
 
-// TODO 기본값 삭제
-export const FeedAction: React.FC<Props> = (
-  { likeCount = 12, commentCount = 11 }
-) => {
+export const FeedAction: React.FC<Props> = ({
+  likeCount,
+  commentCount,
+  onClickCommentIcon,
+}) => {
   const [isLiked, setIsLiked] = useState(false);
   // TODO 로그인유무로 교체 const isLiked = isLogin ? feed.isLiked : false;
   // feed: query로 받아온 feed데이터
@@ -23,18 +25,15 @@ export const FeedAction: React.FC<Props> = (
     setIsLiked(!isLiked);
   };
 
-  const handleNavigateToDetail = () => {
-    // TODO navigate, url이 detail이면 return
-  };
-
   return (
     <Wrapper>
       <InfoItem>
         <LikeIcon onClick={handleToggleLike} />
         {likeCount}
       </InfoItem>
-      <InfoItem>
-        <ChatDotsIcon onClick={handleNavigateToDetail} />
+
+      <InfoItem onClick={onClickCommentIcon}>
+        <ChatDotsIcon />
         {commentCount}
       </InfoItem>
     </Wrapper>
@@ -43,7 +42,7 @@ export const FeedAction: React.FC<Props> = (
 
 const Wrapper = styled.div`
   font: ${({ theme: { fonts } }) => fonts.displayB14};
-  width: 343px;
+  width: 100%;
   padding: 16px;
   text-align: center;
   display: flex;
