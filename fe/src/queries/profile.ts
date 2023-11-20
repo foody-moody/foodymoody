@@ -6,4 +6,5 @@ export const useGetProfile = (id?: string) =>
   useQuery({
     queryKey: [QUERY_KEY.profile, id],
     queryFn: () => getProfile(id),
+    staleTime: Infinity,
   });
