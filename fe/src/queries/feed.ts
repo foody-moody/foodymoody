@@ -1,7 +1,6 @@
-import { useMutation, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   deleteFeed,
-  getAllFeeds,
   getFeedDetail,
   postNewFeed,
   putEditFeed,
@@ -9,36 +8,6 @@ import {
 // import { useMemo } from 'react';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { QUERY_KEY } from 'constants/queryKey';
-
-// export const useAllFeeds = () => {
-//   const {
-//     data,
-//     hasNextPage,
-//     status,
-//     isFetchingNextPage,
-//     fetchNextPage,
-//     refetch,
-//   } = useInfiniteQuery({
-//     queryKey: [QUERY_KEY.comments],
-//     queryFn: ({ pageParam = 0 }) => getAllFeeds(pageParam, 10),
-//     getNextPageParam: (lastPage) => {
-//       lastPage.empty? undefined : lastPage.number + 1;
-//     },
-//   });
-
-//   const allFeeds = useMemo(() => {
-//     return data?.pages.flatMap((page) => page.content) ?? [];
-//   }, [data]);
-
-//   return {
-//     feeds: allFeeds,
-//     hasNextPage,
-//     status,
-//     isFetchingNextPage,
-//     fetchNextPage,
-//     refetch,
-//   };
-// };
 
 export const useFeedDetail = (id: string) =>
   useQuery({
