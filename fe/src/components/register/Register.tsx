@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { useRegister } from 'queries/auth';
+// import { useGetTasteMood } from 'queries/mood';
 import { useInput } from 'hooks/useInput';
 import { Button } from '../common/button/Button';
 import { ArrowDownIcon } from '../common/icon/icons';
@@ -8,6 +9,7 @@ import { Input } from '../common/input/Input';
 
 export const Register: React.FC = () => {
   const { mutate: resisterMutate } = useRegister();
+  // const { data } = useGetTasteMood();
   const [selectedTaste, setSelectedTaste] = useState('');
 
   const {
