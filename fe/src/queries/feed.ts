@@ -5,7 +5,6 @@ import {
   postNewFeed,
   putEditFeed,
 } from 'api/feed/feed';
-// import { useMemo } from 'react';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { QUERY_KEY } from 'constants/queryKey';
 
