@@ -1,8 +1,0 @@
-aws:
-  iam:
-    s3:
-      accesskey: asdf
-      secretkey: asdf
-  s3:
-    region: asdf
-    bucket: asdf

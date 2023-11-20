@@ -13,16 +13,6 @@ public class ImageMapper {
         throw new AssertionError("인스턴스화 불가능");
     }
 
-    public static List<Image> toImage(List<ImageMenuPair> imageMenuPairs) {
-        return imageMenuPairs.stream()
-                .map(imageMenuPair -> getImage(IdGenerator.generate(), imageMenuPair))
-                .collect(Collectors.toUnmodifiableList());
-    }
-
-    public static Image getImage(String generatedId, ImageMenuPair imageMenuPair) {
-        return new Image(generatedId, imageMenuPair.getImageId());
-    }
-
     public static ImageUploadResponse toUploadResponse(Image image) {
         return new ImageUploadResponse(image.getId(), image.getUrl());
     }

@@ -27,15 +27,6 @@ public class FeedController {
     private final FeedService feedService;
 
     /**
-     * 전체 Feed 조회
-     */
-    @GetMapping("/api/feeds")
-    public ResponseEntity<Slice<FeedReadAllResponse>> readAll(Pageable pageable) {
-        Slice<FeedReadAllResponse> feedReadAllResponses = feedService.readAll(pageable);
-        return ResponseEntity.ok().body(feedReadAllResponses);
-    }
-
-    /**
      * Feed 등록
      */
     @PostMapping("/api/feeds")
@@ -44,6 +35,15 @@ public class FeedController {
         FeedRegisterResponse feedRegisterResponse = feedService.register(
                 FeedMapper.toServiceRegisterRequest(feedRegisterRequest, memberId));
         return ResponseEntity.ok().body(feedRegisterResponse);
+    }
+
+    /**
+     * 전체 Feed 조회
+     */
+    @GetMapping("/api/feeds")
+    public ResponseEntity<Slice<FeedReadAllResponse>> readAll(Pageable pageable) {
+        Slice<FeedReadAllResponse> feedReadAllResponses = feedService.readAll(pageable);
+        return ResponseEntity.ok().body(feedReadAllResponses);
     }
 
     /**

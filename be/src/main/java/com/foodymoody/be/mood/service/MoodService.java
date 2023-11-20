@@ -64,4 +64,9 @@ public class MoodService {
             throw new DuplicateMoodException();
         }
     }
+
+    public List<Mood> findAllBy(List<String> moodIds) {
+        return moodRepository.findAllById(moodIds);
+    }
+
 }

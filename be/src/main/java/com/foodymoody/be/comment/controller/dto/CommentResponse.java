@@ -6,23 +6,25 @@ public class CommentResponse {
 
     private String id;
     private String content;
-    private boolean deleted;
+    private String memberId;
+    private String memberName;
+    private String memberProfileImage;
+    private boolean hasReply;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    private CommentResponse(String id, String content, boolean deleted, LocalDateTime createdAt,
-            LocalDateTime updatedAt) {
+    public CommentResponse(String id, String content, String memberId, String memberName,
+            String memberProfileImage, boolean hasReply, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.content = content;
-        this.deleted = deleted;
+        this.memberId = memberId;
+        this.memberName = memberName;
+        this.memberProfileImage = memberProfileImage;
+        this.hasReply = hasReply;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public static CommentResponse of(String id, String content, boolean deleted, LocalDateTime createdAt,
-            LocalDateTime updatedAt) {
-        return new CommentResponse(id, content, deleted, createdAt, updatedAt);
-    }
 
     public String getId() {
         return id;
@@ -32,15 +34,27 @@ public class CommentResponse {
         return content;
     }
 
-    public boolean isDeleted() {
-        return deleted;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public String getMemberProfileImage() {
+        return memberProfileImage;
+    }
+
+    public boolean isHasReply() {
+        return hasReply;
     }
 }

@@ -1,5 +1,7 @@
 package com.foodymoody.be.feed.service;
 
+import static com.foodymoody.be.menu.util.MenuMapper.makeMenu;
+
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.domain.Feed;
@@ -13,13 +15,17 @@ import com.foodymoody.be.feed.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
+import com.foodymoody.be.feed.dto.response.FeedTasteMoodResponse;
 import com.foodymoody.be.feed.repository.FeedRepository;
+import com.foodymoody.be.feed.service.dto.ImageIdNamePair;
+import com.foodymoody.be.feed.service.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed.util.FeedMapper;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.image.util.ImageMapper;
+import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
+import com.foodymoody.be.menu.service.MenuService;
 import com.foodymoody.be.menu.util.MenuMapper;
 import com.foodymoody.be.mood.domain.Mood;
 import com.foodymoody.be.mood.service.MoodService;
@@ -39,15 +45,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedService {
 
     private final FeedRepository feedRepository;
+    private final ImageService imageService;
     private final MoodService moodService;
     private final MemberService memberService;
+    private final MenuService menuService;
 
     public Slice<FeedReadAllResponse> readAll(Pageable pageable) {
         Slice<Feed> feeds = feedRepository.findAll(pageable);
         List<FeedReadAllResponse> responses = new ArrayList<>();
 
         for (Feed feed : feeds) {
-            List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
+            List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feed);
             List<String> storeMoodIds = feed.getStoreMoodIds();
 
             FeedReadAllResponse response = FeedReadAllResponse.builder()
@@ -72,10 +80,10 @@ public class FeedService {
     }
 
     private List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<String> storeMoodIds) {
-        List<String> storeMoodNames = findMoodNames(storeMoodIds);
+        List<Mood> storeMoods = moodService.findAllBy(storeMoodIds);
         List<FeedStoreMoodResponse> feedStoreMoodResponses = new ArrayList<>();
         for (int i = 0; i < storeMoodIds.size(); i++) {
-            feedStoreMoodResponses.add(new FeedStoreMoodResponse(storeMoodIds.get(i), storeMoodNames.get(i)));
+            feedStoreMoodResponses.add(new FeedStoreMoodResponse(storeMoodIds.get(i), storeMoods.get(i).getName()));
         }
 
         return feedStoreMoodResponses;
@@ -95,8 +103,8 @@ public class FeedService {
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
         String memberId = request.getMemberId();
         List<ImageMenuPair> imageMenuPairs = request.getImages();
-        List<Menu> menus = MenuMapper.toMenu(imageMenuPairs);
-        List<Image> images = ImageMapper.toImage(imageMenuPairs);
+        List<Menu> menus = toMenu(imageMenuPairs);
+        List<Image> images = toImage(imageMenuPairs);
         List<String> storeMoodIds = request.getStoreMood();
 
         Feed feed = FeedMapper.toFeed(IdGenerator.generate(), memberId, request, storeMoodIds, images, menus);
@@ -104,23 +112,40 @@ public class FeedService {
         return FeedMapper.toFeedRegisterResponse(feedRepository.save(feed));
     }
 
-    // TODO: JPA에서 제공하는 메서드인지 찾아보기 (속도 개선)
-    public List<String> findMoodNames(List<String> moodIds) {
-        return moodIds.stream()
-                .map(moodService::findMoodById)
-                .map(Mood::getName)
+    private List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
+        return imageMenuPairs.stream()
+                .map(imageMenuPair -> menuService.saveMenu(makeMenu(IdGenerator.generate(), imageMenuPair.getMenu())))
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    private List<Image> toImage(List<ImageMenuPair> imageMenuPairs) {
+        return imageMenuPairs.stream()
+                .map(imageMenuPair -> new Image(imageMenuPair.getImageId(), findImageUrl(imageMenuPair)))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    private String findImageUrl(ImageMenuPair imageMenuPair) {
+        return imageService.findBy(imageMenuPair.getImageId()).getUrl();
     }
 
     public FeedReadResponse read(String id) {
         Feed feed = findFeed(id);
-        List<FeedImageMenuResponse> images = getFeedImageMenuResponses(feed);
+        List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feed);
         List<String> storeMoodIds = feed.getStoreMoodIds();
 
         FeedMemberResponse feedMemberResponse = makeFeedMemberResponse(feed);
 
         return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
                 makeFeedStoreMoodResponses(storeMoodIds));
+    }
+
+    private List<FeedImageMenuResponse> makeFeedImageMenuResponses(Feed feed) {
+        List<ImageMenu> imageMenus = feed.getImageMenus();
+
+        List<ImageIdNamePair> imageIdUrlList = findImageIdUrlList(imageMenus);
+        List<MenuNameRatingPair> menuNameRatingList = findMenuNameRatingList(imageMenus);
+
+        return FeedMapper.toFeedImageMenuResponses(imageIdUrlList, menuNameRatingList);
     }
 
     private FeedMemberResponse makeFeedMemberResponse(Feed feed) {
@@ -134,8 +159,7 @@ public class FeedService {
                 .id(member.getId())
                 .imageUrl(memberData.getProfileImageUrl())
                 .nickname(member.getNickname())
-                // TODO: member의 mood가 moodId로 수정되면 주석 풀기
-//                .tasteMood(new FeedTasteMoodResponse(member.getMoodId(), moodName))
+                .tasteMood(new FeedTasteMoodResponse(member.getId(), member.getMoodName()))
                 .build();
     }
 
@@ -144,11 +168,16 @@ public class FeedService {
         Feed feed = findFeed(id);
 
         String memberId = request.getMemberId();
-        List<Image> newImages = ImageMapper.toImage(request.getImages());
-        List<Menu> newMenus = MenuMapper.toMenu(request.getImages());
+        List<Image> newImages = toImage(request.getImages());
+        List<Menu> newMenus = toMenu(request.getImages());
         List<String> newStoreMoodIds = request.getStoreMood();
 
         feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoodIds, newImages, newMenus);
+    }
+
+    private Feed findFeed(String id) {
+        return feedRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 피드가 존재하지 않습니다."));
     }
 
     @Transactional
@@ -156,14 +185,22 @@ public class FeedService {
         feedRepository.deleteById(id);
     }
 
-    private List<FeedImageMenuResponse> getFeedImageMenuResponses(Feed feed) {
-        List<ImageMenu> imageMenus = feed.getImageMenus();
-        return FeedMapper.toFeedImageMenuResponses(imageMenus);
+    private List<ImageIdNamePair> findImageIdUrlList(List<ImageMenu> imageMenus) {
+        return imageMenus.stream()
+                .map(imageMenu -> {
+                    Image image = imageService.findBy(imageMenu.getImageId());
+                    return new ImageIdNamePair(image.getId(), image.getUrl());
+                })
+                .collect(Collectors.toUnmodifiableList());
     }
 
-    private Feed findFeed(String id) {
-        return feedRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 피드가 존재하지 않습니다."));
+    private List<MenuNameRatingPair> findMenuNameRatingList(List<ImageMenu> imageMenuList) {
+        return imageMenuList.stream()
+                .map(imageMenu -> {
+                    Menu menu = menuService.findBy(imageMenu.getMenuId());
+                    return new MenuNameRatingPair(menu.getName(), menu.getRating());
+                })
+                .collect(Collectors.toUnmodifiableList());
     }
 
 }
