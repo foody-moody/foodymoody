@@ -10,11 +10,11 @@ public class FeedTasteMoodResponse {
     @JsonProperty
     private String id;
     @JsonProperty
-    private String mood;
+    private String name;
 
-    public FeedTasteMoodResponse(String id, String mood) {
+    public FeedTasteMoodResponse(String id, String name) {
         this.id = id;
-        this.mood = mood;
+        this.name = name;
     }
 
 }

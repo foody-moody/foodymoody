@@ -70,7 +70,6 @@ public abstract class AcceptanceTest {
 
     @BeforeEach
     void setSpec(RestDocumentationContextProvider provider) {
-        databaseCleanup.execute();
         데이터베이스를_초기화한다();
         this.spec = new RequestSpecBuilder()
                 .addFilter(RestAssuredRestDocumentation.documentationConfiguration(provider))

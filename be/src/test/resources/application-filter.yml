@@ -1,0 +1,8 @@
+filter:
+  whitelist: GET /api/docs, 
+    POST /api/auth/login,
+    POST /api/members, GET /api/members/.*,
+    GET /api/feeds, GET /api/feeds/.*, 
+    GET /api/comments, 
+    GET /api/moods/random, GET /api/moods, GET /api/moods/.*, POST /api/moods,
+    GET /api/comments/.*/reply,POST /api/images

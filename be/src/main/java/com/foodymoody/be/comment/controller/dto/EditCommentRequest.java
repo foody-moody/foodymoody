@@ -1,4 +1,4 @@
-package com.foodymoody.be.comment.controller;
+package com.foodymoody.be.comment.controller.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
