@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { getProfile } from 'api/profile/profile';
-import { QUERY_KEY } from 'constants/queryKey';
+import { getProfile } from 'server/axios/profile/profile';
+import { QUERY_KEY } from 'service/constants/queryKey';
 
 export const useGetProfile = (id?: string) =>
   useQuery({

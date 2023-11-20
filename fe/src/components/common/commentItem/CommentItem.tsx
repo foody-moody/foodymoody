@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { usePutComment } from 'service/queries/comment';
 import { styled } from 'styled-components';
-import { usePutComment } from 'queries/comment';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { formatTimeStamp } from 'utils/formatTimeStamp';

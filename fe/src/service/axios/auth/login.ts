@@ -1,5 +1,5 @@
-import { privateApi, publicApi } from 'api/fetcher';
-import { END_POINT } from 'constants/endpoint';
+import { privateApi, publicApi } from 'service/axios/fetcher';
+import { END_POINT } from 'service/constants/endpoint';
 
 export const fetchLogin = async (body: LoginBody) => {
   const { data } = await publicApi.post(END_POINT.login, body);

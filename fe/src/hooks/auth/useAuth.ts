@@ -1,11 +1,11 @@
+// import { jwtDecode } from 'jwt-decode';
+import { useEffect } from 'react';
 import {
   // fetchLogin,
   // fetchLogout,
   // fetchRegister,
   fetchUnRegister,
-} from 'api/auth/login';
-// import { jwtDecode } from 'jwt-decode';
-import { useEffect } from 'react';
+} from 'service/axios/auth/login';
 // import { useLocation } from 'react-router-dom';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import {

@@ -1,5 +1,5 @@
-import { privateApi, publicApi } from 'api/fetcher';
-import { END_POINT } from 'constants/endpoint';
+import { privateApi, publicApi } from 'service/axios/fetcher';
+import { END_POINT } from 'service/constants/endpoint';
 
 export const getAllComments = async (page = 0, size = 10, feedId: string) => {
   const { data } = await publicApi.get(END_POINT.comment(), {

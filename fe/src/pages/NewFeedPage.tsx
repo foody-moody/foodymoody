@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+// import { useFeedDetail, useFeedEditor } from 'queries/feed';
+import { useFeedEditor } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { customScrollStyle, flexColumn, flexRow } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
@@ -11,8 +13,6 @@ import { PlusIcon } from 'components/common/icon/icons';
 import { Input } from 'components/common/input/Input';
 import { MenuItemEditor } from 'components/common/menuItemEditor/MenuItemEditor';
 import { TextArea } from 'components/common/textarea/Textarea';
-// import { useFeedDetail, useFeedEditor } from 'queries/feed';
-import { useFeedEditor } from 'queries/feed';
 import { useInput } from 'hooks/useInput';
 import { useMenuItem } from 'hooks/useMenuItem';
 import { usePageNavigator } from 'hooks/usePageNavigator';

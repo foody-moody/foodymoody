@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { useLogout } from 'service/queries/auth';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import {
@@ -10,7 +11,6 @@ import {
   PencilLineIcon,
 } from 'components/common/icon/icons';
 import { Logo } from 'components/common/logo/Logo';
-import { useLogout } from 'queries/auth';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { Dropdown } from '../dropdown/Dropdown';
