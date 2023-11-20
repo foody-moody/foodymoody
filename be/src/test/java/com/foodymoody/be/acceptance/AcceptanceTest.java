@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -30,14 +31,16 @@ public abstract class AcceptanceTest {
 
     @LocalServerPort
     public int port;
+    @Value("${jwt.token.mock.ati}")
+    public String 회원아티_액세스토큰;
+    @Value("${jwt.token.mock.puban}")
+    public String 회원푸반_액세스토큰;
     public static final DockerImageName MYSQL_IMAGE = DockerImageName.parse("mysql:8.0");
     public static final MySQLContainer<?> MYSQL = new MySQLContainer<>(MYSQL_IMAGE)
             .withDatabaseName("foodymoody")
             .withUsername("bono")
             .withPassword("1111")
             .withReuse(true);
-    public static String 회원아티_액세스토큰;
-    public static String 회원푸반_액세스토큰;
 
     static {
         MYSQL.setPortBindings(List.of("3306:3306"));
@@ -79,10 +82,6 @@ public abstract class AcceptanceTest {
         this.spec = new RequestSpecBuilder()
                 .addFilter(RestAssuredRestDocumentation.documentationConfiguration(provider))
                 .build();
-        var 회원아티_로그인응답 = 로그인_한다("ati@ati.com", "ati123!", new RequestSpecBuilder().build());
-        회원아티_액세스토큰 = 회원아티_로그인응답.jsonPath().getString("accessToken");
-        var 회원푸반_로그인응답 = 로그인_한다("puban@puban.com", "puban123!", new RequestSpecBuilder().build());
-        회원푸반_액세스토큰 = 회원푸반_로그인응답.jsonPath().getString("accessToken");
     }
 
     @BeforeAll
