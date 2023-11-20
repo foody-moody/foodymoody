@@ -1,4 +1,6 @@
 import { useRef } from 'react';
+import { useGetComments, usePostComment } from 'service/queries/comment';
+import { useFeedDetail } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { customScrollStyle } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
@@ -9,8 +11,6 @@ import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
 import { CommentInput } from 'components/common/input/CommentInput';
-import { useGetComments, usePostComment } from 'queries/comment';
-import { useFeedDetail } from 'queries/feed';
 import { useInput } from 'hooks/useInput';
 import { useIntersectionObserver } from 'hooks/useObserver';
 import { usePageNavigator } from 'hooks/usePageNavigator';

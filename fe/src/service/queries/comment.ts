@@ -3,17 +3,17 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useMemo } from 'react';
+import { useToast } from 'recoil/toast/useToast';
 import {
   deleteComment,
   getAllComments,
   postNewComment,
   putEditComment,
-} from 'api/comment/comment';
-import 'api/feed/feed';
-import { AxiosError } from 'axios';
-import { useMemo } from 'react';
-import { useToast } from 'recoil/toast/useToast';
-import { QUERY_KEY } from 'constants/queryKey';
+} from 'service/axios/auth/comment/comment';
+import 'service/axios/feed/feed';
+import { QUERY_KEY } from 'service/constants/queryKey';
 
 export const useGetComments = (id: string) => {
   const {

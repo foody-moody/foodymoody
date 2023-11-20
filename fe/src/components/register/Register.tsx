@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { useRegister } from 'service/queries/auth';
 import { styled } from 'styled-components';
-import { useRegister } from 'queries/auth';
 // import { useGetTasteMood } from 'queries/mood';
 import { useInput } from 'hooks/useInput';
 import { Button } from '../common/button/Button';

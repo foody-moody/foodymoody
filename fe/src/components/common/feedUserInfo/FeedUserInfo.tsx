@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { useDeleteFeed } from 'service/queries/feed';
 import { styled } from 'styled-components';
-import { useDeleteFeed } from 'queries/feed';
 // import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { formatTimeStamp } from 'utils/formatTimeStamp';

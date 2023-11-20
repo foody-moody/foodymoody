@@ -1,6 +1,6 @@
+import { useLogin } from 'service/queries/auth';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
-import { useLogin } from 'queries/auth';
 import { useInput } from 'hooks/useInput';
 import { Input } from '../common/input/Input';
 

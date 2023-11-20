@@ -1,9 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
-import { fetchLogin, fetchLogout, fetchRegister } from 'api/auth/login';
 import { AxiosError } from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useLocation } from 'react-router-dom';
 import { useToast } from 'recoil/toast/useToast';
+import {
+  fetchLogin,
+  fetchLogout,
+  fetchRegister,
+} from 'service/axios/auth/login';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import {
   clearLoginInfo,

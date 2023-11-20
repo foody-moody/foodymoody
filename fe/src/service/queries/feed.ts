@@ -4,9 +4,9 @@ import {
   getFeedDetail,
   postNewFeed,
   putEditFeed,
-} from 'api/feed/feed';
+} from 'service/axios/feed/feed';
+import { QUERY_KEY } from 'service/constants/queryKey';
 import { usePageNavigator } from 'hooks/usePageNavigator';
-import { QUERY_KEY } from 'constants/queryKey';
 
 export const useFeedDetail = (id: string) =>
   useQuery({
