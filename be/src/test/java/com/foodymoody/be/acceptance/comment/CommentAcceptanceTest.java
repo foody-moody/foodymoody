@@ -7,6 +7,7 @@ import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글_없이_�
 import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글없이_피드에_댓글_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글에_댓글을_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글을_삭제한다;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글의_댓글을_조회한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.비여있는_댓글로_댓글_수정한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.요청_내용_없이_댓글_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200과_id를_반환한다;
@@ -390,5 +391,25 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
         // then
         응답코드_201을_반환한다(response);
+    }
+
+    @DisplayName("댓글의 댓글을 조회하면 응답코드 200을 응답한다")
+    @Test
+    void when_fetch_comment_of_comment_if_success_then_return_code_200() {
+        // docs
+        api_문서_타이틀("comment_reply_fetch_success", spec);
+
+        // given
+        String feedId = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰);
+        String commentId = 피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원아티_액세스토큰);
+        댓글에_댓글을_등록한다(feedId, commentId, 회원아티_액세스토큰);
+        댓글에_댓글을_등록한다(feedId, commentId, 회원푸반_액세스토큰);
+        댓글에_댓글을_등록한다(feedId, commentId, 회원아티_액세스토큰);
+
+        // when
+        var response = 댓글의_댓글을_조회한다(commentId, spec);
+
+        // then
+        응답코드_200을_반환한다(response);
     }
 }

@@ -159,6 +159,18 @@ public class CommentSteps {
                 .extract();
     }
 
+    // 댓글의_댓글을_조회한다
+    public static ExtractableResponse<Response> 댓글의_댓글을_조회한다(String commentId, RequestSpecification spec) {
+        return RestAssured.given().spec(spec).log().all()
+                .when().get("/api/comments/{commentId}/reply", commentId)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 댓글에_댓글을_등록한다(String feedId, String commentId, String accessToken) {
+        return 댓글에_댓글을_등록한다(feedId, commentId, accessToken, new RequestSpecBuilder().build());
+    }
+
     public static ExtractableResponse<Response> 페이지_적용_피드별_댓글을_조회한다(String feedId, RequestSpecification spec) {
         return 피드별_댓글을_조회한다(feedId, spec, "1", "5");
     }

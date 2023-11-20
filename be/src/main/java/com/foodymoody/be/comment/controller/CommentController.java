@@ -1,5 +1,6 @@
 package com.foodymoody.be.comment.controller;
 
+import com.foodymoody.be.comment.controller.dto.CommentResponse;
 import com.foodymoody.be.comment.controller.dto.EditCommentRequest;
 import com.foodymoody.be.comment.controller.dto.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.CommentId;
@@ -7,9 +8,13 @@ import com.foodymoody.be.comment.service.CommentService;
 import com.foodymoody.be.common.annotation.MemberId;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -48,5 +53,12 @@ public class CommentController {
             @MemberId String memberId) {
         commentService.reply(id, request, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/api/comments/{id}/reply")
+    public ResponseEntity<Slice<CommentResponse>> fetchAllReply(@PathVariable String id,
+            @PageableDefault Pageable pageable) {
+        Slice<CommentResponse> allReplay = commentService.fetchAllReplay(id, pageable);
+        return ResponseEntity.ok(allReplay);
     }
 }
