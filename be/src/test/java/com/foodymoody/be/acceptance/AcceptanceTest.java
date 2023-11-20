@@ -1,19 +1,22 @@
 package com.foodymoody.be.acceptance;
 
-import static com.foodymoody.be.acceptance.auth.AuthSteps.로그인_한다;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.foodymoody.be.acceptance.util.DatabaseCleanup;
 import com.foodymoody.be.acceptance.util.SqlFileExecutor;
 import com.foodymoody.be.acceptance.util.TableCleanup;
+import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
@@ -21,10 +24,12 @@ import org.springframework.restdocs.restassured3.RestAssuredRestDocumentation;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ExtendWith(RestDocumentationExtension.class)
 public abstract class AcceptanceTest {
 
+    @LocalServerPort
+    public int port;
     public static final DockerImageName MYSQL_IMAGE = DockerImageName.parse("mysql:8.0");
     public static final MySQLContainer<?> MYSQL = new MySQLContainer<>(MYSQL_IMAGE)
             .withDatabaseName("foodymoody")
@@ -83,5 +88,10 @@ public abstract class AcceptanceTest {
     @BeforeAll
     static void startContainer() {
         MYSQL.start();
+    }
+
+    @PostConstruct
+    public void setRestAssuredPort() {
+        RestAssured.port = port;
     }
 }
