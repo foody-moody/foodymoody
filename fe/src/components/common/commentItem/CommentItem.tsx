@@ -73,11 +73,6 @@ export const CommentItem: React.FC<Props> = ({
           ) : (
             content
           )}
-          {/* <ContentBody>
-            <TextButton color="orange" size="s" onClick={() => {}}>
-              답글 달기
-            </TextButton>
-          </ContentBody> */}
         </FlexColumnBox>
       </ContentLeft>
       {isLogin && (
@@ -112,11 +107,6 @@ const ContentLeft = styled.div`
   align-items: flex-start;
 `;
 
-// const ContentBody = styled.div`
-//   display: flex;
-//   gap: 8px;
-// `;
-
 const FlexColumnBox = styled.div`
   width: 100%;
   display: flex;
@@ -143,10 +133,6 @@ const ContentRight = styled.div`
   white-space: nowrap;
   font: ${({ theme: { fonts } }) => fonts.displayM12};
 `;
-
-// const Delete = styled.span`
-//   color: ${({ theme: { colors } }) => colors.red};
-// `;
 
 const TimeStamp = styled.span`
   color: ${({ theme: { colors } }) => colors.textSecondary};

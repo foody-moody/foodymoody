@@ -63,7 +63,6 @@ export const FeedUserInfo: React.FC<Props> = ({
       id: 2,
       content: '수정하기',
       onClick: () => {
-        // feedId가 안나와서 임시경로 NEWFEED
         navigate(`${PATH.EDIT_FEED}/${feedId}}`, {
           state: { background: 'newFeed' },
         });

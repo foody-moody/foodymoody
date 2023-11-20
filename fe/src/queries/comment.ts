@@ -58,14 +58,6 @@ export const usePostComment = (id: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries([QUERY_KEY.comments, id]);
     },
-    // 바디가 없을 때
-    // 댓글이 없을 때
-    // 댓글이 비여 있으면
-    // 댓글이 공백 일때
-    // 댓글이 200자를 넘을 때
-    // 피드가 존재하지 않을 때
-    // 피드 아이디가 없을 때
-
     onError: (error: AxiosError<ErrorResponse>) => {
       const errorData = error?.response?.data;
 
@@ -81,7 +73,7 @@ export const usePostComment = (id: string) => {
 };
 
 export const usePutComment = () => {
-  // 쿼리키 배열에 id: string 넣는거 고려(인피니트 쿼리때문에)
+  // TODO 수정예정 쿼리키 배열에 id: string 고려(인피니트 쿼리)
   const queryClient = useQueryClient();
   const toast = useToast();
 

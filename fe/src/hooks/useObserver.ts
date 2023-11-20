@@ -14,8 +14,6 @@ export const useIntersectionObserver = ({
   const observerCallback = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        console.log(entry.isIntersecting);
-
         entry.isIntersecting && callbackFn();
       });
     },
@@ -32,7 +30,6 @@ export const useIntersectionObserver = ({
 
     return () => {
       observer.disconnect();
-      console.log('unobserve');
     };
   }, [observerCallback, rootRef]);
 
