@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
+import { usePutComment } from 'queries/comment';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
-import { TextButton } from '../button/TextButton';
+// import { TextButton } from '../button/TextButton';
 import { DotGhostIcon } from '../icon/icons';
 import { Input } from '../input/Input';
 import { UserImage } from '../userImage/UserImage';
@@ -12,15 +13,17 @@ type Props = {
   imageUrl: string;
   nickname: string;
   createdAt: string;
-  comment: string;
+  content: string;
 };
 
 export const CommentItem: React.FC<Props> = ({
   imageUrl,
   nickname,
   createdAt,
-  comment,
+  content,
 }) => {
+  const COMMENT_ID = '1';
+  const { mutate: editMutate } = usePutComment();
   const { value, handleChange, isValid } = useInput({
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
@@ -36,8 +39,12 @@ export const CommentItem: React.FC<Props> = ({
     setIsEdit(true);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (commentId: string) => {
     console.log('submit comment', isValid);
+    editMutate({
+      id: commentId,
+      body: { content: value },
+    });
     setIsEdit(false);
   };
 
@@ -64,20 +71,20 @@ export const CommentItem: React.FC<Props> = ({
               onChangeValue={handleChange}
             />
           ) : (
-            comment
+            content
           )}
-          <ContentBody>
-            <TextButton color="orange" size="s" onClick={() => {}}>
-              답글 달기
-            </TextButton>
-          </ContentBody>
         </FlexColumnBox>
       </ContentLeft>
       {isLogin && (
         <ContentRight>
           <DotGhostIcon
             onClick={() => {
-              console.log(isAuthor, handleEdit, handleDelete, handleSubmit);
+              console.log(
+                isAuthor,
+                handleEdit,
+                handleDelete,
+                handleSubmit(COMMENT_ID)
+              );
             }}
           />
         </ContentRight>
@@ -86,7 +93,7 @@ export const CommentItem: React.FC<Props> = ({
   );
 };
 
-const Wrapper = styled.li`
+const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -98,11 +105,6 @@ const ContentLeft = styled.div`
   display: flex;
   gap: 20px;
   align-items: flex-start;
-`;
-
-const ContentBody = styled.div`
-  display: flex;
-  gap: 8px;
 `;
 
 const FlexColumnBox = styled.div`
@@ -131,10 +133,6 @@ const ContentRight = styled.div`
   white-space: nowrap;
   font: ${({ theme: { fonts } }) => fonts.displayM12};
 `;
-
-// const Delete = styled.span`
-//   color: ${({ theme: { colors } }) => colors.red};
-// `;
 
 const TimeStamp = styled.span`
   color: ${({ theme: { colors } }) => colors.textSecondary};

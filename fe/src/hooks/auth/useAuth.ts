@@ -1,6 +1,6 @@
 import {
   // fetchLogin,
-  fetchLogout,
+  // fetchLogout,
   // fetchRegister,
   fetchUnRegister,
 } from 'api/auth/login';
@@ -49,23 +49,23 @@ export const useRefreshToken = () => {
   }, []);
 };
 
-export const useLogout = () => {
-  // const setIsLogin = useSetRecoilState(isLoginState);
-  const { navigateToHome } = usePageNavigator();
+// export const useLogout = () => {
+//   // const setIsLogin = useSetRecoilState(isLoginState);
+//   const { navigateToHome } = usePageNavigator();
 
-  const handleLogout = async () => {
-    try {
-      await fetchLogout();
-      clearLoginInfo();
-      // setIsLogin(false);
-      navigateToHome();
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  };
+//   const handleLogout = async () => {
+//     try {
+//       await fetchLogout();
+//       clearLoginInfo();
+//       // setIsLogin(false);
+//       navigateToHome();
+//     } catch (error) {
+//       console.error('Logout error:', error);
+//     }
+//   };
 
-  return { handleLogout };
-};
+//   return { handleLogout };
+// };
 
 export const useUnRegister = () => {
   const { navigateToHome } = usePageNavigator();

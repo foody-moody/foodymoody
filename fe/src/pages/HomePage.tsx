@@ -11,7 +11,7 @@ export const HomePage = () => {
 
   return (
     <Wrapper>
-      {MOCK.map((feed) => (
+      {MOCK?.map((feed) => (
         <MainFeedItem feed={feed} key={feed.id} />
       ))}
 

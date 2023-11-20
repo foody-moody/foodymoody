@@ -76,8 +76,4 @@ const Opener = styled.div`
   height: fit-content;
   cursor: pointer;
   border-radius: 4px;
-
-  &:hover {
-    background: ${({ theme: { colors } }) => colors.bgGray50};
-  }
 `;

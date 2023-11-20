@@ -4,7 +4,10 @@ import { media } from 'styles/mediaQuery';
 import { UserFeedTabs } from 'components/common/userFeedTabs/UserFeedTabs';
 import { ProfileUserInfo } from 'components/profileUserInfo/ProfileUserInfo';
 
+// import { useGetProfile } from 'queries/profile';
+
 export const ProfilePage = () => {
+  // const { data } = useGetProfile();
   const [index, setIndex] = useState(0);
 
   const handleFeedTab = (index: number) => {

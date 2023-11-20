@@ -1,23 +1,38 @@
+import { useRef } from 'react';
 import { styled } from 'styled-components';
 import { customScrollStyle } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
 import { Badge } from 'components/common/badge/Badge';
 import { Carousel } from 'components/common/carousel/Carousel';
-import { CommentItem } from 'components/common/commentItem/CommentItem';
+import { CommentBox } from 'components/common/commentItem/CommentBox';
 import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
 import { CommentInput } from 'components/common/input/CommentInput';
+import { useGetComments, usePostComment } from 'queries/comment';
+import { useFeedDetail } from 'queries/feed';
 import { useInput } from 'hooks/useInput';
+import { useIntersectionObserver } from 'hooks/useObserver';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const DetailFeedModalPage = () => {
-  /* TODO. 주소로 Detail 데이터 가져오깅 */
+  const { data: feed } = useFeedDetail('10'); // params로 feedId 받아오기
+  const { comments, hasNextPage, fetchNextPage } = useGetComments('10'); // params로 feedId 받아오기
+  const wrapperRef = useRef(null);
+  const { observeTarget } = useIntersectionObserver({
+    callbackFn: () => {
+      hasNextPage && fetchNextPage();
+    },
+    rootRef: wrapperRef,
+  });
+  const { mutate: commentMutate } = usePostComment('10');
   const { navigateToHome } = usePageNavigator();
   const { value, handleChange, isValid } = useInput({
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
   });
+  console.log(feed);
+  console.log('comment', comments);
 
   const MOCK = {
     id: '2',
@@ -67,12 +82,19 @@ export const DetailFeedModalPage = () => {
       isCommentValid: isValid,
       commentValue: value,
     });
+
+    commentMutate({
+      // feedId: MOCK.id,
+      // feedId: '10',
+      feedId: feed.id,
+      content: value,
+    });
   };
 
   return (
     <>
       <Dim onClick={navigateToHome} />
-      <Wrapper>
+      <Wrapper ref={wrapperRef}>
         <Box>
           <Carousel images={MOCK.images} />
 
@@ -93,53 +115,37 @@ export const DetailFeedModalPage = () => {
               </StoreMoodList>
             </Info>
             <FeedAction
-              likeCount={MOCK.likeCount}
-              commentCount={MOCK.commentCount}
+              // likeCount={MOCK.likeCount}
+              // commentCount={MOCK.commentCount}
+              likeCount={feed?.likeCount}
+              commentCount={feed?.commentCount}
             />
-            <CommentBox>
+            <CommentContainer>
               <CommentInput
                 value={value}
                 limitedLength={200}
                 onChangeValue={handleChange}
                 onSubmitComment={handleSubmit}
               />
-              <CommentItem
-                imageUrl="123"
-                nickname="댓글닉넴"
-                createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당"
-              />
-              <CommentItem
-                imageUrl="123"
-                nickname="댓글닉넴"
-                createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ"
-              />
-              <CommentItem
-                imageUrl="123"
-                nickname="댓글닉넴"
-                createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ"
-              />
-              <CommentItem
-                imageUrl="123"
-                nickname="댓글닉넴"
-                createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ"
-              />
-              <CommentItem
-                imageUrl="123"
-                nickname="댓글닉넴"
-                createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ"
-              />
-              <CommentItem
-                imageUrl="123"
-                nickname="댓글닉넴"
-                createdAt="2023-11-01T14:55:47.88735"
-                comment="댓글임니당 ㅎㅎ"
-              />
-            </CommentBox>
+              <Comment>
+                {comments?.map((comment) => (
+                  <CommentBox
+                    ref={comment === comments.at(-1) ? observeTarget : null}
+                    key={comment.id}
+                    imageUrl="이미지"
+                    nickname="댓글닉넴"
+                    createdAt={
+                      comment.createdAt === comment.updatedAt
+                        ? comment.createdAt
+                        : comment.updatedAt
+                    }
+                    content={comment.content}
+                    hasReply={comments.length % 2 === 0}
+                    replyCount={comments.length % 2 === 0 ? 3 : 0}
+                  />
+                ))}
+              </Comment>
+            </CommentContainer>
           </Content>
         </Box>
       </Wrapper>
@@ -174,12 +180,19 @@ const Review = styled.p`
   color: ${({ theme: { colors } }) => colors.black};
 `;
 
-const CommentBox = styled.div`
+const CommentContainer = styled.div`
   border-top: 1px solid ${({ theme: { colors } }) => colors.black};
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+`;
+
+const Comment = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 10px;
 `;
 
 const Info = styled.div`
