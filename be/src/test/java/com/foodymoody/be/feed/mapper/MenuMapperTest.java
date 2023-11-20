@@ -18,7 +18,7 @@ class MenuMapperTest {
         String generatedId = "1";
 
         // when
-        Menu actualMenu = MenuMapper.getMenu(generatedId, 마라탕_Request);
+        Menu actualMenu = MenuMapper.makeMenu(generatedId, 마라탕_Request);
 
         // then
         Menu expectedMenu = new Menu(generatedId, "마라탕", 4);

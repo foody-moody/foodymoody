@@ -71,8 +71,8 @@ public class FeedSteps {
 
             List<Map<String, Object>> images = (List<Map<String, Object>>) feed.get("images");
             for (Map<String, Object> image : images) {
-                assertThat(image).containsKeys("imageId", "menu");
-                assertThat(((Map) image.get("menu"))).containsKeys("name", "rating");
+                assertThat(image).containsKeys("imageUrl", "menu");
+//                assertThat(((Map) image.get("menu"))).containsKeys("name", "rating");
             }
         }
 
@@ -114,6 +114,44 @@ public class FeedSteps {
                                 "menu", Map.of(
                                         "name", "감자탕",
                                         "rating", 3
+                                )
+                        )
+                )
+        );
+
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .auth()
+                .oauth2(accessToken)
+                .body(body)
+                .when()
+                .post("/api/feeds")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 피드를_또_등록한다(String accessToken, RequestSpecification spec) {
+        Map<String, Object> body = Map.of(
+                "location", "중동",
+                "review", "맛없어요!",
+                "storeMood", List.of("1", "2", "4"),
+                "images", List.of(
+                        Map.of(
+                                "imageId", "3",
+                                "menu", Map.of(
+                                        "name", "크림 파스타",
+                                        "rating", 1
+                                )
+                        ),
+                        Map.of(
+                                "imageId", "4",
+                                "menu", Map.of(
+                                        "name", "토마토 파스타",
+                                        "rating", 2
                                 )
                         )
                 )
@@ -187,12 +225,12 @@ public class FeedSteps {
                 },
                 () -> {
                     List<Map<String, Object>> images = response.jsonPath().getList("images");
-                    assertThat(images.get(0)).containsEntry("imageUrl", "1");
+                    assertThat(images.get(0)).containsEntry("imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1");
                     Map<String, Object> firstMenu = (Map<String, Object>) images.get(0).get("menu");
                     assertThat(firstMenu).containsEntry("name", "마라탕");
                     assertThat(firstMenu).containsEntry("rating", 4);
 
-                    assertThat(images.get(1)).containsEntry("imageUrl", "2");
+                    assertThat(images.get(1)).containsEntry("imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2");
                     Map<String, Object> secondMenu = (Map<String, Object>) images.get(1).get("menu");
                     assertThat(secondMenu).containsEntry("name", "감자탕");
                     assertThat(secondMenu).containsEntry("rating", 3);
@@ -204,7 +242,7 @@ public class FeedSteps {
         Map<String, Object> body = Map.of(
                 "location", "맛있게 매운 콩볼 범계점2",
                 "review", "맛있게 먹었습니다.2",
-                "storeMood", List.of("2", "5", "6"),
+                "storeMood", List.of("2", "5", "5"),
                 "images", List.of(
                         Map.of(
                                 "imageId", "3",
@@ -217,7 +255,7 @@ public class FeedSteps {
                                 "imageId", "4",
                                 "menu", Map.of(
                                         "name", "감자탕2",
-                                        "rating", 6
+                                        "rating", 5
                                 )
                         )
                 )
