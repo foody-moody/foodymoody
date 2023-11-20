@@ -1,5 +1,6 @@
 package com.foodymoody.be.comment.service;
 
+import com.foodymoody.be.comment.controller.dto.CommentResponse;
 import com.foodymoody.be.comment.controller.dto.EditCommentRequest;
 import com.foodymoody.be.comment.controller.dto.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.Comment;
@@ -10,6 +11,8 @@ import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.service.FeedService;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,9 +58,13 @@ public class CommentService {
     public void reply(String id, RegisterCommentRequest request, String memberId) {
         CommentId commentId = new CommentId(id);
         Comment comment = fetchById(commentId);
-        LocalDateTime now = LocalDateTime.now();
-        CommentId replyId = new CommentId(IdGenerator.generate());
-        Comment replyComment = commentMapper.toEntity(request, now, replyId, memberId);
+        Comment replyComment = commentMapper.toEntity(request, LocalDateTime.now(),
+                CommentId.from(IdGenerator.generate()), memberId);
         comment.addReply(replyComment);
+    }
+
+    public Slice<CommentResponse> fetchAllReplay(String id, Pageable pageable) {
+        CommentId commentId = new CommentId(id);
+        return commentRepository.findReplyWithMemberAllById(commentId, pageable);
     }
 }

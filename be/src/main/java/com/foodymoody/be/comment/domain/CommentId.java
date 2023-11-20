@@ -17,6 +17,10 @@ public class CommentId implements Serializable {
         this.id = id;
     }
 
+    public static CommentId from(String generate) {
+        return new CommentId(generate);
+    }
+
     public String getId() {
         return id;
     }

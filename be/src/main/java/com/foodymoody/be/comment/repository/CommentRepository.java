@@ -20,4 +20,16 @@ public interface CommentRepository extends JpaRepository<Comment, CommentId> {
             + "on _image.id = _member.profileImageId "
             + "where _comment.feedId = :feedId and _comment.deleted = false")
     Slice<CommentResponse> findWithMemberAllByFeedId(String feedId, Pageable pageable);
+
+    @Query("select new com.foodymoody.be.comment.controller.dto.CommentResponse(_replyComment.id.id,_replyComment.content,"
+            + "_member.wrappedId.id,_member.nickname,_image.url,_replyComment.hasReply,"
+            + "_replyComment.createdAt ,_replyComment.updatedAt) "
+            + "from Comment _comment "
+            + "left join _comment.replyComments.commentList _replyComment "
+            + "left join Member _member "
+            + "on _member.wrappedId.id = _replyComment.memberId "
+            + "left join Image _image "
+            + "on _image.id = _member.profileImageId "
+            + "where _comment.id = :commentId")
+    Slice<CommentResponse> findReplyWithMemberAllById(CommentId commentId, Pageable pageable);
 }
