@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react';
+import { useState, forwardRef } from 'react';
 import { styled } from 'styled-components';
 import { useInput } from 'hooks/useInput';
 import { TextButton } from '../button/TextButton';
