@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { Badge } from 'components/common/badge/Badge';
@@ -11,52 +12,54 @@ type Props = {
   feed: MainFeed;
 };
 
-export const MainFeedItem: React.FC<Props> = ({ feed }) => {
-  const { displayText, toggleReadMore, readMore } = useReadMore(feed.review);
-  const navigate = useNavigate();
+export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
+  ({ feed }, ref) => {
+    const { displayText, toggleReadMore, readMore } = useReadMore(feed.review);
+    const navigate = useNavigate();
 
-  const handleOpenDetailFeed = () => {
-    navigate(PATH.DETAIL_FEED + '/' + feed.id, {
-      state: { background: 'detailFeed' },
-    });
-  };
+    const handleOpenDetailFeed = () => {
+      navigate(PATH.DETAIL_FEED + '/' + feed.id, {
+        state: { background: 'detailFeed' },
+      });
+    };
 
-  return (
-    <Wrapper>
-      <Info>
-        <FeedUserInfo
-          member={feed.member}
-          createdAt={feed.createdAt}
-          location={feed.location}
+    return (
+      <Wrapper ref={ref}>
+        <Info>
+          <FeedUserInfo
+            member={feed.member}
+            createdAt={feed.createdAt}
+            location={feed.location}
+          />
+        </Info>
+
+        <Content>
+          <Review>
+            {displayText}
+            <ReadMoreBtn onClick={toggleReadMore}>
+              {readMore ? '접기' : '더보기'}
+            </ReadMoreBtn>
+          </Review>
+          <StoreMoodList>
+            {feed.storeMood.map((storeMood) => (
+              <Badge variant="store" badge={storeMood} key={storeMood.id} />
+            ))}
+          </StoreMoodList>
+        </Content>
+
+        <Carousel images={feed.images}></Carousel>
+
+        <FeedAction
+          likeCount={feed.likeCount}
+          commentCount={feed.commentCount}
+          onClickCommentIcon={handleOpenDetailFeed}
         />
-      </Info>
+      </Wrapper>
+    );
+  }
+);
 
-      <Content>
-        <Review>
-          {displayText}
-          <ReadMoreBtn onClick={toggleReadMore}>
-            {readMore ? '접기' : '더보기'}
-          </ReadMoreBtn>
-        </Review>
-        <StoreMoodList>
-          {feed.storeMood.map((storeMood) => (
-            <Badge variant="store" badge={storeMood} key={storeMood.id} />
-          ))}
-        </StoreMoodList>
-      </Content>
-
-      <Carousel images={feed.images}></Carousel>
-
-      <FeedAction
-        likeCount={feed.likeCount}
-        commentCount={feed.commentCount}
-        onClickCommentIcon={handleOpenDetailFeed}
-      />
-    </Wrapper>
-  );
-};
-
-const Wrapper = styled.div`
+const Wrapper = styled.li`
   max-width: 566px;
   min-width: 340px;
   background-color: ${({ theme: { colors } }) => colors.white};
