@@ -1,7 +1,7 @@
 import { useState, forwardRef } from 'react';
 import { styled } from 'styled-components';
+import { TextButton } from 'components/common/button/TextButton';
 import { useInput } from 'hooks/useInput';
-import { TextButton } from '../button/TextButton';
 import { ArrowDownIcon, ArrowUpIcon } from '../icon/icons';
 import { CommentInput } from '../input/CommentInput';
 import { CommentItem } from './CommentItem';

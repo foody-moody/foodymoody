@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getTasteMoods } from 'server/axios/mood/mood';
+import { getTasteMoods } from 'service/axios/mood/mood';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
 export const useGetTasteMood = () =>
