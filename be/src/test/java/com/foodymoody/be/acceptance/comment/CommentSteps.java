@@ -162,7 +162,8 @@ public class CommentSteps {
     // 댓글의_댓글을_조회한다
     public static ExtractableResponse<Response> 댓글의_댓글을_조회한다(String commentId, RequestSpecification spec) {
         return RestAssured.given().spec(spec).log().all()
-                .when().get("/api/comments/{commentId}/reply", commentId)
+                .params(Map.of("page", "0", "size", "10"))
+                .when().get("/api/comments/{commentId}/replies", commentId)
                 .then().log().all()
                 .extract();
     }

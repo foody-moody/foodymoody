@@ -2,25 +2,23 @@ package com.foodymoody.be.comment.controller.dto;
 
 import java.time.LocalDateTime;
 
-public class CommentResponse {
+public class ReplyResponse {
 
     private String id;
     private String content;
     private MemberResponse member;
-    private boolean hasReply;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public CommentResponse(String id, String content, String memberId, String memberName,
-            String memberProfileImage, boolean hasReply, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public ReplyResponse(String id, String content, String memberId, String memberName, String memberProfileImage,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt) {
         this.id = id;
         this.content = content;
         this.member = new MemberResponse(memberId, memberName, memberProfileImage);
-        this.hasReply = hasReply;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-
 
     public String getId() {
         return id;
@@ -30,19 +28,15 @@ public class CommentResponse {
         return content;
     }
 
+    public MemberResponse getMember() {
+        return member;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
-    }
-
-    public MemberResponse getMember() {
-        return member;
-    }
-
-    public boolean isHasReply() {
-        return hasReply;
     }
 }
