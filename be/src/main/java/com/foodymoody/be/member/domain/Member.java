@@ -1,7 +1,5 @@
 package com.foodymoody.be.member.domain;
 
-import com.foodymoody.be.common.BaseEntity;
-import com.foodymoody.be.common.WrappedId;
 import com.foodymoody.be.common.exception.IncorrectMemberPasswordException;
 import com.foodymoody.be.common.exception.InvalidReconfirmPasswordException;
 import java.util.Objects;
@@ -22,14 +20,14 @@ public class Member {
     private String nickname;
     private String password;
     private String profileImageId;
-    private String moodId;
+    private String tasteMoodId;
 
     private Member(MemberId id, String email, String nickname, String password, String moodId) {
         this.id = id;
         this.email = email;
         this.nickname = nickname;
         this.password = password;
-        this.moodId = moodId;
+        this.tasteMoodId = moodId;
     }
 
     public static Member of(String id, String email, String nickname, String password, String reconfirmPassword, String moodId) {
@@ -55,8 +53,8 @@ public class Member {
         return profileImageId;
     }
 
-    public String getMoodId() {
-        return moodId;
+    public String getTasteMoodId() {
+        return tasteMoodId;
     }
 
     public void validatePassword(String password) {

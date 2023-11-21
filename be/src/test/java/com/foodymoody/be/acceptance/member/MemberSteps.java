@@ -34,7 +34,7 @@ public class MemberSteps {
                 "email", 비회원_보노.getEmail(),
                 "password", 비회원_보노.getPassword(),
                 "reconfirmPassword", 비회원_보노.getPassword(),
-                "mood", 비회원_보노.getMood());
+                "tasteMoodId", 비회원_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
     }
@@ -45,7 +45,7 @@ public class MemberSteps {
                 "email", 회원_푸반.getEmail(),
                 "password", 비회원_보노.getPassword(),
                 "reconfirmPassword", 비회원_보노.getPassword(),
-                "mood", 비회원_보노.getMood());
+                "tasteMoodId", 비회원_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
     }
@@ -56,7 +56,7 @@ public class MemberSteps {
                 "email", 비회원_보노.getEmail(),
                 "password", 비회원_보노.getPassword(),
                 "reconfirmPassword", 비회원_보노.getPassword(),
-                "mood", 비회원_보노.getMood());
+                "tasteMoodId", 비회원_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
     }
@@ -67,7 +67,7 @@ public class MemberSteps {
                 "email", 비회원_보노.getEmail(),
                 "password", 비회원_보노.getPassword(),
                 "reconfirmPassword", "diffrentPassword",
-                "mood", 비회원_보노.getMood());
+                "tasteMoodId", 비회원_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
     }
@@ -75,7 +75,7 @@ public class MemberSteps {
     public static ExtractableResponse<Response> 비회원보노가_유효하지_않은_이메일을_입력하고_닉네임을_입력하지_않고_패스워드를_입력하지_않고_회원가입한다(RequestSpecification spec) {
         Map<String, Object> memberRegisterRequest = Map.of(
                 "email", "test",
-                "mood", 비회원_보노.getMood());
+                "tasteMoodId", 비회원_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
     }
@@ -164,7 +164,7 @@ public class MemberSteps {
                 () -> assertThat(response.jsonPath().getString("myImageUrl")).isEqualTo(비회원_보노.getMyImageUrl()),
                 () -> assertThat(response.jsonPath().getString("nickname")).isEqualTo(비회원_보노.getNickname()),
                 () -> assertThat(response.jsonPath().getString("email")).isEqualTo(비회원_보노.getEmail()),
-                () -> assertThat(response.jsonPath().getString("mood")).isEqualTo(비회원_보노.getMood())
+                () -> assertThat(response.jsonPath().getString("mood")).isEqualTo(비회원_보노.getTasteMoodId())
         );
     }
 

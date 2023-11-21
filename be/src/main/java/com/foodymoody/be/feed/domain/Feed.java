@@ -29,7 +29,7 @@ public class Feed {
     @Embedded
     private ImageMenus imageMenus;
     @Embedded
-    private StoreMood storeMood;
+    private StoreMoods storeMoods;
 
     public Feed() {
     }
@@ -40,7 +40,7 @@ public class Feed {
         this.memberId = memberId;
         this.location = location;
         this.review = review;
-        this.storeMood = new StoreMood(moodIds);
+        this.storeMoods = new StoreMoods(moodIds);
         this.imageMenus = new ImageMenus(images, menus);
     }
 
@@ -57,7 +57,7 @@ public class Feed {
     }
 
     public List<String> getStoreMoodIds() {
-        return storeMood.getStoreMoodIds();
+        return storeMoods.getStoreMoodIds();
     }
 
     public List<ImageMenu> getImageMenus() {
@@ -84,8 +84,8 @@ public class Feed {
         return updatedAt;
     }
 
-    public StoreMood getStoreMood() {
-        return storeMood;
+    public StoreMoods getStoreMood() {
+        return storeMoods;
     }
 
     public String getMemberId() {
@@ -97,7 +97,7 @@ public class Feed {
         this.memberId = memberId;
         this.location = newLocation;
         this.review = newReview;
-        this.storeMood = new StoreMood(newStoreMoodIds);
+        this.storeMoods = new StoreMoods(newStoreMoodIds);
         this.imageMenus.replaceWith(newImages, newMenus);
     }
 

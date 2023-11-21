@@ -204,9 +204,9 @@ public class FeedSteps {
                     List<Map<String, String>> storeMoods = response.jsonPath().getList("storeMood");
                     assertThat(storeMoods).hasSize(3);
 
-                    assertThat(storeMoods.get(0)).containsEntry("name", "베지테리언");
-                    assertThat(storeMoods.get(1)).containsEntry("name", "무드1");
-                    assertThat(storeMoods.get(2)).containsEntry("name", "무드2");
+                    assertThat(storeMoods.get(0)).containsEntry("name", "가족과 함께");
+                    assertThat(storeMoods.get(1)).containsEntry("name", "감성");
+                    assertThat(storeMoods.get(2)).containsEntry("name", "데이트");
                 },
                 () -> {
                     String createdAt = response.jsonPath().getString("createdAt");

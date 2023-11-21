@@ -9,12 +9,12 @@ import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberId;
 import com.foodymoody.be.member.repository.MemberFeedData;
+import com.foodymoody.be.member.domain.TasteMood;
+import com.foodymoody.be.member.domain.TasteMoodId;
 import com.foodymoody.be.member.repository.MemberProfileData;
 import com.foodymoody.be.member.repository.MemberRepository;
 import com.foodymoody.be.member.util.MemberMapper;
-import com.foodymoody.be.mood.service.MoodService;
 import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +25,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final MoodService moodService;
+    private final TasteMoodService tasteMoodService;
 
     @Transactional
     public MemberSignupResponse create(MemberSignupRequest request) {
+        TasteMoodId tasteMoodId = new TasteMoodId(request.getTasteMoodId());
+        TasteMood tasteMood = tasteMoodService.findById(tasteMoodId);
         validateNicknameDuplication(request.getNickname());
         validateEmailDuplication(request.getEmail());
         MemberId savedMemberId = memberRepository.save(MemberMapper.toEntity(request, tasteMood)).getId();
@@ -59,13 +61,6 @@ public class MemberService {
     public Member findById(String id) {
         MemberId key = new MemberId(id);
         return memberRepository.findById(key).orElseThrow(MemberNotFoundException::new);
-    }
-
-    private String findMoodIdByNameOrElseNull(String requested) {
-        if (Objects.isNull(requested)) {
-            return null;
-        }
-        return moodService.findMoodByName(requested).getId();
     }
 
     private MemberProfileData fetchProfileData(String id) {
