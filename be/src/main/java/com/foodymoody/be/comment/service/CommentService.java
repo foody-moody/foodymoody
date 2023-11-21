@@ -1,10 +1,12 @@
 package com.foodymoody.be.comment.service;
 
-import com.foodymoody.be.comment.controller.dto.CommentResponse;
 import com.foodymoody.be.comment.controller.dto.EditCommentRequest;
 import com.foodymoody.be.comment.controller.dto.RegisterCommentRequest;
+import com.foodymoody.be.comment.controller.dto.ReplyResponse;
 import com.foodymoody.be.comment.domain.Comment;
 import com.foodymoody.be.comment.domain.CommentId;
+import com.foodymoody.be.comment.domain.Reply;
+import com.foodymoody.be.comment.domain.ReplyId;
 import com.foodymoody.be.comment.repository.CommentRepository;
 import com.foodymoody.be.common.exception.CommentNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
@@ -56,14 +58,13 @@ public class CommentService {
 
     @Transactional
     public void reply(String id, RegisterCommentRequest request, String memberId) {
-        CommentId commentId = new CommentId(id);
-        Comment comment = fetchById(commentId);
-        Comment replyComment = commentMapper.toEntity(request, LocalDateTime.now(),
-                CommentId.from(IdGenerator.generate()), memberId);
-        comment.addReply(replyComment);
+        Comment comment = fetchById(CommentId.from(id));
+        ReplyId replyId = ReplyId.from(IdGenerator.generate());
+        Reply reply = commentMapper.toReply(replyId, LocalDateTime.now(), memberId, request.getContent());
+        comment.addReply(reply);
     }
 
-    public Slice<CommentResponse> fetchAllReplay(String id, Pageable pageable) {
+    public Slice<ReplyResponse> fetchAllReplay(String id, Pageable pageable) {
         CommentId commentId = new CommentId(id);
         return commentRepository.findReplyWithMemberAllById(commentId, pageable);
     }

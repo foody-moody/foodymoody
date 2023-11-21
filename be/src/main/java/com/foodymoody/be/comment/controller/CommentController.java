@@ -1,8 +1,8 @@
 package com.foodymoody.be.comment.controller;
 
-import com.foodymoody.be.comment.controller.dto.CommentResponse;
 import com.foodymoody.be.comment.controller.dto.EditCommentRequest;
 import com.foodymoody.be.comment.controller.dto.RegisterCommentRequest;
+import com.foodymoody.be.comment.controller.dto.ReplyResponse;
 import com.foodymoody.be.comment.domain.CommentId;
 import com.foodymoody.be.comment.service.CommentService;
 import com.foodymoody.be.common.annotation.MemberId;
@@ -56,9 +56,9 @@ public class CommentController {
     }
 
     @GetMapping("/api/comments/{id}/reply")
-    public ResponseEntity<Slice<CommentResponse>> fetchAllReply(@PathVariable String id,
+    public ResponseEntity<Slice<ReplyResponse>> fetchAllReply(@PathVariable String id,
             @PageableDefault Pageable pageable) {
-        Slice<CommentResponse> allReplay = commentService.fetchAllReplay(id, pageable);
+        var allReplay = commentService.fetchAllReplay(id, pageable);
         return ResponseEntity.ok(allReplay);
     }
 }

@@ -92,12 +92,12 @@ public class Comment {
         return memberId;
     }
 
-    public List<Comment> getReplyComments() {
+    public List<Reply> getReplyComments() {
         return replyComments.getCommentList();
     }
 
-    public void addReply(Comment replyComment) {
-        this.replyComments.add(replyComment);
+    public void addReply(Reply reply) {
+        this.replyComments.add(reply);
         this.hasReply = true;
     }
 }
