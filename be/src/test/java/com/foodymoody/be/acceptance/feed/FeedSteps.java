@@ -14,6 +14,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.junit.jupiter.api.Assertions;
 import org.springframework.http.MediaType;
 
 public class FeedSteps {
@@ -295,4 +296,25 @@ public class FeedSteps {
         assertThat(response.statusCode()).isEqualTo(204);
     }
 
+
+    public static ExtractableResponse<Response> 전체_스토어_무드를_조회한다(RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .when()
+                .get("/api/feeds/store-moods")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static void 응답코드가_200이고_전체_스토어_무드가_조회되면_정상적으로_조회_가능한_전체_스토어_무드(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(200),
+                () -> assertThat(response.jsonPath().getList("")).hasSize(6)
+        );
+
+    }
 }

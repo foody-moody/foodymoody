@@ -2,6 +2,7 @@ package com.foodymoody.be.acceptance.member;
 
 import static com.foodymoody.be.member.util.MemberFixture.비회원_보노;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.restassured.RestAssured;
@@ -136,6 +137,14 @@ public class MemberSteps {
         );
     }
 
+    public static void 상태코드가_200이고_전체_테이스트_무드가_조회되는지_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                () -> assertThat(response.jsonPath().getList("")).hasSize(6)
+        );
+
+    }
+
     public static String 회원보노가_회원가입하고_아이디를_반환한다(RequestSpecification spec) {
         return 비회원보노가_회원가입한다(spec).jsonPath().getString("id");
     }
@@ -196,6 +205,19 @@ public class MemberSteps {
                 () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT)
 //                () -> 응답코드를_검증한다(bonoLoginByWrongPasswordResponse, HttpStatus.UNAUTHORIZED)
         );
+    }
+
+    public static ExtractableResponse<Response> 전체_테이스트_무드를_조회한다(RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .when()
+                .get("/api/members/taste-moods")
+                .then()
+                .log().all()
+                .extract();
     }
 
     public static ExtractableResponse<Response> 회원가입한다(Map<String, Object> memberRegisterRequest,
