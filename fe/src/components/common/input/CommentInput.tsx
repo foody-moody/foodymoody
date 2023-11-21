@@ -2,7 +2,7 @@ import EmojiPicker, { EmojiStyle, EmojiClickData } from 'emoji-picker-react';
 import { useState, InputHTMLAttributes } from 'react';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
-import { TextButton } from 'components/common/button/TextButton';
+import { TextButton } from '../button/TextButton';
 import { FaceIcon } from '../icon/icons';
 import { InputCore } from './InputCore';
 
