@@ -38,7 +38,7 @@ public class MemberController {
     }
 
     @GetMapping("/moods/taste")
-    public ResponseEntity<List<TasteMoodResponse>> fetchAllMoods() {
+    public ResponseEntity<List<TasteMoodResponse>> fetchAllTasteMoods() {
         List<TasteMoodResponse> response = tasteMoodService.findAll();
         return ResponseEntity.ok(response);
     }
