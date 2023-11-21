@@ -11,13 +11,13 @@ import javax.persistence.OneToMany;
 public class ReplyComments {
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Comment> commentList = new ArrayList<>();
+    private List<Reply> commentList = new ArrayList<>();
 
-    public void add(Comment replyComment) {
-        commentList.add(replyComment);
+    public void add(Reply reply) {
+        commentList.add(reply);
     }
 
-    public List<Comment> getCommentList() {
+    public List<Reply> getCommentList() {
         return commentList;
     }
 }

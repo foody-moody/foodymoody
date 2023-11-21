@@ -6,9 +6,7 @@ public class CommentResponse {
 
     private String id;
     private String content;
-    private String memberId;
-    private String memberName;
-    private String memberProfileImage;
+    private MemberResponse member;
     private boolean hasReply;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -17,9 +15,7 @@ public class CommentResponse {
             String memberProfileImage, boolean hasReply, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.content = content;
-        this.memberId = memberId;
-        this.memberName = memberName;
-        this.memberProfileImage = memberProfileImage;
+        this.member = new MemberResponse(memberId, memberName, memberProfileImage);
         this.hasReply = hasReply;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -42,16 +38,8 @@ public class CommentResponse {
         return updatedAt;
     }
 
-    public String getMemberId() {
-        return memberId;
-    }
-
-    public String getMemberName() {
-        return memberName;
-    }
-
-    public String getMemberProfileImage() {
-        return memberProfileImage;
+    public MemberResponse getMember() {
+        return member;
     }
 
     public boolean isHasReply() {

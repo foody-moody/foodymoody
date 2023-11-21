@@ -5,6 +5,7 @@ import com.foodymoody.be.comment.service.FeedCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class FeedCommentController {
     @GetMapping("/api/comments")
     public ResponseEntity<Slice<CommentResponse>> fetchComments(
             @RequestParam String feedId,
-            @PageableDefault Pageable pageable
+            @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable
     ) {
         var comments = feedCommentService.fetchComments(feedId, pageable);
         return ResponseEntity.ok(comments);
