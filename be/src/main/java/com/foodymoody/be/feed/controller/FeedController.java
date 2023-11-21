@@ -83,7 +83,7 @@ public class FeedController {
      * */
     @GetMapping("/api/feeds/store-moods")
     public ResponseEntity<List<StoreMoodResponse>> readAllStoreMood() {
-        List<StoreMoodResponse> storeMoodResponses = storeMoodService.findAll();
+        List<StoreMoodResponse> storeMoodResponses = storeMoodService.fetchAll();
         return ResponseEntity.ok().body(storeMoodResponses);
     }
 
