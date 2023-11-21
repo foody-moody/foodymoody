@@ -18,26 +18,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/members")
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
     private final TasteMoodService tasteMoodService;
 
-    @PostMapping("/members")
+    @PostMapping
     public ResponseEntity<MemberSignupResponse> signup(@Valid @RequestBody MemberSignupRequest request) {
         MemberSignupResponse response = memberService.create(request);
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/members/{memberId}")
+    @GetMapping("/{memberId}")
     public ResponseEntity<MemberProfileResponse> fetchProfile(@PathVariable String memberId) {
         MemberProfileResponse response = memberService.fetchProfile(memberId);
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/moods/taste")
+    @GetMapping("/taste-moods")
     public ResponseEntity<List<TasteMoodResponse>> fetchAllTasteMoods() {
         List<TasteMoodResponse> response = tasteMoodService.findAll();
         return ResponseEntity.ok(response);

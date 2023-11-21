@@ -81,7 +81,7 @@ public class FeedController {
     /**
      * 전체 Store Mood 조회
      * */
-    @GetMapping("/api/moods/store")
+    @GetMapping("/api/feeds/store-moods")
     public ResponseEntity<List<StoreMoodResponse>> readAllStoreMood() {
         List<StoreMoodResponse> storeMoodResponses = storeMoodService.findAll();
         return ResponseEntity.ok().body(storeMoodResponses);
