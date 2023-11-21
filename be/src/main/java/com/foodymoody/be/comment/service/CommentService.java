@@ -9,6 +9,7 @@ import com.foodymoody.be.comment.domain.CommentId;
 import com.foodymoody.be.comment.domain.Reply;
 import com.foodymoody.be.comment.domain.ReplyId;
 import com.foodymoody.be.comment.repository.CommentRepository;
+import com.foodymoody.be.comment.repository.ReplyRepository;
 import com.foodymoody.be.common.exception.CommentNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.service.FeedService;
@@ -26,6 +27,7 @@ public class CommentService {
 
     private final FeedService feedService;
     private final CommentRepository commentRepository;
+    private final ReplyRepository replyRepository;
     private final CommentMapper commentMapper;
 
     @Transactional
@@ -69,6 +71,6 @@ public class CommentService {
     @Transactional(readOnly = true)
     public Slice<ReplyResponse> fetchAllReplay(String id, Pageable pageable) {
         CommentId commentId = new CommentId(id);
-        return commentRepository.findReplyWithMemberAllById(commentId, pageable);
+        return replyRepository.findReplyWithMemberAllById(commentId, pageable);
     }
 }
