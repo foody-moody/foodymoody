@@ -2,6 +2,7 @@ package com.foodymoody.be.comment.service;
 
 import com.foodymoody.be.comment.controller.dto.EditCommentRequest;
 import com.foodymoody.be.comment.controller.dto.RegisterCommentRequest;
+import com.foodymoody.be.comment.controller.dto.RegisterReplyRequest;
 import com.foodymoody.be.comment.controller.dto.ReplyResponse;
 import com.foodymoody.be.comment.domain.Comment;
 import com.foodymoody.be.comment.domain.CommentId;
@@ -12,6 +13,7 @@ import com.foodymoody.be.common.exception.CommentNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.service.FeedService;
 import java.time.LocalDateTime;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -57,13 +59,14 @@ public class CommentService {
     }
 
     @Transactional
-    public void reply(String id, RegisterCommentRequest request, String memberId) {
+    public void reply(String id, @Valid RegisterReplyRequest request, String memberId) {
         Comment comment = fetchById(CommentId.from(id));
         ReplyId replyId = ReplyId.from(IdGenerator.generate());
         Reply reply = commentMapper.toReply(replyId, LocalDateTime.now(), memberId, request.getContent());
         comment.addReply(reply);
     }
 
+    @Transactional(readOnly = true)
     public Slice<ReplyResponse> fetchAllReplay(String id, Pageable pageable) {
         CommentId commentId = new CommentId(id);
         return commentRepository.findReplyWithMemberAllById(commentId, pageable);
