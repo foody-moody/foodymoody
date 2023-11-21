@@ -4,6 +4,7 @@ import com.foodymoody.be.auth.controller.dto.LoginRequest;
 import com.foodymoody.be.auth.controller.dto.LoginResponse;
 import com.foodymoody.be.auth.util.JwtUtil;
 import com.foodymoody.be.member.domain.Member;
+import com.foodymoody.be.member.domain.MemberId;
 import com.foodymoody.be.member.service.MemberService;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +24,10 @@ public class AuthService {
         Member member = memberService.findByEmail(request.getEmail());
         member.validatePassword(request.getPassword());
         Date now = new Date();
-        String accessToken = jwtUtil.createAccessToken(now, member.getId(), member.getEmail());
-        String refreshToken = jwtUtil.createRefreshToken(now, member.getId());
-        tokenService.saveRefreshToken(member.getId(), refreshToken);
+        MemberId id = member.getId();
+        String accessToken = jwtUtil.createAccessToken(now, id.getId(), member.getEmail());
+        String refreshToken = jwtUtil.createRefreshToken(now, id.getId());
+        tokenService.saveRefreshToken(id.getId(), refreshToken);
         return LoginResponse.of(accessToken, refreshToken);
     }
 }

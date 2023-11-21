@@ -8,6 +8,7 @@ import com.foodymoody.be.member.controller.dto.MemberProfileResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.domain.Member;
+import com.foodymoody.be.member.domain.MemberId;
 import com.foodymoody.be.member.repository.MemberProfileData;
 import java.util.List;
 
@@ -28,8 +29,8 @@ public class MemberMapper {
         );
     }
 
-    public static MemberSignupResponse toSignupResponse(String savedMemberId) {
-        return MemberSignupResponse.from(savedMemberId);
+    public static MemberSignupResponse toSignupResponse(MemberId memberId) {
+        return MemberSignupResponse.from(memberId.getId());
     }
 
     public static MemberProfileResponse toMemberProfileResponse(MemberProfileData data, List<MemberProfileFeedPreviewResponse> feedPreviews) {

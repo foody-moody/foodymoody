@@ -1,6 +1,5 @@
 package com.foodymoody.be.member.service;
 
-import com.foodymoody.be.common.WrappedId;
 import com.foodymoody.be.common.exception.DuplicateMemberEmailException;
 import com.foodymoody.be.common.exception.DuplicateNicknameException;
 import com.foodymoody.be.common.exception.MemberNotFoundException;
@@ -8,6 +7,7 @@ import com.foodymoody.be.member.controller.dto.MemberProfileResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.domain.Member;
+import com.foodymoody.be.member.domain.MemberId;
 import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.repository.MemberProfileData;
 import com.foodymoody.be.member.repository.MemberRepository;
@@ -31,8 +31,7 @@ public class MemberService {
     public MemberSignupResponse create(MemberSignupRequest request) {
         validateNicknameDuplication(request.getNickname());
         validateEmailDuplication(request.getEmail());
-        String moodId = findMoodIdByNameOrElseNull(request.getMood());
-        String savedMemberId = memberRepository.save(MemberMapper.toEntity(request, moodId)).getId();
+        MemberId savedMemberId = memberRepository.save(MemberMapper.toEntity(request, tasteMood)).getId();
         return MemberMapper.toSignupResponse(savedMemberId);
     }
 
@@ -51,14 +50,14 @@ public class MemberService {
     }
 
     public void validateIdExists(String id) {
-        WrappedId key = new WrappedId(id);
+        MemberId key = new MemberId(id);
         if (!memberRepository.existsById(key)) {
             throw new MemberNotFoundException();
         }
     }
 
     public Member findById(String id) {
-        WrappedId key = new WrappedId(id);
+        MemberId key = new MemberId(id);
         return memberRepository.findById(key).orElseThrow(MemberNotFoundException::new);
     }
 
