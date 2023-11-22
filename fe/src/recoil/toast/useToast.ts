@@ -5,7 +5,7 @@ export const useToast = () => {
   const [toasts, setToasts] = useRecoilState(toastListState);
 
   const addToast = (type: ToastType, message: string) => {
-    const id = crypto.randomUUID();
+    const id = self.crypto.randomUUID();
     setToasts([...toasts, { id, type, message, isVisible: true }]);
 
     setTimeout(() => {
