@@ -3,8 +3,10 @@ package com.foodymoody.be.acceptance.feed;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.개별_피드를_조회한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_id가_존재하면_정상적으로_등록된_피드;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_개별_피드가_조회되면_정상적으로_등록된_피드;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_전체_스토어_무드가_조회되면_정상적으로_조회_가능한_전체_스토어_무드;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_전체_피드가_조회되면_정상적으로_조회_가능한_전체_페이지;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_204라면_정상적으로_수정_삭제된_피드;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.전체_스토어_무드를_조회한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.전체_피드를_조회한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_또_등록한다;
@@ -100,6 +102,19 @@ class FeedAcceptanceTest extends AcceptanceTest {
 
         // then
         응답코드가_204라면_정상적으로_수정_삭제된_피드(deleteResponse);
+    }
+
+    @DisplayName("전체 스토어 무드 조회에 성공하면 응답코드 200을 반환한다.")
+    @Test
+    void when_readAll_store_mood_then_response200() {
+        // docs
+        api_문서_타이틀("readAllStoreMood", spec);
+
+        // when
+        var response = 전체_스토어_무드를_조회한다(spec);
+
+        // then
+        응답코드가_200이고_전체_스토어_무드가_조회되면_정상적으로_조회_가능한_전체_스토어_무드(response);
     }
 
 }

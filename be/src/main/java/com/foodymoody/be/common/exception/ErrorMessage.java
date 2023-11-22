@@ -28,6 +28,7 @@ public enum ErrorMessage {
     MEMBER_INCORRECT_PASSWORD("사용자 정보와 패스워드가 일치하지 않습니다", "a005"),
     // mood
     DUPLICATE_MOOD("이미 존재하는 무드입니다", "o001"),
+    MOOD_NOT_FOUND("존재하지 않는 무드입니다", "o002"),
     // image
     IMAGE_NOT_FOUND("해당 id의 이미지가 존재하지 않습니다", "i001");
 
