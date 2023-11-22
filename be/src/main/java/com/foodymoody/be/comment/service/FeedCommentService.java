@@ -15,7 +15,6 @@ public class FeedCommentService {
 
     private final FeedService feedService;
     private final CommentRepository commentRepository;
-    private final CommentMapper commentMapper;
 
     @Transactional(readOnly = true)
     public Slice<CommentResponse> fetchComments(String feedId, Pageable pageable) {

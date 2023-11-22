@@ -2,6 +2,7 @@ package com.foodymoody.be.acceptance.member;
 
 import static com.foodymoody.be.member.util.MemberFixture.비회원_보노;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.restassured.RestAssured;
@@ -34,7 +35,7 @@ public class MemberSteps {
                 "email", 비회원_보노.getEmail(),
                 "password", 비회원_보노.getPassword(),
                 "reconfirmPassword", 비회원_보노.getPassword(),
-                "mood", 비회원_보노.getMood());
+                "tasteMoodId", 비회원_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
     }
@@ -45,7 +46,7 @@ public class MemberSteps {
                 "email", 회원_푸반.getEmail(),
                 "password", 비회원_보노.getPassword(),
                 "reconfirmPassword", 비회원_보노.getPassword(),
-                "mood", 비회원_보노.getMood());
+                "tasteMoodId", 비회원_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
     }
@@ -56,7 +57,7 @@ public class MemberSteps {
                 "email", 비회원_보노.getEmail(),
                 "password", 비회원_보노.getPassword(),
                 "reconfirmPassword", 비회원_보노.getPassword(),
-                "mood", 비회원_보노.getMood());
+                "tasteMoodId", 비회원_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
     }
@@ -67,7 +68,7 @@ public class MemberSteps {
                 "email", 비회원_보노.getEmail(),
                 "password", 비회원_보노.getPassword(),
                 "reconfirmPassword", "diffrentPassword",
-                "mood", 비회원_보노.getMood());
+                "tasteMoodId", 비회원_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
     }
@@ -75,7 +76,7 @@ public class MemberSteps {
     public static ExtractableResponse<Response> 비회원보노가_유효하지_않은_이메일을_입력하고_닉네임을_입력하지_않고_패스워드를_입력하지_않고_회원가입한다(RequestSpecification spec) {
         Map<String, Object> memberRegisterRequest = Map.of(
                 "email", "test",
-                "mood", 비회원_보노.getMood());
+                "tasteMoodId", 비회원_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
     }
@@ -136,6 +137,14 @@ public class MemberSteps {
         );
     }
 
+    public static void 상태코드가_200이고_전체_테이스트_무드가_조회되는지_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                () -> assertThat(response.jsonPath().getList("")).hasSize(6)
+        );
+
+    }
+
     public static String 회원보노가_회원가입하고_아이디를_반환한다(RequestSpecification spec) {
         return 비회원보노가_회원가입한다(spec).jsonPath().getString("id");
     }
@@ -164,7 +173,7 @@ public class MemberSteps {
                 () -> assertThat(response.jsonPath().getString("myImageUrl")).isEqualTo(비회원_보노.getMyImageUrl()),
                 () -> assertThat(response.jsonPath().getString("nickname")).isEqualTo(비회원_보노.getNickname()),
                 () -> assertThat(response.jsonPath().getString("email")).isEqualTo(비회원_보노.getEmail()),
-                () -> assertThat(response.jsonPath().getString("mood")).isEqualTo(비회원_보노.getMood())
+                () -> assertThat(response.jsonPath().getString("mood")).isEqualTo(비회원_보노.getTasteMoodId())
         );
     }
 
@@ -196,6 +205,19 @@ public class MemberSteps {
                 () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT)
 //                () -> 응답코드를_검증한다(bonoLoginByWrongPasswordResponse, HttpStatus.UNAUTHORIZED)
         );
+    }
+
+    public static ExtractableResponse<Response> 전체_테이스트_무드를_조회한다(RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .when()
+                .get("/api/members/taste-moods")
+                .then()
+                .log().all()
+                .extract();
     }
 
     public static ExtractableResponse<Response> 회원가입한다(Map<String, Object> memberRegisterRequest,

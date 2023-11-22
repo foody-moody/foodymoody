@@ -6,6 +6,8 @@ import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.domain.ImageMenu;
+import com.foodymoody.be.feed.domain.StoreMood;
+import com.foodymoody.be.feed.domain.StoreMoodId;
 import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
 import com.foodymoody.be.feed.dto.request.ImageMenuPair;
@@ -26,9 +28,6 @@ import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.service.MenuService;
-import com.foodymoody.be.menu.util.MenuMapper;
-import com.foodymoody.be.mood.domain.Mood;
-import com.foodymoody.be.mood.service.MoodService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,9 +45,9 @@ public class FeedService {
 
     private final FeedRepository feedRepository;
     private final ImageService imageService;
-    private final MoodService moodService;
     private final MemberService memberService;
     private final MenuService menuService;
+    private final StoreMoodService storeMoodService;
 
     public Slice<FeedReadAllResponse> readAll(Pageable pageable) {
         Slice<Feed> feeds = feedRepository.findAll(pageable);
@@ -80,7 +79,10 @@ public class FeedService {
     }
 
     private List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<String> storeMoodIds) {
-        List<Mood> storeMoods = moodService.findAllBy(storeMoodIds);
+        List<StoreMoodId> ids = storeMoodIds.stream()
+                .map(StoreMoodId::new)
+                .collect(Collectors.toUnmodifiableList());
+        List<StoreMood> storeMoods = storeMoodService.findAllById(ids);
         List<FeedStoreMoodResponse> feedStoreMoodResponses = new ArrayList<>();
         for (int i = 0; i < storeMoodIds.size(); i++) {
             feedStoreMoodResponses.add(new FeedStoreMoodResponse(storeMoodIds.get(i), storeMoods.get(i).getName()));

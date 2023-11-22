@@ -15,7 +15,7 @@ public class ReplyResponse {
             LocalDateTime updatedAt) {
         this.id = id;
         this.content = content;
-        this.member = new MemberResponse(memberId, memberName, memberProfileImage);
+        this.member = new MemberResponse(memberId, memberProfileImage, memberName);
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

@@ -1,10 +1,9 @@
 package com.foodymoody.be.member.domain;
 
-import com.foodymoody.be.common.BaseEntity;
-import com.foodymoody.be.common.WrappedId;
 import com.foodymoody.be.common.exception.IncorrectMemberPasswordException;
 import com.foodymoody.be.common.exception.InvalidReconfirmPasswordException;
 import java.util.Objects;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import lombok.NoArgsConstructor;
@@ -13,31 +12,33 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Member extends BaseEntity {
+public class Member {
 
+    @EmbeddedId
+    private MemberId id;
     private String email;
     private String nickname;
     private String password;
     private String profileImageId;
-    private String moodId;
+    private String tasteMoodId;
 
-    private Member(WrappedId id, String email, String nickname, String password, String moodId) {
-        this.wrappedId = id;
+    private Member(MemberId id, String email, String nickname, String password, String moodId) {
+        this.id = id;
         this.email = email;
         this.nickname = nickname;
         this.password = password;
-        this.moodId = moodId;
+        this.tasteMoodId = moodId;
     }
 
     public static Member of(String id, String email, String nickname, String password, String reconfirmPassword, String moodId) {
         if (!Objects.equals(reconfirmPassword, password)) {
             throw new InvalidReconfirmPasswordException();
         }
-        return new Member(new WrappedId(id), email, nickname, password, moodId);
+        return new Member(new MemberId(id), email, nickname, password, moodId);
     }
 
-    public String getId() {
-        return wrappedId.getId();
+    public MemberId getId() {
+        return id;
     }
 
     public String getEmail() {
@@ -52,8 +53,8 @@ public class Member extends BaseEntity {
         return profileImageId;
     }
 
-    public String getMoodId() {
-        return moodId;
+    public String getTasteMoodId() {
+        return tasteMoodId;
     }
 
     public void validatePassword(String password) {
