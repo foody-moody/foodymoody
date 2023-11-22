@@ -1,6 +1,0 @@
-spring:
-  profiles:
-    group:
-      common: filter, aws, jwt
-      local: common, localdb
-    active: local
