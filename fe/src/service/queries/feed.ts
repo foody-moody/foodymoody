@@ -1,12 +1,32 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import {
   deleteFeed,
+  getAllFeeds,
   getFeedDetail,
   postNewFeed,
   putEditFeed,
 } from 'service/axios/feed/feed';
 import { QUERY_KEY } from 'service/constants/queryKey';
 import { usePageNavigator } from 'hooks/usePageNavigator';
+
+export const useAllFeeds = () => {
+  const query = useInfiniteQuery({
+    queryKey: [QUERY_KEY.allFeeds],
+    queryFn: ({ pageParam = 0 }) => getAllFeeds(pageParam),
+    getNextPageParam: (lastPage) => {
+      return lastPage.last ? undefined : lastPage.number + 1;
+    },
+  });
+
+  const feeds = query.data?.pages?.reduce((acc, page) => {
+    return [...acc, ...page.content];
+  }, []);
+
+  return {
+    ...query,
+    feeds,
+  };
+};
 
 export const useFeedDetail = (id: string) =>
   useQuery({
