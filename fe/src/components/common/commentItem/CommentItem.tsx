@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { usePutComment } from 'service/queries/comment';
+import { useDeleteComment, usePutComment } from 'service/queries/comment';
 import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
@@ -7,49 +7,66 @@ import { formatTimeStamp } from 'utils/formatTimeStamp';
 // import { TextButton } from '../button/TextButton';
 import { DotGhostIcon } from '../icon/icons';
 import { Input } from '../input/Input';
+import { useModal } from '../modal/Modal';
 import { UserImage } from '../userImage/UserImage';
 
 type Props = {
-  imageUrl: string;
-  nickname: string;
   createdAt: string;
-  content: string;
+  comment: CommentItem;
 };
 
-export const CommentItem: React.FC<Props> = ({
-  imageUrl,
-  nickname,
-  createdAt,
-  content,
-}) => {
-  const COMMENT_ID = '1';
+export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
+  const { openModal, closeModal } = useModal<'commentAlert'>();
   const { mutate: editMutate } = usePutComment();
+  const { mutate: deleteMutate } = useDeleteComment();
   const { value, handleChange, isValid } = useInput({
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
   });
   const [isEdit, setIsEdit] = useState(false);
-  // TODO 로그인된 유저의 id와 comment의 userId가 같으면 수정, 삭제 가능
-  // TODO alert에 isAuthor 등
-  const { isLogin } = useAuthState();
-  // const isAuthor = userInfo.id === ;
-  const isAuthor = true;
+  const { isLogin, userInfo } = useAuthState();
+  const isAuthor = userInfo.id === comment.member.id;
 
   const handleEdit = () => {
     setIsEdit(true);
   };
 
-  const handleSubmit = (commentId: string) => {
-    console.log('submit comment', isValid);
-    editMutate({
-      id: commentId,
-      body: { content: value },
-    });
+  const handleEditSubmit = (commentId: string) => {
+    isValid &&
+      editMutate({
+        id: commentId,
+        body: { content: value },
+      });
+
     setIsEdit(false);
   };
 
   const handleDelete = () => {
-    console.log('delete comment');
+    deleteMutate(comment.id);
+  };
+
+  const handleAlert = () => {
+    const modalProps = {
+      onClose: () => {
+        closeModal('commentAlert');
+      },
+      onReport: () => {
+        console.log('신고하기');
+        closeModal('commentAlert');
+      },
+      ...(isAuthor && {
+        onDelete: () => {
+          handleDelete();
+          closeModal('commentAlert');
+        },
+        onEdit: () => {
+          handleEdit();
+          closeModal('commentAlert');
+        },
+      }),
+    };
+
+    openModal('commentAlert', modalProps);
   };
 
   const formattedTimeStamp = formatTimeStamp(createdAt);
@@ -57,10 +74,10 @@ export const CommentItem: React.FC<Props> = ({
   return (
     <Wrapper>
       <ContentLeft>
-        <UserImage imageUrl={imageUrl} />
+        <UserImage imageUrl={comment.member.imageUrl} />
         <FlexColumnBox>
           <ContentHeader>
-            <Nickname>{nickname}</Nickname>
+            <Nickname>{comment.member.nickname}</Nickname>
             <TimeStamp>{formattedTimeStamp}</TimeStamp>
           </ContentHeader>
           {isEdit ? (
@@ -69,24 +86,16 @@ export const CommentItem: React.FC<Props> = ({
               limitedLength={200}
               value={value}
               onChangeValue={handleChange}
+              onPressEnter={() => handleEditSubmit(comment.id)}
             />
           ) : (
-            content
+            comment.content
           )}
         </FlexColumnBox>
       </ContentLeft>
       {isLogin && (
         <ContentRight>
-          <DotGhostIcon
-            onClick={() => {
-              console.log(
-                isAuthor,
-                handleEdit,
-                handleDelete,
-                handleSubmit(COMMENT_ID)
-              );
-            }}
-          />
+          <DotGhostIcon onClick={handleAlert} />
         </ContentRight>
       )}
     </Wrapper>

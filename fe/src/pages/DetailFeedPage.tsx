@@ -139,18 +139,13 @@ export const DetailFeedModalPage = () => {
               <Comment>
                 {comments?.map((comment) => (
                   <CommentBox
-                    ref={comment === comments.at(-1) ? observeTarget : null}
+                    ref={comment === comments.length - 1 ? observeTarget : null}
                     key={comment.id}
-                    imageUrl={comment.member.imageUrl}
-                    nickname={comment.member.nickname}
                     createdAt={
                       comment.createdAt === comment.updatedAt
                         ? comment.createdAt
                         : comment.updatedAt
                     }
-                    content={comment.content}
-                    hasReply={comment.hasReply}
-                    replyCount={comments.length % 2 === 0 ? 3 : 0}
                     comment={comment}
                   />
                 ))}

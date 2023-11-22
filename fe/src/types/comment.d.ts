@@ -17,4 +17,5 @@ type CommentItem = {
   updatedAt: string;
   member: Omit<FeedMemberInfo, 'tasteMood'>;
   hasReply: boolean;
+  replyCount: number;
 };
