@@ -11,11 +11,11 @@ export const usePageNavigator = () => {
     navigateToNoti: () => navigate(PATH.NOTI),
     navigateToLogin: () => navigate(PATH.LOGIN),
     navigateToRegister: () => navigate(PATH.REGISTER),
-    navigateToSearch:()=> navigate(PATH.SEARCH),
-    
+    navigateToSearch: () => navigate(PATH.SEARCH),
+    navigateToPath: (path: string) => navigate(path),
+
     /* 잠시 생성 */
     navigateToNewFeed: () => navigate(PATH.NEW_FEED),
-    navigateToDetailFeed:()=> navigate(PATH.DETAIL_FEED),
+    navigateToDetailFeed: () => navigate(PATH.DETAIL_FEED),
   };
 };
-
