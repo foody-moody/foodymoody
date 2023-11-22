@@ -38,6 +38,12 @@ export const Carousel: React.FC<Props> = ({ images }) => {
 const CustomCarousel = styled(Slider)`
   margin-bottom: -8px; /* 수정 예정 */
   width: 100%;
+
+  img {
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+  }
+
   .slick-dots {
     width: 100%;
     bottom: 34px;
