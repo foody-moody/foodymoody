@@ -1,7 +1,7 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDeleteFeed } from 'service/queries/feed';
 import { styled } from 'styled-components';
-// import { useAuthState } from 'hooks/auth/useAuth';
+import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { Badge } from '../badge/Badge';
@@ -15,19 +15,19 @@ type Props = {
   member: FeedMemberInfo;
   createdAt: string;
   location: string;
+  feedId?: string;
 };
 
 export const FeedUserInfo: React.FC<Props> = ({
   member,
   createdAt,
   location,
+  feedId,
 }) => {
   const { navigateToProfile } = usePageNavigator();
   const navigate = useNavigate();
   const { mutate: deleteMutate } = useDeleteFeed();
-  const { id: feedId } = useParams();
-  // const { isLogin } = useAuthState();
-  const isLogin = true;
+  const { isLogin, userInfo } = useAuthState();
   const formattedTimeStamp = formatTimeStamp(createdAt);
 
   const publicMenu = [
@@ -77,7 +77,7 @@ export const FeedUserInfo: React.FC<Props> = ({
     },
   ];
 
-  const menu = isLogin ? privateMenu : publicMenu;
+  const menu = isLogin && userInfo.id === member.id ? privateMenu : publicMenu;
 
   return (
     <Wrapper>

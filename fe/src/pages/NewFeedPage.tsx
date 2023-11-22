@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-// import { useFeedDetail, useFeedEditor } from 'queries/feed';
-import { useFeedEditor } from 'service/queries/feed';
+import { useFeedDetail, useFeedEditor } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { customScrollStyle, flexColumn, flexRow } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
@@ -52,7 +51,7 @@ export const NewFeedModalPage = () => {
   const { id: feedId } = useParams() as { id: string };
   const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
   const { mutate: feedMutate } = useFeedEditor(feedId);
-  // const { data: feedDetailData } = useFeedDetail(feedId);
+  const { data: feedDetailData } = useFeedDetail(feedId);
 
   const {
     menuItems,
@@ -60,7 +59,8 @@ export const NewFeedModalPage = () => {
     handleRemoveMenuItem,
     handleEditMenuName,
     handleEditStarRating,
-  } = useMenuItem(); // feedDetailData로 교체
+  } = useMenuItem(feedDetailData); // feedDetailData로 교체
+
   const {
     value: locationName,
     handleChange: handleLocationChange,
@@ -71,6 +71,7 @@ export const NewFeedModalPage = () => {
     validator: (value) => value.trim().length > 0,
     helperText: '가게 이름을 입력해주세요',
   });
+
   const { value: reviewValue, handleChange: handleReviewChange } = useInput({
     initialValue: '',
   });

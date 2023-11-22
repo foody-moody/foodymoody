@@ -25,6 +25,7 @@ export const MainFeedItem: React.FC<Props> = ({ feed }) => {
     <Wrapper>
       <Info>
         <FeedUserInfo
+          feedId={feed.id}
           member={feed.member}
           createdAt={feed.createdAt}
           location={feed.location}
