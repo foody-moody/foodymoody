@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class ReplayService {
+public class ReplyService {
 
     private final ReplyRepository replyRepository;
 
     @Transactional(readOnly = true)
-    public Slice<ReplyResponse> fetchAllReplay(String id, Pageable pageable) {
+    public Slice<ReplyResponse> fetchAllReply(String id, Pageable pageable) {
         CommentId commentId = new CommentId(id);
         return replyRepository.findReplyWithMemberAllById(commentId, pageable);
     }
