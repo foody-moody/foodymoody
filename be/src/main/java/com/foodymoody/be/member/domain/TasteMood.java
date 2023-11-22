@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed.domain;
+package com.foodymoody.be.member.domain;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -7,14 +7,19 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class StoreMood {
+public class TasteMood {
 
     @EmbeddedId
-    private StoreMoodId id;
+    private TasteMoodId id;
     private String name;
 
-    public String getId() {
-        return id.getId();
+    public TasteMood(TasteMoodId id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public TasteMoodId getId() {
+        return id;
     }
 
     public String getName() {

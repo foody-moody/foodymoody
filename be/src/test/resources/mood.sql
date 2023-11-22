@@ -1,6 +1,15 @@
-INSERT INTO mood (id, name) VALUES ('1', '베지테리언');
-INSERT INTO mood (id, name) VALUES ('2', '베지테리언2');
-INSERT INTO mood (id, name) VALUES ('3', '무드1');
-INSERT INTO mood (id, name) VALUES ('4', '무드2');
-INSERT INTO mood (id, name) VALUES ('5', '무드3');
-INSERT INTO mood (id, name) VALUES ('6', '무드4');
+INSERT INTO store_mood (id, name)
+VALUES ('1', '가족과 함께'),
+       ('2', '혼밥'),
+       ('3', '감성'),
+       ('4', '데이트'),
+       ('5', '루프탑'),
+       ('6', '특별한 테마');
+
+INSERT INTO taste_mood (id, name)
+VALUES ('1', '베지테리언'),
+       ('2', '베지테리언2'),
+       ('3', '무드1'),
+       ('4', '무드2'),
+       ('5', '무드3'),
+       ('6', '무드4');

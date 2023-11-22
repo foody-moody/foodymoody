@@ -11,11 +11,11 @@ import org.springframework.data.jpa.repository.Query;
 public interface CommentRepository extends JpaRepository<Comment, CommentId> {
 
     @Query("select new com.foodymoody.be.comment.controller.dto.CommentResponse(_comment.id.id,_comment.content,"
-            + "_member.wrappedId.id,_member.nickname,_image.url,_comment.hasReply,"
+            + "_member.id.id,_member.nickname,_image.url,_comment.hasReply,"
             + "_comment.createdAt ,_comment.updatedAt) "
             + "from Comment _comment "
             + "left join Member _member "
-            + "on _member.wrappedId.id = _comment.memberId "
+            + "on _member.id.id = _comment.memberId "
             + "left join Image _image "
             + "on _image.id = _member.profileImageId "
             + "where _comment.feedId = :feedId and _comment.deleted = false")
