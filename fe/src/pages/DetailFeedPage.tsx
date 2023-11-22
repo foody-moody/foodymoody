@@ -11,13 +11,15 @@ import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
 import { CommentInput } from 'components/common/input/CommentInput';
+import { useModal } from 'components/common/modal/Modal';
 import { useInput } from 'hooks/useInput';
 import { useIntersectionObserver } from 'hooks/useObserver';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const DetailFeedModalPage = () => {
+  const { closeModal } = useModal<'commentAlert'>();
   const { data: feed } = useFeedDetail('10'); // params로 feedId 받아오기
-  const { comments, hasNextPage, fetchNextPage } = useGetComments('10'); // params로 feedId 받아오기
+  const { comments, hasNextPage, fetchNextPage } = useGetComments('10'); // params로 feedId 받아오기 => 그냥  feed의 id에서 꺼내온걸로 userInfo에도 내려주는걸 고려하기
   const wrapperRef = useRef(null);
   const { observeTarget } = useIntersectionObserver({
     callbackFn: () => {
@@ -82,6 +84,7 @@ export const DetailFeedModalPage = () => {
       isCommentValid: isValid,
       commentValue: value,
     });
+    handleChange('');
 
     commentMutate({
       // feedId: MOCK.id,
@@ -93,7 +96,12 @@ export const DetailFeedModalPage = () => {
 
   return (
     <>
-      <Dim onClick={navigateToHome} />
+      <Dim
+        onClick={() => {
+          navigateToHome();
+          closeModal('commentAlert');
+        }}
+      />
       <Wrapper ref={wrapperRef}>
         <Box>
           <Carousel images={MOCK.images} />
@@ -105,6 +113,7 @@ export const DetailFeedModalPage = () => {
                   member={MOCK.member}
                   createdAt={MOCK.createdAt}
                   location={MOCK.location}
+                  feedId={feed?.id}
                 />
               </Detail>
               <Review>{MOCK.review}</Review>
@@ -132,16 +141,17 @@ export const DetailFeedModalPage = () => {
                   <CommentBox
                     ref={comment === comments.at(-1) ? observeTarget : null}
                     key={comment.id}
-                    imageUrl="이미지"
-                    nickname="댓글닉넴"
+                    imageUrl={comment.member.imageUrl}
+                    nickname={comment.member.nickname}
                     createdAt={
                       comment.createdAt === comment.updatedAt
                         ? comment.createdAt
                         : comment.updatedAt
                     }
                     content={comment.content}
-                    hasReply={comments.length % 2 === 0}
+                    hasReply={comment.hasReply}
                     replyCount={comments.length % 2 === 0 ? 3 : 0}
+                    comment={comment}
                   />
                 ))}
               </Comment>
