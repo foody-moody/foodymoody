@@ -14,7 +14,9 @@ type Props = {
 
 export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
   ({ feed }, ref) => {
-    const { displayText, toggleReadMore, readMore } = useReadMore(feed.review);
+    const { displayText, toggleReadMore, readMore, isLongText } = useReadMore(
+      feed.review
+    );
     const navigate = useNavigate();
 
     const handleOpenDetailFeed = () => {
@@ -36,9 +38,11 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
         <Content>
           <Review>
             {displayText}
-            <ReadMoreBtn onClick={toggleReadMore}>
-              {readMore ? '접기' : '더보기'}
-            </ReadMoreBtn>
+            {isLongText && (
+              <ReadMoreBtn onClick={toggleReadMore}>
+                ...{readMore ? '접기' : '더보기'}
+              </ReadMoreBtn>
+            )}
           </Review>
           <StoreMoodList>
             {feed.storeMood.map((storeMood) => (
@@ -81,7 +85,7 @@ const Review = styled.p`
 `;
 
 const ReadMoreBtn = styled.button`
-  margin-left: 8px;
+  /* margin-left: 8px; */
   font: ${({ theme: { fonts } }) => fonts.displayB14};
   color: ${({ theme: { colors } }) => colors.textSecondary};
 `;
