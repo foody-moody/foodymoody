@@ -29,6 +29,7 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
       <Wrapper ref={ref}>
         <Info>
           <FeedUserInfo
+            feedId={feed.id}
             member={feed.member}
             createdAt={feed.createdAt}
             location={feed.location}

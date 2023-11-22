@@ -7,6 +7,6 @@ export const PATH = {
   LOGIN: '/login',
   REGISTER: '/register',
   NEW_FEED: '/new/feed',
-  EDIT_FEED: '/edit/feed/:id',
+  EDIT_FEED: '/edit/feed',
   DETAIL_FEED: '/detail/feed',
 };
