@@ -70,27 +70,35 @@ const Test2Modal: React.FC<Test2ModalProps> = ({ title, content }) => {
 // };
 
 type CommentAlertProps = {
-  onEdit(): void;
-  onDelete(): void;
+  onEdit?(): void;
+  onDelete?(): void;
   onClose?(): void;
+  onReport?(): void;
 };
 
 export const CommentAlert: React.FC<CommentAlertProps> = ({
   onEdit,
   onDelete,
   onClose,
+  onReport,
 }) => {
   return (
     <Wrapper>
-      <Button size="s" backgroundColor="black" onClick={onEdit}>
-        수정
-      </Button>
-      <Button size="s" backgroundColor="black" onClick={onDelete}>
-        삭제
-      </Button>
-      <Button size="s" backgroundColor="black">
-        신고
-      </Button>
+      {onEdit && (
+        <Button size="s" backgroundColor="black" onClick={onEdit}>
+          수정
+        </Button>
+      )}
+      {onDelete && (
+        <Button size="s" backgroundColor="black" onClick={onDelete}>
+          삭제
+        </Button>
+      )}
+      {onReport && (
+        <Button size="s" backgroundColor="black">
+          신고
+        </Button>
+      )}
       {onClose && (
         <Button size="s" backgroundColor="black" onClick={onClose}>
           취소
@@ -99,6 +107,24 @@ export const CommentAlert: React.FC<CommentAlertProps> = ({
     </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid ${({ theme: { colors } }) => colors.black};
+  background: ${({ theme: { colors } }) => colors.white};
+  padding: 16px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  max-width: 375px;
+  min-width: 343px;
+  width: 100%;
+  height: fit-content;
+`;
 
 const MODAL_COMPONENTS: {
   [key in ModalType]: React.ComponentType<ModalPropsMap[key]>;
@@ -215,21 +241,3 @@ export const TemporaryComponent = () => {
     </div>
   );
 };
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  border: 1px solid ${({ theme: { colors } }) => colors.black};
-  background: ${({ theme: { colors } }) => colors.white};
-  padding: 16px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 100;
-  max-width: 375px;
-  min-width: 343px;
-  width: 100%;
-  height: fit-content;
-`;
