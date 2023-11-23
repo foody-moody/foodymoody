@@ -19,6 +19,7 @@ export const useGetReplies = (id: string) => {
     fetchNextPage,
     refetch,
   } = useInfiniteQuery({
+    // queryKey: [QUERY_KEY.replies],
     queryKey: [QUERY_KEY.replies, id],
     queryFn: ({ pageParam = 0 }) => getAllReplies(pageParam, 10, id),
     getNextPageParam: (lastPage) => {
@@ -49,7 +50,9 @@ export const usePostReply = (id: string) => {
     mutationFn: (body: Omit<NewCommentBody, 'feedId'>) =>
       postNewReply(body, id),
     onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEY.replies]);
+      // queryClient.invalidateQueries([QUERY_KEY.replies]);
+      queryClient.invalidateQueries([QUERY_KEY.replies, id]);
+      // queryClient.invalidateQueries([QUERY_KEY.comments]);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       const errorData = error?.response?.data;
