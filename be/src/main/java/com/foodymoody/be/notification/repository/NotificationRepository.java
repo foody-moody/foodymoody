@@ -18,8 +18,8 @@ public interface NotificationRepository extends JpaRepository<Notification, Noti
     @Modifying
     @Query("UPDATE Notification _notification SET _notification.isRead = :status, _notification.updatedAt = :updatedAt WHERE _notification.id IN :notificationIds AND _notification.memberId = :memberId")
     void updateAllStatus(@Param("status") boolean status, @Param("memberId") String memberId,
-                         @Param("updatedAt") LocalDateTime updatedAt,
-                         @Param("notificationIds") List<NotificationId> notificationIds);
+            @Param("updatedAt") LocalDateTime updatedAt,
+            @Param("notificationIds") List<NotificationId> notificationIds);
 
     @Modifying
     @Query("UPDATE Notification _notification SET _notification.isDeleted = true , _notification.updatedAt = :updatedAt WHERE _notification.memberId = :memberId")
@@ -28,5 +28,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Noti
     @Modifying
     @Query("UPDATE Notification _notification SET _notification.isDeleted = true , _notification.updatedAt = :updatedAt WHERE _notification.id IN :notificationIds AND _notification.memberId = :memberId")
     void deleteAllByIdIn(@Param("notificationIds") List<NotificationId> notificationIds,
-                         @Param("updatedAt") LocalDateTime updatedAt, @Param("memberId") String memberId);
+            @Param("updatedAt") LocalDateTime updatedAt, @Param("memberId") String memberId);
+
+    long countByMemberId(String memberId);
 }
