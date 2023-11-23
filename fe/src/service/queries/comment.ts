@@ -16,20 +16,16 @@ import 'service/axios/feed/feed';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
 export const useGetComments = (id: string) => {
-  const {
-    data,
-    hasNextPage,
-    status,
-    isFetchingNextPage,
-    fetchNextPage,
-    refetch,
-  } = useInfiniteQuery({
-    queryKey: [QUERY_KEY.comments, id],
-    queryFn: ({ pageParam = 0 }) => getAllComments(pageParam, 10, id),
-    getNextPageParam: (lastPage) => {
-      return lastPage.last ? undefined : lastPage.number + 1;
-    },
-  });
+  console.log('코멘트 훅에서 확인중 ', id);
+
+  const { data, hasNextPage, status, isLoading, fetchNextPage, refetch } =
+    useInfiniteQuery({
+      queryKey: [QUERY_KEY.comments, id],
+      queryFn: ({ pageParam = 0 }) => getAllComments(pageParam, 10, id),
+      getNextPageParam: (lastPage) => {
+        return lastPage.last ? undefined : lastPage.number + 1;
+      },
+    });
 
   const allComments = useMemo(() => {
     return data?.pages.flatMap((page) => page.content) ?? [];
@@ -39,7 +35,7 @@ export const useGetComments = (id: string) => {
     comments: allComments,
     hasNextPage,
     status,
-    isFetchingNextPage,
+    isLoading,
     fetchNextPage,
     refetch,
   };
@@ -67,7 +63,7 @@ export const usePostComment = (id: string) => {
 };
 
 export const usePutComment = () => {
-  // export const usePutComment = (id: string) => {
+  // export const usePutComment = (id: string) => { 피드 id
   const queryClient = useQueryClient();
   const toast = useToast();
 
