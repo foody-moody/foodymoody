@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface CommentRepository extends JpaRepository<Comment, CommentId> {
 
@@ -20,5 +21,5 @@ public interface CommentRepository extends JpaRepository<Comment, CommentId> {
             + "left join Image _image "
             + "on _image.id = _member.profileImageId "
             + "where _comment.feedId = :feedId and _comment.deleted = false")
-    Slice<CommentResponse> findWithMemberAllByFeedId(String feedId, Pageable pageable);
+    Slice<CommentResponse> findWithMemberAllByFeedId(@Param("feedId") String feedId, @Param("pageable") Pageable pageable);
 }
