@@ -10,7 +10,10 @@ import { Input } from '../common/input/Input';
 export const Register: React.FC = () => {
   const { mutate: resisterMutate } = useRegister();
   const { data: tastes } = useGetTasteMood();
-  const [selectedTaste, setSelectedTaste] = useState<Mood | null>(null);
+  const [selectedTaste, setSelectedTaste] = useState<Mood>({
+    id: '',
+    name: '',
+  });
 
   const {
     value: emailValue,
@@ -161,6 +164,7 @@ const Select = styled.select`
   padding: 8px 40px 8px 12px;
   width: 240px;
   border: 1px solid ${({ theme: { colors } }) => colors.black};
+
   border-radius: 5px;
   background: ${({ theme: { colors } }) => colors.white};
   cursor: pointer;
