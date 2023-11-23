@@ -18,6 +18,12 @@ type FeedImage = {
   menu: MenuTag;
 };
 
+type NewFeed = {
+  id: string;
+  imageId: string;
+  menu: MenuTag;
+};
+
 type FeedMemberInfo = {
   id: string;
   nickname: string;
@@ -36,7 +42,7 @@ type NewFeedBody = {
   storeMood: string[];
   images: {
     menu: MenuTag;
-    imageUrl: string;
+    imageId: string;
   }[];
 };
 /* TODO. 수정 예정 */

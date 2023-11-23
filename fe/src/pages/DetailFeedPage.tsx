@@ -51,73 +51,80 @@ export const DetailFeedModalPage = () => {
 
   return (
     <>
-      <Dim
-        onClick={() => {
-          navigateToHome();
-          closeModal('commentAlert');
-        }}
-      />
-      <Wrapper ref={wrapperRef}>
-        <Box>
-          <Carousel images={feed.images} />
+      {/* 로딩, 에러 추가 */}
+      {feed && (
+        <>
+          <Dim
+            onClick={() => {
+              navigateToHome();
+              closeModal('commentAlert');
+            }}
+          />
+          <Wrapper ref={wrapperRef}>
+            <Box>
+              <Carousel images={feed?.images} />
 
-          <Content>
-            <Info>
-              <Detail>
-                <FeedUserInfo // TODO 수정됨 요소 추가
-                  member={feed?.member}
-                  createdAt={
-                    feed.createdAt === feed.updatedAt
-                      ? feed.createdAt
-                      : feed.updatedAt
-                  }
-                  location={feed?.location}
-                  feedId={feed?.id}
-                />
-              </Detail>
-              <Review>{feed?.review}</Review>
-              <StoreMoodList>
-                {feed?.storeMood.map(
-                  // TOOD 무드 확인
-                  (storeMood: { id: string; name: string }) => (
-                    <Badge
-                      variant="store"
-                      badge={storeMood}
-                      key={storeMood.id}
+              <Content>
+                <Info>
+                  <Detail>
+                    <FeedUserInfo // TODO 수정됨 요소 추가
+                      member={feed?.member}
+                      createdAt={
+                        feed?.createdAt === feed?.updatedAt
+                          ? feed.createdAt
+                          : feed.updatedAt
+                      }
+                      location={feed?.location}
+                      feedId={feed?.id}
                     />
-                  )
-                )}
-              </StoreMoodList>
-            </Info>
-            <FeedAction
-              likeCount={feed?.likeCount}
-              commentCount={feed?.commentCount}
-            />
-            <CommentContainer>
-              <CommentInput
-                value={value}
-                limitedLength={200}
-                onChangeValue={handleChange}
-                onSubmitComment={handleSubmit}
-              />
-              <Comment>
-                {comments?.map((comment) => (
-                  <CommentBox // TODO const로 빼기
-                    ref={comment === comments.length - 1 ? observeTarget : null}
-                    key={comment.id}
-                    createdAt={
-                      comment.createdAt === comment.updatedAt
-                        ? comment.createdAt
-                        : comment.updatedAt
-                    }
-                    comment={comment}
+                  </Detail>
+                  <Review>{feed?.review}</Review>
+                  <StoreMoodList>
+                    {feed?.storeMood.map(
+                      // TOOD 무드 확인
+                      (storeMood: { id: string; name: string }) => (
+                        <Badge
+                          variant="store"
+                          badge={storeMood}
+                          key={storeMood.id}
+                        />
+                      )
+                    )}
+                  </StoreMoodList>
+                </Info>
+                <FeedAction
+                  likeCount={feed?.likeCount}
+                  commentCount={feed?.commentCount}
+                />
+                <CommentContainer>
+                  <CommentInput
+                    value={value}
+                    limitedLength={200}
+                    onChangeValue={handleChange}
+                    onSubmitComment={handleSubmit}
                   />
-                ))}
-              </Comment>
-            </CommentContainer>
-          </Content>
-        </Box>
-      </Wrapper>
+                  <Comment>
+                    {comments?.map((comment) => (
+                      <CommentBox // TODO const로 빼기
+                        ref={
+                          comment === comments.length - 1 ? observeTarget : null
+                        }
+                        key={comment.id}
+                        createdAt={
+                          comment.createdAt === comment.updatedAt
+                            ? comment.createdAt
+                            : comment.updatedAt
+                        }
+                        comment={comment}
+                      />
+                    ))}
+                  </Comment>
+                </CommentContainer>
+              </Content>
+            </Box>
+          </Wrapper>
+        </>
+      )}
     </>
   );
 };
