@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFeedDetail, useFeedEditor } from 'service/queries/feed';
 import { styled } from 'styled-components';
@@ -12,6 +12,7 @@ import { PlusIcon } from 'components/common/icon/icons';
 import { Input } from 'components/common/input/Input';
 import { MenuItemEditor } from 'components/common/menuItemEditor/MenuItemEditor';
 import { TextArea } from 'components/common/textarea/Textarea';
+import { useInitialValue } from 'hooks/useInitialValue';
 import { useInput } from 'hooks/useInput';
 import { useMenuItem } from 'hooks/useMenuItem';
 import { usePageNavigator } from 'hooks/usePageNavigator';
@@ -22,8 +23,9 @@ export const NewFeedModalPage = () => {
   const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
   const { mutate: feedMutate } = useFeedEditor(feedId);
   const { data: feedDetailData } = useFeedDetail(feedId);
-  console.log('Newfeed feedId', feedId);
-  console.log('Newfeed feedDetailData', feedDetailData);
+  // console.log('Newfeed feedId', feedId);
+  // console.log('Newfeed feedDetailData', feedDetailData);
+  const initialValue = useInitialValue(feedId);
 
   const {
     menuItems,
@@ -31,6 +33,7 @@ export const NewFeedModalPage = () => {
     handleRemoveMenuItem,
     handleEditMenuName,
     handleEditStarRating,
+    // } = useMenuItem(initialValue.images); // feedDetailData로 교체
   } = useMenuItem(feedDetailData?.images); // feedDetailData로 교체
   console.log('Newfeed menuItems', menuItems);
 
@@ -40,14 +43,23 @@ export const NewFeedModalPage = () => {
     isValid: isLocationNameVaild,
     helperText: locationNameHelperText,
   } = useInput({
-    initialValue: feedDetailData?.location || '',
+    // initialValue: initialValue.locationValue,
+    initialValue: '',
     validator: (value) => value.trim().length > 0,
     helperText: '가게 이름을 입력해주세요',
   });
 
   const { value: reviewValue, handleChange: handleReviewChange } = useInput({
-    initialValue: feedDetailData?.review || '',
+    // initialValue: initialValue.reviewValue,
+    initialValue: '',
   });
+
+  useEffect(() => {
+    if (feedDetailData) {
+      handleReviewChange(feedDetailData.review);
+      handleLocationChange(feedDetailData.location);
+    }
+  }, [feedDetailData]);
 
   const handleSubmit = () => {
     console.log('submit location', locationName);

@@ -9,17 +9,15 @@ const DEFAULT_MENU_ITEM = {
   },
 };
 
+// export const useMenuItem = (initialMenuItems: FeedImage[]) => {
 export const useMenuItem = (initialMenuItems?: FeedImage[]) => {
+  // const [menuItems, setMenuItems] = useState(initialMenuItems);
   const [menuItems, setMenuItems] = useState(
     initialMenuItems || [DEFAULT_MENU_ITEM]
   );
 
   useEffect(() => {
-    if (initialMenuItems) {
-      console.log('initialMenuItems', initialMenuItems);
-
-      setMenuItems(initialMenuItems);
-    }
+    initialMenuItems && setMenuItems(initialMenuItems);
   }, [initialMenuItems]);
 
   const handleAddMenuItem = () => {
@@ -37,7 +35,6 @@ export const useMenuItem = (initialMenuItems?: FeedImage[]) => {
       return;
     }
     const newItems = menuItems.filter((item) => item.id !== id);
-    console.log(newItems, 'newItems');
 
     setMenuItems(newItems);
   };
