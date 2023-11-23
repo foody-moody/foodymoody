@@ -24,6 +24,7 @@ export const DetailFeedModalPage = () => {
   const { comments, hasNextPage, fetchNextPage } = useGetComments(feedId);
   const { closeModal } = useModal<'commentAlert'>();
   const wrapperRef = useRef(null);
+
   const { observeTarget } = useIntersectionObserver({
     callbackFn: () => {
       hasNextPage && fetchNextPage();
@@ -52,63 +53,59 @@ export const DetailFeedModalPage = () => {
   return (
     <>
       {/* 로딩, 에러 추가 */}
-      {feed && (
-        <>
-          <Dim
-            onClick={() => {
-              navigateToHome();
-              closeModal('commentAlert');
-            }}
-          />
-          <Wrapper ref={wrapperRef}>
-            <Box>
-              <Carousel images={feed?.images} />
-
-              <Content>
-                <Info>
-                  <Detail>
-                    <FeedUserInfo // TODO 수정됨 요소 추가
-                      member={feed?.member}
-                      createdAt={
-                        feed?.createdAt === feed?.updatedAt
-                          ? feed.createdAt
-                          : feed.updatedAt
-                      }
-                      location={feed?.location}
-                      feedId={feed?.id}
-                    />
-                  </Detail>
-                  <Review>{feed?.review}</Review>
-                  <StoreMoodList>
-                    {feed?.storeMood.map(
-                      // TOOD 무드 확인
-                      (storeMood: { id: string; name: string }) => (
-                        <Badge
-                          variant="store"
-                          badge={storeMood}
-                          key={storeMood.id}
-                        />
-                      )
-                    )}
-                  </StoreMoodList>
-                </Info>
-                <FeedAction
-                  likeCount={feed?.likeCount}
-                  commentCount={feed?.commentCount}
-                />
-                <CommentContainer>
-                  <CommentInput
-                    value={value}
-                    limitedLength={200}
-                    onChangeValue={handleChange}
-                    onSubmitComment={handleSubmit}
+      <Dim
+        onClick={() => {
+          navigateToHome();
+          closeModal('commentAlert');
+        }}
+      />
+      <Wrapper ref={wrapperRef}>
+        {feed && (
+          <Box>
+            <Carousel images={feed?.images} />
+            <Content>
+              <Info>
+                <Detail>
+                  <FeedUserInfo // TODO 수정됨 요소 추가
+                    member={feed?.member}
+                    createdAt={
+                      feed?.createdAt === feed?.updatedAt
+                        ? feed.createdAt
+                        : feed.updatedAt
+                    }
+                    location={feed?.location}
+                    feedId={feed?.id}
                   />
+                </Detail>
+                <Review>{feed?.review}</Review>
+                <StoreMoodList>
+                  {feed?.storeMood.map(
+                    // TOOD 무드 확인
+                    (storeMood: { id: string; name: string }) => (
+                      <Badge
+                        variant="store"
+                        badge={storeMood}
+                        key={storeMood.id}
+                      />
+                    )
+                  )}
+                </StoreMoodList>
+              </Info>
+              <FeedAction
+                likeCount={feed?.likeCount}
+                commentCount={feed?.commentCount}
+              />
+              <CommentContainer>
+                <CommentInput
+                  value={value}
+                  limitedLength={200}
+                  onChangeValue={handleChange}
+                  onSubmitComment={handleSubmit}
+                />
+                {comments && (
                   <Comment>
                     {comments?.map((comment) => (
                       <CommentBox // TODO const로 빼기
-                        ref={
-                          comment === comments.length - 1 ? observeTarget : null
-                        }
                         key={comment.id}
                         createdAt={
                           comment.createdAt === comment.updatedAt
@@ -118,13 +115,14 @@ export const DetailFeedModalPage = () => {
                         comment={comment}
                       />
                     ))}
+                    <li ref={observeTarget}></li>
                   </Comment>
-                </CommentContainer>
-              </Content>
-            </Box>
-          </Wrapper>
-        </>
-      )}
+                )}
+              </CommentContainer>
+            </Content>
+          </Box>
+        )}
+      </Wrapper>
     </>
   );
 };
