@@ -3,7 +3,7 @@ package com.foodymoody.be.member.util;
 import static com.foodymoody.be.common.util.Constants.UTILITY_CLASS;
 
 import com.foodymoody.be.common.util.IdGenerator;
-import com.foodymoody.be.member.controller.dto.MemberProfileFeedPreviewResponse;
+import com.foodymoody.be.feed.repository.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.member.controller.dto.MemberProfileResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;

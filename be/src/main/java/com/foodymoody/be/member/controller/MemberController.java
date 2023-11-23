@@ -5,6 +5,7 @@ import com.foodymoody.be.member.controller.dto.TasteMoodResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.service.MemberService;
+import com.foodymoody.be.member.service.ProfileService;
 import com.foodymoody.be.member.service.TasteMoodService;
 import java.util.List;
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
+    private final ProfileService profileService;
     private final TasteMoodService tasteMoodService;
 
     @PostMapping
@@ -33,7 +35,7 @@ public class MemberController {
 
     @GetMapping("/{memberId}")
     public ResponseEntity<MemberProfileResponse> fetchProfile(@PathVariable String memberId) {
-        MemberProfileResponse response = memberService.fetchProfile(memberId);
+        MemberProfileResponse response = profileService.fetchProfile(memberId);
         return ResponseEntity.ok().body(response);
     }
 

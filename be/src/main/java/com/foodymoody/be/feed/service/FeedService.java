@@ -24,6 +24,7 @@ import com.foodymoody.be.feed.service.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed.util.FeedMapper;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
+import com.foodymoody.be.feed.repository.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
@@ -203,6 +204,10 @@ public class FeedService {
                     return new MenuNameRatingPair(menu.getName(), menu.getRating());
                 })
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    public List<MemberProfileFeedPreviewResponse> readAllPreviewsByMemberId(String memberId) {
+        return feedRepository.readAllPreviewsByMemberId(memberId);
     }
 
 }
