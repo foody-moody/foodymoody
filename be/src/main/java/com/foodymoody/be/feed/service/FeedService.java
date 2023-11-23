@@ -66,10 +66,10 @@ public class FeedService {
                     .images(images)
                     .createdAt(feed.getCreatedAt())
                     .updatedAt(feed.getUpdatedAt())
-                    // TODO: 아래 로직 구현 후 추가
-                    .likeCount(feed.getLikeCount())
-                    .isLiked(feed.isLiked())
                     .commentCount(feed.getCommentCount())
+                    // TODO: 아래 로직 구현 후 추가
+                    .isLiked(feed.isLiked())
+                    .likeCount(feed.getLikeCount())
                     .build();
 
             responses.add(response);
