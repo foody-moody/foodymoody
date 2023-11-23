@@ -16,8 +16,6 @@ import 'service/axios/feed/feed';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
 export const useGetComments = (id: string) => {
-  console.log('코멘트 훅에서 확인중 ', id);
-
   const { data, hasNextPage, status, isLoading, fetchNextPage, refetch } =
     useInfiniteQuery({
       queryKey: [QUERY_KEY.comments, id],
