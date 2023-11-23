@@ -12,7 +12,6 @@ import { PlusIcon } from 'components/common/icon/icons';
 import { Input } from 'components/common/input/Input';
 import { MenuItemEditor } from 'components/common/menuItemEditor/MenuItemEditor';
 import { TextArea } from 'components/common/textarea/Textarea';
-import { useInitialValue } from 'hooks/useInitialValue';
 import { useInput } from 'hooks/useInput';
 import { useMenuItem } from 'hooks/useMenuItem';
 import { usePageNavigator } from 'hooks/usePageNavigator';
@@ -25,7 +24,6 @@ export const NewFeedModalPage = () => {
   const { data: feedDetailData } = useFeedDetail(feedId);
   // console.log('Newfeed feedId', feedId);
   // console.log('Newfeed feedDetailData', feedDetailData);
-  const initialValue = useInitialValue(feedId);
 
   const {
     menuItems,
@@ -58,6 +56,7 @@ export const NewFeedModalPage = () => {
     if (feedDetailData) {
       handleReviewChange(feedDetailData.review);
       handleLocationChange(feedDetailData.location);
+      // setSelectedBadgeList(feedDetailData.storeMood); // 확인필요
     }
   }, [feedDetailData]);
 

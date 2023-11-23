@@ -5,4 +5,5 @@ export const QUERY_KEY = {
   comments: 'comments',
   replies: 'replies',
   tasteMood: 'tasteMood',
+  storeMood: 'storeMood',
 };

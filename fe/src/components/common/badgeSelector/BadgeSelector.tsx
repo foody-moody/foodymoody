@@ -1,3 +1,4 @@
+import { useGetStoreMood } from 'service/queries/mood';
 import { styled } from 'styled-components';
 import { Badge } from '../badge/Badge';
 
@@ -15,6 +16,7 @@ export const BadgeSelector: React.FC<Props> = ({
   onActiveBadge,
 }) => {
   /* TODO. variant별 BadgeList fetch 필요 */
+  const { data: badges } = useGetStoreMood();
   const MOCK_BADGELIST = [
     { id: '1', name: '뱃지1' },
     { id: '2', name: '뱃지2' },
@@ -58,7 +60,8 @@ export const BadgeSelector: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      {MOCK_BADGELIST.map((badge) => (
+      {badges?.map((badge: Mood) => (
+        // {MOCK_BADGELIST.map((badge) => (
         <Badge
           variant={variant}
           key={badge.id}

@@ -5,3 +5,7 @@ export const getTasteMoods = async () => {
   const { data } = await publicApi.get(END_POINT.tasteMood);
   return data;
 };
+export const getStoreMoods = async () => {
+  const { data } = await publicApi.get(END_POINT.storeMood);
+  return data;
+};
