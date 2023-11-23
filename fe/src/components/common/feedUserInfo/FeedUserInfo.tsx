@@ -63,7 +63,7 @@ export const FeedUserInfo: React.FC<Props> = ({
       id: 2,
       content: '수정하기',
       onClick: () => {
-        navigate(`${PATH.EDIT_FEED}/${feedId}}`, {
+        navigate(`${PATH.EDIT_FEED}/${feedId}`, {
           state: { background: 'newFeed' },
         });
       },

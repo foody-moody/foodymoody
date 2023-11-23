@@ -42,7 +42,7 @@ const router = createBrowserRouter([
                     element: <NewFeedModalPage />,
                   },
                   {
-                    path: PATH.EDIT_FEED,
+                    path: PATH.EDIT_FEED + '/:id',
                     element: <NewFeedModalPage />,
                   },
                 ],
