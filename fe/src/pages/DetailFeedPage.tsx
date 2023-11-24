@@ -102,11 +102,14 @@ export const DetailFeedModalPage = () => {
                   onChangeValue={handleChange}
                   onSubmitComment={handleSubmit}
                 />
-                {comments && (
-                  <Comment>
-                    {comments?.map((comment) => (
-                      <CommentBox // TODO const로 빼기
+                <Comment>
+                  {comments?.map((comment, index) => {
+                    const isLastItem = index === comments.length - 1;
+
+                    return (
+                      <CommentBox
                         key={comment.id}
+                        ref={isLastItem ? observeTarget : null}
                         createdAt={
                           comment.createdAt === comment.updatedAt
                             ? comment.createdAt
@@ -114,10 +117,9 @@ export const DetailFeedModalPage = () => {
                         }
                         comment={comment}
                       />
-                    ))}
-                    <li ref={observeTarget}></li>
-                  </Comment>
-                )}
+                    );
+                  })}
+                </Comment>
               </CommentContainer>
             </Content>
           </Box>
