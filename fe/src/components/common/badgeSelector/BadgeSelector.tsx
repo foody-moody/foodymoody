@@ -17,17 +17,17 @@ export const BadgeSelector: React.FC<Props> = ({
 }) => {
   /* TODO. variant별 BadgeList fetch 필요 */
   const { data: badges } = useGetStoreMood();
-  const MOCK_BADGELIST = [
-    { id: '1', name: '뱃지1' },
-    { id: '2', name: '뱃지2' },
-    { id: '3', name: '뱃지3' },
-    { id: '4', name: '뱃지4' },
-    { id: '5', name: '뱃지5' },
-    { id: '6', name: '뱃지6' },
-    { id: '7', name: '뱃지7' },
-    { id: '8', name: '뱃지8' },
-    { id: '9', name: '뱃지9' },
-  ];
+  // const MOCK_BADGELIST = [
+  //   { id: '1', name: '뱃지1' },
+  //   { id: '2', name: '뱃지2' },
+  //   { id: '3', name: '뱃지3' },
+  //   { id: '4', name: '뱃지4' },
+  //   { id: '5', name: '뱃지5' },
+  //   { id: '6', name: '뱃지6' },
+  //   { id: '7', name: '뱃지7' },
+  //   { id: '8', name: '뱃지8' },
+  //   { id: '9', name: '뱃지9' },
+  // ];
 
   const isActiveBadge = (badgeId: string) =>
     selectedBadgeList.some((badge) => badge.id === badgeId);
