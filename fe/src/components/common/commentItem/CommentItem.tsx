@@ -25,7 +25,7 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
   });
   const [isEdit, setIsEdit] = useState(false);
   const { isLogin, userInfo } = useAuthState();
-  const isAuthor = userInfo.id === comment.member.id;
+  const isAuthor = userInfo?.id === comment.member.id;
 
   const handleEdit = () => {
     setIsEdit(true);
