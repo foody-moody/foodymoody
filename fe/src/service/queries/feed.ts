@@ -4,7 +4,9 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from 'recoil/toast/useToast';
 import {
   deleteFeed,
   getAllFeeds,
@@ -46,6 +48,7 @@ export const useFeedEditor = (id?: string) => {
   // const { navigateToHome } = usePageNavigator();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const toast = useToast();
 
   return useMutation({
     mutationFn: (body: NewFeedBody) =>
@@ -62,8 +65,11 @@ export const useFeedEditor = (id?: string) => {
         navigate(PATH.HOME, { replace: true });
       }
     },
-    onError: (error) => {
-      console.log('put editFeed error: ', error);
+    onError: (error: AxiosError<ErrorResponse>) => {
+      const errorData = error?.response?.data;
+      console.log('feed editor error: ', error);
+
+      errorData && toast.error(errorData.message);
     },
   });
 };
@@ -72,6 +78,7 @@ export const useDeleteFeed = () => {
   // const { navigateToHome } = usePageNavigator();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const toast = useToast();
 
   return useMutation({
     mutationFn: (id: string) => deleteFeed(id),
@@ -80,8 +87,12 @@ export const useDeleteFeed = () => {
       queryClient.invalidateQueries([QUERY_KEY.allFeeds]);
       navigate(PATH.HOME, { replace: true });
     },
-    onError: (error) => {
+
+    onError: (error: AxiosError<ErrorResponse>) => {
+      const errorData = error?.response?.data;
       console.log('delete feed error: ', error);
+
+      errorData && toast.error(errorData.message);
     },
   });
 };
