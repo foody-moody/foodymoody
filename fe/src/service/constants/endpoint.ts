@@ -3,7 +3,7 @@ export const END_POINT = {
   logout: `/auth/logout`,
   refresh: `/auth/refresh`, // 수정가능성
   tasteMood: `/members/taste-moods`,
-  storeMood: `/members/store-moods`,
+  storeMood: `/feeds/store-moods`,
   member: (id?: string) => (id ? `/members/${id}` : `/members`),
   feed: (id?: string) => (id ? `/feeds/${id}` : `/feeds`),
   comment: (id?: string) => (id ? `/comments/${id}` : `/comments`),

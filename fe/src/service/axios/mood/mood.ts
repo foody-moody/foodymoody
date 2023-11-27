@@ -1,4 +1,4 @@
-import { publicApi } from 'service/axios/fetcher';
+import { privateApi, publicApi } from 'service/axios/fetcher';
 import { END_POINT } from 'service/constants/endpoint';
 
 export const getTasteMoods = async () => {
@@ -6,6 +6,6 @@ export const getTasteMoods = async () => {
   return data;
 };
 export const getStoreMoods = async () => {
-  const { data } = await publicApi.get(END_POINT.storeMood);
+  const { data } = await privateApi.get(END_POINT.storeMood);
   return data;
 };
