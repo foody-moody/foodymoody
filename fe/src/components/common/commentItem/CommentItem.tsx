@@ -42,6 +42,8 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
   };
 
   const handleDelete = () => {
+    console.log(comment.id, ' now comment ID');
+
     deleteMutate(comment.id);
   };
 

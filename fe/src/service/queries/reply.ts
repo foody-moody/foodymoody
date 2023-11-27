@@ -1,7 +1,7 @@
 import {
   useInfiniteQuery,
   useMutation,
-  useQueryClient,
+  // useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useMemo } from 'react';
@@ -42,16 +42,17 @@ export const useGetReplies = (id: string) => {
   };
 };
 
-export const usePostReply = (id: string) => {
-  const queryClient = useQueryClient();
+export const usePostReply = (id: string, callbackFn: () => void) => {
+  // const queryClient = useQueryClient();
   const toast = useToast();
 
   return useMutation({
     mutationFn: (body: Omit<NewCommentBody, 'feedId'>) =>
       postNewReply(body, id),
     onSuccess: () => {
+      callbackFn();
       // queryClient.invalidateQueries([QUERY_KEY.replies]);
-      queryClient.invalidateQueries([QUERY_KEY.replies, id]);
+      // queryClient.invalidateQueries([QUERY_KEY.replies, id]);
       // queryClient.invalidateQueries([QUERY_KEY.comments]);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
