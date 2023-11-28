@@ -1,6 +1,7 @@
 package com.foodymoody.be.member.controller;
 
-import com.foodymoody.be.member.controller.dto.MemberProfileResponse;
+import com.foodymoody.be.member.repository.MemberProfileFeedPreviewResponse;
+import com.foodymoody.be.member.repository.MemberProfileResponse;
 import com.foodymoody.be.member.controller.dto.TasteMoodResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
@@ -9,6 +10,9 @@ import com.foodymoody.be.member.service.TasteMoodService;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +39,12 @@ public class MemberController {
     public ResponseEntity<MemberProfileResponse> fetchProfile(@PathVariable String memberId) {
         MemberProfileResponse response = memberService.fetchProfile(memberId);
         return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/{memberId}/feeds")
+    public ResponseEntity<Slice<MemberProfileFeedPreviewResponse>> fetchMemberFeeds(@PathVariable String memberId, @PageableDefault Pageable pageable) {
+        Slice<MemberProfileFeedPreviewResponse> responses = memberService.fetchProfileFeedPreviews(memberId, pageable);
+        return ResponseEntity.ok().body(responses);
     }
 
     @GetMapping("/taste-moods")

@@ -3,7 +3,6 @@ package com.foodymoody.be.member.service;
 import com.foodymoody.be.common.exception.DuplicateMemberEmailException;
 import com.foodymoody.be.common.exception.DuplicateNicknameException;
 import com.foodymoody.be.common.exception.MemberNotFoundException;
-import com.foodymoody.be.member.controller.dto.MemberProfileResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.domain.Member;
@@ -11,11 +10,13 @@ import com.foodymoody.be.member.domain.MemberId;
 import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.domain.TasteMood;
 import com.foodymoody.be.member.domain.TasteMoodId;
-import com.foodymoody.be.member.repository.MemberProfileData;
+import com.foodymoody.be.member.repository.MemberProfileFeedPreviewResponse;
+import com.foodymoody.be.member.repository.MemberProfileResponse;
 import com.foodymoody.be.member.repository.MemberRepository;
 import com.foodymoody.be.member.util.MemberMapper;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final TasteMoodService tasteMoodService;
-
     @Transactional
     public MemberSignupResponse create(MemberSignupRequest request) {
         TasteMoodId tasteMoodId = new TasteMoodId(request.getTasteMoodId());
@@ -45,12 +45,6 @@ public class MemberService {
         return memberRepository.fetchFeedDataById(id).orElseThrow(MemberNotFoundException::new);
     }
 
-    public MemberProfileResponse fetchProfile(String id) {
-        MemberProfileData data = fetchProfileData(id);
-//        TODO 피드 미리보기 기능 구현 후 추가
-        return MemberMapper.toMemberProfileResponse(data, List.of());
-    }
-
     public void validateIdExists(String id) {
         MemberId key = new MemberId(id);
         if (!memberRepository.existsById(key)) {
@@ -63,11 +57,6 @@ public class MemberService {
         return memberRepository.findById(key).orElseThrow(MemberNotFoundException::new);
     }
 
-    private MemberProfileData fetchProfileData(String id) {
-        return memberRepository.fetchProfileDataById(id)
-                .orElseThrow(MemberNotFoundException::new);
-    }
-
     private void validateEmailDuplication(String email) {
         if(memberRepository.existsByEmail(email)){
             throw new DuplicateMemberEmailException();
@@ -78,6 +67,15 @@ public class MemberService {
         if (memberRepository.existsByNickname(nickname)) {
             throw new DuplicateNicknameException();
         }
+    }
+
+    public Slice<MemberProfileFeedPreviewResponse> fetchProfileFeedPreviews(String id, Pageable pageable) {
+        return memberRepository.fetchFeedPreviews(id, pageable);
+    }
+
+    public MemberProfileResponse fetchProfile(String id) {
+        return memberRepository.fetchProfileById(id)
+                .orElseThrow(MemberNotFoundException::new);
     }
 
 }
