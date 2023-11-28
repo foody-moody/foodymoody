@@ -1,7 +1,7 @@
 import {
   useInfiniteQuery,
   useMutation,
-  // useQueryClient,
+  useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useMemo } from 'react';
@@ -43,7 +43,7 @@ export const useGetReplies = (id: string) => {
 };
 
 export const usePostReply = (id: string, callbackFn: () => void) => {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   const toast = useToast();
 
   return useMutation({
@@ -53,7 +53,7 @@ export const usePostReply = (id: string, callbackFn: () => void) => {
       callbackFn();
       // queryClient.invalidateQueries([QUERY_KEY.replies]);
       // queryClient.invalidateQueries([QUERY_KEY.replies, id]);
-      // queryClient.invalidateQueries([QUERY_KEY.comments]);
+      queryClient.invalidateQueries([QUERY_KEY.comments]); // 특정 페이지 인덱스만 불러와야하는지?
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       const errorData = error?.response?.data;

@@ -22,7 +22,7 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
       hasNextPage,
     } = useGetReplies(comment.id);
     const { mutate: replyMutate } = usePostReply(comment.id, () => {
-      getReplies();
+      handleToggleReplies();
     });
     const { value, handleChange, isValid } = useInput({
       validator: (value) =>
