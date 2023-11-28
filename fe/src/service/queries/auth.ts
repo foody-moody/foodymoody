@@ -35,7 +35,7 @@ export const useLogin = () => {
       setUserInfo(JSON.stringify(payload));
       navigateToPath(from);
     },
-    onError: (error: AxiosError<ErrorResponse>) => {
+    onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
 
       errorData && toast.error(errorData.message);
@@ -69,7 +69,7 @@ export const useRegister = () => {
     onSuccess: () => {
       navigateToLogin();
     },
-    onError: (error: AxiosError<ErrorResponse>) => {
+    onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
 
       errorData && toast.error(errorData.message);

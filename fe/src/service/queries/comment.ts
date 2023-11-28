@@ -48,7 +48,7 @@ export const usePostComment = (id: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries([QUERY_KEY.comments, id]);
     },
-    onError: (error: AxiosError<ErrorResponse>) => {
+    onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
 
       if (errorData && errorData.code === 'g001') {
@@ -71,7 +71,7 @@ export const usePutComment = () => {
       // queryClient.invalidateQueries([QUERY_KEY.comments, id]);
       queryClient.invalidateQueries([QUERY_KEY.comments]);
     },
-    onError: (error: AxiosError<ErrorResponse>) => {
+    onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
 
       if (errorData && errorData.code === 'g001') {
@@ -92,7 +92,7 @@ export const useDeleteComment = () => {
     onSuccess: () => {
       queryClient.invalidateQueries([QUERY_KEY.comments]);
     },
-    onError: (error: AxiosError<ErrorResponse>) => {
+    onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
 
       errorData && toast.error(errorData.message);
