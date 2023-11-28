@@ -1,6 +1,6 @@
 package com.foodymoody.be.comment.application;
 
-import com.foodymoody.be.comment.application.dto.response.ReplyResponse;
+import com.foodymoody.be.comment.application.dto.response.MemberReplySummary;
 import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.comment.domain.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +16,7 @@ public class ReplyService {
     private final ReplyRepository replyRepository;
 
     @Transactional(readOnly = true)
-    public Slice<ReplyResponse> fetchAllReply(String id, Pageable pageable) {
-        CommentId commentId = new CommentId(id);
-        return replyRepository.findReplyWithMemberAllById(commentId, pageable);
+    public Slice<MemberReplySummary> fetchAllReply(CommentId commentId, Pageable pageable) {
+        return replyRepository.findByCommentId(commentId, pageable);
     }
 }

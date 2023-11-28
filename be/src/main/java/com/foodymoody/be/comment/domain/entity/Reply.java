@@ -26,4 +26,28 @@ public class Reply {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+    public ReplyId getId() {
+        return id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 }
