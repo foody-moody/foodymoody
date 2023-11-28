@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface ReplyRepository extends JpaRepository<Reply, CommentId> {
 
@@ -20,5 +21,5 @@ public interface ReplyRepository extends JpaRepository<Reply, CommentId> {
             + "on _member.id.id = _reply.memberId "
             + "left join Image _image "
             + "on _image.id = _member.profileImageId ")
-    Slice<ReplyResponse> findReplyWithMemberAllById(CommentId commentId, Pageable pageable);
+    Slice<ReplyResponse> findReplyWithMemberAllById(@Param("commentId") CommentId commentId, @Param("pageable") Pageable pageable);
 }
