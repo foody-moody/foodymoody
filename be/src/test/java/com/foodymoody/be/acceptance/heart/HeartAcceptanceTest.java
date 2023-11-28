@@ -2,8 +2,9 @@ package com.foodymoody.be.acceptance.heart;
 
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
 import static com.foodymoody.be.acceptance.heart.HeartSteps.응답코드가_200이고_id가_존재하면_정상적으로_좋아요_가능;
-import static com.foodymoody.be.acceptance.heart.HeartSteps.응답코드가_204이고_id가_존재하면_정상적으로_좋아요_취소;
+import static com.foodymoody.be.acceptance.heart.HeartSteps.응답코드가_204이면_정상적으로_좋아요_취소;
 import static com.foodymoody.be.acceptance.heart.HeartSteps.좋아요_취소를_한다;
+import static com.foodymoody.be.acceptance.heart.HeartSteps.좋아요_한_적이_없는데_좋아요_취소를_한다;
 import static com.foodymoody.be.acceptance.heart.HeartSteps.좋아요된_피드에_또_좋아요를_한다;
 import static com.foodymoody.be.acceptance.heart.HeartSteps.좋아요를_한다;
 
@@ -39,7 +40,7 @@ class HeartAcceptanceTest extends AcceptanceTest {
     @Test
     void when_then_like_already_exists() {
         // docs
-        api_문서_타이틀("like", spec);
+        api_문서_타이틀("likeFailed", spec);
 
         // given
         String feedId = 피드를_등록한다(회원아티_액세스토큰, spec).jsonPath().getString("id");
@@ -65,7 +66,21 @@ class HeartAcceptanceTest extends AcceptanceTest {
         var response = 좋아요_취소를_한다(feedId, 회원푸반_액세스토큰, spec);
 
         // then
-        응답코드가_204이고_id가_존재하면_정상적으로_좋아요_취소(response);
+        응답코드가_204이면_정상적으로_좋아요_취소(response);
+    }
+
+    @DisplayName("좋아요 된 피드가 없는데 좋아요 취소를 하면 테스트에 실패한다.")
+    @Test
+    void when_then_unLike_does_not_exist() {
+        // docs
+        api_문서_타이틀("unLikeFailed", spec);
+
+        // given
+        String feedId = 피드를_등록한다(회원푸반_액세스토큰, spec).jsonPath().getString("id");
+
+        // when
+        // then
+        좋아요_한_적이_없는데_좋아요_취소를_한다(feedId, 회원푸반_액세스토큰, spec);
     }
 
 }
