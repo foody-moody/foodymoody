@@ -1,5 +1,7 @@
 package com.foodymoody.be.heart.service;
 
+import com.foodymoody.be.feed.domain.Feed;
+import com.foodymoody.be.feed.service.FeedService;
 import com.foodymoody.be.heart.domain.Heart;
 import com.foodymoody.be.heart.dto.request.HeartServiceRequest;
 import com.foodymoody.be.heart.dto.response.HeartResponse;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class HeartService {
 
     private final HeartRepository heartRepository;
+    private final FeedService feedService;
 
     public HeartResponse like(HeartServiceRequest heartServiceRequest) {
         if (isHeartExist(heartServiceRequest)) {
@@ -24,7 +27,13 @@ public class HeartService {
         heart.updateCount();
 
         Heart savedHeart = heartRepository.save(heart);
-        return HeartMapper.toHeartResponse(savedHeart);
+
+        Feed feed = feedService.findFeed(heartServiceRequest.getFeedId());
+        feed.updateIsLikedTrue();
+        // TODO: 5초에 한번씩 한꺼번에 업데이트하도록 하기
+        feed.updateLikeCount();
+
+        return HeartMapper.toHeartResponse(savedHeart, feed.isLiked());
     }
 
     private boolean isHeartExist(HeartServiceRequest heartServiceRequest) {

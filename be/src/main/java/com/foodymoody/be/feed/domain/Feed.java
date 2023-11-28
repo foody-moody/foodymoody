@@ -101,4 +101,16 @@ public class Feed {
         this.imageMenus.replaceWith(newImages, newMenus);
     }
 
+    public void updateLikeCount() {
+        this.likeCount += 1;
+    }
+
+    public void updateIsLikedTrue() {
+        this.isLiked = true;
+    }
+
+    public void updateIsLikedFalse() {
+        this.isLiked = false;
+    }
+
 }

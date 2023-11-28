@@ -68,7 +68,6 @@ public class FeedService {
                     .createdAt(feed.getCreatedAt())
                     .updatedAt(feed.getUpdatedAt())
                     .commentCount(feed.getCommentCount())
-                    // TODO: 아래 로직 구현 후 추가
                     .isLiked(feed.isLiked())
                     .likeCount(feed.getLikeCount())
                     .build();
