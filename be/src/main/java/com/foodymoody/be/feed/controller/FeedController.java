@@ -73,8 +73,8 @@ public class FeedController {
      * Feed 삭제
      */
     @DeleteMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        feedService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable String id, @MemberId String memberId) {
+        feedService.delete(FeedMapper.toServiceDeleteRequest(id, memberId));
         return ResponseEntity.noContent().build();
     }
 
