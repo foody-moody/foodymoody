@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { useFeedDetail, useFeedEditor } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { customScrollStyle, flexColumn, flexRow } from 'styles/customStyle';
@@ -12,9 +12,11 @@ import { PlusIcon } from 'components/common/icon/icons';
 import { Input } from 'components/common/input/Input';
 import { MenuItemEditor } from 'components/common/menuItemEditor/MenuItemEditor';
 import { TextArea } from 'components/common/textarea/Textarea';
+import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { useMenuItem } from 'hooks/useMenuItem';
 import { usePageNavigator } from 'hooks/usePageNavigator';
+import { PATH } from 'constants/path';
 
 export const NewFeedModalPage = () => {
   const { navigateToHome } = usePageNavigator();
@@ -24,7 +26,9 @@ export const NewFeedModalPage = () => {
   const { data: feedDetailData } = useFeedDetail(feedId);
   // console.log('Newfeed feedId', feedId);
   // console.log('Newfeed feedDetailData', feedDetailData);
-
+  const { isLogin } = useAuthState();
+  const currentPath = useLocation();
+  console.log(currentPath, '현재 위치는?');
   const {
     menuItems,
     handleAddMenuItem,
@@ -34,7 +38,6 @@ export const NewFeedModalPage = () => {
     // } = useMenuItem(initialValue.images); // feedDetailData로 교체
   } = useMenuItem(feedDetailData?.images); // feedDetailData로 교체
   console.log('Newfeed menuItems', menuItems);
-
   const {
     value: locationName,
     handleChange: handleLocationChange,
@@ -46,12 +49,10 @@ export const NewFeedModalPage = () => {
     validator: (value) => value.trim().length > 0,
     helperText: '가게 이름을 입력해주세요',
   });
-
   const { value: reviewValue, handleChange: handleReviewChange } = useInput({
     // initialValue: initialValue.reviewValue,
     initialValue: '',
   });
-
   useEffect(() => {
     if (feedDetailData) {
       handleReviewChange(feedDetailData.review);
@@ -59,7 +60,6 @@ export const NewFeedModalPage = () => {
       // setSelectedBadgeList(feedDetailData.storeMood); // 확인필요
     }
   }, [feedDetailData]);
-
   const handleSubmit = () => {
     console.log('submit location', locationName);
     console.log(
@@ -80,7 +80,6 @@ export const NewFeedModalPage = () => {
       storeMood: selectedBadgeList.map((badge) => badge.id),
       review: reviewValue,
     });
-
     feedMutate({
       location: locationName,
       images: menuItems.map(({ imageUrl, menu }) => ({
@@ -91,11 +90,9 @@ export const NewFeedModalPage = () => {
       review: reviewValue,
     });
   };
-
   const handleSelectBadgeList = (badges: Badge[]) => {
     setSelectedBadgeList(badges);
   };
-
   const isValid =
     isLocationNameVaild &&
     reviewValue.trim().length > 0 &&
@@ -103,8 +100,7 @@ export const NewFeedModalPage = () => {
     menuItems
       .map((menuItem) => menuItem.menu.name)
       .every((name) => name.trim().length > 0);
-
-  return (
+  return isLogin ? (
     <>
       <Dim onClick={navigateToHome} />
       <Wrapper>
@@ -132,7 +128,6 @@ export const NewFeedModalPage = () => {
                   helperText={locationNameHelperText}
                 />
               </InputBox>
-
               <MenuEditorWrapper>
                 <Title>리뷰를 작성 할 메뉴를 등록해주세요</Title>
                 <MenuEditor>
@@ -164,7 +159,6 @@ export const NewFeedModalPage = () => {
               <MoodSelector>
                 <Title>가게의 무드를 선택해주세요</Title>
                 <Caption>(무드는 최대 3가지를 고를 수 있어요)</Caption>
-
                 <BadgeSelector
                   variant="store"
                   maxCount={3}
@@ -185,6 +179,8 @@ export const NewFeedModalPage = () => {
         </Box>
       </Wrapper>
     </>
+  ) : (
+    <Navigate to={PATH.LOGIN} replace state={{ redirectedFrom: currentPath }} />
   );
 };
 
