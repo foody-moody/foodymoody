@@ -18,12 +18,6 @@ type FeedImage = {
   menu: MenuTag;
 };
 
-type NewFeed = {
-  id: string;
-  imageId: string;
-  menu: MenuTag;
-};
-
 type FeedMemberInfo = {
   id: string;
   nickname: string;
