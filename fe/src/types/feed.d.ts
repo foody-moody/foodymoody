@@ -36,7 +36,7 @@ type NewFeedBody = {
   storeMood: string[];
   images: {
     menu: MenuTag;
-    imageUrl: string;
+    imageId: string;
   }[];
 };
 /* TODO. 수정 예정 */

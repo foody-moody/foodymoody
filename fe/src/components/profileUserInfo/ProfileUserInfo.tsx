@@ -28,21 +28,19 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
         <Column>
           <ContentHeader>
             <p>{member.nickname}</p>
+            {/* TODO. Badge 적용 해야함..*/}
             <Badge badge={MOCK_BADGE} variant="taste" />
           </ContentHeader>
 
           <ContentBody>
             <InfoItem>
-              {member.myFeedsCount}
-              <span>게시물</span>
+              {/* {member.myFeedsCount} */}1<span>게시물</span>
             </InfoItem>
             <InfoItem>
-              {member.myFeedsCount}
-              <span>팔로잉</span>
+              {/* {member.myFeedsCount} */}2<span>팔로잉</span>
             </InfoItem>
             <InfoItem>
-              {member.myFeedsCount}
-              <span>팔로워</span>
+              {/* {member.myFeedsCount} */}3<span>팔로워</span>
             </InfoItem>
           </ContentBody>
         </Column>

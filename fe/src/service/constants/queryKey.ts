@@ -3,5 +3,7 @@ export const QUERY_KEY = {
   allFeeds: 'allFeeds',
   feedDetail: 'feedDetail',
   comments: 'comments',
+  replies: 'replies',
   tasteMood: 'tasteMood',
+  storeMood: 'storeMood',
 };

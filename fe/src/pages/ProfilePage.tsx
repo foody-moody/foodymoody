@@ -1,13 +1,15 @@
 import { useState } from 'react';
+import { useGetProfile } from 'service/queries/profile';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { UserFeedTabs } from 'components/common/userFeedTabs/UserFeedTabs';
 import { ProfileUserInfo } from 'components/profileUserInfo/ProfileUserInfo';
-
-// import { useGetProfile } from 'queries/profile';
+import { getUserInfo } from 'utils/localStorage';
 
 export const ProfilePage = () => {
-  // const { data } = useGetProfile();
+  const { id } = getUserInfo();
+  const { data } = useGetProfile(id);
+  /* TODO. data.myFeed 데이터 생기면 추가하기 */
   const [index, setIndex] = useState(0);
 
   const handleFeedTab = (index: number) => {
@@ -18,7 +20,7 @@ export const ProfilePage = () => {
     <Wrapper>
       <ContentWrapper>
         <ProfileWrapper>
-          <ProfileUserInfo member={MOCK} />
+          {data && <ProfileUserInfo member={data.memberProfileData} />}
         </ProfileWrapper>
         <UserFeedTabs index={index} onClick={handleFeedTab} />
         <FeedsWrapper>
@@ -87,23 +89,3 @@ const MOCK_FEEDS = Array.from({ length: 20 }, (_, index) => ({
   id: index + 1,
   imageUrl: generateDefaultImage(`githubrandomProfileimageurl${index + 1}`),
 }));
-
-const MOCK = {
-  memberId: '1',
-  imageUrl: 'https://www.dskadsl.com',
-  nickname: '보노',
-  image: 'url',
-  email: 'test@email.com',
-  mood: '기쁨',
-  myFeeds: [
-    {
-      id: '1',
-      imageUrl: 'https://www.googles.com/',
-    },
-    {
-      id: '2',
-      imageUrl: 'https://www.googles.com/',
-    },
-  ],
-  myFeedsCount: 7,
-};

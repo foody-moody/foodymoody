@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { useGetComments, usePostComment } from 'service/queries/comment';
 import { useFeedDetail } from 'service/queries/feed';
 import { styled } from 'styled-components';
@@ -11,21 +12,26 @@ import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
 import { CommentInput } from 'components/common/input/CommentInput';
+import { useModal } from 'components/common/modal/Modal';
 import { useInput } from 'hooks/useInput';
 import { useIntersectionObserver } from 'hooks/useObserver';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const DetailFeedModalPage = () => {
-  const { data: feed } = useFeedDetail('10'); // params로 feedId 받아오기
-  const { comments, hasNextPage, fetchNextPage } = useGetComments('10'); // params로 feedId 받아오기
+  // TODO 로딩 에러
+  const { id: feedId } = useParams() as { id: string };
+  const { data: feed } = useFeedDetail(feedId);
+  const { comments, hasNextPage, fetchNextPage } = useGetComments(feedId);
+  const { closeModal } = useModal<'commentAlert'>();
   const wrapperRef = useRef(null);
+
   const { observeTarget } = useIntersectionObserver({
     callbackFn: () => {
       hasNextPage && fetchNextPage();
     },
     rootRef: wrapperRef,
   });
-  const { mutate: commentMutate } = usePostComment('10');
+  const { mutate: commentMutate } = usePostComment(feedId);
   const { navigateToHome } = usePageNavigator();
   const { value, handleChange, isValid } = useInput({
     validator: (value) =>
@@ -34,120 +40,90 @@ export const DetailFeedModalPage = () => {
   console.log(feed);
   console.log('comment', comments);
 
-  const MOCK = {
-    id: '2',
-    member: {
-      id: '2',
-      imageUrl: 'www.google.com/',
-      nickname: '박콩불2',
-      tasteMood: { id: '1', name: '베지테리안' },
-    },
-    createdAt: '2023-10-17T16:54:03',
-    updatedAt: '2023-10-18T11:54:03',
-    location: '맛있게 매운 콩볼 범계점',
-    review:
-      '맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.맛있게 먹음.',
-    storeMood: [
-      { id: '1', name: '따뜻함' },
-      { id: '2', name: '가족과함께' },
-      { id: '3', name: '가게무드' },
-    ],
-    images: [
-      {
-        id: '1',
-        imageUrl:
-          'https://img.daily.co.kr/@files/www.daily.co.kr/content/food/2020/20200730/40d0fb3794229958bdd1e36520a4440f.jpg',
-        menu: {
-          name: '마라탕',
-          rating: 4,
-        },
-      },
-      {
-        id: '2',
-        imageUrl:
-          'https://img.daily.co.kr/@files/www.daily.co.kr/content/food/2020/20200730/40d0fb3794229958bdd1e36520a4440f.jpg',
-        menu: {
-          name: '감자탕',
-          rating: 3,
-        },
-      },
-    ],
-    likeCount: 17,
-    isLiked: true,
-    commentCount: 3,
-  };
-
   const handleSubmit = () => {
-    console.log('is Comment Valid', {
-      isCommentValid: isValid,
-      commentValue: value,
-    });
+    isValid &&
+      commentMutate({
+        feedId: feed.id,
+        content: value,
+      });
 
-    commentMutate({
-      // feedId: MOCK.id,
-      // feedId: '10',
-      feedId: feed.id,
-      content: value,
-    });
+    handleChange('');
   };
 
   return (
     <>
-      <Dim onClick={navigateToHome} />
+      {/* 로딩, 에러 추가 */}
+      <Dim
+        onClick={() => {
+          navigateToHome();
+          closeModal('commentAlert');
+        }}
+      />
       <Wrapper ref={wrapperRef}>
-        <Box>
-          <Carousel images={MOCK.images} />
-
-          <Content>
-            <Info>
-              <Detail>
-                <FeedUserInfo
-                  member={MOCK.member}
-                  createdAt={MOCK.createdAt}
-                  location={MOCK.location}
-                />
-              </Detail>
-              <Review>{MOCK.review}</Review>
-              <StoreMoodList>
-                {MOCK.storeMood.map((storeMood) => (
-                  <Badge variant="store" badge={storeMood} key={storeMood.id} />
-                ))}
-              </StoreMoodList>
-            </Info>
-            <FeedAction
-              // likeCount={MOCK.likeCount}
-              // commentCount={MOCK.commentCount}
-              likeCount={feed?.likeCount}
-              commentCount={feed?.commentCount}
-            />
-            <CommentContainer>
-              <CommentInput
-                value={value}
-                limitedLength={200}
-                onChangeValue={handleChange}
-                onSubmitComment={handleSubmit}
-              />
-              <Comment>
-                {comments?.map((comment) => (
-                  <CommentBox
-                    ref={comment === comments.at(-1) ? observeTarget : null}
-                    key={comment.id}
-                    imageUrl="이미지"
-                    nickname="댓글닉넴"
+        {feed && (
+          <Box>
+            <Carousel images={feed?.images} />
+            <Content>
+              <Info>
+                <Detail>
+                  <FeedUserInfo // TODO 수정됨 요소 추가
+                    member={feed?.member}
                     createdAt={
-                      comment.createdAt === comment.updatedAt
-                        ? comment.createdAt
-                        : comment.updatedAt
+                      feed?.createdAt === feed?.updatedAt
+                        ? feed.createdAt
+                        : feed.updatedAt
                     }
-                    content={comment.content}
-                    hasReply={comments.length % 2 === 0}
-                    replyCount={comments.length % 2 === 0 ? 3 : 0}
+                    location={feed?.location}
+                    feedId={feed?.id}
                   />
-                ))}
-              </Comment>
-            </CommentContainer>
-          </Content>
-        </Box>
+                </Detail>
+                <Review>{feed?.review}</Review>
+                <StoreMoodList>
+                  {feed?.storeMood.map(
+                    // TOOD 무드 확인
+                    (storeMood: { id: string; name: string }) => (
+                      <Badge
+                        variant="store"
+                        badge={storeMood}
+                        key={storeMood.id}
+                      />
+                    )
+                  )}
+                </StoreMoodList>
+              </Info>
+              <FeedAction
+                likeCount={feed?.likeCount}
+                commentCount={feed?.commentCount}
+              />
+              <CommentContainer>
+                <CommentInput
+                  value={value}
+                  limitedLength={200}
+                  onChangeValue={handleChange}
+                  onSubmitComment={handleSubmit}
+                />
+                <Comment>
+                  {comments?.map((comment, index) => {
+                    const isLastItem = index === comments.length - 1;
+
+                    return (
+                      <CommentBox
+                        key={comment.id}
+                        ref={isLastItem ? observeTarget : null}
+                        createdAt={
+                          comment.createdAt === comment.updatedAt
+                            ? comment.createdAt
+                            : comment.updatedAt
+                        }
+                        comment={comment}
+                      />
+                    );
+                  })}
+                </Comment>
+              </CommentContainer>
+            </Content>
+          </Box>
+        )}
       </Wrapper>
     </>
   );

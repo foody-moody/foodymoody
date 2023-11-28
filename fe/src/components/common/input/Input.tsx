@@ -25,6 +25,7 @@ export const Input: React.FC<Props> = ({
   leftBtn,
   rightBtn,
   onChangeValue,
+  onPressEnter,
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -49,7 +50,7 @@ export const Input: React.FC<Props> = ({
           value={value}
           onChangeValue={onChangeValue}
           onPressEnter={() => {
-            console.log('press enter');
+            onPressEnter?.();
           }}
           onInputFocus={() => {
             setIsFocused(true);
