@@ -1,18 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const DEFAULT_MENU_ITEM = {
   id: self.crypto.randomUUID(),
-  imageUrl: '',
+  imageUrl: '1', // 여기 바꾸기
   menu: {
     name: '',
     rating: 0,
   },
 };
 
+// export const useMenuItem = (initialMenuItems: FeedImage[]) => {
 export const useMenuItem = (initialMenuItems?: FeedImage[]) => {
+  // const [menuItems, setMenuItems] = useState(initialMenuItems);
   const [menuItems, setMenuItems] = useState(
     initialMenuItems || [DEFAULT_MENU_ITEM]
   );
+
+  useEffect(() => {
+    initialMenuItems && setMenuItems(initialMenuItems);
+  }, [initialMenuItems]);
 
   const handleAddMenuItem = () => {
     if (menuItems.length >= 3) {
@@ -29,7 +35,6 @@ export const useMenuItem = (initialMenuItems?: FeedImage[]) => {
       return;
     }
     const newItems = menuItems.filter((item) => item.id !== id);
-    console.log(newItems, 'newItems');
 
     setMenuItems(newItems);
   };

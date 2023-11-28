@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRegister } from 'service/queries/auth';
+import { useGetTasteMood } from 'service/queries/mood';
 import { styled } from 'styled-components';
-// import { useGetTasteMood } from 'queries/mood';
 import { useInput } from 'hooks/useInput';
 import { Button } from '../common/button/Button';
 import { ArrowDownIcon } from '../common/icon/icons';
@@ -9,8 +9,11 @@ import { Input } from '../common/input/Input';
 
 export const Register: React.FC = () => {
   const { mutate: resisterMutate } = useRegister();
-  // const { data } = useGetTasteMood();
-  const [selectedTaste, setSelectedTaste] = useState('');
+  const { data: tastes } = useGetTasteMood();
+  const [selectedTaste, setSelectedTaste] = useState<Mood>({
+    id: '',
+    name: '',
+  });
 
   const {
     value: emailValue,
@@ -63,10 +66,18 @@ export const Register: React.FC = () => {
       nickname: nicknameValue,
       password: passwordValue,
       reconfirmPassword: confirmPasswordValue,
-      tasteMoodId: selectedTaste,
+      tasteMoodId: selectedTaste?.id,
     };
-    console.log(registerData);
     resisterMutate(registerData);
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedName = e.target.value;
+
+    const selectedTaste = tastes.find(
+      (taste: Mood) => taste.name === selectedName
+    );
+    setSelectedTaste(selectedTaste || null);
   };
 
   const isFormValid =
@@ -105,14 +116,11 @@ export const Register: React.FC = () => {
         helperText={confirmPasswordHelperText}
       />
       <SelectLabel>
-        <Select
-          value={selectedTaste}
-          onChange={(e) => setSelectedTaste(e.target.value)}
-        >
+        <Select value={selectedTaste?.name} onChange={handleSelectChange}>
           <Option value="" disabled={true}>
             무디를 선택해주세요!
           </Option>
-          {MOCK_TASTES.map((taste) => (
+          {tastes?.map((taste: Mood) => (
             <Option key={taste.id} value={taste.name}>
               {taste.name}
             </Option>
@@ -132,18 +140,6 @@ export const Register: React.FC = () => {
     </Wrapper>
   );
 };
-
-const MOCK_TASTES = [
-  { id: 'f47ac10b-58cc-4372-a567-0e02b2c3d479', name: '어린이 입맛' },
-  { id: '7e57d004-2b97-0e7a-b45f-5387367791cd', name: '스파이시 킹' },
-  { id: 'e2a63f33-9e8f-40be-8c04-bb351d70d7d7', name: '으른 입맛' },
-  { id: 'a5f4f3e7-f716-4f73-a5f0-825babbbbbbb', name: '디저트 킬러' },
-  { id: '0f14d0ab-9604-4e80-bb3c-60082eeb8eef', name: '육식파' },
-  { id: '7e414d03-7e7e-4f02-953d-3a0f049a6a37', name: '도전적인' },
-  { id: '83a7363b-384d-3c6d-a166-8c4d270a37a8', name: '초식파' },
-  { id: '2a9f910c-3d10-11e8-b467-0ed5f89f718b', name: '맵찔이' },
-  { id: '2a9f90c0-3d10-11e8-b467-0ed5f89f71aa', name: '자칭 미식가' },
-];
 
 const Wrapper = styled.div`
   display: flex;
@@ -166,10 +162,9 @@ const SelectLabel = styled.label`
 const Select = styled.select`
   -webkit-appearance: none;
   padding: 8px 40px 8px 12px;
-  /* width: 100%; */
   width: 240px;
   border: 1px solid ${({ theme: { colors } }) => colors.black};
-  /* border-radius: ${({ theme: { radius } }) => radius.large}; */
+
   border-radius: 5px;
   background: ${({ theme: { colors } }) => colors.white};
   cursor: pointer;

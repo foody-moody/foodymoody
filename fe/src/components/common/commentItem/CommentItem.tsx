@@ -25,7 +25,7 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
   });
   const [isEdit, setIsEdit] = useState(false);
   const { isLogin, userInfo } = useAuthState();
-  const isAuthor = userInfo.id === comment.member.id;
+  const isAuthor = userInfo?.id === comment.member.id;
 
   const handleEdit = () => {
     setIsEdit(true);
@@ -42,6 +42,8 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
   };
 
   const handleDelete = () => {
+    console.log(comment.id, ' now comment ID');
+
     deleteMutate(comment.id);
   };
 

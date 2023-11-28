@@ -21,7 +21,9 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
       fetchNextPage: fetchNextReplies,
       hasNextPage,
     } = useGetReplies(comment.id);
-    const { mutate: replyMutate } = usePostReply(comment.id);
+    const { mutate: replyMutate } = usePostReply(comment.id, () => {
+      handleToggleReplies();
+    });
     const { value, handleChange, isValid } = useInput({
       validator: (value) =>
         value.trim().length !== 0 && value.trim().length < 200,

@@ -19,6 +19,7 @@ export const useGetReplies = (id: string) => {
     fetchNextPage,
     refetch,
   } = useInfiniteQuery({
+    // queryKey: [QUERY_KEY.replies],
     queryKey: [QUERY_KEY.replies, id],
     queryFn: ({ pageParam = 0 }) => getAllReplies(pageParam, 10, id),
     getNextPageParam: (lastPage) => {
@@ -41,7 +42,7 @@ export const useGetReplies = (id: string) => {
   };
 };
 
-export const usePostReply = (id: string) => {
+export const usePostReply = (id: string, callbackFn: () => void) => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
@@ -49,7 +50,10 @@ export const usePostReply = (id: string) => {
     mutationFn: (body: Omit<NewCommentBody, 'feedId'>) =>
       postNewReply(body, id),
     onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEY.replies]);
+      callbackFn();
+      // queryClient.invalidateQueries([QUERY_KEY.replies]);
+      // queryClient.invalidateQueries([QUERY_KEY.replies, id]);
+      queryClient.invalidateQueries([QUERY_KEY.comments]); // 특정 페이지 인덱스만 불러와야하는지?
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       const errorData = error?.response?.data;

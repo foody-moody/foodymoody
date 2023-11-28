@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFeedDetail, useFeedEditor } from 'service/queries/feed';
 import { styled } from 'styled-components';
@@ -22,6 +22,8 @@ export const NewFeedModalPage = () => {
   const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
   const { mutate: feedMutate } = useFeedEditor(feedId);
   const { data: feedDetailData } = useFeedDetail(feedId);
+  // console.log('Newfeed feedId', feedId);
+  // console.log('Newfeed feedDetailData', feedDetailData);
 
   const {
     menuItems,
@@ -29,7 +31,9 @@ export const NewFeedModalPage = () => {
     handleRemoveMenuItem,
     handleEditMenuName,
     handleEditStarRating,
-  } = useMenuItem(feedDetailData); // feedDetailData로 교체
+    // } = useMenuItem(initialValue.images); // feedDetailData로 교체
+  } = useMenuItem(feedDetailData?.images); // feedDetailData로 교체
+  console.log('Newfeed menuItems', menuItems);
 
   const {
     value: locationName,
@@ -37,14 +41,24 @@ export const NewFeedModalPage = () => {
     isValid: isLocationNameVaild,
     helperText: locationNameHelperText,
   } = useInput({
+    // initialValue: initialValue.locationValue,
     initialValue: '',
     validator: (value) => value.trim().length > 0,
     helperText: '가게 이름을 입력해주세요',
   });
 
   const { value: reviewValue, handleChange: handleReviewChange } = useInput({
+    // initialValue: initialValue.reviewValue,
     initialValue: '',
   });
+
+  useEffect(() => {
+    if (feedDetailData) {
+      handleReviewChange(feedDetailData.review);
+      handleLocationChange(feedDetailData.location);
+      // setSelectedBadgeList(feedDetailData.storeMood); // 확인필요
+    }
+  }, [feedDetailData]);
 
   const handleSubmit = () => {
     console.log('submit location', locationName);
@@ -57,10 +71,22 @@ export const NewFeedModalPage = () => {
       selectedBadgeList.map((badge) => badge.id)
     );
     console.log('submit review', reviewValue);
+    console.log({
+      location: locationName,
+      images: menuItems.map(({ imageUrl, menu }) => ({
+        imageId: imageUrl,
+        menu,
+      })),
+      storeMood: selectedBadgeList.map((badge) => badge.id),
+      review: reviewValue,
+    });
 
     feedMutate({
       location: locationName,
-      images: menuItems.map(({ imageUrl, menu }) => ({ imageUrl, menu })),
+      images: menuItems.map(({ imageUrl, menu }) => ({
+        imageId: imageUrl,
+        menu,
+      })),
       storeMood: selectedBadgeList.map((badge) => badge.id),
       review: reviewValue,
     });
