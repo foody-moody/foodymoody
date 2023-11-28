@@ -27,9 +27,7 @@ export const useAllFeeds = () => {
     },
   });
 
-  const feeds = query.data?.pages?.reduce((acc, page) => {
-    return [...acc, ...page.content];
-  }, []);
+  const feeds = query.data?.pages?.flatMap((page) => page.content) || [];
 
   return {
     ...query,
@@ -65,7 +63,7 @@ export const useFeedEditor = (id?: string) => {
         navigate(PATH.HOME, { replace: true });
       }
     },
-    onError: (error: AxiosError<ErrorResponse>) => {
+    onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
       console.log('feed editor error: ', error);
 
@@ -88,7 +86,7 @@ export const useDeleteFeed = () => {
       navigate(PATH.HOME, { replace: true });
     },
 
-    onError: (error: AxiosError<ErrorResponse>) => {
+    onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
       console.log('delete feed error: ', error);
 
