@@ -2,7 +2,7 @@ package com.foodymoody.be.acceptance.notification;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.foodymoody.be.comment.domain.CommentAddNotificationEvent;
+import com.foodymoody.be.comment.domain.entity.CommentAddNotificationEvent;
 import com.foodymoody.be.common.event.NotificationEvents;
 import com.foodymoody.be.common.event.NotificationType;
 import io.restassured.RestAssured;
