@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-// import { useFeedDetail, useFeedEditor } from 'queries/feed';
-import { useFeedEditor } from 'service/queries/feed';
+import { useFeedDetail, useFeedEditor } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { customScrollStyle, flexColumn, flexRow } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
@@ -17,42 +16,14 @@ import { useInput } from 'hooks/useInput';
 import { useMenuItem } from 'hooks/useMenuItem';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
-// const MOCK_MENU = {
-//   id: 1,
-//   location: '안양하다 닭꼬치 먹고싶',
-//   createdAt: '2023-10-17T16:54:03',
-//   updatedAt: '2023-10-18T19:54:03',
-//   review: '맛있게 먹었습니다.',
-//   mood: '기쁨',
-//   images: [
-//     {
-//       id: crypto.randomUUID(),
-//       imageUrl: 'https://www.googles.com/',
-//       menu: {
-//         name: '마라탕',
-//         rating: 4,
-//       },
-//     },
-//     {
-//       id: crypto.randomUUID(),
-//       imageUrl: 'https://www.google.com/',
-//       menu: {
-//         name: '감자탕',
-//         rating: 3,
-//       },
-//     },
-//   ],
-//   likeCount: 17,
-//   isLiked: true,
-//   commentCount: 3,
-// };
-
 export const NewFeedModalPage = () => {
   const { navigateToHome } = usePageNavigator();
   const { id: feedId } = useParams() as { id: string };
   const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
   const { mutate: feedMutate } = useFeedEditor(feedId);
-  // const { data: feedDetailData } = useFeedDetail(feedId);
+  const { data: feedDetailData } = useFeedDetail(feedId);
+  // console.log('Newfeed feedId', feedId);
+  // console.log('Newfeed feedDetailData', feedDetailData);
 
   const {
     menuItems,
@@ -60,20 +31,34 @@ export const NewFeedModalPage = () => {
     handleRemoveMenuItem,
     handleEditMenuName,
     handleEditStarRating,
-  } = useMenuItem(); // feedDetailData로 교체
+    // } = useMenuItem(initialValue.images); // feedDetailData로 교체
+  } = useMenuItem(feedDetailData?.images); // feedDetailData로 교체
+  console.log('Newfeed menuItems', menuItems);
+
   const {
     value: locationName,
     handleChange: handleLocationChange,
     isValid: isLocationNameVaild,
     helperText: locationNameHelperText,
   } = useInput({
+    // initialValue: initialValue.locationValue,
     initialValue: '',
     validator: (value) => value.trim().length > 0,
     helperText: '가게 이름을 입력해주세요',
   });
+
   const { value: reviewValue, handleChange: handleReviewChange } = useInput({
+    // initialValue: initialValue.reviewValue,
     initialValue: '',
   });
+
+  useEffect(() => {
+    if (feedDetailData) {
+      handleReviewChange(feedDetailData.review);
+      handleLocationChange(feedDetailData.location);
+      // setSelectedBadgeList(feedDetailData.storeMood); // 확인필요
+    }
+  }, [feedDetailData]);
 
   const handleSubmit = () => {
     console.log('submit location', locationName);
@@ -86,10 +71,22 @@ export const NewFeedModalPage = () => {
       selectedBadgeList.map((badge) => badge.id)
     );
     console.log('submit review', reviewValue);
+    console.log({
+      location: locationName,
+      images: menuItems.map(({ imageUrl, menu }) => ({
+        imageId: imageUrl,
+        menu,
+      })),
+      storeMood: selectedBadgeList.map((badge) => badge.id),
+      review: reviewValue,
+    });
 
     feedMutate({
       location: locationName,
-      images: menuItems.map(({ imageUrl, menu }) => ({ imageUrl, menu })),
+      images: menuItems.map(({ imageUrl, menu }) => ({
+        imageId: imageUrl,
+        menu,
+      })),
       storeMood: selectedBadgeList.map((badge) => badge.id),
       review: reviewValue,
     });

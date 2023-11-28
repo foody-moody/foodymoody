@@ -3,9 +3,9 @@ type ProfileMemberInfo = {
   imageUrl: string;
   nickname: string;
   email: string;
-  mood: string;
+  tasteMood: string;
   myFeeds: MyFeeds[];
-  myFeedsCount: number;
+  // myFeedsCount: number;
 };
 
 type MyFeeds = {

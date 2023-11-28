@@ -1,68 +1,67 @@
 import { useState, forwardRef } from 'react';
+import { useGetReplies, usePostReply } from 'service/queries/reply';
 import { styled } from 'styled-components';
 import { TextButton } from 'components/common/button/TextButton';
+import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { ArrowDownIcon, ArrowUpIcon } from '../icon/icons';
 import { CommentInput } from '../input/CommentInput';
 import { CommentItem } from './CommentItem';
 
 type Props = {
-  imageUrl: string;
-  nickname: string;
   createdAt: string;
-  content: string;
-  hasReply: boolean;
-  replyCount: number;
+  comment: CommentItem;
 };
 
 export const CommentBox = forwardRef<HTMLLIElement, Props>(
-  ({ imageUrl, nickname, createdAt, content, hasReply, replyCount }, ref) => {
+  ({ createdAt, comment }, ref) => {
+    const {
+      replies,
+      refetch: getReplies,
+      fetchNextPage: fetchNextReplies,
+      hasNextPage,
+    } = useGetReplies(comment.id);
+    const { mutate: replyMutate } = usePostReply(comment.id, () => {
+      handleToggleReplies();
+    });
     const { value, handleChange, isValid } = useInput({
       validator: (value) =>
         value.trim().length !== 0 && value.trim().length < 200,
     });
+    const { isLogin } = useAuthState();
     const [isReplying, setIsReplying] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
 
     const handleToggleReplyInput = () => {
-      setIsReplying(!isReplying);
+      isLogin && setIsReplying(!isReplying);
     };
 
-    const handleSubmit = () => {
-      console.log('is Comment Valid', {
-        isCommentValid: isValid,
-        commentValue: value,
-      });
+    const handleSubmitReply = () => {
+      isValid &&
+        replyMutate({
+          content: value,
+        });
 
-      // commentMutate({
-      //   commentId: MOCK.id,
-      //   content: value,
-      // });
-
+      handleChange('');
       setIsReplying(false);
     };
 
     const handleToggleReplies = () => {
-      console.log('toggle replies');
+      getReplies();
       setShowReplies(!showReplies);
     };
 
     return (
       <Wrapper ref={ref}>
-        <CommentItem
-          imageUrl={imageUrl}
-          nickname={nickname}
-          createdAt={createdAt}
-          content={content}
-        />
+        <CommentItem createdAt={createdAt} comment={comment} />
         <ReplyButtonBox>
           <TextButton color="orange" size="s" onClick={handleToggleReplyInput}>
             답글 달기
           </TextButton>
-          {hasReply && (
+          {comment.hasReply && (
             <TextButton color="black" size="s" onClick={handleToggleReplies}>
               {showReplies ? <ArrowUpIcon /> : <ArrowDownIcon />}
-              답글 {replyCount}개
+              답글 {comment.replyCount}개
             </TextButton>
           )}
         </ReplyButtonBox>
@@ -72,28 +71,37 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
               value={value}
               limitedLength={200}
               onChangeValue={handleChange}
-              onSubmitComment={handleSubmit}
+              onSubmitComment={handleSubmitReply}
             />
           </ReplyInputBox>
         )}
 
         {showReplies && (
           <ReplyContainer>
-            {Array.from({ length: 3 }).map((_, index) => (
+            {replies.map((reply) => (
               <CommentItem
-                key={index}
-                imageUrl="123"
-                nickname="댓글닉넴"
-                createdAt="2023-11-01T14:55:47.88735"
-                content="댓글임니당 ㅎㅎ댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당댓글임니당"
+                key={reply.id}
+                createdAt={
+                  reply.createdAt === reply.updatedAt
+                    ? reply.createdAt
+                    : reply.updatedAt
+                }
+                comment={reply}
               />
             ))}
-            {/*  TODO hasnextpage 조건 추가*/}
-            <MoreButton>
-              <TextButton color="black" size="s" onClick={() => {}}>
-                답글 더보기
-              </TextButton>
-            </MoreButton>
+            {hasNextPage && (
+              <MoreButton>
+                <TextButton
+                  color="black"
+                  size="s"
+                  onClick={() => {
+                    fetchNextReplies();
+                  }}
+                >
+                  답글 더보기
+                </TextButton>
+              </MoreButton>
+            )}
           </ReplyContainer>
         )}
       </Wrapper>
