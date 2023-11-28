@@ -1,6 +1,7 @@
 package com.foodymoody.be.acceptance.heart;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import io.restassured.RestAssured;
@@ -59,6 +60,8 @@ public class HeartSteps {
                 .then()
                 .log().all()
                 .statusCode(400)
+                .body("message", equalTo("이미 좋아요 누른 피드입니다."))
+                .body("code", equalTo("g001"))
                 .extract();
     }
 
@@ -106,6 +109,8 @@ public class HeartSteps {
                 .then()
                 .log().all()
                 .statusCode(400)
+                .body("message", equalTo("좋아요 누른 피드가 없습니다."))
+                .body("code", equalTo("g001"))
                 .extract();
     }
 
