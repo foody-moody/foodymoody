@@ -2,6 +2,7 @@ package com.foodymoody.be.feed.util;
 
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.dto.request.FeedRegisterRequest;
+import com.foodymoody.be.feed.dto.request.FeedServiceDeleteRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
 import com.foodymoody.be.feed.dto.request.FeedUpdateRequest;
@@ -80,4 +81,7 @@ public class FeedMapper {
         return feedImageMenuResponses;
     }
 
+    public static FeedServiceDeleteRequest toServiceDeleteRequest(String id, String memberId) {
+        return new FeedServiceDeleteRequest(id, memberId);
+    }
 }

@@ -27,6 +27,12 @@ operation::deleteFeed[snippets='http-request']
 === 스토어 무드 조회
 operation::readAllStoreMood[snippets='http-request,http-response']
 
+[[like]]
+== 좋아요
+
+=== 좋아요 등록
+operation::like[snippets='http-request,http-response']
+
 [[auth]]
 == 인증/인가
 
