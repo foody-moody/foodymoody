@@ -33,6 +33,9 @@ operation::readAllStoreMood[snippets='http-request,http-response']
 === 좋아요 등록
 operation::like[snippets='http-request,http-response']
 
+=== 좋아요 취소
+operation::unLike[snippets='http-request,http-response']
+
 [[auth]]
 == 인증/인가
 

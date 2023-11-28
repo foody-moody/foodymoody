@@ -41,4 +41,28 @@ public class HeartSteps {
         );
     }
 
+    public static ExtractableResponse<Response> 좋아요_취소를_한다(String feedId, String accessToken, RequestSpecification spec) {
+        Map<String, Object> body = Map.of(
+                "feedId", feedId
+        );
+
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .auth()
+                .oauth2(accessToken)
+                .body(body)
+                .when()
+                .delete("/api/likes")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static void 응답코드가_204이고_id가_존재하면_정상적으로_좋아요_취소(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(204);
+    }
+
 }

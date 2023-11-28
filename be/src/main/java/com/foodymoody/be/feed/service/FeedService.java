@@ -103,7 +103,7 @@ public class FeedService {
 
     @Transactional
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
-        String memberId = memberService.findById(request.getMemberId()).getId().getId();
+        String memberId = memberService.findById(request.getMemberId()).getMemberId();
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = toMenu(imageMenuPairs);
         List<Image> images = toImage(imageMenuPairs);
@@ -169,7 +169,7 @@ public class FeedService {
     public void update(String id, FeedServiceUpdateRequest request) {
         Feed feed = findFeed(id);
 
-        String memberId = memberService.findById(request.getMemberId()).getId().getId();
+        String memberId = memberService.findById(request.getMemberId()).getMemberId();
         List<Image> newImages = toImage(request.getImages());
         List<Menu> newMenus = toMenu(request.getImages());
         List<String> newStoreMoodIds = request.getStoreMood();
@@ -185,7 +185,7 @@ public class FeedService {
     @Transactional
     public void delete(FeedServiceDeleteRequest request) {
         String id = request.getId();
-        String memberId = memberService.findById(request.getMemberId()).getId().getId();
+        String memberId = memberService.findById(request.getMemberId()).getMemberId();
 
         if (!findFeed(id).getMemberId().equals(memberId)) {
             throw new IllegalArgumentException("이 피드를 작성한 회원이 아닙니다.");
