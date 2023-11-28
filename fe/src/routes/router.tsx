@@ -30,22 +30,13 @@ const router = createBrowserRouter([
                 path: PATH.DETAIL_FEED + '/:id',
                 element: <DetailFeedModalPage />,
               },
-              // {
-              //   path: PATH.NEW_FEED /* TODO. 비로그인 유저 관련 처리 */,
-              //   element: <NewFeedPage />,
-              // },
               {
-                element: <ProtectedRoute />,
-                children: [
-                  {
-                    path: PATH.NEW_FEED,
-                    element: <NewFeedModalPage />,
-                  },
-                  {
-                    path: PATH.EDIT_FEED + '/:id',
-                    element: <NewFeedModalPage />,
-                  },
-                ],
+                path: PATH.NEW_FEED,
+                element: <NewFeedModalPage />,
+              },
+              {
+                path: PATH.EDIT_FEED + '/:id',
+                element: <NewFeedModalPage />,
               },
             ],
           },
@@ -60,20 +51,8 @@ const router = createBrowserRouter([
                 path: PATH.PROFILE,
                 element: <ProfilePage />,
               },
-              // {
-              //   path: PATH.NEW_FEED,
-              //   element: <NewFeedPage />,
-              // },
-              // {
-              //   path: PATH.EDIT_FEED,
-              //   element: <NewFeedPage />,
-              // },
             ],
           },
-          // {
-          //   path: PATH.PROFILE, // 현재  api상 내 피드 접근만 허용돼있음
-          //   element: <ProfilePage />,
-          // },
           {
             path: PATH.COLLECTION,
             element: <CollectionPage />,
