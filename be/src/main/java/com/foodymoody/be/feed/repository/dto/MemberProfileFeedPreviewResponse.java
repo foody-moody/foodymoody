@@ -1,4 +1,4 @@
-package com.foodymoody.be.member.controller.dto;
+package com.foodymoody.be.feed.repository.dto;
 
 import lombok.Getter;
 
@@ -8,7 +8,7 @@ public class MemberProfileFeedPreviewResponse {
     private String id;
     private String imageUrl;
 
-    private MemberProfileFeedPreviewResponse(String id, String imageUrl) {
+    public MemberProfileFeedPreviewResponse(String id, String imageUrl) {
         this.id = id;
         this.imageUrl = imageUrl;
     }

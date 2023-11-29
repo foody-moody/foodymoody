@@ -6,16 +6,20 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_회원푸반의_닉네임으로_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_회원푸반의_이메일로_회원가입한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_빈_리스트를_응답하는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_전체_테이스트_무드가_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_회원푸반의_회원프로필을_응답하는지_검증한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_회원푸반이_작성한_피드목록이_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_g001이고_errors에_email과_nickname과_password가_존재하는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m002인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m003인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m004인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_404이고_오류코드가_m001인지_검증한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.아직_피드를_작성하지_않은_회원아티가_작성한_피드목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.전체_테이스트_무드를_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원푸반의_회원프로필을_조회한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.회원푸반이_작성한_피드목록을_조회한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
 import io.restassured.builder.RequestSpecBuilder;
@@ -104,33 +108,33 @@ class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     @Nested
-    @DisplayName("회원 프로필 조회 인수테스트")
+    @DisplayName("회원이 작성한 피드 목록 조회 인수테스트")
     class fetchProfile {
 
-        @DisplayName("회원 프로필 조회 시 성공하면, 상태코드 200과 회원 프로필을 응답한다")
+        @DisplayName("회원이 작성한 피드 목록 조회시 성공하면, 상태코드 200과 회원이 작성한 피드 목록을 응답한다")
         @Test
-        void when_fetchProfileSuccess_then_response200AndProfile() {
+        void when_fetchMemberFeeds_then_response200AndMemberFeeds() {
             // docs
-            api_문서_타이틀("fetchMemberProfile_success", spec);
+            api_문서_타이틀("fetchMemberFeeds_success", spec);
 
             // when
-            var response = 회원푸반의_회원프로필을_조회한다(spec);
+            var response = 회원푸반이_작성한_피드목록을_조회한다(spec);
 
             // then
-            상태코드가_200이고_회원푸반의_회원프로필을_응답하는지_검증한다(response);
+            상태코드가_200이고_회원푸반이_작성한_피드목록이_조회되는지_검증한다(response);
         }
 
-        @DisplayName("회원 프로필 조회 시 존재하지 않는 회원 id이면, 상태코드 404와 오류코드 m001을 응답한다")
+        @DisplayName("회원이 작성한 피드가 없으면, 상태코드 200과 빈 리스트를 응답한다")
         @Test
-        void when_fetchProfileFailedByIdNotFound_then_response404Andm001() {
+        void when_fetchMemberFeedsEmpty_then_response200AndEmptyList() {
             // docs
-            api_문서_타이틀("fetchMemberProfile_failedByIdNotFound", spec);
+            api_문서_타이틀("fetchMemberFeedsEmpty_success", spec);
 
             // when
-            var response = id가_test인_회원프로필을_조회한다(spec);
+            var response = 아직_피드를_작성하지_않은_회원아티가_작성한_피드목록을_조회한다(spec);
 
             // then
-            상태코드가_404이고_오류코드가_m001인지_검증한다(response);
+            상태코드가_200이고_빈_리스트를_응답하는지_검증한다(response);
         }
 
     }

@@ -208,6 +208,16 @@ operation::fetchMemberProfile_success[snippets='http-request,http-response']
 
 operation::fetchMemberProfile_failedByIdNotFound[snippets='http-response']
 
+=== 회원별 피드 조회
+
+==== 성공
+
+operation::fetchMemberFeeds_success[snippets='http-request,http-response']
+
+==== 성공 - 해당 회원이 작성한 피드가 없을 때
+
+operation::fetchMemberFeedsEmpty_success[snippets='http-response']
+
 === 테이스트 무드 조회
 
 ==== 성공
