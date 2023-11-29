@@ -5,6 +5,7 @@ import com.foodymoody.be.member.repository.MemberProfileResponse;
 import com.foodymoody.be.member.controller.dto.TasteMoodResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
+import com.foodymoody.be.member.service.MemberProfileService;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.member.service.TasteMoodService;
 import java.util.List;
@@ -28,6 +29,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final TasteMoodService tasteMoodService;
+    private final MemberProfileService memberProfileService;
 
     @PostMapping
     public ResponseEntity<MemberSignupResponse> signup(@Valid @RequestBody MemberSignupRequest request) {
@@ -37,13 +39,13 @@ public class MemberController {
 
     @GetMapping("/{memberId}")
     public ResponseEntity<MemberProfileResponse> fetchProfile(@PathVariable String memberId) {
-        MemberProfileResponse response = memberService.fetchProfile(memberId);
+        MemberProfileResponse response = memberProfileService.fetchProfile(memberId);
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/{memberId}/feeds")
     public ResponseEntity<Slice<MemberProfileFeedPreviewResponse>> fetchMemberFeeds(@PathVariable String memberId, @PageableDefault Pageable pageable) {
-        Slice<MemberProfileFeedPreviewResponse> responses = memberService.fetchProfileFeedPreviews(memberId, pageable);
+        Slice<MemberProfileFeedPreviewResponse> responses = memberProfileService.fetchProfileFeedPreviews(memberId, pageable);
         return ResponseEntity.ok().body(responses);
     }
 

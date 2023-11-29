@@ -10,13 +10,9 @@ import com.foodymoody.be.member.domain.MemberId;
 import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.domain.TasteMood;
 import com.foodymoody.be.member.domain.TasteMoodId;
-import com.foodymoody.be.member.repository.MemberProfileFeedPreviewResponse;
-import com.foodymoody.be.member.repository.MemberProfileResponse;
 import com.foodymoody.be.member.repository.MemberRepository;
 import com.foodymoody.be.member.util.MemberMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class MemberService {
 
-    private final MemberRepository memberRepository;
     private final TasteMoodService tasteMoodService;
+    private final MemberRepository memberRepository;
+
     @Transactional
     public MemberSignupResponse create(MemberSignupRequest request) {
         TasteMoodId tasteMoodId = new TasteMoodId(request.getTasteMoodId());
@@ -67,15 +64,6 @@ public class MemberService {
         if (memberRepository.existsByNickname(nickname)) {
             throw new DuplicateNicknameException();
         }
-    }
-
-    public Slice<MemberProfileFeedPreviewResponse> fetchProfileFeedPreviews(String id, Pageable pageable) {
-        return memberRepository.fetchFeedPreviews(id, pageable);
-    }
-
-    public MemberProfileResponse fetchProfile(String id) {
-        return memberRepository.fetchProfileById(id)
-                .orElseThrow(MemberNotFoundException::new);
     }
 
 }

@@ -26,6 +26,7 @@ import com.foodymoody.be.feed.util.FeedMapper;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.repository.MemberFeedData;
+import com.foodymoody.be.member.repository.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.service.MenuService;
@@ -192,6 +193,10 @@ public class FeedService {
         }
 
         feedRepository.deleteById(id);
+    }
+
+    public Slice<MemberProfileFeedPreviewResponse> findPreviewsByMemberId(String memberId, Pageable pageable) {
+        return feedRepository.fetchPreviewsByMemberId(memberId, pageable);
     }
 
     private List<ImageIdNamePair> findImageIdUrlList(List<ImageMenu> imageMenus) {
