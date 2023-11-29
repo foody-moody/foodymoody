@@ -34,6 +34,8 @@ export const useLogin = () => {
       setRefreshToken(refreshToken);
       setUserInfo(JSON.stringify(payload));
       navigateToPath(from);
+
+      toast.success('로그인 되었습니다.');
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
