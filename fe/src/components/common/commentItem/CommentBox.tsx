@@ -24,7 +24,7 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
       hasNextPage,
     } = useGetReplies(comment.id);
     const { mutate: replyMutate } = usePostReply(comment.id, () => {
-      handleShowReplies();
+      submitCallback();
     });
     const { value, handleChange, isValid } = useInput({
       validator: (value) =>
@@ -48,7 +48,7 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
       setIsReplying(false);
     };
 
-    const handleShowReplies = () => {
+    const submitCallback = () => {
       getReplies();
       setShowReplies(true);
     };
