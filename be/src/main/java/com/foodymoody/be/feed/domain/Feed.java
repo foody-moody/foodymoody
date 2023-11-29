@@ -101,22 +101,21 @@ public class Feed {
         this.imageMenus.replaceWith(newImages, newMenus);
     }
 
-    public void updateLikeCountBy(boolean flag) {
-        if (flag) {
-            this.likeCount += 1;
-            return;
-        }
-
-        this.likeCount -= 1;
-    }
-
-    public void updateIsLikedBy(boolean flag) {
-        if (flag) {
+    public void updateIsLikedBy(int heartCount) {
+        if (heartCount > 0) {
             this.isLiked = true;
             return;
         }
 
         this.isLiked = false;
+    }
+
+    public void updateLikeCountBy(int heartCount) {
+        if (heartCount > 0) {
+            this.likeCount += heartCount;
+        }
+
+        this.likeCount -= heartCount;
     }
 
 }
