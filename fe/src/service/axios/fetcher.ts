@@ -1,23 +1,26 @@
 import axios from 'axios';
 
-const BASE_API_URL = import.meta.env.VITE_API_URL;
+const { MODE, VITE_API_URL } = import.meta.env;
+
+const DEV = MODE === 'development';
+const BASE_API_URL = DEV ? `${VITE_API_URL}/api` : `/api`;
 
 export const publicApi = axios.create({
-  baseURL: `${BASE_API_URL}/api`,
+  baseURL: BASE_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
 export const privateApi = axios.create({
-  baseURL: `${BASE_API_URL}/api`,
+  baseURL: BASE_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
 export const multiFormApi = axios.create({
-  baseURL: `${BASE_API_URL}/api`,
+  baseURL: BASE_API_URL,
   headers: {
     'Content-Type': 'multipart/form-data',
   },
