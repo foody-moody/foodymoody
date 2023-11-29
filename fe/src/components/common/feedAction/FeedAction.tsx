@@ -7,15 +7,15 @@ import { ChatDotsIcon, HeartBgIcon, HeartFillIcon } from '../icon/icons';
 
 type Props = {
   feedId: string;
-  likeCount: number;
-  commentCount: number;
+  likeCount?: number;
+  commentCount?: number;
   onClickCommentIcon?: () => void;
 };
 
 export const FeedAction: React.FC<Props> = ({
   feedId,
-  likeCount,
-  commentCount,
+  likeCount = 0,
+  commentCount = 0,
   onClickCommentIcon,
 }) => {
   const { navigateToLogin } = usePageNavigator();
