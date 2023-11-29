@@ -25,13 +25,16 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
       });
     };
 
+    const isUpdated = feed.createdAt === feed.updatedAt;
+
     return (
       <Wrapper ref={ref}>
         <Info>
           <FeedUserInfo
             feedId={feed.id}
             member={feed.member}
-            createdAt={feed.createdAt}
+            createdAt={isUpdated ? feed.createdAt : feed.updatedAt}
+            isUpdated={isUpdated}
             location={feed.location}
           />
         </Info>
@@ -55,6 +58,7 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
         <Carousel images={feed.images}></Carousel>
 
         <FeedAction
+          feedId={feed.id}
           likeCount={feed.likeCount}
           commentCount={feed.commentCount}
           onClickCommentIcon={handleOpenDetailFeed}
