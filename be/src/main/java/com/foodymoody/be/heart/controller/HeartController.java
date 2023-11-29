@@ -7,6 +7,7 @@ import com.foodymoody.be.heart.service.HeartService;
 import com.foodymoody.be.heart.util.HeartMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,13 @@ public class HeartController {
                                               @MemberId String memberId) {
         HeartResponse heartResponse = heartService.like(HeartMapper.toHeartServiceRequest(heartRequest, memberId));
         return ResponseEntity.ok().body(heartResponse);
+    }
+
+    @DeleteMapping("/api/likes")
+    public ResponseEntity<Void> unlike(@RequestBody HeartRequest heartRequest,
+                                                @MemberId String memberId) {
+        heartService.unLike(HeartMapper.toHeartServiceRequest(heartRequest, memberId));
+        return ResponseEntity.noContent().build();
     }
 
 }

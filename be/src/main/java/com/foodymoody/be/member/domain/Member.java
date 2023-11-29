@@ -41,6 +41,10 @@ public class Member {
         return id;
     }
 
+    public String getMemberId() {
+        return id.getId();
+    }
+
     public String getEmail() {
         return email;
     }
