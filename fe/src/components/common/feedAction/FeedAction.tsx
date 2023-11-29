@@ -1,34 +1,49 @@
 import { useState } from 'react';
+// import { usePostLike } from 'service/queries/like';
 import { styled } from 'styled-components';
+import { useAuthState } from 'hooks/auth/useAuth';
+import { usePageNavigator } from 'hooks/usePageNavigator';
 import { ChatDotsIcon, HeartBgIcon, HeartFillIcon } from '../icon/icons';
 
 type Props = {
+  feedId: string;
   likeCount: number;
   commentCount: number;
   onClickCommentIcon?: () => void;
 };
 
 export const FeedAction: React.FC<Props> = ({
+  feedId,
   likeCount,
   commentCount,
   onClickCommentIcon,
 }) => {
+  const { navigateToLogin } = usePageNavigator();
+  const { isLogin } = useAuthState();
   const [isLiked, setIsLiked] = useState(false);
+  // const { mutate: likeMutate } = usePostLike();
   // TODO 로그인유무로 교체 const isLiked = isLogin ? feed.isLiked : false;
   // feed: query로 받아온 feed데이터
   const LikeIcon = isLiked ? HeartFillIcon : HeartBgIcon;
 
-  const handleToggleLike = () => {
-    // TODO Mutation으로 교체
-    // TODO 로그인false => mutate 불가
+  const handleSubmitLike = () => {
+    setIsLiked(!isLiked); // TODO 좋아요 연결시 삭제
 
-    setIsLiked(!isLiked);
+    if (isLogin) {
+      const body = {
+        feedId: feedId,
+      };
+      console.log(body);
+      // likeMutate(body);
+    } else {
+      navigateToLogin();
+    }
   };
 
   return (
     <Wrapper>
       <InfoItem>
-        <LikeIcon onClick={handleToggleLike} />
+        <LikeIcon onClick={handleSubmitLike} />
         {likeCount}
       </InfoItem>
 
