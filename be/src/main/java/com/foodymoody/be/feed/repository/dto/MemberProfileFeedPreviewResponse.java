@@ -1,4 +1,4 @@
-package com.foodymoody.be.member.repository;
+package com.foodymoody.be.feed.repository.dto;
 
 import lombok.Getter;
 

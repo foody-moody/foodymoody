@@ -2,7 +2,7 @@ package com.foodymoody.be.member.service;
 
 import com.foodymoody.be.common.exception.MemberNotFoundException;
 import com.foodymoody.be.feed.service.FeedService;
-import com.foodymoody.be.member.repository.MemberProfileFeedPreviewResponse;
+import com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.member.repository.MemberProfileResponse;
 import com.foodymoody.be.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

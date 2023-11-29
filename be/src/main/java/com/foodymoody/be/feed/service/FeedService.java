@@ -26,7 +26,7 @@ import com.foodymoody.be.feed.util.FeedMapper;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.repository.MemberFeedData;
-import com.foodymoody.be.member.repository.MemberProfileFeedPreviewResponse;
+import com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.service.MenuService;
