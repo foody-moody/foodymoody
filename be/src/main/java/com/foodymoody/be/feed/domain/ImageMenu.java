@@ -13,11 +13,13 @@ public class ImageMenu {
     private String id;
     private String imageId;
     private String menuId;
+    private int displayOrder;
 
-    public ImageMenu(String id, String imageId, String menuId) {
+    public ImageMenu(String id, String imageId, String menuId, int displayOrder) {
         this.id = id;
         this.imageId = imageId;
         this.menuId = menuId;
+        this.displayOrder = displayOrder;
     }
 
     public String getId() {

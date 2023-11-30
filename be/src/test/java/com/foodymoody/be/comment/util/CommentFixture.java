@@ -1,8 +1,8 @@
 package com.foodymoody.be.comment.util;
 
-import com.foodymoody.be.comment.controller.dto.RegisterCommentRequest;
-import com.foodymoody.be.comment.domain.Comment;
-import com.foodymoody.be.comment.domain.CommentId;
+import com.foodymoody.be.comment.application.dto.request.RegisterCommentRequest;
+import com.foodymoody.be.comment.domain.entity.Comment;
+import com.foodymoody.be.comment.domain.entity.CommentId;
 import java.time.LocalDateTime;
 
 public class CommentFixture {

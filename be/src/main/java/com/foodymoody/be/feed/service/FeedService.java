@@ -26,6 +26,7 @@ import com.foodymoody.be.feed.util.FeedMapper;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.repository.MemberFeedData;
+import com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.service.MenuService;
@@ -68,7 +69,6 @@ public class FeedService {
                     .createdAt(feed.getCreatedAt())
                     .updatedAt(feed.getUpdatedAt())
                     .commentCount(feed.getCommentCount())
-                    // TODO: 아래 로직 구현 후 추가
                     .isLiked(feed.isLiked())
                     .likeCount(feed.getLikeCount())
                     .build();
@@ -104,7 +104,7 @@ public class FeedService {
 
     @Transactional
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
-        String memberId = memberService.findById(request.getMemberId()).getId().getId();
+        String memberId = memberService.findById(request.getMemberId()).getMemberId();
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = toMenu(imageMenuPairs);
         List<Image> images = toImage(imageMenuPairs);
@@ -170,7 +170,7 @@ public class FeedService {
     public void update(String id, FeedServiceUpdateRequest request) {
         Feed feed = findFeed(id);
 
-        String memberId = memberService.findById(request.getMemberId()).getId().getId();
+        String memberId = memberService.findById(request.getMemberId()).getMemberId();
         List<Image> newImages = toImage(request.getImages());
         List<Menu> newMenus = toMenu(request.getImages());
         List<String> newStoreMoodIds = request.getStoreMood();
@@ -186,13 +186,17 @@ public class FeedService {
     @Transactional
     public void delete(FeedServiceDeleteRequest request) {
         String id = request.getId();
-        String memberId = memberService.findById(request.getMemberId()).getId().getId();
+        String memberId = memberService.findById(request.getMemberId()).getMemberId();
 
         if (!findFeed(id).getMemberId().equals(memberId)) {
             throw new IllegalArgumentException("이 피드를 작성한 회원이 아닙니다.");
         }
 
         feedRepository.deleteById(id);
+    }
+
+    public Slice<MemberProfileFeedPreviewResponse> findPreviewsByMemberId(String memberId, Pageable pageable) {
+        return feedRepository.fetchPreviewsByMemberId(memberId, pageable);
     }
 
     private List<ImageIdNamePair> findImageIdUrlList(List<ImageMenu> imageMenus) {
