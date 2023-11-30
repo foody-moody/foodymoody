@@ -30,5 +30,5 @@ public interface NotificationRepository extends JpaRepository<Notification, Noti
     void deleteAllByIdIn(@Param("notificationIds") List<NotificationId> notificationIds,
             @Param("updatedAt") LocalDateTime updatedAt, @Param("memberId") String memberId);
 
-    long countByMemberIdAndRead(String memberId, boolean read);
+    long countByMemberIdAndIsRead(String memberId, boolean isRead);
 }

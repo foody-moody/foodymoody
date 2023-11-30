@@ -88,6 +88,6 @@ public class NotificationService {
     }
 
     public long countByMemberId(String memberId) {
-        return notificationRepository.countByMemberIdAndRead(memberId, false);
+        return notificationRepository.countByMemberIdAndIsRead(memberId, false);
     }
 }
