@@ -11,22 +11,16 @@ import 'service/axios/feed/feed';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
 export const useGetReplies = (id: string) => {
-  const {
-    data,
-    hasNextPage,
-    status,
-    isFetchingNextPage,
-    fetchNextPage,
-    refetch,
-  } = useInfiniteQuery({
-    // queryKey: [QUERY_KEY.replies],
-    queryKey: [QUERY_KEY.replies, id],
-    queryFn: ({ pageParam = 0 }) => getAllReplies(pageParam, 10, id),
-    getNextPageParam: (lastPage) => {
-      return lastPage.last ? undefined : lastPage.number + 1;
-    },
-    enabled: false,
-  });
+  const { data, hasNextPage, isFetching, fetchNextPage, refetch } =
+    useInfiniteQuery({
+      // queryKey: [QUERY_KEY.replies],
+      queryKey: [QUERY_KEY.replies, id],
+      queryFn: ({ pageParam = 0 }) => getAllReplies(pageParam, 10, id),
+      getNextPageParam: (lastPage) => {
+        return lastPage.last ? undefined : lastPage.number + 1;
+      },
+      enabled: false,
+    });
 
   const allReplies = useMemo(() => {
     return data?.pages.flatMap((page) => page.content) ?? [];
@@ -35,8 +29,7 @@ export const useGetReplies = (id: string) => {
   return {
     replies: allReplies,
     hasNextPage,
-    status,
-    isFetchingNextPage,
+    isFetching,
     fetchNextPage,
     refetch,
   };

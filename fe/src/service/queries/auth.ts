@@ -34,6 +34,8 @@ export const useLogin = () => {
       setRefreshToken(refreshToken);
       setUserInfo(JSON.stringify(payload));
       navigateToPath(from);
+
+      toast.success('로그인 되었습니다.');
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
@@ -44,6 +46,7 @@ export const useLogin = () => {
 };
 
 export const useLogout = () => {
+  const toast = useToast();
   const { navigateToPath } = usePageNavigator();
   const location = useLocation();
   const from = location.state?.redirectedFrom?.pathname || PATH.HOME;
@@ -52,6 +55,7 @@ export const useLogout = () => {
     mutationFn: () => fetchLogout(),
     onSuccess: () => {
       clearLoginInfo();
+      toast.success('로그아웃 되었습니다.');
       navigateToPath(from);
     },
     onError: (error) => {
@@ -61,8 +65,8 @@ export const useLogout = () => {
 };
 
 export const useRegister = () => {
-  const { navigateToLogin } = usePageNavigator();
   const toast = useToast();
+  const { navigateToLogin } = usePageNavigator();
 
   return useMutation({
     mutationFn: (body: RegisterBody) => fetchRegister(body),
