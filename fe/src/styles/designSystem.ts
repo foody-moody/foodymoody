@@ -29,6 +29,7 @@ const colors = {
   bgGray100: '#FFF9F4',
   bgGray200: '#F3EBE2',
   bgGray400: '#E2DCD9',
+  bgPrimary100: '#fdebdb',
   blue100: '#d1fafe',
   blue500: '#1ea8ed',
   yellow100: '#fdf4d7',

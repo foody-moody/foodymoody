@@ -25,9 +25,12 @@ export const useAllFeeds = () => {
     getNextPageParam: (lastPage) => {
       return lastPage.last ? undefined : lastPage.number + 1;
     },
+    suspense: true,
   });
 
   const feeds = query.data?.pages?.flatMap((page) => page.content) || [];
+
+  console.log(feeds);
 
   return {
     ...query,
