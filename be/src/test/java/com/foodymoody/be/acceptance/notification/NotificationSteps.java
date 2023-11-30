@@ -24,8 +24,11 @@ public class NotificationSteps {
     }
 
     public static ExtractableResponse<Response> 회원의_모든_알람을_조회한다(String accessToken, RequestSpecification spec) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("page", 0);
+        params.put("size", 10);
         return RestAssured
-                .given().log().all().spec(spec).auth().oauth2(accessToken)
+                .given().log().all().spec(spec).auth().oauth2(accessToken).params(params)
                 .when().get("/api/notifications/")
                 .then().log().all()
                 .extract();
