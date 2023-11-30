@@ -1,6 +1,6 @@
 package com.foodymoody.be.sse.service;
 
-import com.foodymoody.be.notification.application.NotificationService;
+import com.foodymoody.be.notification.application.NotificationReadService;
 import java.io.IOException;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @Component
 public class SseAsyncService {
 
-    private final NotificationService notificationService;
+    private final NotificationReadService notificationReadService;
 
     @Async
     public void sendSseEvents(String memberId, Map<String, SseEmitter> emitters) {
@@ -27,7 +27,7 @@ public class SseAsyncService {
         try {
             configureEmitter(emitter, memberId, emitters);
             while (emitters.containsKey(memberId)) {
-                long count = notificationService.countByMemberId(memberId);
+                long count = notificationReadService.countByMemberId(memberId);
                 emitter.send(SseEmitter.event().name("notification").id(memberId).data(count));
                 Thread.sleep(1000); // 1초 지연
             }
