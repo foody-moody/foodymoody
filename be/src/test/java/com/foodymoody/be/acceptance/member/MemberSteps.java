@@ -1,6 +1,7 @@
 package com.foodymoody.be.acceptance.member;
 
 import static com.foodymoody.be.member.util.MemberFixture.비회원_보노;
+import static com.foodymoody.be.member.util.MemberFixture.회원_아티;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,6 +11,7 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.AbstractIntegerAssert;
 import org.assertj.core.api.AbstractStringAssert;
@@ -81,6 +83,17 @@ public class MemberSteps {
         return 회원가입한다(memberRegisterRequest, spec);
     }
 
+    public static ExtractableResponse<Response> 회원푸반이_작성한_피드목록을_조회한다 (RequestSpecification spec) {
+        String 회원푸반_아이디 = 회원_푸반.getId();
+        return 피드목록을_조회한다(회원푸반_아이디, 0, 2, spec);
+    }
+
+    public static ExtractableResponse<Response> 아직_피드를_작성하지_않은_회원아티가_작성한_피드목록을_조회한다 (RequestSpecification spec) {
+        String 회원아티_아이디 = 회원_아티.getId();
+        return 피드목록을_조회한다(회원아티_아이디, 0, 10, spec);
+    }
+
+
     public static void 상태코드가_400이고_오류코드가_m002인지_검증한다(ExtractableResponse<Response> response) {
         Assertions.assertAll(
                 () -> 상태코드를_검증한다(response, HttpStatus.BAD_REQUEST),
@@ -133,7 +146,31 @@ public class MemberSteps {
     public static void 상태코드가_200이고_회원푸반의_회원프로필을_응답하는지_검증한다(ExtractableResponse<Response> response) {
         Assertions.assertAll(
                 () -> 상태코드를_검증한다(response, HttpStatus.OK),
-                () -> assertThat(response.jsonPath().getString("email")).isEqualTo(회원_푸반.getEmail())
+                () -> assertThat(response.jsonPath().getString("email")).isEqualTo(회원_푸반.getEmail()),
+                () -> assertThat(response.jsonPath().getString("nickname")).isEqualTo(회원_푸반.getNickname()),
+                () -> assertThat(response.jsonPath().getString("tasteMood")).isEqualTo(회원_푸반.getTasteMoodId())
+//              TODO 이미지 검증 추가
+        );
+    }
+
+    public static void 상태코드가_200이고_회원푸반이_작성한_피드목록이_조회되는지_검증한다(ExtractableResponse<Response> response) {
+        List<Map<String,String>> expectedResponse = List.of(
+                Map.of("id", "1c", "imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2"),
+                        Map.of("id", "2c", "imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1")
+         );
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                () -> assertThat(response.jsonPath().getList("content"))
+                        .usingRecursiveComparison().isEqualTo(expectedResponse),
+                () -> assertThat(response.jsonPath().getString("last")).isEqualTo("false")
+        );
+
+    }
+
+    public static void 상태코드가_200이고_빈_리스트를_응답하는지_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                () -> assertThat(response.jsonPath().getList("content")).isEmpty()
         );
     }
 
@@ -142,8 +179,9 @@ public class MemberSteps {
                 () -> 상태코드를_검증한다(response, HttpStatus.OK),
                 () -> assertThat(response.jsonPath().getList("")).hasSize(6)
         );
-
     }
+
+
 
     public static String 회원보노가_회원가입하고_아이디를_반환한다(RequestSpecification spec) {
         return 비회원보노가_회원가입한다(spec).jsonPath().getString("id");
@@ -290,6 +328,20 @@ public class MemberSteps {
                 .log().all()
                 .when()
                 .put("/api/members/{memberId}/password", memberId)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    private static ExtractableResponse<Response> 피드목록을_조회한다(String 회원푸반_아이디, int page, int size, RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .params("page", page, "size", size)
+                .when()
+                .get("/api/members/{memberId}/feeds", 회원푸반_아이디)
                 .then()
                 .log().all()
                 .extract();

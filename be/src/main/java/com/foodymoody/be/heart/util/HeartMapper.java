@@ -20,8 +20,8 @@ public class HeartMapper {
         return new Heart(IdGenerator.generate(), feedId, memberId);
     }
 
-    public static HeartResponse toHeartResponse(Heart savedHeart) {
-        return new HeartResponse(savedHeart.getId(), savedHeart.getFeedId(), savedHeart.getMemberId());
+    public static HeartResponse toHeartResponse(Heart savedHeart, boolean isLiked) {
+        return new HeartResponse(savedHeart.getId(), isLiked, savedHeart.getFeedId(), savedHeart.getMemberId());
     }
 
 }

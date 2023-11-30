@@ -3,6 +3,7 @@ package com.foodymoody.be.comment.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.comment.util.CommentFixture;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import com.foodymoody.be.common.exception.ErrorMessage;
