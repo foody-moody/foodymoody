@@ -16,31 +16,6 @@ class NotificationMapperTest {
         notificationMapper = new NotificationMapper();
     }
 
-    @DisplayName("알람 이벤트를 받아서 알람 엔티티로 변환한다.")
-    @Test
-    void createNotificationEntityFromEvent() {
-        // given
-        var commentAddNotificationEvent = NotificationFixture.commentAddNotificationEvent();
-        var notificationId = NotificationFixture.notificationId();
-
-        // when
-        var notification = notificationMapper.createNotificationEntityFromEvent(notificationId,
-                commentAddNotificationEvent);
-
-        // then
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(notificationId, notification.getId()),
-                () -> Assertions.assertEquals(commentAddNotificationEvent.getMemberId(), notification.getMemberId()),
-                () -> Assertions.assertEquals(commentAddNotificationEvent.getMessage(), notification.getMessage()),
-                () -> Assertions.assertEquals(commentAddNotificationEvent.getNotificationType(),
-                        notification.getType()),
-                () -> Assertions.assertFalse(notification.isRead()),
-                () -> Assertions.assertFalse(notification.isDeleted()),
-                () -> Assertions.assertEquals(commentAddNotificationEvent.getCreatedAt(), notification.getCreatedAt()),
-                () -> Assertions.assertEquals(commentAddNotificationEvent.getCreatedAt(), notification.getUpdatedAt())
-        );
-    }
-
     @DisplayName("알람 엔티티 목록을 받아서 알람 응답 DTO 목록으로 변환한다.")
     @Test
     void generateResponseDtoSliceFromNotifications() {

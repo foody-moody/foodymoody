@@ -1,6 +1,5 @@
 package com.foodymoody.be.notification.application;
 
-import com.foodymoody.be.common.event.NotificationEvent;
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationId;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
@@ -17,11 +16,6 @@ public class NotificationMapper {
         return notificationIds.stream()
                 .map(NotificationIdFactory::from)
                 .collect(Collectors.toList());
-    }
-
-    public Notification createNotificationEntityFromEvent(NotificationId notificationId, NotificationEvent event) {
-        return new Notification(notificationId, event.getMemberId(), event.getMessage(),
-                event.getNotificationType(), false, false, event.getCreatedAt(), event.getCreatedAt());
     }
 
     public Slice<NotificationResponse> generateResponseDtoSliceFromNotifications(Slice<Notification> notifications) {

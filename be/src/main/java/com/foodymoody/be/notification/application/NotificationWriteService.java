@@ -1,14 +1,11 @@
 package com.foodymoody.be.notification.application;
 
-import com.foodymoody.be.comment.domain.entity.CommentAddNotificationEvent;
 import com.foodymoody.be.notification.domain.Notification;
-import com.foodymoody.be.notification.domain.NotificationId;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
 import com.foodymoody.be.notification.infra.NotificationRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,13 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class NotificationWriteService {
 
     private final NotificationRepository notificationRepository;
-    private final NotificationMapper notificationMapper;
 
-    @EventListener(CommentAddNotificationEvent.class)
     @Transactional
-    public void saveNotification(CommentAddNotificationEvent event) {
-        NotificationId notificationId = NotificationIdFactory.newId();
-        Notification notification = notificationMapper.createNotificationEntityFromEvent(notificationId, event);
+    public void save(Notification notification) {
         notificationRepository.save(notification);
     }
 
