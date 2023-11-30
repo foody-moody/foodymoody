@@ -1,6 +1,6 @@
 package com.foodymoody.be.notification.service;
 
-import com.foodymoody.be.comment.domain.CommentAddNotificationEvent;
+import com.foodymoody.be.comment.domain.entity.CommentAddNotificationEvent;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.notification.controller.dto.NotificationResponse;
 import com.foodymoody.be.notification.domain.Notification;
