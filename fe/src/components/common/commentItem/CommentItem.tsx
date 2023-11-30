@@ -146,5 +146,6 @@ const ContentRight = styled.div`
 `;
 
 const TimeStamp = styled.span`
+  white-space: nowrap;
   color: ${({ theme: { colors } }) => colors.textSecondary};
 `;

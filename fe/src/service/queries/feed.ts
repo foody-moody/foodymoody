@@ -60,6 +60,7 @@ export const useFeedEditor = (id?: string) => {
       } else {
         // post 성공시 home으로 이동
         queryClient.invalidateQueries([QUERY_KEY.allFeeds]);
+        toast.success('피드를 등록했습니다.');
         navigate(PATH.HOME, { replace: true });
       }
     },
@@ -73,7 +74,6 @@ export const useFeedEditor = (id?: string) => {
 };
 
 export const useDeleteFeed = () => {
-  // const { navigateToHome } = usePageNavigator();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const toast = useToast();
@@ -81,8 +81,8 @@ export const useDeleteFeed = () => {
   return useMutation({
     mutationFn: (id: string) => deleteFeed(id),
     onSuccess: () => {
-      // navigateToHome();
       queryClient.invalidateQueries([QUERY_KEY.allFeeds]);
+      toast.success('피드가 삭제되었습니다.');
       navigate(PATH.HOME, { replace: true });
     },
 

@@ -50,6 +50,8 @@ export const DetailFeedModalPage = () => {
     handleChange('');
   };
 
+  const isUpdated = feed?.createdAt === feed?.updatedAt;
+
   return (
     <>
       {/* 로딩, 에러 추가 */}
@@ -68,11 +70,8 @@ export const DetailFeedModalPage = () => {
                 <Detail>
                   <FeedUserInfo // TODO 수정됨 요소 추가
                     member={feed?.member}
-                    createdAt={
-                      feed?.createdAt === feed?.updatedAt
-                        ? feed.createdAt
-                        : feed.updatedAt
-                    }
+                    createdAt={isUpdated ? feed.createdAt : feed.updatedAt}
+                    isUpdated={isUpdated}
                     location={feed?.location}
                     feedId={feed?.id}
                   />
@@ -80,7 +79,6 @@ export const DetailFeedModalPage = () => {
                 <Review>{feed?.review}</Review>
                 <StoreMoodList>
                   {feed?.storeMood.map(
-                    // TOOD 무드 확인
                     (storeMood: { id: string; name: string }) => (
                       <Badge
                         variant="store"
@@ -92,6 +90,7 @@ export const DetailFeedModalPage = () => {
                 </StoreMoodList>
               </Info>
               <FeedAction
+                feedId={feed?.id}
                 likeCount={feed?.likeCount}
                 commentCount={feed?.commentCount}
               />

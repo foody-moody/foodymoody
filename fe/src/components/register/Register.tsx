@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useRegister } from 'service/queries/auth';
 import { useGetTasteMood } from 'service/queries/mood';
 import { styled } from 'styled-components';
+import { Spinner } from 'components/common/loading/spinner';
 import { useInput } from 'hooks/useInput';
 import { Button } from '../common/button/Button';
 import { ArrowDownIcon } from '../common/icon/icons';
 import { Input } from '../common/input/Input';
 
 export const Register: React.FC = () => {
-  const { mutate: resisterMutate } = useRegister();
+  const { mutate: resisterMutate, isLoading } = useRegister();
   const { data: tastes } = useGetTasteMood();
   const [selectedTaste, setSelectedTaste] = useState<Mood>({
     id: '',
@@ -120,11 +121,12 @@ export const Register: React.FC = () => {
           <Option value="" disabled={true}>
             무디를 선택해주세요!
           </Option>
-          {tastes?.map((taste: Mood) => (
-            <Option key={taste.id} value={taste.name}>
-              {taste.name}
-            </Option>
-          ))}
+          {tastes &&
+            tastes?.map((taste: Mood) => (
+              <Option key={taste.id} value={taste.name}>
+                {taste.name}
+              </Option>
+            ))}
         </Select>
         <ArrowDownIcon />
       </SelectLabel>
@@ -134,8 +136,8 @@ export const Register: React.FC = () => {
         onClick={handleSubmit}
         disabled={!isFormValid}
       >
-        {/* status={register.status} */}
         회원가입
+        <Spinner isLoading={isLoading} color="black" />
       </Button>
     </Wrapper>
   );

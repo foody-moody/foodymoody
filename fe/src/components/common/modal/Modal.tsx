@@ -10,6 +10,7 @@ import {
 } from 'recoil';
 import { styled } from 'styled-components';
 import { Button } from '../button/Button';
+import { Dim } from '../dim/Dim';
 
 /* TODO. 나중에 모달 사용할 때 분리하기 */
 
@@ -82,29 +83,39 @@ export const CommentAlert: React.FC<CommentAlertProps> = ({
   onClose,
   onReport,
 }) => {
+  const { closeModal } = useModal<'commentAlert'>();
+
   return (
-    <Wrapper>
-      {onEdit && (
-        <Button size="s" backgroundColor="black" onClick={onEdit}>
-          수정
-        </Button>
-      )}
-      {onDelete && (
-        <Button size="s" backgroundColor="black" onClick={onDelete}>
-          삭제
-        </Button>
-      )}
-      {onReport && (
-        <Button size="s" backgroundColor="black">
-          신고
-        </Button>
-      )}
-      {onClose && (
-        <Button size="s" backgroundColor="black" onClick={onClose}>
-          취소
-        </Button>
-      )}
-    </Wrapper>
+    <>
+      <Dim
+        isTransparent={true}
+        onClick={() => {
+          closeModal('commentAlert');
+        }}
+      />
+      <Wrapper>
+        {onEdit && (
+          <Button size="s" backgroundColor="black" onClick={onEdit}>
+            수정
+          </Button>
+        )}
+        {onDelete && (
+          <Button size="s" backgroundColor="black" onClick={onDelete}>
+            삭제
+          </Button>
+        )}
+        {onReport && (
+          <Button size="s" backgroundColor="black">
+            신고
+          </Button>
+        )}
+        {onClose && (
+          <Button size="s" backgroundColor="black" onClick={onClose}>
+            취소
+          </Button>
+        )}
+      </Wrapper>
+    </>
   );
 };
 

@@ -1,0 +1,3 @@
+type LikeBody = {
+  feedId: string;
+};
