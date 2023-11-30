@@ -2,28 +2,26 @@ package com.foodymoody.be.comment.application.dto.response;
 
 import java.time.LocalDateTime;
 
-public class CommentResponse {
+public class MemberCommentSummaryResponse {
 
     private String id;
     private String content;
-    private MemberResponse member;
-    private boolean hasReply;
-    private int replyCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private MemberSummaryResponse member;
+    private boolean hasReply;
+    private int replyCount;
 
-    public CommentResponse(String id, String content, String memberId, String memberName,
-            String memberProfileImage, boolean hasReply, int replyCount, LocalDateTime createdAt,
-            LocalDateTime updatedAt) {
+    public MemberCommentSummaryResponse(String id, String content, LocalDateTime createdAt, LocalDateTime updatedAt,
+            MemberSummaryResponse member, boolean hasReply, int replyCount) {
         this.id = id;
         this.content = content;
-        this.member = new MemberResponse(memberId, memberName, memberProfileImage);
-        this.hasReply = hasReply;
-        this.replyCount = replyCount;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.member = member;
+        this.hasReply = hasReply;
+        this.replyCount = replyCount;
     }
-
 
     public String getId() {
         return id;
@@ -41,7 +39,7 @@ public class CommentResponse {
         return updatedAt;
     }
 
-    public MemberResponse getMember() {
+    public MemberSummaryResponse getMember() {
         return member;
     }
 

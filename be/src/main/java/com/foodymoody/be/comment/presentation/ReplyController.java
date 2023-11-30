@@ -1,6 +1,6 @@
 package com.foodymoody.be.comment.presentation;
 
-import com.foodymoody.be.comment.application.dto.response.MemberReplySummary;
+import com.foodymoody.be.comment.application.dto.response.MemberReplySummaryResponse;
 import com.foodymoody.be.comment.infra.MemberReplyUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +19,7 @@ public class ReplyController {
     private final MemberReplyUseCase memberReplyUseCase;
 
     @GetMapping("/api/comments/{id}/replies")
-    public ResponseEntity<Slice<MemberReplySummary>> fetchAllReply(@PathVariable String id,
+    public ResponseEntity<Slice<MemberReplySummaryResponse>> fetchAllReply(@PathVariable String id,
             @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable) {
         var allReplay = memberReplyUseCase.fetchAllReply(id, pageable);
         return ResponseEntity.ok(allReplay);

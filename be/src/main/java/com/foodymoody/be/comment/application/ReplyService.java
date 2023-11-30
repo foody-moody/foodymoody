@@ -1,6 +1,7 @@
 package com.foodymoody.be.comment.application;
 
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummary;
+import com.foodymoody.be.comment.application.dto.response.MemberReplySummaryResponse;
 import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.comment.domain.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReplyService {
 
     private final ReplyRepository replyRepository;
+    private final CommentMapper commentMapper;
 
     @Transactional(readOnly = true)
-    public Slice<MemberReplySummary> fetchAllReply(CommentId commentId, Pageable pageable) {
-        return replyRepository.findByCommentId(commentId, pageable);
+    public Slice<MemberReplySummaryResponse> fetchAllReply(CommentId commentId, Pageable pageable) {
+        Slice<MemberReplySummary> memberReplySummaries = replyRepository.findByCommentId(commentId, pageable);
+        return commentMapper.toReplySummaryResponse(memberReplySummaries);
     }
 }

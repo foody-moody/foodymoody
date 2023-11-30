@@ -2,17 +2,14 @@ package com.foodymoody.be.comment.application;
 
 import static com.foodymoody.be.comment.util.CommentFixture.MEMBER_ID;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.BDDMockito.given;
 
 import com.foodymoody.be.comment.domain.repository.CommentRepository;
 import com.foodymoody.be.comment.util.CommentFixture;
-import com.foodymoody.be.common.exception.CommentNotExistsException;
 import com.foodymoody.be.common.exception.ContentIsEmptyException;
 import com.foodymoody.be.common.exception.ContentIsOver200Exception;
 import com.foodymoody.be.common.exception.ContentIsSpaceException;
 import com.foodymoody.be.common.exception.ContentNotExistsException;
 import com.foodymoody.be.common.exception.ErrorMessage;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,10 +20,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @DisplayName("댓글 서비스 테스트")
 @ExtendWith(MockitoExtension.class)
-class CommentServiceTest {
+class CommentWriteServiceTest {
 
     @InjectMocks
-    private CommentService commentService;
+    private CommentWriteService commentWriteService;
     @Mock
     private CommentRepository commentRepository;
     @Spy
@@ -39,7 +36,7 @@ class CommentServiceTest {
         var request = CommentFixture.registerCommentRequestWithoutContent();
 
         // when,then
-        assertThatThrownBy(() -> commentService.registerComment(request, MEMBER_ID))
+        assertThatThrownBy(() -> commentWriteService.registerComment(request, MEMBER_ID))
                 .isInstanceOf(ContentNotExistsException.class)
                 .message().isEqualTo(ErrorMessage.CONTENT_NOT_EXISTS.getMessage());
     }
@@ -51,7 +48,7 @@ class CommentServiceTest {
         var request = CommentFixture.registerCommentRequestWithEmptyContent();
 
         // when,then
-        assertThatThrownBy(() -> commentService.registerComment(request, MEMBER_ID))
+        assertThatThrownBy(() -> commentWriteService.registerComment(request, MEMBER_ID))
                 .isInstanceOf(ContentIsEmptyException.class)
                 .message().isEqualTo(ErrorMessage.CONTENT_IS_EMPTY.getMessage());
     }
@@ -63,7 +60,7 @@ class CommentServiceTest {
         var request = CommentFixture.registerCommentRequestWithSpace();
 
         // when,then
-        assertThatThrownBy(() -> commentService.registerComment(request, MEMBER_ID))
+        assertThatThrownBy(() -> commentWriteService.registerComment(request, MEMBER_ID))
                 .isInstanceOf(ContentIsSpaceException.class)
                 .message().isEqualTo(ErrorMessage.CONTENT_IS_SPACE.getMessage());
     }
@@ -75,22 +72,8 @@ class CommentServiceTest {
         var request = CommentFixture.registerCommentRequestWithContentOver200();
 
         // when,then
-        assertThatThrownBy(() -> commentService.registerComment(request, MEMBER_ID))
+        assertThatThrownBy(() -> commentWriteService.registerComment(request, MEMBER_ID))
                 .isInstanceOf(ContentIsOver200Exception.class)
                 .message().isEqualTo(ErrorMessage.CONTENT_IS_OVER_200.getMessage());
-    }
-
-    @DisplayName("댓글 조회 시 댓글이 없으면 에외를 던진다")
-    @Test
-    void when_fetch_comment_if_comment_not_exists_then_throw_exception() {
-        // given
-        var id = CommentFixture.notExistsCommentId();
-        given(commentRepository.findById(id))
-                .willReturn(Optional.empty());
-
-        // when,then
-        assertThatThrownBy(() -> commentService.fetchById(id))
-                .isInstanceOf(CommentNotExistsException.class)
-                .message().isEqualTo(ErrorMessage.COMMENT_NOT_EXISTS.getMessage());
     }
 }

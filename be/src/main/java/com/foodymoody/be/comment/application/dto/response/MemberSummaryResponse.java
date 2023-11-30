@@ -1,26 +1,26 @@
 package com.foodymoody.be.comment.application.dto.response;
 
-public class MemberResponse {
+public class MemberSummaryResponse {
 
     private String id;
-    private String imageUrl;
     private String nickname;
+    private String imageUrl;
 
-    public MemberResponse(String id, String imageUrl, String nickname) {
+    public MemberSummaryResponse(String id, String nickname, String imageUrl) {
         this.id = id;
-        this.imageUrl = imageUrl;
         this.nickname = nickname;
+        this.imageUrl = imageUrl;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
     public String getNickname() {
         return nickname;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }

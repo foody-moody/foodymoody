@@ -1,7 +1,7 @@
 package com.foodymoody.be.comment.presentation;
 
-import com.foodymoody.be.comment.application.dto.response.CommentResponse;
-import com.foodymoody.be.comment.infra.FeedCommentQueryUseCase;
+import com.foodymoody.be.comment.application.dto.response.MemberCommentSummaryResponse;
+import com.foodymoody.be.comment.infra.FeedCommentReadUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class FeedCommentController {
 
-    private final FeedCommentQueryUseCase feedCommentQueryUseCase;
+    private final FeedCommentReadUseCase feedCommentReadUseCase;
 
     @GetMapping("/api/comments")
-    public ResponseEntity<Slice<CommentResponse>> fetchComments(
+    public ResponseEntity<Slice<MemberCommentSummaryResponse>> fetchComments(
             @RequestParam String feedId,
             @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable
     ) {
-        var comments = feedCommentQueryUseCase.fetchComments(feedId, pageable);
+        var comments = feedCommentReadUseCase.fetchComments(feedId, pageable);
         return ResponseEntity.ok(comments);
     }
 }

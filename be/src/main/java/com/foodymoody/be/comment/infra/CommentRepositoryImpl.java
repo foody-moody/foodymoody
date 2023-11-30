@@ -1,6 +1,6 @@
 package com.foodymoody.be.comment.infra;
 
-import com.foodymoody.be.comment.application.dto.response.CommentResponse;
+import com.foodymoody.be.comment.application.dto.response.MemberCommentSummary;
 import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.comment.domain.repository.CommentRepository;
@@ -28,7 +28,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public Slice<CommentResponse> findWithMemberAllByFeedId(String feedId, Pageable pageable) {
+    public Slice<MemberCommentSummary> findWithMemberAllByFeedId(String feedId, Pageable pageable) {
         return commentJpaRepository.findWithMemberAllByFeedId(feedId, pageable);
     }
 }

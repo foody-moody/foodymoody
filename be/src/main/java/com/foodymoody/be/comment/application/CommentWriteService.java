@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class CommentService {
+public class CommentWriteService {
 
     private final CommentRepository commentRepository;
     private final CommentMapper commentMapper;
@@ -48,15 +48,15 @@ public class CommentService {
         comment.delete(memberId, LocalDateTime.now());
     }
 
-    public Comment fetchById(CommentId id) {
-        return commentRepository.findById(id).orElseThrow(CommentNotExistsException::new);
-    }
-
     @Transactional
     public void reply(String id, @Valid RegisterReplyRequest request, String memberId) {
         Comment comment = fetchById(CommentId.from(id));
         ReplyId replyId = ReplyId.from(IdGenerator.generate());
         Reply reply = commentMapper.toReply(replyId, LocalDateTime.now(), memberId, request.getContent());
         comment.addReply(reply);
+    }
+
+    private Comment fetchById(CommentId id) {
+        return commentRepository.findById(id).orElseThrow(CommentNotExistsException::new);
     }
 }

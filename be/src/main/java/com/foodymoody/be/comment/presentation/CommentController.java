@@ -1,6 +1,6 @@
 package com.foodymoody.be.comment.presentation;
 
-import com.foodymoody.be.comment.application.CommentService;
+import com.foodymoody.be.comment.application.CommentWriteService;
 import com.foodymoody.be.comment.application.dto.request.EditCommentRequest;
 import com.foodymoody.be.comment.application.dto.request.RegisterCommentRequest;
 import com.foodymoody.be.comment.application.dto.request.RegisterReplyRequest;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CommentController {
 
-    private final CommentService commentService;
+    private final CommentWriteService commentWriteService;
     private final CommentUseCase commentUseCase;
 
     @PostMapping("/api/comments")
@@ -35,21 +35,21 @@ public class CommentController {
     @PutMapping("/api/comments/{id}")
     public ResponseEntity<Void> edit(@PathVariable String id, @Valid @RequestBody EditCommentRequest request,
             @MemberId String memberId) {
-        commentService.edit(id, request, memberId);
+        commentWriteService.edit(id, request, memberId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/api/comments/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id,
             @MemberId String memberId) {
-        commentService.delete(id, memberId);
+        commentWriteService.delete(id, memberId);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/api/comments/{id}")
     public ResponseEntity<Void> reply(@PathVariable String id, @Valid @RequestBody RegisterReplyRequest request,
             @MemberId String memberId) {
-        commentService.reply(id, request, memberId);
+        commentWriteService.reply(id, request, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

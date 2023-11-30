@@ -1,6 +1,6 @@
 package com.foodymoody.be.comment.domain.repository;
 
-import com.foodymoody.be.comment.application.dto.response.CommentResponse;
+import com.foodymoody.be.comment.application.dto.response.MemberCommentSummary;
 import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.comment.domain.entity.CommentId;
 import java.util.Optional;
@@ -13,5 +13,5 @@ public interface CommentRepository {
 
     Optional<Comment> findById(CommentId id);
 
-    Slice<CommentResponse> findWithMemberAllByFeedId(String feedId, Pageable pageable);
+    Slice<MemberCommentSummary> findWithMemberAllByFeedId(String feedId, Pageable pageable);
 }
