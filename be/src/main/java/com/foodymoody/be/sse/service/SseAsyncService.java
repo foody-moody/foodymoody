@@ -1,6 +1,6 @@
 package com.foodymoody.be.sse.service;
 
-import com.foodymoody.be.notification.service.NotificationService;
+import com.foodymoody.be.notification.application.NotificationService;
 import java.io.IOException;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;

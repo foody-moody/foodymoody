@@ -1,11 +1,12 @@
-package com.foodymoody.be.notification.service;
+package com.foodymoody.be.notification.application;
 
 import com.foodymoody.be.comment.domain.entity.CommentAddNotificationEvent;
 import com.foodymoody.be.member.service.MemberService;
-import com.foodymoody.be.notification.controller.dto.NotificationResponse;
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationId;
-import com.foodymoody.be.notification.repository.NotificationRepository;
+import com.foodymoody.be.notification.domain.NotificationIdFactory;
+import com.foodymoody.be.notification.infra.NotificationRepository;
+import com.foodymoody.be.notification.presentation.dto.NotificationResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class NotificationService {
     @EventListener(CommentAddNotificationEvent.class)
     @Transactional
     public void saveNotification(CommentAddNotificationEvent event) {
-        NotificationId notificationId = NotificationId.newId();
+        NotificationId notificationId = NotificationIdFactory.newId();
         Notification notification = notificationMapper.createNotificationEntityFromEvent(notificationId, event);
         notificationRepository.save(notification);
     }
@@ -74,7 +75,7 @@ public class NotificationService {
     }
 
     public Notification getNotification(String notificationId) {
-        return notificationRepository.findById(NotificationId.from(notificationId)).orElseThrow();
+        return notificationRepository.findById(NotificationIdFactory.from(notificationId)).orElseThrow();
     }
 
     @Transactional

@@ -1,9 +1,10 @@
-package com.foodymoody.be.notification.service;
+package com.foodymoody.be.notification.application;
 
 import com.foodymoody.be.common.event.NotificationEvent;
-import com.foodymoody.be.notification.controller.dto.NotificationResponse;
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationId;
+import com.foodymoody.be.notification.domain.NotificationIdFactory;
+import com.foodymoody.be.notification.presentation.dto.NotificationResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Slice;
@@ -14,7 +15,7 @@ public class NotificationMapper {
 
     public static List<NotificationId> toNotificationID(List<String> notificationIds) {
         return notificationIds.stream()
-                .map(NotificationId::from)
+                .map(NotificationIdFactory::from)
                 .collect(Collectors.toList());
     }
 

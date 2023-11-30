@@ -4,6 +4,7 @@ import com.foodymoody.be.comment.domain.entity.CommentAddNotificationEvent;
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationId;
+import com.foodymoody.be.notification.domain.NotificationIdFactory;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class NotificationFixture {
     }
 
     public static NotificationId notificationId() {
-        return NotificationId.from(NOTIFICATION_ID);
+        return NotificationIdFactory.from(NOTIFICATION_ID);
     }
 
     public static Notification notification() {
@@ -41,7 +42,7 @@ public class NotificationFixture {
 
     public static Slice<Notification> notifications() {
         List<Notification> notifications = IntStream.range(0, 10)
-                .mapToObj(i -> notification(NotificationId.from(i + "")))
+                .mapToObj(i -> notification(NotificationIdFactory.from(i + "")))
                 .collect(Collectors.toList());
         return new SliceImpl(notifications);
     }

@@ -1,5 +1,6 @@
 package com.foodymoody.be.notification.service;
 
+import com.foodymoody.be.notification.application.NotificationMapper;
 import com.foodymoody.be.notification.util.NotificationFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

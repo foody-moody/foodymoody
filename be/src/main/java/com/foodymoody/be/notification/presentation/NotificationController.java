@@ -1,11 +1,11 @@
-package com.foodymoody.be.notification.controller;
+package com.foodymoody.be.notification.presentation;
 
 import com.foodymoody.be.common.annotation.MemberId;
-import com.foodymoody.be.notification.controller.dto.ChangeAllNotificationStatusRequest;
-import com.foodymoody.be.notification.controller.dto.DeleteNotificationsRequest;
-import com.foodymoody.be.notification.controller.dto.NotificationResponse;
-import com.foodymoody.be.notification.controller.dto.NotificationStatus;
-import com.foodymoody.be.notification.service.NotificationService;
+import com.foodymoody.be.notification.application.NotificationService;
+import com.foodymoody.be.notification.presentation.dto.ChangeAllNotificationStatusRequest;
+import com.foodymoody.be.notification.presentation.dto.DeleteNotificationsRequest;
+import com.foodymoody.be.notification.presentation.dto.NotificationResponse;
+import com.foodymoody.be.notification.presentation.dto.NotificationStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
