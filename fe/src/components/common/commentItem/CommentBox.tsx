@@ -6,6 +6,7 @@ import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { ArrowDownIcon, ArrowUpIcon } from '../icon/icons';
 import { CommentInput } from '../input/CommentInput';
+import { Spinner } from '../loading/spinner';
 import { CommentItem } from './CommentItem';
 
 type Props = {
@@ -18,11 +19,12 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
     const {
       replies,
       refetch: getReplies,
+      isFetching,
       fetchNextPage: fetchNextReplies,
       hasNextPage,
     } = useGetReplies(comment.id);
     const { mutate: replyMutate } = usePostReply(comment.id, () => {
-      handleToggleReplies();
+      submitCallback();
     });
     const { value, handleChange, isValid } = useInput({
       validator: (value) =>
@@ -46,8 +48,13 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
       setIsReplying(false);
     };
 
-    const handleToggleReplies = () => {
+    const submitCallback = () => {
       getReplies();
+      setShowReplies(true);
+    };
+
+    const handleToggleReplies = () => {
+      (!replies || replies.length === 0) && getReplies();
       setShowReplies(!showReplies);
     };
 
@@ -64,6 +71,7 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
               답글 {comment.replyCount}개
             </TextButton>
           )}
+          <Spinner isLoading={isFetching} />
         </ReplyButtonBox>
         {isReplying && (
           <ReplyInputBox>
@@ -119,6 +127,7 @@ const Wrapper = styled.li`
 const ReplyButtonBox = styled.div`
   padding: 0 0 0 60px;
   display: flex;
+  align-items: center;
   gap: 12px;
 `;
 

@@ -14,6 +14,7 @@ import { PATH } from 'constants/path';
 type Props = {
   member: FeedMemberInfo;
   createdAt: string;
+  isUpdated: boolean;
   location: string;
   feedId?: string;
 };
@@ -21,6 +22,7 @@ type Props = {
 export const FeedUserInfo: React.FC<Props> = ({
   member,
   createdAt,
+  isUpdated,
   location,
   feedId,
 }) => {
@@ -87,6 +89,7 @@ export const FeedUserInfo: React.FC<Props> = ({
           <ContentHeader>
             <p>{member.nickname}</p>
             <span>{formattedTimeStamp}</span>
+            {isUpdated && <span>수정됨</span>}
           </ContentHeader>
 
           <ContentBody>
