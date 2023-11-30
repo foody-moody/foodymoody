@@ -1,27 +1,15 @@
 package com.foodymoody.be.comment.domain.entity;
 
-import java.io.Serializable;
+import com.foodymoody.be.common.util.BaseId;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class CommentId implements Serializable {
+public class CommentId extends BaseId {
 
-    private static final long serialVersionUID = -5351955236373496259L;
-
-    private String id;
-
-    public CommentId(String id) {
-        this.id = id;
-    }
-
-    public static CommentId from(String generate) {
-        return new CommentId(generate);
-    }
-
-    public String getId() {
-        return id;
+    public CommentId(String value) {
+        super(value);
     }
 }

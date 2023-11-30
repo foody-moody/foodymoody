@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface CommentJpaRepository extends JpaRepository<Comment, CommentId> {
 
-    @Query("select _comment.id.id as id,_comment.content as content,"
+    @Query("select _comment.id.value as id,_comment.content as content,"
             + "_member.id.id as memberId,_member.nickname as nickname,_image.url as imageUrl,_comment.hasReply as hasReply,"
             + "_reply.commentList.size as replyCount,_comment.createdAt as createdAt,_comment.updatedAt as updatedAt "
             + "from Comment _comment "
@@ -27,7 +27,7 @@ public interface CommentJpaRepository extends JpaRepository<Comment, CommentId> 
             @Param("pageable") Pageable pageable
     );
 
-    @Query("select _reply.id.id as replyId, _reply.content as content,"
+    @Query("select _reply.id.value as replyId, _reply.content as content,"
             + "_reply.memberId as memberId, _member.nickname as nickname, "
             + "_image.url as imageUrl, _reply.createdAt as createdAt, _reply.updatedAt as updatedAt "
             + "from Comment _comment "
