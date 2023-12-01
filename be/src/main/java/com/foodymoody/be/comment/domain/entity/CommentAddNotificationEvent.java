@@ -6,41 +6,69 @@ import java.time.LocalDateTime;
 
 public class CommentAddNotificationEvent implements NotificationEvent {
 
-    private String memberId;
-    private String message;
-    private NotificationType notificationType;
-    private LocalDateTime createdAt;
+    private final String feedId;
+    private final String content;
+    private final NotificationType notificationType;
+    private final CommentId commentId;
+    private final String memberId;
+    private final LocalDateTime createdAt;
 
-    private CommentAddNotificationEvent(String memberId, String message, NotificationType notificationType,
-            LocalDateTime createdAt) {
-        this.memberId = memberId;
-        this.message = message;
+    private CommentAddNotificationEvent(
+            String feedId,
+            String content,
+            NotificationType notificationType,
+            CommentId commentId,
+            String memberId,
+            LocalDateTime createdAt
+    ) {
+        this.feedId = feedId;
+        this.content = content;
         this.notificationType = notificationType;
+        this.commentId = commentId;
+        this.memberId = memberId;
         this.createdAt = createdAt;
     }
 
-    public static CommentAddNotificationEvent of(String memberId, String message, NotificationType notificationType,
-            LocalDateTime createdAt) {
-        return new CommentAddNotificationEvent(memberId, message, notificationType, createdAt);
+    public static CommentAddNotificationEvent of(
+            String feedId,
+            String content,
+            CommentId commentId,
+            String memberId,
+            LocalDateTime createdAt
+    ) {
+        return new CommentAddNotificationEvent(
+                feedId,
+                content,
+                NotificationType.COMMENT_ADDED,
+                commentId,
+                memberId,
+                createdAt
+        );
     }
 
-    @Override
+    public String getFeedId() {
+        return feedId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
     public NotificationType getNotificationType() {
         return notificationType;
     }
 
-    @Override
-    public String getMessage() {
-        return message;
+    public CommentId getCommentId() {
+        return commentId;
     }
 
-    @Override
     public String getMemberId() {
         return memberId;
     }
 
-    @Override
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
+
 }

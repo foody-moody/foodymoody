@@ -50,8 +50,8 @@ public class CommentWriteService {
 
     @Transactional
     public void reply(String id, @Valid RegisterReplyRequest request, String memberId) {
-        Comment comment = fetchById(CommentId.from(id));
-        ReplyId replyId = ReplyId.from(IdGenerator.generate());
+        Comment comment = fetchById(new CommentId(id));
+        ReplyId replyId = new ReplyId(IdGenerator.generate());
         Reply reply = commentMapper.toReply(replyId, LocalDateTime.now(), memberId, request.getContent());
         comment.addReply(reply);
     }

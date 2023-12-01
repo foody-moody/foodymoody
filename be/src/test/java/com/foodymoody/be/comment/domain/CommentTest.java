@@ -5,14 +5,23 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.comment.util.CommentFixture;
+import com.foodymoody.be.common.event.NotificationEvents;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import com.foodymoody.be.common.exception.ErrorMessage;
 import java.time.LocalDateTime;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class CommentTest {
+
+    @BeforeEach
+    void setUp() {
+        NotificationEvents.setPublisher(event -> {
+        });
+    }
+
 
     @DisplayName("댓글을 수정하면 댓글 내용이 변경되고 수정된 시간이 저장된다")
     @Test

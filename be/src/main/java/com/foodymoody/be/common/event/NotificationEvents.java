@@ -15,7 +15,7 @@ public class NotificationEvents {
         publisher.publishEvent(event);
     }
 
-    static void setPublisher(ApplicationEventPublisher publisher) {
+    public static void setPublisher(ApplicationEventPublisher publisher) {
         NotificationEvents.publisher = publisher;
     }
 }

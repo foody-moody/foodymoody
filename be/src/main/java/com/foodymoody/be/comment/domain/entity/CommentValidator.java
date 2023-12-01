@@ -59,7 +59,7 @@ public class CommentValidator {
     }
 
     public static void validateId(CommentId id) {
-        if (isNull(id) || isNull(id.getId())) {
+        if (isNull(id) || isNull(id.getValue())) {
             throw new InvalidIdException();
         }
     }

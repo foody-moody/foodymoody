@@ -1,4 +1,4 @@
-package com.foodymoody.be.notification.controller.dto;
+package com.foodymoody.be.notification.presentation.dto;
 
 import com.foodymoody.be.common.event.NotificationType;
 
