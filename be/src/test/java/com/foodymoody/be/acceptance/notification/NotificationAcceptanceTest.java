@@ -24,13 +24,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 @DisplayName("알림 관련 기능")
 class NotificationAcceptanceTest extends AcceptanceTest {
 
-    String 아티_아이디;
     @Autowired
     JwtUtil jwtUtil;
 
     @BeforeEach
     void setUp() {
-        아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
         var feedId = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰);
         피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원푸반_액세스토큰);
         피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원푸반_액세스토큰);

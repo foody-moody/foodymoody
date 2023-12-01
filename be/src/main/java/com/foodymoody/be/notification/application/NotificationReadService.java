@@ -15,8 +15,8 @@ public class NotificationReadService {
 
     private final NotificationRepository notificationRepository;
 
-    public long countByMemberId(String memberId) {
-        return notificationRepository.countByToMemberId(memberId);
+    public long fetchCountNotReadNotification(String memberId) {
+        return notificationRepository.countByToMemberIdAndIsRead(memberId, false);
     }
 
     public Slice<Notification> requestAll(String memberId, Pageable pageable) {

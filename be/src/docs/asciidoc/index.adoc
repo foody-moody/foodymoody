@@ -318,3 +318,9 @@ operation::notification_delete_all_success[snippets='http-request,http-response'
 ==== 성공
 
 operation::notification_delete_notification_list_success[snippets='http-request,http-response']
+
+== SSE
+
+=== 알람 실시간 전송
+
+operation::sse_request_success[snippets='http-request,http-response']

@@ -36,5 +36,5 @@ public interface NotificationRepository extends JpaRepository<Notification, Noti
 
     Slice<Notification> findAllByToMemberId(String toMemberId, Pageable pageable);
 
-    long countByToMemberId(String memberId);
+    long countByToMemberIdAndIsRead(String memberId, boolean isRead);
 }
