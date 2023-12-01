@@ -22,7 +22,7 @@ export const FeedMainList = () => {
   return (
     <Wrapper>
       {feeds?.map((feed: MainFeed, index: number) => {
-        const isLastItem = index === feeds.length - 1;
+        const isLastItem = index === feeds.length - 2;
 
         return (
           <MainFeedItem

@@ -45,7 +45,7 @@ export const usePostReply = (id: string, callbackFn: () => void) => {
     onSuccess: () => {
       callbackFn();
       // queryClient.invalidateQueries([QUERY_KEY.replies]);
-      // queryClient.invalidateQueries([QUERY_KEY.replies, id]);
+      queryClient.invalidateQueries([QUERY_KEY.replies, id]);
       queryClient.invalidateQueries([QUERY_KEY.comments]); // 특정 페이지 인덱스만 불러와야하는지?
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {

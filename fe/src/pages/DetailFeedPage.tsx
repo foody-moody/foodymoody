@@ -1,36 +1,30 @@
-import { useRef } from 'react';
+import { Suspense, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useGetComments, usePostComment } from 'service/queries/comment';
+import { usePostComment } from 'service/queries/comment';
 import { useFeedDetail } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { customScrollStyle } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
+import { CommentList } from 'components/comment/CommentList';
 import { Badge } from 'components/common/badge/Badge';
 import { Carousel } from 'components/common/carousel/Carousel';
-import { CommentBox } from 'components/common/commentItem/CommentBox';
 import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
 import { CommentInput } from 'components/common/input/CommentInput';
 import { useModal } from 'components/common/modal/Modal';
+import { CommentSkeleton } from 'components/common/skeleton/CommentSkeleton';
+import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
 import { useInput } from 'hooks/useInput';
-import { useIntersectionObserver } from 'hooks/useObserver';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const DetailFeedModalPage = () => {
   // TODO 로딩 에러
   const { id: feedId } = useParams() as { id: string };
   const { data: feed } = useFeedDetail(feedId);
-  const { comments, hasNextPage, fetchNextPage } = useGetComments(feedId);
   const { closeModal } = useModal<'commentAlert'>();
-  const wrapperRef = useRef(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const { observeTarget } = useIntersectionObserver({
-    callbackFn: () => {
-      hasNextPage && fetchNextPage();
-    },
-    rootRef: wrapperRef,
-  });
   const { mutate: commentMutate } = usePostComment(feedId);
   const { navigateToHome } = usePageNavigator();
   const { value, handleChange, isValid } = useInput({
@@ -38,7 +32,6 @@ export const DetailFeedModalPage = () => {
       value.trim().length !== 0 && value.trim().length < 200,
   });
   console.log(feed);
-  console.log('comment', comments);
 
   const handleSubmit = () => {
     isValid &&
@@ -101,24 +94,16 @@ export const DetailFeedModalPage = () => {
                   onChangeValue={handleChange}
                   onSubmitComment={handleSubmit}
                 />
-                <Comment>
-                  {comments?.map((comment, index) => {
-                    const isLastItem = index === comments.length - 1;
 
-                    return (
-                      <CommentBox
-                        key={comment.id}
-                        ref={isLastItem ? observeTarget : null}
-                        createdAt={
-                          comment.createdAt === comment.updatedAt
-                            ? comment.createdAt
-                            : comment.updatedAt
-                        }
-                        comment={comment}
-                      />
-                    );
-                  })}
-                </Comment>
+                <Suspense
+                  fallback={
+                    <DeferredComponent>
+                      <CommentSkeleton itemCount={10} />
+                    </DeferredComponent>
+                  }
+                >
+                  <CommentList feedId={feedId} rootRef={wrapperRef} />
+                </Suspense>
               </CommentContainer>
             </Content>
           </Box>
@@ -161,13 +146,6 @@ const CommentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`;
-
-const Comment = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding-bottom: 10px;
 `;
 
 const Info = styled.div`
