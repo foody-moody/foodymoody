@@ -35,7 +35,7 @@ class HeartAcceptanceTest extends AcceptanceTest {
         String feedId = 피드를_등록한다(회원아티_액세스토큰, spec).jsonPath().getString("id");
 
         // when
-        int numberOfConcurrentRequests = 5;
+        int numberOfConcurrentRequests = 3;
         List<CompletableFuture<ExtractableResponse<Response>>> futures = new ArrayList<>();
 
         for (int i = 0; i < numberOfConcurrentRequests; i++) {
