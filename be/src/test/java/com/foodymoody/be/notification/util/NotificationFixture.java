@@ -39,7 +39,7 @@ public class NotificationFixture {
     }
 
     public static Notification notification(NotificationId id) {
-        return new Notification(id, MEMBER_ID, NOTIFICATION_MESSAGE,
+        return new Notification(id, "2", MEMBER_ID, "https://foodymoody.com/api/1", NOTIFICATION_MESSAGE,
                 NotificationType.COMMENT_ADDED, false, false, CREATE_AT, UPDATE_AT);
     }
 

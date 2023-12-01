@@ -11,21 +11,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class NotificationTest {
 
-    @DisplayName("알람의 소유자인지 확인한다.")
-    @Test
-    void isSameMember() {
-        // given
-        var notification = NotificationFixture.notification();
-
-        // when
-        var sameMember = notification.isSameMember(NotificationFixture.MEMBER_ID);
-        var notSameMember = notification.isSameMember(NotificationFixture.NOT_EXIST_MEMBER_ID);
-
-        // then
-        assertThat(sameMember).isTrue();
-        assertThat(notSameMember).isFalse();
-    }
-
     @DisplayName("알람의 상태를 변경한다.")
     @ParameterizedTest
     @CsvSource({"true", "false"})

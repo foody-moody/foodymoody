@@ -13,12 +13,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface NotificationRepository extends JpaRepository<Notification, NotificationId> {
 
-    Slice<Notification> findAllByMemberId(String memberId, Pageable pageable);
-
     @Modifying
     @Query("UPDATE Notification _notification "
             + "SET _notification.isRead = :status, _notification.updatedAt = :updatedAt "
-            + "WHERE _notification.id IN :notificationIds AND _notification.memberId = :memberId")
+            + "WHERE _notification.id IN :notificationIds AND _notification.toMemberId = :memberId")
     void updateAllStatus(@Param("status") boolean status, @Param("memberId") String memberId,
             @Param("updatedAt") LocalDateTime updatedAt,
             @Param("notificationIds") List<NotificationId> notificationIds);
@@ -26,15 +24,17 @@ public interface NotificationRepository extends JpaRepository<Notification, Noti
     @Modifying
     @Query("UPDATE Notification _notification "
             + "SET _notification.isDeleted = true , _notification.updatedAt = :updatedAt "
-            + "WHERE _notification.memberId = :memberId")
+            + "WHERE _notification.toMemberId = :memberId")
     void deleteAllByMemberId(@Param("memberId") String memberId, @Param("updatedAt") LocalDateTime updatedAt);
 
     @Modifying
     @Query("UPDATE Notification _notification "
             + "SET _notification.isDeleted = true , _notification.updatedAt = :updatedAt "
-            + "WHERE _notification.id IN :notificationIds AND _notification.memberId = :memberId")
+            + "WHERE _notification.id IN :notificationIds AND _notification.toMemberId = :memberId")
     void deleteAllByIdIn(@Param("notificationIds") List<NotificationId> notificationIds,
             @Param("updatedAt") LocalDateTime updatedAt, @Param("memberId") String memberId);
 
-    long countByMemberIdAndIsRead(String memberId, boolean isRead);
+    Slice<Notification> findAllByToMemberId(String toMemberId, Pageable pageable);
+
+    long countByToMemberId(String memberId);
 }

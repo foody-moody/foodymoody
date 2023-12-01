@@ -1,34 +1,60 @@
 package com.foodymoody.be.notification.presentation.dto;
 
-import com.foodymoody.be.common.event.NotificationType;
+import com.foodymoody.be.notification.domain.NotificationId;
+import java.time.LocalDateTime;
 
 public class NotificationResponse {
 
-    private String notificationId;
+    private String id;
+    private String fromId;
+    private String formNickname;
+    private String fromProfileImageUrl;
+    private String link;
     private String message;
-    private NotificationType type;
-    private boolean isRead;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    public NotificationResponse(String notificationId, String message, NotificationType type, boolean isRead) {
-        this.notificationId = notificationId;
+    public NotificationResponse(NotificationId id, String fromId, String formNickname, String fromProfileImageUrl,
+            String link, String message, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id.getValue();
+        this.fromId = fromId;
+        this.formNickname = formNickname;
+        this.fromProfileImageUrl = fromProfileImageUrl;
+        this.link = link;
         this.message = message;
-        this.type = type;
-        this.isRead = isRead;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public String getId() {
-        return notificationId;
+        return id;
+    }
+
+    public String getFromId() {
+        return fromId;
+    }
+
+    public String getFormNickname() {
+        return formNickname;
+    }
+
+    public String getFromProfileImageUrl() {
+        return fromProfileImageUrl;
+    }
+
+    public String getLink() {
+        return link;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public NotificationType getType() {
-        return type;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public boolean isRead() {
-        return isRead;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 }

@@ -9,8 +9,6 @@ import com.foodymoody.be.notification.application.NotificationWriteService;
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationId;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -28,10 +26,10 @@ public class CommentNotificationHandler {
         NotificationId notificationId = NotificationIdFactory.newId();
         Member member = memberService.findById(event.getMemberId());
         Feed feed = feedService.findFeed(event.getFeedId());
-        String message = String.format("%s님이 %s %s에 댓글을 남겼습니다.", member.getNickname(), event.getCreatedAt().format(
-                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)), feed.getId());
-        Notification notification = new Notification(notificationId, feed.getMemberId(), message,
-                event.getNotificationType(), false, false, event.getCreatedAt(), event.getCreatedAt());
+        String message = String.format("%s님이 댓글을 남겼습니다.", member.getNickname());
+        String link = String.format("https://foodymoody.site/api/feeds/%s", feed.getId());
+        Notification notification = new Notification(notificationId, member.getMemberId(), feed.getMemberId(), link,
+                message, event.getNotificationType(), false, false, event.getCreatedAt(), event.getCreatedAt());
         notificationWriteService.save(notification);
     }
 }
