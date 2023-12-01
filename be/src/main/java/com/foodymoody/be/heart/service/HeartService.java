@@ -8,9 +8,11 @@ import com.foodymoody.be.heart.dto.response.HeartResponse;
 import com.foodymoody.be.heart.repository.HeartRepository;
 import com.foodymoody.be.heart.util.HeartMapper;
 import com.foodymoody.be.member.service.MemberService;
+import javax.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,7 @@ public class HeartService {
     private final FeedService feedService;
 
     @Transactional
+    @Lock(LockModeType.OPTIMISTIC)
     public HeartResponse like(HeartServiceRequest request) {
         if (isHeartExist(request)) {
             throw new IllegalArgumentException("이미 좋아요 누른 피드입니다.");
@@ -39,6 +42,7 @@ public class HeartService {
 
         Heart savedHeart = heartRepository.save(heart);
 
+        // TODO: 스케쥴러 사용해서 이 피드에 대한 좋아요 수를 가져와서 업그레이드 해야 함
         Feed feed = updateFeed(feedId, heart.getCount());
 
         return HeartMapper.toHeartResponse(savedHeart, feed.isLiked());
