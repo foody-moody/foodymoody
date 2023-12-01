@@ -1,5 +1,9 @@
 package com.foodymoody.be.notification.infra.event;
 
+import static com.foodymoody.be.notification.infra.event.LinkMaker.makeFeedLink;
+import static com.foodymoody.be.notification.infra.event.MessageMaker.makeCommentAddMessage;
+import static com.foodymoody.be.notification.infra.event.NotificationMapper.toNotification;
+
 import com.foodymoody.be.comment.domain.entity.CommentAddNotificationEvent;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.service.FeedService;
@@ -26,10 +30,9 @@ public class CommentNotificationHandler {
         NotificationId notificationId = NotificationIdFactory.newId();
         Member member = memberService.findById(event.getMemberId());
         Feed feed = feedService.findFeed(event.getFeedId());
-        String message = String.format("%s님이 댓글을 남겼습니다.", member.getNickname());
-        String link = String.format("https://foodymoody.site/api/feeds/%s", feed.getId());
-        Notification notification = new Notification(notificationId, member.getMemberId(), feed.getMemberId(), link,
-                message, event.getNotificationType(), false, false, event.getCreatedAt(), event.getCreatedAt());
+        String message = makeCommentAddMessage(member);
+        String link = makeFeedLink(feed.getId());
+        Notification notification = toNotification(event, notificationId, member, feed, link, message);
         notificationWriteService.save(notification);
     }
 }
