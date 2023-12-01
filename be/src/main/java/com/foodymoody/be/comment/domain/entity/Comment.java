@@ -1,7 +1,5 @@
 package com.foodymoody.be.comment.domain.entity;
 
-import static com.foodymoody.be.comment.domain.entity.CommentDomainMapper.mapperToNotificationEvent;
-
 import com.foodymoody.be.common.event.NotificationEvents;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import java.time.LocalDateTime;
@@ -28,8 +26,8 @@ public class Comment {
     @Embedded
     private ReplyComments replyComments;
 
-    public Comment(CommentId id, String content, String feedId, boolean deleted,
-            String memberId, LocalDateTime createdAt) {
+    public Comment(CommentId id, String content, String feedId, boolean deleted, String memberId,
+            LocalDateTime createdAt) {
         CommentValidator.validate(id, content, feedId, createdAt);
         this.id = id;
         this.content = content;
@@ -38,7 +36,7 @@ public class Comment {
         this.memberId = memberId;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-        NotificationEvents.publish(mapperToNotificationEvent(feedId));
+        NotificationEvents.publish(CommentAddNotificationEvent.of(feedId, content, id, memberId, createdAt));
     }
 
     public CommentId getId() {
