@@ -10,6 +10,7 @@ import com.foodymoody.be.heart.util.HeartMapper;
 import com.foodymoody.be.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,7 +64,6 @@ public class HeartService {
     private Feed updateFeed(String feedId, int heartCount) {
         Feed feed = feedService.findFeed(feedId);
         feed.updateIsLikedBy(heartCount);
-        // TODO: 5초에 한번씩 한꺼번에 업데이트하도록 하기
         feed.updateLikeCountBy(heartCount);
 
         return feed;
