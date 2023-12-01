@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedCommentReadService {
 
     private final CommentRepository commentRepository;
-    private final CommentMapper commentMapper;
 
     @Transactional(readOnly = true)
     public Slice<MemberCommentSummaryResponse> fetchComments(String feedId, Pageable pageable) {
