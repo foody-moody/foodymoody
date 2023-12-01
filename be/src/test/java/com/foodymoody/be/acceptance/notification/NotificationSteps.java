@@ -3,8 +3,8 @@ package com.foodymoody.be.acceptance.notification;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.comment.domain.entity.CommentAddNotificationEvent;
+import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.common.event.NotificationEvents;
-import com.foodymoody.be.common.event.NotificationType;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
@@ -82,8 +82,10 @@ public class NotificationSteps {
     }
 
     @NotNull
-    public static CommentAddNotificationEvent createCommentAddNotification(String 회원_아이디, LocalDateTime createdAt) {
-        return CommentAddNotificationEvent.of(회원_아이디, "피드에 새로운 댓글이 추가했습니다", NotificationType.COMMENT_ADDED, createdAt);
+    public static CommentAddNotificationEvent createCommentAddNotification(String 회원_아이디, String feedId,
+            LocalDateTime createdAt) {
+        return CommentAddNotificationEvent.of(feedId, "피드에 새로운 댓글이 추가했습니다", new CommentId("1"), 회원_아이디,
+                createdAt);
     }
 
     public static void 응답코드가_204(ExtractableResponse<Response> response) {
@@ -94,9 +96,9 @@ public class NotificationSteps {
         Assertions.assertAll(() -> assertThat(response.statusCode()).isEqualTo(200));
     }
 
-    public static void 알람_발행(String 회원_아이디) {
+    public static void 알람_발행(String 회원_아이디, String feedId) {
         LocalDateTime createdAt = LocalDateTime.of(2021, 1, 1, 1, 1, 1);
-        CommentAddNotificationEvent event = createCommentAddNotification(회원_아이디, createdAt);
+        CommentAddNotificationEvent event = createCommentAddNotification(회원_아이디, feedId, createdAt);
         NotificationEvents.publish(event);
     }
 

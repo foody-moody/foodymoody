@@ -1,9 +1,11 @@
 package com.foodymoody.be.notification.util;
 
 import com.foodymoody.be.comment.domain.entity.CommentAddNotificationEvent;
+import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationId;
+import com.foodymoody.be.notification.domain.NotificationIdFactory;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,14 +22,16 @@ public class NotificationFixture {
     public static final String NOTIFICATION_MESSAGE = "새로운 댓글이 달렸습니다.";
     public static final String NOT_EXIST_MEMBER_ID = "not exist member id";
     public static final LocalDateTime UPDATE_AT = LocalDateTime.of(2021, 2, 3, 4, 5, 6);
+    public static final String FEED_ID = "1";
+    public static final CommentId COMMENT_ID = new CommentId("1");
 
     public static CommentAddNotificationEvent commentAddNotificationEvent() {
-        return CommentAddNotificationEvent.of(MEMBER_ID, NOTIFICATION_MESSAGE,
-                NotificationType.COMMENT_ADDED, NotificationFixture.CREATE_AT);
+        return CommentAddNotificationEvent.of(FEED_ID, NOTIFICATION_MESSAGE, COMMENT_ID, MEMBER_ID,
+                NotificationFixture.CREATE_AT);
     }
 
     public static NotificationId notificationId() {
-        return NotificationId.from(NOTIFICATION_ID);
+        return NotificationIdFactory.from(NOTIFICATION_ID);
     }
 
     public static Notification notification() {
@@ -41,7 +45,7 @@ public class NotificationFixture {
 
     public static Slice<Notification> notifications() {
         List<Notification> notifications = IntStream.range(0, 10)
-                .mapToObj(i -> notification(NotificationId.from(i + "")))
+                .mapToObj(i -> notification(NotificationIdFactory.from(i + "")))
                 .collect(Collectors.toList());
         return new SliceImpl(notifications);
     }

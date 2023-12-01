@@ -1,4 +1,4 @@
-package com.foodymoody.be.notification.controller.dto;
+package com.foodymoody.be.notification.presentation.dto;
 
 public class NotificationStatus {
 

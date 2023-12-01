@@ -1,6 +1,7 @@
 package com.foodymoody.be.acceptance.notification;
 
-import static com.foodymoody.be.acceptance.notification.NotificationSteps.알람_발행;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글을_등록하고_아이디를_받는다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고_아이디를_받는다;
 import static com.foodymoody.be.acceptance.notification.NotificationSteps.알람_아이디로_알람을_조회한다;
 import static com.foodymoody.be.acceptance.notification.NotificationSteps.알람을_삭제한다;
 import static com.foodymoody.be.acceptance.notification.NotificationSteps.알람을_일괄적으로_변경;
@@ -30,11 +31,12 @@ class NotificationAcceptanceTest extends AcceptanceTest {
     @BeforeEach
     void setUp() {
         아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
-        알람_발행(아티_아이디);
-        알람_발행(아티_아이디);
-        알람_발행(아티_아이디);
-        알람_발행(아티_아이디);
-        알람_발행(아티_아이디);
+        var feedId = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰);
+        피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원푸반_액세스토큰);
+        피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원푸반_액세스토큰);
+        피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원푸반_액세스토큰);
+        피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원푸반_액세스토큰);
+        피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원푸반_액세스토큰);
     }
 
     @DisplayName("전체 알람 요청 성공하면 응답코드 200과 알람을 받는다.")
