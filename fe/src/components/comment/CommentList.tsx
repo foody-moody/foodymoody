@@ -19,7 +19,7 @@ export const CommentList = ({ feedId, rootRef }: Props) => {
   return (
     <Wrapper>
       {comments?.map((comment, index) => {
-        const isLastItem = index === comments.length - 1;
+        const isLastItem = index === comments.length - 2;
 
         return (
           <CommentBox
