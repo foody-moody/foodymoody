@@ -16,4 +16,6 @@ public interface CommentRepository {
     Slice<MemberCommentSummary> findWithMemberAllByFeedId(String feedId, Pageable pageable);
 
     boolean existsById(CommentId commentId);
+
+    Slice<MemberCommentSummary> findWithMemberAllByFeedId(String feedId, String memberId, Pageable pageable);
 }

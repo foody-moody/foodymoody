@@ -18,7 +18,7 @@ class NotificationSettingAcceptanceTest extends AcceptanceTest {
     @Test
     void findNotificationSettingByMemberId() {
         // docs
-        api_문서_타이틀("notificaiton_setting_request_success", spec);
+        api_문서_타이틀("notification_setting_request_success", spec);
 
         // when
         var response = 알림_설정을_요청한다(회원아티_액세스토큰, spec);
@@ -31,7 +31,7 @@ class NotificationSettingAcceptanceTest extends AcceptanceTest {
     @Test
     void updateNotificationSettingByMemberId() {
         // docs
-        api_문서_타이틀("notificaiton_setting_update_success", spec);
+        api_문서_타이틀("notification_setting_update_success", spec);
 
         // when
         Map<String, Object> body = new HashMap<>();

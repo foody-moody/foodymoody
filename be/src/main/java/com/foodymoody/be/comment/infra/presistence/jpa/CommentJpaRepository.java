@@ -14,13 +14,13 @@ public interface CommentJpaRepository extends JpaRepository<Comment, CommentId> 
 
     @Query("select _comment.id.value as id,_comment.content as content,"
             + "_member.id.id as memberId,_member.nickname as nickname,_image.url as imageUrl,_comment.hasReply as hasReply,"
-            + "_reply.commentList.size as replyCount,_comment.createdAt as createdAt,_comment.updatedAt as updatedAt "
+            + "_reply.commentList.size as replyCount,_comment.createdAt as createdAt,_comment.updatedAt as updatedAt, "
+            + "_heartCount.count as heartCount "
             + "from Comment _comment "
             + "left join _comment.replyComments _reply "
-            + "left join Member _member "
-            + "on _member.id.id = _comment.memberId "
-            + "left join Image _image "
-            + "on _image.id = _member.profileImageId "
+            + "left join Member _member on _member.id.id = _comment.memberId "
+            + "left join Image _image on _image.id = _member.profileImageId "
+            + "left join CommentHeartCount _heartCount on _heartCount.commentId = _comment.id "
             + "where _comment.feedId = :feedId and _comment.deleted = false")
     Slice<MemberCommentSummary> findWithMemberAllByFeedId(
             @Param("feedId") String feedId,
@@ -38,4 +38,18 @@ public interface CommentJpaRepository extends JpaRepository<Comment, CommentId> 
             + "on _member.profileImageId = _image.id "
             + "where _comment.id = :commentId")
     Slice<MemberReplySummary> findReplyByCommentId(CommentId commentId, Pageable pageable);
+
+    @Query("select _comment.id.value as id,_comment.content as content,"
+            + "_member.id.id as memberId,_member.nickname as nickname,_image.url as imageUrl,_comment.hasReply as hasReply,"
+            + "_reply.commentList.size as replyCount,_comment.createdAt as createdAt,_comment.updatedAt as updatedAt, "
+            + "_heartCount.count as heartCount, "
+            + "(case when _heart is not null then true else false end) as hearted "
+            + "from Comment _comment "
+            + "left join _comment.replyComments _reply "
+            + "left join Member _member on _member.id.id = _comment.memberId "
+            + "left join Image _image on _image.id = _member.profileImageId "
+            + "left join CommentHeart _heart on _heart.commentId = _comment.id and _heart.memberId = :memberId "
+            + "left join CommentHeartCount _heartCount on _heartCount.commentId = _comment.id "
+            + "where _comment.feedId = :feedId and _comment.deleted = false")
+    Slice<MemberCommentSummary> findWithMemberAllByFeedIdAndMemberId(String feedId, String memberId, Pageable pageable);
 }

@@ -176,6 +176,28 @@ public class CommentSteps {
         return 피드별_댓글을_조회한다(feedId, spec, "1", "5");
     }
 
+    public static ExtractableResponse<Response> 페이지_적용_피드별_댓글을_조회한다(String accessToken, String feedId,
+            RequestSpecification spec) {
+        return 피드별_댓글을_조회한다(accessToken, feedId, spec, "1", "5");
+    }
+
+    public static ExtractableResponse<Response> 피드별_댓글을_조회한다(String accessToken, String feedId,
+            RequestSpecification spec, String page,
+            String size) {
+        Map<String, String> params = new HashMap<>();
+        params.put("feedId", feedId);
+        params.put("page", page);
+        params.put("size", size);
+        return RestAssured.given().log().all().auth().oauth2(accessToken)
+                .spec(spec)
+                .params(params)
+                .when()
+                .get("/api/comments")
+                .then()
+                .log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> 피드별_댓글을_조회한다(String feedId, RequestSpecification spec, String page,
             String size) {
         Map<String, String> params = new HashMap<>();

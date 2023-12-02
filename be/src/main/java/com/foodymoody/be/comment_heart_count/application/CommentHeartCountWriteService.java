@@ -1,6 +1,7 @@
 package com.foodymoody.be.comment_heart_count.application;
 
 import com.foodymoody.be.comment.domain.entity.CommentId;
+import com.foodymoody.be.comment_heart_count.domain.CommentHeartCount;
 import com.foodymoody.be.comment_heart_count.domain.CommentHeartCountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,5 +23,10 @@ public class CommentHeartCountWriteService {
     @Transactional
     public void decrement(CommentId commentId) {
         repository.decrementCount(commentId);
+    }
+
+    @Transactional
+    public void save(CommentHeartCount commentHeartCount) {
+        repository.save(commentHeartCount);
     }
 }

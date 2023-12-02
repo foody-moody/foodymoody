@@ -36,4 +36,9 @@ public class CommentRepositoryImpl implements CommentRepository {
     public boolean existsById(CommentId commentId) {
         return commentJpaRepository.existsById(commentId);
     }
+
+    @Override
+    public Slice<MemberCommentSummary> findWithMemberAllByFeedId(String feedId, String memberId, Pageable pageable) {
+        return commentJpaRepository.findWithMemberAllByFeedIdAndMemberId(feedId, memberId, pageable);
+    }
 }

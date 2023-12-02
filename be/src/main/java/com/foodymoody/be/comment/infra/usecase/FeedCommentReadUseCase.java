@@ -1,5 +1,6 @@
 package com.foodymoody.be.comment.infra.usecase;
 
+import com.foodymoody.be.comment.application.CommentMapper;
 import com.foodymoody.be.comment.application.FeedCommentReadService;
 import com.foodymoody.be.comment.application.dto.response.MemberCommentSummaryResponse;
 import com.foodymoody.be.feed.service.FeedService;
@@ -17,6 +18,11 @@ public class FeedCommentReadUseCase {
 
     public Slice<MemberCommentSummaryResponse> fetchComments(String feedId, Pageable pageable) {
         feedService.validate(feedId);
-        return feedCommentReadService.fetchComments(feedId, pageable);
+        return CommentMapper.mapToSummaryResponse(feedCommentReadService.fetchComments(feedId, pageable));
+    }
+
+    public Slice<MemberCommentSummaryResponse> fetchComments(String feedId, Pageable pageable, String memberId) {
+        feedService.validate(feedId);
+        return CommentMapper.mapToSummaryResponse(feedCommentReadService.fetchComments(feedId, pageable, memberId));
     }
 }
