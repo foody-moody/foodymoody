@@ -2,6 +2,7 @@ package com.foodymoody.be.common.config;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,5 +15,10 @@ public class AppConfig {
     @Bean
     public ScheduledExecutorService scheduledExecutorService() {
         return Executors.newScheduledThreadPool(CORE_POOL_SIZE);
+    }
+
+    @Bean
+    public ThreadPoolExecutor threadPoolExecutor() {
+        return (ThreadPoolExecutor) Executors.newFixedThreadPool(CORE_POOL_SIZE);
     }
 }

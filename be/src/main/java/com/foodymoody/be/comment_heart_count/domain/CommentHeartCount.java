@@ -4,6 +4,7 @@ import com.foodymoody.be.comment.domain.entity.CommentId;
 import javax.persistence.AttributeOverride;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Version;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,8 @@ public class CommentHeartCount {
     @AttributeOverride(name = "value", column = @javax.persistence.Column(name = "comment_id"))
     private CommentId commentId;
     private long count;
+    @Version
+    private Long version;
 
     public CommentHeartCount(CommentHeartCountId id, CommentId commentId, long count) {
         this.id = id;
@@ -31,5 +34,13 @@ public class CommentHeartCount {
         if (this.count > 0) {
             this.count--;
         }
+    }
+
+    public long getCount() {
+        return this.count;
+    }
+
+    public Long getVersion() {
+        return version;
     }
 }
