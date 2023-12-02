@@ -1,10 +1,10 @@
 package com.foodymoody.be.comment.domain.entity;
 
-import com.foodymoody.be.common.event.NotificationEvent;
+import com.foodymoody.be.common.event.Event;
 import com.foodymoody.be.common.event.NotificationType;
 import java.time.LocalDateTime;
 
-public class CommentAddNotificationEvent implements NotificationEvent {
+public class CommentAddedEvent implements Event {
 
     private final String feedId;
     private final String content;
@@ -13,7 +13,7 @@ public class CommentAddNotificationEvent implements NotificationEvent {
     private final String memberId;
     private final LocalDateTime createdAt;
 
-    private CommentAddNotificationEvent(
+    private CommentAddedEvent(
             String feedId,
             String content,
             NotificationType notificationType,
@@ -29,14 +29,14 @@ public class CommentAddNotificationEvent implements NotificationEvent {
         this.createdAt = createdAt;
     }
 
-    public static CommentAddNotificationEvent of(
+    public static CommentAddedEvent of(
             String feedId,
             String content,
             CommentId commentId,
             String memberId,
             LocalDateTime createdAt
     ) {
-        return new CommentAddNotificationEvent(
+        return new CommentAddedEvent(
                 feedId,
                 content,
                 NotificationType.COMMENT_ADDED,

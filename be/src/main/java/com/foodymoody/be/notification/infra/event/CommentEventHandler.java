@@ -4,7 +4,7 @@ import static com.foodymoody.be.notification.infra.event.LinkMaker.makeFeedLink;
 import static com.foodymoody.be.notification.infra.event.MessageMaker.makeCommentAddMessage;
 import static com.foodymoody.be.notification.infra.event.NotificationMapper.toNotification;
 
-import com.foodymoody.be.comment.domain.entity.CommentAddNotificationEvent;
+import com.foodymoody.be.comment.domain.entity.CommentAddedEvent;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.service.FeedService;
 import com.foodymoody.be.member.domain.Member;
@@ -19,14 +19,14 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class CommentNotificationHandler {
+public class CommentEventHandler {
 
     private final NotificationWriteService notificationWriteService;
     private final MemberService memberService;
     private final FeedService feedService;
 
-    @EventListener(CommentAddNotificationEvent.class)
-    public void saveNotification(CommentAddNotificationEvent event) {
+    @EventListener(CommentAddedEvent.class)
+    public void saveNotification(CommentAddedEvent event) {
         NotificationId notificationId = NotificationIdFactory.newId();
         Member member = memberService.findById(event.getMemberId());
         Feed feed = feedService.findFeed(event.getFeedId());

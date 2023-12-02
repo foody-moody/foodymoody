@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.comment.util.CommentFixture;
-import com.foodymoody.be.common.event.NotificationEvents;
+import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import com.foodymoody.be.common.exception.ErrorMessage;
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ class CommentTest {
 
     @BeforeEach
     void setUp() {
-        NotificationEvents.setPublisher(event -> {
+        Events.setPublisher(event -> {
         });
     }
 
