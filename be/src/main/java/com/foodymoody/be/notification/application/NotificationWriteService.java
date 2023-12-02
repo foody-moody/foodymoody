@@ -2,7 +2,7 @@ package com.foodymoody.be.notification.application;
 
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
-import com.foodymoody.be.notification.infra.NotificationRepository;
+import com.foodymoody.be.notification.infra.presistence.jpa.NotificationJpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class NotificationWriteService {
 
-    private final NotificationRepository notificationRepository;
+    private final NotificationJpaRepository notificationRepository;
     private final NotificationMapper notificationMapper;
 
     @Transactional

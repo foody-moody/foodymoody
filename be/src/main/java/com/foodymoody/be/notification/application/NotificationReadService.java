@@ -5,7 +5,7 @@ import static com.foodymoody.be.notification.application.NotificationSpecs.isRea
 import static com.foodymoody.be.notification.application.NotificationSpecs.isToMemberSpec;
 
 import com.foodymoody.be.notification.domain.Notification;
-import com.foodymoody.be.notification.infra.NotificationRepository;
+import com.foodymoody.be.notification.domain.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
