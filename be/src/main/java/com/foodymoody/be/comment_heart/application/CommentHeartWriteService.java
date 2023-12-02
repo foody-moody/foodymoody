@@ -21,4 +21,9 @@ public class CommentHeartWriteService {
         CommentHeart commentHeart = new CommentHeart(commentHeartId, commentId, memberId);
         commentHeartRepository.save(commentHeart);
     }
+
+    @Transactional
+    public void deleteCommentHeart(CommentId commentId, String memberId) {
+        commentHeartRepository.deleteByCommentIdAndMemberId(commentId, memberId);
+    }
 }
