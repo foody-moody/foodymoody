@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-public class NotificationSettingController {
+public class NotificationSettingReadController {
 
     private final NotificationSettingReadService notificationSettingReadService;
 

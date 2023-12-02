@@ -49,4 +49,10 @@ public class NotificationSetting {
     public boolean isFeed() {
         return isFeed;
     }
+
+    public void update(boolean heart, boolean comment, boolean feed) {
+        this.isHeart = heart;
+        this.isComment = comment;
+        this.isFeed = feed;
+    }
 }
