@@ -1,8 +1,8 @@
 package com.foodymoody.be.notification.infra.event;
 
-import static com.foodymoody.be.notification.infra.event.LinkMaker.makeFeedLink;
-import static com.foodymoody.be.notification.infra.event.MessageMaker.makeCommentAddMessage;
-import static com.foodymoody.be.notification.infra.event.NotificationMapper.toNotification;
+import static com.foodymoody.be.notification.infra.event.util.LinkMaker.makeFeedLink;
+import static com.foodymoody.be.notification.infra.event.util.MessageMaker.makeCommentAddMessage;
+import static com.foodymoody.be.notification.infra.event.util.NotificationMapper.toNotification;
 
 import com.foodymoody.be.comment.domain.entity.CommentAddedEvent;
 import com.foodymoody.be.feed.domain.Feed;
@@ -22,17 +22,18 @@ import org.springframework.stereotype.Service;
 public class CommentEventHandler {
 
     private final NotificationWriteService notificationWriteService;
-    private final MemberService memberService;
     private final FeedService feedService;
+    private final MemberService memberService;
 
     @EventListener(CommentAddedEvent.class)
     public void saveNotification(CommentAddedEvent event) {
         NotificationId notificationId = NotificationIdFactory.newId();
-        Member member = memberService.findById(event.getMemberId());
         Feed feed = feedService.findFeed(event.getFeedId());
-        String message = makeCommentAddMessage(member);
+        Member member = memberService.findById(event.getMemberId());
+        String message = makeCommentAddMessage(member.getNickname());
         String link = makeFeedLink(feed.getId());
-        Notification notification = toNotification(event, notificationId, member, feed, link, message);
+        Notification notification = toNotification(notificationId, link, message, event.getMemberId(),
+                feed.getMemberId(), event.getNotificationType(), event.getCreatedAt());
         notificationWriteService.save(notification);
     }
 }

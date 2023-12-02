@@ -98,6 +98,11 @@ public class Comment {
     public void addReply(Reply reply) {
         this.replyComments.add(reply);
         this.hasReply = true;
+        Events.publish(toCommentRepliedAddedEvent(reply));
+    }
+
+    private Event toCommentRepliedAddedEvent(Reply reply) {
+        return CommentRepliedAddedEvent.of(id, memberId, reply.getMemberId(), reply.getContent(), reply.getCreatedAt());
     }
 
     private Event toCommentAddedEvent() {

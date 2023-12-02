@@ -21,14 +21,18 @@ public class NotificationReadService {
     private final NotificationRepository notificationRepository;
 
     public long fetchCountNotReadNotification(String memberId, Specification<Notification> specification) {
-        specification = specification.and(isReadSpec(false)).and(isDeletedSpec(false)).and(isToMemberSpec(memberId));
+        specification = specification
+                .and(isReadSpec(false))
+                .and(isDeletedSpec(false))
+                .and(isToMemberSpec(memberId));
         return notificationRepository.count(specification);
     }
 
     public Slice<Notification> requestAll(String memberId, Specification<Notification> notificationSpecification,
             Pageable pageable) {
-        notificationSpecification = notificationSpecification.and(isDeletedSpec(false))
+        notificationSpecification = notificationSpecification
                 .and(isReadSpec(false))
+                .and(isDeletedSpec(false))
                 .and(isToMemberSpec(memberId));
         return notificationRepository.findAll(notificationSpecification, pageable);
     }
