@@ -1,7 +1,5 @@
 package com.foodymoody.be.comment_heart.presentation;
 
-import com.foodymoody.be.comment.domain.entity.CommentId;
-import com.foodymoody.be.comment_heart.application.CommentHeartWriteService;
 import com.foodymoody.be.comment_heart.infra.usecase.CommentHeartWriteUseCase;
 import com.foodymoody.be.common.annotation.MemberId;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentHeartWriteController {
 
     private final CommentHeartWriteUseCase useCase;
-    private final CommentHeartWriteService service;
 
     @PostMapping("/api/comments/{commentId}/hearts")
     public ResponseEntity<Void> create(@PathVariable String commentId, @MemberId String memberId) {
@@ -27,7 +24,7 @@ public class CommentHeartWriteController {
 
     @DeleteMapping("/api/comments/{commentId}/hearts")
     public ResponseEntity<Void> delete(@PathVariable String commentId, @MemberId String memberId) {
-        service.deleteCommentHeart(new CommentId(commentId), memberId);
+        useCase.deleteCommentHeart(commentId, memberId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
