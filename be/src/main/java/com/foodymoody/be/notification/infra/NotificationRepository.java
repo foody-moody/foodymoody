@@ -7,11 +7,13 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface NotificationRepository extends JpaRepository<Notification, NotificationId> {
+public interface NotificationRepository extends JpaRepository<Notification, NotificationId>,
+        JpaSpecificationExecutor<Notification> {
 
     @Modifying
     @Query("UPDATE Notification _notification "
@@ -35,6 +37,4 @@ public interface NotificationRepository extends JpaRepository<Notification, Noti
             @Param("updatedAt") LocalDateTime updatedAt, @Param("memberId") String memberId);
 
     Slice<Notification> findAllByToMemberId(String toMemberId, Pageable pageable);
-
-    long countByToMemberIdAndIsRead(String memberId, boolean isRead);
 }

@@ -5,9 +5,11 @@ import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.notification.application.NotificationReadService;
+import com.foodymoody.be.notification.application.NotificationSpecs;
 import com.foodymoody.be.notification.application.NotificationWriteService;
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.presentation.dto.NotificationResponse;
+import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -20,6 +22,7 @@ public class NotificationUseCase {
 
     private final NotificationWriteService notificationWriteService;
     private final NotificationReadService notificationReadService;
+    private final NotificationSettingReadService notificationSettingReadService;
     private final ImageService imageService;
     private final MemberService memberService;
 
@@ -34,7 +37,12 @@ public class NotificationUseCase {
 
     @Transactional(readOnly = true)
     public Slice<NotificationResponse> requestAll(String memberId, Pageable pageable) {
-        Slice<Notification> notifications = notificationReadService.requestAll(memberId, pageable);
+        var notificationSettingSummary = notificationSettingReadService.request(memberId);
+        var notificationSpecification = NotificationSpecs.searchByType(
+                notificationSettingSummary.isComment(), notificationSettingSummary.isHeart(),
+                notificationSettingSummary.isFeed());
+        Slice<Notification> notifications = notificationReadService.requestAll(memberId, notificationSpecification,
+                pageable);
         return notifications.map(notification -> {
             Member member = memberService.findById(notification.getFromMemberId());
             Image image = imageService.findBy(member.getProfileImageId());

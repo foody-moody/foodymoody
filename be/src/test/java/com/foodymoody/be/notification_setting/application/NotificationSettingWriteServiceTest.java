@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@DisplayName("알림 설정 서비스")
 @SpringBootIntegrationTest
 class NotificationSettingWriteServiceTest {
 

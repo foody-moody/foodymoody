@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("SSE 관련 기능")
 class SseAcceptanceTest extends AcceptanceTest {
 
     @BeforeEach

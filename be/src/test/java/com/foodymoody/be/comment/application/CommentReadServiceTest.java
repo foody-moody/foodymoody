@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+@DisplayName("댓글 조회 서비스")
 @ExtendWith(MockitoExtension.class)
 class CommentReadServiceTest {
 

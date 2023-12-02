@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+@DisplayName("알람 도메인")
 class NotificationTest {
 
     @DisplayName("알람의 상태를 변경한다.")

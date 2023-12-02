@@ -11,6 +11,7 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("알림 설정 관련 기능")
 class NotificationSettingAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("회원아이디로 알림 설정을 조회한다.")
