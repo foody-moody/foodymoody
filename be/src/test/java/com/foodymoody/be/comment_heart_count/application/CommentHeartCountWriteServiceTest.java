@@ -11,6 +11,8 @@ import com.foodymoody.be.utils.SpringBootIntegrationTest;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadPoolExecutor;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,16 @@ class CommentHeartCountWriteServiceTest {
     private ThreadPoolExecutor threadPoolExecutor;
     @Autowired
     private CommentHeartCountJpaRepository commentHeartCountJpaRepository;
+
+    @BeforeEach
+    void setUp() {
+        commentHeartCountJpaRepository.deleteAll();
+    }
+
+    @AfterEach
+    void tearDown() {
+        commentHeartCountJpaRepository.deleteAll();
+    }
 
     @DisplayName("댓글 하트 카운트를 100번 비동기로 증가시키면 100번 증가한다.")
     @Test
