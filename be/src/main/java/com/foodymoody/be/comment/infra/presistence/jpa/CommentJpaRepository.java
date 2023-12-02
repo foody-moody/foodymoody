@@ -1,4 +1,4 @@
-package com.foodymoody.be.comment.infra.presistence;
+package com.foodymoody.be.comment.infra.presistence.jpa;
 
 import com.foodymoody.be.comment.application.dto.response.MemberCommentSummary;
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummary;

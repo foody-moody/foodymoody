@@ -5,7 +5,7 @@ import com.foodymoody.be.comment.application.dto.request.EditCommentRequest;
 import com.foodymoody.be.comment.application.dto.request.RegisterCommentRequest;
 import com.foodymoody.be.comment.application.dto.request.RegisterReplyRequest;
 import com.foodymoody.be.comment.domain.entity.CommentId;
-import com.foodymoody.be.comment.infra.CommentUseCase;
+import com.foodymoody.be.comment.infra.usecase.CommentUseCase;
 import com.foodymoody.be.common.annotation.MemberId;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;

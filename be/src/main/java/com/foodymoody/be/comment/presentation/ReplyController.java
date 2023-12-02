@@ -1,7 +1,7 @@
 package com.foodymoody.be.comment.presentation;
 
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummaryResponse;
-import com.foodymoody.be.comment.infra.MemberReplyUseCase;
+import com.foodymoody.be.comment.infra.usecase.MemberReplyUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

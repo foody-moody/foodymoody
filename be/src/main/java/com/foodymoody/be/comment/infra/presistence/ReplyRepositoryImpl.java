@@ -1,9 +1,9 @@
-package com.foodymoody.be.comment.infra;
+package com.foodymoody.be.comment.infra.presistence;
 
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummary;
 import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.comment.domain.repository.ReplyRepository;
-import com.foodymoody.be.comment.infra.presistence.CommentJpaRepository;
+import com.foodymoody.be.comment.infra.presistence.jpa.CommentJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

@@ -1,4 +1,4 @@
-package com.foodymoody.be.comment.infra;
+package com.foodymoody.be.comment.infra.usecase;
 
 import com.foodymoody.be.comment.application.FeedCommentReadService;
 import com.foodymoody.be.comment.application.dto.response.MemberCommentSummaryResponse;
