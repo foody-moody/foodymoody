@@ -7,6 +7,7 @@ import com.foodymoody.be.comment_heart_count.domain.CommentHeartCountRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -15,6 +16,7 @@ public class CommentHeartCountWriteService {
     public static final long START_INDEX = 1L;
     private final CommentHeartCountRepository repository;
 
+    @Transactional
     public void increment(CommentId commentId) {
         Optional<CommentHeartCount> heartCount = repository.findByCommentId(commentId);
         if (heartCount.isPresent()) {
@@ -24,6 +26,7 @@ public class CommentHeartCountWriteService {
         }
     }
 
+    @Transactional
     public void decrement(CommentId commentId) {
         Optional<CommentHeartCount> heartCount = repository.findByCommentId(commentId);
         if (heartCount.isPresent()) {
