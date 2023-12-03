@@ -5,9 +5,11 @@ import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.notification.application.NotificationReadService;
-import com.foodymoody.be.notification.application.NotificationSpecs;
+import com.foodymoody.be.notification.application.NotificationSummaryReadService;
+import com.foodymoody.be.notification.application.NotificationSummarySpecs;
 import com.foodymoody.be.notification.application.NotificationWriteService;
 import com.foodymoody.be.notification.domain.Notification;
+import com.foodymoody.be.notification.domain.NotificationSummary;
 import com.foodymoody.be.notification.presentation.dto.NotificationResponse;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class NotificationUseCase {
     private final NotificationSettingReadService notificationSettingReadService;
     private final ImageService imageService;
     private final MemberService memberService;
+    private final NotificationSummaryReadService notificationSummaryReadService;
 
     public NotificationResponse requestOne(String memberId, String notificationId) {
         Notification notification = notificationWriteService.read(notificationId);
@@ -36,19 +39,11 @@ public class NotificationUseCase {
     }
 
     @Transactional(readOnly = true)
-    public Slice<NotificationResponse> requestAll(String memberId, Pageable pageable) {
+    public Slice<NotificationSummary> requestAll(String memberId, Pageable pageable) {
         var notificationSettingSummary = notificationSettingReadService.request(memberId);
-        var notificationSpecification = NotificationSpecs.searchByType(
+        var specification = NotificationSummarySpecs.searchByType(
                 notificationSettingSummary.isComment(), notificationSettingSummary.isHeart(),
                 notificationSettingSummary.isFeed());
-        Slice<Notification> notifications = notificationReadService.requestAll(memberId, notificationSpecification,
-                pageable);
-        return notifications.map(notification -> {
-            Member member = memberService.findById(notification.getFromMemberId());
-            Image image = imageService.findBy(member.getProfileImageId());
-            return new NotificationResponse(notification.getId(), member.getMemberId(), member.getNickname(),
-                    image.getUrl(), notification.getLink(), notification.getMessage(),
-                    notification.getCreatedAt(), notification.getUpdatedAt());
-        });
+        return notificationSummaryReadService.requestAll(memberId, specification, pageable);
     }
 }

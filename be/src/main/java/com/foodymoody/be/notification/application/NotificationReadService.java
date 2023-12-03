@@ -7,8 +7,6 @@ import static com.foodymoody.be.notification.application.NotificationSpecs.isToM
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,14 +24,5 @@ public class NotificationReadService {
                 .and(isDeletedSpec(false))
                 .and(isToMemberSpec(memberId));
         return notificationRepository.count(specification);
-    }
-
-    public Slice<Notification> requestAll(String memberId, Specification<Notification> notificationSpecification,
-            Pageable pageable) {
-        notificationSpecification = notificationSpecification
-                .and(isReadSpec(false))
-                .and(isDeletedSpec(false))
-                .and(isToMemberSpec(memberId));
-        return notificationRepository.findAll(notificationSpecification, pageable);
     }
 }
