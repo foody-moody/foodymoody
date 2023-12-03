@@ -20,6 +20,9 @@ public class CommentHeartWriteUseCase {
     public void registerCommentHeart(String commentIdValue, String memberId) {
         CommentId commentId = new CommentId(commentIdValue);
         commentReadService.validate(commentId);
+        if (commentHeartWriteService.existsByCommentIdAndMemberId(commentId, memberId)) {
+            return;
+        }
         commentHeartWriteService.registerCommentHeart(commentId, memberId);
         commentHeartCountWriteService.increment(commentId);
     }
@@ -28,6 +31,9 @@ public class CommentHeartWriteUseCase {
     public void deleteCommentHeart(String commentIdValue, String memberId) {
         CommentId commentId = new CommentId(commentIdValue);
         commentReadService.validate(commentId);
+        if (!commentHeartWriteService.existsByCommentIdAndMemberId(commentId, memberId)) {
+            return;
+        }
         commentHeartWriteService.deleteCommentHeart(commentId, memberId);
         commentHeartCountWriteService.decrement(commentId);
     }

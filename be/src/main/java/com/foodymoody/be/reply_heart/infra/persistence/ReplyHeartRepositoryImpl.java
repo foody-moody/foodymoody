@@ -22,4 +22,9 @@ public class ReplyHeartRepositoryImpl implements ReplyHeartRepository {
     public void deleteByReplyIdAndMemberId(ReplyId replyId, String memberId) {
         repository.deleteByReplyIdAndMemberId(replyId, memberId);
     }
+
+    @Override
+    public boolean existsByReplyIdAndMemberId(ReplyId replyId, String memberId) {
+        return repository.existsByReplyIdAndMemberId(replyId, memberId);
+    }
 }

@@ -22,4 +22,9 @@ public class CommentHeartRepositoryImpl implements CommentHeartRepository {
     public void deleteByCommentIdAndMemberId(CommentId commentId, String memberId) {
         commentHeartJpaRepository.deleteByCommentIdAndMemberId(commentId, memberId);
     }
+
+    @Override
+    public boolean existsByCommentIdAndMemberId(CommentId commentId, String memberId) {
+        return commentHeartJpaRepository.existsByCommentIdAndMemberId(commentId, memberId);
+    }
 }

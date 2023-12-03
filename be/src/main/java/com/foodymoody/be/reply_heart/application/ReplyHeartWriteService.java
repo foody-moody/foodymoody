@@ -26,4 +26,8 @@ public class ReplyHeartWriteService {
     public void deleteReplyHeart(ReplyId replyId, String memberId) {
         replyHeartRepository.deleteByReplyIdAndMemberId(replyId, memberId);
     }
+
+    public boolean existsByReplyIdAndMemberId(ReplyId replyId, String memberId) {
+        return replyHeartRepository.existsByReplyIdAndMemberId(replyId, memberId);
+    }
 }

@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CommentHeartJpaRepository extends JpaRepository<CommentHeart, CommentHeartId> {
 
     void deleteByCommentIdAndMemberId(CommentId commentId, String memberId);
+
+    boolean existsByCommentIdAndMemberId(CommentId commentId, String memberId);
 }

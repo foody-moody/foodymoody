@@ -26,4 +26,8 @@ public class CommentHeartWriteService {
     public void deleteCommentHeart(CommentId commentId, String memberId) {
         commentHeartRepository.deleteByCommentIdAndMemberId(commentId, memberId);
     }
+
+    public boolean existsByCommentIdAndMemberId(CommentId commentId, String memberId) {
+        return commentHeartRepository.existsByCommentIdAndMemberId(commentId, memberId);
+    }
 }

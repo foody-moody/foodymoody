@@ -7,4 +7,6 @@ public interface ReplyHeartRepository {
     ReplyHeart save(ReplyHeart replyHeart);
 
     void deleteByReplyIdAndMemberId(ReplyId replyId, String memberId);
+
+    boolean existsByReplyIdAndMemberId(ReplyId replyId, String memberId);
 }

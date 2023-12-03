@@ -20,6 +20,9 @@ public class ReplyHeartWriteUseCase {
     public void registerReplyHeart(String replyIdValue, String memberId) {
         ReplyId replyId = new ReplyId(replyIdValue);
         replyReadService.validate(replyId);
+        if (replyHeartWriteService.existsByReplyIdAndMemberId(replyId, memberId)) {
+            return;
+        }
         replyHeartWriteService.registerReplyHeart(replyId, memberId);
         replyHeartCountWriteService.increment(replyId);
     }
@@ -28,6 +31,9 @@ public class ReplyHeartWriteUseCase {
     public void deleteReplyHeart(String replyIdValue, String memberId) {
         ReplyId replyId = new ReplyId(replyIdValue);
         replyReadService.validate(replyId);
+        if (!replyHeartWriteService.existsByReplyIdAndMemberId(replyId, memberId)) {
+            return;
+        }
         replyHeartWriteService.deleteReplyHeart(replyId, memberId);
         replyHeartCountWriteService.decrement(replyId);
     }

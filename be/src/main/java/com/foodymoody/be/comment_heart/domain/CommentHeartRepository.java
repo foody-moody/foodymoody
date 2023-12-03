@@ -7,4 +7,6 @@ public interface CommentHeartRepository {
     CommentHeart save(CommentHeart commentHeart);
 
     void deleteByCommentIdAndMemberId(CommentId commentId, String memberId);
+
+    boolean existsByCommentIdAndMemberId(CommentId commentId, String memberId);
 }
