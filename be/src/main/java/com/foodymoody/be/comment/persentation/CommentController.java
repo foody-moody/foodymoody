@@ -1,4 +1,4 @@
-package com.foodymoody.be.comment.presentation;
+package com.foodymoody.be.comment.persentation;
 
 import com.foodymoody.be.comment.application.CommentWriteService;
 import com.foodymoody.be.comment.application.dto.request.EditCommentRequest;

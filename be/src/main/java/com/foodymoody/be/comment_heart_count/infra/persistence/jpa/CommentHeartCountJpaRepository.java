@@ -1,4 +1,4 @@
-package com.foodymoody.be.comment_heart_count.infra.presistence.jpa;
+package com.foodymoody.be.comment_heart_count.infra.persistence.jpa;
 
 import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.comment_heart_count.domain.CommentHeartCount;

@@ -2,7 +2,7 @@ package com.foodymoody.be.notification.application;
 
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
-import com.foodymoody.be.notification.infra.presistence.jpa.NotificationJpaRepository;
+import com.foodymoody.be.notification.infra.persistence.jpa.NotificationJpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

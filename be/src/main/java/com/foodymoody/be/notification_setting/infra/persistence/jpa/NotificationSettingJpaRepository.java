@@ -1,4 +1,4 @@
-package com.foodymoody.be.notification_setting.infra.presistence.jpa;
+package com.foodymoody.be.notification_setting.infra.persistence.jpa;
 
 import com.foodymoody.be.notification_setting.domain.NotificationSetting;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingId;

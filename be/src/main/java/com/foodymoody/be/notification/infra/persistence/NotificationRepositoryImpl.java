@@ -1,8 +1,8 @@
-package com.foodymoody.be.notification.infra.presistence;
+package com.foodymoody.be.notification.infra.persistence;
 
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationRepository;
-import com.foodymoody.be.notification.infra.presistence.jpa.NotificationJpaRepository;
+import com.foodymoody.be.notification.infra.persistence.jpa.NotificationJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

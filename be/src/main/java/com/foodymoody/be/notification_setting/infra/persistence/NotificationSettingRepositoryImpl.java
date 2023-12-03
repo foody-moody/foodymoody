@@ -1,9 +1,9 @@
-package com.foodymoody.be.notification_setting.infra.presistence;
+package com.foodymoody.be.notification_setting.infra.persistence;
 
 import com.foodymoody.be.notification_setting.domain.NotificationSetting;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingRepository;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingSummary;
-import com.foodymoody.be.notification_setting.infra.presistence.jpa.NotificationSettingJpaRepository;
+import com.foodymoody.be.notification_setting.infra.persistence.jpa.NotificationSettingJpaRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

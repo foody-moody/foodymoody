@@ -1,9 +1,9 @@
-package com.foodymoody.be.comment_heart.infra.presistence;
+package com.foodymoody.be.comment_heart.infra.persistence;
 
 import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.comment_heart.domain.CommentHeart;
 import com.foodymoody.be.comment_heart.domain.CommentHeartRepository;
-import com.foodymoody.be.comment_heart.infra.presistence.jpa.CommentHeartJpaRepository;
+import com.foodymoody.be.comment_heart.infra.persistence.jpa.CommentHeartJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

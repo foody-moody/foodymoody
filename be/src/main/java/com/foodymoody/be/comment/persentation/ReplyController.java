@@ -1,4 +1,4 @@
-package com.foodymoody.be.comment.presentation;
+package com.foodymoody.be.comment.persentation;
 
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummaryResponse;
 import com.foodymoody.be.comment.infra.usecase.MemberReplyUseCase;
