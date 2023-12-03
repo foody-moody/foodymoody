@@ -26,7 +26,7 @@ public class CommentRepliedEventHandler {
     @EventListener(CommentRepliedAddedEvent.class)
     public void saveNotification(CommentRepliedAddedEvent event) {
         NotificationId notificationId = NotificationIdFactory.newId();
-        String link = LinkMaker.makeCommentLink(event.getId());
+        String link = LinkMaker.makeCommentLink(event.getCommentId());
         Member member = memberService.findById(event.getFromMemberId());
         String message = MessageMaker.makeRepliedAddedMessage(member.getNickname());
         Notification notification = toNotification(notificationId, link, message, event.getFromMemberId(),

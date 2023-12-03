@@ -159,7 +159,11 @@ public class CommentSteps {
                 .extract();
     }
 
-    // 댓글의_댓글을_조회한다
+
+    public static ExtractableResponse<Response> 댓글의_댓글을_조회한다(String commentId) {
+        return 댓글의_댓글을_조회한다(commentId, new RequestSpecBuilder().build());
+    }
+
     public static ExtractableResponse<Response> 댓글의_댓글을_조회한다(String commentId, RequestSpecification spec) {
         return RestAssured.given().spec(spec).log().all()
                 .params(Map.of("page", "0", "size", "10"))
