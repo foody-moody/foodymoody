@@ -22,6 +22,12 @@ public class ReplyRepositoryImpl implements ReplyRepository {
     }
 
     @Override
+    public Slice<MemberReplySummary> findByCommentIdAndMemberId(CommentId commentId, String memberId,
+            Pageable pageable) {
+        return replyJpaRepository.findReplyByCommentIdAndMemberId(commentId, memberId, pageable);
+    }
+
+    @Override
     public boolean existsById(ReplyId replyId) {
         return replyJpaRepository.existsById(replyId);
     }

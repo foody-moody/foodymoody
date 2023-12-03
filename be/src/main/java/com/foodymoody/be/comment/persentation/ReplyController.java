@@ -2,6 +2,7 @@ package com.foodymoody.be.comment.persentation;
 
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummaryResponse;
 import com.foodymoody.be.comment.infra.usecase.MemberReplyUseCase;
+import com.foodymoody.be.common.annotation.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -19,10 +20,16 @@ public class ReplyController {
     private final MemberReplyUseCase memberReplyUseCase;
 
     @GetMapping("/api/comments/{id}/replies")
-    public ResponseEntity<Slice<MemberReplySummaryResponse>> fetchAllReply(@PathVariable String id,
-            @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Slice<MemberReplySummaryResponse>> fetchAllReply(
+            @PathVariable String id,
+            @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable,
+            @MemberId String memberId
+    ) {
+        if (memberId != null) {
+            var allReplay = memberReplyUseCase.fetchAllReplyByMemberId(id, memberId, pageable);
+            return ResponseEntity.ok(allReplay);
+        }
         var allReplay = memberReplyUseCase.fetchAllReply(id, pageable);
         return ResponseEntity.ok(allReplay);
     }
-
 }

@@ -24,6 +24,14 @@ public class ReplyReadService {
         return commentMapper.toReplySummaryResponse(memberReplySummaries);
     }
 
+    @Transactional(readOnly = true)
+    public Slice<MemberReplySummaryResponse> fetchAllReplyByMemberId(CommentId commentId, String memberId,
+            Pageable pageable) {
+        Slice<MemberReplySummary> memberReplySummaries = replyRepository.findByCommentIdAndMemberId(commentId, memberId,
+                pageable);
+        return commentMapper.toReplySummaryResponse(memberReplySummaries);
+    }
+
     public void validate(ReplyId replyId) {
         replyRepository.existsById(replyId);
     }

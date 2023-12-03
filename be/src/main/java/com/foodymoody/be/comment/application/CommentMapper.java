@@ -52,8 +52,8 @@ public class CommentMapper {
                         summary.getContent(),
                         summary.getCreatedAt(),
                         summary.getUpdatedAt(),
-                        new MemberSummaryResponse(summary.getMemberId(), summary.getNickname(), summary.getImageUrl())
-                )
+                        new MemberSummaryResponse(summary.getMemberId(), summary.getNickname(), summary.getImageUrl()),
+                        summary.getHeartCount(), summary.isHearted())
         );
     }
 }

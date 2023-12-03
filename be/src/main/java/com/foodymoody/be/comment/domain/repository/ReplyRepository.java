@@ -10,5 +10,7 @@ public interface ReplyRepository {
 
     Slice<MemberReplySummary> findByCommentId(CommentId commentId, Pageable pageable);
 
+    Slice<MemberReplySummary> findByCommentIdAndMemberId(CommentId commentId, String memberId, Pageable pageable);
+
     boolean existsById(ReplyId replyId);
 }

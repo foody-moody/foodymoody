@@ -18,4 +18,9 @@ public class MemberReplyUseCase {
         var commentId = new CommentId(id);
         return replyReadService.fetchAllReply(commentId, pageable);
     }
+
+    public Slice<MemberReplySummaryResponse> fetchAllReplyByMemberId(String id, String memberId, Pageable pageable) {
+        var commentId = new CommentId(id);
+        return replyReadService.fetchAllReplyByMemberId(commentId, memberId, pageable);
+    }
 }
