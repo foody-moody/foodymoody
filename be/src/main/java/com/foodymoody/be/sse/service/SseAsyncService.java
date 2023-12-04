@@ -1,8 +1,11 @@
 package com.foodymoody.be.sse.service;
 
-import com.foodymoody.be.notification.application.NotificationReadService;
+import com.foodymoody.be.notification.infra.usecase.NotificationSseReadUseCase;
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -14,7 +17,11 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @Component
 public class SseAsyncService {
 
-    private final NotificationReadService notificationReadService;
+    public static final int MIN_COUNT = 0;
+    public static final int DELAY_SECONDS = 1;
+    public static final int INITIAL_DELAY_SECONDS = 0;
+    private final NotificationSseReadUseCase useCase;
+    private final ScheduledExecutorService scheduledExecutorService;
 
     @Async
     public void sendSseEvents(String memberId, Map<String, SseEmitter> emitters) {
@@ -24,37 +31,25 @@ public class SseAsyncService {
             return;
         }
 
-        try {
-            configureEmitter(emitter, memberId, emitters);
-            while (emitters.containsKey(memberId)) {
-                long count = notificationReadService.countByMemberId(memberId);
-                emitter.send(SseEmitter.event().name("notification").id(memberId).data(count));
-                Thread.sleep(1000); // 1초 지연
+        final ScheduledFuture<?> scheduledTask = scheduledExecutorService.scheduleWithFixedDelay(() -> {
+            if (!emitters.containsKey(memberId)) {
+                return;
             }
-        } catch (IOException e) {
-            log.error("Error sending SSE for member {}", memberId, e);
-            emitter.completeWithError(e);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            log.error("Interrupted while sending SSE for member {}", memberId, e);
-        } finally {
-            emitter.complete();
-            emitters.remove(memberId);
-        }
-    }
 
-    private void configureEmitter(SseEmitter emitter, String memberId, Map<String, SseEmitter> emitters) {
-        emitter.onCompletion(() -> {
-            log.info("SSE completed for member {}", memberId);
-            emitters.remove(memberId);
-        });
-        emitter.onTimeout(() -> {
-            log.info("SSE timeout for member {}", memberId);
-            emitters.remove(memberId);
-        });
-        emitter.onError(e -> {
-            log.error("SSE error for member {}: {}", memberId, e.getMessage());
-            emitters.remove(memberId);
-        });
+            try {
+                long count = useCase.fetchCountNotReadNotification(memberId);
+                if (count > MIN_COUNT) {
+                    SseResponse sseResponse = new SseResponse(count);
+                    emitter.send(SseEmitter.event().name("notification").id(memberId).data(sseResponse));
+                }
+            } catch (IOException e) {
+                log.error("Error sending SSE for member {}", memberId, e);
+                emitter.completeWithError(e);
+            }
+        }, INITIAL_DELAY_SECONDS, DELAY_SECONDS, TimeUnit.SECONDS);
+
+        emitter.onCompletion(() -> scheduledTask.cancel(true));
+        emitter.onTimeout(() -> scheduledTask.cancel(true));
+        emitter.onError(e -> scheduledTask.cancel(true));
     }
 }

@@ -18,4 +18,12 @@ public class CommentReadService {
     public Comment fetchById(CommentId id) {
         return commentRepository.findById(id).orElseThrow(CommentNotExistsException::new);
     }
+
+    @Transactional(readOnly = true)
+    public void validate(CommentId commentId) {
+        if (commentRepository.existsById(commentId)) {
+            return;
+        }
+        throw new CommentNotExistsException();
+    }
 }

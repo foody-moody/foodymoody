@@ -1,7 +1,9 @@
 package com.foodymoody.be.member.domain;
 
+import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.IncorrectMemberPasswordException;
 import com.foodymoody.be.common.exception.InvalidReconfirmPasswordException;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -28,6 +30,8 @@ public class Member {
         this.nickname = nickname;
         this.password = password;
         this.tasteMoodId = moodId;
+        this.profileImageId = "1";
+        Events.publish(toMemberCreatedEvent());
     }
 
     public static Member of(String id, String email, String nickname, String password, String reconfirmPassword, String moodId) {
@@ -65,6 +69,10 @@ public class Member {
         if (Objects.isNull(password) || !Objects.equals(password, this.password)) {
             throw new IncorrectMemberPasswordException();
         }
+    }
+
+    private MemberCreatedEvent toMemberCreatedEvent() {
+        return MemberCreatedEvent.of(id, email, nickname, profileImageId, tasteMoodId, LocalDateTime.now());
     }
 
     //    TODO 프로필 이미지 기능 구현
