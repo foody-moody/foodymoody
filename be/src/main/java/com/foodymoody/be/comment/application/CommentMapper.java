@@ -28,7 +28,10 @@ public class CommentMapper {
                         summary.getCreatedAt(),
                         summary.getUpdatedAt(),
                         new MemberSummaryResponse(summary.getMemberId(), summary.getNickname(), summary.getImageUrl()),
-                        summary.isHasReply(), summary.getReplyCount()
+                        summary.isHasReply(),
+                        summary.getReplyCount(),
+                        summary.getHeartCount(),
+                        summary.isHearted()
                 )
         );
     }
@@ -49,8 +52,8 @@ public class CommentMapper {
                         summary.getContent(),
                         summary.getCreatedAt(),
                         summary.getUpdatedAt(),
-                        new MemberSummaryResponse(summary.getMemberId(), summary.getNickname(), summary.getImageUrl())
-                )
+                        new MemberSummaryResponse(summary.getMemberId(), summary.getNickname(), summary.getImageUrl()),
+                        summary.getHeartCount(), summary.isHearted())
         );
     }
 }

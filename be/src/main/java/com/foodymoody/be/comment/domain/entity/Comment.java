@@ -1,6 +1,7 @@
 package com.foodymoody.be.comment.domain.entity;
 
-import com.foodymoody.be.common.event.NotificationEvents;
+import com.foodymoody.be.common.event.Event;
+import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,7 +37,7 @@ public class Comment {
         this.memberId = memberId;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-        NotificationEvents.publish(CommentAddNotificationEvent.of(feedId, content, id, memberId, createdAt));
+        Events.publish(toCommentAddedEvent());
     }
 
     public CommentId getId() {
@@ -97,5 +98,15 @@ public class Comment {
     public void addReply(Reply reply) {
         this.replyComments.add(reply);
         this.hasReply = true;
+        Events.publish(toCommentRepliedAddedEvent(reply));
+    }
+
+    private Event toCommentRepliedAddedEvent(Reply reply) {
+        return CommentRepliedAddedEvent.of(id, reply.getId(), memberId, reply.getMemberId(), reply.getContent(),
+                reply.getCreatedAt());
+    }
+
+    private Event toCommentAddedEvent() {
+        return CommentAddedEvent.of(feedId, content, id, memberId, createdAt);
     }
 }

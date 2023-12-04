@@ -1,7 +1,8 @@
 package com.foodymoody.be.notification.presentation;
 
 import com.foodymoody.be.common.annotation.MemberId;
-import com.foodymoody.be.notification.application.NotificationReadService;
+import com.foodymoody.be.notification.domain.NotificationSummary;
+import com.foodymoody.be.notification.infra.usecase.NotificationUseCase;
 import com.foodymoody.be.notification.presentation.dto.NotificationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -16,19 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class NotificationReadController {
 
-    private final NotificationReadService notificationReadService;
+    private final NotificationUseCase notificationUseCase;
 
     @GetMapping("/api/notifications")
-    public ResponseEntity<Slice<NotificationResponse>> requestAll(@MemberId String memberId,
+    public ResponseEntity<Slice<NotificationSummary>> requestAll(@MemberId String memberId,
             @PageableDefault Pageable pageable) {
-        Slice<NotificationResponse> notifications = notificationReadService.requestAll(memberId, pageable);
-        return ResponseEntity.ok(notifications);
+        Slice<NotificationSummary> notificationResponses = notificationUseCase.requestAll(memberId, pageable);
+        return ResponseEntity.ok(notificationResponses);
     }
 
     @GetMapping("/api/notifications/{notificationId}")
     public ResponseEntity<NotificationResponse> requestOne(@MemberId String memberId,
             @PathVariable String notificationId) {
-        NotificationResponse notification = notificationReadService.requestOne(memberId, notificationId);
+        NotificationResponse notification = notificationUseCase.requestOne(memberId, notificationId);
         return ResponseEntity.ok(notification);
     }
 }

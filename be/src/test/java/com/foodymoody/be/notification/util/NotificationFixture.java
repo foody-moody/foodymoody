@@ -1,6 +1,6 @@
 package com.foodymoody.be.notification.util;
 
-import com.foodymoody.be.comment.domain.entity.CommentAddNotificationEvent;
+import com.foodymoody.be.comment.domain.entity.CommentAddedEvent;
 import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.notification.domain.Notification;
@@ -25,8 +25,8 @@ public class NotificationFixture {
     public static final String FEED_ID = "1";
     public static final CommentId COMMENT_ID = new CommentId("1");
 
-    public static CommentAddNotificationEvent commentAddNotificationEvent() {
-        return CommentAddNotificationEvent.of(FEED_ID, NOTIFICATION_MESSAGE, COMMENT_ID, MEMBER_ID,
+    public static CommentAddedEvent commentAddNotificationEvent() {
+        return CommentAddedEvent.of(FEED_ID, NOTIFICATION_MESSAGE, COMMENT_ID, MEMBER_ID,
                 NotificationFixture.CREATE_AT);
     }
 
@@ -39,7 +39,7 @@ public class NotificationFixture {
     }
 
     public static Notification notification(NotificationId id) {
-        return new Notification(id, MEMBER_ID, NOTIFICATION_MESSAGE,
+        return new Notification(id, "2", MEMBER_ID, "https://foodymoody.com/api/1", NOTIFICATION_MESSAGE,
                 NotificationType.COMMENT_ADDED, false, false, CREATE_AT, UPDATE_AT);
     }
 

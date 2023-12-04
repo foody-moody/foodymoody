@@ -14,6 +14,10 @@ public interface MemberReplySummary {
 
     String getImageUrl();
 
+    long getHeartCount();
+
+    boolean isHearted();
+
     LocalDateTime getCreatedAt();
 
     LocalDateTime getUpdatedAt();

@@ -14,6 +14,6 @@ public class EventsConfiguration {
 
     @Bean
     public InitializingBean notificationEventsInitializer() {
-        return () -> NotificationEvents.setPublisher(applicationContext);
+        return () -> Events.setPublisher(applicationContext);
     }
 }

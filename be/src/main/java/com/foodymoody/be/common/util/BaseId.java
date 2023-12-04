@@ -2,6 +2,7 @@ package com.foodymoody.be.common.util;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 public abstract class BaseId implements Serializable {
 
     private static final long serialVersionUID = 536871008L;
+    @Column(name = "id")
     @JsonProperty("id")
     protected String value;
 

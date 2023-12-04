@@ -2,7 +2,7 @@ package com.foodymoody.be.notification.application;
 
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
-import com.foodymoody.be.notification.infra.NotificationRepository;
+import com.foodymoody.be.notification.infra.persistence.jpa.NotificationJpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class NotificationWriteService {
 
-    private final NotificationRepository notificationRepository;
+    private final NotificationJpaRepository notificationRepository;
+    private final NotificationMapper notificationMapper;
 
     @Transactional
     public void save(Notification notification) {
@@ -22,14 +23,14 @@ public class NotificationWriteService {
 
     @Transactional
     public void changeStatus(String memberId, String notificationId, boolean isRead) {
-        Notification notification = getNotification(notificationId);
+        Notification notification = this.getNotification(notificationId);
         var updatedAt = LocalDateTime.now();
         notification.changeStatus(isRead, memberId, updatedAt);
     }
 
     @Transactional
     public void delete(String memberId, String notificationId) {
-        Notification notification = getNotification(notificationId);
+        Notification notification = this.getNotification(notificationId);
         LocalDateTime updatedAt = LocalDateTime.now();
         notification.delete(memberId, updatedAt);
     }
@@ -42,16 +43,23 @@ public class NotificationWriteService {
     @Transactional
     public void changeAllStatus(String memberId, List<String> notificationIds, boolean read) {
         notificationRepository.updateAllStatus(read, memberId, LocalDateTime.now(),
-                NotificationMapper.toNotificationID(notificationIds));
+                notificationMapper.toNotificationID(notificationIds));
     }
 
     @Transactional
     public void deleteAll(String memberId, List<String> notificationIds) {
-        notificationRepository.deleteAllByIdIn(NotificationMapper.toNotificationID(notificationIds),
+        notificationRepository.deleteAllByIdIn(notificationMapper.toNotificationID(notificationIds),
                 LocalDateTime.now(), memberId);
     }
 
     public Notification getNotification(String notificationId) {
         return notificationRepository.findById(NotificationIdFactory.from(notificationId)).orElseThrow();
+    }
+
+    @Transactional
+    public Notification read(String notificationId) {
+        Notification notification = this.getNotification(notificationId);
+        notification.changeStatus(true, notification.getToMemberId(), LocalDateTime.now());
+        return notification;
     }
 }

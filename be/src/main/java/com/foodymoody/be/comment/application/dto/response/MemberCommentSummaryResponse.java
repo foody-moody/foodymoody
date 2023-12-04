@@ -1,7 +1,9 @@
 package com.foodymoody.be.comment.application.dto.response;
 
 import java.time.LocalDateTime;
+import lombok.Getter;
 
+@Getter
 public class MemberCommentSummaryResponse {
 
     private String id;
@@ -10,10 +12,12 @@ public class MemberCommentSummaryResponse {
     private LocalDateTime updatedAt;
     private MemberSummaryResponse member;
     private boolean hasReply;
-    private int replyCount;
+    private long replyCount;
+    private long heartCount;
+    private boolean hearted;
 
     public MemberCommentSummaryResponse(String id, String content, LocalDateTime createdAt, LocalDateTime updatedAt,
-            MemberSummaryResponse member, boolean hasReply, int replyCount) {
+            MemberSummaryResponse member, boolean hasReply, long replyCount, long heartCount, boolean hearted) {
         this.id = id;
         this.content = content;
         this.createdAt = createdAt;
@@ -21,33 +25,7 @@ public class MemberCommentSummaryResponse {
         this.member = member;
         this.hasReply = hasReply;
         this.replyCount = replyCount;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public MemberSummaryResponse getMember() {
-        return member;
-    }
-
-    public boolean isHasReply() {
-        return hasReply;
-    }
-
-    public int getReplyCount() {
-        return replyCount;
+        this.heartCount = heartCount;
+        this.hearted = hearted;
     }
 }
