@@ -362,6 +362,19 @@ class CommentAcceptanceTest extends AcceptanceTest {
             페이지_적용_조회_검증(response);
         }
 
+        @DisplayName("accessToken와 함께 댓글 조회 요청시 패이지와 사이즈 정보를 넣으면 해당 페이지와 사이즈의 댓글을 조회한다.그리고 좋아요 여부를 반환한다")
+        @Test
+        void when_fetch_comments_if_page_and_size_exists_with_access_token_then_return_page_and_size() {
+            // docs
+            api_문서_타이틀("comments_fetch_with_with_access_token_success", spec);
+
+            // when
+            var response = 페이지_적용_피드별_댓글을_조회한다(회원아티_액세스토큰, feedId, spec);
+
+            // then
+            페이지_적용_조회_검증(response);
+        }
+
         @DisplayName("댓글 조회 요청시 성공하면 응답코드 200을 응답한다")
         @Test
         void when_fetch_comments_if_success_then_return_code_200() {

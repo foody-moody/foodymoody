@@ -21,5 +21,9 @@ public interface MemberCommentSummary {
 
     boolean isHasReply();
 
-    int getReplyCount();
+    long getReplyCount();
+
+    long getHeartCount();
+
+    boolean isHearted();
 }
