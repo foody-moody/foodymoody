@@ -238,54 +238,6 @@ operation::fetchMemberFeedsEmpty_success[snippets='http-response']
 
 operation::fetchAllTasteMoods_success[snippets='http-request,http-response']
 
-[[mood]]
-== 무드
-
-=== 무드 조회
-
-==== 성공
-
-operation::fetchSliceMood_success[snippets='http-request,http-response']
-
-==== 성공 - 페이징
-
-operation::fetchSliceMood_whenPageAndSizeExists_success[snippets='http-request,http-response']
-
-=== 무드 랜덤 조회
-
-==== 성공
-
-operation::fetchRandomMood_success[snippets='http-request,http-response']
-
-==== 성공 - DB에 무드가 없을 때
-
-operation::fetchRandomMood_whenMoodNotExists_success[snippets='http-response']
-
-==== 요청의 쿼리 파라미터에 count가 없을 때
-
-operation::fetchRandomMood_failedByCountNull[snippets='http-request,http-response']
-
-=== 무드 추가
-
-==== 성공
-
-operation::registerMood_success[snippets='http-request,http-response']
-
-==== 이미 존재하는 무드일 때
-
-operation::registerMood_failedByDuplicateName[snippets='http-response']
-
-==== 요청으로 받은 무드가 null일 때
-
-operation::registerMood_failedByNullName[snippets='http-response']
-
-=== 개별 무드 조회
-
-==== 성공
-
-operation::findMoodyById_success[snippets='http-request,http-response']
-
-
 [[notification]]
 == 알람
 
@@ -337,7 +289,7 @@ operation::notification_delete_notification_list_success[snippets='http-request,
 
 ==== 성공
 
-operation::notificaiton_setting_request_success[snippets='http-request,http-response']
+operation::notification_setting_request_success[snippets='http-request,http-response']
 
 === 알람 설정 변경
 

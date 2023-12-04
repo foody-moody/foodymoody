@@ -8,10 +8,17 @@ import com.foodymoody.be.heart.dto.response.HeartResponse;
 import com.foodymoody.be.heart.repository.HeartRepository;
 import com.foodymoody.be.heart.util.HeartMapper;
 import com.foodymoody.be.member.service.MemberService;
+import javax.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class HeartService {
 
@@ -19,6 +26,8 @@ public class HeartService {
     private final MemberService memberService;
     private final FeedService feedService;
 
+    @Transactional
+    @Lock(LockModeType.OPTIMISTIC)
     public HeartResponse like(HeartServiceRequest request) {
         if (isHeartExist(request)) {
             throw new IllegalArgumentException("이미 좋아요 누른 피드입니다.");
@@ -33,7 +42,8 @@ public class HeartService {
 
         Heart savedHeart = heartRepository.save(heart);
 
-        Feed feed = updateFeed(feedId, true);
+        // TODO: 스케쥴러 사용해서 이 피드에 대한 좋아요 수를 가져와서 업그레이드 해야 함
+        Feed feed = updateFeed(feedId, heart.getCount());
 
         return HeartMapper.toHeartResponse(savedHeart, feed.isLiked());
     }
@@ -44,6 +54,7 @@ public class HeartService {
                 .isPresent();
     }
 
+    @Transactional
     public void unLike(HeartServiceRequest request) {
         String feedId = request.getFeedId();
         String memberId = memberService.findById(request.getMemberId()).getMemberId();
@@ -51,14 +62,13 @@ public class HeartService {
         Heart heart = findHeart(memberId, feedId);
         heartRepository.delete(heart);
 
-        updateFeed(feedId, false);
+        updateFeed(feedId, 0);
     }
 
-    private Feed updateFeed(String feedId, boolean flag) {
+    private Feed updateFeed(String feedId, int heartCount) {
         Feed feed = feedService.findFeed(feedId);
-        feed.updateIsLikedBy(flag);
-        // TODO: 5초에 한번씩 한꺼번에 업데이트하도록 하기
-        feed.updateLikeCountBy(flag);
+        feed.updateIsLikedBy(heartCount);
+        feed.updateLikeCountBy(heartCount);
 
         return feed;
     }
