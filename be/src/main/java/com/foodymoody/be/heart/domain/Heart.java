@@ -2,6 +2,7 @@ package com.foodymoody.be.heart.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 @Entity
 public class Heart {
@@ -11,6 +12,9 @@ public class Heart {
     private String feedId;
     private String memberId;
     private int count;
+
+    @Version
+    private Long version; // 낙관적 락
 
     public Heart() {
     }
