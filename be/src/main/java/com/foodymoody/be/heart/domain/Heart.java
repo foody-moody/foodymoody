@@ -41,8 +41,8 @@ public class Heart {
         return count;
     }
 
-    public void updateCount() {
-        this.count += 1;
+    public Long getVersion() {
+        return version;
     }
 
 }

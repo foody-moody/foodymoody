@@ -8,11 +8,8 @@ import com.foodymoody.be.heart.dto.response.HeartResponse;
 import com.foodymoody.be.heart.repository.HeartRepository;
 import com.foodymoody.be.heart.util.HeartMapper;
 import com.foodymoody.be.member.service.MemberService;
-import javax.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.OptimisticLockingFailureException;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,31 +24,23 @@ public class HeartService {
     private final FeedService feedService;
 
     @Transactional
-    @Lock(LockModeType.OPTIMISTIC)
     public HeartResponse like(HeartServiceRequest request) {
-        if (isHeartExist(request)) {
+        String memberId = request.getMemberId();
+        String feedId = request.getFeedId();
+
+        memberService.validateIdExists(memberId);
+
+        if (existsHeart(memberId, feedId)) {
             throw new IllegalArgumentException("이미 좋아요 누른 피드입니다.");
         }
 
-        String feedId = request.getFeedId();
-        String memberId = memberService.findById(request.getMemberId()).getMemberId();
+        heartRepository.save(HeartMapper.toHeartWithFeedIdAndMemberId(feedId, memberId));
+        heartRepository.incrementCount(feedId);
 
-        Heart heart = HeartMapper.toHeartWithFeedIdAndMemberId(feedId,
-                memberId);
-        heart.updateCount();
-
-        Heart savedHeart = heartRepository.save(heart);
-
-        // TODO: 스케쥴러 사용해서 이 피드에 대한 좋아요 수를 가져와서 업그레이드 해야 함
+        Heart heart = findHeart(memberId, feedId);
         Feed feed = updateFeed(feedId, heart.getCount());
 
-        return HeartMapper.toHeartResponse(savedHeart, feed.isLiked());
-    }
-
-    private boolean isHeartExist(HeartServiceRequest heartServiceRequest) {
-        return heartRepository.findHeartByMemberIdAndFeedId(heartServiceRequest.getMemberId(),
-                        heartServiceRequest.getFeedId())
-                .isPresent();
+        return HeartMapper.toHeartResponse(heart, feed.isLiked());
     }
 
     @Transactional
@@ -67,6 +56,7 @@ public class HeartService {
 
     private Feed updateFeed(String feedId, int heartCount) {
         Feed feed = feedService.findFeed(feedId);
+
         feed.updateIsLikedBy(heartCount);
         feed.updateLikeCountBy(heartCount);
 
@@ -76,6 +66,10 @@ public class HeartService {
     private Heart findHeart(String memberId, String feedId) {
         return heartRepository.findHeartByMemberIdAndFeedId(memberId, feedId)
                 .orElseThrow(() -> new IllegalArgumentException("좋아요 누른 피드가 없습니다."));
+    }
+
+    private boolean existsHeart(String memberId, String feedId) {
+        return heartRepository.existsHeartByMemberIdAndFeedId(memberId, feedId);
     }
 
 }
