@@ -3,6 +3,7 @@ package com.foodymoody.be.comment.application;
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummary;
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummaryResponse;
 import com.foodymoody.be.comment.domain.entity.CommentId;
+import com.foodymoody.be.comment.domain.entity.Reply;
 import com.foodymoody.be.comment.domain.entity.ReplyId;
 import com.foodymoody.be.comment.domain.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,10 @@ public class ReplyReadService {
 
     public void validate(ReplyId replyId) {
         replyRepository.existsById(replyId);
+    }
+
+    public Reply fetchById(ReplyId replyId) {
+        return replyRepository.findById(replyId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
     }
 }

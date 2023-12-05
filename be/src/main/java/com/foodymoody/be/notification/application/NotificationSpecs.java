@@ -1,8 +1,8 @@
 package com.foodymoody.be.notification.application;
 
-import static com.foodymoody.be.common.event.NotificationType.COMMENT_ADDED;
-import static com.foodymoody.be.common.event.NotificationType.HEART_ADDED;
-import static com.foodymoody.be.common.event.NotificationType.REPLY_ADDED;
+import static com.foodymoody.be.common.event.NotificationType.COMMENT_ADDED_EVENT;
+import static com.foodymoody.be.common.event.NotificationType.COMMENT_HEART_ADDED_EVENT;
+import static com.foodymoody.be.common.event.NotificationType.REPLY_ADDED_EVENT;
 
 import com.foodymoody.be.notification.domain.FeedNotification;
 import java.util.ArrayList;
@@ -20,13 +20,13 @@ public class NotificationSpecs {
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (isComment) {
-                predicates.add(builder.equal(root.get("type"), REPLY_ADDED));
+                predicates.add(builder.equal(root.get("type"), REPLY_ADDED_EVENT));
             }
             if (isHeart) {
-                predicates.add(builder.equal(root.get("type"), HEART_ADDED));
+                predicates.add(builder.equal(root.get("type"), COMMENT_HEART_ADDED_EVENT));
             }
             if (isFeed) {
-                predicates.add(builder.equal(root.get("type"), COMMENT_ADDED));
+                predicates.add(builder.equal(root.get("type"), COMMENT_ADDED_EVENT));
             }
             return builder.or(predicates.toArray(new Predicate[0]));
         };
