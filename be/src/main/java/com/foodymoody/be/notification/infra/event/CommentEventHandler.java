@@ -1,6 +1,5 @@
 package com.foodymoody.be.notification.infra.event;
 
-import static com.foodymoody.be.notification.infra.event.util.LinkMaker.makeFeedLink;
 import static com.foodymoody.be.notification.infra.event.util.MessageMaker.makeCommentAddMessage;
 import static com.foodymoody.be.notification.infra.event.util.NotificationMapper.toNotification;
 
@@ -10,8 +9,8 @@ import com.foodymoody.be.feed.service.FeedService;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.notification.application.NotificationWriteService;
-import com.foodymoody.be.notification.domain.Notification;
-import com.foodymoody.be.notification.domain.NotificationId;
+import com.foodymoody.be.notification.domain.FeedNotification;
+import com.foodymoody.be.notification.domain.FeedNotificationId;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -27,13 +26,13 @@ public class CommentEventHandler {
 
     @EventListener(CommentAddedEvent.class)
     public void saveNotification(CommentAddedEvent event) {
-        NotificationId notificationId = NotificationIdFactory.newId();
-        Feed feed = feedService.findFeed(event.getFeedId());
+        FeedNotificationId feedNotificationId = NotificationIdFactory.newId();
         Member member = memberService.findById(event.getMemberId());
+        Feed feed = feedService.findFeed(event.getFeedId());
         String message = makeCommentAddMessage(member.getNickname());
-        String link = makeFeedLink(feed.getId());
-        Notification notification = toNotification(notificationId, link, message, event.getMemberId(),
-                feed.getMemberId(), event.getNotificationType(), event.getCreatedAt());
-        notificationWriteService.save(notification);
+        FeedNotification feedNotification = toNotification(feedNotificationId, message, event.getMemberId(),
+                feed.getMemberId(), event.getFeedId(), event.getCommentId(), event.getNotificationType(),
+                event.getCreatedAt());
+        notificationWriteService.save(feedNotification);
     }
 }

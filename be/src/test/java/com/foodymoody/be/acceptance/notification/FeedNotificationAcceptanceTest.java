@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("알림 관련 기능")
-class NotificationAcceptanceTest extends AcceptanceTest {
+class FeedNotificationAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     JwtUtil jwtUtil;
@@ -93,7 +93,7 @@ class NotificationAcceptanceTest extends AcceptanceTest {
         void when_change_all_notification_status_if_success_then_return_204() {
             // docs
             api_문서_타이틀("notification_change_all_status_success", spec);
-            var 알람들 = 회원의_모든_알람을_조회한다(회원아티_액세스토큰, spec).jsonPath().getList("content.id", String.class);
+            var 알람들 = 회원의_모든_알람을_조회한다(회원아티_액세스토큰, spec).jsonPath().getList("content.notificationId", String.class);
 
             // when
             var response = 알람을_일괄적으로_변경(알람들, 회원아티_액세스토큰, spec);
@@ -120,7 +120,7 @@ class NotificationAcceptanceTest extends AcceptanceTest {
         void when_delete_notifications_if_success_then_return_code_204() {
             // docs
             api_문서_타이틀("notification_delete_notification_list_success", spec);
-            var 알람들 = 회원의_모든_알람을_조회한다(회원아티_액세스토큰, spec).jsonPath().getList("content.id", String.class);
+            var 알람들 = 회원의_모든_알람을_조회한다(회원아티_액세스토큰, spec).jsonPath().getList("content.notificationId", String.class);
 
             // when
             var response = 알람을_일괄적으로_삭졔한다(알람들, 회원아티_액세스토큰, spec);

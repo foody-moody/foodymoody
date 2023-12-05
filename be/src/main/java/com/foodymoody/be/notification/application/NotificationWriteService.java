@@ -1,6 +1,6 @@
 package com.foodymoody.be.notification.application;
 
-import com.foodymoody.be.notification.domain.Notification;
+import com.foodymoody.be.notification.domain.FeedNotification;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
 import com.foodymoody.be.notification.infra.persistence.jpa.NotificationJpaRepository;
 import java.time.LocalDateTime;
@@ -17,22 +17,22 @@ public class NotificationWriteService {
     private final NotificationMapper notificationMapper;
 
     @Transactional
-    public void save(Notification notification) {
-        notificationRepository.save(notification);
+    public void save(FeedNotification feedNotification) {
+        notificationRepository.save(feedNotification);
     }
 
     @Transactional
     public void changeStatus(String memberId, String notificationId, boolean isRead) {
-        Notification notification = this.getNotification(notificationId);
+        FeedNotification feedNotification = this.getNotification(notificationId);
         var updatedAt = LocalDateTime.now();
-        notification.changeStatus(isRead, memberId, updatedAt);
+        feedNotification.changeStatus(isRead, memberId, updatedAt);
     }
 
     @Transactional
     public void delete(String memberId, String notificationId) {
-        Notification notification = this.getNotification(notificationId);
+        FeedNotification feedNotification = this.getNotification(notificationId);
         LocalDateTime updatedAt = LocalDateTime.now();
-        notification.delete(memberId, updatedAt);
+        feedNotification.delete(memberId, updatedAt);
     }
 
     @Transactional
@@ -52,14 +52,14 @@ public class NotificationWriteService {
                 LocalDateTime.now(), memberId);
     }
 
-    public Notification getNotification(String notificationId) {
+    public FeedNotification getNotification(String notificationId) {
         return notificationRepository.findById(NotificationIdFactory.from(notificationId)).orElseThrow();
     }
 
     @Transactional
-    public Notification read(String notificationId) {
-        Notification notification = this.getNotification(notificationId);
-        notification.changeStatus(true, notification.getToMemberId(), LocalDateTime.now());
-        return notification;
+    public FeedNotification read(String notificationId) {
+        FeedNotification feedNotification = this.getNotification(notificationId);
+        feedNotification.changeStatus(true, feedNotification.getToMemberId(), LocalDateTime.now());
+        return feedNotification;
     }
 }

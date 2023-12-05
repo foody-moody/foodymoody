@@ -7,10 +7,9 @@ import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.notification.application.NotificationWriteService;
-import com.foodymoody.be.notification.domain.Notification;
-import com.foodymoody.be.notification.domain.NotificationId;
+import com.foodymoody.be.notification.domain.FeedNotification;
+import com.foodymoody.be.notification.domain.FeedNotificationId;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
-import com.foodymoody.be.notification.infra.event.util.LinkMaker;
 import com.foodymoody.be.notification.infra.event.util.MessageMaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -25,12 +24,12 @@ public class CommentRepliedEventHandler {
 
     @EventListener(CommentRepliedAddedEvent.class)
     public void saveNotification(CommentRepliedAddedEvent event) {
-        NotificationId notificationId = NotificationIdFactory.newId();
-        String link = LinkMaker.makeCommentLink(event.getCommentId());
+        FeedNotificationId feedNotificationId = NotificationIdFactory.newId();
         Member member = memberService.findById(event.getFromMemberId());
         String message = MessageMaker.makeRepliedAddedMessage(member.getNickname());
-        Notification notification = toNotification(notificationId, link, message, event.getFromMemberId(),
-                event.getToMemberId(), NotificationType.REPLY_ADDED, event.getCreatedAt());
-        notificationWriteService.save(notification);
+        FeedNotification feedNotification = toNotification(feedNotificationId, message, event.getFromMemberId(),
+                event.getToMemberId(), event.getFeedId(), event.getCommentId(), NotificationType.REPLY_ADDED,
+                event.getCreatedAt());
+        notificationWriteService.save(feedNotification);
     }
 }

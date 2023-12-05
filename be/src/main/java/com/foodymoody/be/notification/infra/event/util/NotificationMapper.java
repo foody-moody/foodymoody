@@ -1,8 +1,9 @@
 package com.foodymoody.be.notification.infra.event.util;
 
+import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.common.event.NotificationType;
-import com.foodymoody.be.notification.domain.Notification;
-import com.foodymoody.be.notification.domain.NotificationId;
+import com.foodymoody.be.notification.domain.FeedNotification;
+import com.foodymoody.be.notification.domain.FeedNotificationId;
 import java.time.LocalDateTime;
 
 public class NotificationMapper {
@@ -11,11 +12,11 @@ public class NotificationMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Notification toNotification(NotificationId notificationId,
-            String link, String message, String fromMemberId, String toMemberId, NotificationType notificationType,
-            LocalDateTime createdAt) {
-        return new Notification(notificationId, fromMemberId, toMemberId, link,
-                message, notificationType, false, false, createdAt, createdAt);
+    public static FeedNotification toNotification(FeedNotificationId feedNotificationId,
+            String message, String fromMemberId, String toMemberId, String feedId, CommentId commentId,
+            NotificationType notificationType, LocalDateTime createdAt) {
+        return new FeedNotification(feedNotificationId, fromMemberId, toMemberId, message, feedId, commentId,
+                notificationType, false, false, createdAt, createdAt);
     }
 
 }
