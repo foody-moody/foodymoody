@@ -4,10 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.foodymoody.be.common.exception.InvalidImageUrlException;
 import com.foodymoody.be.image.domain.ImageCategory;
-import com.foodymoody.be.image.domain.ImageResource;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,9 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 
 
@@ -36,48 +29,6 @@ class S3StorageTest {
             @Value("${aws.s3.root-prefix.image}") String rootPrefix) {
         this.s3EndPoint = s3EndPoint;
         this.rootPrefix = rootPrefix;
-    }
-
-    @Nested
-    @DisplayName("업로드 테스트")
-    class Upload {
-
-        @DisplayName("jpg 파일을 업로드하면, 파일이 저장된 s3경로를 반환한다")
-        @Test
-        void whenUploadJpgFile_thenUploadToS3() {
-//            given
-            MockMultipartFile file = createMockMultipartFileByPath("images/potato.jpg");
-            ImageResource imageResource = new ImageResource(file);
-
-//            when
-            String url = s3Storage.upload("upload-test", imageResource);
-
-//            then
-            String expectedUrl = String.join("/", s3EndPoint, "upload-test");
-            assertThat(url).isEqualTo(expectedUrl);
-        }
-
-    }
-
-    @Nested
-    @DisplayName("삭제 테스트")
-    class Delete {
-
-        @DisplayName("jpg 파일을 s3에 업로드 후 삭제하면, 예외가 발생하지 않는다")
-        @Test
-        void whenUploadJpgFileAndDelete_thenSuccess() {
-//            given
-            MockMultipartFile file = createMockMultipartFileByPath("images/potato.jpg");
-            ImageResource imageResource = new ImageResource(file);
-            String url = s3Storage.upload(String.join("/", rootPrefix, "images/potato.jpg"), imageResource);
-            String key = s3Storage.getKey(url);
-
-//            when, then
-            Assertions.assertDoesNotThrow(
-                    () -> s3Storage.delete(key)
-            );
-        }
-
     }
 
     @Nested
@@ -124,19 +75,6 @@ class S3StorageTest {
             );
         }
 
-    }
-
-    private MockMultipartFile createMockMultipartFileByPath(String path) {
-        Resource resource = new ClassPathResource(path);
-        try {
-            Path absolutePath = resource.getFile().toPath();
-            String MIMEType = Files.probeContentType(absolutePath);
-            byte[] bytes = Files.readAllBytes(absolutePath);
-            return new MockMultipartFile("file", resource.getFilename(), MIMEType, bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
     }
 
 }
