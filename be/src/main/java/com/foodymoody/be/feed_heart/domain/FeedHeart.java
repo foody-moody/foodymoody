@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_heart.domain;
 
+import com.foodymoody.be.common.util.ids.FeedHeartId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -13,18 +14,18 @@ import lombok.NoArgsConstructor;
 public class FeedHeart {
 
     @Id
-    private String id;
+    private FeedHeartId id;
     @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
     private FeedId feedId;
     private String memberId;
 
-    public FeedHeart(String id, FeedId feedId, String memberId) {
+    public FeedHeart(FeedHeartId id, FeedId feedId, String memberId) {
         this.id = id;
         this.feedId = feedId;
         this.memberId = memberId;
     }
 
-    public String getId() {
+    public FeedHeartId getId() {
         return id;
     }
 

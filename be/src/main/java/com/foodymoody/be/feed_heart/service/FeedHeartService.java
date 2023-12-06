@@ -39,7 +39,8 @@ public class FeedHeartService {
         }
 
         FeedHeart feedHeart = FeedHeartMapper
-                .makeFeedHeartWithFeedIdAndMemberId(IdFactory.createFeedId(feedId), memberId);
+                .makeFeedHeartWithFeedIdAndMemberId(IdFactory.createFeedHeartId(), IdFactory.createFeedId(feedId),
+                        memberId);
         FeedHeart savedFeedHeart = feedHeartRepository.save(feedHeart);
 
         feedHeartCountService.incrementFeedHeartCount(feedId);
@@ -47,7 +48,7 @@ public class FeedHeartService {
         FeedHeartCount feedHeartCount = feedHeartCountService.findFeedHeartCountByFeedId(feedId);
         Feed feed = updateFeed(feedId, feedHeartCount.getCount(), true);
 
-        return FeedHeartMapper.toHeartResponse(savedFeedHeart.getId(), savedFeedHeart.getFeedId().getValue(),
+        return FeedHeartMapper.toHeartResponse(savedFeedHeart.getId().getValue(), savedFeedHeart.getFeedId().getValue(),
                 savedFeedHeart.getMemberId(), feed.isLiked(), feedHeartCount.getCount());
     }
 
