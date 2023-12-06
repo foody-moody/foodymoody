@@ -37,7 +37,7 @@ class FeedHeartCountServiceTest {
     void setUp() {
         feedHeartCountRepository.deleteAll();
         feedRepository.save(new Feed(IdGenerator.generate(), "1", "위치", "리뷰", List.of("1", "2"),
-                List.of(new Image("1", "https://www.naver.com")), List.of(new Menu("1", "메뉴 이름", 5))));
+                List.of(new Image("1", "https://www.naver.com", "2")), List.of(new Menu("1", "메뉴 이름", 5))));
     }
 
     @AfterEach
