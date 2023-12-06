@@ -2,7 +2,7 @@ package com.foodymoody.be.comment.domain.repository;
 
 import com.foodymoody.be.comment.application.dto.response.MemberCommentSummary;
 import com.foodymoody.be.comment.domain.entity.Comment;
-import com.foodymoody.be.comment.domain.entity.CommentId;
+import com.foodymoody.be.common.util.ids.CommentId;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

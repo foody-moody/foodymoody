@@ -1,15 +1,14 @@
-package com.foodymoody.be.comment.domain.entity;
+package com.foodymoody.be.common.util.ids;
 
-import com.foodymoody.be.common.util.BaseId;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class CommentId extends BaseId {
+public class NotificationSettingId extends BaseId {
 
-    public CommentId(String value) {
+    public NotificationSettingId(String value) {
         super(value);
     }
 }

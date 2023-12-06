@@ -2,12 +2,12 @@ package com.foodymoody.be.comment_heart.infra.usecase;
 
 import com.foodymoody.be.comment.application.CommentReadService;
 import com.foodymoody.be.comment.domain.entity.Comment;
-import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.comment_heart.application.CommentHeartWriteService;
 import com.foodymoody.be.comment_heart.domain.CommentHeart;
 import com.foodymoody.be.comment_heart_count.application.CommentHeartCountWriteService;
 import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.event.NotificationType;
+import com.foodymoody.be.common.util.ids.CommentId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

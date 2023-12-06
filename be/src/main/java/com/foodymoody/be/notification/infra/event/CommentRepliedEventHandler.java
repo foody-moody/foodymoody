@@ -3,9 +3,9 @@ package com.foodymoody.be.notification.infra.event;
 import static com.foodymoody.be.notification.infra.event.util.NotificationMapper.toNotification;
 
 import com.foodymoody.be.comment.domain.entity.CommentRepliedAddedEvent;
+import com.foodymoody.be.common.util.ids.FeedNotificationId;
 import com.foodymoody.be.notification.application.NotificationWriteService;
 import com.foodymoody.be.notification.domain.FeedNotification;
-import com.foodymoody.be.notification.domain.FeedNotificationId;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;

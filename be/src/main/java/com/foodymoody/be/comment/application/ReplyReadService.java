@@ -2,10 +2,10 @@ package com.foodymoody.be.comment.application;
 
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummary;
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummaryResponse;
-import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.comment.domain.entity.Reply;
 import com.foodymoody.be.comment.domain.entity.ReplyId;
 import com.foodymoody.be.comment.domain.repository.ReplyRepository;
+import com.foodymoody.be.common.util.ids.CommentId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

@@ -1,6 +1,7 @@
 package com.foodymoody.be.notification_setting.domain;
 
 import com.foodymoody.be.common.util.IdGenerator;
+import com.foodymoody.be.common.util.ids.NotificationSettingId;
 
 public class NotificationSettingIdFactory {
 

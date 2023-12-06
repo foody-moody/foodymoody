@@ -1,4 +1,4 @@
-package com.foodymoody.be.common.util;
+package com.foodymoody.be.common.util.ids;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;

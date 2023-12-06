@@ -1,7 +1,7 @@
 package com.foodymoody.be.notification.infra.persistence.jpa;
 
+import com.foodymoody.be.common.util.ids.FeedNotificationId;
 import com.foodymoody.be.notification.domain.FeedNotification;
-import com.foodymoody.be.notification.domain.FeedNotificationId;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

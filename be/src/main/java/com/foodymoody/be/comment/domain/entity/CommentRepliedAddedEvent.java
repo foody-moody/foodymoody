@@ -1,6 +1,7 @@
 package com.foodymoody.be.comment.domain.entity;
 
 import com.foodymoody.be.common.event.Event;
+import com.foodymoody.be.common.util.ids.CommentId;
 import java.time.LocalDateTime;
 import lombok.Getter;
 

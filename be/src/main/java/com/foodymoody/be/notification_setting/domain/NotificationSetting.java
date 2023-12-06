@@ -1,5 +1,6 @@
 package com.foodymoody.be.notification_setting.domain;
 
+import com.foodymoody.be.common.util.ids.NotificationSettingId;
 import com.foodymoody.be.member.domain.MemberId;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;

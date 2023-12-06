@@ -1,9 +1,9 @@
 package com.foodymoody.be.notification_setting.application;
 
+import com.foodymoody.be.common.util.ids.NotificationSettingId;
 import com.foodymoody.be.member.domain.MemberId;
 import com.foodymoody.be.notification_setting.application.dto.NotificationSettingUpdateRequest;
 import com.foodymoody.be.notification_setting.domain.NotificationSetting;
-import com.foodymoody.be.notification_setting.domain.NotificationSettingId;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingIdFactory;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingRepository;
 import lombok.RequiredArgsConstructor;

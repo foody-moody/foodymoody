@@ -1,8 +1,8 @@
 package com.foodymoody.be.comment_heart.infra.usecase;
 
-import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.common.event.Event;
 import com.foodymoody.be.common.event.NotificationType;
+import com.foodymoody.be.common.util.ids.CommentId;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

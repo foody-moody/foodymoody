@@ -1,9 +1,9 @@
 package com.foodymoody.be.notification.util;
 
-import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.common.event.NotificationType;
+import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedNotificationId;
 import com.foodymoody.be.notification.domain.FeedNotification;
-import com.foodymoody.be.notification.domain.FeedNotificationId;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
 import java.time.LocalDateTime;
 

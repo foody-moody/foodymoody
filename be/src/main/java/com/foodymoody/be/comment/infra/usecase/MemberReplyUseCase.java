@@ -2,7 +2,7 @@ package com.foodymoody.be.comment.infra.usecase;
 
 import com.foodymoody.be.comment.application.ReplyReadService;
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummaryResponse;
-import com.foodymoody.be.comment.domain.entity.CommentId;
+import com.foodymoody.be.common.util.ids.CommentId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

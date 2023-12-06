@@ -1,10 +1,10 @@
 package com.foodymoody.be.comment_heart.application;
 
-import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.comment_heart.domain.CommentHeart;
-import com.foodymoody.be.comment_heart.domain.CommentHeartId;
 import com.foodymoody.be.comment_heart.domain.CommentHeartIdFactory;
 import com.foodymoody.be.comment_heart.domain.CommentHeartRepository;
+import com.foodymoody.be.common.util.ids.CommentHeartId;
+import com.foodymoody.be.common.util.ids.CommentId;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

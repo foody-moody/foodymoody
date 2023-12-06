@@ -1,6 +1,6 @@
 package com.foodymoody.be.comment_heart.domain;
 
-import com.foodymoody.be.comment.domain.entity.CommentId;
+import com.foodymoody.be.common.util.ids.CommentId;
 
 public interface CommentHeartRepository {
 

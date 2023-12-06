@@ -3,6 +3,7 @@ package com.foodymoody.be.comment.domain.entity;
 import com.foodymoody.be.common.event.Event;
 import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.CommentDeletedException;
+import com.foodymoody.be.common.util.ids.CommentId;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Embedded;

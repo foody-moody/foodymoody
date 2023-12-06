@@ -1,6 +1,5 @@
-package com.foodymoody.be.reply_heart.domain;
+package com.foodymoody.be.common.util.ids;
 
-import com.foodymoody.be.common.util.BaseId;
 import javax.persistence.Embeddable;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class ReplyHeartId extends BaseId {
 
-    ReplyHeartId(String value) {
+    public ReplyHeartId(String value) {
         super(value);
     }
 }

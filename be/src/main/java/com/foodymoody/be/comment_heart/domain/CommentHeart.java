@@ -1,6 +1,7 @@
 package com.foodymoody.be.comment_heart.domain;
 
-import com.foodymoody.be.comment.domain.entity.CommentId;
+import com.foodymoody.be.common.util.ids.CommentHeartId;
+import com.foodymoody.be.common.util.ids.CommentId;
 import java.time.LocalDateTime;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;

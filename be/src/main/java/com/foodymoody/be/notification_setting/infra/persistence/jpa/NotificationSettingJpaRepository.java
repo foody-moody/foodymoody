@@ -1,7 +1,7 @@
 package com.foodymoody.be.notification_setting.infra.persistence.jpa;
 
+import com.foodymoody.be.common.util.ids.NotificationSettingId;
 import com.foodymoody.be.notification_setting.domain.NotificationSetting;
-import com.foodymoody.be.notification_setting.domain.NotificationSettingId;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingSummary;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
