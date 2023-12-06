@@ -29,7 +29,8 @@ import org.hibernate.annotations.Synchronize;
         + "LEFT JOIN feed_image_menus_list _feed_image_menus_list ON _feed.id = _feed_image_menus_list.feed_id "
         + "LEFT JOIN image_menu _image_menus ON _feed_image_menus_list.image_menus_list_id = _image_menus.id "
         + "LEFT JOIN image _feed_image ON _image_menus.image_id = _feed_image.id "
-        + "WHERE _notification.is_deleted = false AND _image_menus.display_order = '0'"
+        + "WHERE _notification.is_deleted = false "
+        + "AND _image_menus.display_order = '0'"
         + "ORDER BY _notification.created_at DESC")
 @Synchronize({"notification", "member", "image"})
 public class NotificationSummary {

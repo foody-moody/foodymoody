@@ -26,9 +26,9 @@ public class NotificationReadController {
     }
 
     @GetMapping("/api/notifications/{notificationId}")
-    public ResponseEntity<NotificationResponse> requestOne(@MemberId String memberId,
+    public ResponseEntity<NotificationResponse> request(@MemberId String memberId,
             @PathVariable String notificationId) {
-        NotificationResponse notification = notificationUseCase.read(memberId, notificationId);
+        NotificationResponse notification = notificationUseCase.request(memberId, notificationId);
         return ResponseEntity.ok(notification);
     }
 }

@@ -15,15 +15,15 @@ public class NotificationMapper {
 
     public static FeedNotification toNotification(CommentRepliedAddedEvent event,
             FeedNotificationId feedNotificationId) {
-        return new FeedNotification(feedNotificationId, event.getContent(),
-                event.getFromMemberId(), event.getToMemberId(), event.getFeedId(), event.getCommentId(),
-                NotificationType.REPLY_ADDED_EVENT, false, false, event.getCreatedAt(), event.getCreatedAt());
+        return new FeedNotification(feedNotificationId, event.getFromMemberId(), event.getToMemberId(),
+                event.getContent(), event.getFeedId(), event.getCommentId(), NotificationType.REPLY_ADDED_EVENT, false,
+                false, event.getCreatedAt(), event.getCreatedAt());
     }
 
     public static FeedNotification toNotification(CommentAddedEvent event, FeedNotificationId feedNotificationId,
             Feed feed) {
-        return new FeedNotification(feedNotificationId, event.getContent(), event.getMemberId(),
-                feed.getMemberId(), event.getFeedId(), event.getCommentId(), event.getNotificationType(),
+        return new FeedNotification(feedNotificationId, event.getMemberId(), feed.getMemberId(), event.getContent(),
+                event.getFeedId(), event.getCommentId(), event.getNotificationType(),
                 false, false, event.getCreatedAt(), event.getCreatedAt());
     }
 

@@ -35,7 +35,8 @@ public class NotificationUseCase {
     private final FeedService feedService;
     private final NotificationSummaryReadService notificationSummaryReadService;
 
-    public NotificationResponse read(String memberId, String notificationId) {
+
+    public NotificationResponse request(String memberId, String notificationId) {
         FeedNotification feedNotification = notificationWriteService.read(notificationId);
         Member member = memberService.findById(memberId);
         Image memberProfileImage = imageService.findBy(member.getProfileImageId());
