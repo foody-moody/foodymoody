@@ -32,7 +32,7 @@ public class NotificationUseCase {
     public NotificationResponse requestOne(String memberId, String notificationId) {
         Notification notification = notificationWriteService.read(notificationId);
         Member member = memberService.findById(memberId);
-        Image image = imageService.findBy(member.getProfileImageId());
+        Image image = imageService.findById(member.getProfileImageId());
         return new NotificationResponse(notification.getId(), member.getMemberId(), member.getNickname(),
                 image.getUrl(), notification.getLink(), notification.getMessage(),
                 notification.getCreatedAt(), notification.getUpdatedAt());
