@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,6 +17,8 @@ public class Feed {
     @Id
     private String id;
     private String memberId;
+    // TODO
+//    private String profileImageId;
     private String location;
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -101,21 +104,12 @@ public class Feed {
         this.imageMenus.replaceWith(newImages, newMenus);
     }
 
-    public void updateIsLikedBy(int heartCount) {
-        if (heartCount > 0) {
-            this.isLiked = true;
-            return;
-        }
-
-        this.isLiked = false;
+    public void updateIsLikedBy(boolean isLiked) {
+        this.isLiked = isLiked;
     }
 
     public void updateLikeCountBy(int heartCount) {
-        if (heartCount > 0) {
-            this.likeCount += heartCount;
-        }
-
-        this.likeCount -= heartCount;
+        this.likeCount = heartCount;
     }
 
 }

@@ -11,7 +11,7 @@ import io.restassured.specification.RequestSpecification;
 import java.util.Map;
 import org.springframework.http.MediaType;
 
-public class HeartSteps {
+public class FeedHeartSteps {
 
     public static ExtractableResponse<Response> 좋아요를_한다(String feedId, String accessToken, RequestSpecification spec) {
         Map<String, Object> body = Map.of(
@@ -109,7 +109,7 @@ public class HeartSteps {
                 .then()
                 .log().all()
                 .statusCode(400)
-                .body("message", equalTo("좋아요 누른 피드가 없습니다."))
+                .body("message", equalTo("좋아요 기록이 없어 취소할 수 없습니다."))
                 .body("code", equalTo("g001"))
                 .extract();
     }
