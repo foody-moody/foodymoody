@@ -36,7 +36,6 @@ class FeedHeartCountServiceTest {
     @BeforeEach
     void setUp() {
         feedHeartCountRepository.deleteAll();
-        // TODO: feed 등록
         feedRepository.save(new Feed(IdGenerator.generate(), "1", "위치", "리뷰", List.of("1", "2"),
                 List.of(new Image("1", "https://www.naver.com")), List.of(new Menu("1", "메뉴 이름", 5))));
     }
@@ -59,6 +58,7 @@ class FeedHeartCountServiceTest {
         for (int i = 0; i < 100; i++) {
             threadPoolExecutor.execute(() -> {
                 feedHeartCountService.incrementFeedHeartCount(feedId);
+                // CountDownLatch로 스레드가 몇번 도는지 알 수 있음
                 latch.countDown();
             });
         }
@@ -72,7 +72,7 @@ class FeedHeartCountServiceTest {
         // then
         Optional<FeedHeartCount> result = feedHeartCountRepository.findByFeedId(feedId);
         assertThat(result).isPresent();
-        assertThat(result.get().getCount()).isEqualTo(101L);
+        assertThat(result.get().getCount()).isEqualTo(100L);
     }
 
     @DisplayName("피드 좋아요를 100번 비동기로 감소시키면 하트 카운트가 100번 감소한다.")
@@ -87,7 +87,7 @@ class FeedHeartCountServiceTest {
         // when
         for (int i = 0; i < 100; i++) {
             threadPoolExecutor.execute(() -> {
-                feedHeartCountService.incrementFeedHeartCount(feedId);
+                feedHeartCountService.decrementFeedHeartCount(feedId);
                 latch.countDown();
             });
         }

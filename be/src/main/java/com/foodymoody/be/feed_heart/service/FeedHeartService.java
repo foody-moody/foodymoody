@@ -41,8 +41,6 @@ public class FeedHeartService {
         FeedHeart feedHeart = FeedHeartMapper.makeFeedHeartWithFeedIdAndMemberId(feedId, memberId);
         FeedHeart savedFeedHeart = feedHeartRepository.save(feedHeart);
 
-        // 생각해 보니 save를 언제 해야 하나? 근데 그걸 언제 하지
-        // EventHandler로 관리하는 것도 아니니.. -> 그냥 아래처럼 하면 되나?
         feedHeartCountService.incrementFeedHeartCount(feedId);
 
         FeedHeartCount feedHeartCount = feedHeartCountService.findFeedHeartCountByFeedId(feedId);
