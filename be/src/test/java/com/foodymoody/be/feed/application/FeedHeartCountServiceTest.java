@@ -53,7 +53,7 @@ class FeedHeartCountServiceTest {
     void increment_count() {
         // given
         FeedId feedId = IdFactory.createFeedId("1");
-        FeedHeartCount feedHeartCount = new FeedHeartCount(IdGenerator.generate(), feedId, 0);
+        FeedHeartCount feedHeartCount = new FeedHeartCount(IdFactory.createFeedHeartCountId(), feedId, 0);
         feedHeartCountRepository.save(feedHeartCount);
         CountDownLatch latch = new CountDownLatch(100);
 
@@ -83,7 +83,7 @@ class FeedHeartCountServiceTest {
     void decrement_count() {
         // given
         FeedId feedId = IdFactory.createFeedId("1");
-        FeedHeartCount feedHeartCount = new FeedHeartCount(IdGenerator.generate(), feedId, 100);
+        FeedHeartCount feedHeartCount = new FeedHeartCount(IdFactory.createFeedHeartCountId(), feedId, 100);
         feedHeartCountRepository.save(feedHeartCount);
         CountDownLatch latch = new CountDownLatch(100);
 

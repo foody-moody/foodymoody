@@ -26,6 +26,14 @@ public class IdFactory {
         return createId(FeedHeartId.class);
     }
 
+    public static FeedHeartCountId createFeedHeartCountId(String id) {
+        return createId(FeedHeartCountId.class, id);
+    }
+
+    public static FeedHeartCountId createFeedHeartCountId() {
+        return createId(FeedHeartCountId.class);
+    }
+
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {
         try {
             Constructor<T> constructor = idClass.getConstructor(String.class);

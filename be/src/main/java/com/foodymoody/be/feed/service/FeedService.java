@@ -104,7 +104,7 @@ public class FeedService {
         Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoodIds, images, menus);
         Feed savedFeed = feedRepository.save(feed);
 
-        feedHeartCountService.save(new FeedHeartCount(IdGenerator.generate(), savedFeed.getId(), 0));
+        feedHeartCountService.save(new FeedHeartCount(IdFactory.createFeedHeartCountId(), savedFeed.getId(), 0));
 
         return FeedMapper.toFeedRegisterResponse(savedFeed);
     }
