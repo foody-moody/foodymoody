@@ -1,28 +1,27 @@
-package com.foodymoody.be.heart.domain;
+package com.foodymoody.be.feed_heart_count.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Version;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Heart {
+public class FeedHeartCount {
 
     @Id
     private String id;
     private String feedId;
-    private String memberId;
     private int count;
 
     @Version
-    private Long version; // 낙관적 락
+    private Long version;
 
-    public Heart() {
-    }
-
-    public Heart(String id, String feedId, String memberId) {
+    public FeedHeartCount(String id, String feedId, int count) {
         this.id = id;
         this.feedId = feedId;
-        this.memberId = memberId;
+        this.count = count;
     }
 
     public String getId() {
@@ -33,16 +32,12 @@ public class Heart {
         return feedId;
     }
 
-    public String getMemberId() {
-        return memberId;
-    }
-
     public int getCount() {
         return count;
     }
 
-    public void updateCount() {
-        this.count += 1;
+    public Long getVersion() {
+        return version;
     }
 
 }

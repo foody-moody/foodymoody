@@ -1,4 +1,4 @@
-package com.foodymoody.be.heart.dto.request;
+package com.foodymoody.be.feed_heart.dto.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class HeartServiceRequest {
+public class FeedHeartServiceRequest {
 
     private String feedId;
     private String memberId;

@@ -23,6 +23,8 @@ import com.foodymoody.be.feed.repository.FeedRepository;
 import com.foodymoody.be.feed.service.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.service.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed.util.FeedMapper;
+import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
+import com.foodymoody.be.feed_heart_count.service.FeedHeartCountService;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.repository.MemberFeedData;
@@ -50,6 +52,7 @@ public class FeedService {
     private final MemberService memberService;
     private final MenuService menuService;
     private final StoreMoodService storeMoodService;
+    private final FeedHeartCountService feedHeartCountService;
 
     public Slice<FeedReadAllResponse> readAll(Pageable pageable) {
         Slice<Feed> feeds = feedRepository.findAll(pageable);
@@ -111,10 +114,14 @@ public class FeedService {
         List<String> storeMoodIds = request.getStoreMood();
 
         Feed feed = FeedMapper.toFeed(IdGenerator.generate(), memberId, request, storeMoodIds, images, menus);
+        Feed savedFeed = feedRepository.save(feed);
 
-        return FeedMapper.toFeedRegisterResponse(feedRepository.save(feed));
+        feedHeartCountService.save(new FeedHeartCount(IdGenerator.generate(), savedFeed.getId(), 0));
+
+        return FeedMapper.toFeedRegisterResponse(savedFeed);
     }
 
+    // TODO: Mapper로 옮기기, service 지우기
     private List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
         return imageMenuPairs.stream()
                 .map(imageMenuPair -> menuService.saveMenu(makeMenu(IdGenerator.generate(), imageMenuPair.getMenu())))
@@ -142,6 +149,7 @@ public class FeedService {
                 makeFeedStoreMoodResponses(storeMoodIds));
     }
 
+    // TODO: 쿼리 써서 n + 1 문제 해결
     private List<FeedImageMenuResponse> makeFeedImageMenuResponses(Feed feed) {
         List<ImageMenu> imageMenus = feed.getImageMenus();
 

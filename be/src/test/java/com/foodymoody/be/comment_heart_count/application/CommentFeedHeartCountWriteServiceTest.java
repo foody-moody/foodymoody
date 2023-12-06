@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringBootIntegrationTest
-class CommentHeartCountWriteServiceTest {
+class CommentFeedHeartCountWriteServiceTest {
 
     @Autowired
     private CommentHeartCountWriteService commentHeartCountWriteService;
