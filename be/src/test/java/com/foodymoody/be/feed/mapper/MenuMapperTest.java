@@ -2,6 +2,8 @@ package com.foodymoody.be.feed.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MenuId;
 import com.foodymoody.be.feed.dto.request.FeedRegisterRequestMenu;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.util.MenuMapper;
@@ -15,7 +17,7 @@ class MenuMapperTest {
     void toOnlyMenu() {
         // given
         FeedRegisterRequestMenu 마라탕_Request = new FeedRegisterRequestMenu("마라탕", 4);
-        String generatedId = "1";
+        MenuId generatedId = IdFactory.createMenuId("1");
 
         // when
         Menu actualMenu = MenuMapper.makeMenu(generatedId, 마라탕_Request);

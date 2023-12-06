@@ -1,5 +1,6 @@
 package com.foodymoody.be.menu.util;
 
+import com.foodymoody.be.common.util.ids.MenuId;
 import com.foodymoody.be.feed.dto.request.FeedRegisterRequestMenu;
 import com.foodymoody.be.menu.domain.Menu;
 
@@ -9,8 +10,8 @@ public class MenuMapper {
         throw new AssertionError("인스턴스화 불가능");
     }
 
-    public static Menu makeMenu(String generatedId, FeedRegisterRequestMenu menu) {
-        return new Menu(generatedId, menu.getName(), menu.getRating());
+    public static Menu makeMenu(MenuId menuId, FeedRegisterRequestMenu menu) {
+        return new Menu(menuId, menu.getName(), menu.getRating());
     }
 
 }

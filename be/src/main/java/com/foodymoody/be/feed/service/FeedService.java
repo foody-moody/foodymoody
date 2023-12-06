@@ -3,7 +3,6 @@ package com.foodymoody.be.feed.service;
 import static com.foodymoody.be.menu.util.MenuMapper.makeMenu;
 
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
-import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.domain.ImageMenu;
@@ -169,7 +168,7 @@ public class FeedService {
     // TODO: Mapper로 옮기기, service 지우기
     private List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
         return imageMenuPairs.stream()
-                .map(imageMenuPair -> menuService.saveMenu(makeMenu(IdGenerator.generate(), imageMenuPair.getMenu())))
+                .map(imageMenuPair -> menuService.saveMenu(makeMenu(IdFactory.createMenuId(), imageMenuPair.getMenu())))
                 .collect(Collectors.toUnmodifiableList());
     }
 

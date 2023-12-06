@@ -42,6 +42,14 @@ public class IdFactory {
         return createId(ImageId.class);
     }
 
+    public static MenuId createMenuId(String id) {
+        return createId(MenuId.class, id);
+    }
+
+    public static MenuId createMenuId() {
+        return createId(MenuId.class);
+    }
+
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {
         try {
             Constructor<T> constructor = idClass.getConstructor(String.class);
