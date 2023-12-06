@@ -3,6 +3,7 @@ package com.foodymoody.be.comment.infra.usecase;
 import com.foodymoody.be.comment.application.ReplyReadService;
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummaryResponse;
 import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.IdFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -20,7 +21,8 @@ public class MemberReplyUseCase {
     }
 
     public Slice<MemberReplySummaryResponse> fetchAllReplyByMemberId(String id, String memberId, Pageable pageable) {
-        var commentId = new CommentId(id);
-        return replyReadService.fetchAllReplyByMemberId(commentId, memberId, pageable);
+        var commentId = IdFactory.createCommentId(id);
+        var memberIdObj = IdFactory.createMemberId(memberId);
+        return replyReadService.fetchAllReplyByMemberId(commentId, memberIdObj, pageable);
     }
 }

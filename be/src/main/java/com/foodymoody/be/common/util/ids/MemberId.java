@@ -11,4 +11,8 @@ public class MemberId extends BaseId {
     public MemberId(String value) {
         super(value);
     }
+
+    public boolean isSame(MemberId memberId) {
+        return value.equals(memberId.value);
+    }
 }

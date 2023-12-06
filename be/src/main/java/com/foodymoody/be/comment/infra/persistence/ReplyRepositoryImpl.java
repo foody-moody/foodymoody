@@ -6,6 +6,7 @@ import com.foodymoody.be.comment.domain.entity.ReplyId;
 import com.foodymoody.be.comment.domain.repository.ReplyRepository;
 import com.foodymoody.be.comment.infra.persistence.jpa.ReplyJpaRepository;
 import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +25,7 @@ public class ReplyRepositoryImpl implements ReplyRepository {
     }
 
     @Override
-    public Slice<MemberReplySummary> findByCommentIdAndMemberId(CommentId commentId, String memberId,
+    public Slice<MemberReplySummary> findByCommentIdAndMemberId(CommentId commentId, MemberId memberId,
             Pageable pageable) {
         return replyJpaRepository.findReplyByCommentIdAndMemberId(commentId, memberId, pageable);
     }

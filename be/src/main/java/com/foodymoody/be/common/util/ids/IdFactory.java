@@ -10,6 +10,14 @@ public class IdFactory {
         throw new IllegalStateException("Utility class");
     }
 
+    public static MemberId createMemberId(String id) {
+        return createId(MemberId.class, id);
+    }
+
+    public static MemberId createMemberId() {
+        return createId(MemberId.class);
+    }
+
     public static FeedId createFeedId(String id) {
         return createId(FeedId.class, id);
     }
@@ -48,6 +56,14 @@ public class IdFactory {
 
     public static MenuId createMenuId() {
         return createId(MenuId.class);
+    }
+
+    public static CommentId createCommentId(String id) {
+        return createId(CommentId.class, id);
+    }
+
+    public static CommentId createCommentId() {
+        return createId(CommentId.class);
     }
 
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {

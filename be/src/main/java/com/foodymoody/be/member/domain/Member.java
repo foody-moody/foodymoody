@@ -3,6 +3,7 @@ package com.foodymoody.be.member.domain;
 import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.IncorrectMemberPasswordException;
 import com.foodymoody.be.common.exception.InvalidReconfirmPasswordException;
+import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.EmbeddedId;
@@ -44,10 +45,6 @@ public class Member {
 
     public MemberId getId() {
         return id;
-    }
-
-    public String getMemberId() {
-        return id.getId();
     }
 
     public String getEmail() {

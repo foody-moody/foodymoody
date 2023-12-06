@@ -1,5 +1,7 @@
 package com.foodymoody.be.notification.infra.usecase;
 
+import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.service.FeedService;
 import com.foodymoody.be.image.domain.Image;
@@ -48,7 +50,8 @@ public class NotificationUseCase {
 
 
     @Transactional(readOnly = true)
-    public Slice<NotificationResponse> requestAll(String memberId, Pageable pageable) {
+    public Slice<NotificationResponse> requestAll(String memberIdValue, Pageable pageable) {
+        MemberId memberId = IdFactory.createMemberId(memberIdValue);
         var notificationSettingSummary = notificationSettingReadService.request(memberId);
         var specification = NotificationSummarySpecs.searchByType(notificationSettingSummary.isComment(),
                 notificationSettingSummary.isHeart(), notificationSettingSummary.isFeed());
@@ -61,10 +64,11 @@ public class NotificationUseCase {
                 notificationSummaries.hasNext());
     }
 
-    private static NotificationResponse toResponse(String memberId, NotificationSummary notificationSummary) {
+    private static NotificationResponse toResponse(MemberId memberId, NotificationSummary notificationSummary) {
         return new NotificationResponse(
                 notificationSummary.getId(),
-                new Sender(memberId, notificationSummary.getNickname(), notificationSummary.getMemberImageUrl()),
+                new Sender(memberId.getValue(), notificationSummary.getNickname(),
+                        notificationSummary.getMemberImageUrl()),
                 new FeedInfoResponse(notificationSummary.getFeedId(), notificationSummary.getFeedImageUrl(),
                         notificationSummary.getCommentId(), notificationSummary.getMessage()),
                 notificationSummary.getType(),

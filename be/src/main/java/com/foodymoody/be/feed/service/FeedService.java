@@ -5,6 +5,7 @@ import static com.foodymoody.be.menu.util.MenuMapper.makeMenu;
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.domain.ImageMenu;
 import com.foodymoody.be.feed.domain.StoreMood;
@@ -95,7 +96,7 @@ public class FeedService {
 
     @Transactional
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
-        String memberId = memberService.findById(request.getMemberId()).getMemberId();
+        MemberId memberId = memberService.findById(request.getMemberId()).getId();
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = toMenu(imageMenuPairs);
         List<Image> images = toImage(imageMenuPairs, request.getMemberId());
@@ -126,7 +127,7 @@ public class FeedService {
         FeedId feedId = IdFactory.createFeedId(id);
         Feed feed = findFeed(feedId);
 
-        String memberId = memberService.findById(request.getMemberId()).getMemberId();
+        MemberId memberId = memberService.findById(request.getMemberId()).getId();
         List<Image> newImages = toImage(request.getImages(), request.getMemberId());
         List<Menu> newMenus = toMenu(request.getImages());
         List<String> newStoreMoodIds = request.getStoreMood();
@@ -142,16 +143,16 @@ public class FeedService {
     @Transactional
     public void delete(FeedServiceDeleteRequest request) {
         FeedId feedId = IdFactory.createFeedId(request.getId());
-        String memberId = memberService.findById(request.getMemberId()).getMemberId();
+        MemberId memberId = memberService.findById(request.getMemberId()).getId();
 
-        if (!findFeed(feedId).getMemberId().equals(memberId)) {
+        if (!findFeed(feedId).getMemberId().isSame(memberId)) {
             throw new IllegalArgumentException("이 피드를 작성한 회원이 아닙니다.");
         }
 
         feedRepository.deleteById(IdFactory.createFeedId(request.getId()));
     }
 
-    public Slice<MemberProfileFeedPreviewResponse> findPreviewsByMemberId(String memberId, Pageable pageable) {
+    public Slice<MemberProfileFeedPreviewResponse> findPreviewsByMemberId(MemberId memberId, Pageable pageable) {
         return feedRepository.fetchPreviewsByMemberId(memberId, pageable);
     }
 
@@ -202,7 +203,8 @@ public class FeedService {
     }
 
     private FeedMemberResponse toFeedMemberResponse(MemberFeedData member) {
-        MemberFeedData memberData = memberService.fetchFeedDataById(member.getId());
+        MemberId memberId = IdFactory.createMemberId(member.getId());
+        MemberFeedData memberData = memberService.fetchFeedDataById(memberId);
         return FeedMemberResponse.builder()
                 .id(member.getId())
                 .imageUrl(memberData.getProfileImageUrl())

@@ -4,6 +4,7 @@ import com.foodymoody.be.common.event.Event;
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
 
 public class CommentAddedEvent implements Event {
@@ -12,7 +13,7 @@ public class CommentAddedEvent implements Event {
     private final String content;
     private final NotificationType notificationType;
     private final CommentId commentId;
-    private final String memberId;
+    private final MemberId memberId;
     private final LocalDateTime createdAt;
 
     private CommentAddedEvent(
@@ -20,7 +21,7 @@ public class CommentAddedEvent implements Event {
             String content,
             NotificationType notificationType,
             CommentId commentId,
-            String memberId,
+            MemberId memberId,
             LocalDateTime createdAt
     ) {
         this.feedId = feedId;
@@ -35,7 +36,7 @@ public class CommentAddedEvent implements Event {
             FeedId feedId,
             String content,
             CommentId commentId,
-            String memberId,
+            MemberId memberId,
             LocalDateTime createdAt
     ) {
         return new CommentAddedEvent(
@@ -64,7 +65,7 @@ public class CommentAddedEvent implements Event {
         return commentId;
     }
 
-    public String getMemberId() {
+    public MemberId getMemberId() {
         return memberId;
     }
 

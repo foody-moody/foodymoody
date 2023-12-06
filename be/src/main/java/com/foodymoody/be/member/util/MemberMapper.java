@@ -3,10 +3,10 @@ package com.foodymoody.be.member.util;
 import static com.foodymoody.be.common.util.Constants.UTILITY_CLASS;
 
 import com.foodymoody.be.common.util.IdGenerator;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.domain.Member;
-import com.foodymoody.be.member.domain.MemberId;
 import com.foodymoody.be.member.domain.TasteMood;
 
 public class MemberMapper {
@@ -27,6 +27,6 @@ public class MemberMapper {
     }
 
     public static MemberSignupResponse toSignupResponse(MemberId memberId) {
-        return MemberSignupResponse.from(memberId.getId());
+        return MemberSignupResponse.from(memberId.getValue());
     }
 }

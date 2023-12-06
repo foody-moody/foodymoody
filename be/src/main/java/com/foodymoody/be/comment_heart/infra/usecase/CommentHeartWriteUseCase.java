@@ -8,6 +8,8 @@ import com.foodymoody.be.comment_heart_count.application.CommentHeartCountWriteS
 import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,20 +23,23 @@ public class CommentHeartWriteUseCase {
     private final CommentHeartCountWriteService commentHeartCountWriteService;
 
     @Transactional
-    public void registerCommentHeart(String commentIdValue, String memberId) {
-        CommentId commentId = new CommentId(commentIdValue);
+    public void registerCommentHeart(String commentIdValue, String memberIdValue) {
+        CommentId commentId = IdFactory.createCommentId(commentIdValue);
+        MemberId memberId = IdFactory.createMemberId(memberIdValue);
         Comment comment = commentReadService.fetchById(commentId);
         if (commentHeartWriteService.existsByCommentIdAndMemberId(commentId, memberId)) {
             return;
         }
         CommentHeart commentHeart = commentHeartWriteService.registerCommentHeart(commentId, memberId);
         commentHeartCountWriteService.increment(commentId);
-        Events.publish(toCommentHeartAddedEvent(comment, commentHeart, memberId));
+        MemberId commentWriterId = comment.getMemberId();
+        Events.publish(toCommentHeartAddedEvent(comment, commentHeart, commentWriterId));
     }
 
     @Transactional
-    public void deleteCommentHeart(String commentIdValue, String memberId) {
-        CommentId commentId = new CommentId(commentIdValue);
+    public void deleteCommentHeart(String commentIdValue, String memberIdValue) {
+        CommentId commentId = IdFactory.createCommentId(commentIdValue);
+        MemberId memberId = IdFactory.createMemberId(memberIdValue);
         commentReadService.fetchById(commentId);
         if (!commentHeartWriteService.existsByCommentIdAndMemberId(commentId, memberId)) {
             return;
@@ -44,7 +49,7 @@ public class CommentHeartWriteUseCase {
     }
 
     private static CommentHeartAddedEvent toCommentHeartAddedEvent(Comment comment, CommentHeart commentHeart,
-            String memberId) {
+            MemberId memberId) {
         return new CommentHeartAddedEvent(
                 comment.getFeedId(),
                 comment.getContent(),

@@ -1,6 +1,7 @@
 package com.foodymoody.be.member.domain;
 
 import com.foodymoody.be.common.event.Event;
+import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
 import lombok.Getter;
 

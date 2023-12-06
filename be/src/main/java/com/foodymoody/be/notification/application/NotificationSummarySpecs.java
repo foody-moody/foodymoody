@@ -4,6 +4,7 @@ import static com.foodymoody.be.common.event.NotificationType.COMMENT_ADDED_EVEN
 import static com.foodymoody.be.common.event.NotificationType.COMMENT_HEART_ADDED_EVENT;
 import static com.foodymoody.be.common.event.NotificationType.REPLY_ADDED_EVENT;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.notification.domain.NotificationSummary;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class NotificationSummarySpecs {
         };
     }
 
-    public static Specification<NotificationSummary> isToMemberSpec(String memberId) {
+    public static Specification<NotificationSummary> isToMemberSpec(MemberId memberId) {
         return (root, query, builder) -> builder.equal(root.get("toMemberId"), memberId);
     }
 }

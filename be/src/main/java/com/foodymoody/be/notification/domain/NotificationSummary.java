@@ -1,8 +1,11 @@
 package com.foodymoody.be.notification.domain;
 
 import com.foodymoody.be.common.event.NotificationType;
+import com.foodymoody.be.common.util.ids.MemberId;
 import groovy.transform.Immutable;
 import java.time.LocalDateTime;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,7 +20,8 @@ import org.hibernate.annotations.Synchronize;
 @Getter
 @Entity
 @Immutable
-@Subselect("SELECT _notification.id as id, _notification.from_member_id as member_id, _member.nickname as nickname,"
+@Subselect(
+        "SELECT _notification.id as id, _notification.from_member_id as from_member_id, _member.nickname as nickname,"
         + "_member_image.url as member_image_url,_notification.comment_id as comment_id, _notification.feed_id as feed_id,"
         + "_feed_image.url as feed_image_url,_notification.message as message,_notification.type as type, "
         + "_notification.created_at as created_at, _notification.updated_at as updated_at,_notification.is_read as is_read,"
@@ -37,8 +41,10 @@ public class NotificationSummary {
 
     @Id
     private String id;
-    private String memberId;
-    private String toMemberId;
+    @AttributeOverride(name = "value", column = @Column(name = "to_member_id"))
+    private MemberId toMemberId;
+    @AttributeOverride(name = "value", column = @Column(name = "from_member_id"))
+    private MemberId fromMemberId;
     private String nickname;
     private String memberImageUrl;
     private String commentId;

@@ -4,6 +4,7 @@ import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.FeedNotificationId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -20,8 +21,11 @@ public class FeedNotification {
 
     @EmbeddedId
     private FeedNotificationId id;
-    private String fromMemberId;
-    private String toMemberId;
+    @lombok.Getter
+    @AttributeOverride(name = "value", column = @Column(name = "from_member_id"))
+    private MemberId fromMemberId;
+    @AttributeOverride(name = "value", column = @Column(name = "to_member_id"))
+    private MemberId toMemberId;
     private String message;
     @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
     private FeedId feedId;
@@ -34,7 +38,7 @@ public class FeedNotification {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public FeedNotification(FeedNotificationId id, String fromMemberId, String toMemberId, String message,
+    public FeedNotification(FeedNotificationId id, MemberId fromMemberId, MemberId toMemberId, String message,
             FeedId feedId, CommentId commentId, NotificationType type, boolean isRead, boolean isDeleted,
             LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
@@ -54,11 +58,7 @@ public class FeedNotification {
         return id;
     }
 
-    public String getFromMemberId() {
-        return fromMemberId;
-    }
-
-    public String getToMemberId() {
+    public MemberId getToMemberId() {
         return toMemberId;
     }
 
@@ -94,20 +94,20 @@ public class FeedNotification {
         return updatedAt;
     }
 
-    public void changeStatus(boolean isRead, String memberId, LocalDateTime updatedAt) {
+    public void changeStatus(boolean isRead, MemberId memberId, LocalDateTime updatedAt) {
         checkMemberId(memberId);
         this.updatedAt = updatedAt;
         this.isRead = isRead;
     }
 
-    public void delete(String memberId, LocalDateTime updatedAt) {
+    public void delete(MemberId memberId, LocalDateTime updatedAt) {
         checkMemberId(memberId);
         this.isDeleted = true;
         this.updatedAt = updatedAt;
     }
 
-    private void checkMemberId(String memberId) {
-        if (!memberId.equals(toMemberId)) {
+    private void checkMemberId(MemberId memberId) {
+        if (!toMemberId.isSame(memberId)) {
             throw new IllegalArgumentException("해당 알림을 수정할 수 없습니다.");
         }
     }

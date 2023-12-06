@@ -2,6 +2,7 @@ package com.foodymoody.be.comment_heart.domain;
 
 import com.foodymoody.be.common.util.ids.CommentHeartId;
 import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -18,11 +19,12 @@ public class CommentHeart {
     private CommentHeartId id;
     @AttributeOverride(name = "value", column = @Column(name = "comment_id"))
     private CommentId commentId;
-    private String memberId;
+    @AttributeOverride(name = "value", column = @Column(name = "member_id"))
+    private MemberId memberId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public CommentHeart(CommentHeartId id, CommentId commentId, String memberId, LocalDateTime createdAt,
+    public CommentHeart(CommentHeartId id, CommentId commentId, MemberId memberId, LocalDateTime createdAt,
             LocalDateTime updatedAt) {
         this.id = id;
         this.commentId = commentId;
@@ -35,7 +37,7 @@ public class CommentHeart {
         return createdAt;
     }
 
-    public String getMemberId() {
+    public MemberId getMemberId() {
         return memberId;
     }
 }
