@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.repository.FeedRepository;
-import com.foodymoody.be.feed_heart.domain.FeedHeart;
-import com.foodymoody.be.feed_heart.repository.FeedHeartRepository;
 import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
 import com.foodymoody.be.feed_heart_count.repository.FeedHeartCountRepository;
 import com.foodymoody.be.feed_heart_count.service.FeedHeartCountService;
@@ -24,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringBootIntegrationTest
-class FeedHeartCountTest {
+class FeedHeartCountServiceTest {
 
     @Autowired
     private FeedHeartCountService feedHeartCountService;
