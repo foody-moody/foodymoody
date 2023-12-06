@@ -110,7 +110,7 @@ public class FeedService {
         String memberId = memberService.findById(request.getMemberId()).getMemberId();
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = toMenu(imageMenuPairs);
-        List<Image> images = toImage(imageMenuPairs);
+        List<Image> images = toImage(imageMenuPairs, request.getMemberId());
         List<String> storeMoodIds = request.getStoreMood();
 
         Feed feed = FeedMapper.toFeed(IdGenerator.generate(), memberId, request, storeMoodIds, images, menus);
@@ -128,14 +128,14 @@ public class FeedService {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private List<Image> toImage(List<ImageMenuPair> imageMenuPairs) {
+    private List<Image> toImage(List<ImageMenuPair> imageMenuPairs, String memberId) {
         return imageMenuPairs.stream()
-                .map(imageMenuPair -> new Image(imageMenuPair.getImageId(), findImageUrl(imageMenuPair)))
+                .map(imageMenuPair -> new Image(imageMenuPair.getImageId(), findImageUrl(imageMenuPair), memberId))
                 .collect(Collectors.toUnmodifiableList());
     }
 
     private String findImageUrl(ImageMenuPair imageMenuPair) {
-        return imageService.findBy(imageMenuPair.getImageId()).getUrl();
+        return imageService.findById(imageMenuPair.getImageId()).getUrl();
     }
 
     public FeedReadResponse read(String id) {
@@ -179,7 +179,7 @@ public class FeedService {
         Feed feed = findFeed(id);
 
         String memberId = memberService.findById(request.getMemberId()).getMemberId();
-        List<Image> newImages = toImage(request.getImages());
+        List<Image> newImages = toImage(request.getImages(), request.getMemberId());
         List<Menu> newMenus = toMenu(request.getImages());
         List<String> newStoreMoodIds = request.getStoreMood();
 
@@ -210,7 +210,7 @@ public class FeedService {
     private List<ImageIdNamePair> findImageIdUrlList(List<ImageMenu> imageMenus) {
         return imageMenus.stream()
                 .map(imageMenu -> {
-                    Image image = imageService.findBy(imageMenu.getImageId());
+                    Image image = imageService.findById(imageMenu.getImageId());
                     return new ImageIdNamePair(image.getId(), image.getUrl());
                 })
                 .collect(Collectors.toUnmodifiableList());

@@ -102,7 +102,7 @@ public class Comment {
     }
 
     private Event toCommentRepliedAddedEvent(Reply reply) {
-        return CommentRepliedAddedEvent.of(id, reply.getId(), memberId, reply.getMemberId(), reply.getContent(),
+        return CommentRepliedAddedEvent.of(id, reply.getId(), memberId, reply.getMemberId(), reply.getContent(), feedId,
                 reply.getCreatedAt());
     }
 

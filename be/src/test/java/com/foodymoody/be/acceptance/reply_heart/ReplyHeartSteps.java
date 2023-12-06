@@ -8,22 +8,24 @@ import io.restassured.specification.RequestSpecification;
 
 public class ReplyHeartSteps {
 
-    static ExtractableResponse<Response> 좋아요를_누린다(String accessToken, String replyId, RequestSpecification spec) {
+    static ExtractableResponse<Response> 좋아요를_누린다(String accessToken, String commentId, String replyId,
+            RequestSpecification spec) {
         return RestAssured
                 .given(spec).auth().oauth2(accessToken)
-                .when().post("/api/replies/{replyId}/hearts", replyId)
+                .when().post("/api/comments/{commentId}/replies/{replyId}/hearts", commentId, replyId)
                 .then().log().all()
                 .extract();
     }
 
-    static ExtractableResponse<Response> 좋아요를_누린다(String accessToken, String replyId) {
-        return 좋아요를_누린다(accessToken, replyId, new RequestSpecBuilder().build());
+    static ExtractableResponse<Response> 좋아요를_누린다(String accessToken, String commentId, String replyId) {
+        return 좋아요를_누린다(accessToken, commentId, replyId, new RequestSpecBuilder().build());
     }
 
-    static ExtractableResponse<Response> 좋아요를_취소한다(String accessToken, String replyId, RequestSpecification spec) {
+    static ExtractableResponse<Response> 좋아요를_취소한다(String accessToken, String commentId, String replyId,
+            RequestSpecification spec) {
         return RestAssured
                 .given(spec).auth().oauth2(accessToken)
-                .when().delete("/api/replies/{replyId}/hearts", replyId)
+                .when().delete("/api/comments/{commentId}/replies/{replyId}/hearts", commentId, replyId)
                 .then().log().all()
                 .extract();
     }

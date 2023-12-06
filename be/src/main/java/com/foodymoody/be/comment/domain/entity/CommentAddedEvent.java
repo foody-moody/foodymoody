@@ -39,7 +39,7 @@ public class CommentAddedEvent implements Event {
         return new CommentAddedEvent(
                 feedId,
                 content,
-                NotificationType.COMMENT_ADDED,
+                NotificationType.COMMENT_ADDED_EVENT,
                 commentId,
                 memberId,
                 createdAt

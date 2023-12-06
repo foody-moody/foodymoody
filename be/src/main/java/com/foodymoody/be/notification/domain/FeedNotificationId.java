@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class NotificationId extends BaseId {
+public class FeedNotificationId extends BaseId {
 
-    NotificationId(String value) {
+    FeedNotificationId(String value) {
         super(value);
     }
 }

@@ -8,11 +8,11 @@ public class NotificationIdFactory {
         throw new IllegalStateException("Utility class");
     }
 
-    public static NotificationId from(String id) {
-        return new NotificationId(id);
+    public static FeedNotificationId from(String id) {
+        return new FeedNotificationId(id);
     }
 
-    public static NotificationId newId() {
-        return new NotificationId(IdGenerator.generate());
+    public static FeedNotificationId newId() {
+        return new FeedNotificationId(IdGenerator.generate());
     }
 }

@@ -1,7 +1,6 @@
 package com.foodymoody.be.notification.presentation;
 
 import com.foodymoody.be.common.annotation.MemberId;
-import com.foodymoody.be.notification.domain.NotificationSummary;
 import com.foodymoody.be.notification.infra.usecase.NotificationUseCase;
 import com.foodymoody.be.notification.presentation.dto.NotificationResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,16 +19,16 @@ public class NotificationReadController {
     private final NotificationUseCase notificationUseCase;
 
     @GetMapping("/api/notifications")
-    public ResponseEntity<Slice<NotificationSummary>> requestAll(@MemberId String memberId,
+    public ResponseEntity<Slice<NotificationResponse>> requestAll(@MemberId String memberId,
             @PageableDefault Pageable pageable) {
-        Slice<NotificationSummary> notificationResponses = notificationUseCase.requestAll(memberId, pageable);
+        var notificationResponses = notificationUseCase.requestAll(memberId, pageable);
         return ResponseEntity.ok(notificationResponses);
     }
 
     @GetMapping("/api/notifications/{notificationId}")
-    public ResponseEntity<NotificationResponse> requestOne(@MemberId String memberId,
+    public ResponseEntity<NotificationResponse> request(@MemberId String memberId,
             @PathVariable String notificationId) {
-        NotificationResponse notification = notificationUseCase.requestOne(memberId, notificationId);
+        NotificationResponse notification = notificationUseCase.request(memberId, notificationId);
         return ResponseEntity.ok(notification);
     }
 }

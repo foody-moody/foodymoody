@@ -2,7 +2,9 @@ package com.foodymoody.be.comment.domain.repository;
 
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummary;
 import com.foodymoody.be.comment.domain.entity.CommentId;
+import com.foodymoody.be.comment.domain.entity.Reply;
 import com.foodymoody.be.comment.domain.entity.ReplyId;
+import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
@@ -13,4 +15,6 @@ public interface ReplyRepository {
     Slice<MemberReplySummary> findByCommentIdAndMemberId(CommentId commentId, String memberId, Pageable pageable);
 
     boolean existsById(ReplyId replyId);
+
+    Optional<Reply> findById(ReplyId replyId);
 }

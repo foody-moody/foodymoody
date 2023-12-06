@@ -34,7 +34,7 @@ class ReplyFeedHeartAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("reply_heart_register_success", spec);
 
         // when
-        var response = 좋아요를_누린다(회원푸반_액세스토큰, firstReplyId, spec);
+        var response = 좋아요를_누린다(회원푸반_액세스토큰, commentId, firstReplyId, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(201);
@@ -47,10 +47,10 @@ class ReplyFeedHeartAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("reply_heart_cancel_success", spec);
 
         // given
-        좋아요를_누린다(회원푸반_액세스토큰, firstReplyId);
+        좋아요를_누린다(회원푸반_액세스토큰, commentId, firstReplyId);
 
         // when
-        var response = 좋아요를_취소한다(회원푸반_액세스토큰, firstReplyId, spec);
+        var response = 좋아요를_취소한다(회원푸반_액세스토큰, commentId, firstReplyId, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(204);
