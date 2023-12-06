@@ -1,6 +1,7 @@
 package com.foodymoody.be.image.service;
 
 import com.foodymoody.be.common.exception.UnauthorizedException;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.service.FeedService;
 import com.foodymoody.be.image.controller.ImageUploadResponse;
@@ -20,7 +21,8 @@ public class FeedImageService {
     private final FeedService feedService;
 
     public ImageUploadResponse save(ImageCategory category, String feedId, String memberId, MultipartFile file) {
-        Feed feed = feedService.findFeed(feedId);
+        FeedId feedIdObj = new FeedId(feedId);
+        Feed feed = feedService.findFeed(feedIdObj);
         validateIsAuthor(memberId, feed);
         return imageService.save(category, feedId, file);
     }

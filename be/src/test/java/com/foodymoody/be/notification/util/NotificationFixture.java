@@ -2,7 +2,9 @@ package com.foodymoody.be.notification.util;
 
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.FeedNotificationId;
+import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.notification.domain.FeedNotification;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
 import java.time.LocalDateTime;
@@ -27,7 +29,11 @@ public class NotificationFixture {
     }
 
     public static FeedNotification notification(FeedNotificationId id) {
-        return new FeedNotification(id, "2", MEMBER_ID, NOTIFICATION_MESSAGE, FEED_ID,
+        return new FeedNotification(id, "2", MEMBER_ID, NOTIFICATION_MESSAGE, getFeedId(),
                 COMMENT_ID, NotificationType.COMMENT_ADDED_EVENT, false, false, CREATE_AT, UPDATE_AT);
+    }
+
+    private static FeedId getFeedId() {
+        return IdFactory.createFeedId(FEED_ID);
     }
 }

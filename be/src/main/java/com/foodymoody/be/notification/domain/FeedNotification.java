@@ -2,9 +2,11 @@ package com.foodymoody.be.notification.domain;
 
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.FeedNotificationId;
 import java.time.LocalDateTime;
 import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -21,8 +23,9 @@ public class FeedNotification {
     private String fromMemberId;
     private String toMemberId;
     private String message;
-    private String feedId;
-    @AttributeOverride(name = "value", column = @javax.persistence.Column(name = "comment_id"))
+    @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
+    private FeedId feedId;
+    @AttributeOverride(name = "value", column = @Column(name = "comment_id"))
     private CommentId commentId;
     @Enumerated(EnumType.STRING)
     private NotificationType type;
@@ -32,7 +35,7 @@ public class FeedNotification {
     private LocalDateTime updatedAt;
 
     public FeedNotification(FeedNotificationId id, String fromMemberId, String toMemberId, String message,
-            String feedId, CommentId commentId, NotificationType type, boolean isRead, boolean isDeleted,
+            FeedId feedId, CommentId commentId, NotificationType type, boolean isRead, boolean isDeleted,
             LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.fromMemberId = fromMemberId;
@@ -63,7 +66,7 @@ public class FeedNotification {
         return message;
     }
 
-    public String getFeedId() {
+    public FeedId getFeedId() {
         return feedId;
     }
 

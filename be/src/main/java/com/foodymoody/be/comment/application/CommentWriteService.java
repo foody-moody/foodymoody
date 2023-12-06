@@ -10,6 +10,7 @@ import com.foodymoody.be.comment.domain.repository.CommentRepository;
 import com.foodymoody.be.common.exception.CommentNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import java.time.LocalDateTime;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,8 @@ public class CommentWriteService {
         String newId = IdGenerator.generate();
         LocalDateTime now = LocalDateTime.now();
         CommentId commentId = new CommentId(newId);
-        Comment comment = commentMapper.toEntity(request, now, commentId, memberId);
+        FeedId feedId = new FeedId(request.getFeedId());
+        Comment comment = commentMapper.toEntity(request, feedId, now, commentId, memberId);
         Comment saved = commentRepository.save(comment);
         return saved.getId();
     }

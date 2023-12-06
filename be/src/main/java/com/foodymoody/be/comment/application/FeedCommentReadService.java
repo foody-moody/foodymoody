@@ -2,6 +2,8 @@ package com.foodymoody.be.comment.application;
 
 import com.foodymoody.be.comment.application.dto.response.MemberCommentSummary;
 import com.foodymoody.be.comment.domain.repository.CommentRepository;
+import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.IdFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -16,10 +18,13 @@ public class FeedCommentReadService {
 
     @Transactional(readOnly = true)
     public Slice<MemberCommentSummary> fetchComments(String feedId, Pageable pageable) {
-        return commentRepository.findWithMemberAllByFeedId(feedId, pageable);
+        FeedId feedIdObj = IdFactory.createFeedId(feedId);
+        return commentRepository.findWithMemberAllByFeedId(feedIdObj, pageable);
     }
 
+    @Transactional(readOnly = true)
     public Slice<MemberCommentSummary> fetchComments(String feedId, Pageable pageable, String memberId) {
-        return commentRepository.findWithMemberAllByFeedId(feedId, memberId, pageable);
+        FeedId feedIdObj = IdFactory.createFeedId(feedId);
+        return commentRepository.findWithMemberAllByFeedId(feedIdObj, memberId, pageable);
     }
 }

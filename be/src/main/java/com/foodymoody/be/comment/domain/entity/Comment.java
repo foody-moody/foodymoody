@@ -4,11 +4,14 @@ import com.foodymoody.be.common.event.Event;
 import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -16,10 +19,11 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Comment {
 
-    @EmbeddedId
+    @Id
     private CommentId id;
     private String content;
-    private String feedId;
+    @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
+    private FeedId feedId;
     private boolean deleted;
     private String memberId;
     private boolean hasReply;
@@ -28,7 +32,7 @@ public class Comment {
     @Embedded
     private ReplyComments replyComments;
 
-    public Comment(CommentId id, String content, String feedId, boolean deleted, String memberId,
+    public Comment(CommentId id, String content, FeedId feedId, boolean deleted, String memberId,
             LocalDateTime createdAt) {
         CommentValidator.validate(id, content, feedId, createdAt);
         this.id = id;
@@ -49,7 +53,7 @@ public class Comment {
         return content;
     }
 
-    public String getFeedId() {
+    public FeedId getFeedId() {
         return feedId;
     }
 

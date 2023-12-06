@@ -3,6 +3,8 @@ package com.foodymoody.be.comment.util;
 import com.foodymoody.be.comment.application.dto.request.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.IdFactory;
 import java.time.LocalDateTime;
 
 public class CommentFixture {
@@ -61,7 +63,7 @@ public class CommentFixture {
     }
 
     public static Comment comment() {
-        return new Comment(new CommentId(COMMENT_ID), CONTENT, FEED_ID, DELETED, MEMBER_ID, CREATED_AT);
+        return new Comment(new CommentId(COMMENT_ID), CONTENT, getFeedId(), DELETED, MEMBER_ID, CREATED_AT);
     }
 
     public static CommentId commentId() {
@@ -77,6 +79,10 @@ public class CommentFixture {
     }
 
     public static Comment deletedComment() {
-        return new Comment(commentId(), CONTENT, FEED_ID, true, MEMBER_ID, CREATED_AT);
+        return new Comment(commentId(), CONTENT, getFeedId(), true, MEMBER_ID, CREATED_AT);
+    }
+
+    private static FeedId getFeedId() {
+        return IdFactory.createFeedId(FEED_ID);
     }
 }

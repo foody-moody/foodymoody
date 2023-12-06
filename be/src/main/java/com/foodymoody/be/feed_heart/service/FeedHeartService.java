@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_heart.service;
 
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.service.FeedService;
@@ -72,7 +73,8 @@ public class FeedHeartService {
     }
 
     private Feed updateFeed(String feedId, int heartCount, boolean isLiked) {
-        Feed feed = feedService.findFeed(feedId);
+        FeedId feedIdObj = IdFactory.createFeedId(feedId);
+        Feed feed = feedService.findFeed(feedIdObj);
 
         feed.updateIsLikedBy(isLiked);
         feed.updateLikeCountBy(heartCount);

@@ -5,6 +5,7 @@ import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.comment.domain.repository.CommentRepository;
 import com.foodymoody.be.comment.infra.persistence.jpa.CommentJpaRepository;
 import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public Slice<MemberCommentSummary> findWithMemberAllByFeedId(String feedId, Pageable pageable) {
+    public Slice<MemberCommentSummary> findWithMemberAllByFeedId(FeedId feedId, Pageable pageable) {
         return commentJpaRepository.findWithMemberAllByFeedId(feedId, pageable);
     }
 
@@ -38,7 +39,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public Slice<MemberCommentSummary> findWithMemberAllByFeedId(String feedId, String memberId, Pageable pageable) {
+    public Slice<MemberCommentSummary> findWithMemberAllByFeedId(FeedId feedId, String memberId, Pageable pageable) {
         return commentJpaRepository.findWithMemberAllByFeedIdAndMemberId(feedId, memberId, pageable);
     }
 }

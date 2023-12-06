@@ -3,6 +3,7 @@ package com.foodymoody.be.comment.infra.persistence.jpa;
 import com.foodymoody.be.comment.application.dto.response.MemberCommentSummary;
 import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,7 +23,7 @@ public interface CommentJpaRepository extends JpaRepository<Comment, CommentId> 
             + "left join CommentHeartCount _heartCount on _heartCount.commentId = _comment.id "
             + "where _comment.feedId = :feedId and _comment.deleted = false")
     Slice<MemberCommentSummary> findWithMemberAllByFeedId(
-            @Param("feedId") String feedId,
+            @Param("feedId") FeedId feedId,
             @Param("pageable") Pageable pageable
     );
 
@@ -38,5 +39,5 @@ public interface CommentJpaRepository extends JpaRepository<Comment, CommentId> 
             + "left join CommentHeart _heart on _heart.commentId = _comment.id and _heart.memberId = :memberId "
             + "left join CommentHeartCount _heartCount on _heartCount.commentId = _comment.id "
             + "where _comment.feedId = :feedId and _comment.deleted = false")
-    Slice<MemberCommentSummary> findWithMemberAllByFeedIdAndMemberId(String feedId, String memberId, Pageable pageable);
+    Slice<MemberCommentSummary> findWithMemberAllByFeedIdAndMemberId(FeedId feedId, String memberId, Pageable pageable);
 }
