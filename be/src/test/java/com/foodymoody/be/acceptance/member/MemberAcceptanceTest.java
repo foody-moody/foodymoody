@@ -25,8 +25,6 @@ import org.junit.jupiter.api.Test;
 @DisplayName("회원 관련 기능 인수테스트")
 class MemberAcceptanceTest extends AcceptanceTest {
 
-    private static final RequestSpecification MOCK_SPEC = new RequestSpecBuilder().build();
-
     @Nested
     @DisplayName("회원 가입 인수테스트")
     class SignUp {

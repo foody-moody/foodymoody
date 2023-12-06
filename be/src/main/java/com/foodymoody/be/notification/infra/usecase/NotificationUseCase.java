@@ -39,10 +39,10 @@ public class NotificationUseCase {
     public NotificationResponse request(String memberId, String notificationId) {
         FeedNotification feedNotification = notificationWriteService.read(notificationId);
         Member member = memberService.findById(memberId);
-        Image memberProfileImage = imageService.findBy(member.getProfileImageId());
+        Image memberProfileImage = imageService.findById(member.getProfileImageId());
         Feed feed = feedService.findFeed(feedNotification.getFeedId());
         String feedProfileImageId = feed.getImageMenus().get(0).getImageId();
-        Image feedProfileImage = imageService.findBy(feedProfileImageId);
+        Image feedProfileImage = imageService.findById(feedProfileImageId);
         return toResponse(memberId, feedNotification, member, memberProfileImage, feed, feedProfileImage);
     }
 
