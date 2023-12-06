@@ -1,7 +1,18 @@
 package com.foodymoody.be.acceptance.image;
 
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
-import static com.foodymoody.be.acceptance.image.ImageSteps.*;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_200이고_응답에_id와_url이_존재함을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_200임을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_400이고_오류코드가_i005임을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_400이고_오류코드가_i007임을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_400임을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_401이고_오류코드가_a001임을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_404이고_오류코드가_i001임을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.이미지를_삭제한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.지원하지_않는_형식의_회원_이미지를_업로드한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.크기가_2_8MB를_넘는_회원_이미지를_업로드한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.회원_이미지를_업로드한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
 import io.restassured.response.ExtractableResponse;

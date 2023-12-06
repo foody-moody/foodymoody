@@ -1,6 +1,5 @@
 package com.foodymoody.be.feed_heart.service;
 
-import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.service.FeedService;
 import com.foodymoody.be.feed_heart.domain.FeedHeart;

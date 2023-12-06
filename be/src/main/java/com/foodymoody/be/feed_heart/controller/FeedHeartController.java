@@ -19,16 +19,20 @@ public class FeedHeartController {
     private final FeedHeartService feedHeartService;
 
     @PostMapping("/api/likes")
-    public ResponseEntity<FeedHeartResponse> like(@RequestBody FeedHeartRequest feedHeartRequest,
-                                                  @MemberId String memberId) {
+    public ResponseEntity<FeedHeartResponse> like(
+            @RequestBody FeedHeartRequest feedHeartRequest,
+            @MemberId String memberId
+    ) {
         FeedHeartResponse feedHeartResponse = feedHeartService.like(
                 FeedHeartMapper.toFeedHeartServiceRequest(feedHeartRequest, memberId));
         return ResponseEntity.ok().body(feedHeartResponse);
     }
 
     @DeleteMapping("/api/likes")
-    public ResponseEntity<Void> unlike(@RequestBody FeedHeartRequest feedHeartRequest,
-                                                @MemberId String memberId) {
+    public ResponseEntity<Void> unlike(
+            @RequestBody FeedHeartRequest feedHeartRequest,
+            @MemberId String memberId
+    ) {
         feedHeartService.unLike(FeedHeartMapper.toFeedHeartServiceRequest(feedHeartRequest, memberId));
         return ResponseEntity.noContent().build();
     }

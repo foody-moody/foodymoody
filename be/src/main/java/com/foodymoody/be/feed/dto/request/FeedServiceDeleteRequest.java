@@ -1,8 +1,6 @@
 package com.foodymoody.be.feed.dto.request;
 
-import java.util.List;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

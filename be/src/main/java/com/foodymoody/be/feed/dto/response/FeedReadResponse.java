@@ -35,8 +35,8 @@ public class FeedReadResponse {
 
     @Builder
     public FeedReadResponse(String id, FeedMemberResponse member, String location, LocalDateTime createdAt,
-                            LocalDateTime updatedAt, String review, List<FeedStoreMoodResponse> storeMood,
-                            List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, int commentCount) {
+            LocalDateTime updatedAt, String review, List<FeedStoreMoodResponse> storeMood,
+            List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, int commentCount) {
         this.id = id;
         this.member = member;
         this.location = location;

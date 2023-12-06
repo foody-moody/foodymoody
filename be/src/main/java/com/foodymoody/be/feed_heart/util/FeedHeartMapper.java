@@ -12,7 +12,8 @@ public class FeedHeartMapper {
         throw new IllegalArgumentException("Utility Class");
     }
 
-    public static FeedHeartServiceRequest toFeedHeartServiceRequest(FeedHeartRequest feedHeartRequest, String memberId) {
+    public static FeedHeartServiceRequest toFeedHeartServiceRequest(FeedHeartRequest feedHeartRequest,
+            String memberId) {
         return new FeedHeartServiceRequest(feedHeartRequest.getFeedId(), memberId);
     }
 
@@ -20,7 +21,8 @@ public class FeedHeartMapper {
         return new FeedHeart(IdGenerator.generate(), feedId, memberId);
     }
 
-    public static FeedHeartResponse toHeartResponse(String id, String feedId, String memberId, boolean isLiked, int feedHeartCount) {
+    public static FeedHeartResponse toHeartResponse(String id, String feedId, String memberId, boolean isLiked,
+            int feedHeartCount) {
         return new FeedHeartResponse(id, feedId, memberId, isLiked, feedHeartCount);
     }
 

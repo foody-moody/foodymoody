@@ -1,8 +1,9 @@
 package com.foodymoody.be.image.service;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.when;
 
 import com.foodymoody.be.common.exception.UnauthorizedException;
 import com.foodymoody.be.image.controller.ImageUploadResponse;
@@ -36,6 +37,18 @@ class ImageServiceTest {
     ImageStorage imageStorage;
     @Mock
     ImageRepository imageRepository;
+
+    private static MockMultipartFile createMockMultipartFileByPath(String path, String fileName) {
+        Resource resource = new ClassPathResource(path);
+        try {
+            Path absolutePath = resource.getFile().toPath();
+            byte[] bytes = Files.readAllBytes(absolutePath);
+            return new MockMultipartFile("file", fileName, "multipart/form-data", bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 
     @Nested
     @DisplayName("이미지 저장 테스트")
@@ -81,21 +94,10 @@ class ImageServiceTest {
                     Optional.of(new Image("testId", "https://s3Url.com/key", "testMemberId")));
 
 //        when, then
-            Assertions.assertThrows(UnauthorizedException.class, () -> imageService.delete("differentMemberId", "testId"));
+            Assertions.assertThrows(UnauthorizedException.class,
+                    () -> imageService.delete("differentMemberId", "testId"));
         }
 
-    }
-
-    private static MockMultipartFile createMockMultipartFileByPath(String path, String fileName) {
-        Resource resource = new ClassPathResource(path);
-        try {
-            Path absolutePath = resource.getFile().toPath();
-            byte[] bytes = Files.readAllBytes(absolutePath);
-            return new MockMultipartFile("file", fileName, "multipart/form-data", bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
     }
 
 }

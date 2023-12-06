@@ -16,7 +16,7 @@ public class FeedServiceRegisterRequest {
 
     @Builder
     public FeedServiceRegisterRequest(String memberId, String location, String review, List<String> storeMood,
-                                      List<ImageMenuPair> images) {
+            List<ImageMenuPair> images) {
         this.memberId = memberId;
         this.location = location;
         this.review = review;

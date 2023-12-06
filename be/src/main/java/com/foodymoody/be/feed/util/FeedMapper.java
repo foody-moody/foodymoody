@@ -70,12 +70,14 @@ public class FeedMapper {
                 .build();
     }
 
-    public static List<FeedImageMenuResponse> toFeedImageMenuResponses(List<ImageIdNamePair> imageIdUrlList, List<MenuNameRatingPair> menuNameRatingList) {
+    public static List<FeedImageMenuResponse> toFeedImageMenuResponses(List<ImageIdNamePair> imageIdUrlList,
+            List<MenuNameRatingPair> menuNameRatingList) {
         List<FeedImageMenuResponse> feedImageMenuResponses = new ArrayList<>();
         for (int i = 0; i < imageIdUrlList.size(); i++) {
             feedImageMenuResponses.add(
                     new FeedImageMenuResponse(imageIdUrlList.get(i).getId(), imageIdUrlList.get(i).getUrl(),
-                            new FeedMenuResponse(menuNameRatingList.get(i).getName(), menuNameRatingList.get(i).getRating())));
+                            new FeedMenuResponse(menuNameRatingList.get(i).getName(),
+                                    menuNameRatingList.get(i).getRating())));
         }
 
         return feedImageMenuResponses;

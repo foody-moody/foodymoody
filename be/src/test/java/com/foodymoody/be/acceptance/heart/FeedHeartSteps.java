@@ -42,7 +42,8 @@ public class FeedHeartSteps {
         );
     }
 
-    public static ExtractableResponse<Response> 좋아요된_피드에_또_좋아요를_한다(String feedId, String accessToken, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 좋아요된_피드에_또_좋아요를_한다(String feedId, String accessToken,
+            RequestSpecification spec) {
         Map<String, Object> body = Map.of(
                 "feedId", feedId
         );
@@ -66,8 +67,8 @@ public class FeedHeartSteps {
     }
 
 
-
-    public static ExtractableResponse<Response> 좋아요_취소를_한다(String feedId, String accessToken, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 좋아요_취소를_한다(String feedId, String accessToken,
+            RequestSpecification spec) {
         Map<String, Object> body = Map.of(
                 "feedId", feedId
         );
@@ -91,7 +92,8 @@ public class FeedHeartSteps {
         assertThat(response.statusCode()).isEqualTo(204);
     }
 
-    public static ExtractableResponse<Response> 좋아요_한_적이_없는데_좋아요_취소를_한다(String feedId, String accessToken, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 좋아요_한_적이_없는데_좋아요_취소를_한다(String feedId, String accessToken,
+            RequestSpecification spec) {
         Map<String, Object> body = Map.of(
                 "feedId", feedId
         );

@@ -20,6 +20,7 @@ import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
 import com.foodymoody.be.feed.dto.response.FeedTasteMoodResponse;
 import com.foodymoody.be.feed.repository.FeedRepository;
+import com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.feed.service.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.service.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed.util.FeedMapper;
@@ -28,7 +29,6 @@ import com.foodymoody.be.feed_heart_count.service.FeedHeartCountService;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.repository.MemberFeedData;
-import com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.service.MenuService;
@@ -82,19 +82,6 @@ public class FeedService {
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
     }
 
-    private List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<String> storeMoodIds) {
-        List<StoreMoodId> ids = storeMoodIds.stream()
-                .map(StoreMoodId::new)
-                .collect(Collectors.toUnmodifiableList());
-        List<StoreMood> storeMoods = storeMoodService.findAllById(ids);
-        List<FeedStoreMoodResponse> feedStoreMoodResponses = new ArrayList<>();
-        for (int i = 0; i < storeMoodIds.size(); i++) {
-            feedStoreMoodResponses.add(new FeedStoreMoodResponse(storeMoodIds.get(i), storeMoods.get(i).getName()));
-        }
-
-        return feedStoreMoodResponses;
-    }
-
     public boolean exists(String feedId) {
         return feedRepository.existsById(feedId);
     }
@@ -121,23 +108,6 @@ public class FeedService {
         return FeedMapper.toFeedRegisterResponse(savedFeed);
     }
 
-    // TODO: Mapper로 옮기기, service 지우기
-    private List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
-        return imageMenuPairs.stream()
-                .map(imageMenuPair -> menuService.saveMenu(makeMenu(IdGenerator.generate(), imageMenuPair.getMenu())))
-                .collect(Collectors.toUnmodifiableList());
-    }
-
-    private List<Image> toImage(List<ImageMenuPair> imageMenuPairs, String memberId) {
-        return imageMenuPairs.stream()
-                .map(imageMenuPair -> new Image(imageMenuPair.getImageId(), findImageUrl(imageMenuPair), memberId))
-                .collect(Collectors.toUnmodifiableList());
-    }
-
-    private String findImageUrl(ImageMenuPair imageMenuPair) {
-        return imageService.findById(imageMenuPair.getImageId()).getUrl();
-    }
-
     public FeedReadResponse read(String id) {
         Feed feed = findFeed(id);
         List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feed);
@@ -147,31 +117,6 @@ public class FeedService {
 
         return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
                 makeFeedStoreMoodResponses(storeMoodIds));
-    }
-
-    // TODO: 쿼리 써서 n + 1 문제 해결
-    private List<FeedImageMenuResponse> makeFeedImageMenuResponses(Feed feed) {
-        List<ImageMenu> imageMenus = feed.getImageMenus();
-
-        List<ImageIdNamePair> imageIdUrlList = findImageIdUrlList(imageMenus);
-        List<MenuNameRatingPair> menuNameRatingList = findMenuNameRatingList(imageMenus);
-
-        return FeedMapper.toFeedImageMenuResponses(imageIdUrlList, menuNameRatingList);
-    }
-
-    private FeedMemberResponse makeFeedMemberResponse(Feed feed) {
-        MemberFeedData memberData = memberService.fetchFeedDataById(feed.getMemberId());
-        return toFeedMemberResponse(memberData);
-    }
-
-    private FeedMemberResponse toFeedMemberResponse(MemberFeedData member) {
-        MemberFeedData memberData = memberService.fetchFeedDataById(member.getId());
-        return FeedMemberResponse.builder()
-                .id(member.getId())
-                .imageUrl(memberData.getProfileImageUrl())
-                .nickname(member.getNickname())
-                .tasteMood(new FeedTasteMoodResponse(member.getId(), member.getMoodName()))
-                .build();
     }
 
     @Transactional
@@ -205,6 +150,61 @@ public class FeedService {
 
     public Slice<MemberProfileFeedPreviewResponse> findPreviewsByMemberId(String memberId, Pageable pageable) {
         return feedRepository.fetchPreviewsByMemberId(memberId, pageable);
+    }
+
+    private List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<String> storeMoodIds) {
+        List<StoreMoodId> ids = storeMoodIds.stream()
+                .map(StoreMoodId::new)
+                .collect(Collectors.toUnmodifiableList());
+        List<StoreMood> storeMoods = storeMoodService.findAllById(ids);
+        List<FeedStoreMoodResponse> feedStoreMoodResponses = new ArrayList<>();
+        for (int i = 0; i < storeMoodIds.size(); i++) {
+            feedStoreMoodResponses.add(new FeedStoreMoodResponse(storeMoodIds.get(i), storeMoods.get(i).getName()));
+        }
+
+        return feedStoreMoodResponses;
+    }
+
+    // TODO: Mapper로 옮기기, service 지우기
+    private List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
+        return imageMenuPairs.stream()
+                .map(imageMenuPair -> menuService.saveMenu(makeMenu(IdGenerator.generate(), imageMenuPair.getMenu())))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    private List<Image> toImage(List<ImageMenuPair> imageMenuPairs, String memberId) {
+        return imageMenuPairs.stream()
+                .map(imageMenuPair -> new Image(imageMenuPair.getImageId(), findImageUrl(imageMenuPair), memberId))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    private String findImageUrl(ImageMenuPair imageMenuPair) {
+        return imageService.findById(imageMenuPair.getImageId()).getUrl();
+    }
+
+    // TODO: 쿼리 써서 n + 1 문제 해결
+    private List<FeedImageMenuResponse> makeFeedImageMenuResponses(Feed feed) {
+        List<ImageMenu> imageMenus = feed.getImageMenus();
+
+        List<ImageIdNamePair> imageIdUrlList = findImageIdUrlList(imageMenus);
+        List<MenuNameRatingPair> menuNameRatingList = findMenuNameRatingList(imageMenus);
+
+        return FeedMapper.toFeedImageMenuResponses(imageIdUrlList, menuNameRatingList);
+    }
+
+    private FeedMemberResponse makeFeedMemberResponse(Feed feed) {
+        MemberFeedData memberData = memberService.fetchFeedDataById(feed.getMemberId());
+        return toFeedMemberResponse(memberData);
+    }
+
+    private FeedMemberResponse toFeedMemberResponse(MemberFeedData member) {
+        MemberFeedData memberData = memberService.fetchFeedDataById(member.getId());
+        return FeedMemberResponse.builder()
+                .id(member.getId())
+                .imageUrl(memberData.getProfileImageUrl())
+                .nickname(member.getNickname())
+                .tasteMood(new FeedTasteMoodResponse(member.getId(), member.getMoodName()))
+                .build();
     }
 
     private List<ImageIdNamePair> findImageIdUrlList(List<ImageMenu> imageMenus) {

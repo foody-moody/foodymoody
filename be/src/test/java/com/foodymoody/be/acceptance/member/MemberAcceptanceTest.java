@@ -16,8 +16,6 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.아직_피드를_�
 import static com.foodymoody.be.acceptance.member.MemberSteps.전체_테이스트_무드를_조회한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

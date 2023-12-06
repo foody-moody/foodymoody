@@ -22,6 +22,31 @@ import org.springframework.mock.web.MockMultipartFile;
 
 class ImageResourceTest {
 
+    private static MockMultipartFile createMockMultipartFileByPath(String path, String fileName) {
+        Resource resource = new ClassPathResource(path);
+        try {
+            Path absolutePath = resource.getFile().toPath();
+            byte[] bytes = Files.readAllBytes(absolutePath);
+            return new MockMultipartFile("file", fileName, "multipart/form-data", bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    static class EmptyOrNullFileProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+            return Stream.of(
+                    Arguments.of(new MockMultipartFile("file", "empty.jpg", "multipart/form-data", new byte[]{})),
+                    Arguments.of(new MockMultipartFile("file", "null.png", "multipart/form-data", (byte[]) null)),
+                    Arguments.of(createMockMultipartFileByPath("images/potato.jpg", null)),
+                    Arguments.of(createMockMultipartFileByPath("images/potato.jpg", "    "))
+            );
+        }
+    }
+
     @DisplayName("생성자 테스트")
     @Nested
     class Constructor {
@@ -55,30 +80,6 @@ class ImageResourceTest {
         void whenFileOrContentTypeOrFileNameIsNullOrEmpty_thenDoNotConstructImageFile(MockMultipartFile mock) {
 //        when, then
             Assertions.assertThrows(InvalidImageFileException.class, () -> new ImageResource(mock));
-        }
-    }
-
-    static class EmptyOrNullFileProvider implements ArgumentsProvider {
-        @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
-            return Stream.of(
-                    Arguments.of(new MockMultipartFile("file", "empty.jpg", "multipart/form-data", new byte[]{})),
-                    Arguments.of(new MockMultipartFile("file", "null.png", "multipart/form-data", (byte[]) null)),
-                    Arguments.of(createMockMultipartFileByPath("images/potato.jpg", null)),
-                    Arguments.of(createMockMultipartFileByPath("images/potato.jpg", "    "))
-                    );
-        }
-    }
-
-    private static MockMultipartFile createMockMultipartFileByPath(String path, String fileName) {
-        Resource resource = new ClassPathResource(path);
-        try {
-            Path absolutePath = resource.getFile().toPath();
-            byte[] bytes = Files.readAllBytes(absolutePath);
-            return new MockMultipartFile("file", fileName, "multipart/form-data", bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
         }
     }
 

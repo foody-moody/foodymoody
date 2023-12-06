@@ -7,9 +7,9 @@ import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberId;
-import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.domain.TasteMood;
 import com.foodymoody.be.member.domain.TasteMoodId;
+import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.repository.MemberRepository;
 import com.foodymoody.be.member.util.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +55,7 @@ public class MemberService {
     }
 
     private void validateEmailDuplication(String email) {
-        if(memberRepository.existsByEmail(email)){
+        if (memberRepository.existsByEmail(email)) {
             throw new DuplicateMemberEmailException();
         }
     }

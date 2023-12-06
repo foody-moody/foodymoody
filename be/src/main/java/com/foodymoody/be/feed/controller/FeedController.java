@@ -34,8 +34,10 @@ public class FeedController {
      * Feed 등록
      */
     @PostMapping("/api/feeds")
-    public ResponseEntity<FeedRegisterResponse> register(@RequestBody FeedRegisterRequest feedRegisterRequest,
-                                                         @MemberId String memberId) {
+    public ResponseEntity<FeedRegisterResponse> register(
+            @RequestBody FeedRegisterRequest feedRegisterRequest,
+            @MemberId String memberId
+    ) {
         FeedRegisterResponse feedRegisterResponse = feedService.register(
                 FeedMapper.toServiceRegisterRequest(feedRegisterRequest, memberId));
         return ResponseEntity.ok().body(feedRegisterResponse);
@@ -64,7 +66,7 @@ public class FeedController {
      */
     @PutMapping("/api/feeds/{id}")
     public ResponseEntity<Void> update(@PathVariable String id, @RequestBody FeedUpdateRequest feedUpdateRequest,
-                                       @MemberId String memberId) {
+            @MemberId String memberId) {
         feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest, memberId));
         return ResponseEntity.noContent().build();
     }
@@ -80,7 +82,7 @@ public class FeedController {
 
     /**
      * 전체 Store Mood 조회
-     * */
+     */
     @GetMapping("/api/feeds/store-moods")
     public ResponseEntity<List<StoreMoodResponse>> readAllStoreMood() {
         List<StoreMoodResponse> storeMoodResponses = storeMoodService.fetchAll();

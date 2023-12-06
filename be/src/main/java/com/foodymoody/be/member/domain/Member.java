@@ -34,7 +34,8 @@ public class Member {
         Events.publish(toMemberCreatedEvent());
     }
 
-    public static Member of(String id, String email, String nickname, String password, String reconfirmPassword, String moodId) {
+    public static Member of(String id, String email, String nickname, String password, String reconfirmPassword,
+            String moodId) {
         if (!Objects.equals(reconfirmPassword, password)) {
             throw new InvalidReconfirmPasswordException();
         }

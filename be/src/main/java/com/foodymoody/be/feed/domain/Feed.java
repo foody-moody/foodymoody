@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -38,7 +37,7 @@ public class Feed {
     }
 
     public Feed(String id, String memberId, String location, String review, List<String> moodIds, List<Image> images,
-                List<Menu> menus) {
+            List<Menu> menus) {
         this.id = id;
         this.memberId = memberId;
         this.location = location;
@@ -95,8 +94,9 @@ public class Feed {
         return memberId;
     }
 
-    public void update(String memberId, String newLocation, String newReview, List<String> newStoreMoodIds, List<Image> newImages,
-                       List<Menu> newMenus) {
+    public void update(String memberId, String newLocation, String newReview, List<String> newStoreMoodIds,
+            List<Image> newImages,
+            List<Menu> newMenus) {
         this.memberId = memberId;
         this.location = newLocation;
         this.review = newReview;

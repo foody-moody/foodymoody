@@ -1,9 +1,10 @@
 package com.foodymoody.be.image.domain;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 class ImageCategoryTest {
 
     @DisplayName("피드 이미지 경로를 생성한다")
