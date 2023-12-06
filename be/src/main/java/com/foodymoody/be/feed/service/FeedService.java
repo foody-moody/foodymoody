@@ -175,7 +175,8 @@ public class FeedService {
 
     private List<Image> toImage(List<ImageMenuPair> imageMenuPairs, String memberId) {
         return imageMenuPairs.stream()
-                .map(imageMenuPair -> new Image(imageMenuPair.getImageId(), findImageUrl(imageMenuPair), memberId))
+                .map(imageMenuPair -> new Image(IdFactory.createImageId(imageMenuPair.getImageId()),
+                        findImageUrl(imageMenuPair), memberId))
                 .collect(Collectors.toUnmodifiableList());
     }
 
@@ -212,7 +213,7 @@ public class FeedService {
         return imageMenus.stream()
                 .map(imageMenu -> {
                     Image image = imageService.findById(imageMenu.getImageId());
-                    return new ImageIdNamePair(image.getId(), image.getUrl());
+                    return new ImageIdNamePair(image.getId().getValue(), image.getUrl());
                 })
                 .collect(Collectors.toUnmodifiableList());
     }

@@ -6,6 +6,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.when;
 
 import com.foodymoody.be.common.exception.UnauthorizedException;
+import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.image.controller.ImageUploadResponse;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.domain.ImageCategory;
@@ -79,8 +81,10 @@ class ImageServiceTest {
         @Test
         void whenDeleteImage_thenSuccess() {
 //        given
-            given(imageRepository.findById("testId")).willReturn(
-                    Optional.of(new Image("testId", "https://s3Url/key", "testMemberId")));
+            ImageId testId = IdFactory.createImageId("testId");
+            given(imageRepository.findById(any(ImageId.class))).willReturn(
+                    Optional.of(new Image(testId, "https://s3Url/key", "testMemberId"))
+            );
 
 //        when, then
             Assertions.assertDoesNotThrow(() -> imageService.delete("testMemberId", "testId"));
@@ -90,8 +94,9 @@ class ImageServiceTest {
         @Test
         void whenRequestMemberIdIsNotImageUploaderId_thenFail() {
 //        given
-            given(imageRepository.findById("testId")).willReturn(
-                    Optional.of(new Image("testId", "https://s3Url.com/key", "testMemberId")));
+            ImageId testId = IdFactory.createImageId("testId");
+            given(imageRepository.findById(any(ImageId.class))).willReturn(
+                    Optional.of(new Image(testId, "https://s3Url.com/key", "testMemberId")));
 
 //        when, then
             Assertions.assertThrows(UnauthorizedException.class,

@@ -1,6 +1,7 @@
 package com.foodymoody.be.image.domain;
 
 import com.foodymoody.be.common.exception.UnauthorizedException;
+import com.foodymoody.be.common.util.ids.ImageId;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -19,13 +20,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Image {
 
     @Id
-    private String id;
+    private ImageId id;
     private String url;
     @CreatedDate
     private LocalDateTime createdAt;
     private String uploaderId;
 
-    public Image(String id, String url, String uploaderId) {
+    public Image(ImageId id, String url, String uploaderId) {
         this.id = id;
         this.url = url;
         this.uploaderId = uploaderId;

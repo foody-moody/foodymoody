@@ -34,6 +34,14 @@ public class IdFactory {
         return createId(FeedHeartCountId.class);
     }
 
+    public static ImageId createImageId(String id) {
+        return createId(ImageId.class, id);
+    }
+
+    public static ImageId createImageId() {
+        return createId(ImageId.class);
+    }
+
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {
         try {
             Constructor<T> constructor = idClass.getConstructor(String.class);
