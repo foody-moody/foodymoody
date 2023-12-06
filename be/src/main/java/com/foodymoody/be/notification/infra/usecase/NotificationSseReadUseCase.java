@@ -2,7 +2,7 @@ package com.foodymoody.be.notification.infra.usecase;
 
 import com.foodymoody.be.notification.application.NotificationReadService;
 import com.foodymoody.be.notification.application.NotificationSpecs;
-import com.foodymoody.be.notification.domain.Notification;
+import com.foodymoody.be.notification.domain.FeedNotification;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingSummary;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class NotificationSseReadUseCase {
     @Transactional(readOnly = true)
     public long fetchCountNotReadNotification(String memberId) {
         NotificationSettingSummary notificationSettingSummary = notificationSettingReadService.request(memberId);
-        Specification<Notification> notificationSpecification = NotificationSpecs.searchByType(
+        Specification<FeedNotification> notificationSpecification = NotificationSpecs.searchByType(
                 notificationSettingSummary.isComment(), notificationSettingSummary.isHeart(),
                 notificationSettingSummary.isFeed());
         return notificationReadService.fetchCountNotReadNotification(memberId, notificationSpecification);

@@ -16,15 +16,17 @@ public class ReplyHeartWriteController {
 
     private final ReplyHeartWriteUseCase useCase;
 
-    @PostMapping("/api/replies/{replyId}/hearts")
-    public ResponseEntity<Void> create(@PathVariable String replyId, @MemberId String memberId) {
-        useCase.registerReplyHeart(replyId, memberId);
+    @PostMapping("/api/comments/{commentId}/replies/{replyId}/hearts")
+    public ResponseEntity<Void> create(@PathVariable String commentId, @PathVariable String replyId,
+            @MemberId String memberId) {
+        useCase.registerReplyHeart(commentId, replyId, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/api/replies/{replyId}/hearts")
-    public ResponseEntity<Void> delete(@PathVariable String replyId, @MemberId String memberId) {
-        useCase.deleteReplyHeart(replyId, memberId);
+    @DeleteMapping("/api/comments/{commentId}/replies/{replyId}/hearts")
+    public ResponseEntity<Void> delete(@PathVariable String commentId, @PathVariable String replyId,
+            @MemberId String memberId) {
+        useCase.deleteReplyHeart(commentId, replyId, memberId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

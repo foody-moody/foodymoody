@@ -1,9 +1,11 @@
 package com.foodymoody.be.notification.infra.event.util;
 
+import com.foodymoody.be.comment.domain.entity.CommentAddedEvent;
+import com.foodymoody.be.comment.domain.entity.CommentRepliedAddedEvent;
 import com.foodymoody.be.common.event.NotificationType;
-import com.foodymoody.be.notification.domain.Notification;
-import com.foodymoody.be.notification.domain.NotificationId;
-import java.time.LocalDateTime;
+import com.foodymoody.be.feed.domain.Feed;
+import com.foodymoody.be.notification.domain.FeedNotification;
+import com.foodymoody.be.notification.domain.FeedNotificationId;
 
 public class NotificationMapper {
 
@@ -11,11 +13,18 @@ public class NotificationMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Notification toNotification(NotificationId notificationId,
-            String link, String message, String fromMemberId, String toMemberId, NotificationType notificationType,
-            LocalDateTime createdAt) {
-        return new Notification(notificationId, fromMemberId, toMemberId, link,
-                message, notificationType, false, false, createdAt, createdAt);
+    public static FeedNotification toNotification(CommentRepliedAddedEvent event,
+            FeedNotificationId feedNotificationId) {
+        return new FeedNotification(feedNotificationId, event.getFromMemberId(), event.getToMemberId(),
+                event.getContent(), event.getFeedId(), event.getCommentId(), NotificationType.REPLY_ADDED_EVENT, false,
+                false, event.getCreatedAt(), event.getCreatedAt());
+    }
+
+    public static FeedNotification toNotification(CommentAddedEvent event, FeedNotificationId feedNotificationId,
+            Feed feed) {
+        return new FeedNotification(feedNotificationId, event.getMemberId(), feed.getMemberId(), event.getContent(),
+                event.getFeedId(), event.getCommentId(), event.getNotificationType(),
+                false, false, event.getCreatedAt(), event.getCreatedAt());
     }
 
 }

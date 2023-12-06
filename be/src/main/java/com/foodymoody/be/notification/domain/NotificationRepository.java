@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 public interface NotificationRepository {
 
-    long count(Specification<Notification> specification);
+    long count(Specification<FeedNotification> specification);
 
-    Slice<Notification> findAll(Specification<Notification> notificationSpecification, Pageable pageable);
+    Slice<FeedNotification> findAll(Specification<FeedNotification> notificationSpecification, Pageable pageable);
 }
