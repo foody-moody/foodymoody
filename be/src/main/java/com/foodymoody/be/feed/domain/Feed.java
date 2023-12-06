@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.domain;
 
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class Feed {
 
     @Id
-    private String id;
+    private FeedId id;
     private String memberId;
     // TODO
 //    private String profileImageId;
@@ -36,7 +37,7 @@ public class Feed {
     public Feed() {
     }
 
-    public Feed(String id, String memberId, String location, String review, List<String> moodIds, List<Image> images,
+    public Feed(FeedId id, String memberId, String location, String review, List<String> moodIds, List<Image> images,
             List<Menu> menus) {
         this.id = id;
         this.memberId = memberId;
@@ -46,7 +47,7 @@ public class Feed {
         this.imageMenus = new ImageMenus(images, menus);
     }
 
-    public String getId() {
+    public FeedId getId() {
         return id;
     }
 

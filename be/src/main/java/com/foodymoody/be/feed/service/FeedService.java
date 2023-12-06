@@ -4,6 +4,7 @@ import static com.foodymoody.be.menu.util.MenuMapper.makeMenu;
 
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
+import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.domain.ImageMenu;
 import com.foodymoody.be.feed.domain.StoreMood;
@@ -63,7 +64,7 @@ public class FeedService {
             List<String> storeMoodIds = feed.getStoreMoodIds();
 
             FeedReadAllResponse response = FeedReadAllResponse.builder()
-                    .id(feed.getId())
+                    .id(feed.getId().getValue())
                     .member(makeFeedMemberResponse(feed))
                     .location(feed.getLocation())
                     .review(feed.getReview())
@@ -83,7 +84,7 @@ public class FeedService {
     }
 
     public boolean exists(String feedId) {
-        return feedRepository.existsById(feedId);
+        return feedRepository.existsById(IdFactory.createFeedId(feedId));
     }
 
     public void validate(String feedId) {
@@ -100,7 +101,7 @@ public class FeedService {
         List<Image> images = toImage(imageMenuPairs, request.getMemberId());
         List<String> storeMoodIds = request.getStoreMood();
 
-        Feed feed = FeedMapper.toFeed(IdGenerator.generate(), memberId, request, storeMoodIds, images, menus);
+        Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoodIds, images, menus);
         Feed savedFeed = feedRepository.save(feed);
 
         feedHeartCountService.save(new FeedHeartCount(IdGenerator.generate(), savedFeed.getId(), 0));
@@ -132,7 +133,7 @@ public class FeedService {
     }
 
     public Feed findFeed(String id) {
-        return feedRepository.findById(id)
+        return feedRepository.findById(IdFactory.createFeedId(id))
                 .orElseThrow(() -> new IllegalArgumentException("해당 피드가 존재하지 않습니다."));
     }
 
@@ -145,7 +146,7 @@ public class FeedService {
             throw new IllegalArgumentException("이 피드를 작성한 회원이 아닙니다.");
         }
 
-        feedRepository.deleteById(id);
+        feedRepository.deleteById(IdFactory.createFeedId(id));
     }
 
     public Slice<MemberProfileFeedPreviewResponse> findPreviewsByMemberId(String memberId, Pageable pageable) {

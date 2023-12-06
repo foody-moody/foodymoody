@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_heart.service;
 
+import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.service.FeedService;
 import com.foodymoody.be.feed_heart.domain.FeedHeart;
@@ -37,7 +38,8 @@ public class FeedHeartService {
             throw new IllegalArgumentException("이미 좋아요 누른 피드입니다.");
         }
 
-        FeedHeart feedHeart = FeedHeartMapper.makeFeedHeartWithFeedIdAndMemberId(feedId, memberId);
+        FeedHeart feedHeart = FeedHeartMapper
+                .makeFeedHeartWithFeedIdAndMemberId(IdFactory.createFeedId(feedId), memberId);
         FeedHeart savedFeedHeart = feedHeartRepository.save(feedHeart);
 
         feedHeartCountService.incrementFeedHeartCount(feedId);
@@ -45,7 +47,7 @@ public class FeedHeartService {
         FeedHeartCount feedHeartCount = feedHeartCountService.findFeedHeartCountByFeedId(feedId);
         Feed feed = updateFeed(feedId, feedHeartCount.getCount(), true);
 
-        return FeedHeartMapper.toHeartResponse(savedFeedHeart.getId(), savedFeedHeart.getFeedId(),
+        return FeedHeartMapper.toHeartResponse(savedFeedHeart.getId(), savedFeedHeart.getFeedId().getValue(),
                 savedFeedHeart.getMemberId(), feed.isLiked(), feedHeartCount.getCount());
     }
 
@@ -60,7 +62,7 @@ public class FeedHeartService {
             throw new IllegalArgumentException("좋아요 기록이 없어 취소할 수 없습니다.");
         }
 
-        feedHeartRepository.deleteByFeedIdAndMemberId(feedId, memberId);
+        feedHeartRepository.deleteByFeedIdAndMemberId(IdFactory.createFeedId(feedId), memberId);
 
         feedHeartCountService.decrementFeedHeartCount(feedId);
 
@@ -78,7 +80,7 @@ public class FeedHeartService {
     }
 
     private boolean existsHeart(String memberId, String feedId) {
-        return feedHeartRepository.existsHeartByMemberIdAndFeedId(memberId, feedId);
+        return feedHeartRepository.existsHeartByMemberIdAndFeedId(memberId, IdFactory.createFeedId(feedId));
     }
 
 }

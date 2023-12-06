@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed_heart.util;
 
 import com.foodymoody.be.common.util.IdGenerator;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.feed_heart.domain.FeedHeart;
 import com.foodymoody.be.feed_heart.dto.request.FeedHeartRequest;
 import com.foodymoody.be.feed_heart.dto.request.FeedHeartServiceRequest;
@@ -17,7 +18,7 @@ public class FeedHeartMapper {
         return new FeedHeartServiceRequest(feedHeartRequest.getFeedId(), memberId);
     }
 
-    public static FeedHeart makeFeedHeartWithFeedIdAndMemberId(String feedId, String memberId) {
+    public static FeedHeart makeFeedHeartWithFeedIdAndMemberId(FeedId feedId, String memberId) {
         return new FeedHeart(IdGenerator.generate(), feedId, memberId);
     }
 

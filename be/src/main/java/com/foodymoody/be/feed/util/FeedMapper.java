@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.util;
 
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceDeleteRequest;
@@ -25,21 +26,21 @@ public class FeedMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Feed toFeed(String id, String memberId, FeedServiceRegisterRequest request, List<String> moodIds,
+    public static Feed toFeed(FeedId id, String memberId, FeedServiceRegisterRequest request, List<String> moodIds,
             List<Image> images,
             List<Menu> menus) {
         return new Feed(id, memberId, request.getLocation(), request.getReview(), moodIds, images, menus);
     }
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {
-        return new FeedRegisterResponse(savedFeed.getId());
+        return new FeedRegisterResponse(savedFeed.getId().getValue());
     }
 
     public static FeedReadResponse toFeedReadResponse(FeedMemberResponse feedMemberResponse, Feed feed,
             List<FeedImageMenuResponse> images,
             List<FeedStoreMoodResponse> moodNames) {
         return FeedReadResponse.builder()
-                .id(feed.getId())
+                .id(feed.getId().getValue())
                 .member(feedMemberResponse)
                 .location(feed.getLocation())
                 .review(feed.getReview())

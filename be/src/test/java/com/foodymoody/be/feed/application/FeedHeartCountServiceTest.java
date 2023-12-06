@@ -3,6 +3,8 @@ package com.foodymoody.be.feed.application;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.common.util.IdGenerator;
+import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.repository.FeedRepository;
 import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
@@ -36,7 +38,8 @@ class FeedHeartCountServiceTest {
     @BeforeEach
     void setUp() {
         feedHeartCountRepository.deleteAll();
-        feedRepository.save(new Feed(IdGenerator.generate(), "1", "위치", "리뷰", List.of("1", "2"),
+        FeedId id = new FeedId(IdGenerator.generate());
+        feedRepository.save(new Feed(id, "1", "위치", "리뷰", List.of("1", "2"),
                 List.of(new Image("1", "https://www.naver.com", "2")), List.of(new Menu("1", "메뉴 이름", 5))));
     }
 
@@ -49,7 +52,7 @@ class FeedHeartCountServiceTest {
     @Test
     void increment_count() {
         // given
-        String feedId = "1";
+        FeedId feedId = IdFactory.createFeedId("1");
         FeedHeartCount feedHeartCount = new FeedHeartCount(IdGenerator.generate(), feedId, 0);
         feedHeartCountRepository.save(feedHeartCount);
         CountDownLatch latch = new CountDownLatch(100);
@@ -57,7 +60,7 @@ class FeedHeartCountServiceTest {
         // when
         for (int i = 0; i < 100; i++) {
             threadPoolExecutor.execute(() -> {
-                feedHeartCountService.incrementFeedHeartCount(feedId);
+                feedHeartCountService.incrementFeedHeartCount(feedId.getValue());
                 // CountDownLatch로 스레드가 몇번 도는지 알 수 있음
                 latch.countDown();
             });
@@ -79,7 +82,7 @@ class FeedHeartCountServiceTest {
     @Test
     void decrement_count() {
         // given
-        String feedId = "1";
+        FeedId feedId = IdFactory.createFeedId("1");
         FeedHeartCount feedHeartCount = new FeedHeartCount(IdGenerator.generate(), feedId, 100);
         feedHeartCountRepository.save(feedHeartCount);
         CountDownLatch latch = new CountDownLatch(100);
@@ -87,7 +90,7 @@ class FeedHeartCountServiceTest {
         // when
         for (int i = 0; i < 100; i++) {
             threadPoolExecutor.execute(() -> {
-                feedHeartCountService.decrementFeedHeartCount(feedId);
+                feedHeartCountService.decrementFeedHeartCount(feedId.getValue());
                 latch.countDown();
             });
         }

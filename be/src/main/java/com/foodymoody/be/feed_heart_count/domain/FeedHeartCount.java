@@ -1,5 +1,8 @@
 package com.foodymoody.be.feed_heart_count.domain;
 
+import com.foodymoody.be.common.util.ids.FeedId;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Version;
@@ -12,13 +15,14 @@ public class FeedHeartCount {
 
     @Id
     private String id;
-    private String feedId;
+    @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
+    private FeedId feedId;
     private int count;
 
     @Version
     private Long version;
 
-    public FeedHeartCount(String id, String feedId, int count) {
+    public FeedHeartCount(String id, FeedId feedId, int count) {
         this.id = id;
         this.feedId = feedId;
         this.count = count;
@@ -28,7 +32,7 @@ public class FeedHeartCount {
         return id;
     }
 
-    public String getFeedId() {
+    public FeedId getFeedId() {
         return feedId;
     }
 

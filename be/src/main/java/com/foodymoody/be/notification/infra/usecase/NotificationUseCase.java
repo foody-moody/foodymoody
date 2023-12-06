@@ -79,7 +79,7 @@ public class NotificationUseCase {
             Image memberProfileImage, Feed feed, Image feedProfileImage) {
         return new NotificationResponse(feedNotification.getId().getValue(),
                 new Sender(memberId, member.getNickname(), memberProfileImage.getUrl()),
-                new FeedInfoResponse(feed.getId(), feedProfileImage.getUrl(),
+                new FeedInfoResponse(feed.getId().getValue(), feedProfileImage.getUrl(),
                         feedNotification.getCommentId().getValue(), feedNotification.getMessage()),
                 feedNotification.getType(), feedNotification.isRead(), feedNotification.getCreatedAt(),
                 feedNotification.getUpdatedAt());
