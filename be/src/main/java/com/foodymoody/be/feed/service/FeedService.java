@@ -121,10 +121,10 @@ public class FeedService {
         return FeedMapper.toFeedRegisterResponse(savedFeed);
     }
 
-    // TODO: Mapper로 하기
+    // TODO: Mapper로 옮기기, service 지우기
     private List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
         return imageMenuPairs.stream()
-                .map(imageMenuPair -> makeMenu(IdGenerator.generate(), imageMenuPair.getMenu()))
+                .map(imageMenuPair -> menuService.saveMenu(makeMenu(IdGenerator.generate(), imageMenuPair.getMenu())))
                 .collect(Collectors.toUnmodifiableList());
     }
 
