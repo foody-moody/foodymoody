@@ -156,6 +156,12 @@ public class FeedService {
         return feedRepository.fetchPreviewsByMemberId(memberId, pageable);
     }
 
+    public void validate(List<FeedId> feedIds) {
+        if (!feedRepository.existsAllByIdIn(feedIds)) {
+            throw new FeedIdNotExistsException();
+        }
+    }
+
     private List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<String> storeMoodIds) {
         List<StoreMoodId> ids = storeMoodIds.stream()
                 .map(StoreMoodId::new)

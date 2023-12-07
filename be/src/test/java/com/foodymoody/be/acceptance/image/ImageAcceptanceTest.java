@@ -18,6 +18,7 @@ import com.foodymoody.be.acceptance.AcceptanceTest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import org.apache.commons.compress.utils.IOUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -104,7 +105,11 @@ class ImageAcceptanceTest extends AcceptanceTest {
             final byte[] file = IOUtils.toByteArray(getClass().getResourceAsStream("/images/2.8MB.png"));
 
             // when
+            long startTime = System.currentTimeMillis();
+            System.out.println("시작 시간 : " + LocalDateTime.now());
             var response = 크기가_2_8MB를_넘는_회원_이미지를_업로드한다(file, 회원푸반_액세스토큰, spec);
+            long endTime = System.currentTimeMillis();
+            System.out.println("실행 시간 : " + (endTime - startTime) / 1000.0);
 
             // then
             상태코드가_400이고_오류코드가_i007임을_검증한다(response);

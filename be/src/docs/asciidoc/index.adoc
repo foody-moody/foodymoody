@@ -33,6 +33,13 @@ operation::deleteFeed[snippets='http-request']
 
 operation::readAllStoreMood[snippets='http-request,http-response']
 
+[[colletion]]
+== 컬렉션
+
+=== 컬렉션 등록
+
+operation::feed-collection-create-success[snippets='http-request,http-response']
+
 [[like]]
 == 좋아요
 
