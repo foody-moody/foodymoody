@@ -1,5 +1,7 @@
 package com.foodymoody.be.notification_setting.application;
 
+import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingRepository;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingSummary;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +13,13 @@ public class NotificationSettingReadService {
 
     private final NotificationSettingRepository settingRepository;
 
-    public NotificationSettingSummary request(String memberId) {
+    public NotificationSettingSummary request(String memberIdValue) {
+        MemberId memberId = IdFactory.createMemberId(memberIdValue);
+        return settingRepository.findSummaryByMemberId(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("알림 설정이 존재하지 않습니다."));
+    }
+
+    public NotificationSettingSummary request(MemberId memberId) {
         return settingRepository.findSummaryByMemberId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("알림 설정이 존재하지 않습니다."));
     }

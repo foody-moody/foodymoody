@@ -1,23 +1,19 @@
 package com.foodymoody.be.acceptance.auth;
 
+import static com.foodymoody.be.acceptance.auth.AuthSteps.비회원보노가_로그인한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.상태코드_401과_오류코드_a005를_반환하는지_검증한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.상태코드_404와_오류코드_m001을_반환하는지_검증한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.토큰과_상태코드_200을_응답하는지_검증한다;
-import static com.foodymoody.be.acceptance.auth.AuthSteps.비회원보노가_로그인한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.회원푸반이_로그인한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.회원푸반이_틀린_비밀번호로_로그인한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("인증 관련 기능 인수테스트")
 class AuthAcceptanceTest extends AcceptanceTest {
-
-    private final RequestSpecification MOCK_SPEC = new RequestSpecBuilder().build();
 
     @Nested
     @DisplayName("로그인 인수테스트")

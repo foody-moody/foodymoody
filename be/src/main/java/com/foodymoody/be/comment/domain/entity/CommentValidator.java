@@ -8,6 +8,8 @@ import com.foodymoody.be.common.exception.ContentIsSpaceException;
 import com.foodymoody.be.common.exception.ContentNotExistsException;
 import com.foodymoody.be.common.exception.CreateTimeIsNullException;
 import com.foodymoody.be.common.exception.InvalidIdException;
+import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import java.time.LocalDateTime;
 
 public class CommentValidator {
@@ -34,7 +36,7 @@ public class CommentValidator {
         return object == null;
     }
 
-    public static void validate(CommentId id, String content, String feedId, LocalDateTime createdAt) {
+    public static void validate(CommentId id, String content, FeedId feedId, LocalDateTime createdAt) {
         validateId(id);
         validateContent(content);
         if (isNull(feedId)) {

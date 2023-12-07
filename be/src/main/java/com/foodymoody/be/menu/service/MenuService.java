@@ -1,5 +1,6 @@
 package com.foodymoody.be.menu.service;
 
+import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ public class MenuService {
     private final MenuRepository menuRepository;
 
     public Menu findBy(String menuId) {
-        return menuRepository.findById(menuId)
+        return menuRepository.findById(IdFactory.createMenuId(menuId))
                 .orElseThrow(() -> new IllegalArgumentException("메뉴를 찾을 수 없습니다."));
     }
 

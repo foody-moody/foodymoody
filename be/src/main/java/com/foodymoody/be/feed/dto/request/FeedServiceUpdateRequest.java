@@ -16,7 +16,7 @@ public class FeedServiceUpdateRequest {
 
     @Builder
     public FeedServiceUpdateRequest(String memberId, String location, String review, List<String> storeMood,
-                                    List<ImageMenuPair> images) {
+            List<ImageMenuPair> images) {
         this.memberId = memberId;
         this.location = location;
         this.review = review;

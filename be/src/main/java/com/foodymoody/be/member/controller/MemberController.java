@@ -1,10 +1,10 @@
 package com.foodymoody.be.member.controller;
 
 import com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse;
-import com.foodymoody.be.member.repository.MemberProfileResponse;
-import com.foodymoody.be.member.controller.dto.TasteMoodResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
+import com.foodymoody.be.member.controller.dto.TasteMoodResponse;
+import com.foodymoody.be.member.repository.MemberProfileResponse;
 import com.foodymoody.be.member.service.MemberProfileService;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.member.service.TasteMoodService;
@@ -44,8 +44,10 @@ public class MemberController {
     }
 
     @GetMapping("/{memberId}/feeds")
-    public ResponseEntity<Slice<MemberProfileFeedPreviewResponse>> fetchMemberFeeds(@PathVariable String memberId, @PageableDefault Pageable pageable) {
-        Slice<MemberProfileFeedPreviewResponse> responses = memberProfileService.fetchProfileFeedPreviews(memberId, pageable);
+    public ResponseEntity<Slice<MemberProfileFeedPreviewResponse>> fetchMemberFeeds(@PathVariable String memberId,
+            @PageableDefault Pageable pageable) {
+        Slice<MemberProfileFeedPreviewResponse> responses = memberProfileService.fetchProfileFeedPreviews(memberId,
+                pageable);
         return ResponseEntity.ok().body(responses);
     }
 

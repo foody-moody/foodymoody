@@ -25,14 +25,14 @@ public class StoreMoods {
         this.storeMoodIds = new ArrayList<>(storeMoodIds);
     }
 
+    public List<String> getStoreMoodIds() {
+        return Collections.unmodifiableList(storeMoodIds);
+    }
+
     private void validate(List<String> moodIds) {
         if (moodIds == null || moodIds.size() > MAX_MOOD_COUNT) {
             throw new IllegalArgumentException("Mood는 길이가 " + MAX_MOOD_COUNT + "이하여야 합니다.");
         }
-    }
-
-    public List<String> getStoreMoodIds() {
-        return Collections.unmodifiableList(storeMoodIds);
     }
 
 }

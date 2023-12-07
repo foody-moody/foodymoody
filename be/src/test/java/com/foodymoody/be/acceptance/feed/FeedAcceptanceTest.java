@@ -18,6 +18,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("피드 인수 테스트")
 class FeedAcceptanceTest extends AcceptanceTest {
 
     @AfterEach

@@ -1,6 +1,7 @@
 package com.foodymoody.be.common.exception;
 
 import static com.foodymoody.be.common.exception.ErrorMessage.INVALID_INPUT_VALUE;
+import static com.foodymoody.be.common.exception.ErrorMessage.MAX_UPLOAD_SIZE_EXEEDED;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartException;
 
 @Slf4j
 @RestControllerAdvice
@@ -69,6 +72,19 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleResourceNotFoundException(ResourceNotFoundException e) {
         log.error("handleResourceNotFoundExceptionException", e);
         return new ErrorResponse(e.getMessage(), e.getCode());
+    }
+
+    @ResponseStatus(value = BAD_REQUEST)
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ErrorResponse handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+        return new ErrorResponse(MAX_UPLOAD_SIZE_EXEEDED.getMessage(), MAX_UPLOAD_SIZE_EXEEDED.getCode());
+    }
+
+    @ResponseStatus(value = BAD_REQUEST)
+    @ExceptionHandler(MultipartException.class)
+    public ErrorResponse handleMultipartException(MultipartException e) {
+        log.error("handleMultipartException", e);
+        return new ErrorResponse(e.getMessage(), INVALID_INPUT_VALUE.getCode());
     }
 
     private static Map<String, String> getErrors(MethodArgumentNotValidException e) {

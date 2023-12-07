@@ -73,7 +73,7 @@ public class NotificationSteps {
     }
 
     public static String 회원의_모든_알람을_조회하고_첫번째_알람을_가져온다(String accessToken) {
-        return 회원의_모든_알람을_조회한다(accessToken).jsonPath().getList("content.id", String.class).get(0);
+        return 회원의_모든_알람을_조회한다(accessToken).jsonPath().getList("content.notificationId", String.class).get(0);
     }
 
     public static void 응답코드가_204(ExtractableResponse<Response> response) {

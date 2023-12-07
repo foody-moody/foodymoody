@@ -88,7 +88,8 @@ public class AuthSteps {
         return assertThat(response.jsonPath().getString("code")).isEqualTo(code);
     }
 
-    private static AbstractIntegerAssert<?> 상태코드를_검증한다(ExtractableResponse<Response> response, HttpStatus expectedHttpStatus) {
+    private static AbstractIntegerAssert<?> 상태코드를_검증한다(ExtractableResponse<Response> response,
+            HttpStatus expectedHttpStatus) {
         return assertThat(response.statusCode()).isEqualTo(expectedHttpStatus.value());
     }
 }

@@ -1,5 +1,6 @@
 package com.foodymoody.be.member.domain;
 
+import com.foodymoody.be.common.util.ids.TasteMoodId;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.AccessLevel;
