@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
-import { LogoLarge, LogoSmall } from '../icon/icons';
 import { media } from 'styles/mediaQuery';
+import { LogoLarge, LogoSmall, SantaHat } from '../icon/icons';
 
 type Props = {
   onClick(): void;
@@ -9,8 +9,9 @@ type Props = {
 export const Logo: React.FC<Props> = ({ onClick }) => {
   return (
     <Wrapper onClick={onClick}>
+      <StyledHat />
       <StyledSmallLogo />
-      <StyledLargeLogo/>
+      <StyledLargeLogo />
     </Wrapper>
   );
 };
@@ -19,17 +20,33 @@ const Wrapper = styled.div`
   cursor: pointer;
 `;
 
+const StyledHat = styled(SantaHat)`
+  display: block;
+  position: absolute;
+  top: 31px;
+  right: 122px;
+
+  ${media.lg} {
+    display: block;
+    top: 32px;
+    right: 18px;
+  }
+
+  ${media.xs} {
+    display: block;
+  }
+`;
+
 const StyledLargeLogo = styled(LogoLarge)`
   display: block;
 
-  ${media.lg}{
+  ${media.lg} {
     display: none;
   }
 
-  ${media.xs}{
+  ${media.xs} {
     display: block;
   }
-  
 `;
 
 const StyledSmallLogo = styled(LogoSmall)`
