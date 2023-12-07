@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.http.MediaType;
 
@@ -226,12 +225,14 @@ public class FeedSteps {
                 },
                 () -> {
                     List<Map<String, Object>> images = response.jsonPath().getList("images");
-                    assertThat(images.get(0)).containsEntry("imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1");
+                    assertThat(images.get(0)).containsEntry("imageUrl",
+                            "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1");
                     Map<String, Object> firstMenu = (Map<String, Object>) images.get(0).get("menu");
                     assertThat(firstMenu).containsEntry("name", "마라탕");
                     assertThat(firstMenu).containsEntry("rating", 4);
 
-                    assertThat(images.get(1)).containsEntry("imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2");
+                    assertThat(images.get(1)).containsEntry("imageUrl",
+                            "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2");
                     Map<String, Object> secondMenu = (Map<String, Object>) images.get(1).get("menu");
                     assertThat(secondMenu).containsEntry("name", "감자탕");
                     assertThat(secondMenu).containsEntry("rating", 3);

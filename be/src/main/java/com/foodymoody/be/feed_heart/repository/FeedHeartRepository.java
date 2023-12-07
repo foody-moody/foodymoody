@@ -1,17 +1,15 @@
 package com.foodymoody.be.feed_heart.repository;
 
+import com.foodymoody.be.common.util.ids.FeedHeartId;
+import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_heart.domain.FeedHeart;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 
-public interface FeedHeartRepository extends JpaRepository<FeedHeart, String> {
+public interface FeedHeartRepository extends JpaRepository<FeedHeart, FeedHeartId> {
 
-    Optional<FeedHeart> findByFeedId(String feedId);
+    boolean existsHeartByMemberIdAndFeedId(MemberId memberId, FeedId feedId);
 
-    boolean existsHeartByMemberIdAndFeedId(String memberId, String feedId);
-
-    void deleteByFeedIdAndMemberId(String feedId, String memberId);
+    void deleteByFeedIdAndMemberId(FeedId feedId, MemberId memberId);
 
 }

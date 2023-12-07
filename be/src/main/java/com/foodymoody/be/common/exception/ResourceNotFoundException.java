@@ -1,6 +1,6 @@
 package com.foodymoody.be.common.exception;
 
-public abstract class ResourceNotFoundException extends RuntimeException{
+public abstract class ResourceNotFoundException extends RuntimeException {
 
     private final ErrorMessage errorMessage;
 

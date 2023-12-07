@@ -1,8 +1,10 @@
 package com.foodymoody.be.member.service;
 
 import com.foodymoody.be.common.exception.MemberNotFoundException;
-import com.foodymoody.be.feed.service.FeedService;
+import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse;
+import com.foodymoody.be.feed.service.FeedService;
 import com.foodymoody.be.member.repository.MemberProfileResponse;
 import com.foodymoody.be.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +22,13 @@ public class MemberProfileService {
     private final FeedService feedService;
 
     public Slice<MemberProfileFeedPreviewResponse> fetchProfileFeedPreviews(String id, Pageable pageable) {
-        return feedService.findPreviewsByMemberId(id, pageable);
+        MemberId memberId = IdFactory.createMemberId(id);
+        return feedService.findPreviewsByMemberId(memberId, pageable);
     }
 
     public MemberProfileResponse fetchProfile(String id) {
-        return memberRepository.fetchProfileById(id)
+        MemberId memberId = IdFactory.createMemberId(id);
+        return memberRepository.fetchProfileById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
     }
 

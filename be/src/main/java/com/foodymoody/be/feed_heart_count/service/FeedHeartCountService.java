@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_heart_count.service;
 
+import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
 import com.foodymoody.be.feed_heart_count.repository.FeedHeartCountRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,16 +21,16 @@ public class FeedHeartCountService {
 
     @Transactional
     public void incrementFeedHeartCount(String feedId) {
-        feedHeartCountRepository.incrementFeedHeartCount(feedId);
+        feedHeartCountRepository.incrementFeedHeartCount(IdFactory.createFeedId(feedId));
     }
 
     @Transactional
     public void decrementFeedHeartCount(String feedId) {
-        feedHeartCountRepository.decrementFeedHeartCount(feedId);
+        feedHeartCountRepository.decrementFeedHeartCount(IdFactory.createFeedId(feedId));
     }
 
     public FeedHeartCount findFeedHeartCountByFeedId(String feedId) {
-        return feedHeartCountRepository.findByFeedId(feedId)
+        return feedHeartCountRepository.findByFeedId(IdFactory.createFeedId(feedId))
                 .orElseThrow(() -> new IllegalArgumentException("해당 피드 좋아요 수 없음. feedId: " + feedId));
     }
 

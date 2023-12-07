@@ -2,10 +2,11 @@ package com.foodymoody.be.comment.application;
 
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummary;
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummaryResponse;
-import com.foodymoody.be.comment.domain.entity.CommentId;
 import com.foodymoody.be.comment.domain.entity.Reply;
 import com.foodymoody.be.comment.domain.entity.ReplyId;
 import com.foodymoody.be.comment.domain.repository.ReplyRepository;
+import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -26,7 +27,7 @@ public class ReplyReadService {
     }
 
     @Transactional(readOnly = true)
-    public Slice<MemberReplySummaryResponse> fetchAllReplyByMemberId(CommentId commentId, String memberId,
+    public Slice<MemberReplySummaryResponse> fetchAllReplyByMemberId(CommentId commentId, MemberId memberId,
             Pageable pageable) {
         Slice<MemberReplySummary> memberReplySummaries = replyRepository.findByCommentIdAndMemberId(commentId, memberId,
                 pageable);

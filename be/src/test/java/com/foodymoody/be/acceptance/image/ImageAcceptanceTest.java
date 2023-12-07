@@ -1,11 +1,24 @@
 package com.foodymoody.be.acceptance.image;
 
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
-import static com.foodymoody.be.acceptance.image.ImageSteps.*;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_200이고_응답에_id와_url이_존재함을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_200임을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_400이고_오류코드가_i005임을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_400이고_오류코드가_i007임을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_400임을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_401이고_오류코드가_a001임을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_404이고_오류코드가_i001임을_검증한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.이미지를_삭제한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.지원하지_않는_형식의_회원_이미지를_업로드한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.크기가_2_8MB를_넘는_회원_이미지를_업로드한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.회원_이미지를_업로드한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.io.IOException;
+import org.apache.commons.compress.utils.IOUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -85,12 +98,13 @@ class ImageAcceptanceTest extends AcceptanceTest {
 
         @DisplayName("피드 이미지 크기가 2.8MB 넘으면, 상태코드 400과 오류코드 i007을 반환한다")
         @Test
-        void when_uploadMemberImageOverSizeLimit_then_response400() {
+        void when_uploadMemberImageOverSizeLimit_then_response400() throws IOException {
             // docs
             api_문서_타이틀("uploadFeedImageOverSizeLimit_Fail", spec);
+            final byte[] file = IOUtils.toByteArray(getClass().getResourceAsStream("/images/2.8MB.png"));
 
             // when
-            var response = 크기가_2_8MB를_넘는_회원_이미지를_업로드한다(회원푸반_액세스토큰, spec);
+            var response = 크기가_2_8MB를_넘는_회원_이미지를_업로드한다(file, 회원푸반_액세스토큰, spec);
 
             // then
             상태코드가_400이고_오류코드가_i007임을_검증한다(response);

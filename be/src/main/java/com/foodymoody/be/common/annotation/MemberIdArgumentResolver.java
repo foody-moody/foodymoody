@@ -10,7 +10,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
 
-   @Override
+    @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(MemberId.class);
     }

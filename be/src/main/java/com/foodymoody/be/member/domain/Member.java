@@ -3,8 +3,11 @@ package com.foodymoody.be.member.domain;
 import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.IncorrectMemberPasswordException;
 import com.foodymoody.be.common.exception.InvalidReconfirmPasswordException;
+import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.TasteMoodId;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import javax.persistence.AttributeOverride;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -22,9 +25,10 @@ public class Member {
     private String nickname;
     private String password;
     private String profileImageId;
-    private String tasteMoodId;
+    @AttributeOverride(name = "value", column = @javax.persistence.Column(name = "taste_mood_id"))
+    private TasteMoodId tasteMoodId;
 
-    private Member(MemberId id, String email, String nickname, String password, String moodId) {
+    private Member(MemberId id, String email, String nickname, String password, TasteMoodId moodId) {
         this.id = id;
         this.email = email;
         this.nickname = nickname;
@@ -34,7 +38,8 @@ public class Member {
         Events.publish(toMemberCreatedEvent());
     }
 
-    public static Member of(String id, String email, String nickname, String password, String reconfirmPassword, String moodId) {
+    public static Member of(String id, String email, String nickname, String password, String reconfirmPassword,
+            TasteMoodId moodId) {
         if (!Objects.equals(reconfirmPassword, password)) {
             throw new InvalidReconfirmPasswordException();
         }
@@ -43,10 +48,6 @@ public class Member {
 
     public MemberId getId() {
         return id;
-    }
-
-    public String getMemberId() {
-        return id.getId();
     }
 
     public String getEmail() {
@@ -61,7 +62,7 @@ public class Member {
         return profileImageId;
     }
 
-    public String getTasteMoodId() {
+    public TasteMoodId getTasteMoodId() {
         return tasteMoodId;
     }
 

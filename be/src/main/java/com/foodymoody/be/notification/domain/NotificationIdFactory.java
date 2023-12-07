@@ -1,6 +1,7 @@
 package com.foodymoody.be.notification.domain;
 
 import com.foodymoody.be.common.util.IdGenerator;
+import com.foodymoody.be.common.util.ids.FeedNotificationId;
 
 public class NotificationIdFactory {
 

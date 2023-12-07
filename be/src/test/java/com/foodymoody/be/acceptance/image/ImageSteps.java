@@ -18,7 +18,8 @@ import org.springframework.http.MediaType;
 
 public class ImageSteps {
 
-    public static ExtractableResponse<Response> 피드_이미지를_업로드한다(String accessToken, String feedId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드_이미지를_업로드한다(String accessToken, String feedId,
+            RequestSpecification spec) {
         return RestAssured.given().spec(spec).auth().oauth2(accessToken)
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE).multiPart("file", getFile("images/potato.jpg"))
                 .log().all()
@@ -28,20 +29,10 @@ public class ImageSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 크기가_2_8MB를_넘는_회원_이미지를_업로드한다(String accessToken,
+    public static ExtractableResponse<Response> 크기가_2_8MB를_넘는_회원_이미지를_업로드한다(byte[] file, String accessToken,
             RequestSpecification spec) {
         return RestAssured.given().spec(spec).auth().oauth2(accessToken)
-                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE).multiPart(getFile("images/2.8MB.png"))
-                .log().all()
-                .when().post("/api/images/members")
-                .then()
-                .log().all()
-                .extract();
-    }
-
-    static ExtractableResponse<Response> 지원하지_않는_형식의_회원_이미지를_업로드한다(String accessToken, RequestSpecification spec) {
-        return RestAssured.given().spec(spec).auth().oauth2(accessToken)
-                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE).multiPart(getFile("images/test.txt"))
+                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE).multiPart("file", "myFile.png", file)
                 .log().all()
                 .when().post("/api/images/members")
                 .then()
@@ -128,8 +119,14 @@ public class ImageSteps {
         return assertThat(response.statusCode()).isEqualTo(expectedHttpStatus.value());
     }
 
-    private static AbstractStringAssert<?> 오류코드를_검증한다(ExtractableResponse<Response> response, String code) {
-        return assertThat(response.jsonPath().getString("code")).isEqualTo(code);
+    static ExtractableResponse<Response> 지원하지_않는_형식의_회원_이미지를_업로드한다(String accessToken, RequestSpecification spec) {
+        return RestAssured.given().spec(spec).auth().oauth2(accessToken)
+                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE).multiPart(getFile("images/test.txt"))
+                .log().all()
+                .when().post("/api/images/members")
+                .then()
+                .log().all()
+                .extract();
     }
 
     static File getFile(String path) {
@@ -140,5 +137,9 @@ public class ImageSteps {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    private static AbstractStringAssert<?> 오류코드를_검증한다(ExtractableResponse<Response> response, String code) {
+        return assertThat(response.jsonPath().getString("code")).isEqualTo(code);
     }
 }

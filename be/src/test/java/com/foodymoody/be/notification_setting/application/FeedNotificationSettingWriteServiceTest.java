@@ -3,9 +3,12 @@ package com.foodymoody.be.notification_setting.application;
 import static com.foodymoody.be.notification_setting.util.TestFixture.memberAlbert;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.repository.MemberRepository;
-import com.foodymoody.be.notification_setting.domain.NotificationSettingRepository;
+import com.foodymoody.be.notification_setting.infra.persistence.jpa.NotificationSettingJpaRepository;
 import com.foodymoody.be.utils.SpringBootIntegrationTest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +21,27 @@ class FeedNotificationSettingWriteServiceTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private NotificationSettingWriteService notificationSettingWriteService;
-    @Autowired
-    private NotificationSettingRepository notificationSettingRepository;
+    private NotificationSettingJpaRepository notificationSettingRepository;
+
+    @BeforeEach
+    void setUp() {
+        memberRepository.deleteAll();
+        notificationSettingRepository.deleteAll();
+    }
+
+    @AfterEach
+    void tearDown() {
+        memberRepository.deleteAll();
+        notificationSettingRepository.deleteAll();
+    }
 
     @DisplayName("회원이 저장되면 알림 설정이 저장된다.")
     @Test
     void saveNotificationSetting() {
         // when
-        memberRepository.save(memberAlbert());
+        MemberId memberId = memberAlbert().getId();
 
         // then
-        assertThat(notificationSettingRepository.findByMemberId("1")).isPresent();
+        assertThat(notificationSettingRepository.findByMemberId(memberId)).isPresent();
     }
 }

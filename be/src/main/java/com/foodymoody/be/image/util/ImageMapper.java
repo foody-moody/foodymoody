@@ -12,7 +12,7 @@ public class ImageMapper {
     }
 
     public static ImageUploadResponse toUploadResponse(Image image) {
-        return new ImageUploadResponse(image.getId(), image.getUrl());
+        return new ImageUploadResponse(image.getId().getValue(), image.getUrl());
     }
 
     public static ImageResource toImageResource(MultipartFile file) {

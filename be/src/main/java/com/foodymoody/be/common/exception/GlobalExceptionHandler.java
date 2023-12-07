@@ -77,7 +77,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(value = BAD_REQUEST)
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ErrorResponse handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-        log.error("handleMaxUploadSizeExceededException", e);
         return new ErrorResponse(MAX_UPLOAD_SIZE_EXEEDED.getMessage(), MAX_UPLOAD_SIZE_EXEEDED.getCode());
     }
 

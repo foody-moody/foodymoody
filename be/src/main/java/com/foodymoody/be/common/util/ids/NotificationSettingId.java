@@ -1,6 +1,5 @@
-package com.foodymoody.be.notification_setting.domain;
+package com.foodymoody.be.common.util.ids;
 
-import com.foodymoody.be.common.util.BaseId;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class NotificationSettingId extends BaseId {
 
-    NotificationSettingId(String value) {
+    public NotificationSettingId(String value) {
         super(value);
     }
 }

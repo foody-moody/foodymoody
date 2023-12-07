@@ -1,8 +1,11 @@
 package com.foodymoody.be.image.domain;
 
 import com.foodymoody.be.common.exception.UnauthorizedException;
+import com.foodymoody.be.common.util.ids.ImageId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
-import java.util.Objects;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
@@ -19,20 +22,21 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Image {
 
     @Id
-    private String id;
+    private ImageId id;
     private String url;
     @CreatedDate
     private LocalDateTime createdAt;
-    private String uploaderId;
+    @AttributeOverride(name = "value", column = @Column(name = "uploader_id"))
+    private MemberId uploaderId;
 
-    public Image(String id, String url, String uploaderId) {
+    public Image(ImageId id, String url, MemberId uploaderId) {
         this.id = id;
         this.url = url;
         this.uploaderId = uploaderId;
     }
 
-    public void validateIsUploader(String memberId) {
-        if (!Objects.equals(memberId, uploaderId)) {
+    public void validateIsUploader(MemberId memberId) {
+        if (!uploaderId.isSame(memberId)) {
             throw new UnauthorizedException();
         }
     }

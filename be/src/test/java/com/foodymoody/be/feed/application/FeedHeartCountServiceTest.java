@@ -3,6 +3,8 @@ package com.foodymoody.be.feed.application;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.common.util.IdGenerator;
+import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.repository.FeedRepository;
 import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
@@ -21,6 +23,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@DisplayName("피드 하트 카운트 서비스 테스트")
 @SpringBootIntegrationTest
 class FeedHeartCountServiceTest {
 
@@ -36,8 +39,11 @@ class FeedHeartCountServiceTest {
     @BeforeEach
     void setUp() {
         feedHeartCountRepository.deleteAll();
-        feedRepository.save(new Feed(IdGenerator.generate(), "1", "위치", "리뷰", List.of("1", "2"),
-                List.of(new Image("1", "https://www.naver.com", "2")), List.of(new Menu("1", "메뉴 이름", 5))));
+        FeedId id = new FeedId(IdGenerator.generate());
+        feedRepository.save(new Feed(id, IdFactory.createMemberId("1"), "위치", "리뷰", List.of("1", "2"),
+                List.of(new Image(IdFactory.createImageId("1"), "https://www.naver.com",
+                        IdFactory.createMemberId("2"))),
+                List.of(new Menu(IdFactory.createMenuId("1"), "메뉴 이름", 5))));
     }
 
     @AfterEach
@@ -49,15 +55,15 @@ class FeedHeartCountServiceTest {
     @Test
     void increment_count() {
         // given
-        String feedId = "1";
-        FeedHeartCount feedHeartCount = new FeedHeartCount(IdGenerator.generate(), feedId, 0);
+        FeedId feedId = IdFactory.createFeedId("1");
+        FeedHeartCount feedHeartCount = new FeedHeartCount(IdFactory.createFeedHeartCountId(), feedId, 0);
         feedHeartCountRepository.save(feedHeartCount);
         CountDownLatch latch = new CountDownLatch(100);
 
         // when
         for (int i = 0; i < 100; i++) {
             threadPoolExecutor.execute(() -> {
-                feedHeartCountService.incrementFeedHeartCount(feedId);
+                feedHeartCountService.incrementFeedHeartCount(feedId.getValue());
                 // CountDownLatch로 스레드가 몇번 도는지 알 수 있음
                 latch.countDown();
             });
@@ -79,15 +85,15 @@ class FeedHeartCountServiceTest {
     @Test
     void decrement_count() {
         // given
-        String feedId = "1";
-        FeedHeartCount feedHeartCount = new FeedHeartCount(IdGenerator.generate(), feedId, 100);
+        FeedId feedId = IdFactory.createFeedId("1");
+        FeedHeartCount feedHeartCount = new FeedHeartCount(IdFactory.createFeedHeartCountId(), feedId, 100);
         feedHeartCountRepository.save(feedHeartCount);
         CountDownLatch latch = new CountDownLatch(100);
 
         // when
         for (int i = 0; i < 100; i++) {
             threadPoolExecutor.execute(() -> {
-                feedHeartCountService.decrementFeedHeartCount(feedId);
+                feedHeartCountService.decrementFeedHeartCount(feedId.getValue());
                 latch.countDown();
             });
         }

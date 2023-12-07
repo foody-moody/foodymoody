@@ -2,6 +2,7 @@ package com.foodymoody.be.notification.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.notification.util.NotificationFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,8 @@ class FeedNotificationTest {
         var notification = NotificationFixture.notification();
 
         // when
-        notification.changeStatus(isRead, NotificationFixture.MEMBER_ID, NotificationFixture.UPDATE_AT);
+        notification.changeStatus(isRead, NotificationFixture.notification().getToMemberId(),
+                NotificationFixture.UPDATE_AT);
 
         // then
         assertThat(notification.isRead()).isEqualTo(isRead);
@@ -31,10 +33,11 @@ class FeedNotificationTest {
     void changeStatusWithNotSameMember() {
         // given
         var notification = NotificationFixture.notification();
+        MemberId notExistMemberId = NotificationFixture.getNotExistMemberId();
 
         // when,then
         Assertions.assertThatThrownBy(
-                        () -> notification.changeStatus(true, NotificationFixture.NOT_EXIST_MEMBER_ID,
+                        () -> notification.changeStatus(true, notExistMemberId,
                                 NotificationFixture.UPDATE_AT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .message().isEqualTo("해당 알림을 수정할 수 없습니다.");
@@ -48,7 +51,7 @@ class FeedNotificationTest {
         var notification = NotificationFixture.notification();
 
         // when
-        notification.delete(NotificationFixture.MEMBER_ID, NotificationFixture.UPDATE_AT);
+        notification.delete(NotificationFixture.getToMemberId(), NotificationFixture.UPDATE_AT);
 
         // then
         assertThat(notification.isDeleted()).isTrue();
@@ -59,10 +62,11 @@ class FeedNotificationTest {
     void deleteWithNotSameMember() {
         // given
         var notification = NotificationFixture.notification();
+        MemberId notExistMemberId = NotificationFixture.getNotExistMemberId();
 
         // when,then
         Assertions.assertThatThrownBy(
-                        () -> notification.delete(NotificationFixture.NOT_EXIST_MEMBER_ID, NotificationFixture.UPDATE_AT))
+                        () -> notification.delete(notExistMemberId, NotificationFixture.UPDATE_AT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .message().isEqualTo("해당 알림을 수정할 수 없습니다.");
     }

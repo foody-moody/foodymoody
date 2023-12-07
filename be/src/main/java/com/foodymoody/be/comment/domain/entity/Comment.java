@@ -3,11 +3,16 @@ package com.foodymoody.be.comment.domain.entity;
 import com.foodymoody.be.common.event.Event;
 import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.CommentDeletedException;
+import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -15,19 +20,21 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Comment {
 
-    @EmbeddedId
+    @Id
     private CommentId id;
+    @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
+    private FeedId feedId;
+    @AttributeOverride(name = "value", column = @Column(name = "member_id"))
+    private MemberId memberId;
     private String content;
-    private String feedId;
     private boolean deleted;
-    private String memberId;
     private boolean hasReply;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     @Embedded
     private ReplyComments replyComments;
 
-    public Comment(CommentId id, String content, String feedId, boolean deleted, String memberId,
+    public Comment(CommentId id, String content, FeedId feedId, boolean deleted, MemberId memberId,
             LocalDateTime createdAt) {
         CommentValidator.validate(id, content, feedId, createdAt);
         this.id = id;
@@ -48,20 +55,8 @@ public class Comment {
         return content;
     }
 
-    public String getFeedId() {
+    public FeedId getFeedId() {
         return feedId;
-    }
-
-    public void edit(String memberId, String content, LocalDateTime updatedAt) {
-        if (!this.memberId.equals(memberId)) {
-            throw new IllegalArgumentException();
-        }
-        if (this.deleted) {
-            throw new CommentDeletedException();
-        }
-        CommentValidator.validateContent(content);
-        this.content = content;
-        this.updatedAt = updatedAt;
     }
 
     public LocalDateTime getUpdatedAt() {
@@ -72,8 +67,28 @@ public class Comment {
         return this.createdAt;
     }
 
-    public void delete(String memberId, LocalDateTime deletedAt) {
-        if (!this.memberId.equals(memberId)) {
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public MemberId getMemberId() {
+        return memberId;
+    }
+
+    public void edit(MemberId memberId, String content, LocalDateTime updatedAt) {
+        if (!this.memberId.isSame(memberId)) {
+            throw new IllegalArgumentException();
+        }
+        if (this.deleted) {
+            throw new CommentDeletedException();
+        }
+        CommentValidator.validateContent(content);
+        this.content = content;
+        this.updatedAt = updatedAt;
+    }
+
+    public void delete(MemberId memberId, LocalDateTime deletedAt) {
+        if (!this.memberId.isSame(memberId)) {
             throw new IllegalArgumentException();
         }
         if (this.deleted) {
@@ -81,14 +96,6 @@ public class Comment {
         }
         this.deleted = true;
         this.updatedAt = deletedAt;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public String getMemberId() {
-        return memberId;
     }
 
     public List<Reply> getReplyComments() {

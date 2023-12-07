@@ -1,6 +1,8 @@
 package com.foodymoody.be.feed_heart.service;
 
-import com.foodymoody.be.common.util.IdGenerator;
+import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.service.FeedService;
 import com.foodymoody.be.feed_heart.domain.FeedHeart;
@@ -29,7 +31,7 @@ public class FeedHeartService {
 
     @Transactional
     public FeedHeartResponse like(FeedHeartServiceRequest request) {
-        String memberId = request.getMemberId();
+        var memberId = IdFactory.createMemberId(request.getMemberId());
         String feedId = request.getFeedId();
 
         memberService.validateIdExists(memberId);
@@ -38,7 +40,9 @@ public class FeedHeartService {
             throw new IllegalArgumentException("이미 좋아요 누른 피드입니다.");
         }
 
-        FeedHeart feedHeart = FeedHeartMapper.makeFeedHeartWithFeedIdAndMemberId(feedId, memberId);
+        FeedHeart feedHeart = FeedHeartMapper
+                .makeFeedHeartWithFeedIdAndMemberId(IdFactory.createFeedHeartId(), IdFactory.createFeedId(feedId),
+                        memberId);
         FeedHeart savedFeedHeart = feedHeartRepository.save(feedHeart);
 
         feedHeartCountService.incrementFeedHeartCount(feedId);
@@ -46,14 +50,14 @@ public class FeedHeartService {
         FeedHeartCount feedHeartCount = feedHeartCountService.findFeedHeartCountByFeedId(feedId);
         Feed feed = updateFeed(feedId, feedHeartCount.getCount(), true);
 
-        return FeedHeartMapper.toHeartResponse(savedFeedHeart.getId(), savedFeedHeart.getFeedId(),
-                savedFeedHeart.getMemberId(), feed.isLiked(), feedHeartCount.getCount());
+        return FeedHeartMapper.toHeartResponse(savedFeedHeart.getId().getValue(), savedFeedHeart.getFeedId().getValue(),
+                savedFeedHeart.getMemberId().getValue(), feed.isLiked(), feedHeartCount.getCount());
     }
 
     @Transactional
     public void unLike(FeedHeartServiceRequest request) {
         String feedId = request.getFeedId();
-        String memberId = request.getMemberId();
+        var memberId = IdFactory.createMemberId(request.getMemberId());
 
         memberService.validateIdExists(memberId);
 
@@ -61,7 +65,7 @@ public class FeedHeartService {
             throw new IllegalArgumentException("좋아요 기록이 없어 취소할 수 없습니다.");
         }
 
-        feedHeartRepository.deleteByFeedIdAndMemberId(feedId, memberId);
+        feedHeartRepository.deleteByFeedIdAndMemberId(IdFactory.createFeedId(feedId), memberId);
 
         feedHeartCountService.decrementFeedHeartCount(feedId);
 
@@ -70,7 +74,8 @@ public class FeedHeartService {
     }
 
     private Feed updateFeed(String feedId, int heartCount, boolean isLiked) {
-        Feed feed = feedService.findFeed(feedId);
+        FeedId feedIdObj = IdFactory.createFeedId(feedId);
+        Feed feed = feedService.findFeed(feedIdObj);
 
         feed.updateIsLikedBy(isLiked);
         feed.updateLikeCountBy(heartCount);
@@ -78,8 +83,8 @@ public class FeedHeartService {
         return feed;
     }
 
-    private boolean existsHeart(String memberId, String feedId) {
-        return feedHeartRepository.existsHeartByMemberIdAndFeedId(memberId, feedId);
+    private boolean existsHeart(MemberId memberId, String feedId) {
+        return feedHeartRepository.existsHeartByMemberIdAndFeedId(memberId, IdFactory.createFeedId(feedId));
     }
 
 }

@@ -1,6 +1,6 @@
 package com.foodymoody.be.image.repository;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.common.exception.InvalidImageUrlException;
 import com.foodymoody.be.image.domain.ImageCategory;
@@ -19,10 +19,10 @@ import org.springframework.test.context.ContextConfiguration;
 @DisplayName("S3 저장소 테스트")
 class S3StorageTest {
 
-    @Autowired
-    private S3Storage s3Storage;
     private final String s3EndPoint;
     private final String rootPrefix;
+    @Autowired
+    private S3Storage s3Storage;
 
     S3StorageTest(
             @Value("${aws.s3.endpoint}") String s3EndPoint,
@@ -70,8 +70,10 @@ class S3StorageTest {
 
 //            when, then
             Assertions.assertAll(
-                    () -> Assertions.assertThrows(InvalidImageUrlException.class, () -> s3Storage.getKey(URL_WITH_INVALID_S3_ENDPOINT)),
-                            () -> Assertions.assertThrows(InvalidImageUrlException.class, () -> s3Storage.getKey(URL_WITH_VALID_S3_ENDPOINT_AND_INVALID_ROOT_PREFIX))
+                    () -> Assertions.assertThrows(InvalidImageUrlException.class,
+                            () -> s3Storage.getKey(URL_WITH_INVALID_S3_ENDPOINT)),
+                    () -> Assertions.assertThrows(InvalidImageUrlException.class,
+                            () -> s3Storage.getKey(URL_WITH_VALID_S3_ENDPOINT_AND_INVALID_ROOT_PREFIX))
             );
         }
 

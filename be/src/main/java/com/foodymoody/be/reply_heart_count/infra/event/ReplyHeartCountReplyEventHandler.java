@@ -1,9 +1,9 @@
 package com.foodymoody.be.reply_heart_count.infra.event;
 
 import com.foodymoody.be.comment.domain.entity.CommentRepliedAddedEvent;
+import com.foodymoody.be.common.util.ids.ReplyHeartCountId;
 import com.foodymoody.be.reply_heart_count.application.ReplyHeartCountWriteService;
 import com.foodymoody.be.reply_heart_count.domain.ReplyHeartCount;
-import com.foodymoody.be.reply_heart_count.domain.ReplyHeartCountId;
 import com.foodymoody.be.reply_heart_count.domain.ReplyHeartCountIdFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;

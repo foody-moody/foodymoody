@@ -3,7 +3,6 @@ package com.foodymoody.be.acceptance.member;
 import static com.foodymoody.be.member.util.MemberFixture.비회원_보노;
 import static com.foodymoody.be.member.util.MemberFixture.회원_아티;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.restassured.RestAssured;
@@ -21,7 +20,8 @@ import org.springframework.http.MediaType;
 
 public class MemberSteps {
 
-    private static final RequestSpecification MOCK_SPEC = new RequestSpecBuilder().build();;
+    private static final RequestSpecification MOCK_SPEC = new RequestSpecBuilder().build();
+    ;
 
     public static ExtractableResponse<Response> 회원푸반의_회원프로필을_조회한다(RequestSpecification spec) {
         return 회원프로필을_조회한다(회원_푸반.getId(), spec);
@@ -75,7 +75,8 @@ public class MemberSteps {
         return 회원가입한다(memberRegisterRequest, spec);
     }
 
-    public static ExtractableResponse<Response> 비회원보노가_유효하지_않은_이메일을_입력하고_닉네임을_입력하지_않고_패스워드를_입력하지_않고_회원가입한다(RequestSpecification spec) {
+    public static ExtractableResponse<Response> 비회원보노가_유효하지_않은_이메일을_입력하고_닉네임을_입력하지_않고_패스워드를_입력하지_않고_회원가입한다(
+            RequestSpecification spec) {
         Map<String, Object> memberRegisterRequest = Map.of(
                 "email", "test",
                 "tasteMoodId", 비회원_보노.getTasteMoodId());
@@ -83,12 +84,12 @@ public class MemberSteps {
         return 회원가입한다(memberRegisterRequest, spec);
     }
 
-    public static ExtractableResponse<Response> 회원푸반이_작성한_피드목록을_조회한다 (RequestSpecification spec) {
+    public static ExtractableResponse<Response> 회원푸반이_작성한_피드목록을_조회한다(RequestSpecification spec) {
         String 회원푸반_아이디 = 회원_푸반.getId();
         return 피드목록을_조회한다(회원푸반_아이디, 0, 2, spec);
     }
 
-    public static ExtractableResponse<Response> 아직_피드를_작성하지_않은_회원아티가_작성한_피드목록을_조회한다 (RequestSpecification spec) {
+    public static ExtractableResponse<Response> 아직_피드를_작성하지_않은_회원아티가_작성한_피드목록을_조회한다(RequestSpecification spec) {
         String 회원아티_아이디 = 회원_아티.getId();
         return 피드목록을_조회한다(회원아티_아이디, 0, 10, spec);
     }
@@ -122,7 +123,8 @@ public class MemberSteps {
         );
     }
 
-    public static void 상태코드가_400이고_오류코드가_g001이고_errors에_email과_nickname과_password가_존재하는지_검증한다(ExtractableResponse<Response> response) {
+    public static void 상태코드가_400이고_오류코드가_g001이고_errors에_email과_nickname과_password가_존재하는지_검증한다(
+            ExtractableResponse<Response> response) {
         Assertions.assertAll(
                 () -> 상태코드를_검증한다(response, HttpStatus.BAD_REQUEST),
                 () -> 오류코드를_검증한다(response, "g001"),
@@ -154,10 +156,12 @@ public class MemberSteps {
     }
 
     public static void 상태코드가_200이고_회원푸반이_작성한_피드목록이_조회되는지_검증한다(ExtractableResponse<Response> response) {
-        List<Map<String,String>> expectedResponse = List.of(
-                Map.of("id", "1c", "imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2"),
-                        Map.of("id", "2c", "imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1")
-         );
+        List<Map<String, String>> expectedResponse = List.of(
+                Map.of("id", "1c", "imageUrl",
+                        "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2"),
+                Map.of("id", "2c", "imageUrl",
+                        "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1")
+        );
         Assertions.assertAll(
                 () -> 상태코드를_검증한다(response, HttpStatus.OK),
                 () -> assertThat(response.jsonPath().getList("content"))
@@ -180,7 +184,6 @@ public class MemberSteps {
                 () -> assertThat(response.jsonPath().getList("")).hasSize(6)
         );
     }
-
 
 
     public static String 회원보노가_회원가입하고_아이디를_반환한다(RequestSpecification spec) {
@@ -333,7 +336,8 @@ public class MemberSteps {
                 .extract();
     }
 
-    private static ExtractableResponse<Response> 피드목록을_조회한다(String 회원푸반_아이디, int page, int size, RequestSpecification spec) {
+    private static ExtractableResponse<Response> 피드목록을_조회한다(String 회원푸반_아이디, int page, int size,
+            RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

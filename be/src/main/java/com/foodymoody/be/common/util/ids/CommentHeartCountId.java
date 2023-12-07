@@ -1,6 +1,5 @@
-package com.foodymoody.be.comment_heart_count.domain;
+package com.foodymoody.be.common.util.ids;
 
-import com.foodymoody.be.common.util.BaseId;
 import javax.persistence.Embeddable;
 import lombok.NoArgsConstructor;
 

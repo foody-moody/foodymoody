@@ -1,6 +1,9 @@
 package com.foodymoody.be.comment.domain.entity;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.NoArgsConstructor;
@@ -13,11 +16,12 @@ public class Reply {
     private ReplyId id;
     private String content;
     private boolean deleted;
-    private String memberId;
+    @AttributeOverride(name = "value", column = @Column(name = "member_id"))
+    private MemberId memberId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Reply(ReplyId replyId, String content, boolean deleted, String memberId,
+    public Reply(ReplyId replyId, String content, boolean deleted, MemberId memberId,
             LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = replyId;
         this.content = content;
@@ -39,7 +43,7 @@ public class Reply {
         return deleted;
     }
 
-    public String getMemberId() {
+    public MemberId getMemberId() {
         return memberId;
     }
 

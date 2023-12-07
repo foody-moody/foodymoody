@@ -23,13 +23,19 @@ public class ImageController {
     private final FeedImageService feedImageService;
 
     @PostMapping("/feeds/{feedId}")
-    public ResponseEntity<ImageUploadResponse> uploadFeedImage(@MemberId String memberId, @PathVariable String feedId, @RequestPart MultipartFile file) {
+    public ResponseEntity<ImageUploadResponse> uploadFeedImage(
+            @MemberId String memberId, @PathVariable String feedId,
+            @RequestPart MultipartFile file
+    ) {
         ImageUploadResponse response = feedImageService.save(ImageCategory.FEED, feedId, memberId, file);
         return ResponseEntity.ok().body(response);
     }
 
     @PostMapping("/members")
-    public ResponseEntity<ImageUploadResponse> uploadMemberProfileImage(@MemberId String memberId, @RequestPart MultipartFile file) {
+    public ResponseEntity<ImageUploadResponse> uploadMemberProfileImage(
+            @MemberId String memberId,
+            @RequestPart MultipartFile file
+    ) {
         ImageUploadResponse response = imageService.save(ImageCategory.MEMBER, memberId, file);
         return ResponseEntity.ok().body(response);
     }

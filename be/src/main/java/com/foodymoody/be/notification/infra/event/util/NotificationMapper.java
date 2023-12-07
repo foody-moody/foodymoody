@@ -3,9 +3,9 @@ package com.foodymoody.be.notification.infra.event.util;
 import com.foodymoody.be.comment.domain.entity.CommentAddedEvent;
 import com.foodymoody.be.comment.domain.entity.CommentRepliedAddedEvent;
 import com.foodymoody.be.common.event.NotificationType;
+import com.foodymoody.be.common.util.ids.FeedNotificationId;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.notification.domain.FeedNotification;
-import com.foodymoody.be.notification.domain.FeedNotificationId;
 
 public class NotificationMapper {
 

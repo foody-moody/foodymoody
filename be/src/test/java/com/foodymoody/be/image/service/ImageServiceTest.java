@@ -1,10 +1,14 @@
 package com.foodymoody.be.image.service;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.when;
 
 import com.foodymoody.be.common.exception.UnauthorizedException;
+import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.ImageId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.image.controller.ImageUploadResponse;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.domain.ImageCategory;
@@ -37,6 +41,18 @@ class ImageServiceTest {
     @Mock
     ImageRepository imageRepository;
 
+    private static MockMultipartFile createMockMultipartFileByPath(String path, String fileName) {
+        Resource resource = new ClassPathResource(path);
+        try {
+            Path absolutePath = resource.getFile().toPath();
+            byte[] bytes = Files.readAllBytes(absolutePath);
+            return new MockMultipartFile("file", fileName, "multipart/form-data", bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     @Nested
     @DisplayName("이미지 저장 테스트")
     class Save {
@@ -66,8 +82,10 @@ class ImageServiceTest {
         @Test
         void whenDeleteImage_thenSuccess() {
 //        given
-            given(imageRepository.findById("testId")).willReturn(
-                    Optional.of(new Image("testId", "https://s3Url/key", "testMemberId")));
+            ImageId testId = IdFactory.createImageId("testId");
+            given(imageRepository.findById(any(ImageId.class))).willReturn(
+                    Optional.of(new Image(testId, "https://s3Url/key", IdFactory.createMemberId("testMemberId")))
+            );
 
 //        when, then
             Assertions.assertDoesNotThrow(() -> imageService.delete("testMemberId", "testId"));
@@ -77,25 +95,15 @@ class ImageServiceTest {
         @Test
         void whenRequestMemberIdIsNotImageUploaderId_thenFail() {
 //        given
-            given(imageRepository.findById("testId")).willReturn(
-                    Optional.of(new Image("testId", "https://s3Url.com/key", "testMemberId")));
+            ImageId testId = IdFactory.createImageId("testId");
+            given(imageRepository.findById(any(ImageId.class))).willReturn(
+                    Optional.of(new Image(testId, "https://s3Url.com/key", new MemberId("testMemberId"))));
 
 //        when, then
-            Assertions.assertThrows(UnauthorizedException.class, () -> imageService.delete("differentMemberId", "testId"));
+            Assertions.assertThrows(UnauthorizedException.class,
+                    () -> imageService.delete("differentMemberId", "testId"));
         }
 
-    }
-
-    private static MockMultipartFile createMockMultipartFileByPath(String path, String fileName) {
-        Resource resource = new ClassPathResource(path);
-        try {
-            Path absolutePath = resource.getFile().toPath();
-            byte[] bytes = Files.readAllBytes(absolutePath);
-            return new MockMultipartFile("file", fileName, "multipart/form-data", bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
     }
 
 }

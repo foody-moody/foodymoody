@@ -58,7 +58,7 @@ public class S3Storage implements ImageStorage {
     @Override
     public String getKey(String url) {
         String rootPath = s3EndPoint.concat("/");
-        if(!url.startsWith(rootPath.concat(rootPrefix))) {
+        if (!url.startsWith(rootPath.concat(rootPrefix))) {
             throw new InvalidImageUrlException();
         }
         return url.replace(rootPath, "");

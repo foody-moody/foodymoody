@@ -3,13 +3,14 @@ package com.foodymoody.be.member.service;
 import com.foodymoody.be.common.exception.DuplicateMemberEmailException;
 import com.foodymoody.be.common.exception.DuplicateNicknameException;
 import com.foodymoody.be.common.exception.MemberNotFoundException;
+import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.TasteMoodId;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.domain.Member;
-import com.foodymoody.be.member.domain.MemberId;
-import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.domain.TasteMood;
-import com.foodymoody.be.member.domain.TasteMoodId;
+import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.repository.MemberRepository;
 import com.foodymoody.be.member.util.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class MemberService {
 
     @Transactional
     public MemberSignupResponse create(MemberSignupRequest request) {
-        TasteMoodId tasteMoodId = new TasteMoodId(request.getTasteMoodId());
+        TasteMoodId tasteMoodId = IdFactory.createTasteMoodId(request.getTasteMoodId());
         TasteMood tasteMood = tasteMoodService.findById(tasteMoodId);
         validateNicknameDuplication(request.getNickname());
         validateEmailDuplication(request.getEmail());
@@ -38,13 +39,12 @@ public class MemberService {
         return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
     }
 
-    public MemberFeedData fetchFeedDataById(String id) {
+    public MemberFeedData fetchFeedDataById(MemberId id) {
         return memberRepository.fetchFeedDataById(id).orElseThrow(MemberNotFoundException::new);
     }
 
-    public void validateIdExists(String id) {
-        MemberId key = new MemberId(id);
-        if (!memberRepository.existsById(key)) {
+    public void validateIdExists(MemberId id) {
+        if (!memberRepository.existsById(id)) {
             throw new MemberNotFoundException();
         }
     }
@@ -55,7 +55,7 @@ public class MemberService {
     }
 
     private void validateEmailDuplication(String email) {
-        if(memberRepository.existsByEmail(email)){
+        if (memberRepository.existsByEmail(email)) {
             throw new DuplicateMemberEmailException();
         }
     }

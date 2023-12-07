@@ -1,6 +1,7 @@
 package com.foodymoody.be.reply_heart.domain;
 
 import com.foodymoody.be.common.util.IdGenerator;
+import com.foodymoody.be.common.util.ids.ReplyHeartId;
 
 public class ReplyHeartIdFactory {
 

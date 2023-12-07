@@ -8,6 +8,7 @@ import com.foodymoody.be.comment.util.CommentFixture;
 import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import com.foodymoody.be.common.exception.ErrorMessage;
+import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +33,7 @@ class CommentTest {
         LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
 
         // when
-        comment.edit(CommentFixture.MEMBER_ID, CommentFixture.NEW_CONTENT, updatedAt);
+        comment.edit(CommentFixture.getMemberId(), CommentFixture.NEW_CONTENT, updatedAt);
 
         // then
         assertAll(
@@ -48,10 +49,11 @@ class CommentTest {
         // given
         Comment comment = CommentFixture.deletedComment();
         LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
+        MemberId memberId = CommentFixture.getMemberId();
 
         // when
         Assertions.assertThatThrownBy(
-                        () -> comment.edit(CommentFixture.MEMBER_ID, CommentFixture.NEW_CONTENT, updatedAt))
+                        () -> comment.edit(memberId, CommentFixture.NEW_CONTENT, updatedAt))
                 .isInstanceOf(CommentDeletedException.class)
                 .message().isEqualTo(ErrorMessage.COMMENT_DELETED.getMessage());
     }
@@ -62,10 +64,11 @@ class CommentTest {
         // given
         Comment comment = CommentFixture.comment();
         LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
+        MemberId memberId = CommentFixture.getNotMemberId();
 
         // when
         Assertions.assertThatThrownBy(
-                        () -> comment.edit(CommentFixture.NOT_MEMBER_ID, CommentFixture.NEW_CONTENT, updatedAt))
+                        () -> comment.edit(memberId, CommentFixture.NEW_CONTENT, updatedAt))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -77,7 +80,7 @@ class CommentTest {
         LocalDateTime localDateTime = CommentFixture.newUpdatedAt();
 
         // when
-        comment.delete(CommentFixture.MEMBER_ID, localDateTime);
+        comment.delete(CommentFixture.getMemberId(), localDateTime);
 
         // then
         assertAll(
@@ -93,9 +96,10 @@ class CommentTest {
         // given
         Comment comment = CommentFixture.deletedComment();
         LocalDateTime localDateTime = CommentFixture.newUpdatedAt();
+        MemberId memberId = CommentFixture.getMemberId();
 
         // when
-        Assertions.assertThatThrownBy(() -> comment.delete(CommentFixture.MEMBER_ID, localDateTime))
+        Assertions.assertThatThrownBy(() -> comment.delete(memberId, localDateTime))
                 .isInstanceOf(CommentDeletedException.class)
                 .message().isEqualTo(ErrorMessage.COMMENT_DELETED.getMessage());
     }
@@ -106,9 +110,10 @@ class CommentTest {
         // given
         Comment comment = CommentFixture.comment();
         LocalDateTime localDateTime = CommentFixture.newUpdatedAt();
+        MemberId memberId = CommentFixture.getNotMemberId();
 
         // when
-        Assertions.assertThatThrownBy(() -> comment.delete(CommentFixture.NOT_MEMBER_ID, localDateTime))
+        Assertions.assertThatThrownBy(() -> comment.delete(memberId, localDateTime))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

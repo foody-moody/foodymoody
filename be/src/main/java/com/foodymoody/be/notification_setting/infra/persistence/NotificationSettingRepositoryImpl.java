@@ -1,5 +1,6 @@
 package com.foodymoody.be.notification_setting.infra.persistence;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.notification_setting.domain.NotificationSetting;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingRepository;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingSummary;
@@ -15,7 +16,7 @@ public class NotificationSettingRepositoryImpl implements NotificationSettingRep
     private final NotificationSettingJpaRepository notificationSettingJpaRepository;
 
     @Override
-    public Optional<NotificationSetting> findByMemberId(String memberId) {
+    public Optional<NotificationSetting> findByMemberId(MemberId memberId) {
         return notificationSettingJpaRepository.findByMemberId(memberId);
     }
 
@@ -25,7 +26,7 @@ public class NotificationSettingRepositoryImpl implements NotificationSettingRep
     }
 
     @Override
-    public Optional<NotificationSettingSummary> findSummaryByMemberId(String memberId) {
+    public Optional<NotificationSettingSummary> findSummaryByMemberId(MemberId memberId) {
         return notificationSettingJpaRepository.findSummaryByMemberId(memberId);
     }
 }
