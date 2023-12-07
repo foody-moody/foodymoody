@@ -1,9 +1,13 @@
 package com.foodymoody.be.feed.domain;
 
+import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,8 +18,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class Feed {
 
     @Id
-    private String id;
-    private String memberId;
+    private FeedId id;
+    @AttributeOverride(name = "value", column = @Column(name = "member_id"))
+    private MemberId memberId;
+    // TODO
+//    private String profileImageId;
     private String location;
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -34,8 +41,8 @@ public class Feed {
     public Feed() {
     }
 
-    public Feed(String id, String memberId, String location, String review, List<String> moodIds, List<Image> images,
-                List<Menu> menus) {
+    public Feed(FeedId id, MemberId memberId, String location, String review, List<String> moodIds, List<Image> images,
+            List<Menu> menus) {
         this.id = id;
         this.memberId = memberId;
         this.location = location;
@@ -44,7 +51,7 @@ public class Feed {
         this.imageMenus = new ImageMenus(images, menus);
     }
 
-    public String getId() {
+    public FeedId getId() {
         return id;
     }
 
@@ -88,12 +95,13 @@ public class Feed {
         return storeMoods;
     }
 
-    public String getMemberId() {
+    public MemberId getMemberId() {
         return memberId;
     }
 
-    public void update(String memberId, String newLocation, String newReview, List<String> newStoreMoodIds, List<Image> newImages,
-                       List<Menu> newMenus) {
+    public void update(MemberId memberId, String newLocation, String newReview, List<String> newStoreMoodIds,
+            List<Image> newImages,
+            List<Menu> newMenus) {
         this.memberId = memberId;
         this.location = newLocation;
         this.review = newReview;
@@ -101,21 +109,12 @@ public class Feed {
         this.imageMenus.replaceWith(newImages, newMenus);
     }
 
-    public void updateIsLikedBy(int heartCount) {
-        if (heartCount > 0) {
-            this.isLiked = true;
-            return;
-        }
-
-        this.isLiked = false;
+    public void updateIsLikedBy(boolean isLiked) {
+        this.isLiked = isLiked;
     }
 
     public void updateLikeCountBy(int heartCount) {
-        if (heartCount > 0) {
-            this.likeCount += heartCount;
-        }
-
-        this.likeCount -= heartCount;
+        this.likeCount = heartCount;
     }
 
 }

@@ -16,11 +16,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClaimUtil {
 
-    private String secret;
     private SecretKey secretKey;
 
-    public ClaimUtil(@Value("${jwt.token.secret}") String secret){
-        this.secret = secret;
+    public ClaimUtil(@Value("${jwt.token.secret}") String secret) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
     }
 

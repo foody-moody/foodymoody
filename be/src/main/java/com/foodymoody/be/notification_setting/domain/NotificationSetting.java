@@ -1,6 +1,9 @@
 package com.foodymoody.be.notification_setting.domain;
 
-import com.foodymoody.be.member.domain.MemberId;
+import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.NotificationSettingId;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.AccessLevel;
@@ -12,12 +15,13 @@ public class NotificationSetting {
 
     @EmbeddedId
     private NotificationSettingId id;
-    private String memberId;
+    @AttributeOverride(name = "value", column = @Column(name = "member_id"))
+    private MemberId memberId;
     private boolean isComment;
     private boolean isHeart;
     private boolean isFeed;
 
-    public NotificationSetting(NotificationSettingId id, String memberId, boolean isComment, boolean isHeart,
+    public NotificationSetting(NotificationSettingId id, MemberId memberId, boolean isComment, boolean isHeart,
             boolean isFeed) {
         this.id = id;
         this.memberId = memberId;
@@ -27,14 +31,14 @@ public class NotificationSetting {
     }
 
     public static NotificationSetting of(NotificationSettingId notificationSettingId, MemberId memberid) {
-        return new NotificationSetting(notificationSettingId, memberid.getId(), true, true, true);
+        return new NotificationSetting(notificationSettingId, memberid, true, true, true);
     }
 
     public NotificationSettingId getId() {
         return id;
     }
 
-    public String getMemberId() {
+    public MemberId getMemberId() {
         return memberId;
     }
 

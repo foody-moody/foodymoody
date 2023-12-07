@@ -1,14 +1,15 @@
 package com.foodymoody.be.feed.repository.dto;
 
+import com.foodymoody.be.common.util.ids.FeedId;
 import lombok.Getter;
 
 @Getter
 public class MemberProfileFeedPreviewResponse {
 
-    private String id;
+    private FeedId id;
     private String imageUrl;
 
-    public MemberProfileFeedPreviewResponse(String id, String imageUrl) {
+    public MemberProfileFeedPreviewResponse(FeedId id, String imageUrl) {
         this.id = id;
         this.imageUrl = imageUrl;
     }

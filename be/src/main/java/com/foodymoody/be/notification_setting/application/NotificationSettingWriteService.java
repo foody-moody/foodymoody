@@ -1,9 +1,10 @@
 package com.foodymoody.be.notification_setting.application;
 
-import com.foodymoody.be.member.domain.MemberId;
+import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.NotificationSettingId;
 import com.foodymoody.be.notification_setting.application.dto.NotificationSettingUpdateRequest;
 import com.foodymoody.be.notification_setting.domain.NotificationSetting;
-import com.foodymoody.be.notification_setting.domain.NotificationSettingId;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingIdFactory;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,8 @@ public class NotificationSettingWriteService {
         notificationSetting.update(request.isHeart(), request.isComment(), request.isFeed());
     }
 
-    private NotificationSetting getNotificationSettingByMemberId(String memberId) {
+    private NotificationSetting getNotificationSettingByMemberId(String memberIdValue) {
+        MemberId memberId = IdFactory.createMemberId(memberIdValue);
         return notificationSettingRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("알림 설정이 존재하지 않습니다."));
     }

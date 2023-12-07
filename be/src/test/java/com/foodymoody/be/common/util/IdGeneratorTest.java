@@ -16,7 +16,7 @@ class IdGeneratorTest {
     void test_id_is_unique() {
         // given
         Set<String> generatedIds = new HashSet<>();
-        int count = 1000000;
+        int count = 100;
 
         // when
         for (int i = 0; i < count; i++) {

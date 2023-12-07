@@ -1,6 +1,8 @@
 package com.foodymoody.be.notification.application;
 
-import com.foodymoody.be.notification.domain.Notification;
+import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.notification.domain.FeedNotification;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
 import com.foodymoody.be.notification.infra.persistence.jpa.NotificationJpaRepository;
 import java.time.LocalDateTime;
@@ -17,49 +19,54 @@ public class NotificationWriteService {
     private final NotificationMapper notificationMapper;
 
     @Transactional
-    public void save(Notification notification) {
-        notificationRepository.save(notification);
+    public void save(FeedNotification feedNotification) {
+        notificationRepository.save(feedNotification);
     }
 
     @Transactional
     public void changeStatus(String memberId, String notificationId, boolean isRead) {
-        Notification notification = this.getNotification(notificationId);
+        FeedNotification feedNotification = getNotification(notificationId);
+        MemberId memberIdObj = IdFactory.createMemberId(memberId);
         var updatedAt = LocalDateTime.now();
-        notification.changeStatus(isRead, memberId, updatedAt);
+        feedNotification.changeStatus(isRead, memberIdObj, updatedAt);
     }
 
     @Transactional
     public void delete(String memberId, String notificationId) {
-        Notification notification = this.getNotification(notificationId);
+        FeedNotification feedNotification = this.getNotification(notificationId);
+        MemberId memberIdObj = IdFactory.createMemberId(memberId);
         LocalDateTime updatedAt = LocalDateTime.now();
-        notification.delete(memberId, updatedAt);
+        feedNotification.delete(memberIdObj, updatedAt);
     }
 
     @Transactional
-    public void deleteAll(String memberId) {
+    public void deleteAll(String memberIdValue) {
+        MemberId memberId = IdFactory.createMemberId(memberIdValue);
         notificationRepository.deleteAllByMemberId(memberId, LocalDateTime.now());
     }
 
     @Transactional
-    public void changeAllStatus(String memberId, List<String> notificationIds, boolean read) {
+    public void changeAllStatus(String memberIdValue, List<String> notificationIds, boolean read) {
+        MemberId memberId = IdFactory.createMemberId(memberIdValue);
         notificationRepository.updateAllStatus(read, memberId, LocalDateTime.now(),
                 notificationMapper.toNotificationID(notificationIds));
     }
 
     @Transactional
-    public void deleteAll(String memberId, List<String> notificationIds) {
+    public void deleteAll(String memberIdValue, List<String> notificationIds) {
+        MemberId memberId = IdFactory.createMemberId(memberIdValue);
         notificationRepository.deleteAllByIdIn(notificationMapper.toNotificationID(notificationIds),
                 LocalDateTime.now(), memberId);
     }
 
-    public Notification getNotification(String notificationId) {
+    public FeedNotification getNotification(String notificationId) {
         return notificationRepository.findById(NotificationIdFactory.from(notificationId)).orElseThrow();
     }
 
     @Transactional
-    public Notification read(String notificationId) {
-        Notification notification = this.getNotification(notificationId);
-        notification.changeStatus(true, notification.getToMemberId(), LocalDateTime.now());
-        return notification;
+    public FeedNotification read(String notificationId) {
+        FeedNotification feedNotification = this.getNotification(notificationId);
+        feedNotification.changeStatus(true, feedNotification.getToMemberId(), LocalDateTime.now());
+        return feedNotification;
     }
 }

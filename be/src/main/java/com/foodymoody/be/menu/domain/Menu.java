@@ -1,5 +1,6 @@
 package com.foodymoody.be.menu.domain;
 
+import com.foodymoody.be.common.util.ids.MenuId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -7,11 +8,11 @@ import javax.persistence.Id;
 public class Menu {
 
     @Id
-    private String id;
+    private MenuId id;
     private String name;
     private int rating;
 
-    public Menu(String id, String name, int rating) {
+    public Menu(MenuId id, String name, int rating) {
         this.id = id;
         this.name = name;
         this.rating = rating;
@@ -21,7 +22,7 @@ public class Menu {
 
     }
 
-    public String getId() {
+    public MenuId getId() {
         return id;
     }
 

@@ -1,11 +1,9 @@
 package com.foodymoody.be.image.util;
 
-import com.foodymoody.be.common.util.IdGenerator;
-import com.foodymoody.be.feed.dto.request.ImageMenuPair;
 import com.foodymoody.be.image.controller.ImageUploadResponse;
 import com.foodymoody.be.image.domain.Image;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.foodymoody.be.image.domain.ImageResource;
+import org.springframework.web.multipart.MultipartFile;
 
 public class ImageMapper {
 
@@ -14,7 +12,11 @@ public class ImageMapper {
     }
 
     public static ImageUploadResponse toUploadResponse(Image image) {
-        return new ImageUploadResponse(image.getId(), image.getUrl());
+        return new ImageUploadResponse(image.getId().getValue(), image.getUrl());
+    }
+
+    public static ImageResource toImageResource(MultipartFile file) {
+        return new ImageResource(file);
     }
 }
 

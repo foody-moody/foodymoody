@@ -2,8 +2,12 @@ package com.foodymoody.be.comment.util;
 
 import com.foodymoody.be.comment.application.dto.request.RegisterCommentRequest;
 import com.foodymoody.be.comment.domain.entity.Comment;
-import com.foodymoody.be.comment.domain.entity.CommentId;
+import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 
 public class CommentFixture {
 
@@ -61,7 +65,7 @@ public class CommentFixture {
     }
 
     public static Comment comment() {
-        return new Comment(new CommentId(COMMENT_ID), CONTENT, FEED_ID, DELETED, MEMBER_ID, CREATED_AT);
+        return new Comment(new CommentId(COMMENT_ID), CONTENT, getFeedId(), DELETED, getMemberId(), CREATED_AT);
     }
 
     public static CommentId commentId() {
@@ -77,6 +81,20 @@ public class CommentFixture {
     }
 
     public static Comment deletedComment() {
-        return new Comment(commentId(), CONTENT, FEED_ID, true, MEMBER_ID, CREATED_AT);
+        return new Comment(commentId(), CONTENT, getFeedId(), true, getMemberId(), CREATED_AT);
+    }
+
+    @NotNull
+    public static MemberId getMemberId() {
+        return IdFactory.createMemberId(MEMBER_ID);
+    }
+
+    @NotNull
+    public static MemberId getNotMemberId() {
+        return IdFactory.createMemberId(NOT_MEMBER_ID);
+    }
+
+    private static FeedId getFeedId() {
+        return IdFactory.createFeedId(FEED_ID);
     }
 }

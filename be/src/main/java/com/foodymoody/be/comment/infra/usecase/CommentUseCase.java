@@ -2,7 +2,8 @@ package com.foodymoody.be.comment.infra.usecase;
 
 import com.foodymoody.be.comment.application.CommentWriteService;
 import com.foodymoody.be.comment.application.dto.request.RegisterCommentRequest;
-import com.foodymoody.be.comment.domain.entity.CommentId;
+import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.service.FeedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ public class CommentUseCase {
 
     public CommentId registerComment(RegisterCommentRequest request, String memberId) {
         feedService.validate(request.getFeedId());
-        return commentWriteService.registerComment(request, memberId);
+        MemberId memberWriterId = new MemberId(memberId);
+        return commentWriteService.registerComment(request, memberWriterId);
     }
 }

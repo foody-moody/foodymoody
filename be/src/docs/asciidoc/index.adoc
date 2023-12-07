@@ -10,21 +10,27 @@
 == 피드
 
 === 피드 등록
+
 operation::registerFeed[snippets='http-request,http-response']
 
 === 피드 전체 조회
+
 operation::readAllFeed[snippets='http-request,http-response']
 
 === 피드 개별 조회
+
 operation::readFeed[snippets='http-request,http-response']
 
 === 피드 수정
+
 operation::updateFeed[snippets='http-request']
 
 === 피드 삭제
+
 operation::deleteFeed[snippets='http-request']
 
 === 스토어 무드 조회
+
 operation::readAllStoreMood[snippets='http-request,http-response']
 
 [[like]]
@@ -66,7 +72,6 @@ operation::login_failedByUnregisteredEmail[snippets='http-response']
 ==== 비밀번호가 틀렸을 때
 
 operation::login_failedByWrongPassword[snippets='http-response']
-
 
 [[comment]]
 == 댓글
@@ -302,3 +307,55 @@ operation::notification_setting_update_success[snippets='http-request,http-respo
 === 알람 실시간 전송
 
 operation::sse_request_success[snippets='http-request,http-response']
+
+[[image]]
+== 이미지
+
+=== 이미지 업로드 공통
+
+요청 body에 이미지 파일이 깨져서 나와서 curl입니다
+
+==== 이미지 크기가 2.8MB보다 클 때
+
+operation::uploadFeedImageOverSizeLimit_Fail[snippets='http-response']
+
+==== 지원되지 않는 형식의 이미지일 때
+
+현재 jpeg(jpg), png 지원됩니다
+
+operation::uploadFeedImageWithUnsupportedFormat_Fail[snippets='http-response']
+
+=== 회원 이미지 업로드
+
+==== 성공
+
+operation::uploadMemberProfileImage_success[snippets='curl-request,http-response']
+
+=== 피드 이미지 업로드
+
+==== 성공
+
+operation::uploadFeedImage_success[snippets='curl-request,http-response']
+
+==== 존재하지 않는 피드 아이디일 때
+
+operation::uploadFeedImage_failedByFeedNotFound[snippets='http-response']
+
+==== 현재 로그인한 회원이 피드 작성자가 아닐 때
+
+operation::uploadFeedImage_failedByUnauthorized[snippets='http-response']
+
+=== 이미지 삭제
+
+==== 성공
+
+operation::deleteFeedImage_success[snippets='http-request,http-response']
+
+==== 존재하지 않는 이미지 id일 때
+
+operation::deleteFeedImage_failedByNotExistId[snippets='http-response']
+
+==== 현재 로그인한 회원이 업로드한 이미지가 아닐 때
+
+operation::deleteFeedImage_failedByUnAuthorized[snippets='http-response']
+
