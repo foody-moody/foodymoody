@@ -36,3 +36,4 @@ export { default as ToastErrorIcon } from 'assets/toastError.svg?react';
 export { default as ToastNotiIcon } from 'assets/toastNoti.svg?react';
 export { default as ToastSuccessIcon } from 'assets/toastSuccess.svg?react';
 export { default as UserPlusIcon } from 'assets/userPlus.svg?react';
+export { default as SantaHat } from 'assets/santaHat.svg?react';

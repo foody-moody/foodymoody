@@ -23,6 +23,7 @@ export const useGetComments = (id: string) => {
       getNextPageParam: (lastPage) => {
         return lastPage.last ? undefined : lastPage.number + 1;
       },
+      suspense: true,
     });
 
   const allComments = useMemo(() => {
