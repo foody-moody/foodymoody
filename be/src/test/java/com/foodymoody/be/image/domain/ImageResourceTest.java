@@ -20,6 +20,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockMultipartFile;
 
+@DisplayName("이미지 리소스 테스트")
 class ImageResourceTest {
 
     private static MockMultipartFile createMockMultipartFileByPath(String path, String fileName) {

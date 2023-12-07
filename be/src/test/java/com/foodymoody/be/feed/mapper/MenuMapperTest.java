@@ -10,6 +10,7 @@ import com.foodymoody.be.menu.util.MenuMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("메뉴 매퍼 테스트")
 class MenuMapperTest {
 
     @DisplayName("생성된 id와 메뉴를 성공적으로 매핑할 수 있다.")

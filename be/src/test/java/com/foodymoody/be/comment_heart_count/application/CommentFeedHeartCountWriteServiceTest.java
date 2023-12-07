@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringBootIntegrationTest
+@DisplayName("댓글 하트 카운트 증감 서비스 테스트")
 class CommentFeedHeartCountWriteServiceTest {
 
     @Autowired

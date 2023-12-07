@@ -23,6 +23,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@DisplayName("피드 하트 카운트 서비스 테스트")
 @SpringBootIntegrationTest
 class FeedHeartCountServiceTest {
 
