@@ -66,6 +66,14 @@ public class IdFactory {
         return createId(CommentId.class);
     }
 
+    public static TasteMoodId createTasteMoodId(String id) {
+        return createId(TasteMoodId.class, id);
+    }
+
+    public static TasteMoodId createTasteMoodId() {
+        return createId(TasteMoodId.class);
+    }
+
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {
         try {
             Constructor<T> constructor = idClass.getConstructor(String.class);

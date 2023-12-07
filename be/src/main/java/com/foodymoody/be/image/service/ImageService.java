@@ -3,6 +3,7 @@ package com.foodymoody.be.image.service;
 import com.foodymoody.be.common.exception.ImageNotFoundException;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.image.controller.ImageUploadResponse;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.domain.ImageCategory;
@@ -25,15 +26,17 @@ public class ImageService {
     private final ImageRepository imageRepository;
 
     public ImageUploadResponse save(ImageCategory category, String resourceId, MultipartFile file) {
+        MemberId memberId = IdFactory.createMemberId(resourceId);
         ImageResource imageResource = ImageMapper.toImageResource(file);
         String uuid = UUID.randomUUID().toString();
         String key = imageStorage.generateKey(category, resourceId, uuid, imageResource.getFilename());
         String storageUrl = imageStorage.upload(key, imageResource);
-        Image savedImage = imageRepository.save(new Image(IdFactory.createImageId(), storageUrl, resourceId));
+        Image savedImage = imageRepository.save(new Image(IdFactory.createImageId(), storageUrl, memberId));
         return ImageMapper.toUploadResponse(savedImage);
     }
 
-    public void delete(String memberId, String id) {
+    public void delete(String memberIdValue, String id) {
+        MemberId memberId = IdFactory.createMemberId(memberIdValue);
         Image image = findById(IdFactory.createImageId(id));
         image.validateIsUploader(memberId);
         String key = imageStorage.getKey(image.getUrl());

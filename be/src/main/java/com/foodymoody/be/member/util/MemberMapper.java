@@ -22,7 +22,7 @@ public class MemberMapper {
                 request.getNickname(),
                 request.getPassword(),
                 request.getReconfirmPassword(),
-                tasteMood.getId().getId()
+                tasteMood.getId()
         );
     }
 

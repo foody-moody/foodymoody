@@ -2,6 +2,7 @@ package com.foodymoody.be.feed_heart.domain;
 
 import com.foodymoody.be.common.util.ids.FeedHeartId;
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,9 +18,10 @@ public class FeedHeart {
     private FeedHeartId id;
     @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
     private FeedId feedId;
-    private String memberId;
+    @AttributeOverride(name = "value", column = @Column(name = "member_id"))
+    private MemberId memberId;
 
-    public FeedHeart(FeedHeartId id, FeedId feedId, String memberId) {
+    public FeedHeart(FeedHeartId id, FeedId feedId, MemberId memberId) {
         this.id = id;
         this.feedId = feedId;
         this.memberId = memberId;
@@ -33,7 +35,7 @@ public class FeedHeart {
         return feedId;
     }
 
-    public String getMemberId() {
+    public MemberId getMemberId() {
         return memberId;
     }
 

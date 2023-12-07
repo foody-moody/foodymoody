@@ -22,12 +22,12 @@ public class Comment {
 
     @Id
     private CommentId id;
-    private String content;
     @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
     private FeedId feedId;
-    private boolean deleted;
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
+    private String content;
+    private boolean deleted;
     private boolean hasReply;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

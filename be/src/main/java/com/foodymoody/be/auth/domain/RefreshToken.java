@@ -1,5 +1,6 @@
 package com.foodymoody.be.auth.domain;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -7,10 +8,10 @@ import javax.persistence.Id;
 public class RefreshToken {
 
     @Id
-    String memberId;
+    MemberId memberId;
     String token;
 
-    private RefreshToken(String memberId, String token) {
+    private RefreshToken(MemberId memberId, String token) {
         this.memberId = memberId;
         this.token = token;
     }
@@ -19,7 +20,7 @@ public class RefreshToken {
 
     }
 
-    public static RefreshToken of(String memberId, String refreshToken) {
+    public static RefreshToken of(MemberId memberId, String refreshToken) {
         return new RefreshToken(memberId, refreshToken);
     }
 }

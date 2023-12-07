@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,7 +22,7 @@ public class FeedNotification {
 
     @EmbeddedId
     private FeedNotificationId id;
-    @lombok.Getter
+    @Getter
     @AttributeOverride(name = "value", column = @Column(name = "from_member_id"))
     private MemberId fromMemberId;
     @AttributeOverride(name = "value", column = @Column(name = "to_member_id"))

@@ -2,6 +2,7 @@ package com.foodymoody.be.feed_heart.util;
 
 import com.foodymoody.be.common.util.ids.FeedHeartId;
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_heart.domain.FeedHeart;
 import com.foodymoody.be.feed_heart.dto.request.FeedHeartRequest;
 import com.foodymoody.be.feed_heart.dto.request.FeedHeartServiceRequest;
@@ -19,7 +20,7 @@ public class FeedHeartMapper {
     }
 
     public static FeedHeart makeFeedHeartWithFeedIdAndMemberId(FeedHeartId feedHeartId, FeedId feedId,
-            String memberId) {
+            MemberId memberId) {
         return new FeedHeart(feedHeartId, feedId, memberId);
     }
 

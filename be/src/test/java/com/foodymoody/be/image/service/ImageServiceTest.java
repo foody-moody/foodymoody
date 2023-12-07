@@ -8,6 +8,7 @@ import static org.mockito.BDDMockito.when;
 import com.foodymoody.be.common.exception.UnauthorizedException;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.image.controller.ImageUploadResponse;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.domain.ImageCategory;
@@ -83,7 +84,7 @@ class ImageServiceTest {
 //        given
             ImageId testId = IdFactory.createImageId("testId");
             given(imageRepository.findById(any(ImageId.class))).willReturn(
-                    Optional.of(new Image(testId, "https://s3Url/key", "testMemberId"))
+                    Optional.of(new Image(testId, "https://s3Url/key", IdFactory.createMemberId("testMemberId")))
             );
 
 //        when, then
@@ -96,7 +97,7 @@ class ImageServiceTest {
 //        given
             ImageId testId = IdFactory.createImageId("testId");
             given(imageRepository.findById(any(ImageId.class))).willReturn(
-                    Optional.of(new Image(testId, "https://s3Url.com/key", "testMemberId")));
+                    Optional.of(new Image(testId, "https://s3Url.com/key", new MemberId("testMemberId"))));
 
 //        when, then
             Assertions.assertThrows(UnauthorizedException.class,

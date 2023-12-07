@@ -2,6 +2,7 @@ package com.foodymoody.be.feed_heart.service;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.service.FeedService;
 import com.foodymoody.be.feed_heart.domain.FeedHeart;
@@ -30,7 +31,7 @@ public class FeedHeartService {
 
     @Transactional
     public FeedHeartResponse like(FeedHeartServiceRequest request) {
-        String memberId = request.getMemberId();
+        var memberId = IdFactory.createMemberId(request.getMemberId());
         String feedId = request.getFeedId();
 
         memberService.validateIdExists(memberId);
@@ -50,13 +51,13 @@ public class FeedHeartService {
         Feed feed = updateFeed(feedId, feedHeartCount.getCount(), true);
 
         return FeedHeartMapper.toHeartResponse(savedFeedHeart.getId().getValue(), savedFeedHeart.getFeedId().getValue(),
-                savedFeedHeart.getMemberId(), feed.isLiked(), feedHeartCount.getCount());
+                savedFeedHeart.getMemberId().getValue(), feed.isLiked(), feedHeartCount.getCount());
     }
 
     @Transactional
     public void unLike(FeedHeartServiceRequest request) {
         String feedId = request.getFeedId();
-        String memberId = request.getMemberId();
+        var memberId = IdFactory.createMemberId(request.getMemberId());
 
         memberService.validateIdExists(memberId);
 
@@ -82,7 +83,7 @@ public class FeedHeartService {
         return feed;
     }
 
-    private boolean existsHeart(String memberId, String feedId) {
+    private boolean existsHeart(MemberId memberId, String feedId) {
         return feedHeartRepository.existsHeartByMemberIdAndFeedId(memberId, IdFactory.createFeedId(feedId));
     }
 

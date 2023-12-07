@@ -99,7 +99,7 @@ public class FeedService {
         MemberId memberId = memberService.findById(request.getMemberId()).getId();
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = toMenu(imageMenuPairs);
-        List<Image> images = toImage(imageMenuPairs, request.getMemberId());
+        List<Image> images = toImage(imageMenuPairs, memberId);
         List<String> storeMoodIds = request.getStoreMood();
 
         Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoodIds, images, menus);
@@ -128,7 +128,7 @@ public class FeedService {
         Feed feed = findFeed(feedId);
 
         MemberId memberId = memberService.findById(request.getMemberId()).getId();
-        List<Image> newImages = toImage(request.getImages(), request.getMemberId());
+        List<Image> newImages = toImage(request.getImages(), memberId);
         List<Menu> newMenus = toMenu(request.getImages());
         List<String> newStoreMoodIds = request.getStoreMood();
 
@@ -176,7 +176,7 @@ public class FeedService {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private List<Image> toImage(List<ImageMenuPair> imageMenuPairs, String memberId) {
+    private List<Image> toImage(List<ImageMenuPair> imageMenuPairs, MemberId memberId) {
         return imageMenuPairs.stream()
                 .map(imageMenuPair -> new Image(IdFactory.createImageId(imageMenuPair.getImageId()),
                         findImageUrl(imageMenuPair), memberId))

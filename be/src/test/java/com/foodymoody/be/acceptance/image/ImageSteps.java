@@ -29,10 +29,10 @@ public class ImageSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 크기가_2_8MB를_넘는_회원_이미지를_업로드한다(String accessToken,
+    public static ExtractableResponse<Response> 크기가_2_8MB를_넘는_회원_이미지를_업로드한다(byte[] file, String accessToken,
             RequestSpecification spec) {
         return RestAssured.given().spec(spec).auth().oauth2(accessToken)
-                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE).multiPart(getFile("images/2.8MB.png"))
+                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE).multiPart("file", "myFile.png", file)
                 .log().all()
                 .when().post("/api/images/members")
                 .then()
