@@ -21,8 +21,4 @@ public class DocumentController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/members/{memberId}/password")
-    public ResponseEntity<Void> updatePassword(@PathVariable Long memberId) {
-        return ResponseEntity.noContent().build();
-    }
 }

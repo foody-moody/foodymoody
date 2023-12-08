@@ -5,6 +5,7 @@ import static com.foodymoody.be.member.util.MemberFixture.회원_아티;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
@@ -38,7 +39,7 @@ public class MemberSteps {
 
     public static String 아티_회원_가입한다() {
         return 회원가입한다(
-                Map.of("nickname", "아티", "email", "ati@ati.com", "password", "ati123!", "reconfirmPassword", "ati123!",
+                Map.of("nickname", "아티", "email", "ati@ati.com", "password", "atiati123!", "reconfirmPassword", "atiati123!",
                         "tasteMoodId", '1'), new RequestSpecBuilder().build()).jsonPath().getString("id");
     }
 
@@ -223,13 +224,6 @@ public class MemberSteps {
         return 회원프로필을_수정한다(비회원_보노.getId(), updateMemberProfileRequest, spec);
     }
 
-    public static ExtractableResponse<Response> 회원보노의_회원비밀번호를_수정한다(RequestSpecification spec) {
-        Map<String, Object> updateMemberPasswordRequest = Map.of(
-                "password", "newpassword123!",
-                "reconfirmPassword", "newpassword123!");
-
-        return 회원비밀번호를_수정한다(비회원_보노.getId(), updateMemberPasswordRequest, spec);
-    }
 
     public static void 응답코드가_200이고_회원보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
         Assertions.assertAll(
@@ -262,16 +256,6 @@ public class MemberSteps {
         );
     }
 
-    public static void 응답코드가_204이고_회원보노가_수정_전의_비밀번호로_로그인에_실패하는지_검증한다(ExtractableResponse<Response> response) {
-//        TODO 로그인 시 패스워드 불일치 검증 기능 구현 뒤 실패 케이스 검증 추가
-//        var bonoLoginByWrongPasswordResponse = 회원보노가_잘못된_비밀번호를_입력하고_로그인한다(FAKE_SPEC);
-
-        Assertions.assertAll(
-                () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT)
-//                () -> 응답코드를_검증한다(bonoLoginByWrongPasswordResponse, HttpStatus.UNAUTHORIZED)
-        );
-    }
-
     public static ExtractableResponse<Response> 닉네임_중복_여부를_조회한다(String nickname, RequestSpecification spec) {
         return RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -293,6 +277,22 @@ public class MemberSteps {
                 .log().all()
                 .when()
                 .get("/api/members/taste-moods")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 비밀번호를_수정한다(String accessToken,
+            String memberId,
+            ChangePasswordRequest request,
+            RequestSpecification spec) {
+        return RestAssured.given().log().all()
+                .spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
+                .body(request)
+                .when()
+                .put("/api/members/{id}/password", memberId)
                 .then()
                 .log().all()
                 .extract();
@@ -356,23 +356,6 @@ public class MemberSteps {
                 .extract();
     }
 
-    private static ExtractableResponse<Response> 회원비밀번호를_수정한다(
-            String memberId,
-            Map<String, Object> updateMemberPasswordRequest,
-            RequestSpecification spec) {
-        return RestAssured
-                .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .spec(spec)
-                .body(updateMemberPasswordRequest)
-                .log().all()
-                .when()
-                .put("/api/members/{memberId}/password", memberId)
-                .then()
-                .log().all()
-                .extract();
-    }
-
     private static ExtractableResponse<Response> 피드목록을_조회한다(String 회원푸반_아이디, int page, int size,
             RequestSpecification spec) {
         return RestAssured
@@ -388,7 +371,7 @@ public class MemberSteps {
                 .extract();
     }
 
-    private static AbstractIntegerAssert<?> 상태코드를_검증한다(ExtractableResponse<Response> response,
+    public static AbstractIntegerAssert<?> 상태코드를_검증한다(ExtractableResponse<Response> response,
             HttpStatus expectedHttpStatus) {
         return assertThat(response.statusCode()).isEqualTo(expectedHttpStatus.value());
     }

@@ -1,13 +1,13 @@
 package com.foodymoody.be.member.domain;
 
 import com.foodymoody.be.common.event.Events;
-import com.foodymoody.be.common.exception.IncorrectMemberPasswordException;
 import com.foodymoody.be.common.exception.InvalidReconfirmPasswordException;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.AttributeOverride;
+import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -23,7 +23,8 @@ public class Member {
     private MemberId id;
     private String email;
     private String nickname;
-    private String password;
+    @Embedded
+    private Password password;
     private String profileImageId;
     @AttributeOverride(name = "value", column = @javax.persistence.Column(name = "taste_mood_id"))
     private TasteMoodId tasteMoodId;
@@ -32,7 +33,7 @@ public class Member {
         this.id = id;
         this.email = email;
         this.nickname = nickname;
-        this.password = password;
+        this.password = new Password(password);
         this.tasteMoodId = moodId;
         this.profileImageId = "1";
         Events.publish(toMemberCreatedEvent());
@@ -66,10 +67,13 @@ public class Member {
         return tasteMoodId;
     }
 
-    public void validatePassword(String password) {
-        if (Objects.isNull(password) || !Objects.equals(password, this.password)) {
-            throw new IncorrectMemberPasswordException();
-        }
+    public void checkPasswordMatch(String password) {
+        this.password.validateEquals(password);
+    }
+
+    public void changePassword(String oldPassword, String newPassword) {
+        checkPasswordMatch(oldPassword);
+        this.password = new Password(newPassword);
     }
 
     private MemberCreatedEvent toMemberCreatedEvent() {

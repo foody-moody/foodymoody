@@ -1,6 +1,8 @@
 package com.foodymoody.be.member.controller;
 
+import com.foodymoody.be.common.annotation.MemberId;
 import com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse;
+import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
@@ -20,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,4 +68,10 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/{id}/password")
+    public ResponseEntity<ChangePasswordRequest> changePassword(@MemberId String loginId,
+            @PathVariable String id, @RequestBody ChangePasswordRequest request) {
+        memberService.changePassword(loginId, id, request);
+        return ResponseEntity.noContent().build();
+    }
 }

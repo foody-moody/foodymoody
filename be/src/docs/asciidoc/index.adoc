@@ -217,7 +217,7 @@ operation::comment_heart_cancel_success[snippets='http-request,http-response']
 
 operation::signupMember_success[snippets='http-request,http-response']
 
-==== 입력값이 잘못됐을 때
+==== 입력값이 잘못될 때
 
 operation::signupMember_failedByMultipleInvalidInput[snippets='http-response']
 
@@ -229,7 +229,7 @@ operation::signupMember_failedByDuplicateEmail[snippets='http-response']
 
 operation::signupMember_failedByDuplicateNickname[snippets='http-response']
 
-==== 재입력한 패스워드가 다를 때
+==== 재입력한 비밀번호가 다를 때
 
 operation::signupMember_failedByReconfirmPasswordUnmatch[snippets='http-response']
 
@@ -264,6 +264,20 @@ operation::fetchAllTasteMoods_success[snippets='http-request,http-response']
 ==== 성공
 
 operation::checkNicknameDuplicate_success[snippets='http-request,http-response']
+
+=== 비밀번호 수정
+
+==== 성공
+
+operation::checkNicknameDuplicate_success[snippets='http-request,http-response']
+
+==== 비밀번호 인증 실패할 때
+
+operation::changeMemberPasswordWithIncorrectPassword_fail[snippets='http-response']
+
+==== 비밀번호가 형식에 맞지 않을 때
+
+operation::changeMemberPasswordWithNotMatchPattern_fail[snippets='http-response']
 
 [[notification]]
 == 알람

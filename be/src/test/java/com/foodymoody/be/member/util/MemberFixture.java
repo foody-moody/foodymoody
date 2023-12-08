@@ -1,5 +1,7 @@
 package com.foodymoody.be.member.util;
 
+import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
+
 public enum MemberFixture {
     비회원_알버트(null, "albert@albert.com", "testtest123!", "알버트", "1", "https://www.image.com"),
     비회원_설리(null, "sully@sully.com", "testtest123!", "설리", "1", "https://www.image.com"),
@@ -21,6 +23,18 @@ public enum MemberFixture {
         this.nickname = nickname;
         this.tasteMoodId = tasteMoodId;
         this.myImageUrl = myImageUrl;
+    }
+
+    public static ChangePasswordRequest 푸반_비밀번호_수정_요청() {
+        return new ChangePasswordRequest("puban123!", "atiati123!");
+    }
+
+    public static ChangePasswordRequest 푸반_비밀번호_수정_요청_틀린_형식() {
+        return new ChangePasswordRequest("puban123!", "puban");
+    }
+
+    public static ChangePasswordRequest 푸반_비밀번호_수정_요청_인증_실패() {
+        return new ChangePasswordRequest("incorrect123!", "puban123!");
     }
 
     public String getId() {
