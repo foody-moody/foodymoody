@@ -61,6 +61,11 @@ public class JwtUtil {
         return getClaim(claims, "id", String.class);
     }
 
+    public long getExp(String token) {
+        Claims claims = extractClaims(token);
+        return getClaim(claims, "exp", Long.class);
+    }
+
     @SafeVarargs
     private String createToken(Date now, long exp, String issuer, SecretKey secretKey, Map<String, Object>... claims) {
         Date expiration = new Date(now.getTime() + exp);

@@ -9,6 +9,8 @@ import static com.foodymoody.be.acceptance.auth.AuthSteps.푸반이_로그인한
 import static com.foodymoody.be.acceptance.auth.AuthSteps.회원푸반이_틀린_비밀번호로_로그인한다;
 import com.foodymoody.be.acceptance.AcceptanceTest;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -100,18 +102,29 @@ class AuthAcceptanceTest extends AcceptanceTest {
 
     }
 
+    @Nested
+    @DisplayName("로그아웃 테스트")
+    class Logout {
 
-//    @DisplayName("로그아웃 요청 성공하면 204코드를 반환한다.")
-//    @Test
-//    void when_logout_then_return_204() {
-//        // docs
-//        api_문서_타이틀("logout_success", spec);
-//
-//        // when
-//        String accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
-//        var response = 로그아웃_한다(accessToken, spec);
-//
-//        // then
-//        응답코드_204를_응답한다(response);
-//    }
+        @DisplayName("로그아웃 요청 성공하면 204코드를 반환한다.")
+        @Test
+        void when_logout_then_return_204() {
+            // docs
+            api_문서_타이틀("logout_success", spec);
+
+            // given
+            var 푸반_로그인응답 = 푸반이_로그인한다(new RequestSpecBuilder().build());
+            String 푸반_액세스토큰= 푸반_로그인응답.jsonPath().getString("accessToken");
+
+            // when
+            var response = 로그아웃_한다(푸반_액세스토큰, spec);
+
+            // then
+            상태코드가_204임을_검증한다(response);
+            로그아웃한_푸반의_액세스토큰으로_알림_설정이_조회가_안됨을_검증한다(푸반_액세스토큰);
+        }
+
+    }
+
+
 }

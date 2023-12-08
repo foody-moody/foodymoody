@@ -30,4 +30,8 @@ public class AuthService {
         return tokenService.reIssue(request.getRefreshToken());
     }
 
+    @Transactional
+    public void logout(String token) {
+        tokenService.revoke(token);
+    }
 }

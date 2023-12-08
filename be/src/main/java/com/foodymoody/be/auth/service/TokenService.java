@@ -34,6 +34,17 @@ public class TokenService {
         return issue(now, member);
     }
 
+    public void revoke(String token) {
+        long tokenExp = jwtUtil.getExp(token);
+        tokenStorage.addBlacklist(token, tokenExp);
+    }
+
+    public void validateIsNotRevoked(String token) {
+        if (tokenStorage.isBlacklist(token)) {
+            throw new InvalidTokenException();
+        }
+    }
+
     private void validateRefreshToken(String refreshToken, String memberId) {
         String stored = tokenStorage.findByMemberId(memberId);
         if (!Objects.equals(refreshToken, stored)) {

@@ -8,4 +8,7 @@ public interface TokenStorage {
 
     String findByMemberId(String memberId);
 
+    void addBlacklist(String token, long exp);
+
+    boolean isBlacklist(String token);
 }

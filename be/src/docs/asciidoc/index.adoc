@@ -83,6 +83,12 @@ operation::issueToken_success[snippets='http-request,http-response']
 
 operation::issueTokenWithInvalidRefreshToken_fail[snippets='http-response']
 
+=== 로그아웃
+
+==== 성공
+
+operation::logout_success[snippets='http-request,http-response']
+
 [[comment]]
 == 댓글
 

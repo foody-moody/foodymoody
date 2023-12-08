@@ -1,10 +1,12 @@
 package com.foodymoody.be.acceptance.auth;
 
+import static com.foodymoody.be.acceptance.notification_setting.NotificationSettingSteps.알림_설정을_요청한다;
 import static com.foodymoody.be.member.util.MemberFixture.비회원_보노;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -103,9 +105,15 @@ public class AuthSteps {
         );
     }
 
+    public static void 상태코드가_204임을_검증한다(ExtractableResponse<Response> response) {
+        상태코드를_검증한다(response, HttpStatus.NO_CONTENT);
+    }
 
-    public static void 응답코드_204를_응답한다(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(204);
+    public static void 로그아웃한_푸반의_액세스토큰으로_알림_설정이_조회가_안됨을_검증한다(String accessToken) {
+        ExtractableResponse<Response> 푸반_알림설정조회_응답 = 알림_설정을_요청한다(accessToken, new RequestSpecBuilder().build());
+        Assertions.assertAll(
+                () -> assertThat(푸반_알림설정조회_응답.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value())
+        );
     }
 
     public static ExtractableResponse<Response> 로그아웃_한다(String accessToken, RequestSpecification spec1) {
@@ -114,7 +122,7 @@ public class AuthSteps {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .spec(spec1)
-                .when().post("/auth/logout")
+                .when().post("/api/auth/logout")
                 .then().log().all()
                 .extract();
     }
