@@ -4,7 +4,7 @@ import com.foodymoody.be.comment.application.CommentWriteService;
 import com.foodymoody.be.comment.application.dto.request.RegisterCommentRequest;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed.service.FeedService;
+import com.foodymoody.be.feed.application.FeedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

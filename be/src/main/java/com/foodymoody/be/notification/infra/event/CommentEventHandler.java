@@ -4,8 +4,8 @@ import static com.foodymoody.be.notification.infra.event.util.NotificationMapper
 
 import com.foodymoody.be.comment.domain.entity.CommentAddedEvent;
 import com.foodymoody.be.common.util.ids.FeedNotificationId;
-import com.foodymoody.be.feed.domain.Feed;
-import com.foodymoody.be.feed.service.FeedService;
+import com.foodymoody.be.feed.domain.entity.Feed;
+import com.foodymoody.be.feed.application.FeedService;
 import com.foodymoody.be.notification.application.NotificationWriteService;
 import com.foodymoody.be.notification.domain.FeedNotification;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;

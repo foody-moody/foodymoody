@@ -2,8 +2,8 @@ package com.foodymoody.be.notification.infra.usecase;
 
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed.domain.Feed;
-import com.foodymoody.be.feed.service.FeedService;
+import com.foodymoody.be.feed.domain.entity.Feed;
+import com.foodymoody.be.feed.application.FeedService;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.domain.Member;

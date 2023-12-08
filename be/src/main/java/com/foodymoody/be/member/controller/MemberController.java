@@ -1,6 +1,6 @@
 package com.foodymoody.be.member.controller;
 
-import com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse;
+import com.foodymoody.be.feed.domain.repository.dto.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.controller.dto.TasteMoodResponse;
