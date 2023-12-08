@@ -55,7 +55,6 @@ export const useFeedEditor = (id?: string) => {
     mutationFn: (body: NewFeedBody) =>
       id ? putEditFeed(id, body) : postNewFeed(body),
     onSuccess: () => {
-      // navigateToHome(); // 수정 예정(post시에는 home으로, put시에는 detail로)
       if (id) {
         // edit 성공시 detail로 이동
         queryClient.invalidateQueries([QUERY_KEY.feedDetail, id]); // invalidate 꼭해야하는지 확인하기
