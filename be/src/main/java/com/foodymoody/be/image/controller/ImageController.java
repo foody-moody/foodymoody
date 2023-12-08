@@ -2,7 +2,6 @@ package com.foodymoody.be.image.controller;
 
 import com.foodymoody.be.common.annotation.MemberId;
 import com.foodymoody.be.image.domain.ImageCategory;
-import com.foodymoody.be.image.service.FeedImageService;
 import com.foodymoody.be.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageController {
 
     private final ImageService imageService;
-    private final FeedImageService feedImageService;
 
-    @PostMapping("/feeds/{feedId}")
-    public ResponseEntity<ImageUploadResponse> uploadFeedImage(
-            @MemberId String memberId, @PathVariable String feedId,
-            @RequestPart MultipartFile file
+    @PostMapping("/feeds")
+    public ResponseEntity<ImageUploadResponse> uploadFeedImage(@MemberId String memberId, @RequestPart MultipartFile file
     ) {
-        ImageUploadResponse response = feedImageService.save(ImageCategory.FEED, feedId, memberId, file);
+        ImageUploadResponse response = imageService.save(ImageCategory.FEED, memberId, file);
         return ResponseEntity.ok().body(response);
     }
 

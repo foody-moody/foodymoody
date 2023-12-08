@@ -353,14 +353,6 @@ operation::uploadMemberProfileImage_success[snippets='curl-request,http-response
 
 operation::uploadFeedImage_success[snippets='curl-request,http-response']
 
-==== 존재하지 않는 피드 아이디일 때
-
-operation::uploadFeedImage_failedByFeedNotFound[snippets='http-response']
-
-==== 현재 로그인한 회원이 피드 작성자가 아닐 때
-
-operation::uploadFeedImage_failedByUnauthorized[snippets='http-response']
-
 === 이미지 삭제
 
 ==== 성공
