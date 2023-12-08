@@ -35,7 +35,6 @@ public class Member {
         this.nickname = nickname;
         this.password = new Password(password);
         this.tasteMoodId = moodId;
-        this.profileImageId = "1";
         Events.publish(toMemberCreatedEvent());
     }
 

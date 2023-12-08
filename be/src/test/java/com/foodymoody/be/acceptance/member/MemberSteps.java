@@ -215,10 +215,6 @@ public class MemberSteps {
         return 비회원보노가_회원가입한다(spec).jsonPath().getString("id");
     }
 
-    public static ExtractableResponse<Response> 회원보노가_회원탈퇴한다(RequestSpecification spec) {
-        return 회원탈퇴한다(비회원_보노.getId(), spec);
-    }
-
     public static ExtractableResponse<Response> 회원보노가_닉네임을_보노보노로_수정한다(RequestSpecification spec) {
         Map<String, Object> updateMemberProfileRequest = Map.of("nickname", "보노보노");
         return 회원프로필을_수정한다(비회원_보노.getId(), updateMemberProfileRequest, spec);
@@ -326,11 +322,12 @@ public class MemberSteps {
                 .extract();
     }
 
-    private static ExtractableResponse<Response> 회원탈퇴한다(String memberId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 회원탈퇴한다(String accessToken, String memberId, RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
+                .auth().oauth2(accessToken)
                 .log().all()
                 .when()
                 .delete("/api/members/{memberId}", memberId)

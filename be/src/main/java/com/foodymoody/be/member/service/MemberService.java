@@ -48,6 +48,16 @@ public class MemberService {
         member.changePassword(request.getOldPassword(), request.getNewPassword());
     }
 
+    @Transactional
+    public void delete(String loginId, String id) {
+        if (!Objects.equals(loginId, id)) {
+            throw new UnauthorizedException();
+        }
+        Member member = findById(IdFactory.createMemberId(id));
+
+        memberRepository.delete(member);
+    }
+
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
     }

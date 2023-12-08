@@ -19,6 +19,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,6 +73,12 @@ public class MemberController {
     public ResponseEntity<ChangePasswordRequest> changePassword(@MemberId String loginId,
             @PathVariable String id, @RequestBody ChangePasswordRequest request) {
         memberService.changePassword(loginId, id, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@MemberId String loginId, @PathVariable String id) {
+        memberService.delete(loginId, id);
         return ResponseEntity.noContent().build();
     }
 }
