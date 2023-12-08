@@ -1,6 +1,6 @@
 package com.foodymoody.be.acceptance.auth;
 
-import static com.foodymoody.be.acceptance.notification_setting.NotificationSettingSteps.알림_설정을_요청한다;
+import static com.foodymoody.be.acceptance.notification.NotificationSteps.회원의_모든_알람을_조회한다;
 import static com.foodymoody.be.member.util.MemberFixture.비회원_보노;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -109,19 +109,19 @@ public class AuthSteps {
         상태코드를_검증한다(response, HttpStatus.NO_CONTENT);
     }
 
-    public static void 로그아웃한_푸반의_액세스토큰으로_알림_설정이_조회가_안됨을_검증한다(String accessToken) {
-        ExtractableResponse<Response> 푸반_알림설정조회_응답 = 알림_설정을_요청한다(accessToken, new RequestSpecBuilder().build());
+    public static void 로그아웃한_푸반의_액세스토큰으로_알람이_조회가_안됨을_검증한다(String accessToken) {
+        ExtractableResponse<Response> 푸반_알람조회_응답 = 회원의_모든_알람을_조회한다(accessToken, new RequestSpecBuilder().build());
         Assertions.assertAll(
-                () -> assertThat(푸반_알림설정조회_응답.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value())
+                () -> assertThat(푸반_알람조회_응답.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value())
         );
     }
 
-    public static ExtractableResponse<Response> 로그아웃_한다(String accessToken, RequestSpecification spec1) {
+    public static ExtractableResponse<Response> 로그아웃_한다(String accessToken, RequestSpecification spec) {
         return RestAssured
                 .given().log().all()
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
                 .auth().oauth2(accessToken)
-                .spec(spec1)
                 .when().post("/api/auth/logout")
                 .then().log().all()
                 .extract();

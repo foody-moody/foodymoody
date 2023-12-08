@@ -9,8 +9,6 @@ import static com.foodymoody.be.acceptance.auth.AuthSteps.푸반이_로그인한
 import static com.foodymoody.be.acceptance.auth.AuthSteps.회원푸반이_틀린_비밀번호로_로그인한다;
 import com.foodymoody.be.acceptance.AcceptanceTest;
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -121,7 +119,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
 
             // then
             상태코드가_204임을_검증한다(response);
-            로그아웃한_푸반의_액세스토큰으로_알림_설정이_조회가_안됨을_검증한다(푸반_액세스토큰);
+            로그아웃한_푸반의_액세스토큰으로_알람이_조회가_안됨을_검증한다(푸반_액세스토큰);
         }
 
     }
