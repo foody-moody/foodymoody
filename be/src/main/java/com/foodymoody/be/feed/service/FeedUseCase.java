@@ -1,5 +1,7 @@
 package com.foodymoody.be.feed.service;
 
+import static com.foodymoody.be.feed.util.FeedMapper.makeFeedReadAllResponse;
+import static com.foodymoody.be.feed.util.FeedMapper.makeFeedStoreMoodResponses;
 import static com.foodymoody.be.feed.util.FeedMapper.makeStoreMoodIds;
 import static com.foodymoody.be.feed.util.FeedMapper.toFeedMemberResponse;
 import static com.foodymoody.be.menu.util.MenuMapper.makeMenu;
@@ -9,8 +11,6 @@ import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.Feed;
 import com.foodymoody.be.feed.domain.ImageMenu;
-import com.foodymoody.be.feed.domain.StoreMood;
-import com.foodymoody.be.feed.domain.StoreMoodId;
 import com.foodymoody.be.feed.dto.request.FeedServiceDeleteRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceUpdateRequest;
@@ -20,7 +20,6 @@ import com.foodymoody.be.feed.dto.response.FeedMemberResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
-import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
 import com.foodymoody.be.feed.service.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.service.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed.util.FeedMapper;
@@ -33,7 +32,6 @@ import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.service.MenuService;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +64,8 @@ public class FeedUseCase {
         List<String> storeMoodIds = request.getStoreMood();
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
-        Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoodIds, images, menus, profileImageUrl);
+        Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoodIds, images, menus,
+                profileImageUrl);
         Feed savedFeed = feedService.save(feed);
 
         feedHeartCountService.save(new FeedHeartCount(IdFactory.createFeedHeartCountId(), savedFeed.getId(), 0));
@@ -76,27 +75,17 @@ public class FeedUseCase {
 
     public Slice<FeedReadAllResponse> readAll(Pageable pageable) {
         Slice<Feed> feeds = feedService.findAll(pageable);
-        List<FeedReadAllResponse> responses = new ArrayList<>();
-
-        for (Feed feed : feeds) {
-            FeedReadAllResponse response = FeedReadAllResponse.builder()
-                    .id(feed.getId().getValue())
-                    .member(makeFeedMemberResponse(feed))
-                    .location(feed.getLocation())
-                    .review(feed.getReview())
-                    .storeMood(makeFeedStoreMoodResponses(feed.getStoreMoodIds()))
-                    .images(makeFeedImageMenuResponses(feed))
-                    .createdAt(feed.getCreatedAt())
-                    .updatedAt(feed.getUpdatedAt())
-                    .commentCount(feed.getCommentCount())
-                    .isLiked(feed.isLiked())
-                    .likeCount(feed.getLikeCount())
-                    .build();
-
-            responses.add(response);
-        }
+        List<FeedReadAllResponse> responses = makeFeedReadAllResponseList(feeds);
 
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
+    }
+
+    private List<FeedReadAllResponse> makeFeedReadAllResponseList(Slice<Feed> feeds) {
+        return feeds.stream()
+                .map(feed -> makeFeedReadAllResponse(feed, makeFeedMemberResponse(feed),
+                        makeFeedStoreMoodResponses(feed.getStoreMoodIds(),
+                                storeMoodService.findAllById(makeStoreMoodIds(feed.getStoreMoodIds()))), makeFeedImageMenuResponses(feed)))
+                .collect(Collectors.toList());
     }
 
     public FeedReadResponse read(String id) {
@@ -108,7 +97,7 @@ public class FeedUseCase {
         FeedMemberResponse feedMemberResponse = makeFeedMemberResponse(feed);
 
         return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
-                makeFeedStoreMoodResponses(storeMoodIds));
+                makeFeedStoreMoodResponses(storeMoodIds, storeMoodService.findAllById(makeStoreMoodIds(storeMoodIds))));
     }
 
     @Transactional
@@ -122,7 +111,8 @@ public class FeedUseCase {
         List<String> newStoreMoodIds = request.getStoreMood();
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
-        feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoodIds, newImages, newMenus, profileImageUrl);
+        feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoodIds, newImages, newMenus,
+                profileImageUrl);
     }
 
     @Transactional
@@ -136,7 +126,6 @@ public class FeedUseCase {
 
         feedService.deleteById(IdFactory.createFeedId(request.getId()));
     }
-
 
     // REFACTOR: Mapper로 옮기기, service 지우기
     public List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
@@ -152,23 +141,12 @@ public class FeedUseCase {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    public List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<String> storeMoodIds) {
-        List<StoreMoodId> ids = makeStoreMoodIds(storeMoodIds);
-        List<StoreMood> storeMoods = storeMoodService.findAllById(ids);
-        List<FeedStoreMoodResponse> feedStoreMoodResponses = new ArrayList<>();
-        for (int i = 0; i < storeMoodIds.size(); i++) {
-            feedStoreMoodResponses.add(new FeedStoreMoodResponse(storeMoodIds.get(i), storeMoods.get(i).getName()));
-        }
-
-        return feedStoreMoodResponses;
-    }
-
     public FeedMemberResponse makeFeedMemberResponse(Feed feed) {
         MemberFeedData memberData = memberService.fetchFeedDataById(feed.getMemberId());
         return toFeedMemberResponse(memberData);
     }
 
-    // REFACTOR: 쿼리 써서 n + 1 문제 해결 (stream 안에서 service 사용하지 않도록)
+    // TODO: 쿼리 써서 n + 1 문제 해결 (stream 안에서 service 사용하지 않도록)
     public List<FeedImageMenuResponse> makeFeedImageMenuResponses(Feed feed) {
         List<ImageMenu> imageMenus = feed.getImageMenus();
 
