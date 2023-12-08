@@ -73,6 +73,16 @@ operation::login_failedByUnregisteredEmail[snippets='http-response']
 
 operation::login_failedByWrongPassword[snippets='http-response']
 
+=== 토큰 재발급
+
+==== 성공
+
+operation::issueToken_success[snippets='http-request,http-response']
+
+==== 유효하지 않은 리프레시 토큰일 때
+
+operation::issueTokenWithInvalidRefreshToken_fail[snippets='http-response']
+
 [[comment]]
 == 댓글
 

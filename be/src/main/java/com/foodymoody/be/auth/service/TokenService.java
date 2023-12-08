@@ -1,9 +1,13 @@
 package com.foodymoody.be.auth.service;
 
-import com.foodymoody.be.auth.domain.RefreshToken;
-import com.foodymoody.be.auth.repository.RefreshTokenRepository;
-import com.foodymoody.be.common.util.ids.IdFactory;
-import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.auth.controller.dto.TokenIssueResponse;
+import com.foodymoody.be.auth.repository.TokenStorage;
+import com.foodymoody.be.auth.util.JwtUtil;
+import com.foodymoody.be.common.exception.InvalidTokenException;
+import com.foodymoody.be.member.domain.Member;
+import com.foodymoody.be.member.service.MemberService;
+import java.util.Date;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +15,29 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TokenService {
 
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final TokenStorage tokenStorage;
+    private final MemberService memberService;
+    private final JwtUtil jwtUtil;
 
-    public void saveRefreshToken(String memberIdValue, String refreshToken) {
-        MemberId memberId = IdFactory.createMemberId(memberIdValue);
-        refreshTokenRepository.save(RefreshToken.of(memberId, refreshToken));
+    public TokenIssueResponse issue(Date now, Member member) {
+        String accessToken = jwtUtil.createAccessToken(now, member.getId().getValue(), member.getEmail());
+        String refreshToken = jwtUtil.createRefreshToken(now, member.getId().getValue());
+        tokenStorage.saveRefreshToken(member.getId(), refreshToken);
+        return new TokenIssueResponse(accessToken, refreshToken);
+    }
+
+    public TokenIssueResponse reIssue(String refreshToken) {
+        String memberId = jwtUtil.parseRefreshToken(refreshToken);
+        validateRefreshToken(refreshToken, memberId);
+        Member member = memberService.findById(memberId);
+        Date now = new Date();
+        return issue(now, member);
+    }
+
+    private void validateRefreshToken(String refreshToken, String memberId) {
+        String stored = tokenStorage.findByMemberId(memberId);
+        if (!Objects.equals(refreshToken, stored)) {
+            throw new InvalidTokenException();
+        }
     }
 }

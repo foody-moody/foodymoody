@@ -1,7 +1,8 @@
 package com.foodymoody.be.auth.controller;
 
 import com.foodymoody.be.auth.controller.dto.LoginRequest;
-import com.foodymoody.be.auth.controller.dto.LoginResponse;
+import com.foodymoody.be.auth.controller.dto.TokenIssueRequest;
+import com.foodymoody.be.auth.controller.dto.TokenIssueResponse;
 import com.foodymoody.be.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,14 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-        LoginResponse response = authService.login(request);
+    public ResponseEntity<TokenIssueResponse> login(@RequestBody LoginRequest request) {
+        TokenIssueResponse response = authService.login(request);
         return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping("/logout")
-    public void logout() {
+    @PostMapping("/token")
+    public ResponseEntity<TokenIssueResponse> reissueToken(@RequestBody TokenIssueRequest request) {
+        TokenIssueResponse response = authService.reIssueToken(request);
+        return ResponseEntity.ok(response);
     }
 }

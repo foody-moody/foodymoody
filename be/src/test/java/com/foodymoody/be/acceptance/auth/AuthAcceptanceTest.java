@@ -1,13 +1,14 @@
 package com.foodymoody.be.acceptance.auth;
 
+import static com.foodymoody.be.acceptance.auth.AuthSteps.*;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.비회원보노가_로그인한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.상태코드_401과_오류코드_a005를_반환하는지_검증한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.상태코드_404와_오류코드_m001을_반환하는지_검증한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.토큰과_상태코드_200을_응답하는지_검증한다;
-import static com.foodymoody.be.acceptance.auth.AuthSteps.회원푸반이_로그인한다;
+import static com.foodymoody.be.acceptance.auth.AuthSteps.푸반이_로그인한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.회원푸반이_틀린_비밀번호로_로그인한다;
-
 import com.foodymoody.be.acceptance.AcceptanceTest;
+import io.restassured.builder.RequestSpecBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("login_success", spec);
 
             // when
-            var response = 회원푸반이_로그인한다(spec);
+            var response = 푸반이_로그인한다(spec);
 
             // then
             토큰과_상태코드_200을_응답하는지_검증한다(response);
@@ -59,6 +60,46 @@ class AuthAcceptanceTest extends AcceptanceTest {
         }
 
     }
+
+    @Nested
+    @DisplayName("토큰 발급 테스트")
+    class IssueToken {
+
+        @Test
+        void when_issueToken_then_success() throws InterruptedException {
+            // docs
+            api_문서_타이틀("issueToken_success", spec);
+
+            // given
+            var 푸반_로그인응답 = 푸반이_로그인한다(new RequestSpecBuilder().build());
+            String 푸반_리프레시토큰 = 푸반_로그인응답.jsonPath().getString("refreshToken");
+
+            // FIXME 토큰 생성 로직 수정 후 제거하겠습니다
+            Thread.sleep(1000);
+
+            // when
+            var 푸반_토큰_재발급응답 = 토큰을_재발급한다(푸반_리프레시토큰, spec);
+
+            // then
+            상태코드가_200이고_새로운_토큰이_발급됐음을_검증한다(푸반_토큰_재발급응답, 푸반_로그인응답);
+
+        }
+
+        @Test
+        void when_issueTokenWithInvalidRefreshToken_then_fail() {
+            // docs
+            api_문서_타이틀("issueTokenWithInvalidRefreshToken_fail", spec);
+
+            // when
+            var 푸반_토큰_재발급응답 = 토큰을_재발급한다("InvalidRefreshToken", spec);
+
+            // then
+            상태코드가_400이고_오류코드가_a002임을_검증한다(푸반_토큰_재발급응답);
+
+        }
+
+    }
+
 
 //    @DisplayName("로그아웃 요청 성공하면 204코드를 반환한다.")
 //    @Test

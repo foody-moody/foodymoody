@@ -23,12 +23,40 @@ public class AuthSteps {
         return 로그인_한다(비회원_보노.getEmail(), 비회원_보노.getPassword(), spec);
     }
 
-    public static ExtractableResponse<Response> 회원푸반이_로그인한다(RequestSpecification spec) {
+    public static ExtractableResponse<Response> 푸반이_로그인한다(RequestSpecification spec) {
         return 로그인_한다(회원_푸반.getEmail(), 회원_푸반.getPassword(), spec);
     }
 
     public static ExtractableResponse<Response> 회원푸반이_틀린_비밀번호로_로그인한다(RequestSpecification spec) {
         return 로그인_한다(회원_푸반.getEmail(), "wrongPassword", spec);
+    }
+
+    public static ExtractableResponse<Response> 로그인_한다(String email, String password, RequestSpecification spec) {
+        Map<String, String> body = new HashMap<>();
+        body.put("email", email);
+        body.put("password", password);
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .body(body)
+                .when().post("/api/auth/login")
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 토큰을_재발급한다(String refreshToken, RequestSpecification spec) {
+        return RestAssured.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .body(Map.of("refreshToken", refreshToken))
+                .when()
+                .post("/api/auth/token")
+                .then()
+                .log().all()
+                .extract();
     }
 
     public static void 상태코드_404와_오류코드_m001을_반환하는지_검증한다(ExtractableResponse<Response> response) {
@@ -53,21 +81,28 @@ public class AuthSteps {
         );
     }
 
+    public static void 상태코드가_200이고_새로운_토큰이_발급됐음을_검증한다(ExtractableResponse<Response> reIssueResponse, ExtractableResponse<Response> loginResponse) {
 
-    public static ExtractableResponse<Response> 로그인_한다(String email, String password, RequestSpecification spec) {
-        Map<String, String> body = new HashMap<>();
-        body.put("email", email);
-        body.put("password", password);
-        return RestAssured
-                .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .spec(spec)
-                .log().all()
-                .body(body)
-                .when().post("/api/auth/login")
-                .then().log().all()
-                .extract();
+        String loginAccessToken = loginResponse.jsonPath().getString("accessToken");
+        String loginRefreshToken = loginResponse.jsonPath().getString("refreshToken");
+
+        String reIssuedAccessToken = reIssueResponse.jsonPath().getString("accessToken");
+        String reIssuedRefreshToken = reIssueResponse.jsonPath().getString("refreshToken");
+
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(reIssueResponse, HttpStatus.OK),
+                () -> assertThat(reIssuedAccessToken).isNotEqualTo(loginAccessToken),
+                () -> assertThat(reIssuedRefreshToken).isNotEqualTo(loginRefreshToken)
+        );
     }
+
+    public static void 상태코드가_400이고_오류코드가_a002임을_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.BAD_REQUEST),
+                () -> 오류코드를_검증한다(response, "a002")
+        );
+    }
+
 
     public static void 응답코드_204를_응답한다(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(204);
