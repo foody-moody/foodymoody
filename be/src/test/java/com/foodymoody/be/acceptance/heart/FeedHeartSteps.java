@@ -27,7 +27,7 @@ public class FeedHeartSteps {
                 .oauth2(accessToken)
                 .body(body)
                 .when()
-                .post("/api/likes")
+                .post("/api/feeds/" + feedId + "/likes")
                 .then()
                 .log().all()
                 .extract();
@@ -43,11 +43,7 @@ public class FeedHeartSteps {
     }
 
     public static ExtractableResponse<Response> 좋아요된_피드에_또_좋아요를_한다(String feedId, String accessToken,
-            RequestSpecification spec) {
-        Map<String, Object> body = Map.of(
-                "feedId", feedId
-        );
-
+                                                                   RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -55,9 +51,8 @@ public class FeedHeartSteps {
                 .log().all()
                 .auth()
                 .oauth2(accessToken)
-                .body(body)
                 .when()
-                .post("/api/likes")
+                .post("/api/feeds/" + feedId + "/likes")
                 .then()
                 .log().all()
                 .statusCode(400)
@@ -68,11 +63,7 @@ public class FeedHeartSteps {
 
 
     public static ExtractableResponse<Response> 좋아요_취소를_한다(String feedId, String accessToken,
-            RequestSpecification spec) {
-        Map<String, Object> body = Map.of(
-                "feedId", feedId
-        );
-
+                                                           RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -80,9 +71,8 @@ public class FeedHeartSteps {
                 .log().all()
                 .auth()
                 .oauth2(accessToken)
-                .body(body)
                 .when()
-                .delete("/api/likes")
+                .delete("/api/feeds/" + feedId + "/likes")
                 .then()
                 .log().all()
                 .extract();
@@ -93,7 +83,7 @@ public class FeedHeartSteps {
     }
 
     public static ExtractableResponse<Response> 좋아요_한_적이_없는데_좋아요_취소를_한다(String feedId, String accessToken,
-            RequestSpecification spec) {
+                                                                        RequestSpecification spec) {
         Map<String, Object> body = Map.of(
                 "feedId", feedId
         );
@@ -107,7 +97,7 @@ public class FeedHeartSteps {
                 .oauth2(accessToken)
                 .body(body)
                 .when()
-                .delete("/api/likes")
+                .delete("/api/feeds/" + feedId + "/likes")
                 .then()
                 .log().all()
                 .statusCode(400)
