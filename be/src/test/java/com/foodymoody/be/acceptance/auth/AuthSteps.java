@@ -120,7 +120,7 @@ public class AuthSteps {
         return RestAssured
                 .given().log().all()
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .auth().oauth2(accessToken)
                 .spec(spec1)
                 .when().post("/api/auth/logout")
                 .then().log().all()
