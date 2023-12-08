@@ -3,6 +3,7 @@ package com.foodymoody.be.feed.util;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.Feed;
+import com.foodymoody.be.feed.domain.StoreMoodId;
 import com.foodymoody.be.feed.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceDeleteRequest;
 import com.foodymoody.be.feed.dto.request.FeedServiceRegisterRequest;
@@ -14,12 +15,15 @@ import com.foodymoody.be.feed.dto.response.FeedMenuResponse;
 import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.dto.response.FeedStoreMoodResponse;
+import com.foodymoody.be.feed.dto.response.FeedTasteMoodResponse;
 import com.foodymoody.be.feed.service.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.service.dto.MenuNameRatingPair;
 import com.foodymoody.be.image.domain.Image;
+import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.menu.domain.Menu;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FeedMapper {
 
@@ -87,4 +91,20 @@ public class FeedMapper {
     public static FeedServiceDeleteRequest toServiceDeleteRequest(String id, String memberId) {
         return new FeedServiceDeleteRequest(id, memberId);
     }
+
+    public static FeedMemberResponse toFeedMemberResponse(MemberFeedData member) {
+        return FeedMemberResponse.builder()
+                .id(member.getId())
+                .imageUrl(member.getProfileImageUrl())
+                .nickname(member.getNickname())
+                .tasteMood(new FeedTasteMoodResponse(member.getId(), member.getMoodName()))
+                .build();
+    }
+
+    public static List<StoreMoodId> makeStoreMoodIds(List<String> storeMoodIds) {
+        return storeMoodIds.stream()
+                .map(StoreMoodId::new)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
 }

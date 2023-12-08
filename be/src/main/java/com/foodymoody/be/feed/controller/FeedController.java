@@ -8,6 +8,7 @@ import com.foodymoody.be.feed.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.dto.response.StoreMoodResponse;
 import com.foodymoody.be.feed.service.FeedService;
+import com.foodymoody.be.feed.service.FeedUseCase;
 import com.foodymoody.be.feed.service.StoreMoodService;
 import com.foodymoody.be.feed.util.FeedMapper;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FeedController {
 
     private final FeedService feedService;
+    private final FeedUseCase feedUseCase;
     private final StoreMoodService storeMoodService;
 
     /**
@@ -36,9 +38,8 @@ public class FeedController {
     @PostMapping("/api/feeds")
     public ResponseEntity<FeedRegisterResponse> register(
             @RequestBody FeedRegisterRequest feedRegisterRequest,
-            @MemberId String memberId
-    ) {
-        FeedRegisterResponse feedRegisterResponse = feedService.register(
+            @MemberId String memberId) {
+        FeedRegisterResponse feedRegisterResponse = feedUseCase.register(
                 FeedMapper.toServiceRegisterRequest(feedRegisterRequest, memberId));
         return ResponseEntity.ok().body(feedRegisterResponse);
     }
@@ -48,7 +49,7 @@ public class FeedController {
      */
     @GetMapping("/api/feeds")
     public ResponseEntity<Slice<FeedReadAllResponse>> readAll(Pageable pageable) {
-        Slice<FeedReadAllResponse> feedReadAllResponses = feedService.readAll(pageable);
+        Slice<FeedReadAllResponse> feedReadAllResponses = feedUseCase.readAll(pageable);
         return ResponseEntity.ok().body(feedReadAllResponses);
     }
 
@@ -57,7 +58,7 @@ public class FeedController {
      */
     @GetMapping("/api/feeds/{id}")
     public ResponseEntity<FeedReadResponse> read(@PathVariable String id) {
-        FeedReadResponse feedReadResponse = feedService.read(id);
+        FeedReadResponse feedReadResponse = feedUseCase.read(id);
         return ResponseEntity.ok().body(feedReadResponse);
     }
 
@@ -66,8 +67,8 @@ public class FeedController {
      */
     @PutMapping("/api/feeds/{id}")
     public ResponseEntity<Void> update(@PathVariable String id, @RequestBody FeedUpdateRequest feedUpdateRequest,
-            @MemberId String memberId) {
-        feedService.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest, memberId));
+                                       @MemberId String memberId) {
+        feedUseCase.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest, memberId));
         return ResponseEntity.noContent().build();
     }
 
@@ -76,7 +77,7 @@ public class FeedController {
      */
     @DeleteMapping("/api/feeds/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id, @MemberId String memberId) {
-        feedService.delete(FeedMapper.toServiceDeleteRequest(id, memberId));
+        feedUseCase.delete(FeedMapper.toServiceDeleteRequest(id, memberId));
         return ResponseEntity.noContent().build();
     }
 
