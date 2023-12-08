@@ -30,6 +30,7 @@ import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
 import com.foodymoody.be.feed_heart_count.service.FeedHeartCountService;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
+import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
@@ -96,13 +97,15 @@ public class FeedService {
 
     @Transactional
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
-        MemberId memberId = memberService.findById(request.getMemberId()).getId();
+        Member member = memberService.findById(request.getMemberId());
+        MemberId memberId = member.getId();
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = toMenu(imageMenuPairs);
         List<Image> images = toImage(imageMenuPairs, memberId);
         List<String> storeMoodIds = request.getStoreMood();
+        String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
-        Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoodIds, images, menus);
+        Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoodIds, images, menus, profileImageUrl);
         Feed savedFeed = feedRepository.save(feed);
 
         feedHeartCountService.save(new FeedHeartCount(IdFactory.createFeedHeartCountId(), savedFeed.getId(), 0));
@@ -126,13 +129,14 @@ public class FeedService {
     public void update(String id, FeedServiceUpdateRequest request) {
         FeedId feedId = IdFactory.createFeedId(id);
         Feed feed = findFeed(feedId);
-
-        MemberId memberId = memberService.findById(request.getMemberId()).getId();
+        Member member = memberService.findById(request.getMemberId());
+        MemberId memberId = member.getId();
         List<Image> newImages = toImage(request.getImages(), memberId);
         List<Menu> newMenus = toMenu(request.getImages());
         List<String> newStoreMoodIds = request.getStoreMood();
+        String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
-        feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoodIds, newImages, newMenus);
+        feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoodIds, newImages, newMenus, profileImageUrl);
     }
 
     public Feed findFeed(FeedId id) {
@@ -169,7 +173,7 @@ public class FeedService {
         return feedStoreMoodResponses;
     }
 
-    // TODO: Mapper로 옮기기, service 지우기
+    // REFACTOR: Mapper로 옮기기, service 지우기
     private List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
         return imageMenuPairs.stream()
                 .map(imageMenuPair -> menuService.saveMenu(makeMenu(IdFactory.createMenuId(), imageMenuPair.getMenu())))
@@ -187,7 +191,7 @@ public class FeedService {
         return imageService.findById(imageMenuPair.getImageId()).getUrl();
     }
 
-    // TODO: 쿼리 써서 n + 1 문제 해결
+    // REFACTOR: 쿼리 써서 n + 1 문제 해결 (stream 안에서 service 사용하지 않도록)
     private List<FeedImageMenuResponse> makeFeedImageMenuResponses(Feed feed) {
         List<ImageMenu> imageMenus = feed.getImageMenus();
 
@@ -203,11 +207,9 @@ public class FeedService {
     }
 
     private FeedMemberResponse toFeedMemberResponse(MemberFeedData member) {
-        MemberId memberId = IdFactory.createMemberId(member.getId());
-        MemberFeedData memberData = memberService.fetchFeedDataById(memberId);
         return FeedMemberResponse.builder()
                 .id(member.getId())
-                .imageUrl(memberData.getProfileImageUrl())
+                .imageUrl(member.getProfileImageUrl())
                 .nickname(member.getNickname())
                 .tasteMood(new FeedTasteMoodResponse(member.getId(), member.getMoodName()))
                 .build();
