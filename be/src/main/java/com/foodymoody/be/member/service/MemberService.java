@@ -6,6 +6,7 @@ import com.foodymoody.be.common.exception.MemberNotFoundException;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
+import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.domain.Member;
@@ -57,6 +58,12 @@ public class MemberService {
         MemberId key = new MemberId(id);
         return memberRepository.findById(key).orElseThrow(MemberNotFoundException::new);
     }
+
+    public NicknameDuplicationCheckResponse checkNicknameDuplication(String nickname) {
+        boolean isDuplicate = memberRepository.existsByNickname(nickname);
+        return MemberMapper.toNicknameDuplicationCheckResponse(isDuplicate);
+    }
+
 
     private void validateEmailDuplication(String email) {
         if (memberRepository.existsByEmail(email)) {

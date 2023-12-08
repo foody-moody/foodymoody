@@ -196,6 +196,19 @@ public class MemberSteps {
         );
     }
 
+    public static void 상태코드가_200이고_중복되는_닉네임임을_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                () -> assertThat(response.jsonPath().getBoolean("isDuplicate")).isTrue()
+        );
+    }
+
+    public static void  상태코드가_200이고_중복되는_닉네임이_아님을_검증한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                () -> assertThat(response.jsonPath().getBoolean("isDuplicate")).isFalse()
+        );
+    }
 
     public static String 회원보노가_회원가입하고_아이디를_반환한다(RequestSpecification spec) {
         return 비회원보노가_회원가입한다(spec).jsonPath().getString("id");
@@ -257,6 +270,19 @@ public class MemberSteps {
                 () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT)
 //                () -> 응답코드를_검증한다(bonoLoginByWrongPasswordResponse, HttpStatus.UNAUTHORIZED)
         );
+    }
+
+    public static ExtractableResponse<Response> 닉네임_중복_여부를_조회한다(String nickname, RequestSpecification spec) {
+        return RestAssured.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .params("nickname", nickname)
+                .log().all()
+                .when()
+                .get("/api/members/duplication-check")
+                .then()
+                .log().all()
+                .extract();
     }
 
     public static ExtractableResponse<Response> 전체_테이스트_무드를_조회한다(RequestSpecification spec) {

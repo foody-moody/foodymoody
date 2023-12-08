@@ -259,6 +259,12 @@ operation::fetchMemberFeedsEmpty_success[snippets='http-response']
 
 operation::fetchAllTasteMoods_success[snippets='http-request,http-response']
 
+=== 회원 닉네임 중복 여부 조회
+
+==== 성공
+
+operation::checkNicknameDuplicate_success[snippets='http-request,http-response']
+
 [[notification]]
 == 알람
 

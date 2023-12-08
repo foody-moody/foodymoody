@@ -1,5 +1,6 @@
 package com.foodymoody.be.acceptance.member;
 
+import static com.foodymoody.be.acceptance.member.MemberSteps.닉네임_중복_여부를_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_유효하지_않은_이메일을_입력하고_닉네임을_입력하지_않고_패스워드를_입력하지_않고_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_틀린_재입력_패스워드로_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_회원가입한다;
@@ -8,6 +9,8 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_빈_리스트를_응답하는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_전체_테이스트_무드가_조회되는지_검증한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_중복되는_닉네임이_아님을_검증한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_중복되는_닉네임임을_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_g001이고_errors에_email과_nickname과_password가_존재하는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m002인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m003인지_검증한다;
@@ -146,6 +149,24 @@ class MemberAcceptanceTest extends AcceptanceTest {
             상태코드가_200이고_전체_테이스트_무드가_조회되는지_검증한다(response);
         }
 
+    }
+
+    @Nested
+    @DisplayName("닉네임 중복 체크 인수테스트")
+    class CheckNicknameDuplication {
+
+        @Test
+        void when_nicknameNotDuplicate_then_returnFalse() {
+            // docs
+            api_문서_타이틀("checkNicknameDuplicate_success", spec);
+
+            // when
+            var response = 닉네임_중복_여부를_조회한다("디무디푸", spec);
+
+            // then
+            상태코드가_200이고_중복되는_닉네임이_아님을_검증한다(response);
+
+        }
     }
 
 //    @DisplayName("회원 탈퇴 성공하면, 응답코드 204를 반환하고 회원 프로필이 조회되지 않는다.")

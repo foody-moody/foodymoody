@@ -3,6 +3,7 @@ package com.foodymoody.be.member.controller;
 import com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
+import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
 import com.foodymoody.be.member.controller.dto.TasteMoodResponse;
 import com.foodymoody.be.member.repository.MemberProfileResponse;
 import com.foodymoody.be.member.service.MemberProfileService;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,4 +58,11 @@ public class MemberController {
         List<TasteMoodResponse> response = tasteMoodService.findAll();
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/duplication-check")
+    public ResponseEntity<NicknameDuplicationCheckResponse> checkNicknameDuplication(@Param("nickname") String nickname) {
+        NicknameDuplicationCheckResponse response = memberService.checkNicknameDuplication(nickname);
+        return ResponseEntity.ok(response);
+    }
+
 }
