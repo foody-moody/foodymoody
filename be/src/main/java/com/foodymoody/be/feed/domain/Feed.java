@@ -21,8 +21,7 @@ public class Feed {
     private FeedId id;
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
-    // TODO
-//    private String profileImageId;
+    private String profileImageUrl;
     private String location;
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -42,13 +41,14 @@ public class Feed {
     }
 
     public Feed(FeedId id, MemberId memberId, String location, String review, List<String> moodIds, List<Image> images,
-            List<Menu> menus) {
+            List<Menu> menus, String profileImageUrl) {
         this.id = id;
         this.memberId = memberId;
         this.location = location;
         this.review = review;
         this.storeMoods = new StoreMoods(moodIds);
         this.imageMenus = new ImageMenus(images, menus);
+        this.profileImageUrl = profileImageUrl;
     }
 
     public FeedId getId() {
@@ -99,14 +99,22 @@ public class Feed {
         return memberId;
     }
 
+    public StoreMoods getStoreMoods() {
+        return storeMoods;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
     public void update(MemberId memberId, String newLocation, String newReview, List<String> newStoreMoodIds,
-            List<Image> newImages,
-            List<Menu> newMenus) {
+                       List<Image> newImages, List<Menu> newMenus, String profileImageUrl) {
         this.memberId = memberId;
         this.location = newLocation;
         this.review = newReview;
         this.storeMoods = new StoreMoods(newStoreMoodIds);
         this.imageMenus.replaceWith(newImages, newMenus);
+        this.profileImageUrl = profileImageUrl;
     }
 
     public void updateIsLikedBy(boolean isLiked) {
