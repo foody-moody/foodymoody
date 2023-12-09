@@ -4,6 +4,7 @@ import com.foodymoody.be.auth.controller.dto.TokenIssueResponse;
 import com.foodymoody.be.auth.repository.TokenStorage;
 import com.foodymoody.be.auth.util.JwtUtil;
 import com.foodymoody.be.common.exception.InvalidTokenException;
+import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.service.MemberService;
 import java.util.Date;
@@ -29,7 +30,7 @@ public class TokenService {
     public TokenIssueResponse reIssue(String refreshToken) {
         String memberId = jwtUtil.parseRefreshToken(refreshToken);
         validateRefreshToken(refreshToken, memberId);
-        Member member = memberService.findById(memberId);
+        Member member = memberService.findById(IdFactory.createMemberId(memberId));
         Date now = new Date();
         return issue(now, member);
     }
@@ -39,7 +40,7 @@ public class TokenService {
         tokenStorage.addBlacklist(token, tokenExp);
     }
 
-    public void validateIsNotRevoked(String token) {
+    public void validateNotBlacklisted(String token) {
         if (tokenStorage.isBlacklist(token)) {
             throw new InvalidTokenException();
         }

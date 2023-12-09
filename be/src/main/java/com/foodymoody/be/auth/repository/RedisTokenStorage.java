@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class RedisTokenStorage implements TokenStorage{
 
     private static final String REFRESH_PREFIX = "jwt:refresh:";
-    private static final String BLACKLIST_PREFIX = "blacklist:";
+    private static final String BLACKLIST_PREFIX = "jwt:blacklist:";
 
     private final RedisTemplate<String, String> template;
 
