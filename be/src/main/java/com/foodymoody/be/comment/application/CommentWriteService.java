@@ -5,7 +5,6 @@ import com.foodymoody.be.comment.application.dto.request.RegisterCommentRequest;
 import com.foodymoody.be.comment.application.dto.request.RegisterReplyRequest;
 import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.comment.domain.entity.Reply;
-import com.foodymoody.be.comment.domain.entity.ReplyId;
 import com.foodymoody.be.comment.domain.repository.CommentRepository;
 import com.foodymoody.be.common.exception.CommentNotExistsException;
 import com.foodymoody.be.common.util.IdGenerator;
@@ -13,6 +12,7 @@ import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.ReplyId;
 import java.time.LocalDateTime;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +57,7 @@ public class CommentWriteService {
     @Transactional
     public void reply(String id, @Valid RegisterReplyRequest request, String memberId) {
         Comment comment = fetchById(new CommentId(id));
-        ReplyId replyId = new ReplyId(IdGenerator.generate());
+        ReplyId replyId = IdFactory.createReplyId();
         MemberId toMemberId = IdFactory.createMemberId(memberId);
         Reply reply = commentMapper.toReply(replyId, LocalDateTime.now(), toMemberId, request.getContent());
         comment.addReply(reply);

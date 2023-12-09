@@ -39,6 +39,10 @@ public class MemberService {
         return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
     }
 
+    public Member findByNickname(String nickname) {
+        return memberRepository.findByNickname(nickname).orElseThrow(MemberNotFoundException::new);
+    }
+
     public MemberFeedData fetchFeedDataById(MemberId id) {
         return memberRepository.fetchFeedDataById(id).orElseThrow(MemberNotFoundException::new);
     }

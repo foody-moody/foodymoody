@@ -31,6 +31,17 @@ public class MemberSteps {
         return 회원프로필을_조회한다("test", spec);
     }
 
+    public static void 푸반_회원_가입한다() {
+        회원가입한다(Map.of("nickname", "푸반", "email", "puban@puban.com", "password", "puban123!", "reconfirmPassword",
+                "puban123!", "tasteMoodId", '1'), new RequestSpecBuilder().build()).jsonPath().getString("accessToken");
+    }
+
+    public static String 아티_회원_가입한다() {
+        return 회원가입한다(
+                Map.of("nickname", "아티", "email", "ati@ati.com", "password", "ati123!", "reconfirmPassword", "ati123!",
+                        "tasteMoodId", '1'), new RequestSpecBuilder().build()).jsonPath().getString("id");
+    }
+
     public static ExtractableResponse<Response> 비회원보노가_회원가입한다(RequestSpecification spec) {
         Map<String, Object> memberRegisterRequest = Map.of(
                 "nickname", 비회원_보노.getNickname(),

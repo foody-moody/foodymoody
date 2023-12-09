@@ -5,14 +5,11 @@ import static com.foodymoody.be.acceptance.comment.CommentSteps.공백인_댓글
 import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글_수정한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글_없이_댓글_수정한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글없이_피드에_댓글_등록한다;
-import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글에_댓글을_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글을_삭제한다;
-import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글의_댓글을_조회한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.비여있는_댓글로_댓글_수정한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.요청_내용_없이_댓글_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200과_id를_반환한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200을_반환한다;
-import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_201을_반환한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_400_검증한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.페이지_적용_조회_검증;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.페이지_적용_피드별_댓글을_조회한다;
@@ -23,6 +20,7 @@ import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글을_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_여러_공백댓글_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에서_200자_넘는_댓글을_등록한다;
+import static com.foodymoody.be.acceptance.comment_heart.CommentHeartSteps.댓글에_좋아요를_누른다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고_아이디를_받는다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
@@ -33,43 +31,6 @@ import org.junit.jupiter.api.Test;
 
 @DisplayName("댓글 관련 기능 인수테스트")
 class CommentAcceptanceTest extends AcceptanceTest {
-
-    @DisplayName("댓글에 댓글 추가하면 응답코드 201을 응답한다")
-    @Test
-    void when_register_comment_to_comment_if_success_then_return_code_201() {
-        // docs
-        api_문서_타이틀("comment_reply_success", spec);
-
-        // given
-        String feedId = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰);
-        String commentId = 피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원아티_액세스토큰);
-
-        // when
-        var response = 댓글에_댓글을_등록한다(feedId, commentId, 회원아티_액세스토큰, spec);
-
-        // then
-        응답코드_201을_반환한다(response);
-    }
-
-    @DisplayName("댓글의 댓글을 조회하면 응답코드 200을 응답한다")
-    @Test
-    void when_fetch_comment_of_comment_if_success_then_return_code_200() {
-        // docs
-        api_문서_타이틀("comment_reply_fetch_success", spec);
-
-        // given
-        String feedId = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰);
-        String commentId = 피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원아티_액세스토큰);
-        댓글에_댓글을_등록한다(feedId, commentId, 회원아티_액세스토큰);
-        댓글에_댓글을_등록한다(feedId, commentId, 회원푸반_액세스토큰);
-        댓글에_댓글을_등록한다(feedId, commentId, 회원아티_액세스토큰);
-
-        // when
-        var response = 댓글의_댓글을_조회한다(commentId, spec);
-
-        // then
-        응답코드_200을_반환한다(response);
-    }
 
     @Nested
     @DisplayName("댓글 등록 인수테스트")
@@ -397,6 +358,23 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
             // then
             페이지_적용_조회_검증(response);
+        }
+
+        @DisplayName("댓글에 좋아요가 누른 경우 댓글 조회 요청시 좋아요 여부를 반환한다")
+        @Test
+        void when_fetch_comments_if_liked_then_return_liked() {
+            // docs
+            api_문서_타이틀("comments_fetch_with_liked_success", spec);
+
+            // given
+            String commentId = 피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원아티_액세스토큰);
+            댓글에_좋아요를_누른다(회원아티_액세스토큰, commentId, spec);
+
+            // when
+            var response = 피드별_댓글을_조회한다(회원아티_액세스토큰, feedId, spec, "0", "20");
+
+            // then
+            응답코드_200을_반환한다(response);
         }
 
         @DisplayName("accessToken와 함께 댓글 조회 요청시 패이지와 사이즈 정보를 넣으면 해당 페이지와 사이즈의 댓글을 조회한다.그리고 좋아요 여부를 반환한다")

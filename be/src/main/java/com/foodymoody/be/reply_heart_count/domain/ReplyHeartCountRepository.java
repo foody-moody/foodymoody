@@ -1,6 +1,7 @@
 package com.foodymoody.be.reply_heart_count.domain;
 
-import com.foodymoody.be.comment.domain.entity.ReplyId;
+
+import com.foodymoody.be.common.util.ids.ReplyId;
 
 public interface ReplyHeartCountRepository {
 

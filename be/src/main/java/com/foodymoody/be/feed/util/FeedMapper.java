@@ -28,9 +28,8 @@ public class FeedMapper {
     }
 
     public static Feed toFeed(FeedId id, MemberId memberId, FeedServiceRegisterRequest request, List<String> moodIds,
-            List<Image> images,
-            List<Menu> menus) {
-        return new Feed(id, memberId, request.getLocation(), request.getReview(), moodIds, images, menus);
+            List<Image> images, List<Menu> menus, String profileImageUrl) {
+        return new Feed(id, memberId, request.getLocation(), request.getReview(), moodIds, images, menus, profileImageUrl);
     }
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {
