@@ -11,30 +11,33 @@
 
 === 피드 등록
 
+==== 성공
+
 operation::registerFeed[snippets='http-request,http-response']
 
 === 피드 전체 조회
+
+==== 성공
 
 operation::readAllFeed[snippets='http-request,http-response']
 
 === 피드 개별 조회
 
+==== 성공
+
 operation::readFeed[snippets='http-request,http-response']
 
 === 피드 수정
+
+==== 성공
 
 operation::updateFeed[snippets='http-request']
 
 === 피드 삭제
 
+==== 성공
+
 operation::deleteFeed[snippets='http-request']
-
-=== 스토어 무드 조회
-
-operation::readAllStoreMood[snippets='http-request,http-response']
-
-[[like]]
-== 좋아요
 
 === 좋아요 등록
 
@@ -55,6 +58,21 @@ operation::unLike[snippets='http-request,http-response']
 ==== 좋아요 된 피드가 없을 때
 
 operation::unLikeFailed[snippets='http-request,http-response']
+
+=== 스토어 무드 조회
+
+==== 성공
+
+operation::readAllStoreMood[snippets='http-request,http-response']
+
+[[colletion]]
+== 컬렉션
+
+=== 컬렉션 등록
+
+==== 성공
+
+operation::feed-collection-create-success[snippets='http-request,http-response']
 
 [[auth]]
 == 인증/인가
@@ -180,6 +198,10 @@ operation::comments_fetch_success[snippets='http-request,http-response']
 
 operation::comments_fetch_with_with_access_token_success[snippets='http-request,http-response']
 
+==== 성공 - 로그인(좋아요)
+
+operation::comments_fetch_with_with_access_token_success[snippets='http-request,http-response']
+
 ==== 성공 - 페이징
 
 operation::comments_fetch_with_page_success[snippets='http-request,http-response']
@@ -187,16 +209,6 @@ operation::comments_fetch_with_page_success[snippets='http-request,http-response
 ==== 피드가 존재하지 않을 때
 
 operation::comments_fetch_failed_by_feed_id_not_exists[snippets='http-response']
-
-=== 대댓글
-
-==== 대댓글 달기
-
-operation::comment_reply_success[snippets='http-request,http-response']
-
-==== 대댓글 조회
-
-operation::comment_reply_fetch_success[snippets='http-request,http-response']
 
 === 댓글 하트
 
@@ -208,6 +220,34 @@ operation::comment_heart_register_success[snippets='http-request,http-response']
 
 operation::comment_heart_cancel_success[snippets='http-request,http-response']
 
+[[reply]]
+== 대댓글
+
+=== 대댓글 달기
+
+==== 성공
+
+operation::comment_reply_success[snippets='http-request,http-response']
+
+==== 성공
+
+=== 대댓글 조회
+
+operation::comment_reply_fetch_success[snippets='http-request,http-response']
+
+==== 성공
+
+=== 대댓글에 좋아요 누른다
+
+operation::reply_heart_register_success[snippets='http-request,http-response']
+
+==== 성공
+
+=== 대댓글에 좋아요 취소
+
+operation::reply_heart_cancel_success[snippets='http-request,http-response']
+
+[[store]]
 [[member]]
 == 회원
 

@@ -1,7 +1,7 @@
 package com.foodymoody.be.reply_heart_count.infra.persistence.jpa;
 
-import com.foodymoody.be.comment.domain.entity.ReplyId;
 import com.foodymoody.be.common.util.ids.ReplyHeartCountId;
+import com.foodymoody.be.common.util.ids.ReplyId;
 import com.foodymoody.be.reply_heart_count.domain.ReplyHeartCount;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

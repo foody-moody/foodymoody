@@ -4,6 +4,7 @@ import com.foodymoody.be.common.event.Event;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.ReplyId;
 import java.time.LocalDateTime;
 import lombok.Getter;
 

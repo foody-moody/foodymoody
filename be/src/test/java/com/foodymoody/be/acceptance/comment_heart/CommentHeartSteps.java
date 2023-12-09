@@ -11,7 +11,7 @@ public class CommentHeartSteps {
             RequestSpecification spec) {
         return RestAssured
                 .given().log().all().spec(spec).auth().oauth2(accessToken).contentType("application/json")
-                .when().delete("/api/comments/{commentId}/hearts", commentId)
+                .when().delete("/api/comments/{commentId}/likes", commentId)
                 .then().log().all()
                 .extract();
     }
@@ -20,7 +20,7 @@ public class CommentHeartSteps {
             RequestSpecification spec) {
         return RestAssured
                 .given().log().all().spec(spec).auth().oauth2(accessToken).contentType("application/json")
-                .when().post("/api/comments/{commentId}/hearts", commentId)
+                .when().post("/api/comments/{commentId}/likes", commentId)
                 .then().log().all()
                 .extract();
     }

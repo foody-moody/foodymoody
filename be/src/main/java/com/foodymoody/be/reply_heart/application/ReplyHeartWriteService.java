@@ -1,7 +1,7 @@
 package com.foodymoody.be.reply_heart.application;
 
-import com.foodymoody.be.comment.domain.entity.ReplyId;
 import com.foodymoody.be.common.util.ids.ReplyHeartId;
+import com.foodymoody.be.common.util.ids.ReplyId;
 import com.foodymoody.be.reply_heart.domain.ReplyHeart;
 import com.foodymoody.be.reply_heart.domain.ReplyHeartIdFactory;
 import com.foodymoody.be.reply_heart.domain.ReplyHeartRepository;
