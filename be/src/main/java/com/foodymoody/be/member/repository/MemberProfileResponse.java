@@ -10,13 +10,15 @@ public class MemberProfileResponse {
     private String nickname;
     private String email;
     private String tasteMood;
+    private long feedCount;
 
-    public MemberProfileResponse(String id, String profileImageUrl, String nickname, String email, String tasteMoodId) {
+    public MemberProfileResponse(String id, String profileImageUrl, String nickname, String email, String tasteMoodId, long feedCount) {
         this.id = id;
         this.profileImageUrl = profileImageUrl;
         this.nickname = nickname;
         this.email = email;
         this.tasteMood = tasteMoodId;
+        this.feedCount = feedCount;
     }
 
 }

@@ -126,6 +126,52 @@ class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     @Nested
+    @DisplayName("회원 프로필 조회 인수테스트")
+    class FetchMemberProfile{
+
+        private String 푸반_아이디;
+
+        @BeforeEach
+        public void set푸반_아이디() {
+            푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
+        }
+
+        @Test
+        void when_fetchMemberProfile_then_success() {
+            // docs
+            api_문서_타이틀("fetchMemberProfile_success", spec);
+
+            // given
+            피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build());
+            피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build());
+            피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build());
+
+            // when
+            var response = 회원프로필을_조회한다(푸반_아이디, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath().getString("nickname")).isEqualTo("푸반"),
+                    () -> assertThat(response.jsonPath().getLong("feedCount")).isEqualTo(3)
+            );
+        }
+
+        @Test
+        void when_fetchMemberProfileNotExistMember_then_fail() {
+            // docs
+            api_문서_타이틀("fetchMemberProfileNotExistMember_fail", spec);
+
+            // when
+            var response = 회원프로필을_조회한다("invalidMemberId", spec);
+
+            // then
+            상태코드를_검증한다(response, HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @Nested
     @DisplayName("회원이 작성한 피드 목록 조회 인수테스트")
     class fetchProfile {
         @DisplayName("회원이 작성한 피드 목록 조회시 성공하면, 상태코드 200과 회원이 작성한 피드 목록을 응답한다")
