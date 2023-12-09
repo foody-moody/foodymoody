@@ -11,7 +11,7 @@ class ImageCategoryTest {
     @DisplayName("피드 이미지 경로를 생성한다")
     @Test
     void whenGetFeedPrefix_thenSuccess() {
-        assertThat(ImageCategory.FEED.getPrefix("feedId")).isEqualTo("feeds/feedId");
+        assertThat(ImageCategory.FEED.getPrefix("feedId")).isEqualTo("feeds");
     }
 
     @DisplayName("회원 이미지 경로를 생성한다")

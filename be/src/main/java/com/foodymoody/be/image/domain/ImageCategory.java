@@ -5,7 +5,7 @@ import java.util.function.UnaryOperator;
 public enum ImageCategory {
 
     MEMBER(id -> String.format("members/%s", id)),
-    FEED(id -> String.format("feeds/%s", id));
+    FEED(id -> "feeds");
 
     private final UnaryOperator<String> prefixBuilder;
 

@@ -74,6 +74,22 @@ public class IdFactory {
         return createId(TasteMoodId.class);
     }
 
+    public static FeedCollectionId createFeedCollectionId(String id) {
+        return createId(FeedCollectionId.class, id);
+    }
+
+    public static FeedCollectionId createFeedCollectionId() {
+        return createId(FeedCollectionId.class);
+    }
+
+    public static ReplyId createReplyId(String id) {
+        return createId(ReplyId.class, id);
+    }
+
+    public static ReplyId createReplyId() {
+        return createId(ReplyId.class);
+    }
+
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {
         try {
             Constructor<T> constructor = idClass.getConstructor(String.class);

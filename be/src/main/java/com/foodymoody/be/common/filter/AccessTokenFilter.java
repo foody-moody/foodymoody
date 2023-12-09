@@ -1,6 +1,7 @@
 package com.foodymoody.be.common.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.foodymoody.be.auth.service.TokenService;
 import com.foodymoody.be.auth.util.JwtUtil;
 import com.foodymoody.be.common.exception.ErrorMessage;
 import com.foodymoody.be.common.exception.ErrorResponse;
@@ -36,6 +37,7 @@ public class AccessTokenFilter implements Filter {
     @Value("${filter.whitelist}")
     private final List<String> whiteList;
     private final JwtUtil jwtUtil;
+    private final TokenService tokenService;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -48,6 +50,7 @@ public class AccessTokenFilter implements Filter {
             if (!isInWhiteList(customUri)) {
                 String header = httpRequest.getHeader(HttpHeaderType.AUTHORIZATION.headerName);
                 String token = HttpHeaderParser.parse(header, HttpHeaderType.AUTHORIZATION);
+                tokenService.validateIsNotRevoked(token);
                 Map<String, String> parsed = jwtUtil.parseAccessToken(token);
                 request.setAttribute("id", parsed.get("id"));
                 request.setAttribute("email", parsed.get("email"));

@@ -18,12 +18,11 @@ import org.springframework.http.MediaType;
 
 public class ImageSteps {
 
-    public static ExtractableResponse<Response> 피드_이미지를_업로드한다(String accessToken, String feedId,
-            RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드_이미지를_업로드한다(String accessToken, RequestSpecification spec) {
         return RestAssured.given().spec(spec).auth().oauth2(accessToken)
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE).multiPart("file", getFile("images/potato.jpg"))
                 .log().all()
-                .when().post("/api/images/feeds/{id}", feedId)
+                .when().post("/api/images/feeds")
                 .then()
                 .log().all()
                 .extract();

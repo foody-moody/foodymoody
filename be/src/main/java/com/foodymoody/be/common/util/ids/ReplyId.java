@@ -1,6 +1,5 @@
-package com.foodymoody.be.comment.domain.entity;
+package com.foodymoody.be.common.util.ids;
 
-import com.foodymoody.be.common.util.ids.BaseId;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

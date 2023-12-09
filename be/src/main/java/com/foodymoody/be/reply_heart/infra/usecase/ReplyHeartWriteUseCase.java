@@ -4,10 +4,11 @@ import com.foodymoody.be.comment.application.CommentReadService;
 import com.foodymoody.be.comment.application.ReplyReadService;
 import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.comment.domain.entity.Reply;
-import com.foodymoody.be.comment.domain.entity.ReplyId;
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.ReplyId;
 import com.foodymoody.be.reply_heart.application.ReplyHeartWriteService;
 import com.foodymoody.be.reply_heart_count.application.ReplyHeartCountWriteService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class ReplyHeartWriteUseCase {
     @Transactional
     public void registerReplyHeart(String commentIdValue, String replyIdValue, String memberId) {
         MemberId memberWriterId = new MemberId(memberId);
-        ReplyId replyId = new ReplyId(replyIdValue);
+        ReplyId replyId = IdFactory.createReplyId(replyIdValue);
         Reply reply = replyReadService.fetchById(replyId);
         if (replyHeartWriteService.existsByReplyIdAndMemberId(replyId, memberId)) {
             return;
@@ -41,7 +42,7 @@ public class ReplyHeartWriteUseCase {
 
     @Transactional
     public void deleteReplyHeart(String commentIdValue, String replyIdValue, String memberId) {
-        ReplyId replyId = new ReplyId(replyIdValue);
+        ReplyId replyId = IdFactory.createReplyId(replyIdValue);
         replyReadService.validate(replyId);
         if (!replyHeartWriteService.existsByReplyIdAndMemberId(replyId, memberId)) {
             return;
