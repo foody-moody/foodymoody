@@ -1,7 +1,7 @@
 package com.foodymoody.be.reply_heart.domain;
 
-import com.foodymoody.be.comment.domain.entity.ReplyId;
 import com.foodymoody.be.common.util.ids.ReplyHeartId;
+import com.foodymoody.be.common.util.ids.ReplyId;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
