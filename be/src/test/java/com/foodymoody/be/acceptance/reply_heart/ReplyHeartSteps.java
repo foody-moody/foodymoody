@@ -12,7 +12,7 @@ public class ReplyHeartSteps {
             RequestSpecification spec) {
         return RestAssured
                 .given(spec).auth().oauth2(accessToken)
-                .when().post("/api/comments/{commentId}/replies/{replyId}/hearts", commentId, replyId)
+                .when().post("/api/comments/{commentId}/replies/{replyId}/likes", commentId, replyId)
                 .then().log().all()
                 .extract();
     }
@@ -25,7 +25,7 @@ public class ReplyHeartSteps {
             RequestSpecification spec) {
         return RestAssured
                 .given(spec).auth().oauth2(accessToken)
-                .when().delete("/api/comments/{commentId}/replies/{replyId}/hearts", commentId, replyId)
+                .when().delete("/api/comments/{commentId}/replies/{replyId}/likes", commentId, replyId)
                 .then().log().all()
                 .extract();
     }
