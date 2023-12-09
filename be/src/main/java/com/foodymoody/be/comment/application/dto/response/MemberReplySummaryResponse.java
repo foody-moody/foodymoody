@@ -11,8 +11,8 @@ public class MemberReplySummaryResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private MemberSummaryResponse member;
-    private long heartCount;
-    private boolean hearted;
+    private long lickCount;
+    private boolean liked;
 
     public MemberReplySummaryResponse(String id, String content, LocalDateTime createdAt, LocalDateTime updatedAt,
             MemberSummaryResponse member, long heartCount, boolean hearted) {
@@ -21,7 +21,7 @@ public class MemberReplySummaryResponse {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.member = member;
-        this.heartCount = heartCount;
-        this.hearted = hearted;
+        this.lickCount = heartCount;
+        this.liked = hearted;
     }
 }

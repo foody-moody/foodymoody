@@ -192,8 +192,7 @@ public class CommentSteps {
         params.put("feedId", feedId);
         params.put("page", page);
         params.put("size", size);
-        return RestAssured.given().log().all().auth().oauth2(accessToken)
-                .spec(spec)
+        return RestAssured.given().spec(spec).log().all().auth().oauth2(accessToken)
                 .params(params)
                 .when()
                 .get("/api/comments")

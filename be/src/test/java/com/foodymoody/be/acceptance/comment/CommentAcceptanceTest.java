@@ -23,6 +23,7 @@ import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글을_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_여러_공백댓글_등록한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에서_200자_넘는_댓글을_등록한다;
+import static com.foodymoody.be.acceptance.comment_heart.CommentHeartSteps.댓글에_좋아요를_누른다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고_아이디를_받는다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
@@ -397,6 +398,23 @@ class CommentAcceptanceTest extends AcceptanceTest {
 
             // then
             페이지_적용_조회_검증(response);
+        }
+
+        @DisplayName("댓글에 좋아요가 누른 경우 댓글 조회 요청시 좋아요 여부를 반환한다")
+        @Test
+        void when_fetch_comments_if_liked_then_return_liked() {
+            // docs
+            api_문서_타이틀("comments_fetch_with_liked_success", spec);
+
+            // given
+            String commentId = 피드에_댓글을_등록하고_아이디를_받는다(feedId, 회원아티_액세스토큰);
+            댓글에_좋아요를_누른다(회원아티_액세스토큰, commentId, spec);
+
+            // when
+            var response = 피드별_댓글을_조회한다(회원아티_액세스토큰, feedId, spec, "0", "20");
+
+            // then
+            응답코드_200을_반환한다(response);
         }
 
         @DisplayName("accessToken와 함께 댓글 조회 요청시 패이지와 사이즈 정보를 넣으면 해당 페이지와 사이즈의 댓글을 조회한다.그리고 좋아요 여부를 반환한다")

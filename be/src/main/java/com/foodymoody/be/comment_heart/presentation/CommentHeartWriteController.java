@@ -16,13 +16,13 @@ public class CommentHeartWriteController {
 
     private final CommentHeartWriteUseCase useCase;
 
-    @PostMapping("/api/comments/{commentId}/hearts")
+    @PostMapping("/api/comments/{commentId}/likes")
     public ResponseEntity<Void> create(@PathVariable String commentId, @MemberId String memberId) {
         useCase.registerCommentHeart(commentId, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/api/comments/{commentId}/hearts")
+    @DeleteMapping("/api/comments/{commentId}/likes")
     public ResponseEntity<Void> delete(@PathVariable String commentId, @MemberId String memberId) {
         useCase.deleteCommentHeart(commentId, memberId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
