@@ -2,11 +2,13 @@ package com.foodymoody.be.member.domain;
 
 import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.InvalidReconfirmPasswordException;
+import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -25,8 +27,9 @@ public class Member {
     private String nickname;
     @Embedded
     private Password password;
-    private String profileImageId;
-    @AttributeOverride(name = "value", column = @javax.persistence.Column(name = "taste_mood_id"))
+    @Embedded
+    private MemberProfileImage profileImage;
+    @AttributeOverride(name = "value", column = @Column(name = "taste_mood_id"))
     private TasteMoodId tasteMoodId;
 
     private Member(MemberId id, String email, String nickname, String password, TasteMoodId moodId) {
@@ -35,7 +38,7 @@ public class Member {
         this.nickname = nickname;
         this.password = new Password(password);
         this.tasteMoodId = moodId;
-        this.profileImageId = "1";
+        this.profileImage = MemberProfileImage.DEFAULT;
         Events.publish(toMemberCreatedEvent());
     }
 
@@ -59,7 +62,7 @@ public class Member {
         return nickname;
     }
 
-    public String getProfileImageId() { return profileImageId; }
+    public ImageId getMemberProfileImageId() { return profileImage.getImageId(); }
 
     public TasteMoodId getTasteMoodId() {
         return tasteMoodId;
@@ -79,8 +82,7 @@ public class Member {
     }
 
     private MemberCreatedEvent toMemberCreatedEvent() {
-        return MemberCreatedEvent.of(id, email, nickname, profileImageId, tasteMoodId, LocalDateTime.now());
+        return MemberCreatedEvent.of(id, email, nickname, profileImage.getImageId().getValue(), tasteMoodId, LocalDateTime.now());
     }
 
-    //    TODO 프로필 이미지 기능 구현
 }

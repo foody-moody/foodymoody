@@ -14,14 +14,14 @@ public interface MemberRepository extends JpaRepository<Member, MemberId> {
     @Query(value =
             "SELECT new com.foodymoody.be.member.repository.MemberProfileResponse (m.id.value, i.url, m.nickname, m.email, t.id.value) "
                     + "FROM Member m "
-                    + "LEFT JOIN FETCH Image i ON m.profileImageId = i.id "
+                    + "LEFT JOIN FETCH Image i ON m.profileImage.imageId = i.id "
                     + "LEFT JOIN FETCH TasteMood t ON m.tasteMoodId = t.id "
                     + "WHERE m.id = :id")
     Optional<MemberProfileResponse> fetchProfileById(@Param("id") MemberId id);
 
     @Query("SELECT new com.foodymoody.be.member.repository.MemberFeedData (m.id.value, i.url, m.nickname, t.name) "
             + "FROM Member m "
-            + "LEFT JOIN FETCH Image i ON m.profileImageId = i.id "
+            + "LEFT JOIN FETCH Image i ON m.profileImage.imageId = i.id "
             + "LEFT JOIN FETCH TasteMood t ON m.tasteMoodId = t.id "
             + "WHERE m.id = :id")
     Optional<MemberFeedData> fetchFeedDataById(@Param("id") MemberId id);
