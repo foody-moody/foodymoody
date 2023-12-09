@@ -336,7 +336,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> 푸반_프로필조회_응답 = 회원프로필을_조회한다(푸반_아이디, new RequestSpecBuilder().build());
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("tasteMood")).isEqualTo("3")
+                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("tasteMoodId")).isEqualTo("3")
             );
         }
 
@@ -391,7 +391,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
                     () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("profileImageUrl"))
                             .isEqualTo("https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png3"),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("tasteMood"))
+                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("tasteMoodId"))
                             .isEqualTo("3")
             );
         }
@@ -410,7 +410,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
                     () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("profileImageUrl"))
                             .isEqualTo("https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png3"),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("tasteMood"))
+                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("tasteMoodId"))
                             .isEqualTo("1")
             );
         }
@@ -429,7 +429,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
                     () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("profileImageUrl"))
                             .isEqualTo("https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1"),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("tasteMood"))
+                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("tasteMoodId"))
                             .isEqualTo("3")
             );
         }

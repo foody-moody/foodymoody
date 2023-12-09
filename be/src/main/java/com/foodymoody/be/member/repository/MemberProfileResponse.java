@@ -9,7 +9,7 @@ public class MemberProfileResponse {
     private String profileImageUrl;
     private String nickname;
     private String email;
-    private String tasteMood;
+    private String tasteMoodId;
     private long feedCount;
 
     public MemberProfileResponse(String id, String profileImageUrl, String nickname, String email, String tasteMoodId, long feedCount) {
@@ -17,7 +17,7 @@ public class MemberProfileResponse {
         this.profileImageUrl = profileImageUrl;
         this.nickname = nickname;
         this.email = email;
-        this.tasteMood = tasteMoodId;
+        this.tasteMoodId = tasteMoodId;
         this.feedCount = feedCount;
     }
 
