@@ -41,21 +41,26 @@ public class MemberService {
 
     @Transactional
     public void changePassword(String loginId, String id, ChangePasswordRequest request) {
-        if (!Objects.equals(loginId, id)) {
-            throw new UnauthorizedException();
-        }
+        validateAuthorization(loginId, id);
         Member member = findById(IdFactory.createMemberId(id));
         member.changePassword(request.getOldPassword(), request.getNewPassword());
     }
 
     @Transactional
     public void delete(String loginId, String id) {
-        if (!Objects.equals(loginId, id)) {
-            throw new UnauthorizedException();
-        }
+        validateAuthorization(loginId, id);
         Member member = findById(IdFactory.createMemberId(id));
 
         memberRepository.delete(member);
+    }
+
+    @Transactional
+    public void setTasteMood(String loginId, String id, String tasteMoodId) {
+        validateAuthorization(loginId, id);
+        Member member = findById(IdFactory.createMemberId(id));
+        TasteMood tasteMood = tasteMoodService.findById(IdFactory.createTasteMoodId(tasteMoodId));
+
+        member.setTasteMood(tasteMood.getId());
     }
 
     public Member findByEmail(String email) {
@@ -88,6 +93,12 @@ public class MemberService {
     public NicknameDuplicationCheckResponse checkNicknameDuplication(String nickname) {
         boolean isDuplicate = memberRepository.existsByNickname(nickname);
         return MemberMapper.toNicknameDuplicationCheckResponse(isDuplicate);
+    }
+
+    private void validateAuthorization(String loginId, String id) {
+        if (!Objects.equals(loginId, id)) {
+            throw new UnauthorizedException();
+        }
     }
 
     private void validateEmailDuplication(String email) {

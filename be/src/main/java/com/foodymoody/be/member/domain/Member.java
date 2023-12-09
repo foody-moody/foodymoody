@@ -35,6 +35,7 @@ public class Member {
         this.nickname = nickname;
         this.password = new Password(password);
         this.tasteMoodId = moodId;
+        this.profileImageId = "1";
         Events.publish(toMemberCreatedEvent());
     }
 
@@ -58,9 +59,7 @@ public class Member {
         return nickname;
     }
 
-    public String getProfileImageId() {
-        return profileImageId;
-    }
+    public String getProfileImageId() { return profileImageId; }
 
     public TasteMoodId getTasteMoodId() {
         return tasteMoodId;
@@ -73,6 +72,10 @@ public class Member {
     public void changePassword(String oldPassword, String newPassword) {
         checkPasswordMatch(oldPassword);
         this.password = new Password(newPassword);
+    }
+
+    public void setTasteMood(TasteMoodId tasteMoodId) {
+        this.tasteMoodId = tasteMoodId;
     }
 
     private MemberCreatedEvent toMemberCreatedEvent() {

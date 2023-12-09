@@ -11,12 +11,12 @@ public class MemberProfileResponse {
     private String email;
     private String tasteMood;
 
-    public MemberProfileResponse(String id, String profileImageUrl, String nickname, String email, String mood) {
+    public MemberProfileResponse(String id, String profileImageUrl, String nickname, String email, String tasteMoodId) {
         this.id = id;
         this.profileImageUrl = profileImageUrl;
         this.nickname = nickname;
         this.email = email;
-        this.tasteMood = mood;
+        this.tasteMood = tasteMoodId;
     }
 
 }

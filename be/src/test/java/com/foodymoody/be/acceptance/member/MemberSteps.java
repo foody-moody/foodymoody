@@ -24,7 +24,7 @@ public class MemberSteps {
     private static final RequestSpecification MOCK_SPEC = new RequestSpecBuilder().build();
     ;
 
-    public static ExtractableResponse<Response> 회원푸반의_회원프로필을_조회한다(RequestSpecification spec) {
+    public static ExtractableResponse<Response> 푸반_회원프로필_조회한다(RequestSpecification spec) {
         return 회원프로필을_조회한다(회원_푸반.getId(), spec);
     }
 
@@ -309,7 +309,7 @@ public class MemberSteps {
                 .extract();
     }
 
-    private static ExtractableResponse<Response> 회원프로필을_조회한다(String memberId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 회원프로필을_조회한다(String memberId, RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -321,6 +321,22 @@ public class MemberSteps {
                 .log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 테이스트무드를_설정한다(String accessToken, String memberId, String tasteMoodId, RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .auth().oauth2(accessToken)
+                .params("id", tasteMoodId)
+                .when()
+                .put("/api/members/{memberId}/taste-mood", memberId)
+                .then()
+                .log().all()
+                .extract();
+    }
+
 
     public static ExtractableResponse<Response> 회원탈퇴한다(String accessToken, String memberId, RequestSpecification spec) {
         return RestAssured
@@ -335,6 +351,7 @@ public class MemberSteps {
                 .log().all()
                 .extract();
     }
+
 
     private static ExtractableResponse<Response> 회원프로필을_수정한다(
             String memberId,

@@ -19,7 +19,10 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_40
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드를_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.아직_피드를_작성하지_않은_회원아티가_작성한_피드목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.전체_테이스트_무드를_조회한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.테이스트무드를_설정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원탈퇴한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.푸반_회원프로필_조회한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_조회한다;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
@@ -51,9 +54,6 @@ class MemberAcceptanceTest extends AcceptanceTest {
         void when_signupMember_then_response200AndId_and_canFetchMemberProfile() {
             // docs
             api_문서_타이틀("signupMember_success", spec);
-
-            // given
-            테이블을_비운다("member");
 
             // when
             var response = 비회원보노가_회원가입한다(spec);
@@ -244,6 +244,61 @@ class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     @Nested
+    @DisplayName("회원 테이스트 무드 수정 인수테스트")
+    class setTasteMood {
+
+        private String 푸반_아이디;
+
+        @BeforeEach
+        public void set푸반_아이디() {
+            푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
+        }
+
+        @Test
+        void when_setTasteMood_then_success() {
+            // docs
+            api_문서_타이틀("setTasteMood_success", spec);
+
+            // when
+            var response = 테이스트무드를_설정한다(회원푸반_액세스토큰, 푸반_아이디, "3", spec);
+
+            // then
+
+            ExtractableResponse<Response> 푸반_프로필조회_응답 = 회원프로필을_조회한다(푸반_아이디, new RequestSpecBuilder().build());
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
+                    () -> 푸반_프로필조회_응답.jsonPath().getString("tasteMood").equals("3")
+            );
+        }
+
+        @Test
+        void when_setTasteMoodUnauthorized_then_fail() {
+            // docs
+            api_문서_타이틀("setTasteMoodUnauthorized_fail", spec);
+
+            // when
+            var response = 테이스트무드를_설정한다(회원아티_액세스토큰, 푸반_아이디, "3", spec);
+
+            // then
+            상태코드를_검증한다(response, HttpStatus.UNAUTHORIZED);
+        }
+
+        @Test
+        void when_setTasteMoodNotExist_then_fail() {
+            // docs
+            api_문서_타이틀("setTasteMoodNotExist_fail", spec);
+
+            // when
+            var response = 테이스트무드를_설정한다(회원푸반_액세스토큰, 푸반_아이디, "10", spec);
+
+            // then
+            상태코드를_검증한다(response, HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+
+    @Nested
     @DisplayName("회원 탈퇴 인수테스트")
     class Delete {
 
@@ -285,21 +340,6 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
     }
 
-//    @DisplayName("회원 탈퇴 성공하면, 응답코드 204를 반환하고 회원 프로필이 조회되지 않는다.")
-//    @Test
-//    void when_deleteMember_then_response204_and_cannotfetchMemberProfile() {
-//        // docs
-//        api_문서_타이틀("withdrawMember", spec);
-//
-//        // given
-//        회원보노가_회원가입한다(FAKE_SPEC);
-//
-//        // when
-//        var response = 회원보노가_회원탈퇴한다(spec);
-//
-//        // then
-//        응답코드가_204이고_회원보노의_회원프로필이_조회되지_않는지_검증한다(response);
-//    }
 //
 //    @DisplayName("회원 프로필 수정 성공하면, 응답코드 204를 반환하고 수정된 회원프로필이 조회된다.")
 //    @Test
