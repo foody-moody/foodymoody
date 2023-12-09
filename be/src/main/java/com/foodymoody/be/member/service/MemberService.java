@@ -67,6 +67,7 @@ public class MemberService {
         member.setTasteMood(tasteMood.getId());
     }
 
+    @Transactional
     public void updateProfile(String loginId, String id, UpdateProfileRequest request) {
         validateAuthorization(loginId, id);
         Member member = findById(IdFactory.createMemberId(id));
