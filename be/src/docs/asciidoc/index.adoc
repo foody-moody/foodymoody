@@ -209,15 +209,23 @@ operation::comment_heart_cancel_success[snippets='http-request,http-response']
 
 === 대댓글 달기
 
+==== 성공
+
 operation::comment_reply_success[snippets='http-request,http-response']
+
+==== 성공
 
 === 대댓글 조회
 
 operation::comment_reply_fetch_success[snippets='http-request,http-response']
 
+==== 성공
+
 === 대댓글에 좋아요 누른다
 
 operation::reply_heart_register_success[snippets='http-request,http-response']
+
+==== 성공
 
 === 대댓글에 좋아요 취소
 
