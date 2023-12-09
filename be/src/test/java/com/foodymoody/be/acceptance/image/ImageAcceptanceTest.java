@@ -37,46 +37,14 @@ class ImageAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("uploadFeedImage_success", spec);
 
             // given
-            String 피드_아이디 = 피드를_등록한다(회원푸반_액세스토큰).jsonPath().getString("id");
 
             // when
-            var response = 피드_이미지를_업로드한다(회원푸반_액세스토큰, 피드_아이디, spec);
+            var response = 피드_이미지를_업로드한다(회원푸반_액세스토큰, spec);
 
             // then
             상태코드가_200이고_응답에_id와_url이_존재함을_검증한다(response);
         }
 
-        @DisplayName("존재하지 않는 피드 아이디이면, 상태코드 400을 반환한다")
-        @Test
-        void when_uploadFeedImageFailedByFeedNotFound_then_response400() {
-            // docs
-            api_문서_타이틀("uploadFeedImage_failedByFeedNotFound", spec);
-
-            // given
-            String 피드_아이디 = "InvalidFeedId";
-
-            // when
-            var response = 피드_이미지를_업로드한다(회원푸반_액세스토큰, 피드_아이디, spec);
-
-            // then
-            상태코드가_400임을_검증한다(response);
-        }
-
-        @DisplayName("요청 경로의 피드가 로그인한 회원이 작성한 피드가 아니면, 상태코드 401과 오류코드 a001을 반환한다")
-        @Test
-        void when_uploadFeedImage_then_response400() {
-            // docs
-            api_문서_타이틀("uploadFeedImage_failedByUnauthorized", spec);
-
-            // given
-            String 피드_아이디 = 피드를_등록한다(회원아티_액세스토큰).jsonPath().getString("id");
-
-            // when
-            var response = 피드_이미지를_업로드한다(회원푸반_액세스토큰, 피드_아이디, spec);
-
-            // then
-            상태코드가_401이고_오류코드가_a001임을_검증한다(response);
-        }
     }
 
     @DisplayName("회원 이미지 업로드 테스트")

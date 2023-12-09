@@ -73,6 +73,22 @@ operation::login_failedByUnregisteredEmail[snippets='http-response']
 
 operation::login_failedByWrongPassword[snippets='http-response']
 
+=== 토큰 재발급
+
+==== 성공
+
+operation::issueToken_success[snippets='http-request,http-response']
+
+==== 유효하지 않은 리프레시 토큰일 때
+
+operation::issueTokenWithInvalidRefreshToken_fail[snippets='http-response']
+
+=== 로그아웃
+
+==== 성공
+
+operation::logout_success[snippets='http-request,http-response']
+
 [[comment]]
 == 댓글
 
@@ -336,14 +352,6 @@ operation::uploadMemberProfileImage_success[snippets='curl-request,http-response
 ==== 성공
 
 operation::uploadFeedImage_success[snippets='curl-request,http-response']
-
-==== 존재하지 않는 피드 아이디일 때
-
-operation::uploadFeedImage_failedByFeedNotFound[snippets='http-response']
-
-==== 현재 로그인한 회원이 피드 작성자가 아닐 때
-
-operation::uploadFeedImage_failedByUnauthorized[snippets='http-response']
 
 === 이미지 삭제
 

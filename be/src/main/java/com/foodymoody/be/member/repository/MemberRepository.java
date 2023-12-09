@@ -11,12 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, MemberId> {
 
-    Optional<Member> findByEmail(String email);
-
-    boolean existsByEmail(String email);
-
-    boolean existsByNickname(String nickname);
-
     @Query(value =
             "SELECT new com.foodymoody.be.member.repository.MemberProfileResponse (m.id.value, i.url, m.nickname, m.email, t.id.value) "
                     + "FROM Member m "
@@ -32,4 +26,11 @@ public interface MemberRepository extends JpaRepository<Member, MemberId> {
             + "WHERE m.id = :id")
     Optional<MemberFeedData> fetchFeedDataById(@Param("id") MemberId id);
 
+    Optional<Member> findByEmail(String email);
+
+    Optional<Member> findByNickname(String nickname);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByNickname(String nickname);
 }

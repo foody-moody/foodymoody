@@ -39,10 +39,14 @@ class S3StorageTest {
         @Test
         void whenGenerateKey_thenSuccess() {
 //            given, when
-            String actual = s3Storage.generateKey(ImageCategory.MEMBER, "1", "uuid", "fileName.jpg");
+            String memberImageUrl = s3Storage.generateKey(ImageCategory.MEMBER, "1", "uuid", "fileName.jpg");
+            String feedImageUrl = s3Storage.generateKey(ImageCategory.FEED, "1", "uuid", "fileName.jpg");
 
 //            then
-            assertThat(actual).isEqualTo("images/members/1/uuid/fileName.jpg");
+            Assertions.assertAll(
+                    () -> assertThat(memberImageUrl).isEqualTo("images/members/1/uuid/fileName.jpg"),
+                    () -> assertThat(feedImageUrl).isEqualTo("images/feeds/uuid/fileName.jpg")
+            );
         }
 
     }

@@ -1,6 +1,6 @@
 filter:
   whitelist: GET /api/docs,
-    POST /api/auth/login,
+    POST /api/auth/login, POST /api/auth/token,
     POST /api/members, GET /api/members/.*,
     GET /api/feeds, GET /api/feeds/.*,
     GET /api/comments,
