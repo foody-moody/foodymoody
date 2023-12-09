@@ -1,6 +1,8 @@
 package com.foodymoody.be.acceptance.member;
 
 import static com.foodymoody.be.acceptance.auth.AuthSteps.로그인_한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_또_등록한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.닉네임_중복_여부를_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비밀번호를_수정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_유효하지_않은_이메일을_입력하고_닉네임을_입력하지_않고_패스워드를_입력하지_않고_회원가입한다;
@@ -12,6 +14,7 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_20
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_전체_테이스트_무드가_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_중복되는_닉네임임을_검증한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_회원푸반이_작성한_피드목록이_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_g001이고_errors에_email과_nickname과_password가_존재하는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m002인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m003인지_검증한다;
@@ -20,10 +23,13 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드를_�
 import static com.foodymoody.be.acceptance.member.MemberSteps.아직_피드를_작성하지_않은_회원아티가_작성한_피드목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.전체_테이스트_무드를_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.테이스트무드를_설정한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.피드목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원탈퇴한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.푸반_회원프로필_조회한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.회원푸반이_작성한_피드목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_조회한다;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
 import com.foodymoody.be.auth.util.JwtUtil;
@@ -31,6 +37,8 @@ import com.foodymoody.be.member.util.MemberFixture;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -119,19 +127,35 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @Nested
     @DisplayName("회원이 작성한 피드 목록 조회 인수테스트")
     class fetchProfile {
-        // todo: 이 테스트 given에 조건을 추가해야 한다.
-//        @DisplayName("회원이 작성한 피드 목록 조회시 성공하면, 상태코드 200과 회원이 작성한 피드 목록을 응답한다")
-//        @Test
-//        void when_fetchMemberFeeds_then_response200AndMemberFeeds() {
-//            // docs
-//            api_문서_타이틀("fetchMemberFeeds_success", spec);
-//
-//            // when
-//            var response = 회원푸반이_작성한_피드목록을_조회한다(spec);
-//
-//            // then
-//            상태코드가_200이고_회원푸반이_작성한_피드목록이_조회되는지_검증한다(response);
-//        }
+        @DisplayName("회원이 작성한 피드 목록 조회시 성공하면, 상태코드 200과 회원이 작성한 피드 목록을 응답한다")
+        @Test
+        void when_fetchMemberFeeds_then_response200AndMemberFeeds() {
+            // docs
+            api_문서_타이틀("fetchMemberFeeds_success", spec);
+
+            // given
+            String 푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
+            ExtractableResponse<Response> 첫번째_피드_등록_응답 = 피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build());
+            ExtractableResponse<Response> 두번째_피드_등록_응답 = 피드를_또_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build());
+
+            // when
+            var response = 피드목록을_조회한다(푸반_아이디, 0, 10, new RequestSpecBuilder().build());
+
+            // then
+            List<Map<String, String>> expected = List.of(
+                    Map.of("id", 두번째_피드_등록_응답.jsonPath().getString("id"),
+                            "imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png3"),
+                    Map.of("id", 첫번째_피드_등록_응답.jsonPath().getString("id"),
+                            "imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1")
+            );
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath().getList("content"))
+                            .usingRecursiveComparison()
+                            .isEqualTo(expected)
+            );
+
+        }
 
         @DisplayName("회원이 작성한 피드가 없으면, 상태코드 200과 빈 리스트를 응답한다")
         @Test

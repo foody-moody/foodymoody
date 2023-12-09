@@ -170,7 +170,7 @@ public class MemberSteps {
     public static void 상태코드가_200이고_회원푸반이_작성한_피드목록이_조회되는지_검증한다(ExtractableResponse<Response> response) {
         List<Map<String, String>> expectedResponse = List.of(
                 Map.of("id", "1c", "imageUrl",
-                        "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2"),
+                        "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1"),
                 Map.of("id", "2c", "imageUrl",
                         "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1")
         );
@@ -370,7 +370,7 @@ public class MemberSteps {
                 .extract();
     }
 
-    private static ExtractableResponse<Response> 피드목록을_조회한다(String 회원푸반_아이디, int page, int size,
+    public static ExtractableResponse<Response> 피드목록을_조회한다(String 회원푸반_아이디, int page, int size,
             RequestSpecification spec) {
         return RestAssured
                 .given()
