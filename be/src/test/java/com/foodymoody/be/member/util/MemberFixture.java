@@ -51,11 +51,11 @@ public enum MemberFixture {
     }
 
     public static UpdateProfileRequest 푸반_존재하지_않는_프로필_이미지_수정_요청() {
-        return new UpdateProfileRequest("100", null);
+        return new UpdateProfileRequest("100", "2");
     }
 
     public static UpdateProfileRequest 푸반_존재하지_않는_테이스트_무드_수정_요청() {
-        return new UpdateProfileRequest(null, "100");
+        return new UpdateProfileRequest("2", "100");
     }
 
     public String getId() {

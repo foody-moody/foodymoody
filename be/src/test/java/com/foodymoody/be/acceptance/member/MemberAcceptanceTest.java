@@ -25,8 +25,6 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.전체_테이스�
 import static com.foodymoody.be.acceptance.member.MemberSteps.테이스트무드를_설정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.피드목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원탈퇴한다;
-import static com.foodymoody.be.acceptance.member.MemberSteps.푸반_회원프로필_조회한다;
-import static com.foodymoody.be.acceptance.member.MemberSteps.회원푸반이_작성한_피드목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_수정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_조회한다;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
@@ -173,7 +171,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
     @Nested
     @DisplayName("회원이 작성한 피드 목록 조회 인수테스트")
-    class fetchProfile {
+    class FetchMemberFeedPreviews {
         @DisplayName("회원이 작성한 피드 목록 조회시 성공하면, 상태코드 200과 회원이 작성한 피드 목록을 응답한다")
         @Test
         void when_fetchMemberFeeds_then_response200AndMemberFeeds() {

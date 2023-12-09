@@ -158,16 +158,6 @@ public class MemberSteps {
         );
     }
 
-    public static void 상태코드가_200이고_회원푸반의_회원프로필을_응답하는지_검증한다(ExtractableResponse<Response> response) {
-        Assertions.assertAll(
-                () -> 상태코드를_검증한다(response, HttpStatus.OK),
-                () -> assertThat(response.jsonPath().getString("email")).isEqualTo(회원_푸반.getEmail()),
-                () -> assertThat(response.jsonPath().getString("nickname")).isEqualTo(회원_푸반.getNickname()),
-                () -> assertThat(response.jsonPath().getString("tasteMood")).isEqualTo(회원_푸반.getTasteMoodId())
-//              TODO 이미지 검증 추가
-        );
-    }
-
     public static void 상태코드가_200이고_회원푸반이_작성한_피드목록이_조회되는지_검증한다(ExtractableResponse<Response> response) {
         List<Map<String, String>> expectedResponse = List.of(
                 Map.of("id", "1c", "imageUrl",

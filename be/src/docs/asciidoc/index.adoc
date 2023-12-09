@@ -241,7 +241,7 @@ operation::fetchMemberProfile_success[snippets='http-request,http-response']
 
 ==== 존재하지 않는 회원 id일 때
 
-operation::fetchMemberProfile_failedByIdNotFound[snippets='http-response']
+operation::fetchMemberProfileNotExistMember_fail[snippets='http-response']
 
 === 회원별 피드 조회
 
@@ -328,7 +328,7 @@ operation::deleteMember_success[snippets='http-request,http-response']
 
 ==== 요청의 회원 id가 로그인한 회원이 아닐 때
 
-operation::deleteMemberUnauthorized_fail[snippets='http-request,http-response']
+operation::deleteMemberUnauthorized_fail[snippets='http-response']
 
 [[notification]]
 == 알람
