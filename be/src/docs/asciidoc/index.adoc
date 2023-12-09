@@ -210,6 +210,9 @@ operation::comments_fetch_with_page_success[snippets='http-request,http-response
 
 operation::comments_fetch_failed_by_feed_id_not_exists[snippets='http-response']
 
+[[reply]]
+== 대댓글
+
 === 댓글 하트
 
 ==== 댓글 하트 등록
@@ -220,30 +223,27 @@ operation::comment_heart_register_success[snippets='http-request,http-response']
 
 operation::comment_heart_cancel_success[snippets='http-request,http-response']
 
-[[reply]]
-== 대댓글
-
 === 대댓글 달기
 
 ==== 성공
 
 operation::comment_reply_success[snippets='http-request,http-response']
 
-==== 성공
-
 === 대댓글 조회
+
+==== 성공
 
 operation::comment_reply_fetch_success[snippets='http-request,http-response']
 
-==== 성공
-
 === 대댓글에 좋아요 누른다
+
+==== 성공
 
 operation::reply_heart_register_success[snippets='http-request,http-response']
 
-==== 성공
-
 === 대댓글에 좋아요 취소
+
+==== 성공
 
 operation::reply_heart_cancel_success[snippets='http-request,http-response']
 
