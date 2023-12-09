@@ -5,12 +5,15 @@ import com.foodymoody.be.common.exception.DuplicateNicknameException;
 import com.foodymoody.be.common.exception.MemberNotFoundException;
 import com.foodymoody.be.common.exception.UnauthorizedException;
 import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
+import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
 import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
+import com.foodymoody.be.member.controller.dto.UpdateProfileRequest;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.TasteMood;
 import com.foodymoody.be.member.repository.MemberFeedData;
@@ -28,6 +31,7 @@ public class MemberService {
 
     private final TasteMoodService tasteMoodService;
     private final MemberRepository memberRepository;
+    private final ImageService imageService;
 
     @Transactional
     public MemberSignupResponse create(MemberSignupRequest request) {
@@ -63,6 +67,19 @@ public class MemberService {
         member.setTasteMood(tasteMood.getId());
     }
 
+    public void updateProfile(String loginId, String id, UpdateProfileRequest request) {
+        validateAuthorization(loginId, id);
+        Member member = findById(IdFactory.createMemberId(id));
+        if (Objects.nonNull(request.getTasteMoodId())) {
+            TasteMood tasteMood = tasteMoodService.findById(IdFactory.createTasteMoodId(request.getTasteMoodId()));
+            member.setTasteMood(tasteMood.getId());
+        }
+        if (Objects.nonNull(request.getProfileImageId())) {
+            ImageId imageId = imageService.findById(IdFactory.createImageId(request.getProfileImageId())).getId();
+            member.setProfileImage(imageId);
+        }
+    }
+
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
     }
@@ -81,11 +98,6 @@ public class MemberService {
         }
     }
 
-    public Member findById(String id) {
-        MemberId key = new MemberId(id);
-        return memberRepository.findById(key).orElseThrow(MemberNotFoundException::new);
-    }
-
     public Member findById(MemberId id) {
         return memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
     }
@@ -93,6 +105,15 @@ public class MemberService {
     public NicknameDuplicationCheckResponse checkNicknameDuplication(String nickname) {
         boolean isDuplicate = memberRepository.existsByNickname(nickname);
         return MemberMapper.toNicknameDuplicationCheckResponse(isDuplicate);
+    }
+
+    /**
+     * @deprecated findById(MemberId id)를 사용해주세요
+     * */
+    @Deprecated(forRemoval = true)
+    public Member findById(String id) {
+        MemberId key = new MemberId(id);
+        return memberRepository.findById(key).orElseThrow(MemberNotFoundException::new);
     }
 
     private void validateAuthorization(String loginId, String id) {

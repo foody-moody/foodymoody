@@ -7,6 +7,7 @@ import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
 import com.foodymoody.be.member.controller.dto.TasteMoodResponse;
+import com.foodymoody.be.member.controller.dto.UpdateProfileRequest;
 import com.foodymoody.be.member.repository.MemberProfileResponse;
 import com.foodymoody.be.member.service.MemberProfileService;
 import com.foodymoody.be.member.service.MemberService;
@@ -20,6 +21,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -86,6 +88,12 @@ public class MemberController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@MemberId String loginId, @PathVariable String id) {
         memberService.delete(loginId, id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateProfile(@MemberId String loginId, @PathVariable String id, @RequestBody UpdateProfileRequest request) {
+        memberService.updateProfile(loginId, id, request);
         return ResponseEntity.noContent().build();
     }
 }

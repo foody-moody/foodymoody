@@ -6,6 +6,7 @@ import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
+import com.foodymoody.be.member.controller.dto.UpdateProfileRequest;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
@@ -204,54 +205,6 @@ public class MemberSteps {
         );
     }
 
-    public static void  상태코드가_200이고_중복되는_닉네임이_아님을_검증한다(ExtractableResponse<Response> response) {
-        Assertions.assertAll(
-                () -> 상태코드를_검증한다(response, HttpStatus.OK),
-                () -> assertThat(response.jsonPath().getBoolean("isDuplicate")).isFalse()
-        );
-    }
-
-    public static String 회원보노가_회원가입하고_아이디를_반환한다(RequestSpecification spec) {
-        return 비회원보노가_회원가입한다(spec).jsonPath().getString("id");
-    }
-
-    public static ExtractableResponse<Response> 회원보노가_닉네임을_보노보노로_수정한다(RequestSpecification spec) {
-        Map<String, Object> updateMemberProfileRequest = Map.of("nickname", "보노보노");
-        return 회원프로필을_수정한다(비회원_보노.getId(), updateMemberProfileRequest, spec);
-    }
-
-
-    public static void 응답코드가_200이고_회원보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
-        Assertions.assertAll(
-                () -> 상태코드를_검증한다(response, HttpStatus.OK),
-                () -> assertThat(response.jsonPath().getString("memberId")).isEqualTo(비회원_보노.getId()),
-                () -> assertThat(response.jsonPath().getString("myImageUrl")).isEqualTo(비회원_보노.getMyImageUrl()),
-                () -> assertThat(response.jsonPath().getString("nickname")).isEqualTo(비회원_보노.getNickname()),
-                () -> assertThat(response.jsonPath().getString("email")).isEqualTo(비회원_보노.getEmail()),
-                () -> assertThat(response.jsonPath().getString("mood")).isEqualTo(비회원_보노.getTasteMoodId())
-        );
-    }
-
-    public static void 응답코드가_204이고_회원보노의_회원프로필이_조회되지_않는지_검증한다(ExtractableResponse<Response> response) {
-        var 회원보노_회원프로필_조회_응답 = 회원프로필을_조회한다(비회원_보노.getId(), MOCK_SPEC);
-
-        Assertions.assertAll(
-                () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT)
-//                TODO 회원프로필 조회 실패 구현 기능 구현 뒤 실패 케이스 검증 추가
-//                () -> 응답코드를_검증한다(회원보노_회원프로필_조회_응답, HttpStatus.NOT_FOUND)
-        );
-    }
-
-    public static void 응답코드가_204이고_회원보노의_닉네임이_보노보노로_수정되었는지_검증한다(ExtractableResponse<Response> response) {
-//        var 보노_회원프로필_조회_응답 = 회원프로필을_조회한다(회원_보노.getId(), FAKE_SPEC);
-
-        Assertions.assertAll(
-                () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT)
-//                TODO 회원 프로필 수정 로직 구현 뒤 회원 프로필 검증 추가
-//                () -> assertThat(보노_회원프로필_조회_응답.jsonPath().getString("nickname")).isEqualTo("보노보노")
-        );
-    }
-
     public static ExtractableResponse<Response> 닉네임_중복_여부를_조회한다(String nickname, RequestSpecification spec) {
         return RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -353,18 +306,20 @@ public class MemberSteps {
     }
 
 
-    private static ExtractableResponse<Response> 회원프로필을_수정한다(
+    public static ExtractableResponse<Response> 회원프로필을_수정한다(
+            String accessToken,
             String memberId,
-            Map<String, Object> updateMemberProfileRequest,
+            UpdateProfileRequest request,
             RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
-                .body(updateMemberProfileRequest)
+                .auth().oauth2(accessToken)
+                .body(request)
                 .log().all()
                 .when()
-                .put("/api/members/{memberId}", memberId)
+                .patch("/api/members/{memberId}", memberId)
                 .then()
                 .log().all()
                 .extract();

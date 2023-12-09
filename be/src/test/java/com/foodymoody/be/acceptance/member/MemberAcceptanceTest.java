@@ -27,6 +27,7 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.피드목록을_�
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원탈퇴한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.푸반_회원프로필_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원푸반이_작성한_피드목록을_조회한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_수정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_조회한다;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -321,6 +322,107 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
     }
 
+    @Nested
+    @DisplayName("회원 프로필 수정 인수테스트")
+    class updateProfile{
+
+        private String 푸반_아이디;
+
+        @BeforeEach
+        public void set푸반_아이디() {
+            푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
+        }
+
+        @Test
+        void when_updateAllMemberProfile_then_success() {
+            // docs
+            api_문서_타이틀("updateAllMemberProfile_success", spec);
+
+            // when
+            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_프로필_수정_요청(), spec);
+
+            // then
+            ExtractableResponse<Response> 푸반_프로필조회_응답 = 회원프로필을_조회한다(푸반_아이디, new RequestSpecBuilder().build());
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
+                    () -> 푸반_프로필조회_응답.jsonPath().getString("profileImageUrl")
+                            .equals("https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png3"),
+                    () -> 푸반_프로필조회_응답.jsonPath().getString("tasteMood").equals("3")
+            );
+        }
+
+        @Test
+        void when_updateOnlyProfileImage_then_success() {
+            // docs
+            api_문서_타이틀("updateOnlyMemberProfileImage_success", spec);
+
+            // when
+            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_프로필_이미지만_수정_요청(), spec);
+
+            // then
+            ExtractableResponse<Response> 푸반_프로필조회_응답 = 회원프로필을_조회한다(푸반_아이디, new RequestSpecBuilder().build());
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
+                    () -> 푸반_프로필조회_응답.jsonPath().getString("profileImageUrl")
+                            .equals("https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png3"),
+                    () -> 푸반_프로필조회_응답.jsonPath().getString("tasteMood").equals("1")
+            );
+        }
+
+        @Test
+        void when_updateOnlyTasteMood_then_success() {
+            // docs
+            api_문서_타이틀("updateOnlyTasteMood_success", spec);
+
+            // when
+            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_테이스트_무드만_수정_요청(), spec);
+
+            // then
+            ExtractableResponse<Response> 푸반_프로필조회_응답 = 회원프로필을_조회한다(푸반_아이디, new RequestSpecBuilder().build());
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
+                    () -> 푸반_프로필조회_응답.jsonPath().getString("profileImageUrl")
+                            .equals("https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1"),
+                    () -> 푸반_프로필조회_응답.jsonPath().getString("tasteMood").equals("3")
+            );
+        }
+
+        @Test
+        void when_updateMemberProfileUnauthorized_then_fail() {
+            // docs
+            api_문서_타이틀("updateMemberProfileUnauthorized_fail", spec);
+
+            // when
+            var response = 회원프로필을_수정한다(회원아티_액세스토큰, 푸반_아이디, MemberFixture.푸반_존재하지_않는_프로필_이미지_수정_요청(), spec);
+
+            // then
+            상태코드를_검증한다(response, HttpStatus.UNAUTHORIZED);
+        }
+
+        @Test
+        void when_updateMemberProfileImageNotExist_then_fail() {
+            // docs
+            api_문서_타이틀("updateMemberProfileImageNotExist_fail", spec);
+
+            // when
+            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_존재하지_않는_프로필_이미지_수정_요청(), spec);
+
+            // then
+            상태코드를_검증한다(response, HttpStatus.NOT_FOUND);
+        }
+
+        @Test
+        void when_updateTasteMoodNotExist_then_fail() {
+            // docs
+            api_문서_타이틀("updateTasteMoodNotExist_fail", spec);
+
+            // when
+            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_존재하지_않는_테이스트_무드_수정_요청(), spec);
+
+            // then
+            상태코드를_검증한다(response, HttpStatus.NOT_FOUND);
+        }
+    }
 
     @Nested
     @DisplayName("회원 탈퇴 인수테스트")
@@ -363,22 +465,5 @@ class MemberAcceptanceTest extends AcceptanceTest {
         }
 
     }
-
-//
-//    @DisplayName("회원 프로필 수정 성공하면, 응답코드 204를 반환하고 수정된 회원프로필이 조회된다.")
-//    @Test
-//    void when_updateMemberProfile_then_response204_and_fetchUpdatedMemberProfile() {
-//        // docs
-//        api_문서_타이틀("updateMemberProfile", spec);
-//
-//        // given
-//        회원보노가_회원가입한다(FAKE_SPEC);
-//
-//        // when
-//        var response = 회원보노가_닉네임을_보노보노로_수정한다(spec);
-//
-//        // then
-//        응답코드가_204이고_회원보노의_닉네임이_보노보노로_수정되었는지_검증한다(response);
-//    }
 
 }

@@ -279,7 +279,34 @@ operation::changeMemberPasswordWithIncorrectPassword_fail[snippets='http-respons
 
 operation::changeMemberPasswordWithNotMatchPattern_fail[snippets='http-response']
 
-=== 테이스트 무드 수정
+=== 회원 정보 수정
+현재 프로필 이미지, 테이스트 무드 수정 가능합니다
+
+==== 성공
+
+operation::updateAllMemberProfile_success[snippets='http-request,http-response']
+
+==== 성공 - 프로필 이미지만 수정
+
+operation::updateOnlyMemberProfileImage_success[snippets='http-request,http-response']
+
+==== 성공 - 테이스트 무드만 수정
+
+operation::updateOnlyTasteMood_success[snippets='http-request,http-response']
+
+==== 요청의 회원 id가 로그인한 회원이 아닐 때
+
+operation::updateMemberProfileUnauthorized_fail[snippets='http-response']
+
+==== 존재하지 않는 이미지 id일 때
+
+operation::updateMemberProfileImageNotExist_fail[snippets='http-response']
+
+==== 존재하지 않는 테이스트 무드 id일 때
+
+operation::updateMemberProfileImageNotExist_fail[snippets='http-response']
+
+=== 회원의 테이스트 무드 수정
 
 ==== 성공
 

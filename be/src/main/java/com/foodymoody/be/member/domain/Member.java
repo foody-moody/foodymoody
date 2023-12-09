@@ -81,6 +81,10 @@ public class Member {
         this.tasteMoodId = tasteMoodId;
     }
 
+    public void setProfileImage(ImageId imageId) {
+        this.profileImage = new MemberProfileImage(imageId);
+    }
+
     private MemberCreatedEvent toMemberCreatedEvent() {
         return MemberCreatedEvent.of(id, email, nickname, profileImage.getImageId().getValue(), tasteMoodId, LocalDateTime.now());
     }
