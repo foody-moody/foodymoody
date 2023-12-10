@@ -1,7 +1,7 @@
 filter:
   whitelist: GET /api/docs,
     POST /api/auth/login, POST /api/auth/token,
-    POST /api/members, GET /api/members/.*,
+    POST /api/members, GET /api/members/.*, GET /api/members/duplication-check,
     GET /api/feeds, GET /api/feeds/.*,
     GET /api/comments,
     GET /api/moods/random, GET /api/moods, GET /api/moods/.*, POST /api/moods,

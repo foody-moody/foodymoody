@@ -9,14 +9,16 @@ public class MemberProfileResponse {
     private String profileImageUrl;
     private String nickname;
     private String email;
-    private String tasteMood;
+    private String tasteMoodId;
+    private long feedCount;
 
-    public MemberProfileResponse(String id, String profileImageUrl, String nickname, String email, String mood) {
+    public MemberProfileResponse(String id, String profileImageUrl, String nickname, String email, String tasteMoodId, long feedCount) {
         this.id = id;
         this.profileImageUrl = profileImageUrl;
         this.nickname = nickname;
         this.email = email;
-        this.tasteMood = mood;
+        this.tasteMoodId = tasteMoodId;
+        this.feedCount = feedCount;
     }
 
 }

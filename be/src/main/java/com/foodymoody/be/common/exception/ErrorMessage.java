@@ -19,13 +19,14 @@ public enum ErrorMessage {
     MEMBER_NOT_FOUND("존재하지 않는 회원입니다", "m001"),
     DUPLICATE_MEMBER_EMAIL("이미 가입된 이메일입니다", "m002"),
     DUPLICATE_MEMBER_NICKNAME("이미 존재하는 닉네임입니다", "m003"),
-    INVALID_CONFIRM_PASSWORD("입력하신 패스워드와 일치하지 않습니다", "m004"),
+    INVALID_CONFIRM_PASSWORD("재입력한 비밀번호가 입력한 비밀번호와 일치하지 않습니다", "m004"),
+    PASSWORD_PATTERN_NOT_MATCH("비밀번호는 8글자 이상이어야 합니다", "m005"),
     // auth
     UNAUTHORIZED("권한이 없습니다", "a001"),
     INVALID_TOKEN("토큰이 유효하지 않습니다", "a002"),
     CLAIM_NOT_FOUND("토큰에 해당 클레임이 존재하지 않습니다", "a003"),
     INVALID_ACCESS_TOKEN("유효하지 않은 액세스 토큰입니다", "a004"),
-    MEMBER_INCORRECT_PASSWORD("사용자 정보와 패스워드가 일치하지 않습니다", "a005"),
+    MEMBER_INCORRECT_PASSWORD("사용자 정보와 비밀번호가 일치하지 않습니다", "a005"),
     // mood
     DUPLICATE_MOOD("이미 존재하는 무드입니다", "o001"),
     MOOD_NOT_FOUND("존재하지 않는 무드입니다", "o002"),
@@ -36,7 +37,8 @@ public enum ErrorMessage {
     INVALID_IMAGE_FILE("유효하지 않은 이미지 파일입니다", "i004"),
     UNSUPPORTED_IMAGE_FORMAT_EXCEPTION("지원되지 않는 이미지 형식입니다", "i005"),
     INVALID_IMAGE_URL("유효하지 않은 이미지 url입니다", "i006"),
-    MAX_UPLOAD_SIZE_EXEEDED("2.8MB 이하의 이미지만 업로드 가능합니다", "i007");
+    MAX_UPLOAD_SIZE_EXEEDED("2.8MB 이하의 이미지만 업로드 가능합니다", "i007"),
+    INVALID_IMAGE_ID("유효하지 않은 이미지 id입니다", "i008");
 
     private final String message;
     private final String code;

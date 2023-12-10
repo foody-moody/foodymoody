@@ -14,7 +14,7 @@ import org.springframework.data.repository.query.Param;
 public interface FeedRepository extends JpaRepository<Feed, FeedId> {
 
     @Query(value =
-            "SELECT new com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse (f.id, i.url) FROM Feed f "
+            "SELECT new com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse (f.id.value, i.url) FROM Feed f "
                     + "INNER JOIN f.imageMenus.imageMenusList im "
                     + "INNER JOIN FETCH Image i ON im.imageId = i.id "
                     + "WHERE f.memberId = :memberId AND im.displayOrder = 0 "
