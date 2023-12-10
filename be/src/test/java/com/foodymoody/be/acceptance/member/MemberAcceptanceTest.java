@@ -697,7 +697,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         @Test
         void when_list_follow_if_success_then_response_code_200_and_follows() {
             // docs
-            api_문서_타이틀("list_follow_success", spec);
+            api_문서_타이틀("list_following_success", spec);
 
             // given
             팔로우한다(회원푸반_액세스토큰, 아티_아이디, new RequestSpecBuilder().build());
@@ -718,7 +718,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         @Test
         void list_follow_if_follow_not_exists_then_response_code_200_and_empty_list() {
             // docs
-            api_문서_타이틀("list_follow_if_follow_not_exists_success", spec);
+            api_문서_타이틀("list_following_if_following_not_exists_success", spec);
 
             // when
             var response = 팔로잉_목록을_조회한다(푸반_아이디, spec);
@@ -750,7 +750,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         @Test
         void when_list_follower_if_success_then_response_code_200_and_followers() {
             // docs
-            api_문서_타이틀("listFollower_success", spec);
+            api_문서_타이틀("list_follower_success", spec);
 
             // given
             팔로우한다(회원아티_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());

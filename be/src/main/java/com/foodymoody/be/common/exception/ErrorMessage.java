@@ -21,6 +21,8 @@ public enum ErrorMessage {
     DUPLICATE_MEMBER_NICKNAME("이미 존재하는 닉네임입니다", "m003"),
     INVALID_CONFIRM_PASSWORD("재입력한 비밀번호가 입력한 비밀번호와 일치하지 않습니다", "m004"),
     PASSWORD_PATTERN_NOT_MATCH("비밀번호는 8글자 이상이어야 합니다", "m005"),
+    NOT_FOLLOWING("해당 회원을 팔로우하고있지 않습니다", "m006"),
+    ALREADY_FOLLOWING("해당 회원을 이미 팔로우하고 있습니다", "m007"),
     // auth
     UNAUTHORIZED("권한이 없습니다", "a001"),
     INVALID_TOKEN("토큰이 유효하지 않습니다", "a002"),

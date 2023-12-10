@@ -32,6 +32,10 @@ public class Member {
     private MemberProfileImage profileImage;
     @AttributeOverride(name = "value", column = @Column(name = "taste_mood_id"))
     private TasteMoodId tasteMoodId;
+    @Embedded
+    private MyFollowings myFollowings;
+    @Embedded
+    private MyFollowers myFollowers;
 
     private Member(MemberId id, String email, String nickname, String password, TasteMoodId moodId) {
         this.id = id;
@@ -90,8 +94,26 @@ public class Member {
         this.tasteMoodId = tasteMoodId;
     }
 
-    public void setProfileImage(ImageId imageId) {
-        this.profileImage = new MemberProfileImage(imageId);
+    public void follow(Member target) {
+        if (Objects.isNull(target)) {
+            throw new IllegalArgumentException("target 파라미터가 유효하지 않습니다");
+        }
+        this.myFollowings.add(this, target);
+    }
+
+    public void unfollow(Member target) {
+        if (Objects.isNull(target)) {
+            throw new IllegalArgumentException("target 파라미터가 유효하지 않습니다");
+        }
+        this.myFollowings.remove(target);
+    }
+
+    public boolean isMyFollowing(Member member) {
+        return myFollowings.contains(member);
+    }
+
+    public boolean isMyFollower(Member member) {
+        return myFollowers.contains(member);
     }
 
     private MemberCreatedEvent toMemberCreatedEvent() {

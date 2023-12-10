@@ -3,6 +3,7 @@ package com.foodymoody.be.member.controller;
 import com.foodymoody.be.common.annotation.MemberId;
 import com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
+import com.foodymoody.be.member.controller.dto.FollowInfoResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
@@ -95,5 +96,29 @@ public class MemberController {
     public ResponseEntity<Void> updateProfile(@MemberId String loginId, @PathVariable String id, @RequestBody UpdateProfileRequest request) {
         memberService.updateProfile(loginId, id, request);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/followings")
+    public ResponseEntity<Void> follow(@MemberId String loginId, @PathVariable String id) {
+        memberService.follow(loginId, id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/followings")
+    public ResponseEntity<Void> unfollow(@MemberId String loginId, @PathVariable String id) {
+        memberService.unfollow(loginId, id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/followings")
+    public ResponseEntity<Slice<FollowInfoResponse>> listFollowings(@PathVariable String id, @PageableDefault Pageable pageable) {
+        Slice<FollowInfoResponse> response = memberService.listFollowings(id, pageable);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}/followers")
+    public ResponseEntity<Slice<FollowInfoResponse>> listFollowers(@PathVariable String id, @PageableDefault Pageable pageable) {
+        Slice<FollowInfoResponse> response = memberService.listFollowers(id, pageable);
+        return ResponseEntity.ok(response);
     }
 }

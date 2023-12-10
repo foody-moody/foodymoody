@@ -12,16 +12,21 @@ import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
 import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
+import com.foodymoody.be.member.controller.dto.FollowInfoResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.controller.dto.UpdateProfileRequest;
+import com.foodymoody.be.member.domain.Follow;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.TasteMood;
+import com.foodymoody.be.member.repository.FollowRepository;
 import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.repository.MemberRepository;
 import com.foodymoody.be.member.util.MemberMapper;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +38,7 @@ public class MemberService {
     private final TasteMoodService tasteMoodService;
     private final MemberRepository memberRepository;
     private final ImageService imageService;
+    private final FollowRepository followRepository;
 
     @Transactional
     public MemberSignupResponse create(MemberSignupRequest request) {
@@ -126,6 +132,32 @@ public class MemberService {
         if (!Objects.equals(loginId, id)) {
             throw new UnauthorizedException();
         }
+    }
+
+    @Transactional
+    public void follow(String id, String targetId) {
+        Member member = findById(id);
+        Member target = findById(targetId);
+        member.follow(target);
+    }
+
+    @Transactional
+    public void unfollow(String id, String targetId) {
+        Member member = findById(id);
+        Member target = findById(targetId);
+        member.unfollow(target);
+    }
+
+    public Slice<FollowInfoResponse> listFollowings(String id, Pageable pageable) {
+        Member member = findById(id);
+        Slice<Follow> followings = followRepository.findByfollower(member, pageable);
+        return MemberMapper.toFollowingInfo(member, followings);
+    }
+
+    public Slice<FollowInfoResponse> listFollowers(String id, Pageable pageable) {
+        Member member = findById(id);
+        Slice<Follow> followers = followRepository.findByFollowed(member, pageable);
+        return MemberMapper.toFollowerInfo(member, followers);
     }
 
     private void validateEmailDuplication(String email) {
