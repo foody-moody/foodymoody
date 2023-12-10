@@ -21,6 +21,8 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_40
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m004인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드를_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.아직_피드를_작성하지_않은_회원아티가_작성한_피드목록을_조회한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.언팔로우한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.오류코드를_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.전체_테이스트_무드를_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.테이스트무드를_설정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.피드목록을_조회한다;
@@ -29,6 +31,9 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_조회한다;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.assertThat;
+import static com.foodymoody.be.acceptance.member.MemberSteps.팔로잉_목록을_조회한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.팔로우한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.팔로워_목록을_조회한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
 import com.foodymoody.be.auth.util.JwtUtil;
@@ -509,6 +514,261 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
             // then
             상태코드를_검증한다(response, HttpStatus.UNAUTHORIZED);
+        }
+
+    }
+
+    @DisplayName("회원 팔로우 인수테스트")
+    @Nested
+    class Follow {
+
+        private String 푸반_아이디;
+        private String 아티_아이디;
+
+        @BeforeEach
+        public void set아이디() {
+            푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
+            아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
+        }
+
+        @DisplayName("푸반이 아티를 팔로우하면, 푸반의 팔로잉 목록에 아티가 조회되고 아티의 팔로워 목록에 푸반이 조회된다")
+        @Test
+        void when_follow_member_if_success_then_response_code_204() {
+            // docs
+            api_문서_타이틀("follow_member_success", spec);
+
+            // when
+            var response = 팔로우한다(회원푸반_액세스토큰, 아티_아이디, spec);
+
+            // then
+            var 푸반_팔로잉목록조회_응답 = 팔로잉_목록을_조회한다(푸반_아이디, new RequestSpecBuilder().build());
+            var 아티_팔로워목록조회_응답 = 팔로워_목록을_조회한다(아티_아이디, new RequestSpecBuilder().build());
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
+                    () -> assertThat(푸반_팔로잉목록조회_응답.jsonPath().getList("content"))
+                            .extracting("id")
+                            .contains(아티_아이디),
+                    () -> assertThat(아티_팔로워목록조회_응답.jsonPath().getList("content"))
+                            .extracting("id")
+                            .contains(푸반_아이디)
+            );
+
+        }
+
+        @DisplayName("액세스 토큰이 유효하지 않으면, 상태코드 401와 오류코드 a001을 응답한다")
+        @Test
+        void when_follow_member_if_invalid_access_token_then_response_code_401() {
+            // docs
+            api_문서_타이틀("follow_member_failed_by_invalid_token", spec);
+
+            // when
+            var response = 팔로우한다("InvalidAccessToken", 아티_아이디, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.UNAUTHORIZED),
+                    () -> 오류코드를_검증한다(response, "a001")
+            );
+
+        }
+
+        @DisplayName("요청의 id에 해당하는 회원이 존재하지 않으면, 상태코드 404와 오류코드 m001을 응답한다")
+        @Test
+        void when_follow_member_if_member_not_exists_then_response_code_404() {
+            // docs
+            api_문서_타이틀("follow_member_failed_by_member_not_exists", spec);
+
+            // when
+            var response = 팔로우한다(회원푸반_액세스토큰, "InvalidMemberId", spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.NOT_FOUND),
+                    () -> 오류코드를_검증한다(response, "m001")
+            );
+
+        }
+
+    }
+
+    @DisplayName("회원 언팔로우 인수테스트")
+    @Nested
+    class Unfollow {
+
+        private String 푸반_아이디;
+        private String 아티_아이디;
+
+        @BeforeEach
+        public void set아이디() {
+            푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
+            아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
+        }
+
+        @DisplayName("푸반이 아티를 언팔로우하면, 푸반의 팔로잉 목록에 아티가 조회되지 않고 아티의 팔로워 목록에 아티가 조회되지 않는다")
+        @Test
+        void when_unfollow_member_if_success_then_response_code_204() {
+            // docs
+            api_문서_타이틀("unfollow_member_success", spec);
+
+            // given
+            팔로우한다(회원푸반_액세스토큰, 아티_아이디, new RequestSpecBuilder().build());
+
+            // when
+            var response = 언팔로우한다(회원푸반_액세스토큰, 아티_아이디, spec);
+
+            // then
+            var 푸반_팔로잉목록조회_응답 = 팔로잉_목록을_조회한다(푸반_아이디, new RequestSpecBuilder().build());
+            var 아티_팔로워목록조회_응답 = 팔로워_목록을_조회한다(아티_아이디, new RequestSpecBuilder().build());
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
+                    () -> assertThat(푸반_팔로잉목록조회_응답.jsonPath().getList("content"))
+                            .extracting("id")
+                            .doesNotContain(아티_아이디),
+                    () -> assertThat(아티_팔로워목록조회_응답.jsonPath().getList("content"))
+                            .extracting("id")
+                            .doesNotContain(푸반_아이디)
+            );
+
+        }
+
+        @DisplayName("액세스 토큰이 유효하지 않으면, 상태코드 401과 오류코드 a001을 응답한다")
+        @Test
+        void when_unfollow_member_if_invalid_access_token_then_response_code_401() {
+            // docs
+            api_문서_타이틀("unfollow_member_failed_by_invalid_token", spec);
+
+            // when
+            var response = 언팔로우한다("InvalidAccessToken", 아티_아이디, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.UNAUTHORIZED),
+                    () -> 오류코드를_검증한다(response, "a001")
+            );
+
+        }
+
+        @DisplayName("요청의 id에 해당하는 회원이 존재하지 않으면, 상태코드 404와 오류코드 m001을 응답한다")
+        @Test
+        void when_unfollow_member_if_member_not_exists_then_response_code_404() {
+            // docs
+            api_문서_타이틀("unfollow_member_failed_by_member_not_exists", spec);
+
+            // when
+            var response = 언팔로우한다(회원푸반_액세스토큰, "InvalidMemberId", spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.NOT_FOUND),
+                    () -> 오류코드를_검증한다(response, "m001")
+            );
+
+        }
+
+    }
+
+    @DisplayName("회원 팔로잉 목록 조회 인수테스트")
+    @Nested
+    class ListFollowing {
+
+        private String 푸반_아이디;
+        private String 아티_아이디;
+
+        @BeforeEach
+        public void set아이디() {
+            푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
+            아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
+        }
+
+        @DisplayName("푸반이 아티를 팔로우할 때, 푸반의 팔로잉 목록에 아티가 조회된다")
+        @Test
+        void when_list_follow_if_success_then_response_code_200_and_follows() {
+            // docs
+            api_문서_타이틀("list_follow_success", spec);
+
+            // given
+            팔로우한다(회원푸반_액세스토큰, 아티_아이디, new RequestSpecBuilder().build());
+
+            // when
+            var response = 팔로잉_목록을_조회한다(푸반_아이디, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath().getList("content"))
+                            .extracting("id")
+                            .contains(아티_아이디)
+            );
+        }
+
+        @DisplayName("팔로우 중인 회원이 없을 때, 빈 리스트가 조회된다")
+        @Test
+        void list_follow_if_follow_not_exists_then_response_code_200_and_empty_list() {
+            // docs
+            api_문서_타이틀("list_follow_if_follow_not_exists_success", spec);
+
+            // when
+            var response = 팔로잉_목록을_조회한다(푸반_아이디, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath().getList("content"))
+                            .isEmpty()
+            );
+        }
+
+    }
+
+    @DisplayName("회원 팔로워 목록 조회 인수테스트")
+    @Nested
+    class ListFollower {
+
+        private String 푸반_아이디;
+        private String 아티_아이디;
+
+        @BeforeEach
+        public void set아이디() {
+            푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
+            아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
+        }
+
+        @DisplayName("아티가 푸반을 팔로우할 때, 푸반의 팔로워 목록에 아티가 조회된다")
+        @Test
+        void when_list_follower_if_success_then_response_code_200_and_followers() {
+            // docs
+            api_문서_타이틀("listFollower_success", spec);
+
+            // given
+            팔로우한다(회원아티_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());
+
+            // when
+            var response = 팔로워_목록을_조회한다(푸반_아이디, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath().getList("content"))
+                            .extracting("id")
+                            .contains(아티_아이디)
+            );
+        }
+
+        @DisplayName("팔로우하는 회원이 없을 때, 빈 리스트가 조회된다")
+        @Test
+        void list_follower_if_follower_not_exists_then_response_code_200_and_empty_list() {
+            // docs
+            api_문서_타이틀("list_follower_if_follower_not_exists_success", spec);
+
+           // when
+            var response = 팔로워_목록을_조회한다(푸반_아이디, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath().getList("content"))
+                            .isEmpty()
+            );
         }
 
     }
