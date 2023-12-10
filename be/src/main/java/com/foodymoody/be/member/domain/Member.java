@@ -62,7 +62,11 @@ public class Member {
         return nickname;
     }
 
-    public ImageId getMemberProfileImageId() { return profileImage.getImageId(); }
+    public ImageId getProfileImageId() { return profileImage.getId(); }
+
+    public String getProfileImageUrl() {
+        return profileImage.getUrl();
+    }
 
     public TasteMoodId getTasteMoodId() {
         return tasteMoodId;
@@ -77,6 +81,10 @@ public class Member {
         this.password = new Password(newPassword);
     }
 
+    public void setProfileImage(ImageId imageId, String imageUrl) {
+        this.profileImage = new MemberProfileImage(imageId, imageUrl);
+    }
+
     public void setTasteMood(TasteMoodId tasteMoodId) {
         this.tasteMoodId = tasteMoodId;
     }
@@ -86,7 +94,7 @@ public class Member {
     }
 
     private MemberCreatedEvent toMemberCreatedEvent() {
-        return MemberCreatedEvent.of(id, email, nickname, profileImage.getImageId().getValue(), tasteMoodId, LocalDateTime.now());
+        return MemberCreatedEvent.of(id, email, nickname, profileImage.getId().getValue(), tasteMoodId, LocalDateTime.now());
     }
 
 }

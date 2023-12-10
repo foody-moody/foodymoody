@@ -8,6 +8,7 @@ import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
+import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
 import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
@@ -76,8 +77,12 @@ public class MemberService {
             member.setTasteMood(tasteMood.getId());
         }
         if (Objects.nonNull(request.getProfileImageId())) {
-            ImageId imageId = imageService.findById(IdFactory.createImageId(request.getProfileImageId())).getId();
-            member.setProfileImage(imageId);
+            Image image = imageService.findById(IdFactory.createImageId(request.getProfileImageId()));
+            if (!Objects.equals(member.getProfileImageId(), ImageId.MEMBER_PROFILE_DEFAULT)) {
+                // TODO 리팩토링
+                imageService.delete(loginId, member.getProfileImageId().getValue());
+            }
+            member.setProfileImage(image.getId(), image.getUrl());
         }
     }
 

@@ -14,7 +14,7 @@ public interface MemberRepository extends JpaRepository<Member, MemberId> {
     @Query("SELECT new com.foodymoody.be.member.repository.MemberProfileResponse (m.id.value, i.url, m.nickname, m.email, t.id.value, count(f)) "
                     + "FROM Member m "
                     + "LEFT JOIN FETCH Feed f ON m.id = f.memberId "
-                    + "LEFT JOIN FETCH Image i ON m.profileImage.imageId = i.id "
+                    + "LEFT JOIN FETCH Image i ON m.profileImage.id = i.id "
                     + "LEFT JOIN FETCH TasteMood t ON m.tasteMoodId = t.id "
                     + "WHERE m.id = :id "
                     + "GROUP BY m.id")
@@ -22,7 +22,7 @@ public interface MemberRepository extends JpaRepository<Member, MemberId> {
 
     @Query("SELECT new com.foodymoody.be.member.repository.MemberFeedData (m.id.value, i.url, m.nickname, t.name) "
             + "FROM Member m "
-            + "LEFT JOIN FETCH Image i ON m.profileImage.imageId = i.id "
+            + "LEFT JOIN FETCH Image i ON m.profileImage.id = i.id "
             + "LEFT JOIN FETCH TasteMood t ON m.tasteMoodId = t.id "
             + "WHERE m.id = :id")
     Optional<MemberFeedData> fetchFeedDataById(@Param("id") MemberId id);

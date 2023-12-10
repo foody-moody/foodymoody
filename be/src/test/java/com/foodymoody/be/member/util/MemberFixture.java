@@ -2,6 +2,7 @@ package com.foodymoody.be.member.util;
 
 import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
 import com.foodymoody.be.member.controller.dto.UpdateProfileRequest;
+import java.util.Map;
 
 public enum MemberFixture {
     비회원_알버트(null, "albert@albert.com", "testtest123!", "알버트", "1", "https://www.image.com"),
@@ -38,12 +39,12 @@ public enum MemberFixture {
         return new ChangePasswordRequest("incorrect123!", "puban123!");
     }
 
-    public static UpdateProfileRequest 푸반_프로필_수정_요청() {
-        return new UpdateProfileRequest("3", "3");
+    public static UpdateProfileRequest 보노_프로필_수정_요청(String imageId) {
+        return new UpdateProfileRequest(imageId, "3");
     }
 
-    public static UpdateProfileRequest 푸반_프로필_이미지만_수정_요청() {
-        return new UpdateProfileRequest("3", null);
+    public static UpdateProfileRequest 보노_프로필_이미지만_수정_요청(String imageId) {
+        return new UpdateProfileRequest(imageId, null);
     }
 
     public static UpdateProfileRequest 푸반_테이스트_무드만_수정_요청() {
@@ -56,6 +57,15 @@ public enum MemberFixture {
 
     public static UpdateProfileRequest 푸반_존재하지_않는_테이스트_무드_수정_요청() {
         return new UpdateProfileRequest("2", "100");
+    }
+
+    public static Map<String, Object> 보노_회원가입_요청() {
+        return Map.of(
+                "nickname", 비회원_보노.getNickname(),
+                "email", 비회원_보노.getEmail(),
+                "password", 비회원_보노.getPassword(),
+                "reconfirmPassword", 비회원_보노.getPassword(),
+                "tasteMoodId", 비회원_보노.getTasteMoodId());
     }
 
     public String getId() {

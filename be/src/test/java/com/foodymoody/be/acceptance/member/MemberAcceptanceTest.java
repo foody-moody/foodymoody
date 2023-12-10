@@ -3,6 +3,7 @@ package com.foodymoody.be.acceptance.member;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.로그인_한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_또_등록한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.회원_이미지를_업로드한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.닉네임_중복_여부를_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비밀번호를_수정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_유효하지_않은_이메일을_입력하고_닉네임을_입력하지_않고_패스워드를_입력하지_않고_회원가입한다;
@@ -14,7 +15,6 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_20
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_전체_테이스트_무드가_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_중복되는_닉네임임을_검증한다;
-import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_회원푸반이_작성한_피드목록이_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_g001이고_errors에_email과_nickname과_password가_존재하는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m002인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m003인지_검증한다;
@@ -26,9 +26,11 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.오류코드를_�
 import static com.foodymoody.be.acceptance.member.MemberSteps.전체_테이스트_무드를_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.테이스트무드를_설정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.피드목록을_조회한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원탈퇴한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_수정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_조회한다;
+import static com.foodymoody.be.member.util.MemberFixture.비회원_보노;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.assertThat;
 import static com.foodymoody.be.acceptance.member.MemberSteps.팔로잉_목록을_조회한다;
@@ -375,10 +377,16 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @DisplayName("회원 프로필 수정 인수테스트")
     class updateProfile{
 
+        private String 보노_액세스토큰;
+        private String 보노_아이디;
         private String 푸반_아이디;
 
         @BeforeEach
-        public void set푸반_아이디() {
+        public void setup() {
+            회원가입한다(MemberFixture.보노_회원가입_요청(), new RequestSpecBuilder().build());
+            보노_액세스토큰 = 로그인_한다(비회원_보노.getEmail(), 비회원_보노.getPassword(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("accessToken");
+            보노_아이디 = jwtUtil.parseAccessToken(보노_액세스토큰).get("id");
             푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
         }
 
@@ -387,16 +395,19 @@ class MemberAcceptanceTest extends AcceptanceTest {
             // docs
             api_문서_타이틀("updateAllMemberProfile_success", spec);
 
+            // given
+            String 보노_프로필이미지_아이디 = 회원_이미지를_업로드한다(보노_액세스토큰).jsonPath().getString("id");
+
             // when
-            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_프로필_수정_요청(), spec);
+            var response = 회원프로필을_수정한다(보노_액세스토큰, 보노_아이디, MemberFixture.보노_프로필_수정_요청(보노_프로필이미지_아이디), spec);
 
             // then
-            ExtractableResponse<Response> 푸반_프로필조회_응답 = 회원프로필을_조회한다(푸반_아이디, new RequestSpecBuilder().build());
+            ExtractableResponse<Response> 보노_프로필조회_응답 = 회원프로필을_조회한다(보노_아이디, new RequestSpecBuilder().build());
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("profileImageUrl"))
-                            .isEqualTo("https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png3"),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("tasteMoodId"))
+                    () -> assertThat(보노_프로필조회_응답.jsonPath().getString("profileImageUrl"))
+                            .isEqualTo("https://s3Url/key"),
+                    () -> assertThat(보노_프로필조회_응답.jsonPath().getString("tasteMoodId"))
                             .isEqualTo("3")
             );
         }
@@ -406,16 +417,18 @@ class MemberAcceptanceTest extends AcceptanceTest {
             // docs
             api_문서_타이틀("updateOnlyMemberProfileImage_success", spec);
 
-            // when
-            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_프로필_이미지만_수정_요청(), spec);
+            // given
+            String 보노_프로필이미지_아이디 = 회원_이미지를_업로드한다(보노_액세스토큰).jsonPath().getString("id");
 
+            // when
+            var response = 회원프로필을_수정한다(보노_액세스토큰, 보노_아이디, MemberFixture.보노_프로필_이미지만_수정_요청(보노_프로필이미지_아이디), spec);
             // then
-            ExtractableResponse<Response> 푸반_프로필조회_응답 = 회원프로필을_조회한다(푸반_아이디, new RequestSpecBuilder().build());
+            ExtractableResponse<Response> 보노_프로필조회_응답 = 회원프로필을_조회한다(보노_아이디, new RequestSpecBuilder().build());
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("profileImageUrl"))
-                            .isEqualTo("https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png3"),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("tasteMoodId"))
+                    () -> assertThat(보노_프로필조회_응답.jsonPath().getString("profileImageUrl"))
+                            .isEqualTo("https://s3Url/key"),
+                    () -> assertThat(보노_프로필조회_응답.jsonPath().getString("tasteMoodId"))
                             .isEqualTo("1")
             );
         }
