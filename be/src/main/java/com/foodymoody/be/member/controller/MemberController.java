@@ -1,7 +1,7 @@
 package com.foodymoody.be.member.controller;
 
 import com.foodymoody.be.common.annotation.MemberId;
-import com.foodymoody.be.feed.repository.dto.MemberProfileFeedPreviewResponse;
+import com.foodymoody.be.feed.domain.repository.dto.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
@@ -53,7 +53,7 @@ public class MemberController {
 
     @GetMapping("/{id}/feeds")
     public ResponseEntity<Slice<MemberProfileFeedPreviewResponse>> fetchMemberFeeds(@PathVariable String id,
-            @PageableDefault Pageable pageable) {
+                                                                                    @PageableDefault Pageable pageable) {
         Slice<MemberProfileFeedPreviewResponse> responses = memberProfileService.fetchProfileFeedPreviews(id,
                 pageable);
         return ResponseEntity.ok().body(responses);
@@ -66,21 +66,22 @@ public class MemberController {
     }
 
     @GetMapping("/duplication-check")
-    public ResponseEntity<NicknameDuplicationCheckResponse> checkNicknameDuplication(@RequestParam("nickname") String nickname) {
+    public ResponseEntity<NicknameDuplicationCheckResponse> checkNicknameDuplication(
+            @RequestParam("nickname") String nickname) {
         NicknameDuplicationCheckResponse response = memberService.checkNicknameDuplication(nickname);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}/password")
     public ResponseEntity<Void> changePassword(@MemberId String loginId,
-            @PathVariable String id, @RequestBody ChangePasswordRequest request) {
+                                               @PathVariable String id, @RequestBody ChangePasswordRequest request) {
         memberService.changePassword(loginId, id, request);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/taste-mood")
     public ResponseEntity<Void> setTasteMood(@MemberId String loginId,
-            @PathVariable String id, @RequestParam("id") String tasteMoodId) {
+                                             @PathVariable String id, @RequestParam("id") String tasteMoodId) {
         memberService.setTasteMood(loginId, id, tasteMoodId);
         return ResponseEntity.noContent().build();
     }
@@ -92,7 +93,8 @@ public class MemberController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateProfile(@MemberId String loginId, @PathVariable String id, @RequestBody UpdateProfileRequest request) {
+    public ResponseEntity<Void> updateProfile(@MemberId String loginId, @PathVariable String id,
+                                              @RequestBody UpdateProfileRequest request) {
         memberService.updateProfile(loginId, id, request);
         return ResponseEntity.noContent().build();
     }

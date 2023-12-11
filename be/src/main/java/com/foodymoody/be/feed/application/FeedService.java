@@ -7,6 +7,7 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
 import com.foodymoody.be.feed.domain.repository.dto.MemberProfileFeedPreviewResponse;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -36,6 +37,12 @@ public class FeedService {
 
     public void validate(String feedId) {
         if (!exists(feedId)) {
+            throw new FeedIdNotExistsException();
+        }
+    }
+
+    public void validateIds(List<FeedId> feedIds) {
+        if (!feedRepository.existsAllByIdIn(feedIds)) {
             throw new FeedIdNotExistsException();
         }
     }

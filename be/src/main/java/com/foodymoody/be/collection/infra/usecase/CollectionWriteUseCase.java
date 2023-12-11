@@ -5,7 +5,7 @@ import com.foodymoody.be.collection.presentation.CollectionCreateRequest;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed.service.FeedService;
+import com.foodymoody.be.feed.application.FeedService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class CollectionWriteUseCase {
                 .stream()
                 .map(IdFactory::createFeedId)
                 .collect(Collectors.toList());
-        feedService.validate(feedIds);
+        feedService.validateIds(feedIds);
         service.createCollection(request.getTitle(), request.getDescription(), request.getThumbnailUrl(),
                 request.isPrivate(), memberId, feedIds);
     }

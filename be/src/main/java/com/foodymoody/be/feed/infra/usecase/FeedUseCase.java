@@ -57,14 +57,13 @@ public class FeedUseCase {
 
     @Transactional
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
-        Member member = memberService.findById(request.getMemberId());
-
+        Member member = memberService.findById(IdFactory.createMemberId(request.getMemberId()));
         MemberId memberId = member.getId();
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = toMenu(imageMenuPairs);
         List<Image> images = toImage(imageMenuPairs, memberId);
         List<String> storeMoodIds = request.getStoreMood();
-        String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
+        String profileImageUrl = imageService.findById(member.getMemberProfileImageId()).getUrl();
 
         Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoodIds, images, menus,
                 profileImageUrl);
@@ -106,7 +105,7 @@ public class FeedUseCase {
     public void update(String id, FeedServiceUpdateRequest request) {
         FeedId feedId = IdFactory.createFeedId(id);
         Feed feed = feedService.findFeed(feedId);
-        Member member = memberService.findById(request.getMemberId());
+        Member member = memberService.findById(IdFactory.createMemberId(request.getMemberId()));
         MemberId memberId = member.getId();
         List<Image> newImages = toImage(request.getImages(), memberId);
         List<Menu> newMenus = toMenu(request.getImages());
@@ -120,7 +119,7 @@ public class FeedUseCase {
     @Transactional
     public void delete(FeedServiceDeleteRequest request) {
         FeedId feedId = IdFactory.createFeedId(request.getId());
-        MemberId memberId = memberService.findById(request.getMemberId()).getId();
+        MemberId memberId = memberService.findById(IdFactory.createMemberId(request.getMemberId())).getId();
 
         if (!feedService.findFeed(feedId).getMemberId().isSame(memberId)) {
             throw new IllegalArgumentException("이 피드를 작성한 회원이 아닙니다.");
@@ -139,7 +138,7 @@ public class FeedUseCase {
     public List<Image> toImage(List<ImageMenuPair> imageMenuPairs, MemberId memberId) {
         return imageMenuPairs.stream()
                 .map(imageMenuPair -> new Image(IdFactory.createImageId(imageMenuPair.getImageId()),
-                        imageService.findById(imageMenuPair.getImageId()).getUrl(), memberId))
+                        imageService.findById(IdFactory.createImageId(imageMenuPair.getImageId())).getUrl(), memberId))
                 .collect(Collectors.toUnmodifiableList());
     }
 
@@ -161,7 +160,7 @@ public class FeedUseCase {
     private List<ImageIdNamePair> findImageIdUrlList(List<ImageMenu> imageMenus) {
         return imageMenus.stream()
                 .map(imageMenu -> {
-                    Image image = imageService.findById(imageMenu.getImageId());
+                    Image image = imageService.findById(IdFactory.createImageId(imageMenu.getImageId()));
                     return new ImageIdNamePair(image.getId().getValue(), image.getUrl());
                 })
                 .collect(Collectors.toUnmodifiableList());
