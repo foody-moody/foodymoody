@@ -4,7 +4,7 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.Feed;
-import com.foodymoody.be.feed.application.FeedService;
+import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed_heart.domain.FeedHeart;
 import com.foodymoody.be.feed_heart.dto.response.FeedHeartResponse;
 import com.foodymoody.be.feed_heart.repository.FeedHeartRepository;
@@ -26,7 +26,7 @@ public class FeedHeartService {
     private final FeedHeartRepository feedHeartRepository;
     private final FeedHeartCountService feedHeartCountService;
     private final MemberService memberService;
-    private final FeedService feedService;
+    private final FeedReadService feedReadService;
 
     @Transactional
     public FeedHeartResponse like(String feedStringId, String memberStringId) {
@@ -72,7 +72,7 @@ public class FeedHeartService {
 
     private Feed updateFeed(String feedId, int heartCount, boolean isLiked) {
         FeedId feedIdObj = IdFactory.createFeedId(feedId);
-        Feed feed = feedService.findFeed(feedIdObj);
+        Feed feed = feedReadService.findFeed(feedIdObj);
 
         feed.updateIsLikedBy(isLiked);
         feed.updateLikeCountBy(heartCount);

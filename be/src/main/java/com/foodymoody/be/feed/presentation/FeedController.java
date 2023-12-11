@@ -7,7 +7,7 @@ import com.foodymoody.be.feed.application.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.application.dto.response.StoreMoodResponse;
-import com.foodymoody.be.feed.application.FeedService;
+import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.infra.usecase.FeedUseCase;
 import com.foodymoody.be.feed.application.StoreMoodService;
 import com.foodymoody.be.feed.application.FeedMapper;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class FeedController {
 
-    private final FeedService feedService;
+    private final FeedReadService feedReadService;
     private final FeedUseCase feedUseCase;
     private final StoreMoodService storeMoodService;
 
