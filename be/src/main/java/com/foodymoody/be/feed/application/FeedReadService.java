@@ -10,6 +10,7 @@ import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
 import com.foodymoody.be.feed.domain.repository.dto.MemberProfileFeedPreviewResponse;
+import com.foodymoody.be.feed.infra.persistence.jpa.FeedJpaRepository;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedReadService {
 
     private final FeedRepository feedRepository;
+    private final FeedJpaRepository feedJpaRepository;
 
     public void validateId(String feedId) {
         if (!exists(feedId)) {
@@ -52,16 +54,16 @@ public class FeedReadService {
     }
 
     public Slice<MemberProfileFeedPreviewResponse> fetchPreviewsByMemberId(MemberId memberId, Pageable pageable) {
-        return feedRepository.fetchPreviewsByMemberId(memberId, pageable);
+        return feedJpaRepository.fetchPreviewsByMemberId(memberId, pageable);
     }
 
     public List<ImageIdNamePair> fetchImageIdUrlList(List<ImageMenu> imageMenus) {
-        return feedRepository.fetchImageIdUrlList(imageMenus)
+        return feedJpaRepository.fetchImageIdUrlList(imageMenus)
                 .orElseThrow(ImageNotFoundException::new);
     }
 
     public List<MenuNameRatingPair> fetchMenuNameRatingList(List<ImageMenu> imageMenus) {
-        return feedRepository.fetchMenuNameRatingList(imageMenus)
+        return feedJpaRepository.fetchMenuNameRatingList(imageMenus)
                 .orElseThrow(MenuNotFoundException::new);
     }
 
