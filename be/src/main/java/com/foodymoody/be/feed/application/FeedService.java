@@ -1,16 +1,22 @@
 package com.foodymoody.be.feed.application;
 
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
+import com.foodymoody.be.common.exception.ImageNotFoundException;
+import com.foodymoody.be.common.exception.MenuNotFoundException;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.Feed;
+import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
 import com.foodymoody.be.feed.domain.repository.dto.MemberProfileFeedPreviewResponse;
+import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
+import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,6 +64,16 @@ public class FeedService {
 
     public Slice<MemberProfileFeedPreviewResponse> findPreviewsByMemberId(MemberId memberId, Pageable pageable) {
         return feedRepository.fetchPreviewsByMemberId(memberId, pageable);
+    }
+
+    public List<ImageIdNamePair> fetchImageIdUrlList(List<ImageMenu> imageMenus) {
+        return feedRepository.fetchImageIdUrlList(imageMenus)
+                .orElseThrow(ImageNotFoundException::new);
+    }
+
+    public List<MenuNameRatingPair> fetchMenuNameRatingList(List<ImageMenu> imageMenus) {
+        return feedRepository.fetchMenuNameRatingList(imageMenus)
+                .orElseThrow(MenuNotFoundException::new);
     }
 
 }

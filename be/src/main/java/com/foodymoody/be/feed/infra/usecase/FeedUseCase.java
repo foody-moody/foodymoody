@@ -128,7 +128,7 @@ public class FeedUseCase {
         feedService.deleteById(IdFactory.createFeedId(request.getId()));
     }
 
-    // REFACTOR: Mapper로 옮기기, service 지우기
+    // TODO: 쿼리 사용
     public List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
         return imageMenuPairs.stream()
                 .map(imageMenuPair -> menuService.saveMenu(makeMenu(IdFactory.createMenuId(), imageMenuPair.getMenu())))
@@ -147,32 +147,13 @@ public class FeedUseCase {
         return toFeedMemberResponse(memberData);
     }
 
-    // TODO: 쿼리 써서 n + 1 문제 해결 (stream 안에서 service 사용하지 않도록)
     public List<FeedImageMenuResponse> makeFeedImageMenuResponses(Feed feed) {
         List<ImageMenu> imageMenus = feed.getImageMenus();
 
-        List<ImageIdNamePair> imageIdUrlList = findImageIdUrlList(imageMenus);
-        List<MenuNameRatingPair> menuNameRatingList = findMenuNameRatingList(imageMenus);
+        List<ImageIdNamePair> imageIdUrlList = feedService.fetchImageIdUrlList(imageMenus);
+        List<MenuNameRatingPair> menuNameRatingList = feedService.fetchMenuNameRatingList(imageMenus);
 
         return FeedMapper.toFeedImageMenuResponses(imageIdUrlList, menuNameRatingList);
-    }
-
-    private List<ImageIdNamePair> findImageIdUrlList(List<ImageMenu> imageMenus) {
-        return imageMenus.stream()
-                .map(imageMenu -> {
-                    Image image = imageService.findById(IdFactory.createImageId(imageMenu.getImageId()));
-                    return new ImageIdNamePair(image.getId().getValue(), image.getUrl());
-                })
-                .collect(Collectors.toUnmodifiableList());
-    }
-
-    private List<MenuNameRatingPair> findMenuNameRatingList(List<ImageMenu> imageMenuList) {
-        return imageMenuList.stream()
-                .map(imageMenu -> {
-                    Menu menu = menuService.findBy(imageMenu.getMenuId());
-                    return new MenuNameRatingPair(menu.getName(), menu.getRating());
-                })
-                .collect(Collectors.toUnmodifiableList());
     }
 
 }
