@@ -13,11 +13,11 @@ public class MemberCommentSummaryResponse {
     private MemberSummaryResponse member;
     private boolean hasReply;
     private long replyCount;
-    private long heartCount;
-    private boolean hearted;
+    private long likeCount;
+    private boolean liked;
 
     public MemberCommentSummaryResponse(String id, String content, LocalDateTime createdAt, LocalDateTime updatedAt,
-            MemberSummaryResponse member, boolean hasReply, long replyCount, long heartCount, boolean hearted) {
+            MemberSummaryResponse member, boolean hasReply, long replyCount, long likeCount, boolean liked) {
         this.id = id;
         this.content = content;
         this.createdAt = createdAt;
@@ -25,7 +25,7 @@ public class MemberCommentSummaryResponse {
         this.member = member;
         this.hasReply = hasReply;
         this.replyCount = replyCount;
-        this.heartCount = heartCount;
-        this.hearted = hearted;
+        this.likeCount = likeCount;
+        this.liked = liked;
     }
 }

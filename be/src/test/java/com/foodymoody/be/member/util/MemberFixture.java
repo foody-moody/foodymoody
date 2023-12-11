@@ -1,5 +1,8 @@
 package com.foodymoody.be.member.util;
 
+import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
+import com.foodymoody.be.member.controller.dto.UpdateProfileRequest;
+
 public enum MemberFixture {
     비회원_알버트(null, "albert@albert.com", "testtest123!", "알버트", "1", "https://www.image.com"),
     비회원_설리(null, "sully@sully.com", "testtest123!", "설리", "1", "https://www.image.com"),
@@ -21,6 +24,38 @@ public enum MemberFixture {
         this.nickname = nickname;
         this.tasteMoodId = tasteMoodId;
         this.myImageUrl = myImageUrl;
+    }
+
+    public static ChangePasswordRequest 푸반_비밀번호_수정_요청() {
+        return new ChangePasswordRequest("puban123!", "atiati123!");
+    }
+
+    public static ChangePasswordRequest 푸반_비밀번호_수정_요청_틀린_형식() {
+        return new ChangePasswordRequest("puban123!", "puban");
+    }
+
+    public static ChangePasswordRequest 푸반_비밀번호_수정_요청_인증_실패() {
+        return new ChangePasswordRequest("incorrect123!", "puban123!");
+    }
+
+    public static UpdateProfileRequest 푸반_프로필_수정_요청() {
+        return new UpdateProfileRequest("3", "3");
+    }
+
+    public static UpdateProfileRequest 푸반_프로필_이미지만_수정_요청() {
+        return new UpdateProfileRequest("3", null);
+    }
+
+    public static UpdateProfileRequest 푸반_테이스트_무드만_수정_요청() {
+        return new UpdateProfileRequest(null, "3");
+    }
+
+    public static UpdateProfileRequest 푸반_존재하지_않는_프로필_이미지_수정_요청() {
+        return new UpdateProfileRequest("100", "2");
+    }
+
+    public static UpdateProfileRequest 푸반_존재하지_않는_테이스트_무드_수정_요청() {
+        return new UpdateProfileRequest("2", "100");
     }
 
     public String getId() {

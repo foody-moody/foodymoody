@@ -1,6 +1,6 @@
 package com.foodymoody.be.reply_heart_count.application;
 
-import com.foodymoody.be.comment.domain.entity.ReplyId;
+import com.foodymoody.be.common.util.ids.ReplyId;
 import com.foodymoody.be.reply_heart_count.domain.ReplyHeartCount;
 import com.foodymoody.be.reply_heart_count.domain.ReplyHeartCountRepository;
 import lombok.RequiredArgsConstructor;

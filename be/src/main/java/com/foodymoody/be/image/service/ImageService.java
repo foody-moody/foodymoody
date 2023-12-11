@@ -45,13 +45,18 @@ public class ImageService {
     }
 
     @Transactional(readOnly = true)
-    public Image findById(String id) {
-        return imageRepository.findById(IdFactory.createImageId(id))
+    public Image findById(ImageId id) {
+        return imageRepository.findById(id)
                 .orElseThrow(ImageNotFoundException::new);
     }
 
-    private Image findById(ImageId id) {
-        return imageRepository.findById(id)
+    /**
+     * @deprecated findById(ImageId id)를 사용해주세요
+     * */
+    @Deprecated(forRemoval = true)
+    @Transactional(readOnly = true)
+    public Image findById(String id) {
+        return imageRepository.findById(IdFactory.createImageId(id))
                 .orElseThrow(ImageNotFoundException::new);
     }
 }

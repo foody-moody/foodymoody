@@ -111,7 +111,7 @@ public class FeedUseCase {
         List<Image> newImages = toImage(request.getImages(), memberId);
         List<Menu> newMenus = toMenu(request.getImages());
         List<String> newStoreMoodIds = request.getStoreMood();
-        String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
+        String profileImageUrl = imageService.findById(member.getMemberProfileImageId()).getUrl();
 
         feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoodIds, newImages, newMenus,
                 profileImageUrl);

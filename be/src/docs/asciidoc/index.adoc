@@ -11,30 +11,33 @@
 
 === 피드 등록
 
+==== 성공
+
 operation::registerFeed[snippets='http-request,http-response']
 
 === 피드 전체 조회
+
+==== 성공
 
 operation::readAllFeed[snippets='http-request,http-response']
 
 === 피드 개별 조회
 
+==== 성공
+
 operation::readFeed[snippets='http-request,http-response']
 
 === 피드 수정
+
+==== 성공
 
 operation::updateFeed[snippets='http-request']
 
 === 피드 삭제
 
+==== 성공
+
 operation::deleteFeed[snippets='http-request']
-
-=== 스토어 무드 조회
-
-operation::readAllStoreMood[snippets='http-request,http-response']
-
-[[like]]
-== 좋아요
 
 === 좋아요 등록
 
@@ -56,6 +59,21 @@ operation::unLike[snippets='http-request,http-response']
 
 operation::unLikeFailed[snippets='http-request,http-response']
 
+=== 스토어 무드 조회
+
+==== 성공
+
+operation::readAllStoreMood[snippets='http-request,http-response']
+
+[[colletion]]
+== 컬렉션
+
+=== 컬렉션 등록
+
+==== 성공
+
+operation::feed-collection-create-success[snippets='http-request,http-response']
+
 [[auth]]
 == 인증/인가
 
@@ -72,6 +90,22 @@ operation::login_failedByUnregisteredEmail[snippets='http-response']
 ==== 비밀번호가 틀렸을 때
 
 operation::login_failedByWrongPassword[snippets='http-response']
+
+=== 토큰 재발급
+
+==== 성공
+
+operation::issueToken_success[snippets='http-request,http-response']
+
+==== 유효하지 않은 리프레시 토큰일 때
+
+operation::issueTokenWithInvalidRefreshToken_fail[snippets='http-response']
+
+=== 로그아웃
+
+==== 성공
+
+operation::logout_success[snippets='http-request,http-response']
 
 [[comment]]
 == 댓글
@@ -164,6 +198,10 @@ operation::comments_fetch_success[snippets='http-request,http-response']
 
 operation::comments_fetch_with_with_access_token_success[snippets='http-request,http-response']
 
+==== 성공 - 로그인(좋아요)
+
+operation::comments_fetch_with_with_access_token_success[snippets='http-request,http-response']
+
 ==== 성공 - 페이징
 
 operation::comments_fetch_with_page_success[snippets='http-request,http-response']
@@ -171,16 +209,6 @@ operation::comments_fetch_with_page_success[snippets='http-request,http-response
 ==== 피드가 존재하지 않을 때
 
 operation::comments_fetch_failed_by_feed_id_not_exists[snippets='http-response']
-
-=== 대댓글
-
-==== 대댓글 달기
-
-operation::comment_reply_success[snippets='http-request,http-response']
-
-==== 대댓글 조회
-
-operation::comment_reply_fetch_success[snippets='http-request,http-response']
 
 === 댓글 하트
 
@@ -192,6 +220,34 @@ operation::comment_heart_register_success[snippets='http-request,http-response']
 
 operation::comment_heart_cancel_success[snippets='http-request,http-response']
 
+[[reply]]
+== 대댓글
+
+=== 대댓글 달기
+
+==== 성공
+
+operation::comment_reply_success[snippets='http-request,http-response']
+
+==== 성공
+
+=== 대댓글 조회
+
+operation::comment_reply_fetch_success[snippets='http-request,http-response']
+
+==== 성공
+
+=== 대댓글에 좋아요 누른다
+
+operation::reply_heart_register_success[snippets='http-request,http-response']
+
+==== 성공
+
+=== 대댓글에 좋아요 취소
+
+operation::reply_heart_cancel_success[snippets='http-request,http-response']
+
+[[store]]
 [[member]]
 == 회원
 
@@ -201,7 +257,7 @@ operation::comment_heart_cancel_success[snippets='http-request,http-response']
 
 operation::signupMember_success[snippets='http-request,http-response']
 
-==== 입력값이 잘못됐을 때
+==== 입력값이 잘못될 때
 
 operation::signupMember_failedByMultipleInvalidInput[snippets='http-response']
 
@@ -213,7 +269,7 @@ operation::signupMember_failedByDuplicateEmail[snippets='http-response']
 
 operation::signupMember_failedByDuplicateNickname[snippets='http-response']
 
-==== 재입력한 패스워드가 다를 때
+==== 재입력한 비밀번호가 다를 때
 
 operation::signupMember_failedByReconfirmPasswordUnmatch[snippets='http-response']
 
@@ -225,7 +281,7 @@ operation::fetchMemberProfile_success[snippets='http-request,http-response']
 
 ==== 존재하지 않는 회원 id일 때
 
-operation::fetchMemberProfile_failedByIdNotFound[snippets='http-response']
+operation::fetchMemberProfileNotExistMember_fail[snippets='http-response']
 
 === 회원별 피드 조회
 
@@ -242,6 +298,77 @@ operation::fetchMemberFeedsEmpty_success[snippets='http-response']
 ==== 성공
 
 operation::fetchAllTasteMoods_success[snippets='http-request,http-response']
+
+=== 회원 닉네임 중복 여부 조회
+
+==== 성공
+
+operation::checkNicknameDuplicate_success[snippets='http-request,http-response']
+
+=== 비밀번호 수정
+
+==== 성공
+
+operation::changeMemberPassword_success[snippets='http-request,http-response']
+
+==== 비밀번호 인증 실패할 때
+
+operation::changeMemberPasswordWithIncorrectPassword_fail[snippets='http-response']
+
+==== 비밀번호가 형식에 맞지 않을 때
+
+operation::changeMemberPasswordWithNotMatchPattern_fail[snippets='http-response']
+
+=== 회원 정보 수정
+현재 프로필 이미지, 테이스트 무드 수정 가능합니다
+
+==== 성공
+
+operation::updateAllMemberProfile_success[snippets='http-request,http-response']
+
+==== 성공 - 프로필 이미지만 수정
+
+operation::updateOnlyMemberProfileImage_success[snippets='http-request,http-response']
+
+==== 성공 - 테이스트 무드만 수정
+
+operation::updateOnlyTasteMood_success[snippets='http-request,http-response']
+
+==== 요청의 회원 id가 로그인한 회원이 아닐 때
+
+operation::updateMemberProfileUnauthorized_fail[snippets='http-response']
+
+==== 존재하지 않는 이미지 id일 때
+
+operation::updateMemberProfileImageNotExist_fail[snippets='http-response']
+
+==== 존재하지 않는 테이스트 무드 id일 때
+
+operation::updateMemberProfileImageNotExist_fail[snippets='http-response']
+
+=== 회원의 테이스트 무드 수정
+
+==== 성공
+
+operation::setTasteMood_success[snippets='http-request,http-response']
+
+==== 요청의 회원 id가 로그인한 회원이 아닐 때
+
+operation::setTasteMoodUnauthorized_fail[snippets='http-response']
+
+==== 요청 id에 해당하는 무드가 존재하지 않을 때
+
+operation::setTasteMoodNotExist_fail[snippets='http-response']
+
+=== 회원 탈퇴
+
+==== 성공
+
+operation::deleteMember_success[snippets='http-request,http-response']
+
+==== 요청의 회원 id가 로그인한 회원이 아닐 때
+
+operation::deleteMemberUnauthorized_fail[snippets='http-response']
 
 [[notification]]
 == 알람
@@ -336,14 +463,6 @@ operation::uploadMemberProfileImage_success[snippets='curl-request,http-response
 ==== 성공
 
 operation::uploadFeedImage_success[snippets='curl-request,http-response']
-
-==== 존재하지 않는 피드 아이디일 때
-
-operation::uploadFeedImage_failedByFeedNotFound[snippets='http-response']
-
-==== 현재 로그인한 회원이 피드 작성자가 아닐 때
-
-operation::uploadFeedImage_failedByUnauthorized[snippets='http-response']
 
 === 이미지 삭제
 

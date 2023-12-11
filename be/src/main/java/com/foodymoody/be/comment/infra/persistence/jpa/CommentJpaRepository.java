@@ -20,7 +20,7 @@ public interface CommentJpaRepository extends JpaRepository<Comment, CommentId> 
             + "from Comment _comment "
             + "left join _comment.replyComments _reply "
             + "left join Member _member on _member.id = _comment.memberId "
-            + "left join Image _image on _image.id = _member.profileImageId "
+            + "left join Image _image on _image.id = _member.profileImage "
             + "left join CommentHeartCount _heartCount on _heartCount.commentId = _comment.id "
             + "where _comment.feedId = :feedId and _comment.deleted = false")
     Slice<MemberCommentSummary> findWithMemberAllByFeedId(
@@ -36,7 +36,7 @@ public interface CommentJpaRepository extends JpaRepository<Comment, CommentId> 
             + "from Comment _comment "
             + "left join _comment.replyComments _reply "
             + "left join Member _member on _member.id = _comment.memberId "
-            + "left join Image _image on _image.id = _member.profileImageId "
+            + "left join Image _image on _image.id = _member.profileImage "
             + "left join CommentHeart _heart on _heart.commentId = _comment.id and _heart.memberId = :memberId "
             + "left join CommentHeartCount _heartCount on _heartCount.commentId = _comment.id "
             + "where _comment.feedId = :feedId and _comment.deleted = false")

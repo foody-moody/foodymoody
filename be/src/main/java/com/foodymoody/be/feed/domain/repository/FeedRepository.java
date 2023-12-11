@@ -2,6 +2,7 @@ package com.foodymoody.be.feed.domain.repository;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import java.util.List;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.repository.dto.MemberProfileFeedPreviewResponse;
 import org.springframework.data.domain.Pageable;
@@ -20,4 +21,7 @@ public interface FeedRepository extends JpaRepository<Feed, FeedId> {
                     + "ORDER BY f.createdAt DESC")
     Slice<MemberProfileFeedPreviewResponse> fetchPreviewsByMemberId(@Param("memberId") MemberId memberId,
             Pageable pageable);
+
+    boolean existsAllByIdIn(List<FeedId> feedIds);
+
 }
