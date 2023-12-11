@@ -7,7 +7,7 @@ import com.foodymoody.be.feed.application.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.application.dto.response.StoreMoodResponse;
-import com.foodymoody.be.feed.application.FeedService;
+import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.infra.usecase.FeedUseCase;
 import com.foodymoody.be.feed.application.StoreMoodService;
 import com.foodymoody.be.feed.application.FeedMapper;
@@ -28,9 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class FeedController {
 
-    private final FeedService feedService;
     private final FeedUseCase feedUseCase;
-    private final StoreMoodService storeMoodService;
 
     /**
      * Feed 등록
@@ -79,15 +77,6 @@ public class FeedController {
     public ResponseEntity<Void> delete(@PathVariable String id, @MemberId String memberId) {
         feedUseCase.delete(FeedMapper.toServiceDeleteRequest(id, memberId));
         return ResponseEntity.noContent().build();
-    }
-
-    /**
-     * 전체 Store Mood 조회
-     */
-    @GetMapping("/api/feeds/store-moods")
-    public ResponseEntity<List<StoreMoodResponse>> readAllStoreMood() {
-        List<StoreMoodResponse> storeMoodResponses = storeMoodService.fetchAll();
-        return ResponseEntity.ok().body(storeMoodResponses);
     }
 
 }

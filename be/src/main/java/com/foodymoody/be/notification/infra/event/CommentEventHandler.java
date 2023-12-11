@@ -5,7 +5,7 @@ import static com.foodymoody.be.notification.infra.event.util.NotificationMapper
 import com.foodymoody.be.comment.domain.entity.CommentAddedEvent;
 import com.foodymoody.be.common.util.ids.FeedNotificationId;
 import com.foodymoody.be.feed.domain.entity.Feed;
-import com.foodymoody.be.feed.application.FeedService;
+import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.notification.application.NotificationWriteService;
 import com.foodymoody.be.notification.domain.FeedNotification;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
@@ -18,12 +18,12 @@ import org.springframework.stereotype.Service;
 public class CommentEventHandler {
 
     private final NotificationWriteService notificationWriteService;
-    private final FeedService feedService;
+    private final FeedReadService feedReadService;
 
     @EventListener(CommentAddedEvent.class)
     public void saveNotification(CommentAddedEvent event) {
         FeedNotificationId feedNotificationId = NotificationIdFactory.newId();
-        Feed feed = feedService.findFeed(event.getFeedId());
+        Feed feed = feedReadService.findFeed(event.getFeedId());
         FeedNotification feedNotification = toNotification(event, feedNotificationId, feed);
         notificationWriteService.save(feedNotification);
     }

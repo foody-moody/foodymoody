@@ -4,11 +4,11 @@ import static com.foodymoody.be.feed.application.FeedMapper.makeFeedReadAllRespo
 import static com.foodymoody.be.feed.application.FeedMapper.makeFeedStoreMoodResponses;
 import static com.foodymoody.be.feed.application.FeedMapper.makeStoreMoodIds;
 import static com.foodymoody.be.feed.application.FeedMapper.toFeedMemberResponse;
-import static com.foodymoody.be.menu.util.MenuMapper.makeMenu;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.feed.application.FeedWriteService;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceDeleteRequest;
@@ -20,7 +20,7 @@ import com.foodymoody.be.feed.application.dto.response.FeedMemberResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
-import com.foodymoody.be.feed.application.FeedService;
+import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.application.StoreMoodService;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
@@ -48,7 +48,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class FeedUseCase {
 
-    private final FeedService feedService;
+    private final FeedReadService feedReadService;
+    private final FeedWriteService feedWriteService;
     private final ImageService imageService;
     private final MemberService memberService;
     private final MenuService menuService;
@@ -67,7 +68,7 @@ public class FeedUseCase {
 
         Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoodIds, images, menus,
                 profileImageUrl);
-        Feed savedFeed = feedService.save(feed);
+        Feed savedFeed = feedWriteService.save(feed);
 
         feedHeartCountService.save(new FeedHeartCount(IdFactory.createFeedHeartCountId(), savedFeed.getId(), 0));
 
@@ -75,7 +76,7 @@ public class FeedUseCase {
     }
 
     public Slice<FeedReadAllResponse> readAll(Pageable pageable) {
-        Slice<Feed> feeds = feedService.findAll(pageable);
+        Slice<Feed> feeds = feedReadService.findAll(pageable);
         List<FeedReadAllResponse> responses = makeFeedReadAllResponseList(feeds);
 
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
@@ -91,7 +92,7 @@ public class FeedUseCase {
 
     public FeedReadResponse read(String id) {
         FeedId feedId = IdFactory.createFeedId(id);
-        Feed feed = feedService.findFeed(feedId);
+        Feed feed = feedReadService.findFeed(feedId);
         List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feed);
         List<String> storeMoodIds = feed.getStoreMoodIds();
 
@@ -104,7 +105,7 @@ public class FeedUseCase {
     @Transactional
     public void update(String id, FeedServiceUpdateRequest request) {
         FeedId feedId = IdFactory.createFeedId(id);
-        Feed feed = feedService.findFeed(feedId);
+        Feed feed = feedReadService.findFeed(feedId);
         Member member = memberService.findById(IdFactory.createMemberId(request.getMemberId()));
         MemberId memberId = member.getId();
         List<Image> newImages = toImage(request.getImages(), memberId);
@@ -121,24 +122,25 @@ public class FeedUseCase {
         FeedId feedId = IdFactory.createFeedId(request.getId());
         MemberId memberId = memberService.findById(IdFactory.createMemberId(request.getMemberId())).getId();
 
-        if (!feedService.findFeed(feedId).getMemberId().isSame(memberId)) {
+        if (!feedReadService.findFeed(feedId).getMemberId().isSame(memberId)) {
             throw new IllegalArgumentException("이 피드를 작성한 회원이 아닙니다.");
         }
 
-        feedService.deleteById(IdFactory.createFeedId(request.getId()));
+        feedWriteService.deleteById(IdFactory.createFeedId(request.getId()));
     }
 
-    // REFACTOR: Mapper로 옮기기, service 지우기
+    // TODO: 쿼리 사용하여 리팩토링
     public List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
         return imageMenuPairs.stream()
-                .map(imageMenuPair -> menuService.saveMenu(makeMenu(IdFactory.createMenuId(), imageMenuPair.getMenu())))
+                .map(imageMenuPair -> menuService.save(new Menu(IdFactory.createMenuId(), imageMenuPair.getMenu().getName(), imageMenuPair.getMenu().getRating())))
                 .collect(Collectors.toUnmodifiableList());
     }
 
     public List<Image> toImage(List<ImageMenuPair> imageMenuPairs, MemberId memberId) {
         return imageMenuPairs.stream()
                 .map(imageMenuPair -> new Image(IdFactory.createImageId(imageMenuPair.getImageId()),
-                        imageService.findById(IdFactory.createImageId(imageMenuPair.getImageId())).getUrl(), memberId))
+                        imageService.findById(IdFactory.createImageId(imageMenuPair.getImageId())).getUrl(),
+                        memberId))
                 .collect(Collectors.toUnmodifiableList());
     }
 
@@ -147,32 +149,13 @@ public class FeedUseCase {
         return toFeedMemberResponse(memberData);
     }
 
-    // TODO: 쿼리 써서 n + 1 문제 해결 (stream 안에서 service 사용하지 않도록)
     public List<FeedImageMenuResponse> makeFeedImageMenuResponses(Feed feed) {
         List<ImageMenu> imageMenus = feed.getImageMenus();
 
-        List<ImageIdNamePair> imageIdUrlList = findImageIdUrlList(imageMenus);
-        List<MenuNameRatingPair> menuNameRatingList = findMenuNameRatingList(imageMenus);
+        List<ImageIdNamePair> imageIdUrlList = feedReadService.fetchImageIdUrlList(imageMenus);
+        List<MenuNameRatingPair> menuNameRatingList = feedReadService.fetchMenuNameRatingList(imageMenus);
 
         return FeedMapper.toFeedImageMenuResponses(imageIdUrlList, menuNameRatingList);
-    }
-
-    private List<ImageIdNamePair> findImageIdUrlList(List<ImageMenu> imageMenus) {
-        return imageMenus.stream()
-                .map(imageMenu -> {
-                    Image image = imageService.findById(IdFactory.createImageId(imageMenu.getImageId()));
-                    return new ImageIdNamePair(image.getId().getValue(), image.getUrl());
-                })
-                .collect(Collectors.toUnmodifiableList());
-    }
-
-    private List<MenuNameRatingPair> findMenuNameRatingList(List<ImageMenu> imageMenuList) {
-        return imageMenuList.stream()
-                .map(imageMenu -> {
-                    Menu menu = menuService.findBy(imageMenu.getMenuId());
-                    return new MenuNameRatingPair(menu.getName(), menu.getRating());
-                })
-                .collect(Collectors.toUnmodifiableList());
     }
 
 }
