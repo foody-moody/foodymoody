@@ -14,11 +14,6 @@ public class FeedHeartMapper {
         throw new IllegalArgumentException("Utility Class");
     }
 
-    public static FeedHeartServiceRequest toFeedHeartServiceRequest(FeedHeartRequest feedHeartRequest,
-            String memberId) {
-        return new FeedHeartServiceRequest(feedHeartRequest.getFeedId(), memberId);
-    }
-
     public static FeedHeart makeFeedHeartWithFeedIdAndMemberId(FeedHeartId feedHeartId, FeedId feedId,
             MemberId memberId) {
         return new FeedHeart(feedHeartId, feedId, memberId);

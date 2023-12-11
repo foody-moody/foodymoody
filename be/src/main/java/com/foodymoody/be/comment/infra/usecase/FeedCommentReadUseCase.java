@@ -3,7 +3,7 @@ package com.foodymoody.be.comment.infra.usecase;
 import com.foodymoody.be.comment.application.CommentMapper;
 import com.foodymoody.be.comment.application.FeedCommentReadService;
 import com.foodymoody.be.comment.application.dto.response.MemberCommentSummaryResponse;
-import com.foodymoody.be.feed.service.FeedService;
+import com.foodymoody.be.feed.application.FeedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
