@@ -28,9 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class FeedController {
 
-    private final FeedReadService feedReadService;
     private final FeedUseCase feedUseCase;
-    private final StoreMoodService storeMoodService;
 
     /**
      * Feed 등록
@@ -79,15 +77,6 @@ public class FeedController {
     public ResponseEntity<Void> delete(@PathVariable String id, @MemberId String memberId) {
         feedUseCase.delete(FeedMapper.toServiceDeleteRequest(id, memberId));
         return ResponseEntity.noContent().build();
-    }
-
-    /**
-     * 전체 Store Mood 조회
-     */
-    @GetMapping("/api/feeds/store-moods")
-    public ResponseEntity<List<StoreMoodResponse>> readAllStoreMood() {
-        List<StoreMoodResponse> storeMoodResponses = storeMoodService.fetchAll();
-        return ResponseEntity.ok().body(storeMoodResponses);
     }
 
 }
