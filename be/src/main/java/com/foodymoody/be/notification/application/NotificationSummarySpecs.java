@@ -36,4 +36,11 @@ public class NotificationSummarySpecs {
     public static Specification<NotificationSummary> isToMemberSpec(MemberId memberId) {
         return (root, query, builder) -> builder.equal(root.get("toMemberId"), memberId);
     }
+
+    public static Specification<NotificationSummary> distinctById() {
+        return (root, query, criteriaBuilder) -> {
+            query.distinct(true);
+            return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
+        };
+    }
 }
