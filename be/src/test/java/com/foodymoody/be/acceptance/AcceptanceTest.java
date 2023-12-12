@@ -101,6 +101,6 @@ public abstract class AcceptanceTest {
 
     private static String 아티_액세스토큰_요청() {
         아티_회원_가입한다();
-        return 로그인_한다("ati@ati.com", "ati123!", new RequestSpecBuilder().build()).jsonPath().getString("accessToken");
+        return 로그인_한다("ati@ati.com", "atiati123!", new RequestSpecBuilder().build()).jsonPath().getString("accessToken");
     }
 }

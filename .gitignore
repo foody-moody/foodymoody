@@ -4,4 +4,3 @@ build
 /be/out/
 /be/src/main/resources/application-aws.yml
 /be/src/main/resources/application-jwt.yml
-/be/src/main/resources/static

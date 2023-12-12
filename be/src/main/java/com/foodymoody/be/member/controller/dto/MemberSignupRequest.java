@@ -13,7 +13,6 @@ public class MemberSignupRequest {
     @Email(message = "올바른 형식의 이메일을 입력해주세요")
     @NotBlank(message = "이메일은 공백일 수 없습니다")
     private String email;
-    // TODO 패스워드 형식 검증
     @NotBlank(message = "패스워드는 공백일 수 없습니다")
     private String password;
     private String reconfirmPassword;

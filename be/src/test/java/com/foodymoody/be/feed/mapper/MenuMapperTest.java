@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MenuId;
-import com.foodymoody.be.feed.dto.request.FeedRegisterRequestMenu;
+import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequestMenu;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.util.MenuMapper;
 import org.junit.jupiter.api.DisplayName;

@@ -15,11 +15,11 @@ public interface ReplyJpaRepository extends JpaRepository<Reply, ReplyId> {
     @Query("select _reply.id.value as replyId, _reply.content as content,"
             + "_reply.memberId.value as memberId, _member.nickname as nickname, "
             + "_image.url as imageUrl, _reply.createdAt as createdAt, _reply.updatedAt as updatedAt, "
-            + "_heartCount.count as heartCount "
+            + "_heartCount.count as heartCount,false as hearted "
             + "from Comment _comment "
             + "left join _comment.replyComments.commentList _reply "
             + "left join Member _member on _reply.memberId = _member.id.value "
-            + "left join Image _image on _member.profileImageId = _image.id "
+            + "left join Image _image on _member.profileImage = _image.id "
             + "left join CommentHeartCount _heartCount on _heartCount.commentId = _comment.id "
             + "where _comment.id = :commentId")
     Slice<MemberReplySummary> findReplyByCommentId(CommentId commentId, Pageable pageable);
@@ -31,7 +31,7 @@ public interface ReplyJpaRepository extends JpaRepository<Reply, ReplyId> {
             + "from Comment _comment "
             + "left join _comment.replyComments.commentList _reply "
             + "left join Member _member on _reply.memberId = _member.id "
-            + "left join Image _image on _member.profileImageId = _image.id "
+            + "left join Image _image on _member.profileImage = _image.id "
             + "left join CommentHeartCount _heartCount on _heartCount.commentId = _comment.id "
             + "left join CommentHeart _heart on _heart.commentId = _comment.id and _heart.memberId = :memberId "
             + "where _comment.id = :commentId")
