@@ -1,6 +1,6 @@
 import { forwardRef, useState } from 'react';
 import { styled } from 'styled-components';
-import { TextButton } from 'components/common/button/TextButton';
+import { EyeInvisible, EyeVisble } from 'components/common/icon/icons';
 import { Input2 } from 'components/common/input/Input2';
 import { InputField } from 'components/common/input/InputField';
 
@@ -72,13 +72,9 @@ export const ValidatedInput = forwardRef<HTMLInputElement, Props>(
           {type === 'password' && (
             <Input2.RightContent>
               {showPassword ? (
-                <TextButton color="orange" size="m" onClick={handleToggleType}>
-                  눈감아
-                </TextButton>
+                <EyeVisble onClick={handleToggleType} />
               ) : (
-                <TextButton color="black" size="m" onClick={handleToggleType}>
-                  눈떠
-                </TextButton>
+                <EyeInvisible onClick={handleToggleType} />
               )}
             </Input2.RightContent>
           )}
