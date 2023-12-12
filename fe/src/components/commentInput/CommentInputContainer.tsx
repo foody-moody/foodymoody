@@ -34,13 +34,11 @@ export const CommentInputContainer: React.FC<Props> = ({
   return (
     <Wrapper>
       <Input2 variant="comment">
-        <Input2.TopPanel>
-          {isEmojiVisible && (
-            <EmojiPicker
-              emojiStyle={EmojiStyle.NATIVE}
-              onEmojiClick={handleEmojiClick}
-            />
-          )}
+        <Input2.TopPanel isOpen={isEmojiVisible}>
+          <EmojiPicker
+            emojiStyle={EmojiStyle.NATIVE}
+            onEmojiClick={handleEmojiClick}
+          />
         </Input2.TopPanel>
         <Input2.LeftContent>
           <FaceIcon onClick={handleEmojiOpen} />

@@ -1,7 +1,9 @@
 import { styled } from 'styled-components';
 import { useInput } from 'hooks/useInput';
 import { CloseSmallIcon } from '../icon/icons';
-import { Input } from '../input/Input';
+// import { Input } from '../input/Input';
+import { Input2 } from '../input/Input2';
+import { InputField } from '../input/InputField';
 import { StarRating } from '../starRating/StarRating';
 import { ImageBox } from './ImageBox';
 
@@ -25,7 +27,7 @@ export const MenuItemEditor: React.FC<Props> = ({
 
   const { value, handleChange, helperText } = useInput({
     initialValue: name,
-    validator: (value) => value.trim().length > 0,
+    validator: (value: string) => value.trim().length > 0,
     helperText: '메뉴 이름을 입력해주세요',
   });
 
@@ -41,7 +43,7 @@ export const MenuItemEditor: React.FC<Props> = ({
         <ContentBody>
           <Content>
             <label htmlFor="menu">메뉴 이름</label>
-            <Input
+            {/* <Input
               id="menu"
               variant="ghost"
               helperText={helperText}
@@ -52,7 +54,20 @@ export const MenuItemEditor: React.FC<Props> = ({
               onBlur={() => {
                 onEditMenuName(id, value);
               }}
-            />
+            /> */}
+            <Input2 variant="ghost" helperText={helperText}>
+              <Input2.CenterContent>
+                <InputField
+                  value={value}
+                  onChangeValue={(value) => {
+                    handleChange(value);
+                  }}
+                  onBlur={() => {
+                    onEditMenuName(id, value);
+                  }}
+                />
+              </Input2.CenterContent>
+            </Input2>
           </Content>
           <Content>
             <label>메뉴 별점</label>

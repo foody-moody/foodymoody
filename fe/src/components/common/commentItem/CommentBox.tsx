@@ -1,19 +1,21 @@
 import { useState, forwardRef } from 'react';
 import { useGetReplies, usePostReply } from 'service/queries/reply';
 import { styled } from 'styled-components';
+import { CommentInputContainer } from 'components/commentInput/CommentInputContainer';
 import { TextButton } from 'components/common/button/TextButton';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { ArrowDownIcon, ArrowUpIcon } from '../icon/icons';
-import { CommentInput } from '../input/CommentInput';
+// import { CommentInput } from '../input/CommentInput';
 import { Spinner } from '../loading/spinner';
 import { CommentItem } from './CommentItem';
+import { ReplyItem } from './ReplyItem';
 
 type Props = {
   createdAt: string;
-  comment: CommentItem;
+  comment: CommentItemType;
 };
-
+//TODO heartCount isHearted
 export const CommentBox = forwardRef<HTMLLIElement, Props>(
   ({ createdAt, comment }, ref) => {
     const {
@@ -62,7 +64,9 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
       <Wrapper ref={ref}>
         <CommentItem createdAt={createdAt} comment={comment} />
         <ReplyButtonBox>
-          <TextButton color="orange" size="s" onClick={handleToggleReplyInput}>
+          <p>좋아요 {comment.heartCount}개</p>
+          {/* 좋아요 누른 사람의 목록을 보여줄 것인지? */}
+          <TextButton color="black" size="s" onClick={handleToggleReplyInput}>
             답글 달기
           </TextButton>
           {comment.hasReply && (
@@ -75,7 +79,13 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
         </ReplyButtonBox>
         {isReplying && (
           <ReplyInputBox>
-            <CommentInput
+            {/* <CommentInput
+              value={value}
+              limitedLength={200}
+              onChangeValue={handleChange}
+              onSubmitComment={handleSubmitReply}
+            /> */}
+            <CommentInputContainer
               value={value}
               limitedLength={200}
               onChangeValue={handleChange}
@@ -87,7 +97,7 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
         {showReplies && (
           <ReplyContainer>
             {replies.map((reply) => (
-              <CommentItem
+              <ReplyItem
                 key={reply.id}
                 createdAt={
                   reply.createdAt === reply.updatedAt
@@ -129,6 +139,10 @@ const ReplyButtonBox = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
+
+  p {
+    font: ${({ theme: { fonts } }) => fonts.displayM12};
+  }
 `;
 
 const MoreButton = styled.div`
