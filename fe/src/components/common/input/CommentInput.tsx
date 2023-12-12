@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { TextButton } from 'components/common/button/TextButton';
 import { FaceIcon } from '../icon/icons';
-import { InputCore } from './InputCore';
+import { InputField } from './InputField';
 
 type Props = {
   value?: string;
@@ -42,7 +42,7 @@ export const CommentInput: React.FC<Props> = ({
 
       <CommentWrapper>
         {<FaceIcon onClick={handleEmojiOpen} />}
-        <InputCore
+        <InputField
           placeholder="댓글달기"
           limitedLength={limitedLength}
           value={value}
