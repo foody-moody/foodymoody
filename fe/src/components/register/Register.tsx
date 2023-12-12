@@ -3,10 +3,12 @@ import { useRegister } from 'service/queries/auth';
 import { useGetTasteMood } from 'service/queries/mood';
 import { styled } from 'styled-components';
 import { Spinner } from 'components/common/loading/spinner';
+import { ValidatedInput } from 'components/validatedInput/ValidatedInput';
 import { useInput } from 'hooks/useInput';
 import { Button } from '../common/button/Button';
 import { ArrowDownIcon } from '../common/icon/icons';
-import { Input } from '../common/input/Input';
+
+// import { Input } from '../common/input/Input';
 
 export const Register: React.FC = () => {
   const { mutate: resisterMutate, isLoading } = useRegister();
@@ -90,7 +92,7 @@ export const Register: React.FC = () => {
 
   return (
     <Wrapper>
-      <Input
+      {/* <Input
         variant="default"
         placeholder="이메일"
         onChangeValue={handleEmailChange}
@@ -112,6 +114,28 @@ export const Register: React.FC = () => {
       <Input
         type="password"
         variant="default"
+        placeholder="비밀번호 확인"
+        onChangeValue={handleConfirmPasswordChange}
+        helperText={confirmPasswordHelperText}
+      /> */}
+      <ValidatedInput
+        placeholder="이메일"
+        onChangeValue={handleEmailChange}
+        helperText={emailHelperText}
+      />
+      <ValidatedInput
+        placeholder="닉네임"
+        onChangeValue={handleNicknameChange}
+        helperText={nicknameHelperText}
+      />
+      <ValidatedInput
+        type="password"
+        placeholder="비밀번호"
+        onChangeValue={handlePasswordChange}
+        helperText={passwordHelperText}
+      />
+      <ValidatedInput
+        type="password"
         placeholder="비밀번호 확인"
         onChangeValue={handleConfirmPasswordChange}
         helperText={confirmPasswordHelperText}
