@@ -18,4 +18,7 @@ public class CommentIds {
     @OrderColumn(name = "comment_order", columnDefinition = "int default 0")
     private List<CommentId> ids = new ArrayList<>();
 
+    public List<CommentId> getIds() {
+        return ids;
+    }
 }

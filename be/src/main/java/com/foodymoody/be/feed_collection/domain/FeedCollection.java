@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_collection.domain;
 
+import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -52,5 +53,53 @@ public class FeedCollection {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.commentIds = new CommentIds();
+    }
+
+    public List<FeedId> getFeedIds() {
+        return feedIds.getIds();
+    }
+
+    public List<CommentId> getCommentIds() {
+        return commentIds.getIds();
+    }
+
+    public FeedCollectionId getId() {
+        return id;
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public MemberId getAuthorId() {
+        return authorId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getHeartCount() {
+        return heartCount;
+    }
+
+    public int getFollowerCount() {
+        return followerCount;
+    }
+
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 }

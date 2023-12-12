@@ -25,4 +25,8 @@ public class FeedIds {
     public FeedIds(List<FeedId> feedIds) {
         ids = feedIds;
     }
+
+    public List<FeedId> getIds() {
+        return ids;
+    }
 }
