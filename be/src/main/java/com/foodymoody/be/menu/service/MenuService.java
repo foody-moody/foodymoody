@@ -19,7 +19,7 @@ public class MenuService {
                 .orElseThrow(() -> new IllegalArgumentException("메뉴를 찾을 수 없습니다."));
     }
 
-    public Menu saveMenu(Menu menu) {
+    public Menu save(Menu menu) {
         return menuRepository.save(menu);
     }
 

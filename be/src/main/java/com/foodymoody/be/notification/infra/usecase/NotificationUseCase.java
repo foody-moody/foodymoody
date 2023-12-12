@@ -2,8 +2,8 @@ package com.foodymoody.be.notification.infra.usecase;
 
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed.domain.Feed;
-import com.foodymoody.be.feed.service.FeedService;
+import com.foodymoody.be.feed.domain.entity.Feed;
+import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.domain.Member;
@@ -34,15 +34,15 @@ public class NotificationUseCase {
     private final NotificationSettingReadService notificationSettingReadService;
     private final ImageService imageService;
     private final MemberService memberService;
-    private final FeedService feedService;
+    private final FeedReadService feedReadService;
     private final NotificationSummaryReadService notificationSummaryReadService;
 
 
     public NotificationResponse request(String memberId, String notificationId) {
         FeedNotification feedNotification = notificationWriteService.read(notificationId);
         Member member = memberService.findById(memberId);
-        Image memberProfileImage = imageService.findById(member.getProfileImageId());
-        Feed feed = feedService.findFeed(feedNotification.getFeedId());
+        Image memberProfileImage = imageService.findById(member.getMemberProfileImageId());
+        Feed feed = feedReadService.findFeed(feedNotification.getFeedId());
         String feedProfileImageId = feed.getImageMenus().get(0).getImageId();
         Image feedProfileImage = imageService.findById(feedProfileImageId);
         return toResponse(memberId, feedNotification, member, memberProfileImage, feed, feedProfileImage);

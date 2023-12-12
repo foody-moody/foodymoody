@@ -20,7 +20,7 @@ public class AuthService {
     @Transactional
     public TokenIssueResponse login(LoginRequest request) {
         Member member = memberService.findByEmail(request.getEmail());
-        member.validatePassword(request.getPassword());
+        member.checkPasswordMatch(request.getPassword());
         Date now = new Date();
         return tokenService.issue(now, member);
     }

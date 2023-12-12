@@ -5,6 +5,7 @@ import com.foodymoody.be.auth.service.TokenService;
 import com.foodymoody.be.auth.util.JwtUtil;
 import com.foodymoody.be.common.exception.ErrorMessage;
 import com.foodymoody.be.common.exception.ErrorResponse;
+import com.foodymoody.be.common.exception.UnauthorizedException;
 import com.foodymoody.be.common.util.HttpHeaderParser;
 import com.foodymoody.be.common.util.HttpHeaderType;
 import io.jsonwebtoken.JwtException;
@@ -13,6 +14,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -46,14 +48,19 @@ public class AccessTokenFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
         try {
-            String customUri = extractCustomUri(httpRequest);
-            if (!isInWhiteList(customUri)) {
-                String header = httpRequest.getHeader(HttpHeaderType.AUTHORIZATION.headerName);
+            String header = httpRequest.getHeader(HttpHeaderType.AUTHORIZATION.headerName);
+            if (Objects.nonNull(header)) {
                 String token = HttpHeaderParser.parse(header, HttpHeaderType.AUTHORIZATION);
-                tokenService.validateIsNotRevoked(token);
+                tokenService.validateNotBlacklisted(token);
                 Map<String, String> parsed = jwtUtil.parseAccessToken(token);
                 request.setAttribute("id", parsed.get("id"));
                 request.setAttribute("email", parsed.get("email"));
+                chain.doFilter(request, response);
+                return;
+            }
+            String customUri = extractCustomUri(httpRequest);
+            if (!isInWhiteList(customUri)) {
+                throw new UnauthorizedException();
             }
         } catch (JwtException e) {
             sendError(response, e, ErrorMessage.INVALID_TOKEN.getCode());
