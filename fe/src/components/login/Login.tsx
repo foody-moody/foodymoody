@@ -5,8 +5,6 @@ import { Button } from 'components/common/button/Button';
 import { ValidatedInput } from 'components/validatedInput/ValidatedInput';
 import { useInput } from 'hooks/useInput';
 
-// import { Input } from '../common/input/Input';
-
 export const Login: React.FC = () => {
   const { mutate: loginMutate } = useLogin();
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -45,19 +43,6 @@ export const Login: React.FC = () => {
 
   return (
     <Wrapper>
-      {/* <Input
-        variant="default"
-        placeholder="아이디"
-        onChangeValue={handleIdChange}
-        helperText={idHelperText}
-      />
-      <Input
-        type="password"
-        variant="default"
-        placeholder="비밀번호"
-        onChangeValue={handlePasswordChange}
-        helperText={passwordHelperText}
-      /> */}
       <ValidatedInput
         placeholder="아이디"
         onChangeValue={handleIdChange}

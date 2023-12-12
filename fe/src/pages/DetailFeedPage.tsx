@@ -12,7 +12,6 @@ import { Carousel } from 'components/common/carousel/Carousel';
 import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
-// import { CommentInput } from 'components/common/input/CommentInput';
 import { useModal } from 'components/common/modal/Modal';
 import { CommentSkeleton } from 'components/common/skeleton/CommentSkeleton';
 import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
@@ -89,12 +88,6 @@ export const DetailFeedModalPage = () => {
                 commentCount={feed?.commentCount}
               />
               <CommentContainer>
-                {/* <CommentInput
-                  value={value}
-                  limitedLength={200}
-                  onChangeValue={handleChange}
-                  onSubmitComment={handleSubmit}
-                /> */}
                 <CommentInputContainer
                   value={value}
                   limitedLength={200}

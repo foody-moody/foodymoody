@@ -106,13 +106,6 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
             <TimeStamp>{formattedTimeStamp}</TimeStamp>
           </ContentHeader>
           {isEdit ? (
-            // <Input
-            //   variant="ghost"
-            //   limitedLength={200}
-            //   value={value}
-            //   onChangeValue={handleChange}
-            //   onPressEnter={() => handleEditSubmit(comment.id)}
-            // />
             <Input2 variant="ghost">
               <Input2.CenterContent>
                 <InputField

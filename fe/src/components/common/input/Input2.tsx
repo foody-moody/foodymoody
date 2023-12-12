@@ -1,4 +1,3 @@
-// import React, { Children, isValidElement } from 'react';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { BottomPanel, getInputBottomPanel } from './InputBottomPanel';
@@ -47,6 +46,16 @@ export const BaseInput = ({
   );
 };
 
+export const Input2 = Object.assign(BaseInput, {
+  LeftContent,
+  RightContent,
+  InnerLabel,
+  CenterContent,
+  HelperText,
+  TopPanel,
+  BottomPanel,
+});
+
 const Wrapper = styled.div`
   position: relative;
 
@@ -81,217 +90,6 @@ const Wrapper = styled.div`
     }
   }
 `;
-
-// type LeftContentProps = {
-//   gap?: number;
-//   children?: React.ReactNode;
-// };
-
-// const LeftContent: React.FC<LeftContentProps> = ({ gap = 0, children }) => {
-//   return <LeftContentWrapper $gap={gap}>{children}</LeftContentWrapper>;
-// };
-
-// const LeftContentWrapper = styled.div<{
-//   $gap: number;
-// }>`
-//   display: flex;
-//   gap: ${({ $gap }) => `${$gap}px`};
-// `;
-
-// const LeftContentType = (<LeftContent />).type;
-
-// function getInputLeftContent(children: React.ReactNode) {
-//   const childrenArray = Children.toArray(children);
-//   return childrenArray.find(
-//     (child) => isValidElement(child) && child.type === LeftContentType
-//   );
-// }
-
-// type RightContentProps = {
-//   gap?: number;
-//   children?: React.ReactNode;
-// };
-
-// const RightContent: React.FC<RightContentProps> = ({ gap = 0, children }) => {
-//   return <RightContentWrapper $gap={gap}>{children}</RightContentWrapper>;
-// };
-
-// const RightContentWrapper = styled.div<{
-//   $gap: number;
-// }>`
-//   display: flex;
-//   border: 1px solid red;
-//   gap: ${({ $gap }) => `${$gap}px`};
-// `;
-
-// const RightContentType = (<RightContent />).type;
-
-// function getInputRightContent(children: React.ReactNode) {
-//   const childrenArray = Children.toArray(children);
-//   return childrenArray.find(
-//     (child) => isValidElement(child) && child.type === RightContentType
-//   );
-// }
-
-// type CoreProps = {
-//   children?: React.ReactNode;
-// };
-
-// const Core: React.FC<CoreProps> = ({ children }) => {
-//   return <>{children}</>;
-// };
-
-// const InputCoreType = (<Core />).type;
-
-// function getInputCore(children: React.ReactNode) {
-//   const childrenArray = Children.toArray(children);
-//   return childrenArray.find(
-//     (child) => isValidElement(child) && child.type === InputCoreType
-//   );
-// }
-
-// type TopPanelProps = {
-//   children?: React.ReactNode;
-// };
-
-// const TopPanel: React.FC<TopPanelProps> = ({ children }) => {
-//   return <>{children}</>;
-// };
-
-// const TopPanelType = (<TopPanel />).type;
-
-// function getInputTopPanel(children: React.ReactNode) {
-//   const childrenArray = Children.toArray(children);
-//   return childrenArray.find(
-//     (child) => isValidElement(child) && child.type === TopPanelType
-//   );
-// }
-
-// type BottomPanelProps = {
-//   children?: React.ReactNode;
-// };
-
-// const BottomPanel: React.FC<BottomPanelProps> = ({ children }) => {
-//   return <BottomPanelWrapper>{children}</BottomPanelWrapper>;
-// };
-
-// const BottomPanelWrapper = styled.div`
-//   position: absolute;
-//   width: 100%;
-//   max-height: 400px;
-//   top: 100%;
-//   display: flex;
-//   flex-direction: column;
-//   gap: 8px;
-//   padding: 16px;
-
-//   background-color: ${({ theme: { colors } }) => colors.white};
-//   border-radius: ${({ theme: { radius } }) => radius.small};
-// `;
-
-// const BottomPanelType = (<BottomPanel />).type;
-
-// function getInputBottomPanel(children: React.ReactNode) {
-//   const childrenArray = Children.toArray(children);
-//   return childrenArray.find(
-//     (child) => isValidElement(child) && child.type === BottomPanelType
-//   );
-// }
-
-// type InnerLabelProps = {
-//   isFocused?: boolean;
-//   children?: React.ReactNode;
-// };
-
-// const InnerLabel: React.FC<InnerLabelProps> = ({
-//   isFocused = false,
-//   children,
-// }) => {
-//   return (
-//     <InnerLabelWrapper $isFocused={isFocused}>{children}</InnerLabelWrapper>
-//   );
-// };
-
-// const InnerLabelWrapper = styled.label<{
-//   $isFocused: boolean;
-// }>`
-//   position: absolute;
-//   left: 22px;
-//   transition: all 0.2s ease-in-out;
-//   transform: ${({ $isFocused }) =>
-//     $isFocused
-//       ? 'translate(0, -12px) scale(0.75)'
-//       : 'translate(0, 0px) scale(1)'};
-//   transform-origin: top left;
-//   pointer-events: none;
-//   font: ${({ theme: { fonts } }) => fonts.displayM14};
-//   color: ${({ theme: { colors } }) => colors.textPlaceholder};
-// `;
-
-// const InnerLabelType = (<InnerLabel />).type;
-
-// function getInputInnerLabel(children: React.ReactNode) {
-//   const childrenArray = Children.toArray(children);
-//   return childrenArray.find(
-//     (child) => isValidElement(child) && child.type === InnerLabelType
-//   );
-// }
-
-// type HelperTextProps = {
-//   isError?: boolean;
-//   isFocused?: boolean;
-//   align?: 'left' | 'right';
-//   alignValue?: string;
-//   children?: React.ReactNode;
-// };
-
-// const HelperText: React.FC<HelperTextProps> = ({
-//   isError,
-//   isFocused = false,
-//   align = 'left',
-//   alignValue = '5%',
-//   children,
-// }) => {
-//   return (
-//     <>
-//       {isFocused && isError && (
-//         <HelperTextWrapper $align={align} $alignValue={alignValue}>
-//           {children}
-//         </HelperTextWrapper>
-//       )}
-//     </>
-//   );
-// };
-
-// const HelperTextWrapper = styled.div<{
-//   $align: 'left' | 'right';
-//   $alignValue: string;
-// }>`
-//   position: absolute;
-//   top: 100%;
-//   ${({ $align, $alignValue }) =>
-//     $align === 'left' ? `left: ${$alignValue};` : `right: ${$alignValue};`}
-//   font: ${({ theme: { fonts } }) => fonts.displayM10};
-//   color: ${({ theme: { colors } }) => colors.pink};
-// `;
-// const HelperTextType = (<HelperText />).type;
-
-// function getHelperText(children: React.ReactNode) {
-//   const childrenArray = Children.toArray(children);
-//   return childrenArray.find(
-//     (child) => isValidElement(child) && child.type === HelperTextType
-//   );
-// }
-
-export const Input2 = Object.assign(BaseInput, {
-  LeftContent,
-  RightContent,
-  InnerLabel,
-  CenterContent,
-  HelperText,
-  TopPanel,
-  BottomPanel,
-});
 
 const BaseWrapper = styled.div<{
   $variant: 'ghost' | 'underline' | 'default' | 'comment' | 'rectangle';

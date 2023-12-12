@@ -79,12 +79,6 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
         </ReplyButtonBox>
         {isReplying && (
           <ReplyInputBox>
-            {/* <CommentInput
-              value={value}
-              limitedLength={200}
-              onChangeValue={handleChange}
-              onSubmitComment={handleSubmitReply}
-            /> */}
             <CommentInputContainer
               value={value}
               limitedLength={200}

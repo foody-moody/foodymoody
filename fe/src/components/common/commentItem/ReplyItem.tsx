@@ -6,9 +6,7 @@ import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
-// import { TextButton } from '../button/TextButton';
 import { DotGhostIcon, HeartSmallEmpty, HeartSmallFill } from '../icon/icons';
-// import { Input } from '../input/Input';
 import { Input2 } from '../input/Input2';
 import { InputField } from '../input/InputField';
 import { useModal } from '../modal/Modal';
@@ -106,13 +104,6 @@ export const ReplyItem: React.FC<Props> = ({ createdAt, comment }) => {
               <TimeStamp>{formattedTimeStamp}</TimeStamp>
             </ContentHeader>
             {isEdit ? (
-              // <Input
-              //   variant="ghost"
-              //   limitedLength={200}
-              //   value={value}
-              //   onChangeValue={handleChange}
-              //   onPressEnter={() => handleEditSubmit(comment.id)}
-              // />
               <Input2 variant="ghost">
                 <Input2.CenterContent>
                   <InputField
