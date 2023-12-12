@@ -7,7 +7,7 @@ import { formatTimeStamp } from 'utils/formatTimeStamp';
 // import { TextButton } from '../button/TextButton';
 import { DotGhostIcon } from '../icon/icons';
 import { Input } from '../input/Input';
-import { useModal } from '../modal/Modal';
+import { useModal } from '../modal/useModal';
 import { UserImage } from '../userImage/UserImage';
 
 type Props = {

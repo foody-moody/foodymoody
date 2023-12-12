@@ -1,5 +1,3 @@
 export const CollectionPage = () => {
-  return (
-    <div>CollectionPage</div>
-  )
-}
+  return <div>CollectionPage</div>;
+};

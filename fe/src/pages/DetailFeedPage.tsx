@@ -12,7 +12,7 @@ import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
 import { CommentInput } from 'components/common/input/CommentInput';
-import { useModal } from 'components/common/modal/Modal';
+import { useModal } from 'components/common/modal/useModal';
 import { CommentSkeleton } from 'components/common/skeleton/CommentSkeleton';
 import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
 import { useInput } from 'hooks/useInput';
