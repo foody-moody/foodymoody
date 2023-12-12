@@ -37,9 +37,11 @@ import com.foodymoody.be.menu.service.MenuService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,6 +78,8 @@ public class FeedUseCase {
     }
 
     public Slice<FeedReadAllResponse> readAll(Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
+
         Slice<Feed> feeds = feedReadService.findAll(pageable);
         List<FeedReadAllResponse> responses = makeFeedReadAllResponseList(feeds);
 
