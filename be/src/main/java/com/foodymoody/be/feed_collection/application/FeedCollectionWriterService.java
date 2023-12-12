@@ -1,6 +1,5 @@
 package com.foodymoody.be.feed_collection.application;
 
-import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -16,12 +15,18 @@ public class FeedCollectionWriterService {
 
     private final FeedCollectionRepository repository;
 
-    public void createCollection(String title, String description, String thumbnailUrl, boolean isPrivate,
+    public void createCollection(
+            String title,
+            String description,
+            String thumbnailUrl,
+            boolean isPrivate,
             MemberId memberId,
-            List<FeedId> feedIds) {
-        FeedCollectionId id = IdFactory.createFeedCollectionId();
-        FeedCollection feedCollection = new FeedCollection(id, memberId, thumbnailUrl, title, description, isPrivate,
-                false, feedIds);
+            List<FeedId> feedIds
+    ) {
+        var id = IdFactory.createFeedCollectionId();
+        var feedCollection = new FeedCollection(
+                id, memberId, thumbnailUrl, title, description, 0, isPrivate, false, feedIds
+        );
         repository.save(feedCollection);
     }
 }
