@@ -5,6 +5,7 @@ import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionRepository;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,10 @@ public class FeedCollectionWriterService {
             List<FeedId> feedIds
     ) {
         var id = IdFactory.createFeedCollectionId();
+        LocalDateTime now = LocalDateTime.now();
         var feedCollection = new FeedCollection(
                 id, memberId, thumbnailUrl, title, description, 0, isPrivate, false, feedIds
+                , now, now
         );
         repository.save(feedCollection);
     }

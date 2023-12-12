@@ -37,8 +37,8 @@ public class FeedCollection {
 
     public FeedCollection(
             FeedCollectionId id, MemberId memberId, String thumbnailUrl, String title, String description,
-            int followerCount,
-            boolean isPrivate, boolean isDeleted, List<FeedId> feedIds
+            int followerCount, boolean isPrivate, boolean isDeleted, List<FeedId> feedIds, LocalDateTime createdAt,
+            LocalDateTime updatedAt
     ) {
         this.id = id;
         this.authorId = memberId;
@@ -49,6 +49,8 @@ public class FeedCollection {
         this.isPrivate = isPrivate;
         this.isDeleted = isDeleted;
         this.feedIds = new FeedIds(feedIds);
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.commentIds = new CommentIds();
     }
 }

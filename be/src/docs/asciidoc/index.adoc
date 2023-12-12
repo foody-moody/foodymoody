@@ -433,6 +433,8 @@ operation::notification_setting_update_success[snippets='http-request,http-respo
 
 === 알람 실시간 전송
 
+==== 성공
+
 operation::sse_request_success[snippets='http-request,http-response']
 
 [[image]]
@@ -478,3 +480,17 @@ operation::deleteFeedImage_failedByNotExistId[snippets='http-response']
 
 operation::deleteFeedImage_failedByUnAuthorized[snippets='http-response']
 
+[[feed-collection]]
+== 컬렉션
+
+=== 컬렉션 등록
+
+==== 성공
+
+operation::feed-collection-create-success[snippets='http-request,http-response']
+
+=== 컬렉션 전체 조회
+
+==== 성공
+
+operation::feed_collection_request_fetch_all_success[snippets='http-request,http-response']

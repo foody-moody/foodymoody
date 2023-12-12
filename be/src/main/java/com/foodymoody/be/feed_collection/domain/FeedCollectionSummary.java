@@ -1,5 +1,7 @@
 package com.foodymoody.be.feed_collection.domain;
 
+import java.time.LocalDateTime;
+
 public interface FeedCollectionSummary {
 
     String getId();
@@ -20,7 +22,7 @@ public interface FeedCollectionSummary {
 
     String getThumbnailUrl();
 
-    String getCreatedAt();
+    LocalDateTime getCreatedAt();
 
-    String getUpdatedAt();
+    LocalDateTime getUpdatedAt();
 }

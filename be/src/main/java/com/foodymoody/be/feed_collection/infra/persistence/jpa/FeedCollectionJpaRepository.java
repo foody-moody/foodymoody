@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface FeedCollectionJpaRepository extends JpaRepository<FeedCollection, FeedCollectionId> {
 
     @Query(
-            "select _feedCollection.id as id " +
+            "select _feedCollection.id.value as id " +
                     ", _feedCollection.title as title " +
                     ", _feedCollection.description as description " +
                     ", _feedCollection.authorId.value as authorId " +
