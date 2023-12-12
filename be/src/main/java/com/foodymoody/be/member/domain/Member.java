@@ -13,15 +13,18 @@ import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Member {
 
     @EmbeddedId
+    @EqualsAndHashCode.Include
     private MemberId id;
     private String email;
     private String nickname;
@@ -95,15 +98,15 @@ public class Member {
     }
 
     public void follow(Member target) {
-        if (Objects.isNull(target)) {
-            throw new IllegalArgumentException("target 파라미터가 유효하지 않습니다");
+        if (Objects.isNull(target) || Objects.equals(target, this)) {
+            throw new IllegalArgumentException("팔로우할 수 없는 회원입니다");
         }
         this.myFollowings.add(this, target);
     }
 
     public void unfollow(Member target) {
-        if (Objects.isNull(target)) {
-            throw new IllegalArgumentException("target 파라미터가 유효하지 않습니다");
+        if (Objects.isNull(target) || Objects.equals(target, this)) {
+            throw new IllegalArgumentException("언팔로우할 수 없는 회원입니다");
         }
         this.myFollowings.remove(target);
     }

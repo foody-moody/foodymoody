@@ -384,6 +384,10 @@ operation::follow_member_failed_by_invalid_token[snippets='http-response']
 
 operation::follow_member_failed_by_member_not_exists[snippets='http-response']
 
+==== 팔로우 대상이 자기 자신일 때
+
+operation::follow_member_failed_by_follow_self[snippets='http-response']
+
 === 언팔로우
 
 operation::unfollow_member_success[snippets='http-request,http-response']
@@ -395,6 +399,10 @@ operation::unfollow_member_failed_by_invalid_token[snippets='http-response']
 ==== 존재하지 않는 회원 id일 때
 
 operation::unfollow_member_failed_by_member_not_exists[snippets='http-response']
+
+==== 언팔로우 대상이 자기 자신일 떄
+
+operation::unfollow_member_failed_by_unfollow_self[snippets='http-response']
 
 === 팔로잉 목록 조회
 

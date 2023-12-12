@@ -602,6 +602,21 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
         }
 
+        @DisplayName("팔로우 대상이 자기 자신이면, 상태코드 400과 오류코드 g001을 응답한다")
+        @Test
+        void when_follow_member_if_follow_self_then_response_code_400() {
+            // docs
+            api_문서_타이틀("follow_member_failed_by_follow_self", spec);
+
+            // when
+            var response = 팔로우한다(회원푸반_액세스토큰, 푸반_아이디, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.BAD_REQUEST),
+                    () -> 오류코드를_검증한다(response, "g001")
+            );
+        }
     }
 
     @DisplayName("회원 언팔로우 인수테스트")
@@ -674,6 +689,23 @@ class MemberAcceptanceTest extends AcceptanceTest {
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.NOT_FOUND),
                     () -> 오류코드를_검증한다(response, "m001")
+            );
+
+        }
+
+        @DisplayName("언팔로우 대상이 자기 자신이면, 상태코드 400과 오류코드 g001을 응답한다")
+        @Test
+        void when_unfollow_member_if_unfollow_self_then_response_code_400() {
+            // docs
+            api_문서_타이틀("unfollow_member_failed_by_unfollow_self", spec);
+
+            // when
+            var response = 언팔로우한다(회원푸반_액세스토큰, 푸반_아이디, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.BAD_REQUEST),
+                    () -> 오류코드를_검증한다(response, "g001")
             );
 
         }
