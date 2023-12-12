@@ -1,4 +1,4 @@
-package com.foodymoody.be.collection.presentation;
+package com.foodymoody.be.feed_collection.presentation;
 
 import java.util.List;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CollectionCreateRequest {
+public class FeedCollectionCreateRequest {
 
     private String title;
     private String description;

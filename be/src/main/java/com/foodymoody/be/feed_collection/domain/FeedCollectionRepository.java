@@ -1,4 +1,4 @@
-package com.foodymoody.be.collection.domain;
+package com.foodymoody.be.feed_collection.domain;
 
 public interface FeedCollectionRepository {
 

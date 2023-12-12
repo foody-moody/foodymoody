@@ -1,11 +1,11 @@
-package com.foodymoody.be.collection.application;
+package com.foodymoody.be.feed_collection.application;
 
-import com.foodymoody.be.collection.domain.FeedCollection;
-import com.foodymoody.be.collection.domain.FeedCollectionRepository;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.feed_collection.domain.FeedCollection;
+import com.foodymoody.be.feed_collection.domain.FeedCollectionRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

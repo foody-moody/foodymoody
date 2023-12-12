@@ -1,4 +1,4 @@
-package com.foodymoody.be.collection.domain;
+package com.foodymoody.be.feed_collection.domain;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import java.util.ArrayList;

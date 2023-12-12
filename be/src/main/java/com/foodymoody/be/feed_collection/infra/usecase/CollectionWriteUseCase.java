@@ -1,11 +1,11 @@
-package com.foodymoody.be.collection.infra.usecase;
+package com.foodymoody.be.feed_collection.infra.usecase;
 
-import com.foodymoody.be.collection.application.FeedCollectionWriterService;
-import com.foodymoody.be.collection.presentation.CollectionCreateRequest;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedReadService;
+import com.foodymoody.be.feed_collection.application.FeedCollectionWriterService;
+import com.foodymoody.be.feed_collection.presentation.FeedCollectionCreateRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class CollectionWriteUseCase {
     private final FeedCollectionWriterService service;
     private final FeedReadService feedReadService;
 
-    public void createCollection(CollectionCreateRequest request, String memberIdValue) {
+    public void createCollection(FeedCollectionCreateRequest request, String memberIdValue) {
         MemberId memberId = IdFactory.createMemberId(memberIdValue);
         List<FeedId> feedIds = request.getFeedIds()
                 .stream()
