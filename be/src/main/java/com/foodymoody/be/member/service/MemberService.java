@@ -16,7 +16,6 @@ import com.foodymoody.be.member.controller.dto.FollowInfoResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.controller.dto.UpdateProfileRequest;
-import com.foodymoody.be.member.domain.Follow;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.TasteMood;
 import com.foodymoody.be.member.repository.FollowRepository;
@@ -148,16 +147,24 @@ public class MemberService {
         member.unfollow(target);
     }
 
-    public Slice<FollowInfoResponse> listFollowings(String id, Pageable pageable) {
+    public Slice<FollowInfoResponse> listFollowings(String loginId, String id, Pageable pageable) {
         Member member = findById(id);
-        Slice<Follow> followings = followRepository.findByfollower(member, pageable);
-        return MemberMapper.toFollowingInfo(member, followings);
+        Slice<Member> followings = followRepository.findFollowedByFollowerOrderByCreatedAtDesc(member, pageable);
+        return getFollowInfoResponses(loginId, followings);
     }
 
-    public Slice<FollowInfoResponse> listFollowers(String id, Pageable pageable) {
+    public Slice<FollowInfoResponse> listFollowers(String loginId, String id, Pageable pageable) {
         Member member = findById(id);
-        Slice<Follow> followers = followRepository.findByFollowed(member, pageable);
-        return MemberMapper.toFollowerInfo(member, followers);
+        Slice<Member> followers = followRepository.findFollowerByFollowedOrderByCreatedAtDesc(member, pageable);
+        return getFollowInfoResponses(loginId, followers);
+    }
+
+    private Slice<FollowInfoResponse> getFollowInfoResponses(String loginId, Slice<Member> followers) {
+        if(Objects.nonNull(loginId)) {
+            Member loginMember = findById(loginId);
+            return MemberMapper.toFollowInfo(loginMember, followers);
+        }
+        return MemberMapper.toFollowInfo(followers);
     }
 
     private void validateEmailDuplication(String email) {

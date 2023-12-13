@@ -239,9 +239,31 @@ public class MemberSteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 로그인시_팔로잉_목록을_조회한다(String accessToken, String id, RequestSpecification spec) {
+        return RestAssured.given().log().all().spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
+                .when()
+                .get("/api/members/{id}/followings", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> 팔로워_목록을_조회한다(String id, RequestSpecification spec) {
         return RestAssured.given().log().all().spec(spec)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get("/api/members/{id}/followers", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 로그인시_팔로워_목록을_조회한다(String accessToken, String id, RequestSpecification spec) {
+        return RestAssured.given().log().all().spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
                 .when()
                 .get("/api/members/{id}/followers", id)
                 .then()

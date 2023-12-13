@@ -68,6 +68,24 @@ public enum MemberFixture {
                 "tasteMoodId", 비회원_보노.getTasteMoodId());
     }
 
+    public static Map<String, Object> 알버트_회원가입_요청() {
+        return Map.of(
+                "nickname", 비회원_알버트.getNickname(),
+                "email", 비회원_알버트.getEmail(),
+                "password", 비회원_알버트.getPassword(),
+                "reconfirmPassword", 비회원_알버트.getPassword(),
+                "tasteMoodId", 비회원_알버트.getTasteMoodId());
+    }
+
+    public static Map<String, Object> 설리_회원가입_요청() {
+        return Map.of(
+                "nickname", 비회원_설리.getNickname(),
+                "email", 비회원_설리.getEmail(),
+                "password", 비회원_설리.getPassword(),
+                "reconfirmPassword", 비회원_설리.getPassword(),
+                "tasteMoodId", 비회원_설리.getTasteMoodId());
+    }
+
     public String getId() {
         return id;
     }

@@ -111,14 +111,15 @@ public class MemberController {
     }
 
     @GetMapping("/{id}/followings")
-    public ResponseEntity<Slice<FollowInfoResponse>> listFollowings(@PathVariable String id, @PageableDefault Pageable pageable) {
-        Slice<FollowInfoResponse> response = memberService.listFollowings(id, pageable);
+    public ResponseEntity<Slice<FollowInfoResponse>> listFollowings(@MemberId String loginId,
+            @PathVariable String id, @PageableDefault Pageable pageable) {
+        Slice<FollowInfoResponse> response = memberService.listFollowings(loginId, id, pageable);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}/followers")
-    public ResponseEntity<Slice<FollowInfoResponse>> listFollowers(@PathVariable String id, @PageableDefault Pageable pageable) {
-        Slice<FollowInfoResponse> response = memberService.listFollowers(id, pageable);
+    public ResponseEntity<Slice<FollowInfoResponse>> listFollowers(@MemberId String loginId, @PathVariable String id, @PageableDefault Pageable pageable) {
+        Slice<FollowInfoResponse> response = memberService.listFollowers(loginId, id, pageable);
         return ResponseEntity.ok(response);
     }
 }

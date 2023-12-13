@@ -1,10 +1,13 @@
 package com.foodymoody.be.acceptance.member;
 
+import static com.foodymoody.be.acceptance.auth.AuthSteps.*;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.로그인_한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_또_등록한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.회원_이미지를_업로드한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.닉네임_중복_여부를_조회한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.로그인시_팔로워_목록을_조회한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.로그인시_팔로잉_목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비밀번호를_수정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_유효하지_않은_이메일을_입력하고_닉네임을_입력하지_않고_패스워드를_입력하지_않고_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_틀린_재입력_패스워드로_회원가입한다;
@@ -38,6 +41,7 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.팔로우한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.팔로워_목록을_조회한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
+import com.foodymoody.be.auth.util.AuthFixture;
 import com.foodymoody.be.auth.util.JwtUtil;
 import com.foodymoody.be.member.util.MemberFixture;
 import io.restassured.builder.RequestSpecBuilder;
@@ -45,6 +49,7 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -725,14 +730,23 @@ class MemberAcceptanceTest extends AcceptanceTest {
             아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
         }
 
-        @DisplayName("푸반이 아티를 팔로우할 때, 푸반의 팔로잉 목록에 아티가 조회된다")
+        @DisplayName("푸반의 팔로잉 목록을 조회할 때, 푸반의 팔로잉 목록이 최신 팔로우 순으로 조회된다")
         @Test
         void when_list_follow_if_success_then_response_code_200_and_follows() {
             // docs
             api_문서_타이틀("list_following_success", spec);
 
             // given
+            String 알버트_아이디 = 회원가입한다(MemberFixture.알버트_회원가입_요청(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("id");
+            String 설리_아이디 = 회원가입한다(MemberFixture.설리_회원가입_요청(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("id");
+            String 보노_아이디 = 회원가입한다(MemberFixture.보노_회원가입_요청(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("id");
             팔로우한다(회원푸반_액세스토큰, 아티_아이디, new RequestSpecBuilder().build());
+            팔로우한다(회원푸반_액세스토큰, 알버트_아이디, new RequestSpecBuilder().build());
+            팔로우한다(회원푸반_액세스토큰, 설리_아이디, new RequestSpecBuilder().build());
+            팔로우한다(회원푸반_액세스토큰, 보노_아이디, new RequestSpecBuilder().build());
 
             // when
             var response = 팔로잉_목록을_조회한다(푸반_아이디, spec);
@@ -742,7 +756,8 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),
                     () -> assertThat(response.jsonPath().getList("content"))
                             .extracting("id")
-                            .contains(아티_아이디)
+                            .usingRecursiveComparison()
+                            .isEqualTo(List.of(보노_아이디, 설리_아이디, 알버트_아이디, 아티_아이디))
             );
         }
 
@@ -763,6 +778,63 @@ class MemberAcceptanceTest extends AcceptanceTest {
             );
         }
 
+        @DisplayName("푸반이 자신의 팔로잉 목록을 조회할 때, 모든 멤버가 팔로우 중으로 나온다")
+        @Test
+        void when_list_follow_if_self_then_response_code_200_and_follows() {
+            // docs
+            api_문서_타이틀("list_following_if_login_and_self_success", spec);
+
+            // given
+            String 보노_아이디 = 회원가입한다(MemberFixture.보노_회원가입_요청(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("id");
+            팔로우한다(회원푸반_액세스토큰, 아티_아이디, new RequestSpecBuilder().build());
+            팔로우한다(회원푸반_액세스토큰, 보노_아이디, new RequestSpecBuilder().build());
+
+            // when
+            var response = 로그인시_팔로잉_목록을_조회한다(회원푸반_액세스토큰, 푸반_아이디, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath().getList("content"))
+                            .extracting("isMyFollowing", Boolean.class)
+                            .allSatisfy(isMyFollowing -> assertThat(isMyFollowing).isEqualTo(Boolean.TRUE)));
+        }
+
+        @DisplayName("푸반이 아티와 알버트를 팔로우하고 보노의 팔로잉 목록을 조회할 때, 아티와 알버트를 팔로우 중이라고 나온다")
+        @Test
+        void when_list_follow_if_other_then_response_code_200_and_follows() {
+            // docs
+            api_문서_타이틀("list_following_if_login_and_other_success", spec);
+
+            // given
+            String 알버트_아이디 = 회원가입한다(MemberFixture.알버트_회원가입_요청(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("id");
+            String 보노_아이디 = 회원가입한다(MemberFixture.보노_회원가입_요청(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("id");
+            String 보노_액세스토큰 = 로그인한다(AuthFixture.보노_로그인_요청(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("accessToken");
+            팔로우한다(보노_액세스토큰, 아티_아이디, new RequestSpecBuilder().build());
+            팔로우한다(보노_액세스토큰, 알버트_아이디, new RequestSpecBuilder().build());
+            팔로우한다(보노_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());
+            팔로우한다(회원푸반_액세스토큰, 아티_아이디, new RequestSpecBuilder().build());
+            팔로우한다(회원푸반_액세스토큰, 알버트_아이디, new RequestSpecBuilder().build());
+
+            // when
+            var response = 로그인시_팔로잉_목록을_조회한다(회원푸반_액세스토큰, 보노_아이디, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath().getList("content"))
+                            .extracting("id", "isMyFollowing")
+                            .containsExactly(
+                                    Tuple.tuple(푸반_아이디, Boolean.FALSE),
+                                    Tuple.tuple(알버트_아이디, Boolean.TRUE),
+                                    Tuple.tuple(아티_아이디, Boolean.TRUE)
+                            ));
+        }
+
     }
 
     @DisplayName("회원 팔로워 목록 조회 인수테스트")
@@ -778,28 +850,44 @@ class MemberAcceptanceTest extends AcceptanceTest {
             아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
         }
 
-        @DisplayName("아티가 푸반을 팔로우할 때, 푸반의 팔로워 목록에 아티가 조회된다")
+        @DisplayName("푸반이 팔로워 목록을 조회할 때, 푸반의 팔로워 목록이 최신 순으로 조회된다")
         @Test
         void when_list_follower_if_success_then_response_code_200_and_followers() {
             // docs
             api_문서_타이틀("list_follower_success", spec);
 
             // given
+            회원가입한다(MemberFixture.알버트_회원가입_요청(), new RequestSpecBuilder().build());
+            회원가입한다(MemberFixture.설리_회원가입_요청(), new RequestSpecBuilder().build());
+            회원가입한다(MemberFixture.보노_회원가입_요청(), new RequestSpecBuilder().build());
+            String 알버트_액세스토큰 = 로그인한다(AuthFixture.알버트_로그인_요청(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("accessToken");
+            String 설리_액세스토큰 = 로그인한다(AuthFixture.설리_로그인_요청(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("accessToken");
+            String 보노_액세스토큰 = 로그인한다(AuthFixture.보노_로그인_요청(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("accessToken");
             팔로우한다(회원아티_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());
+            팔로우한다(알버트_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());
+            팔로우한다(설리_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());
+            팔로우한다(보노_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());
 
             // when
             var response = 팔로워_목록을_조회한다(푸반_아이디, spec);
 
             // then
+            String 알버트_아이디 = jwtUtil.parseAccessToken(알버트_액세스토큰).get("id");
+            String 설리_아이디 = jwtUtil.parseAccessToken(설리_액세스토큰).get("id");
+            String 보노_아이디 = jwtUtil.parseAccessToken(보노_액세스토큰).get("id");
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),
                     () -> assertThat(response.jsonPath().getList("content"))
                             .extracting("id")
-                            .contains(아티_아이디)
+                            .usingRecursiveComparison()
+                            .isEqualTo(List.of(보노_아이디, 설리_아이디, 알버트_아이디, 아티_아이디))
             );
         }
 
-        @DisplayName("팔로우하는 회원이 없을 때, 빈 리스트가 조회된다")
+        @DisplayName("팔로워가 없을 때, 빈 리스트가 조회된다")
         @Test
         void list_follower_if_follower_not_exists_then_response_code_200_and_empty_list() {
             // docs
@@ -814,6 +902,42 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     () -> assertThat(response.jsonPath().getList("content"))
                             .isEmpty()
             );
+        }
+
+        @DisplayName("푸반이 아티와 알버트를 팔로우하고 보노의 팔로워 목록을 조회할 때, 아티와 알버트를 팔로우 중이라고 나온다")
+        @Test
+        void when_list_follow_if_other_then_response_code_200_and_follows() {
+            // docs
+            api_문서_타이틀("list_following_if_login_and_other_success", spec);
+
+            // given
+            String 알버트_아이디 = 회원가입한다(MemberFixture.알버트_회원가입_요청(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("id");
+            String 보노_아이디 = 회원가입한다(MemberFixture.보노_회원가입_요청(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("id");
+            String 알버트_액세스토큰 = 로그인한다(AuthFixture.알버트_로그인_요청(), new RequestSpecBuilder().build())
+                    .jsonPath().getString("accessToken");
+
+            팔로우한다(회원아티_액세스토큰, 보노_아이디, new RequestSpecBuilder().build());
+            팔로우한다(알버트_액세스토큰, 보노_아이디, new RequestSpecBuilder().build());
+            팔로우한다(회원푸반_액세스토큰, 보노_아이디, new RequestSpecBuilder().build());
+
+            팔로우한다(회원푸반_액세스토큰, 아티_아이디, new RequestSpecBuilder().build());
+            팔로우한다(회원푸반_액세스토큰, 알버트_아이디, new RequestSpecBuilder().build());
+
+            // when
+            var response = 로그인시_팔로워_목록을_조회한다(회원푸반_액세스토큰, 보노_아이디, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath().getList("content"))
+                            .extracting("id", "isMyFollowing")
+                            .containsExactly(
+                                    Tuple.tuple(푸반_아이디, Boolean.FALSE),
+                                    Tuple.tuple(알버트_아이디, Boolean.TRUE),
+                                    Tuple.tuple(아티_아이디, Boolean.TRUE)
+                            ));
         }
 
     }

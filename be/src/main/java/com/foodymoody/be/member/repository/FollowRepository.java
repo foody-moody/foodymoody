@@ -5,11 +5,18 @@ import com.foodymoody.be.member.domain.Member;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
 
-    Slice<Follow> findByfollower(Member member, Pageable pageable);
+    @Query("SELECT f.followed FROM Follow f "
+            + "WHERE f.follower = :member "
+            + "ORDER BY f.createdAt DESC ")
+    Slice<Member> findFollowedByFollowerOrderByCreatedAtDesc(Member member, Pageable pageable);
 
-    Slice<Follow> findByFollowed(Member member, Pageable pageable);
+    @Query("SELECT f.follower FROM Follow f "
+            + "WHERE f.followed = :member "
+            + "ORDER BY f.createdAt DESC ")
+    Slice<Member> findFollowerByFollowedOrderByCreatedAtDesc(Member member, Pageable pageable);
 
 }

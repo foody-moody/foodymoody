@@ -8,7 +8,6 @@ import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
 import com.foodymoody.be.member.controller.dto.FollowInfoResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
-import com.foodymoody.be.member.domain.Follow;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.TasteMood;
 import org.springframework.data.domain.Slice;
@@ -38,30 +37,23 @@ public class MemberMapper {
         return new NicknameDuplicationCheckResponse(isDuplicate);
     }
 
-    public static Slice<FollowInfoResponse> toFollowingInfo(Member member, Slice<Follow> follows) {
-        return follows.map(
-                follow -> {
-                    Member followed = follow.getFollowed();
-                    return FollowInfoResponse.of(
+    public static Slice<FollowInfoResponse> toFollowInfo(Member loginMember, Slice<Member> followings) {
+        return followings.map(
+                followed -> FollowInfoResponse.of(
                             followed.getId().getValue(),
                             followed.getNickname(),
                             followed.getProfileImageUrl(),
-                            member.isMyFollowing(followed),
-                            member.isMyFollower(followed));
-                });
+                            loginMember.isMyFollowing(followed),
+                            loginMember.isMyFollower(followed)));
     }
-
-    public static Slice<FollowInfoResponse> toFollowerInfo(Member member, Slice<Follow> follows) {
-        return follows.map(
-                follow -> {
-                    Member follower = follow.getFollower();
-                    return FollowInfoResponse.of(
-                            follower.getId().getValue(),
-                            follower.getNickname(),
-                            follower.getProfileImageUrl(),
-                            member.isMyFollowing(follower),
-                            member.isMyFollower(follower));
-                });
+    public static Slice<FollowInfoResponse> toFollowInfo(Slice<Member> followings) {
+        return followings.map(
+                followed -> FollowInfoResponse.of(
+                        followed.getId().getValue(),
+                        followed.getNickname(),
+                        followed.getProfileImageUrl(),
+                        Boolean.FALSE,
+                        Boolean.FALSE));
     }
 
 }
