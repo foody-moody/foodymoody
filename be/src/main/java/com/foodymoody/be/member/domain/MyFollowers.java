@@ -13,10 +13,6 @@ public class MyFollowers {
     @OneToMany(mappedBy = "followed", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     List<Follow> follows = new ArrayList<>();
 
-    public void add(Member member, Member target) {
-        this.follows.add(Follow.of(member, target));
-    }
-
     public boolean contains(Member member) {
         return follows.stream()
                 .anyMatch(follow -> follow.getFollower().equals(member));
