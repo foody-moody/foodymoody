@@ -1,6 +1,6 @@
 package com.foodymoody.be.common.config;
 
-import com.foodymoody.be.common.annotation.LogInIdArgumentResolver;
+import com.foodymoody.be.common.annotation.LoginIdArgumentResolver;
 import com.foodymoody.be.common.annotation.MemberEmailArgumentResolver;
 import com.foodymoody.be.common.annotation.MemberIdArgumentResolver;
 import java.util.List;
@@ -15,7 +15,7 @@ public class ArgumentConfig implements WebMvcConfigurer {
 
     private final MemberIdArgumentResolver memberIdArgumentResolver;
     private final MemberEmailArgumentResolver memberEmailArgumentResolver;
-    private final LogInIdArgumentResolver logInIdArgumentResolver;
+    private final LoginIdArgumentResolver logInIdArgumentResolver;
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
