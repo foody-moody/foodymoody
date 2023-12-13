@@ -8,10 +8,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-/**
- * @deprecated @LoginId를 사용하면 MemberId 타입으로 가져올 수 있습니다
- * */
-@Deprecated
 @Component
 public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
 
