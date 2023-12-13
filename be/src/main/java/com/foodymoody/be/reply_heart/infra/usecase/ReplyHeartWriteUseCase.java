@@ -35,7 +35,7 @@ public class ReplyHeartWriteUseCase {
         replyHeartWriteService.registerReplyHeart(replyId, memberId);
         replyHeartCountWriteService.increment(replyId);
         Comment comment = commentReadService.fetchById(new CommentId(commentIdValue));
-        new ReplyHeartAddedEvent(comment.getFeedId(), reply.getContent(), NotificationType.REPLY_HEART_ADDED_EVENT,
+        new ReplyHeartAddedEvent(comment.getFeedId(), reply.getContent(), NotificationType.FEED_LIKED_ADDED_EVENT,
                 comment.getId(),
                 reply.getId(), memberWriterId, reply.getCreatedAt());
     }
