@@ -1,13 +1,14 @@
 package com.foodymoody.be.common.util.ids;
 
 import com.foodymoody.be.common.util.Constants;
-import java.util.Objects;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
+@EqualsAndHashCode(callSuper = false)
 public class ImageId extends BaseId {
 
     public static final ImageId MEMBER_PROFILE_DEFAULT = IdFactory.createImageId(Constants.MEMBER_PROFILE_DEFAULT_IMAGE_ID);
@@ -17,19 +18,8 @@ public class ImageId extends BaseId {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof ImageId)) {
-            return false;
-        }
-        ImageId imageId = (ImageId) o;
-        return Objects.equals(getValue(), imageId.getValue());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getValue());
+    @EqualsAndHashCode.Include
+    public String getValue() {
+        return super.getValue();
     }
 }
