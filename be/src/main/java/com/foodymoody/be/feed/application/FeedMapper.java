@@ -56,6 +56,9 @@ public class FeedMapper {
                 .images(images)
                 .createdAt(feed.getCreatedAt())
                 .updatedAt(feed.getUpdatedAt())
+                .isLiked(feed.isLiked())
+                .likeCount(feed.getLikeCount())
+                .commentCount(feed.getCommentCount())
                 .build();
     }
 
