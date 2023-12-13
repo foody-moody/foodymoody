@@ -33,7 +33,9 @@ public class NotificationFixture {
 
     public static FeedNotification notification(FeedNotificationId id) {
         return new FeedNotification(id, getFromMemberId(), getToMemberId(), NOTIFICATION_MESSAGE, getFeedId(),
-                COMMENT_ID, NotificationType.COMMENT_ADDED_EVENT, false, false, CREATE_AT, UPDATE_AT);
+                                    COMMENT_ID, NotificationType.FEED_COMMENT_ADDED_EVENT, false, false,
+                                    CREATE_AT, UPDATE_AT
+        );
     }
 
     @NotNull
