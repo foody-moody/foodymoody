@@ -8,7 +8,7 @@ public enum NotificationType {
     // 댓글
     FEED_COMMENT_ADDED_EVENT,
     COLLECTION_COMMENT_ADDED_EVENT,
-    // 메션
+    // 멘션
     MEMBER_MENTIONED_EVENT,
     // 팔로우
     MEMBER_FOLLOWED_EVENT,
