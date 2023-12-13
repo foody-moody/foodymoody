@@ -1,4 +1,4 @@
-package com.foodymoody.be.collection.domain;
+package com.foodymoody.be.feed_collection.domain;
 
 import com.foodymoody.be.common.util.ids.CommentId;
 import java.util.ArrayList;
@@ -18,4 +18,7 @@ public class CommentIds {
     @OrderColumn(name = "comment_order", columnDefinition = "int default 0")
     private List<CommentId> ids = new ArrayList<>();
 
+    public List<CommentId> getIds() {
+        return ids;
+    }
 }

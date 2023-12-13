@@ -1,4 +1,4 @@
-package com.foodymoody.be.collection.domain;
+package com.foodymoody.be.feed_collection.domain;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import java.util.ArrayList;
@@ -24,5 +24,9 @@ public class FeedIds {
 
     public FeedIds(List<FeedId> feedIds) {
         ids = feedIds;
+    }
+
+    public List<FeedId> getIds() {
+        return ids;
     }
 }

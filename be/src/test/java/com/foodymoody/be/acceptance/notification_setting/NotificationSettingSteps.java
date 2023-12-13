@@ -25,9 +25,12 @@ public class NotificationSettingSteps {
         Assertions.assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
                 () -> assertThat(response.body().jsonPath().getString("id")).isNotNull(),
-                () -> assertThat(response.body().jsonPath().getBoolean("heart")).isTrue(),
-                () -> assertThat(response.body().jsonPath().getBoolean("comment")).isTrue(),
-                () -> assertThat(response.body().jsonPath().getBoolean("feed")).isTrue()
+                () -> assertThat(response.body().jsonPath().getBoolean("feedComment")).isTrue(),
+                () -> assertThat(response.body().jsonPath().getBoolean("collectionComment")).isTrue(),
+                () -> assertThat(response.body().jsonPath().getBoolean("collectionLike")).isTrue(),
+                () -> assertThat(response.body().jsonPath().getBoolean("commentLike")).isTrue(),
+                () -> assertThat(response.body().jsonPath().getBoolean("feedLike")).isTrue(),
+                () -> assertThat(response.body().jsonPath().getBoolean("follow")).isTrue()
         );
     }
 }
