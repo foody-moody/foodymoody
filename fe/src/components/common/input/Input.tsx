@@ -1,6 +1,6 @@
 import { useState, InputHTMLAttributes } from 'react';
 import { styled } from 'styled-components';
-import { InputCore } from './InputCore';
+import { InputField } from './InputField';
 
 type Props = {
   type?: 'password' | 'text';
@@ -43,7 +43,7 @@ export const Input: React.FC<Props> = ({
           <LabelText $isFocused={isFocused}>{placeholder}</LabelText>
         )}
         {leftBtn}
-        <InputCore
+        <InputField
           type={type}
           placeholder={variant !== 'default' ? placeholder : ''}
           limitedLength={limitedLength}

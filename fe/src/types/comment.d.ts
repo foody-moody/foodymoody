@@ -10,7 +10,7 @@ type EditCommentArgs = {
   };
 };
 
-type CommentItem = {
+type CommentItemType = {
   id: string;
   content: string;
   createdAt: string;
@@ -18,4 +18,10 @@ type CommentItem = {
   member: Omit<FeedMemberInfo, 'tasteMood'>;
   hasReply: boolean;
   replyCount: number;
+
+  // 변경사항
+  heartCount: number;
+  hearted: boolean;
 };
+
+type ReplyItemType = Omit<CommentItem, 'hasReply'>;

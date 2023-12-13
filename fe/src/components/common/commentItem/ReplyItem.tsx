@@ -14,17 +14,16 @@ import { UserImage } from '../userImage/UserImage';
 
 type Props = {
   createdAt: string;
-  comment: CommentItemType;
+  comment: ReplyItemType;
 };
 
-export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
-  console.log(comment, ' now commentItems');
+export const ReplyItem: React.FC<Props> = ({ createdAt, comment }) => {
+  console.log(comment, ' now ReplyItems');
   const { navigateToLogin } = usePageNavigator();
   const { openModal, closeModal } = useModal<'commentAlert'>();
   const { mutate: editMutate } = usePutComment();
   const { mutate: deleteMutate } = useDeleteComment();
   const { value, handleChange, isValid } = useInput({
-    initialValue: comment.content, //여기 추가함
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
   });
@@ -32,10 +31,10 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
   const { isLogin, userInfo } = useAuthState();
 
   const { mutate: likeMutate } = usePostCommentLike({
-    isReply: false,
+    isReply: true,
   });
   const { mutate: unLikeMutate } = useDeleteCommentLike({
-    isReply: false,
+    isReply: true,
   });
 
   const isAuthor = userInfo?.id === comment.member.id;
@@ -59,6 +58,7 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
 
   const handleDelete = () => {
     console.log(comment.id, ' now comment ID');
+
     deleteMutate(comment.id);
   };
 
@@ -85,7 +85,6 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
 
     openModal('commentAlert', modalProps);
   };
-
   const handleSubmitLike = () => {
     if (isLogin) {
       likeFn(comment.id);
@@ -96,44 +95,71 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
 
   return (
     <Wrapper>
-      <ContentLeft>
-        <UserImage imageUrl={comment.member.imageUrl} />
-        <FlexColumnBox>
-          <ContentHeader>
-            <Nickname>{comment.member.nickname}</Nickname>
-            <TimeStamp>{formattedTimeStamp}</TimeStamp>
-          </ContentHeader>
-          {isEdit ? (
-            <Input2 variant="ghost">
-              <Input2.CenterContent>
-                <InputField
-                  limitedLength={200}
-                  value={value}
-                  onChangeValue={handleChange}
-                  onPressEnter={() => handleEditSubmit(comment.id)}
-                />
-              </Input2.CenterContent>
-            </Input2>
-          ) : (
-            comment.content
-          )}
-        </FlexColumnBox>
-      </ContentLeft>
-      {isLogin && (
-        <ContentRight>
-          <DotGhostIcon onClick={handleAlert} />
-          <LikeIcon onClick={handleSubmitLike} />
-        </ContentRight>
-      )}
+      <ReplyRow>
+        <ContentLeft>
+          <UserImage imageUrl={comment.member.imageUrl} />
+          <FlexColumnBox>
+            <ContentHeader>
+              <Nickname>{comment.member.nickname}</Nickname>
+              <TimeStamp>{formattedTimeStamp}</TimeStamp>
+            </ContentHeader>
+            {isEdit ? (
+              <Input2 variant="ghost">
+                <Input2.CenterContent>
+                  <InputField
+                    limitedLength={200}
+                    value={value}
+                    onChangeValue={handleChange}
+                    onPressEnter={() => handleEditSubmit(comment.id)}
+                  />
+                </Input2.CenterContent>
+              </Input2>
+            ) : (
+              comment.content
+            )}
+          </FlexColumnBox>
+        </ContentLeft>
+        {isLogin && (
+          <ContentRight>
+            <DotGhostIcon onClick={handleAlert} />
+            <LikeIcon onClick={handleSubmitLike} />
+          </ContentRight>
+        )}
+      </ReplyRow>
+      <ReplyButtonBox>
+        <p>좋아요 n개</p>
+      </ReplyButtonBox>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
+  /* display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font: ${({ theme: { fonts } }) => fonts.displayM14}; */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+`;
+
+const ReplyRow = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
   font: ${({ theme: { fonts } }) => fonts.displayM14};
+`;
+
+const ReplyButtonBox = styled.div`
+  padding: 0 0 0 60px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  p {
+    font: ${({ theme: { fonts } }) => fonts.displayM12};
+  }
 `;
 
 const ContentLeft = styled.div`

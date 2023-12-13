@@ -6,13 +6,13 @@ import { styled } from 'styled-components';
 import { customScrollStyle } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
 import { CommentList } from 'components/comment/CommentList';
+import { CommentInputContainer } from 'components/commentInput/CommentInputContainer';
 import { Badge } from 'components/common/badge/Badge';
 import { Carousel } from 'components/common/carousel/Carousel';
 import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
-import { CommentInput } from 'components/common/input/CommentInput';
-import { useModal } from 'components/common/modal/useModal';
+import { useModal } from 'components/common/modal/Modal';
 import { CommentSkeleton } from 'components/common/skeleton/CommentSkeleton';
 import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
 import { useInput } from 'hooks/useInput';
@@ -31,7 +31,6 @@ export const DetailFeedModalPage = () => {
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
   });
-  console.log(feed);
 
   const handleSubmit = () => {
     isValid &&
@@ -84,11 +83,12 @@ export const DetailFeedModalPage = () => {
               </Info>
               <FeedAction
                 feedId={feed?.id}
+                isLiked={feed?.isLiked}
                 likeCount={feed?.likeCount}
                 commentCount={feed?.commentCount}
               />
               <CommentContainer>
-                <CommentInput
+                <CommentInputContainer
                   value={value}
                   limitedLength={200}
                   onChangeValue={handleChange}

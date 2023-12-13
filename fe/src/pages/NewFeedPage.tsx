@@ -9,9 +9,9 @@ import { Button } from 'components/common/button/Button';
 import { TextButton } from 'components/common/button/TextButton';
 import { Dim } from 'components/common/dim/Dim';
 import { PlusIcon } from 'components/common/icon/icons';
-import { Input } from 'components/common/input/Input';
 import { MenuItemEditor } from 'components/common/menuItemEditor/MenuItemEditor';
 import { TextArea } from 'components/common/textarea/Textarea';
+import { SearchPanelInput } from 'components/searchPanelInput/SearchPanelInput';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { useMenuItem } from 'hooks/useMenuItem';
@@ -93,6 +93,7 @@ export const NewFeedModalPage = () => {
   const handleSelectBadgeList = (badges: Badge[]) => {
     setSelectedBadgeList(badges);
   };
+
   const isValid =
     isLocationNameVaild &&
     reviewValue.trim().length > 0 &&
@@ -121,9 +122,10 @@ export const NewFeedModalPage = () => {
             <Div>
               <InputBox>
                 <Title>가게 이름을 작성해주세요</Title>
-                <Input
-                  value={locationName}
+
+                <SearchPanelInput
                   variant="underline"
+                  value={locationName}
                   onChangeValue={handleLocationChange}
                   helperText={locationNameHelperText}
                 />
