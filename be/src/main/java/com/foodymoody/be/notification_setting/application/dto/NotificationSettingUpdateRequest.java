@@ -9,7 +9,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class NotificationSettingUpdateRequest {
 
-    private boolean isComment;
-    private boolean isHeart;
-    private boolean isFeed;
+    private boolean isFeedLike;
+    private boolean isCollectionLike;
+    private boolean isReplyLike;
+    private boolean isFollow;
+    private boolean isFeedComment;
+    private boolean isCollectionComment;
 }

@@ -1,5 +1,7 @@
 package com.foodymoody.be.notification_setting.application;
 
+import static com.foodymoody.be.notification_setting.application.NotificationMapper.toNotificationSetting;
+
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.NotificationSettingId;
@@ -20,13 +22,16 @@ public class NotificationSettingWriteService {
     @Transactional
     public void save(MemberId memberid) {
         NotificationSettingId notificationSettingId = NotificationSettingIdFactory.newId();
-        notificationSettingRepository.save(NotificationSetting.of(notificationSettingId, memberid));
+        NotificationSetting notificationSetting = toNotificationSetting(memberid, notificationSettingId);
+        notificationSettingRepository.save(notificationSetting);
     }
 
     @Transactional
     public void update(String memberId, NotificationSettingUpdateRequest request) {
         NotificationSetting notificationSetting = getNotificationSettingByMemberId(memberId);
-        notificationSetting.update(request.isHeart(), request.isComment(), request.isFeed());
+        notificationSetting.update(request.isFeedLike(), request.isCollectionLike(), request.isReplyLike(),
+                                   request.isFollow(), request.isFeedComment(), request.isCollectionComment()
+        );
     }
 
     private NotificationSetting getNotificationSettingByMemberId(String memberIdValue) {

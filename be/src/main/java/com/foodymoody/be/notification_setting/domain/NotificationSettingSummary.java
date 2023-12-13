@@ -4,9 +4,15 @@ public interface NotificationSettingSummary {
 
     String getId();
 
-    boolean isComment();
+    boolean isFeedLike();
 
-    boolean isHeart();
+    boolean isCollectionLike();
 
-    boolean isFeed();
+    boolean isCommentLike();
+
+    boolean isFollow();
+
+    boolean isFeedComment();
+
+    boolean isCollectionComment();
 }
