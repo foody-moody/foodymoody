@@ -1,6 +1,7 @@
 package com.foodymoody.be.common.util.ids;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -20,5 +21,10 @@ public abstract class BaseId implements Serializable {
 
     protected BaseId(String value) {
         this.value = value;
+    }
+
+    @JsonValue
+    public String toJson() {
+        return value;
     }
 }
