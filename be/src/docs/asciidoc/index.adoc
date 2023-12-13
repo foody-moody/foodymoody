@@ -200,7 +200,7 @@ operation::comments_fetch_with_with_access_token_success[snippets='http-request,
 
 ==== 성공 - 로그인(좋아요)
 
-operation::comments_fetch_with_with_access_token_success[snippets='http-request,http-response']
+operation::comments_fetch_with_liked_success[snippets='http-request,http-response']
 
 ==== 성공 - 페이징
 
