@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @deprecated @LoginId를 사용하면 MemberId 타입으로 가져올 수 있습니다
+ * @deprecated @CurrentMemberId를 사용하면 MemberId 타입으로 가져올 수 있습니다
  * */
-@Deprecated
+@Deprecated(forRemoval = true)
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MemberId {

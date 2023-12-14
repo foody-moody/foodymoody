@@ -10,11 +10,11 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
-public class LoginIdArgumentResolver implements HandlerMethodArgumentResolver {
+public class CurrentMemberIdArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(LoginId.class);
+        return parameter.hasParameterAnnotation(CurrentMemberId.class);
     }
 
     @Override
