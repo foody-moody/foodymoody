@@ -1,16 +1,16 @@
 package com.foodymoody.be.notification.infra.usecase;
 
-import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.NotificationId;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.service.MemberService;
+import com.foodymoody.be.notification.application.FeedNotificationWriteService;
 import com.foodymoody.be.notification.application.NotificationSummaryReadService;
 import com.foodymoody.be.notification.application.NotificationSummarySpecs;
-import com.foodymoody.be.notification.application.NotificationWriteService;
 import com.foodymoody.be.notification.domain.FeedNotification;
 import com.foodymoody.be.notification.domain.NotificationSummary;
 import com.foodymoody.be.notification.presentation.dto.FeedInfoResponse;
@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class NotificationUseCase {
 
-    private final NotificationWriteService notificationWriteService;
+    private final FeedNotificationWriteService feedNotificationWriteService;
     private final NotificationSettingReadService notificationSettingReadService;
     private final ImageService imageService;
     private final MemberService memberService;
@@ -39,9 +39,8 @@ public class NotificationUseCase {
     private final NotificationSummaryReadService notificationSummaryReadService;
 
 
-    public NotificationResponse request(String memberIdValue, String notificationId) {
-        FeedNotification feedNotification = notificationWriteService.read(notificationId);
-        MemberId memberId = IdFactory.createMemberId(memberIdValue);
+    public NotificationResponse request(MemberId memberId, NotificationId notificationId) {
+        FeedNotification feedNotification = feedNotificationWriteService.read(notificationId);
         Member member = memberService.findById(memberId);
         Image memberProfileImage = imageService.findById(member.getProfileImageId());
         Feed feed = feedReadService.findFeed(feedNotification.getFeedId());
@@ -49,8 +48,7 @@ public class NotificationUseCase {
     }
 
     @Transactional(readOnly = true)
-    public Slice<NotificationResponse> requestAll(String memberIdValue, Pageable pageable) {
-        MemberId memberId = IdFactory.createMemberId(memberIdValue);
+    public Slice<NotificationResponse> requestAll(MemberId memberId, Pageable pageable) {
         var notificationSettingSummary = notificationSettingReadService.request(memberId);
         var specification = getNotificationSummarySpecification(notificationSettingSummary);
         var notificationSummaries = notificationSummaryReadService.requestAll(
