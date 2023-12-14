@@ -6,8 +6,9 @@ import { ValidatedInput } from 'components/validatedInput/ValidatedInput';
 import { useInput } from 'hooks/useInput';
 
 export const Login: React.FC = () => {
-  const { mutate: loginMutate } = useLogin();
+  const { mutate: loginMutate, isLoading } = useLogin();
   const passwordRef = useRef<HTMLInputElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const {
     value: idValue,
     handleChange: handleIdChange,
@@ -47,7 +48,7 @@ export const Login: React.FC = () => {
         placeholder="아이디"
         onChangeValue={handleIdChange}
         helperText={idHelperText}
-        nextInputRef={passwordRef}
+        nextRef={passwordRef}
       />
       <ValidatedInput
         ref={passwordRef}
@@ -55,10 +56,12 @@ export const Login: React.FC = () => {
         placeholder="비밀번호"
         onChangeValue={handlePasswordChange}
         helperText={passwordHelperText}
+        nextRef={buttonRef}
       />
       <Button
+        ref={buttonRef}
         size="l"
-        backgroundColor="orange"
+        backgroundColor={isLoading ? 'black' : 'orange'}
         onClick={handleSubmit}
         disabled={!isIdValid || !isPasswordValid}
       >

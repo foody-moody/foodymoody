@@ -1,7 +1,7 @@
 import { forwardRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { EyeInvisible, EyeVisble } from 'components/common/icon/icons';
-import { Input2 } from 'components/common/input/Input2';
+import { Input } from 'components/common/input/Input';
 import { InputField } from 'components/common/input/InputField';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
   value?: string;
   placeholder?: string;
   helperText?: string;
-  nextInputRef?: React.RefObject<HTMLInputElement>;
+  nextRef?: React.RefObject<HTMLInputElement | HTMLButtonElement>;
   onChangeValue?(value: string): void;
 };
 
@@ -21,7 +21,7 @@ export const ValidatedInput = forwardRef<HTMLInputElement, Props>(
       placeholder,
       helperText,
       onChangeValue,
-      nextInputRef,
+      nextRef,
       ...props
     },
     ref
@@ -30,9 +30,9 @@ export const ValidatedInput = forwardRef<HTMLInputElement, Props>(
     const [showPassword, setShowPassword] = useState(false);
 
     const handleEnterPress = (
-      nextInputRef?: React.RefObject<HTMLInputElement>
+      nextRef?: React.RefObject<HTMLInputElement | HTMLButtonElement>
     ) => {
-      nextInputRef?.current?.focus();
+      nextRef?.current?.focus();
     };
 
     const handleToggleType = () => {
@@ -41,11 +41,11 @@ export const ValidatedInput = forwardRef<HTMLInputElement, Props>(
 
     return (
       <Wrapper>
-        <Input2 variant="default" isFocused={isFocused} helperText={helperText}>
-          <Input2.InnerLabel isFocused={isFocused}>
+        <Input variant="default" isFocused={isFocused} helperText={helperText}>
+          <Input.InnerLabel isFocused={isFocused}>
             {placeholder}
-          </Input2.InnerLabel>
-          <Input2.CenterContent>
+          </Input.InnerLabel>
+          <Input.CenterContent>
             <InputField
               ref={ref}
               type={
@@ -58,27 +58,27 @@ export const ValidatedInput = forwardRef<HTMLInputElement, Props>(
               value={value}
               onChangeValue={onChangeValue}
               onPressEnter={() => {
-                handleEnterPress(nextInputRef);
+                handleEnterPress(nextRef);
               }}
               onInputFocus={() => {
                 setIsFocused(true);
               }}
               {...props}
             />
-          </Input2.CenterContent>
-          <Input2.HelperText isFocused={isFocused} isError={!!helperText}>
+          </Input.CenterContent>
+          <Input.HelperText isFocused={isFocused} isError={!!helperText}>
             {helperText}
-          </Input2.HelperText>
+          </Input.HelperText>
           {type === 'password' && (
-            <Input2.RightContent>
+            <Input.RightContent>
               {showPassword ? (
                 <EyeVisble onClick={handleToggleType} />
               ) : (
                 <EyeInvisible onClick={handleToggleType} />
               )}
-            </Input2.RightContent>
+            </Input.RightContent>
           )}
-        </Input2>
+        </Input>
       </Wrapper>
     );
   }

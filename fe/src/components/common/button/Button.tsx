@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -7,19 +8,20 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   width?: number;
 };
 
-export const Button: React.FC<Props> = ({
-  children,
-  backgroundColor,
-  width,
-  ...props
-}) => {
-  return (
-    <Wrapper $backgroundColor={backgroundColor} $width={width} {...props}>
-      {children}
-    </Wrapper>
-  );
-};
-
+export const Button = forwardRef<HTMLButtonElement, Props>(
+  ({ children, backgroundColor, width, ...props }, ref) => {
+    return (
+      <Wrapper
+        ref={ref}
+        $backgroundColor={backgroundColor}
+        $width={width}
+        {...props}
+      >
+        {children}
+      </Wrapper>
+    );
+  }
+);
 const Wrapper = styled.button<{
   size: 's' | 'l';
   $backgroundColor: 'orange' | 'black' | 'white';

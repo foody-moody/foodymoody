@@ -1,94 +1,103 @@
-import { useState, InputHTMLAttributes } from 'react';
 import { styled } from 'styled-components';
-import { InputField } from './InputField';
+import { media } from 'styles/mediaQuery';
+import { BottomPanel, getInputBottomPanel } from './InputBottomPanel';
+import { CenterContent, getInputCenterContent } from './InputCenterContent';
+import { HelperText, getHelperText } from './InputHelperText';
+import { InnerLabel, getInputInnerLabel } from './InputInnerLabel';
+import { LeftContent, getInputLeftContent } from './InputLeftContent';
+import { RightContent, getInputRightContent } from './InputRightContent';
+import { TopPanel, getInputTopPanel } from './InputTopPanel';
 
-type Props = {
-  type?: 'password' | 'text';
-  placeholder?: string;
-  value?: string;
-  variant: 'ghost' | 'underline' | 'default' | 'comment';
+type BaseInputProps = {
+  variant: 'ghost' | 'underline' | 'default' | 'comment' | 'rectangle';
   helperText?: string;
-  limitedLength?: number;
-  leftBtn?: React.ReactNode;
-  rightBtn?: React.ReactNode;
-  onChangeValue?(value: string): void;
-  onPressEnter?(): void;
-} & InputHTMLAttributes<HTMLInputElement>;
+  isFocused?: boolean;
+  children?: React.ReactNode;
+};
 
-export const Input: React.FC<Props> = ({
-  type = 'text',
-  placeholder = '입력해주세요',
-  value,
+export const BaseInput = ({
   variant,
   helperText,
-  limitedLength,
-  leftBtn,
-  rightBtn,
-  onChangeValue,
-  onPressEnter,
-  ...props
-}) => {
-  const [isFocused, setIsFocused] = useState(false);
+  isFocused = false,
+  children,
+}: BaseInputProps) => {
+  const Shape = SHAPE_VARIANT[variant];
 
-  const WrapperShape = SHAPE_VARIANT[variant];
+  const inputLeftContent = getInputLeftContent(children);
+  const inputRightContent = getInputRightContent(children);
+  const inputInnerLabel = getInputInnerLabel(children);
+  const inputCenterContent = getInputCenterContent(children);
+  const inputHelperText = getHelperText(children);
+  const inputTopPanel = getInputTopPanel(children);
+  const inputBottomPanel = getInputBottomPanel(children);
 
   return (
-    <>
-      <WrapperShape
-        $variant={variant}
-        $isError={!!helperText}
-        $isFocused={isFocused}
-      >
-        {variant === 'default' && (
-          <LabelText $isFocused={isFocused}>{placeholder}</LabelText>
-        )}
-        {leftBtn}
-        <InputField
-          type={type}
-          placeholder={variant !== 'default' ? placeholder : ''}
-          limitedLength={limitedLength}
-          value={value}
-          onChangeValue={onChangeValue}
-          onPressEnter={() => {
-            onPressEnter?.();
-          }}
-          onInputFocus={() => {
-            setIsFocused(true);
-          }}
-          {...props}
-        />
-        {rightBtn}
-        {isFocused && helperText && (
-          <HelperText $variant={variant}>{helperText}</HelperText>
-        )}
-      </WrapperShape>
-    </>
+    <Wrapper>
+      {inputTopPanel && <>{inputTopPanel}</>}
+      <Shape $variant={variant} $isError={!!helperText} $isFocused={isFocused}>
+        {inputLeftContent && <>{inputLeftContent}</>}
+        {inputInnerLabel && <>{inputInnerLabel}</>}
+        {inputCenterContent && <>{inputCenterContent}</>}
+        {inputRightContent && <>{inputRightContent}</>}
+        {inputHelperText && <>{inputHelperText}</>}
+        {inputBottomPanel && <>{inputBottomPanel}</>}
+      </Shape>
+    </Wrapper>
   );
 };
 
-const LabelText = styled.label<{
-  $isFocused: boolean;
-  $value?: string;
-}>`
-  position: absolute;
-  left: 22px;
-  transition: all 0.2s ease-in-out;
-  transform: ${({ $isFocused }) =>
-    $isFocused
-      ? 'translate(0, -12px) scale(0.75)'
-      : 'translate(0, 0px) scale(1)'};
-  transform-origin: top left;
-  pointer-events: none;
-  font: ${({ theme: { fonts } }) => fonts.displayM14};
-  color: ${({ theme: { colors } }) => colors.textPlaceholder};
+export const Input = Object.assign(BaseInput, {
+  LeftContent,
+  RightContent,
+  InnerLabel,
+  CenterContent,
+  HelperText,
+  TopPanel,
+  BottomPanel,
+});
+
+const Wrapper = styled.div`
+  position: relative;
+
+  aside.EmojiPickerReact {
+    position: absolute;
+    top: -280px;
+    left: 20px;
+    width: 300px !important;
+    height: 270px !important;
+
+    ${media.md} {
+      width: 450px !important;
+      height: 300px !important;
+      top: -310px;
+    }
+
+    ${media.sm} {
+      width: 470px !important;
+      height: 350px !important;
+      top: -360px;
+    }
+
+    ${media.xs} {
+      width: 314px !important;
+      height: 350px !important;
+      top: -360px;
+      left: 0px;
+    }
+
+    .Flex {
+      display: none;
+    }
+  }
 `;
 
 const BaseWrapper = styled.div<{
-  $variant: 'ghost' | 'underline' | 'default' | 'comment';
+  $variant: 'ghost' | 'underline' | 'default' | 'comment' | 'rectangle';
   $isFocused: boolean;
   $isError: boolean;
 }>`
   width: 100%;
+  display: flex;
   position: relative;
   box-sizing: border-box;
   background-color: ${({ theme: { colors } }) => colors.white};
@@ -129,6 +138,20 @@ const DefaultWrapper = styled(BaseWrapper)`
   }
 `;
 
+const RectangleWrapper = styled(BaseWrapper)`
+  border: 1px solid
+    ${({ $isFocused, $isError, theme: { colors } }) =>
+      $isFocused && $isError ? colors.pink : colors.black};
+  border-radius: 4px;
+  padding: ${({ $isFocused }) =>
+    $isFocused ? '20px 20px 4px 20px' : '12px 20px '};
+
+  &:focus-within {
+    border-color: ${({ $isError, theme: { colors } }) =>
+      $isError ? colors.pink : colors.textTertiary};
+  }
+`;
+
 const CommentWrapper = styled(BaseWrapper)`
   display: flex;
   align-items: center;
@@ -141,16 +164,7 @@ const CommentWrapper = styled(BaseWrapper)`
 const SHAPE_VARIANT = {
   ghost: GhostWrapper,
   underline: UnderLineWrapper,
+  rectangle: RectangleWrapper,
   default: DefaultWrapper,
   comment: CommentWrapper,
 };
-
-const HelperText = styled.div<{
-  $variant: 'ghost' | 'underline' | 'default' | 'comment';
-}>`
-  position: absolute;
-  top: 100%;
-  right: ${({ $variant }) => ($variant === 'default' ? '5%' : '5px')};
-  font: ${({ theme: { fonts } }) => fonts.displayM10};
-  color: ${({ theme: { colors } }) => colors.pink};
-`;

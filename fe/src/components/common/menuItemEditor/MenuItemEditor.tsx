@@ -1,13 +1,14 @@
 import { styled } from 'styled-components';
 import { useInput } from 'hooks/useInput';
 import { CloseSmallIcon } from '../icon/icons';
-import { Input2 } from '../input/Input2';
+import { Input } from '../input/Input';
 import { InputField } from '../input/InputField';
 import { StarRating } from '../starRating/StarRating';
 import { ImageBox } from './ImageBox';
 
 type Props = {
   menuItem: FeedImage; //feedimage로 바꿔야하는지 확인
+  onEditMenuImage: (id: string, imageId: string) => void;
   onEditMenuName: (id: string, name: string) => void;
   onEditStarRating: (id: string, rate: number) => void;
   onRemove: (id: string) => void;
@@ -15,12 +16,15 @@ type Props = {
 
 export const MenuItemEditor: React.FC<Props> = ({
   menuItem,
+  onEditMenuImage,
   onEditMenuName,
   onEditStarRating,
   onRemove,
 }) => {
   const {
     id,
+    imageId,
+    imageUrl,
     menu: { name, rating },
   } = menuItem;
 
@@ -29,21 +33,22 @@ export const MenuItemEditor: React.FC<Props> = ({
     validator: (value: string) => value.trim().length > 0,
     helperText: '메뉴 이름을 입력해주세요',
   });
-
-  const handleUploadImage = () => {};
+  console.log('imageUrl', imageUrl);
+  console.log('imageId', imageId);
 
   return (
     <Wrapper>
       <LeftContent>
         <ImageBox
-          imageUrl={'https://picsum.photos/200'}
-          onClick={handleUploadImage}
+          menuId={id}
+          imageUrl={imageUrl}
+          onEditMenuImage={onEditMenuImage}
         />
         <ContentBody>
           <Content>
             <label htmlFor="menu">메뉴 이름</label>
-            <Input2 variant="ghost" helperText={helperText}>
-              <Input2.CenterContent>
+            <Input variant="ghost" helperText={helperText}>
+              <Input.CenterContent>
                 <InputField
                   value={value}
                   onChangeValue={(value) => {
@@ -53,8 +58,8 @@ export const MenuItemEditor: React.FC<Props> = ({
                     onEditMenuName(id, value);
                   }}
                 />
-              </Input2.CenterContent>
-            </Input2>
+              </Input.CenterContent>
+            </Input>
           </Content>
           <Content>
             <label>메뉴 별점</label>

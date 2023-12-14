@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 import { TextButton } from 'components/common/button/TextButton';
 import { SearchIcon } from 'components/common/icon/icons';
-import { Input2 } from 'components/common/input/Input2';
+import { Input } from 'components/common/input/Input';
 import { InputField } from 'components/common/input/InputField';
 
 type Props = {
@@ -36,28 +36,28 @@ export const SearchPanelInput: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      <Input2 variant={variant} helperText={helperText}>
-        <Input2.CenterContent>
+      <Input variant={variant} helperText={helperText}>
+        <Input.CenterContent>
           <InputField
             value={value}
             onChangeValue={onChangeValue}
             onInputFocus={handlePanelOpen}
             onBlur={handlePanelClose}
           />
-        </Input2.CenterContent>
-        <Input2.RightContent>
+        </Input.CenterContent>
+        <Input.RightContent>
           <TextButton size="m" color="black" onClick={handleSearch}>
             <SearchIcon />
           </TextButton>
-        </Input2.RightContent>
-        <Input2.BottomPanel isOpen={isOpen}>
+        </Input.RightContent>
+        <Input.BottomPanel isOpen={isOpen}>
           {Array.from({ length: 3 }).map((_, index) => (
             <div key={index} style={{ width: '50px', background: 'red' }}>
               하하하{index}
             </div>
           ))}
-        </Input2.BottomPanel>
-      </Input2>
+        </Input.BottomPanel>
+      </Input>
     </Wrapper>
   );
 };

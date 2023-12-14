@@ -3,7 +3,7 @@ import { InputHTMLAttributes, useState } from 'react';
 import { styled } from 'styled-components';
 import { TextButton } from 'components/common/button/TextButton';
 import { FaceIcon } from 'components/common/icon/icons';
-import { Input2 } from 'components/common/input/Input2';
+import { Input } from 'components/common/input/Input';
 import { InputField } from 'components/common/input/InputField';
 
 type Props = {
@@ -33,17 +33,17 @@ export const CommentInputContainer: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      <Input2 variant="comment">
-        <Input2.TopPanel isOpen={isEmojiVisible}>
+      <Input variant="comment">
+        <Input.TopPanel isOpen={isEmojiVisible}>
           <EmojiPicker
             emojiStyle={EmojiStyle.NATIVE}
             onEmojiClick={handleEmojiClick}
           />
-        </Input2.TopPanel>
-        <Input2.LeftContent>
+        </Input.TopPanel>
+        <Input.LeftContent>
           <FaceIcon onClick={handleEmojiOpen} />
-        </Input2.LeftContent>
-        <Input2.CenterContent>
+        </Input.LeftContent>
+        <Input.CenterContent>
           <InputField
             placeholder="댓글달기"
             limitedLength={limitedLength}
@@ -52,13 +52,13 @@ export const CommentInputContainer: React.FC<Props> = ({
             onPressEnter={onSubmitComment}
             {...props}
           />
-        </Input2.CenterContent>
-        <Input2.RightContent>
+        </Input.CenterContent>
+        <Input.RightContent>
           <TextButton color="orange" size="m" onClick={onSubmitComment}>
             게시
           </TextButton>
-        </Input2.RightContent>
-      </Input2>
+        </Input.RightContent>
+      </Input>
     </Wrapper>
   );
 };
