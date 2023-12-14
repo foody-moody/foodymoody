@@ -318,8 +318,21 @@ public class MemberSteps {
     public static ExtractableResponse<Response> 회원프로필을_조회한다(String memberId, RequestSpecification spec) {
         return RestAssured
                 .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .log().all()
+                .when()
+                .get("/api/members/{memberId}", memberId)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 로그인시_회원프로필을_조회한다(String accessToken, String memberId, RequestSpecification spec) {
+        return RestAssured
+                .given().spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
                 .log().all()
                 .when()
                 .get("/api/members/{memberId}", memberId)

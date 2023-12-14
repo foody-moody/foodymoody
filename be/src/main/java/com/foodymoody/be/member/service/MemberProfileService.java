@@ -26,9 +26,9 @@ public class MemberProfileService {
         return feedService.findPreviewsByMemberId(memberId, pageable);
     }
 
-    public MemberProfileResponse fetchProfile(String id) {
+    public MemberProfileResponse fetchProfile(String loginId, String id) {
         MemberId memberId = IdFactory.createMemberId(id);
-        return memberRepository.fetchProfileById(memberId)
+        return memberRepository.fetchMemberProfileById(memberId, loginId)
                 .orElseThrow(MemberNotFoundException::new);
     }
 

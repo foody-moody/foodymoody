@@ -47,8 +47,8 @@ public class MemberController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MemberProfileResponse> fetchProfile(@PathVariable String id) {
-        MemberProfileResponse response = memberProfileService.fetchProfile(id);
+    public ResponseEntity<MemberProfileResponse> fetchProfile(@MemberId String loginId, @PathVariable String id) {
+        MemberProfileResponse response = memberProfileService.fetchProfile(loginId, id);
         return ResponseEntity.ok().body(response);
     }
 
