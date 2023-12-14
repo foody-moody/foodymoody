@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, MemberId> {
 
-    @Query("SELECT new com.foodymoody.be.member.repository.MemberProfileResponse (m.id.value, i.url, m.nickname, m.email, t.id.value, "
+    @Query("SELECT new com.foodymoody.be.member.repository.MemberProfileResponse (m.id.value, i.id.value, i.url, m.nickname, m.email, t.id.value, "
             + "COUNT(DISTINCT following), COUNT(DISTINCT follower),(COUNT(DISTINCT loginMemberFollowing) > 0), (COUNT(DISTINCT loginMemberFollower) > 0), COUNT(DISTINCT f)) "
                     + "FROM Member m "
                     + "LEFT JOIN FETCH Feed f ON m.id = f.memberId "
