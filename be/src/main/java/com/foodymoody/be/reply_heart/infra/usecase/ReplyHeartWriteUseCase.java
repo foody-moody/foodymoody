@@ -29,20 +29,22 @@ public class ReplyHeartWriteUseCase {
         MemberId memberWriterId = new MemberId(memberId);
         ReplyId replyId = IdFactory.createReplyId(replyIdValue);
         Reply reply = replyReadService.fetchById(replyId);
-        if (replyHeartWriteService.existsByReplyIdAndMemberId(replyId, memberId)) {
+        if (replyHeartWriteService.existsByReplyIdAndMemberId(replyId, memberWriterId)) {
             return;
         }
-        replyHeartWriteService.registerReplyHeart(replyId, memberId);
+        replyHeartWriteService.registerReplyHeart(replyId, memberWriterId);
         replyHeartCountWriteService.increment(replyId);
         Comment comment = commentReadService.fetchById(new CommentId(commentIdValue));
         new ReplyHeartAddedEvent(comment.getFeedId(), reply.getContent(), NotificationType.FEED_LIKED_ADDED_EVENT,
-                comment.getId(),
-                reply.getId(), memberWriterId, reply.getCreatedAt());
+                                 comment.getId(),
+                                 reply.getId(), memberWriterId, reply.getCreatedAt()
+        );
     }
 
     @Transactional
-    public void deleteReplyHeart(String commentIdValue, String replyIdValue, String memberId) {
+    public void deleteReplyHeart(String commentIdValue, String replyIdValue, String memberIdValue) {
         ReplyId replyId = IdFactory.createReplyId(replyIdValue);
+        MemberId memberId = IdFactory.createMemberId(memberIdValue);
         replyReadService.validate(replyId);
         if (!replyHeartWriteService.existsByReplyIdAndMemberId(replyId, memberId)) {
             return;

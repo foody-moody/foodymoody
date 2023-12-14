@@ -1,5 +1,6 @@
 package com.foodymoody.be.reply_heart.infra.persistence;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.ReplyId;
 import com.foodymoody.be.reply_heart.domain.ReplyHeart;
 import com.foodymoody.be.reply_heart.domain.ReplyHeartRepository;
@@ -19,12 +20,12 @@ public class ReplyHeartRepositoryImpl implements ReplyHeartRepository {
     }
 
     @Override
-    public void deleteByReplyIdAndMemberId(ReplyId replyId, String memberId) {
+    public void deleteByReplyIdAndMemberId(ReplyId replyId, MemberId memberId) {
         repository.deleteByReplyIdAndMemberId(replyId, memberId);
     }
 
     @Override
-    public boolean existsByReplyIdAndMemberId(ReplyId replyId, String memberId) {
+    public boolean existsByReplyIdAndMemberId(ReplyId replyId, MemberId memberId) {
         return repository.existsByReplyIdAndMemberId(replyId, memberId);
     }
 }
