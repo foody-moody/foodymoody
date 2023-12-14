@@ -1,24 +1,22 @@
 package com.foodymoody.be.member.repository;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class MemberProfileResponse {
 
     private String id;
+    private String profileImageId;
     private String profileImageUrl;
     private String nickname;
     private String email;
     private String tasteMoodId;
+    private long followingCount;
+    private long followerCount;
+    private boolean following;
+    private boolean followed;
     private long feedCount;
-
-    public MemberProfileResponse(String id, String profileImageUrl, String nickname, String email, String tasteMoodId, long feedCount) {
-        this.id = id;
-        this.profileImageUrl = profileImageUrl;
-        this.nickname = nickname;
-        this.email = email;
-        this.tasteMoodId = tasteMoodId;
-        this.feedCount = feedCount;
-    }
 
 }

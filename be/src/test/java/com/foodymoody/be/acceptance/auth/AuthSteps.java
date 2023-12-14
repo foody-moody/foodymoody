@@ -1,10 +1,11 @@
 package com.foodymoody.be.acceptance.auth;
 
 import static com.foodymoody.be.acceptance.notification.NotificationSteps.회원의_모든_알람을_조회한다;
-import static com.foodymoody.be.member.util.MemberFixture.비회원_보노;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.foodymoody.be.auth.controller.dto.LoginRequest;
+import com.foodymoody.be.auth.util.AuthFixture;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
@@ -22,17 +23,33 @@ import org.springframework.http.MediaType;
 public class AuthSteps {
 
     public static ExtractableResponse<Response> 비회원보노가_로그인한다(RequestSpecification spec) {
-        return 로그인_한다(비회원_보노.getEmail(), 비회원_보노.getPassword(), spec);
+        return 로그인한다(AuthFixture.보노_로그인_요청(), spec);
     }
 
     public static ExtractableResponse<Response> 푸반이_로그인한다(RequestSpecification spec) {
-        return 로그인_한다(회원_푸반.getEmail(), 회원_푸반.getPassword(), spec);
+        return 로그인한다(AuthFixture.푸반_로그인_요청(), spec);
     }
 
     public static ExtractableResponse<Response> 회원푸반이_틀린_비밀번호로_로그인한다(RequestSpecification spec) {
         return 로그인_한다(회원_푸반.getEmail(), "wrongPassword", spec);
     }
 
+    public static ExtractableResponse<Response> 로그인한다(LoginRequest request, RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .body(request)
+                .when().post("/api/auth/login")
+                .then().log().all()
+                .extract();
+    }
+
+    /**
+     * @deprecated 로그인한다(LoginRequest request, RequestSpecification spec)을 사용해주세요
+     * */
+    @Deprecated(forRemoval = true)
     public static ExtractableResponse<Response> 로그인_한다(String email, String password, RequestSpecification spec) {
         Map<String, String> body = new HashMap<>();
         body.put("email", email);

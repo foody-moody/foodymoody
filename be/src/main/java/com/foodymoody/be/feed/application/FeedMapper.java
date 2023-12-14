@@ -1,16 +1,15 @@
 package com.foodymoody.be.feed.application;
 
+import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed.domain.entity.Feed;
-import com.foodymoody.be.feed.domain.entity.StoreMood;
-import com.foodymoody.be.feed.domain.entity.StoreMoodId;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceDeleteRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceUpdateRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedUpdateRequest;
 import com.foodymoody.be.feed.application.dto.response.FeedImageMenuResponse;
+import com.foodymoody.be.feed.application.dto.response.FeedImageResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedMemberResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedMenuResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedReadAllResponse;
@@ -18,6 +17,9 @@ import com.foodymoody.be.feed.application.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedStoreMoodResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedTasteMoodResponse;
+import com.foodymoody.be.feed.domain.entity.Feed;
+import com.foodymoody.be.feed.domain.entity.StoreMood;
+import com.foodymoody.be.feed.domain.entity.StoreMoodId;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.image.domain.Image;
@@ -88,9 +90,11 @@ public class FeedMapper {
         for (int i = 0; i < imageIdUrlList.size(); i++) {
             feedImageMenuResponses.add(
                     new FeedImageMenuResponse(
-                            imageIdUrlList.get(i).getId(), imageIdUrlList.get(i).getUrl(),
-                            new FeedMenuResponse(menuNameRatingList.get(i).getName(),
-                                    menuNameRatingList.get(i).getRating())
+                            IdGenerator.generate(),
+                            new FeedImageResponse(imageIdUrlList.get(i).getId(),
+                                    imageIdUrlList.get(i).getUrl()),
+            new FeedMenuResponse(menuNameRatingList.get(i).getName(),
+                    menuNameRatingList.get(i).getRating())
                     )
             );
         }

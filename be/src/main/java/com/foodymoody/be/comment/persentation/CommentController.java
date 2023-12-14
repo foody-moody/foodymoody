@@ -7,6 +7,7 @@ import com.foodymoody.be.comment.application.dto.request.RegisterReplyRequest;
 import com.foodymoody.be.comment.infra.usecase.CommentUseCase;
 import com.foodymoody.be.common.annotation.MemberId;
 import com.foodymoody.be.common.util.ids.CommentId;
+import java.util.Map;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,10 +27,11 @@ public class CommentController {
     private final CommentUseCase commentUseCase;
 
     @PostMapping("/api/comments")
-    public ResponseEntity<CommentId> register(@Valid @RequestBody RegisterCommentRequest request,
+    public ResponseEntity<Map> register(
+            @Valid @RequestBody RegisterCommentRequest request,
             @MemberId String memberId) {
         CommentId id = commentUseCase.registerComment(request, memberId);
-        return ResponseEntity.ok(id);
+        return ResponseEntity.ok(Map.of("id", id));
     }
 
     @PutMapping("/api/comments/{id}")
