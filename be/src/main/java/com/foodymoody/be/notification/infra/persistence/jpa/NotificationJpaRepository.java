@@ -1,7 +1,7 @@
 package com.foodymoody.be.notification.infra.persistence.jpa;
 
-import com.foodymoody.be.common.util.ids.FeedNotificationId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.NotificationId;
 import com.foodymoody.be.notification.domain.FeedNotification;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface NotificationJpaRepository extends JpaRepository<FeedNotification, FeedNotificationId>,
+public interface NotificationJpaRepository extends JpaRepository<FeedNotification, NotificationId>,
         JpaSpecificationExecutor<FeedNotification> {
 
     @Modifying
@@ -20,7 +20,8 @@ public interface NotificationJpaRepository extends JpaRepository<FeedNotificatio
             + "WHERE _notification.id IN :notificationIds AND _notification.toMemberId = :memberId")
     void updateAllStatus(@Param("status") boolean status, @Param("memberId") MemberId memberId,
             @Param("updatedAt") LocalDateTime updatedAt,
-            @Param("notificationIds") List<FeedNotificationId> feedNotificationIds);
+                         @Param("notificationIds") List<NotificationId> notificationIds
+    );
 
     @Modifying
     @Query("UPDATE FeedNotification _notification "
@@ -32,6 +33,7 @@ public interface NotificationJpaRepository extends JpaRepository<FeedNotificatio
     @Query("UPDATE FeedNotification _notification "
             + "SET _notification.isDeleted = true , _notification.updatedAt = :updatedAt "
             + "WHERE _notification.id IN :notificationIds AND _notification.toMemberId = :memberId")
-    void deleteAllByIdIn(@Param("notificationIds") List<FeedNotificationId> feedNotificationIds,
+    void deleteAllByIdIn(
+            @Param("notificationIds") List<NotificationId> notificationIds,
             @Param("updatedAt") LocalDateTime updatedAt, @Param("memberId") MemberId memberId);
 }

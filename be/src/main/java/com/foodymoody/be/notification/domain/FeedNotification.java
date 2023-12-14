@@ -3,8 +3,8 @@ package com.foodymoody.be.notification.domain;
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.FeedNotificationId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.NotificationId;
 import java.time.LocalDateTime;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class FeedNotification {
 
     @EmbeddedId
-    private FeedNotificationId id;
+    private NotificationId id;
     @Getter
     @AttributeOverride(name = "value", column = @Column(name = "from_member_id"))
     private MemberId fromMemberId;
@@ -39,7 +39,8 @@ public class FeedNotification {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public FeedNotification(FeedNotificationId id, MemberId fromMemberId, MemberId toMemberId, String message,
+    public FeedNotification(
+            NotificationId id, MemberId fromMemberId, MemberId toMemberId, String message,
             FeedId feedId, CommentId commentId, NotificationType type, boolean isRead, boolean isDeleted,
             LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
@@ -55,7 +56,7 @@ public class FeedNotification {
         this.updatedAt = updatedAt;
     }
 
-    public FeedNotificationId getId() {
+    public NotificationId getId() {
         return id;
     }
 

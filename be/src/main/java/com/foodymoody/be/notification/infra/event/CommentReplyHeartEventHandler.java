@@ -1,7 +1,7 @@
 package com.foodymoody.be.notification.infra.event;
 
 import com.foodymoody.be.comment.application.ReplyReadService;
-import com.foodymoody.be.notification.application.NotificationWriteService;
+import com.foodymoody.be.notification.application.FeedNotificationWriteService;
 import com.foodymoody.be.notification.domain.FeedNotification;
 import com.foodymoody.be.notification.domain.NotificationIdFactory;
 import com.foodymoody.be.reply_heart.infra.usecase.ReplyHeartAddedEvent;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommentReplyHeartEventHandler {
 
-    private final NotificationWriteService notificationWriteService;
+    private final FeedNotificationWriteService feedNotificationWriteService;
     private final ReplyReadService replyReadService;
 
     @EventListener(ReplyHeartAddedEvent.class)
@@ -33,7 +33,7 @@ public class CommentReplyHeartEventHandler {
                 event.getCreatedAt(),
                 event.getCreatedAt()
         );
-        notificationWriteService.save(feedNotification);
+        feedNotificationWriteService.save(feedNotification);
     }
 
 }

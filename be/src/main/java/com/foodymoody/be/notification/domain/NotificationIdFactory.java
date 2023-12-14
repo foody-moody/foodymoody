@@ -1,7 +1,7 @@
 package com.foodymoody.be.notification.domain;
 
 import com.foodymoody.be.common.util.IdGenerator;
-import com.foodymoody.be.common.util.ids.FeedNotificationId;
+import com.foodymoody.be.common.util.ids.NotificationId;
 
 public class NotificationIdFactory {
 
@@ -9,11 +9,11 @@ public class NotificationIdFactory {
         throw new IllegalStateException("Utility class");
     }
 
-    public static FeedNotificationId from(String id) {
-        return new FeedNotificationId(id);
+    public static NotificationId from(String id) {
+        return new NotificationId(id);
     }
 
-    public static FeedNotificationId newId() {
-        return new FeedNotificationId(IdGenerator.generate());
+    public static NotificationId newId() {
+        return new NotificationId(IdGenerator.generate());
     }
 }
