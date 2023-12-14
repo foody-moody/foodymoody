@@ -1,5 +1,6 @@
 package com.foodymoody.be.common.annotation;
 
+import java.util.Objects;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -18,6 +19,7 @@ public class MemberEmailArgumentResolver implements HandlerMethodArgumentResolve
     @Override
     public String resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return String.valueOf(webRequest.getAttribute("email", 0));
+        Object attribute = webRequest.getAttribute("email", 0);
+        return Objects.toString(attribute, null);
     }
 }

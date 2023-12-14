@@ -17,46 +17,38 @@ public class NotificationSetting {
     private NotificationSettingId id;
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
-    private boolean isComment;
-    private boolean isHeart;
-    private boolean isFeed;
+    private boolean isFeedLike;
+    private boolean isCollectionLike;
+    private boolean isCommentLike;
+    private boolean isFollow;
+    private boolean isFeedComment;
+    private boolean isCollectionComment;
 
-    public NotificationSetting(NotificationSettingId id, MemberId memberId, boolean isComment, boolean isHeart,
-            boolean isFeed) {
+    public NotificationSetting(
+            NotificationSettingId id, MemberId memberId, boolean isFeedLike, boolean isCollectionLike,
+            boolean isCommentLike,
+            boolean isFollow, boolean isFeedComment, boolean isCollectionComment
+    ) {
         this.id = id;
         this.memberId = memberId;
-        this.isComment = isComment;
-        this.isHeart = isHeart;
-        this.isFeed = isFeed;
+        this.isFeedLike = isFeedLike;
+        this.isCollectionLike = isCollectionLike;
+        this.isCommentLike = isCommentLike;
+        this.isFollow = isFollow;
+        this.isFeedComment = isFeedComment;
+        this.isCollectionComment = isCollectionComment;
     }
 
-    public static NotificationSetting of(NotificationSettingId notificationSettingId, MemberId memberid) {
-        return new NotificationSetting(notificationSettingId, memberid, true, true, true);
-    }
 
-    public NotificationSettingId getId() {
-        return id;
-    }
-
-    public MemberId getMemberId() {
-        return memberId;
-    }
-
-    public boolean isComment() {
-        return isComment;
-    }
-
-    public boolean isHeart() {
-        return isHeart;
-    }
-
-    public boolean isFeed() {
-        return isFeed;
-    }
-
-    public void update(boolean heart, boolean comment, boolean feed) {
-        this.isHeart = heart;
-        this.isComment = comment;
-        this.isFeed = feed;
+    public void update(
+            boolean isFeedLike, boolean isCollectionLike, boolean isReplyLike, boolean isFollow,
+            boolean isFeedComment, boolean isCollectionComment
+    ) {
+        this.isFeedLike = isFeedLike;
+        this.isCollectionLike = isCollectionLike;
+        this.isCommentLike = isReplyLike;
+        this.isFollow = isFollow;
+        this.isFeedComment = isFeedComment;
+        this.isCollectionComment = isCollectionComment;
     }
 }

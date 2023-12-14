@@ -16,9 +16,12 @@ public class NotificationSummaryReadService {
 
     private final NotificationSummaryDao dao;
 
-    public Slice<NotificationSummary> requestAll(MemberId memberId, Specification<NotificationSummary> spec,
-            Pageable pageable) {
-        spec = spec.and(NotificationSummarySpecs.isToMemberSpec(memberId));
+    public Slice<NotificationSummary> requestAll(
+            MemberId memberId, Specification<NotificationSummary> spec,
+            Pageable pageable
+    ) {
+        spec = spec.and(NotificationSummarySpecs.isToMemberSpec(memberId))
+                .and(NotificationSummarySpecs.distinctById());
         return dao.findAllByMemberId(spec, pageable);
     }
 }

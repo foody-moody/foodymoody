@@ -15,7 +15,7 @@ public interface ReplyJpaRepository extends JpaRepository<Reply, ReplyId> {
     @Query("select _reply.id.value as replyId, _reply.content as content,"
             + "_reply.memberId.value as memberId, _member.nickname as nickname, "
             + "_image.url as imageUrl, _reply.createdAt as createdAt, _reply.updatedAt as updatedAt, "
-            + "_heartCount.count as heartCount "
+            + "_heartCount.count as heartCount,false as hearted "
             + "from Comment _comment "
             + "left join _comment.replyComments.commentList _reply "
             + "left join Member _member on _reply.memberId = _member.id.value "

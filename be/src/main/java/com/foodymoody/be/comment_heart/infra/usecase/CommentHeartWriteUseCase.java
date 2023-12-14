@@ -53,7 +53,7 @@ public class CommentHeartWriteUseCase {
         return new CommentHeartAddedEvent(
                 comment.getFeedId(),
                 comment.getContent(),
-                NotificationType.COMMENT_HEART_ADDED_EVENT,
+                NotificationType.COMMENT_LIKED_ADDED_EVENT,
                 comment.getId(),
                 memberId,
                 commentHeart.getCreatedAt()
