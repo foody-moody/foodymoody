@@ -1,5 +1,6 @@
 package com.foodymoody.be.reply_heart.domain;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.ReplyHeartId;
 import com.foodymoody.be.common.util.ids.ReplyId;
 import javax.persistence.AttributeOverride;
@@ -17,9 +18,10 @@ public class ReplyHeart {
     private ReplyHeartId id;
     @AttributeOverride(name = "value", column = @Column(name = "reply_id"))
     private ReplyId replyId;
-    private String memberId;
+    @AttributeOverride(name = "value", column = @Column(name = "member_id"))
+    private MemberId memberId;
 
-    public ReplyHeart(ReplyHeartId id, ReplyId replyId, String memberId) {
+    public ReplyHeart(ReplyHeartId id, ReplyId replyId, MemberId memberId) {
         this.id = id;
         this.replyId = replyId;
         this.memberId = memberId;

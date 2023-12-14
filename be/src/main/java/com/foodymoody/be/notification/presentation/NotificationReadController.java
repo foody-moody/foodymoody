@@ -6,6 +6,7 @@ import com.foodymoody.be.notification.presentation.dto.NotificationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,8 @@ public class NotificationReadController {
 
     @GetMapping("/api/notifications")
     public ResponseEntity<Slice<NotificationResponse>> requestAll(@MemberId String memberId,
-            @PageableDefault Pageable pageable) {
+                                                                  @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable
+    ) {
         var notificationResponses = notificationUseCase.requestAll(memberId, pageable);
         return ResponseEntity.ok(notificationResponses);
     }

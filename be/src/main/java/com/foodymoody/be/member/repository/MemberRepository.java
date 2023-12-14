@@ -11,18 +11,23 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, MemberId> {
 
-    @Query("SELECT new com.foodymoody.be.member.repository.MemberProfileResponse (m.id.value, i.url, m.nickname, m.email, t.id.value, count(f)) "
+    @Query("SELECT new com.foodymoody.be.member.repository.MemberProfileResponse (m.id.value, i.id.value, i.url, m.nickname, m.email, t.id.value, "
+            + "COUNT(DISTINCT following), COUNT(DISTINCT follower),(COUNT(DISTINCT loginMemberFollowing) > 0), (COUNT(DISTINCT loginMemberFollower) > 0), COUNT(DISTINCT f)) "
                     + "FROM Member m "
                     + "LEFT JOIN FETCH Feed f ON m.id = f.memberId "
-                    + "LEFT JOIN FETCH Image i ON m.profileImage.imageId = i.id "
+                    + "LEFT JOIN FETCH Image i ON m.profileImage.id = i.id "
                     + "LEFT JOIN FETCH TasteMood t ON m.tasteMoodId = t.id "
+                    + "LEFT JOIN FETCH Follow following ON following.follower = m "
+                    + "LEFT JOIN FETCH Follow follower ON follower.followed = m "
+                    + "LEFT JOIN FETCH Follow loginMemberFollowing ON loginMemberFollowing.follower.id.value = :loginId AND loginMemberFollowing.followed = m "
+                    + "LEFT JOIN FETCH Follow loginMemberFollower ON loginMemberFollower.followed.id.value = :loginId AND loginMemberFollower.follower = m "
                     + "WHERE m.id = :id "
                     + "GROUP BY m.id")
-    Optional<MemberProfileResponse> fetchProfileById(@Param("id") MemberId id);
+    Optional<MemberProfileResponse> fetchMemberProfileById(@Param("id") MemberId id, @Param("loginId") String loginId);
 
     @Query("SELECT new com.foodymoody.be.member.repository.MemberFeedData (m.id.value, i.url, m.nickname, t.name) "
             + "FROM Member m "
-            + "LEFT JOIN FETCH Image i ON m.profileImage.imageId = i.id "
+            + "LEFT JOIN FETCH Image i ON m.profileImage.id = i.id "
             + "LEFT JOIN FETCH TasteMood t ON m.tasteMoodId = t.id "
             + "WHERE m.id = :id")
     Optional<MemberFeedData> fetchFeedDataById(@Param("id") MemberId id);

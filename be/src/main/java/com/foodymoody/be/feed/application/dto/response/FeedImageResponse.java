@@ -5,19 +5,16 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FeedImageMenuResponse {
+public class FeedImageResponse {
 
     @JsonProperty
     private String id;
     @JsonProperty
-    private FeedImageResponse image;
-    @JsonProperty
-    private FeedMenuResponse menu;
+    private String url;
 
-    public FeedImageMenuResponse(String id, FeedImageResponse image, FeedMenuResponse menu) {
+    public FeedImageResponse(String id, String url) {
         this.id = id;
-        this.image = image;
-        this.menu = menu;
+        this.url = url;
     }
 
 }

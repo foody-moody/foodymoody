@@ -18,5 +18,7 @@ INSERT INTO image (id, url)
 VALUES ('1', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1'),
        ('2', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2'),
        ('3', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png3'),
-       ('4', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png4');
+       ('4', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png4'),
+       ('member-profile-default', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1');
+
 

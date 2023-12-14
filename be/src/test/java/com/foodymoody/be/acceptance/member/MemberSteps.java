@@ -23,7 +23,6 @@ import org.springframework.http.MediaType;
 public class MemberSteps {
 
     private static final RequestSpecification MOCK_SPEC = new RequestSpecBuilder().build();
-    ;
 
     public static ExtractableResponse<Response> 푸반_회원프로필_조회한다(RequestSpecification spec) {
         return 회원프로필을_조회한다(회원_푸반.getId(), spec);
@@ -208,6 +207,70 @@ public class MemberSteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 팔로우한다(String accessToken, String id, RequestSpecification spec) {
+        return RestAssured.given().log().all().spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
+                .when()
+                .post("/api/members/{id}/followings", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 언팔로우한다(String accessToken, String id, RequestSpecification spec) {
+        return RestAssured.given().log().all().spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
+                .when()
+                .delete("/api/members/{id}/followings", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 팔로잉_목록을_조회한다(String id, RequestSpecification spec) {
+        return RestAssured.given().log().all().spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get("/api/members/{id}/followings", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 로그인시_팔로잉_목록을_조회한다(String accessToken, String id, RequestSpecification spec) {
+        return RestAssured.given().log().all().spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
+                .when()
+                .get("/api/members/{id}/followings", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 팔로워_목록을_조회한다(String id, RequestSpecification spec) {
+        return RestAssured.given().log().all().spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get("/api/members/{id}/followers", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 로그인시_팔로워_목록을_조회한다(String accessToken, String id, RequestSpecification spec) {
+        return RestAssured.given().log().all().spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
+                .when()
+                .get("/api/members/{id}/followers", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> 전체_테이스트_무드를_조회한다(RequestSpecification spec) {
         return RestAssured
                 .given()
@@ -255,8 +318,21 @@ public class MemberSteps {
     public static ExtractableResponse<Response> 회원프로필을_조회한다(String memberId, RequestSpecification spec) {
         return RestAssured
                 .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .log().all()
+                .when()
+                .get("/api/members/{memberId}", memberId)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 로그인시_회원프로필을_조회한다(String accessToken, String memberId, RequestSpecification spec) {
+        return RestAssured
+                .given().spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
                 .log().all()
                 .when()
                 .get("/api/members/{memberId}", memberId)
@@ -335,7 +411,7 @@ public class MemberSteps {
         return assertThat(response.statusCode()).isEqualTo(expectedHttpStatus.value());
     }
 
-    private static AbstractStringAssert<?> 오류코드를_검증한다(ExtractableResponse<Response> response, String code) {
+    public static AbstractStringAssert<?> 오류코드를_검증한다(ExtractableResponse<Response> response, String code) {
         return assertThat(response.jsonPath().getString("code")).isEqualTo(code);
     }
 }

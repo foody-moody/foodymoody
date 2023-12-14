@@ -1,5 +1,6 @@
 package com.foodymoody.be.reply_heart.application;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.ReplyHeartId;
 import com.foodymoody.be.common.util.ids.ReplyId;
 import com.foodymoody.be.reply_heart.domain.ReplyHeart;
@@ -16,18 +17,18 @@ public class ReplyHeartWriteService {
     private final ReplyHeartRepository replyHeartRepository;
 
     @Transactional
-    public void registerReplyHeart(ReplyId replyId, String memberId) {
+    public void registerReplyHeart(ReplyId replyId, MemberId memberId) {
         ReplyHeartId replyHeartId = ReplyHeartIdFactory.newId();
         ReplyHeart replyHeart = new ReplyHeart(replyHeartId, replyId, memberId);
         replyHeartRepository.save(replyHeart);
     }
 
     @Transactional
-    public void deleteReplyHeart(ReplyId replyId, String memberId) {
+    public void deleteReplyHeart(ReplyId replyId, MemberId memberId) {
         replyHeartRepository.deleteByReplyIdAndMemberId(replyId, memberId);
     }
 
-    public boolean existsByReplyIdAndMemberId(ReplyId replyId, String memberId) {
+    public boolean existsByReplyIdAndMemberId(ReplyId replyId, MemberId memberId) {
         return replyHeartRepository.existsByReplyIdAndMemberId(replyId, memberId);
     }
 }

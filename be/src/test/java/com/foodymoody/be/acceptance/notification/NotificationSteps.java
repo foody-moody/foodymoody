@@ -24,7 +24,7 @@ public class NotificationSteps {
         params.put("size", 10);
         return RestAssured
                 .given().log().all().spec(spec).auth().oauth2(accessToken).params(params)
-                .when().get("/api/notifications/")
+                .when().get("/api/notifications")
                 .then().log().all()
                 .extract();
     }

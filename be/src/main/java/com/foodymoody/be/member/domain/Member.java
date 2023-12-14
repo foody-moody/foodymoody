@@ -13,24 +13,32 @@ import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Member {
 
     @EmbeddedId
+    @EqualsAndHashCode.Include
     private MemberId id;
     private String email;
     private String nickname;
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "password"))
     private Password password;
     @Embedded
     private MemberProfileImage profileImage;
     @AttributeOverride(name = "value", column = @Column(name = "taste_mood_id"))
     private TasteMoodId tasteMoodId;
+    @Embedded
+    private MyFollowings myFollowings;
+    @Embedded
+    private MyFollowers myFollowers;
 
     private Member(MemberId id, String email, String nickname, String password, TasteMoodId moodId) {
         this.id = id;
@@ -62,7 +70,11 @@ public class Member {
         return nickname;
     }
 
-    public ImageId getMemberProfileImageId() { return profileImage.getImageId(); }
+    public ImageId getProfileImageId() { return profileImage.getId(); }
+
+    public String getProfileImageUrl() {
+        return profileImage.getUrl();
+    }
 
     public TasteMoodId getTasteMoodId() {
         return tasteMoodId;
@@ -77,16 +89,38 @@ public class Member {
         this.password = new Password(newPassword);
     }
 
+    public void setProfileImage(ImageId imageId, String imageUrl) {
+        this.profileImage = new MemberProfileImage(imageId, imageUrl);
+    }
+
     public void setTasteMood(TasteMoodId tasteMoodId) {
         this.tasteMoodId = tasteMoodId;
     }
 
-    public void setProfileImage(ImageId imageId) {
-        this.profileImage = new MemberProfileImage(imageId);
+    public void follow(Member target) {
+        if (Objects.isNull(target) || Objects.equals(target, this)) {
+            throw new IllegalArgumentException("팔로우할 수 없는 회원입니다");
+        }
+        this.myFollowings.add(this, target);
+    }
+
+    public void unfollow(Member target) {
+        if (Objects.isNull(target) || Objects.equals(target, this)) {
+            throw new IllegalArgumentException("언팔로우할 수 없는 회원입니다");
+        }
+        this.myFollowings.remove(target);
+    }
+
+    public boolean isMyFollowing(Member member) {
+        return myFollowings.contains(member);
+    }
+
+    public boolean isMyFollower(Member member) {
+        return myFollowers.contains(member);
     }
 
     private MemberCreatedEvent toMemberCreatedEvent() {
-        return MemberCreatedEvent.of(id, email, nickname, profileImage.getImageId().getValue(), tasteMoodId, LocalDateTime.now());
+        return MemberCreatedEvent.of(id, email, nickname, profileImage.getId().getValue(), tasteMoodId, LocalDateTime.now());
     }
 
 }
