@@ -7,7 +7,6 @@ import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.NotificationId;
 import com.foodymoody.be.notification.domain.FeedNotification;
-import com.foodymoody.be.notification.domain.NotificationIdFactory;
 import java.time.LocalDateTime;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +23,7 @@ public class NotificationFixture {
     public static final String FROM_MEMBER_ID = "2";
 
     public static NotificationId notificationId() {
-        return NotificationIdFactory.from(NOTIFICATION_ID);
+        return IdFactory.createNotificationId(NOTIFICATION_ID);
     }
 
     public static FeedNotification notification() {

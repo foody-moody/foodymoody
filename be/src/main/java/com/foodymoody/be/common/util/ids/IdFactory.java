@@ -94,6 +94,10 @@ public class IdFactory {
         return createId(NotificationId.class, notificationId);
     }
 
+    public static NotificationId createNotificationId() {
+        return createId(NotificationId.class);
+    }
+
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {
         try {
             Constructor<T> constructor = idClass.getConstructor(String.class);

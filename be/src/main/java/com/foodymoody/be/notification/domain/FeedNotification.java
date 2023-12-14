@@ -40,9 +40,10 @@ public class FeedNotification {
     private LocalDateTime updatedAt;
 
     public FeedNotification(
-            NotificationId id, MemberId fromMemberId, MemberId toMemberId, String message,
-            FeedId feedId, CommentId commentId, NotificationType type, boolean isRead, boolean isDeleted,
-            LocalDateTime createdAt, LocalDateTime updatedAt) {
+            NotificationId id, MemberId fromMemberId, MemberId toMemberId, String message, FeedId feedId,
+            CommentId commentId, NotificationType type, boolean isRead, boolean isDeleted, LocalDateTime createdAt,
+            LocalDateTime updatedAt
+    ) {
         this.id = id;
         this.fromMemberId = fromMemberId;
         this.toMemberId = toMemberId;
@@ -54,46 +55,6 @@ public class FeedNotification {
         this.isDeleted = isDeleted;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-    }
-
-    public NotificationId getId() {
-        return id;
-    }
-
-    public MemberId getToMemberId() {
-        return toMemberId;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public FeedId getFeedId() {
-        return feedId;
-    }
-
-    public CommentId getCommentId() {
-        return commentId;
-    }
-
-    public NotificationType getType() {
-        return type;
-    }
-
-    public boolean isRead() {
-        return isRead;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public void changeStatus(boolean isRead, MemberId memberId, LocalDateTime updatedAt) {
@@ -108,9 +69,49 @@ public class FeedNotification {
         this.updatedAt = updatedAt;
     }
 
-    private void checkMemberId(MemberId memberId) {
+    public void checkMemberId(MemberId memberId) {
         if (!toMemberId.isSame(memberId)) {
             throw new IllegalArgumentException("해당 알림을 수정할 수 없습니다.");
         }
+    }
+
+    public MemberId getToMemberId() {
+        return toMemberId;
+    }
+
+    public NotificationType getType() {
+        return type;
+    }
+
+    public FeedId getFeedId() {
+        return feedId;
+    }
+
+    public CommentId getCommentId() {
+        return commentId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public NotificationId getId() {
+        return id;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
     }
 }

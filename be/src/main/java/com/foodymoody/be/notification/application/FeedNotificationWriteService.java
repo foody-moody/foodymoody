@@ -5,7 +5,6 @@ import com.foodymoody.be.common.util.ids.NotificationId;
 import com.foodymoody.be.notification.domain.FeedNotification;
 import com.foodymoody.be.notification.infra.persistence.jpa.NotificationJpaRepository;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,34 +21,10 @@ public class FeedNotificationWriteService {
     }
 
     @Transactional
-    public void changeStatus(MemberId memberId, NotificationId notificationId, boolean isRead) {
-        FeedNotification feedNotification = getNotification(notificationId);
-        var updatedAt = LocalDateTime.now();
-        feedNotification.changeStatus(isRead, memberId, updatedAt);
-    }
-
-    @Transactional
     public void delete(MemberId memberId, NotificationId notificationId) {
         FeedNotification feedNotification = this.getNotification(notificationId);
         LocalDateTime updatedAt = LocalDateTime.now();
         feedNotification.delete(memberId, updatedAt);
-    }
-
-    @Transactional
-    public void deleteAll(MemberId memberId) {
-        notificationRepository.deleteAllByMemberId(memberId, LocalDateTime.now());
-    }
-
-    @Transactional
-    public void changeAllStatus(MemberId memberId, List<NotificationId> notificationIds, boolean read) {
-        notificationRepository.updateAllStatus(read, memberId, LocalDateTime.now(), notificationIds);
-    }
-
-    @Transactional
-    public void deleteAll(MemberId memberId, List<NotificationId> notificationIds) {
-        LocalDateTime now = LocalDateTime.now();
-        notificationRepository.deleteAllByIdIn(notificationIds, now, memberId
-        );
     }
 
     public FeedNotification getNotification(NotificationId notificationId) {
@@ -62,5 +37,21 @@ public class FeedNotificationWriteService {
         FeedNotification feedNotification = this.getNotification(notificationId);
         feedNotification.changeStatus(true, feedNotification.getToMemberId(), LocalDateTime.now());
         return feedNotification;
+    }
+
+    @Transactional
+    public void markAllAsRead(MemberId memberId) {
+        notificationRepository.updateAllReadStatus(true, memberId, LocalDateTime.now());
+    }
+
+    @Transactional
+    public void deleteRead(MemberId memberId) {
+        notificationRepository.deleteRead(memberId, LocalDateTime.now());
+    }
+
+    @Transactional
+    public void markAsRead(MemberId memberId, NotificationId notificationID) {
+        FeedNotification feedNotification = this.getNotification(notificationID);
+        feedNotification.changeStatus(true, memberId, LocalDateTime.now());
     }
 }
