@@ -210,9 +210,6 @@ operation::comments_fetch_with_page_success[snippets='http-request,http-response
 
 operation::comments_fetch_failed_by_feed_id_not_exists[snippets='http-response']
 
-[[reply]]
-== 대댓글
-
 === 댓글 하트
 
 ==== 댓글 하트 등록
@@ -222,6 +219,9 @@ operation::comment_heart_register_success[snippets='http-request,http-response']
 ==== 댓글 하트 취소
 
 operation::comment_heart_cancel_success[snippets='http-request,http-response']
+
+[[reply]]
+== 대댓글
 
 === 대댓글 달기
 
@@ -324,6 +324,7 @@ operation::changeMemberPasswordWithIncorrectPassword_fail[snippets='http-respons
 operation::changeMemberPasswordWithNotMatchPattern_fail[snippets='http-response']
 
 === 회원 정보 수정
+
 현재 프로필 이미지, 테이스트 무드 수정 가능합니다
 
 ==== 성공
