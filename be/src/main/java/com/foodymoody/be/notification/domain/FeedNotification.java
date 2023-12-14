@@ -3,8 +3,8 @@ package com.foodymoody.be.notification.domain;
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.FeedNotificationId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.NotificationId;
 import java.time.LocalDateTime;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class FeedNotification {
 
     @EmbeddedId
-    private FeedNotificationId id;
+    private NotificationId id;
     @Getter
     @AttributeOverride(name = "value", column = @Column(name = "from_member_id"))
     private MemberId fromMemberId;
@@ -39,9 +39,11 @@ public class FeedNotification {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public FeedNotification(FeedNotificationId id, MemberId fromMemberId, MemberId toMemberId, String message,
-            FeedId feedId, CommentId commentId, NotificationType type, boolean isRead, boolean isDeleted,
-            LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public FeedNotification(
+            NotificationId id, MemberId fromMemberId, MemberId toMemberId, String message, FeedId feedId,
+            CommentId commentId, NotificationType type, boolean isRead, boolean isDeleted, LocalDateTime createdAt,
+            LocalDateTime updatedAt
+    ) {
         this.id = id;
         this.fromMemberId = fromMemberId;
         this.toMemberId = toMemberId;
@@ -53,46 +55,6 @@ public class FeedNotification {
         this.isDeleted = isDeleted;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-    }
-
-    public FeedNotificationId getId() {
-        return id;
-    }
-
-    public MemberId getToMemberId() {
-        return toMemberId;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public FeedId getFeedId() {
-        return feedId;
-    }
-
-    public CommentId getCommentId() {
-        return commentId;
-    }
-
-    public NotificationType getType() {
-        return type;
-    }
-
-    public boolean isRead() {
-        return isRead;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public void changeStatus(boolean isRead, MemberId memberId, LocalDateTime updatedAt) {
@@ -107,9 +69,49 @@ public class FeedNotification {
         this.updatedAt = updatedAt;
     }
 
-    private void checkMemberId(MemberId memberId) {
+    public void checkMemberId(MemberId memberId) {
         if (!toMemberId.isSame(memberId)) {
             throw new IllegalArgumentException("해당 알림을 수정할 수 없습니다.");
         }
+    }
+
+    public MemberId getToMemberId() {
+        return toMemberId;
+    }
+
+    public NotificationType getType() {
+        return type;
+    }
+
+    public FeedId getFeedId() {
+        return feedId;
+    }
+
+    public CommentId getCommentId() {
+        return commentId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public NotificationId getId() {
+        return id;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
     }
 }

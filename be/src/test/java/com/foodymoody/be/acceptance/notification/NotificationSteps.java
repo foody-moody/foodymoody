@@ -29,32 +29,49 @@ public class NotificationSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 알람을_읽음으로_변경(String 알람_아이디, String accessToken,
-            RequestSpecification spec) {
-        Map<String, Object> body = Map.of("isRead", true);
-        return RestAssured.given().log().all().spec(spec).auth().oauth2(accessToken).body(body)
+    public static ExtractableResponse<Response> 알람을_읽음으로_변경(
+            String 알람_아이디, String accessToken,
+            RequestSpecification spec
+    ) {
+        return RestAssured
+                .given()
+                .log().all()
+                .spec(spec)
+                .auth().oauth2(accessToken)
                 .contentType("application/json;charset=UTF-8")
                 .accept("application/json;charset=UTF-8")
-                .when().put("/api/notifications/{notificationId}", 알람_아이디)
+                .when().put("/api/notifications/{notificationId}/read-status", 알람_아이디)
                 .then().log().all().extract();
     }
 
-    public static ExtractableResponse<Response> 알람을_일괄적으로_변경(List<String> 알람_아이디들, String accessToken,
-            RequestSpecification spec) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("isRead", true);
-        body.put("notificationIds", 알람_아이디들);
-        return RestAssured.given().log().all().spec(spec).auth().oauth2(accessToken).body(body)
+    public static ExtractableResponse<Response> 모든_알람을_읽음으로_변경한다(
+            String accessToken,
+            RequestSpecification spec
+    ) {
+        return RestAssured
+                .given()
+                .log().all()
+                .spec(spec)
+                .auth().oauth2(accessToken)
                 .contentType("application/json;charset=UTF-8")
                 .accept("application/json;charset=UTF-8")
-                .when().put("/api/notifications")
-                .then().log().all().extract();
-    }
-
-    public static ExtractableResponse<Response> 유저의_모든_알람을_삭제한다(String accessToken, RequestSpecification spec) {
-        return RestAssured.given().log().all().spec(spec).auth().oauth2(accessToken).when().delete("/api/notifications")
+                .when()
+                .put("/api/notifications/read-status")
                 .then()
-                .log().all().extract();
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 유저의_모든_읽음_알람을_삭제한다(String accessToken, RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .log().all()
+                .spec(spec).auth().oauth2(accessToken)
+                .when()
+                .delete("/api/notifications/read-status")
+                .then()
+                .log().all()
+                .extract();
     }
 
     public static ExtractableResponse<Response> 알람을_삭제한다(String 알람_아이디, String accessToken, RequestSpecification spec) {
@@ -62,8 +79,10 @@ public class NotificationSteps {
                 .delete("/api/notifications/{eventId}", 알람_아이디).then().log().all().extract();
     }
 
-    public static ExtractableResponse<Response> 알람을_일괄적으로_삭졔한다(List<String> 알람들, String accessToken,
-            RequestSpecification spec) {
+    public static ExtractableResponse<Response> 알람을_일괄적으로_삭졔한다(
+            List<String> 알람들, String accessToken,
+            RequestSpecification spec
+    ) {
         Map<String, Object> body = new HashMap<>();
         body.put("notificationIds", 알람들);
         return RestAssured.given().log().all().spec(spec).auth().oauth2(accessToken)

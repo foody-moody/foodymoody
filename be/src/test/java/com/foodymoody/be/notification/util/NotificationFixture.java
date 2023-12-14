@@ -3,11 +3,10 @@ package com.foodymoody.be.notification.util;
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.FeedNotificationId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.NotificationId;
 import com.foodymoody.be.notification.domain.FeedNotification;
-import com.foodymoody.be.notification.domain.NotificationIdFactory;
 import java.time.LocalDateTime;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,15 +22,15 @@ public class NotificationFixture {
     public static final CommentId COMMENT_ID = new CommentId("1");
     public static final String FROM_MEMBER_ID = "2";
 
-    public static FeedNotificationId notificationId() {
-        return NotificationIdFactory.from(NOTIFICATION_ID);
+    public static NotificationId notificationId() {
+        return IdFactory.createNotificationId(NOTIFICATION_ID);
     }
 
     public static FeedNotification notification() {
         return notification(notificationId());
     }
 
-    public static FeedNotification notification(FeedNotificationId id) {
+    public static FeedNotification notification(NotificationId id) {
         return new FeedNotification(id, getFromMemberId(), getToMemberId(), NOTIFICATION_MESSAGE, getFeedId(),
                                     COMMENT_ID, NotificationType.FEED_COMMENT_ADDED_EVENT, false, false,
                                     CREATE_AT, UPDATE_AT
