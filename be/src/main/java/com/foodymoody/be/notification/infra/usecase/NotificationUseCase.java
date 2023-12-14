@@ -43,7 +43,7 @@ public class NotificationUseCase {
         FeedNotification feedNotification = notificationWriteService.read(notificationId);
         MemberId memberId = IdFactory.createMemberId(memberIdValue);
         Member member = memberService.findById(memberId);
-        Image memberProfileImage = imageService.findById(member.getMemberProfileImageId());
+        Image memberProfileImage = imageService.findById(member.getProfileImageId());
         Feed feed = feedReadService.findFeed(feedNotification.getFeedId());
         return toResponse(memberId, feedNotification, member, memberProfileImage, feed, feed.getProfileImageUrl());
     }

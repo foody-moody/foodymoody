@@ -66,7 +66,7 @@ public class FeedUseCase {
         List<Menu> menus = toMenu(imageMenuPairs);
         List<Image> images = toImage(imageMenuPairs, memberId);
         List<String> storeMoodIds = request.getStoreMood();
-        String profileImageUrl = imageService.findById(member.getMemberProfileImageId()).getUrl();
+        String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
         Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoodIds, images, menus,
                 profileImageUrl);
@@ -115,7 +115,7 @@ public class FeedUseCase {
         List<Image> newImages = toImage(request.getImages(), memberId);
         List<Menu> newMenus = toMenu(request.getImages());
         List<String> newStoreMoodIds = request.getStoreMood();
-        String profileImageUrl = imageService.findById(member.getMemberProfileImageId()).getUrl();
+        String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
         feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoodIds, newImages, newMenus,
                 profileImageUrl);

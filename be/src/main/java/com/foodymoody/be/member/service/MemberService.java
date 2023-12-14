@@ -8,19 +8,24 @@ import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
+import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
 import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
+import com.foodymoody.be.member.controller.dto.FollowInfoResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.controller.dto.UpdateProfileRequest;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.TasteMood;
+import com.foodymoody.be.member.repository.FollowRepository;
 import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.repository.MemberRepository;
 import com.foodymoody.be.member.util.MemberMapper;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +37,7 @@ public class MemberService {
     private final TasteMoodService tasteMoodService;
     private final MemberRepository memberRepository;
     private final ImageService imageService;
+    private final FollowRepository followRepository;
 
     @Transactional
     public MemberSignupResponse create(MemberSignupRequest request) {
@@ -76,8 +82,12 @@ public class MemberService {
             member.setTasteMood(tasteMood.getId());
         }
         if (Objects.nonNull(request.getProfileImageId())) {
-            ImageId imageId = imageService.findById(IdFactory.createImageId(request.getProfileImageId())).getId();
-            member.setProfileImage(imageId);
+            Image image = imageService.findById(IdFactory.createImageId(request.getProfileImageId()));
+            if (!Objects.equals(member.getProfileImageId(), ImageId.MEMBER_PROFILE_DEFAULT)) {
+                // TODO 리팩토링
+                imageService.delete(loginId, member.getProfileImageId().getValue());
+            }
+            member.setProfileImage(image.getId(), image.getUrl());
         }
     }
 
@@ -121,6 +131,40 @@ public class MemberService {
         if (!Objects.equals(loginId, id)) {
             throw new UnauthorizedException();
         }
+    }
+
+    @Transactional
+    public void follow(String id, String targetId) {
+        Member member = findById(id);
+        Member target = findById(targetId);
+        member.follow(target);
+    }
+
+    @Transactional
+    public void unfollow(String id, String targetId) {
+        Member member = findById(id);
+        Member target = findById(targetId);
+        member.unfollow(target);
+    }
+
+    public Slice<FollowInfoResponse> listFollowings(String loginId, String id, Pageable pageable) {
+        Member member = findById(id);
+        Slice<Member> followings = followRepository.findFollowedByFollowerOrderByCreatedAtDesc(member, pageable);
+        return getFollowInfoResponses(loginId, followings);
+    }
+
+    public Slice<FollowInfoResponse> listFollowers(String loginId, String id, Pageable pageable) {
+        Member member = findById(id);
+        Slice<Member> followers = followRepository.findFollowerByFollowedOrderByCreatedAtDesc(member, pageable);
+        return getFollowInfoResponses(loginId, followers);
+    }
+
+    private Slice<FollowInfoResponse> getFollowInfoResponses(String loginId, Slice<Member> followers) {
+        if(Objects.nonNull(loginId)) {
+            Member loginMember = findById(loginId);
+            return MemberMapper.toFollowInfo(loginMember, followers);
+        }
+        return MemberMapper.toFollowInfo(followers);
     }
 
     private void validateEmailDuplication(String email) {

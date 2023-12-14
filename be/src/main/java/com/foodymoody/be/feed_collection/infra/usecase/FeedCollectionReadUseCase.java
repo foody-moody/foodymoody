@@ -36,7 +36,7 @@ public class FeedCollectionReadUseCase {
         var feedCollectionId = IdFactory.createFeedCollectionId(id);
         var feedCollection = feedCollectionReadService.fetch(feedCollectionId);
         var author = memberService.findById(feedCollection.getAuthorId());
-        var authorProfileImage = imageService.findById(author.getMemberProfileImageId());
+        var authorProfileImage = imageService.findById(author.getProfileImageId());
         var authorTasteMood = tasteMoodService.findById(author.getTasteMoodId());
         AuthorSummaryResponse authorSummaryResponse = new AuthorSummaryResponse(
                 author.getId().getValue(),
