@@ -24,35 +24,32 @@ export const NewFeedModalPage = () => {
   const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
   const { mutate: feedMutate } = useFeedEditor(feedId);
   const { data: feedDetailData } = useFeedDetail(feedId);
-  // console.log('Newfeed feedId', feedId);
-  // console.log('Newfeed feedDetailData', feedDetailData);
   const { isLogin } = useAuthState();
   const currentPath = useLocation();
-  console.log(currentPath, '현재 위치는?');
   const {
     menuItems,
     handleAddMenuItem,
     handleRemoveMenuItem,
+    handleEditMenuImage,
     handleEditMenuName,
     handleEditStarRating,
-    // } = useMenuItem(initialValue.images); // feedDetailData로 교체
-  } = useMenuItem(feedDetailData?.images); // feedDetailData로 교체
-  console.log('Newfeed menuItems', menuItems);
+  } = useMenuItem(feedDetailData?.images);
+  console.log('feedDetailData', feedDetailData?.images);
   const {
     value: locationName,
     handleChange: handleLocationChange,
     isValid: isLocationNameVaild,
     helperText: locationNameHelperText,
   } = useInput({
-    // initialValue: initialValue.locationValue,
     initialValue: '',
     validator: (value) => value.trim().length > 0,
     helperText: '가게 이름을 입력해주세요',
   });
+
   const { value: reviewValue, handleChange: handleReviewChange } = useInput({
-    // initialValue: initialValue.reviewValue,
     initialValue: '',
   });
+
   useEffect(() => {
     if (feedDetailData) {
       handleReviewChange(feedDetailData.review);
@@ -60,36 +57,28 @@ export const NewFeedModalPage = () => {
       // setSelectedBadgeList(feedDetailData.storeMood); // 확인필요
     }
   }, [feedDetailData]);
+
   const handleSubmit = () => {
-    console.log('submit location', locationName);
-    console.log(
-      'submit menus',
-      menuItems.map((menuItem) => menuItem.menu)
-    );
-    console.log(
-      'submit Badge',
-      selectedBadgeList.map((badge) => badge.id)
-    );
-    console.log('submit review', reviewValue);
-    console.log({
-      location: locationName,
-      images: menuItems.map(({ imageUrl, menu }) => ({
-        imageId: imageUrl,
-        menu,
-      })),
-      storeMood: selectedBadgeList.map((badge) => badge.id),
-      review: reviewValue,
-    });
+    // console.log({
+    //   location: locationName,
+    //   images: menuItems.map(({ imageId, menu }) => ({
+    //     imageId,
+    //     menu,
+    //   })),
+    //   storeMood: selectedBadgeList.map((badge) => badge.id),
+    //   review: reviewValue,
+    // });
     feedMutate({
       location: locationName,
-      images: menuItems.map(({ imageUrl, menu }) => ({
-        imageId: imageUrl,
+      images: menuItems.map(({ imageId, menu }) => ({
+        imageId,
         menu,
       })),
       storeMood: selectedBadgeList.map((badge) => badge.id),
       review: reviewValue,
     });
   };
+
   const handleSelectBadgeList = (badges: Badge[]) => {
     setSelectedBadgeList(badges);
   };
@@ -101,6 +90,7 @@ export const NewFeedModalPage = () => {
     menuItems
       .map((menuItem) => menuItem.menu.name)
       .every((name) => name.trim().length > 0);
+
   return isLogin ? (
     <>
       <Dim onClick={navigateToHome} />
@@ -137,6 +127,7 @@ export const NewFeedModalPage = () => {
                     <MenuItemEditor
                       key={menuItem.id}
                       menuItem={menuItem}
+                      onEditMenuImage={handleEditMenuImage}
                       onEditMenuName={handleEditMenuName}
                       onEditStarRating={handleEditStarRating}
                       onRemove={handleRemoveMenuItem}

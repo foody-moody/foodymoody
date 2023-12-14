@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDeleteComment, usePutComment } from 'service/queries/comment';
 import { useDeleteCommentLike, usePostCommentLike } from 'service/queries/like';
 import { styled } from 'styled-components';
@@ -7,9 +7,9 @@ import { useInput } from 'hooks/useInput';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { DotGhostIcon, HeartSmallEmpty, HeartSmallFill } from '../icon/icons';
-import { Input2 } from '../input/Input2';
+import { Input } from '../input/Input';
 import { InputField } from '../input/InputField';
-import { useModal } from '../modal/Modal';
+import { useModal } from '../modal/useModal';
 import { UserImage } from '../userImage/UserImage';
 
 type Props = {
@@ -19,32 +19,32 @@ type Props = {
 
 export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
   console.log(comment, ' now commentItems');
+  const inputRef = useRef(null);
+  const [isEdit, setIsEdit] = useState(false);
+  const { isLogin, userInfo } = useAuthState();
   const { navigateToLogin } = usePageNavigator();
   const { openModal, closeModal } = useModal<'commentAlert'>();
   const { mutate: editMutate } = usePutComment();
   const { mutate: deleteMutate } = useDeleteComment();
+  const { mutate: likeMutate } = usePostCommentLike();
+  const { mutate: unLikeMutate } = useDeleteCommentLike();
+
   const { value, handleChange, isValid } = useInput({
     initialValue: comment.content, //여기 추가함
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
   });
-  const [isEdit, setIsEdit] = useState(false);
-  const { isLogin, userInfo } = useAuthState();
-
-  const { mutate: likeMutate } = usePostCommentLike({
-    isReply: false,
-  });
-  const { mutate: unLikeMutate } = useDeleteCommentLike({
-    isReply: false,
-  });
 
   const isAuthor = userInfo?.id === comment.member.id;
-  const LikeIcon = comment.hearted ? HeartSmallFill : HeartSmallEmpty;
-  const likeFn = comment.hearted ? unLikeMutate : likeMutate;
+  const LikeIcon = comment.liked ? HeartSmallFill : HeartSmallEmpty;
+  // const likeFn = comment.liked ? unLikeMutate : likeMutate;
   const formattedTimeStamp = formatTimeStamp(createdAt);
 
-  const handleEdit = () => {
+  const handleEdit = (inputRef?: React.RefObject<HTMLInputElement>) => {
     setIsEdit(true);
+    console.log(inputRef, ' now inputRef');
+    //이거 왜안됨
+    inputRef && inputRef?.current?.focus();
   };
 
   const handleEditSubmit = (commentId: string) => {
@@ -77,7 +77,7 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
           closeModal('commentAlert');
         },
         onEdit: () => {
-          handleEdit();
+          handleEdit(inputRef);
           closeModal('commentAlert');
         },
       }),
@@ -85,10 +85,10 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
 
     openModal('commentAlert', modalProps);
   };
-
+  console.log(comment.id, ' now comment ID');
   const handleSubmitLike = () => {
     if (isLogin) {
-      likeFn(comment.id);
+      comment.liked ? unLikeMutate(comment.id) : likeMutate(comment.id);
     } else {
       navigateToLogin();
     }
@@ -104,16 +104,20 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
             <TimeStamp>{formattedTimeStamp}</TimeStamp>
           </ContentHeader>
           {isEdit ? (
-            <Input2 variant="ghost">
-              <Input2.CenterContent>
+            <Input variant="ghost">
+              <Input.CenterContent>
                 <InputField
+                  ref={inputRef}
                   limitedLength={200}
                   value={value}
                   onChangeValue={handleChange}
                   onPressEnter={() => handleEditSubmit(comment.id)}
+                  onBlur={() => {
+                    setIsEdit(false);
+                  }}
                 />
-              </Input2.CenterContent>
-            </Input2>
+              </Input.CenterContent>
+            </Input>
           ) : (
             comment.content
           )}

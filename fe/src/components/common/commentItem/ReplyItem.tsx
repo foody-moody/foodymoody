@@ -1,55 +1,56 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDeleteComment, usePutComment } from 'service/queries/comment';
-import { useDeleteCommentLike, usePostCommentLike } from 'service/queries/like';
+import { useDeleteReplyLike, usePostReplyLike } from 'service/queries/like';
 import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { DotGhostIcon, HeartSmallEmpty, HeartSmallFill } from '../icon/icons';
-import { Input2 } from '../input/Input2';
+import { Input } from '../input/Input';
 import { InputField } from '../input/InputField';
-import { useModal } from '../modal/Modal';
+import { useModal } from '../modal/useModal';
 import { UserImage } from '../userImage/UserImage';
 
 type Props = {
+  commentId: string;
+  reply: ReplyItemType;
   createdAt: string;
-  comment: ReplyItemType;
 };
 
-export const ReplyItem: React.FC<Props> = ({ createdAt, comment }) => {
-  console.log(comment, ' now ReplyItems');
-  const { navigateToLogin } = usePageNavigator();
+export const ReplyItem: React.FC<Props> = ({ commentId, reply, createdAt }) => {
+  console.log(reply, ' now ReplyItems');
+  const [isEdit, setIsEdit] = useState(false);
   const { openModal, closeModal } = useModal<'commentAlert'>();
+  const { isLogin, userInfo } = useAuthState();
+  const { navigateToLogin } = usePageNavigator();
   const { mutate: editMutate } = usePutComment();
   const { mutate: deleteMutate } = useDeleteComment();
+  const { mutate: likeMutate } = usePostReplyLike();
+  const { mutate: unLikeMutate } = useDeleteReplyLike();
+
   const { value, handleChange, isValid } = useInput({
+    initialValue: reply.content,
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
   });
-  const [isEdit, setIsEdit] = useState(false);
-  const { isLogin, userInfo } = useAuthState();
 
-  const { mutate: likeMutate } = usePostCommentLike({
-    isReply: true,
-  });
-  const { mutate: unLikeMutate } = useDeleteCommentLike({
-    isReply: true,
-  });
-
-  const isAuthor = userInfo?.id === comment.member.id;
-  const LikeIcon = comment.hearted ? HeartSmallFill : HeartSmallEmpty;
-  const likeFn = comment.hearted ? unLikeMutate : likeMutate;
+  const inputRef = useRef<HTMLInputElement>(null);
+  const isAuthor = userInfo?.id === reply.member.id;
+  const LikeIcon = reply.liked ? HeartSmallFill : HeartSmallEmpty;
   const formattedTimeStamp = formatTimeStamp(createdAt);
 
   const handleEdit = () => {
     setIsEdit(true);
+    console.log(inputRef, ' now inputRef');
+    //이거 왜안됨
+    inputRef?.current?.focus();
   };
 
-  const handleEditSubmit = (commentId: string) => {
+  const handleEditSubmit = (replyId: string) => {
     isValid &&
       editMutate({
-        id: commentId,
+        id: replyId,
         body: { content: value },
       });
 
@@ -57,14 +58,15 @@ export const ReplyItem: React.FC<Props> = ({ createdAt, comment }) => {
   };
 
   const handleDelete = () => {
-    console.log(comment.id, ' now comment ID');
+    console.log(reply.id, ' now reply ID');
 
-    deleteMutate(comment.id);
+    deleteMutate(reply.id);
   };
 
   const handleAlert = () => {
     const modalProps = {
       onClose: () => {
+        setIsEdit(false);
         closeModal('commentAlert');
       },
       onReport: () => {
@@ -85,9 +87,14 @@ export const ReplyItem: React.FC<Props> = ({ createdAt, comment }) => {
 
     openModal('commentAlert', modalProps);
   };
+
   const handleSubmitLike = () => {
+    console.log(reply.id, ' now reply ID', commentId, 'commentId');
+
     if (isLogin) {
-      likeFn(comment.id);
+      reply.liked
+        ? unLikeMutate({ commentId: commentId, replyId: reply.id })
+        : likeMutate({ commentId: commentId, replyId: reply.id });
     } else {
       navigateToLogin();
     }
@@ -97,25 +104,29 @@ export const ReplyItem: React.FC<Props> = ({ createdAt, comment }) => {
     <Wrapper>
       <ReplyRow>
         <ContentLeft>
-          <UserImage imageUrl={comment.member.imageUrl} />
+          <UserImage imageUrl={reply.member.imageUrl} />
           <FlexColumnBox>
             <ContentHeader>
-              <Nickname>{comment.member.nickname}</Nickname>
+              <Nickname>{reply.member.nickname}</Nickname>
               <TimeStamp>{formattedTimeStamp}</TimeStamp>
             </ContentHeader>
             {isEdit ? (
-              <Input2 variant="ghost">
-                <Input2.CenterContent>
+              <Input variant="ghost">
+                <Input.CenterContent>
                   <InputField
+                    ref={inputRef}
                     limitedLength={200}
                     value={value}
                     onChangeValue={handleChange}
-                    onPressEnter={() => handleEditSubmit(comment.id)}
+                    onPressEnter={() => handleEditSubmit(reply.id)}
+                    onBlur={() => {
+                      setIsEdit(false);
+                    }}
                   />
-                </Input2.CenterContent>
-              </Input2>
+                </Input.CenterContent>
+              </Input>
             ) : (
-              comment.content
+              reply.content
             )}
           </FlexColumnBox>
         </ContentLeft>
@@ -127,7 +138,7 @@ export const ReplyItem: React.FC<Props> = ({ createdAt, comment }) => {
         )}
       </ReplyRow>
       <ReplyButtonBox>
-        <p>좋아요 n개</p>
+        <p>좋아요 {reply.likeCount}개</p>
       </ReplyButtonBox>
     </Wrapper>
   );

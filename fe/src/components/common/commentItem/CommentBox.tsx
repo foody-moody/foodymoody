@@ -64,7 +64,7 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
       <Wrapper ref={ref}>
         <CommentItem createdAt={createdAt} comment={comment} />
         <ReplyButtonBox>
-          <p>좋아요 {comment.heartCount}개</p>
+          <p>좋아요 {comment.likeCount}개</p>
           {/* 좋아요 누른 사람의 목록을 보여줄 것인지? */}
           <TextButton color="black" size="s" onClick={handleToggleReplyInput}>
             답글 달기
@@ -93,12 +93,13 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
             {replies.map((reply) => (
               <ReplyItem
                 key={reply.id}
+                commentId={comment.id}
                 createdAt={
                   reply.createdAt === reply.updatedAt
                     ? reply.createdAt
                     : reply.updatedAt
                 }
-                comment={reply}
+                reply={reply}
               />
             ))}
             {hasNextPage && (

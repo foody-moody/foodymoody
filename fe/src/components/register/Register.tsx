@@ -86,7 +86,7 @@ export const Register: React.FC = () => {
     isNicknameValid &&
     isPasswordValid &&
     isConfirmPasswordValid &&
-    selectedTaste;
+    selectedTaste.id !== '';
 
   return (
     <Wrapper>
