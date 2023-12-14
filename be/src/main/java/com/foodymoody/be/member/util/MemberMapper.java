@@ -46,6 +46,7 @@ public class MemberMapper {
                             loginMember.isMyFollowing(followed),
                             loginMember.isMyFollower(followed)));
     }
+
     public static Slice<FollowInfoResponse> toFollowInfo(Slice<Member> followings) {
         return followings.map(
                 followed -> FollowInfoResponse.of(

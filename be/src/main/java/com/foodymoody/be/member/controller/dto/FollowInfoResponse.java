@@ -1,27 +1,23 @@
 package com.foodymoody.be.member.controller.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
+@Getter
 public class FollowInfoResponse {
 
-    @JsonProperty
     private String id;
-    @JsonProperty
     private String nickname;
-    @JsonProperty
     private String profileImageUrl;
-    @JsonProperty
-    private boolean isMyFollowing;
-    @JsonProperty
-    private boolean isMyFollower;
+    private boolean following;
+    private boolean followed;
 
-    public FollowInfoResponse(String id, String nickname, String profileImageUrl, boolean isMyFollowing,
-            boolean isMyFollower) {
+    public FollowInfoResponse(String id, String nickname, String profileImageUrl, boolean following,
+            boolean followed) {
         this.id = id;
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
-        this.isMyFollowing = isMyFollowing;
-        this.isMyFollower = isMyFollower;
+        this.following = following;
+        this.followed = followed;
     }
 
     public static FollowInfoResponse of (String id, String nickname, String profileImageUrl, boolean isMyFollowing, boolean isMyFollower) {

@@ -165,8 +165,8 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),
                     () -> assertThat(response.jsonPath().getString("nickname")).isEqualTo("푸반"),
                     () -> assertThat(response.jsonPath().getLong("feedCount")).isEqualTo(3),
-                    () -> assertThat(response.jsonPath().getBoolean("isMyFollowing")).isFalse(),
-                    () -> assertThat(response.jsonPath().getBoolean("isMyFollower")).isFalse(),
+                    () -> assertThat(response.jsonPath().getBoolean("following")).isFalse(),
+                    () -> assertThat(response.jsonPath().getBoolean("followed")).isFalse(),
                     () -> assertThat(response.jsonPath().getLong("followerCount"))
                             .isEqualTo(1)
             );
@@ -191,9 +191,9 @@ class MemberAcceptanceTest extends AcceptanceTest {
             // then
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),
-                    () -> assertThat(response.jsonPath().getBoolean("isMyFollowing"))
+                    () -> assertThat(response.jsonPath().getBoolean("following"))
                             .isTrue(),
-                    () -> assertThat(response.jsonPath().getBoolean("isMyFollower"))
+                    () -> assertThat(response.jsonPath().getBoolean("followed"))
                             .isTrue()
             );
         }
@@ -828,7 +828,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),
                     () -> assertThat(response.jsonPath().getList("content"))
-                            .extracting("isMyFollowing", Boolean.class)
+                            .extracting("following", Boolean.class)
                             .allSatisfy(isMyFollowing -> assertThat(isMyFollowing).isEqualTo(Boolean.TRUE)));
         }
 
@@ -850,6 +850,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             팔로우한다(보노_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());
             팔로우한다(회원푸반_액세스토큰, 아티_아이디, new RequestSpecBuilder().build());
             팔로우한다(회원푸반_액세스토큰, 알버트_아이디, new RequestSpecBuilder().build());
+            팔로우한다(회원아티_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());
 
             // when
             var response = 로그인시_팔로잉_목록을_조회한다(회원푸반_액세스토큰, 보노_아이디, spec);
@@ -858,11 +859,11 @@ class MemberAcceptanceTest extends AcceptanceTest {
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),
                     () -> assertThat(response.jsonPath().getList("content"))
-                            .extracting("id", "isMyFollowing")
+                            .extracting("id", "following", "followed")
                             .containsExactly(
-                                    Tuple.tuple(푸반_아이디, Boolean.FALSE),
-                                    Tuple.tuple(알버트_아이디, Boolean.TRUE),
-                                    Tuple.tuple(아티_아이디, Boolean.TRUE)
+                                    Tuple.tuple(푸반_아이디, Boolean.FALSE, Boolean.FALSE),
+                                    Tuple.tuple(알버트_아이디, Boolean.TRUE, Boolean.FALSE),
+                                    Tuple.tuple(아티_아이디, Boolean.TRUE, Boolean.TRUE)
                             ));
         }
 
@@ -950,6 +951,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     .jsonPath().getString("accessToken");
 
             팔로우한다(회원아티_액세스토큰, 보노_아이디, new RequestSpecBuilder().build());
+            팔로우한다(회원아티_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());
             팔로우한다(알버트_액세스토큰, 보노_아이디, new RequestSpecBuilder().build());
             팔로우한다(회원푸반_액세스토큰, 보노_아이디, new RequestSpecBuilder().build());
 
@@ -963,11 +965,11 @@ class MemberAcceptanceTest extends AcceptanceTest {
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),
                     () -> assertThat(response.jsonPath().getList("content"))
-                            .extracting("id", "isMyFollowing")
+                            .extracting("id", "following", "followed")
                             .containsExactly(
-                                    Tuple.tuple(푸반_아이디, Boolean.FALSE),
-                                    Tuple.tuple(알버트_아이디, Boolean.TRUE),
-                                    Tuple.tuple(아티_아이디, Boolean.TRUE)
+                                    Tuple.tuple(푸반_아이디, Boolean.FALSE, Boolean.FALSE),
+                                    Tuple.tuple(알버트_아이디, Boolean.TRUE, Boolean.FALSE),
+                                    Tuple.tuple(아티_아이디, Boolean.TRUE, Boolean.TRUE)
                             ));
         }
 
