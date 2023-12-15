@@ -1,10 +1,10 @@
 package com.foodymoody.be.feed_collection.infra.usecase;
 
 import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.application.StoreMoodService;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
-import com.foodymoody.be.feed.domain.entity.StoreMoodId;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import com.foodymoody.be.image.service.ImageService;
@@ -49,11 +49,7 @@ public class FeedCollectionReadUseCase {
                 .map(feedReadService::findFeed)
                 .map(feed -> {
                     var feedTasteMood = storeMoodService.findAllById(
-                                    feed.getStoreMoods()
-                                            .getStoreMoodIds()
-                                            .stream()
-                                            .map(StoreMoodId::new)
-                                            .collect(Collectors.toList())
+                                    feed.getStoreMoodIds()
                             ).stream()
                             .map(StoreMood::getName)
                             .collect(Collectors.toList());
