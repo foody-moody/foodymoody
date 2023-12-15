@@ -3,6 +3,8 @@ package com.foodymoody.be.feed.application;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.StoreMoodId;
+import com.foodymoody.be.feed.application.dto.request.CollectionServiceReadAllFeedRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceDeleteRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceRegisterRequest;
@@ -19,7 +21,6 @@ import com.foodymoody.be.feed.application.dto.response.FeedStoreMoodResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedTasteMoodResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
-import com.foodymoody.be.feed.domain.entity.StoreMoodId;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.image.domain.Image;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.springframework.data.domain.Pageable;
 
 public class FeedMapper {
 
@@ -36,7 +38,7 @@ public class FeedMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Feed toFeed(FeedId id, MemberId memberId, FeedServiceRegisterRequest request, List<String> moodIds,
+    public static Feed toFeed(FeedId id, MemberId memberId, FeedServiceRegisterRequest request, List<StoreMoodId> moodIds,
                               List<Image> images, List<Menu> menus, String profileImageUrl) {
         return new Feed(id, memberId, request.getLocation(), request.getReview(), moodIds, images, menus,
                 profileImageUrl);
@@ -69,7 +71,7 @@ public class FeedMapper {
                 .memberId(memberId)
                 .location(request.getLocation())
                 .review(request.getReview())
-                .storeMood(request.getStoreMood())
+                .storeMoodIds(request.getStoreMoodIds())
                 .images(request.getImages())
                 .build();
     }
@@ -79,7 +81,7 @@ public class FeedMapper {
                 .memberId(memberId)
                 .location(request.getLocation())
                 .review(request.getReview())
-                .storeMood(request.getStoreMood())
+                .storeMoodIds(request.getStoreMoodIds())
                 .images(request.getImages())
                 .build();
     }
@@ -93,8 +95,8 @@ public class FeedMapper {
                             IdGenerator.generate(),
                             new FeedImageResponse(imageIdUrlList.get(i).getId(),
                                     imageIdUrlList.get(i).getUrl()),
-            new FeedMenuResponse(menuNameRatingList.get(i).getName(),
-                    menuNameRatingList.get(i).getRating())
+                            new FeedMenuResponse(menuNameRatingList.get(i).getName(),
+                                    menuNameRatingList.get(i).getRating())
                     )
             );
         }
@@ -115,12 +117,6 @@ public class FeedMapper {
                 .build();
     }
 
-    public static List<StoreMoodId> makeStoreMoodIds(List<String> storeMoodIds) {
-        return storeMoodIds.stream()
-                .map(StoreMoodId::new)
-                .collect(Collectors.toUnmodifiableList());
-    }
-
     public static FeedReadAllResponse makeFeedReadAllResponse(Feed feed, FeedMemberResponse makeFeedMemberResponse,
                                                               List<FeedStoreMoodResponse> makeFeedStoreMoodResponses,
                                                               List<FeedImageMenuResponse> makeFeedImageMenuResponses) {
@@ -139,11 +135,16 @@ public class FeedMapper {
                 .build();
     }
 
-    public static List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<String> storeMoodIds,
+    public static List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<StoreMoodId> storeMoodIds,
                                                                          List<StoreMood> storeMoods) {
         return IntStream.range(0, storeMoodIds.size())
                 .mapToObj(i -> new FeedStoreMoodResponse(storeMoodIds.get(i), storeMoods.get(i).getName()))
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    public static CollectionServiceReadAllFeedRequest toCollectionServiceReadAllFeedRequest(String collectionId,
+                                                                                            Pageable pageable) {
+        return new CollectionServiceReadAllFeedRequest(collectionId, pageable);
     }
 
 }

@@ -1,9 +1,9 @@
 package com.foodymoody.be.feed.application;
 
 import com.foodymoody.be.common.exception.MoodNotFoundException;
-import com.foodymoody.be.feed.domain.entity.StoreMood;
-import com.foodymoody.be.feed.domain.entity.StoreMoodId;
+import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.feed.application.dto.response.StoreMoodResponse;
+import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed.domain.repository.StoreMoodRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,4 +29,11 @@ public class StoreMoodService {
                 .map(s -> new StoreMoodResponse(s.getId(), s.getName()))
                 .collect(Collectors.toUnmodifiableList());
     }
+
+    public List<String> findNamesById(List<StoreMoodId> storeMoodIds) {
+        return storeMoodRepository.findAllByIdIn(storeMoodIds).stream()
+                .map(StoreMood::getName)
+                .collect(Collectors.toList());
+    }
+
 }

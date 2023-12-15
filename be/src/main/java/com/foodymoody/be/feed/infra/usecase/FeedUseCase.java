@@ -2,15 +2,16 @@ package com.foodymoody.be.feed.infra.usecase;
 
 import static com.foodymoody.be.feed.application.FeedMapper.makeFeedReadAllResponse;
 import static com.foodymoody.be.feed.application.FeedMapper.makeFeedStoreMoodResponses;
-import static com.foodymoody.be.feed.application.FeedMapper.makeStoreMoodIds;
 import static com.foodymoody.be.feed.application.FeedMapper.toFeedMemberResponse;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.StoreMoodId;
+import com.foodymoody.be.feed.application.FeedMapper;
+import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.application.FeedWriteService;
-import com.foodymoody.be.feed.domain.entity.Feed;
-import com.foodymoody.be.feed.domain.entity.ImageMenu;
+import com.foodymoody.be.feed.application.StoreMoodService;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceDeleteRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceUpdateRequest;
@@ -20,11 +21,10 @@ import com.foodymoody.be.feed.application.dto.response.FeedMemberResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
-import com.foodymoody.be.feed.application.FeedReadService;
-import com.foodymoody.be.feed.application.StoreMoodService;
+import com.foodymoody.be.feed.domain.entity.Feed;
+import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
-import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
 import com.foodymoody.be.feed_heart_count.service.FeedHeartCountService;
 import com.foodymoody.be.image.domain.Image;
@@ -65,7 +65,7 @@ public class FeedUseCase {
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = toMenu(imageMenuPairs);
         List<Image> images = toImage(imageMenuPairs, memberId);
-        List<String> storeMoodIds = request.getStoreMood();
+        List<StoreMoodId> storeMoodIds = request.getStoreMoodIds();
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
         Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoodIds, images, menus,
@@ -78,7 +78,8 @@ public class FeedUseCase {
     }
 
     public Slice<FeedReadAllResponse> readAll(Pageable pageable) {
-        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
+        final String sortBy = "createdAt";
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sortBy).descending());
 
         Slice<Feed> feeds = feedReadService.findAll(pageable);
         List<FeedReadAllResponse> responses = makeFeedReadAllResponseList(feeds);
@@ -90,7 +91,8 @@ public class FeedUseCase {
         return feeds.stream()
                 .map(feed -> makeFeedReadAllResponse(feed, makeFeedMemberResponse(feed),
                         makeFeedStoreMoodResponses(feed.getStoreMoodIds(),
-                                storeMoodService.findAllById(makeStoreMoodIds(feed.getStoreMoodIds()))), makeFeedImageMenuResponses(feed)))
+                                storeMoodService.findAllById(feed.getStoreMoodIds())),
+                        makeFeedImageMenuResponses(feed)))
                 .collect(Collectors.toList());
     }
 
@@ -98,12 +100,12 @@ public class FeedUseCase {
         FeedId feedId = IdFactory.createFeedId(id);
         Feed feed = feedReadService.findFeed(feedId);
         List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feed);
-        List<String> storeMoodIds = feed.getStoreMoodIds();
+        List<StoreMoodId> storeMoodIds = feed.getStoreMoodIds();
 
         FeedMemberResponse feedMemberResponse = makeFeedMemberResponse(feed);
 
         return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
-                makeFeedStoreMoodResponses(storeMoodIds, storeMoodService.findAllById(makeStoreMoodIds(storeMoodIds))));
+                makeFeedStoreMoodResponses(storeMoodIds, storeMoodService.findAllById(storeMoodIds)));
     }
 
     @Transactional
@@ -114,7 +116,7 @@ public class FeedUseCase {
         MemberId memberId = member.getId();
         List<Image> newImages = toImage(request.getImages(), memberId);
         List<Menu> newMenus = toMenu(request.getImages());
-        List<String> newStoreMoodIds = request.getStoreMood();
+        List<StoreMoodId> newStoreMoodIds = request.getStoreMoodIds();
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
         feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoodIds, newImages, newMenus,
@@ -136,7 +138,9 @@ public class FeedUseCase {
     // TODO: 쿼리 사용하여 리팩토링
     public List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
         return imageMenuPairs.stream()
-                .map(imageMenuPair -> menuService.save(new Menu(IdFactory.createMenuId(), imageMenuPair.getMenu().getName(), imageMenuPair.getMenu().getRating())))
+                .map(imageMenuPair -> menuService.save(
+                        new Menu(IdFactory.createMenuId(), imageMenuPair.getMenu().getName(),
+                                imageMenuPair.getMenu().getRating())))
                 .collect(Collectors.toUnmodifiableList());
     }
 

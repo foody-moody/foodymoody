@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.domain.entity;
 
+import com.foodymoody.be.common.util.ids.StoreMoodId;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.AccessLevel;
@@ -14,10 +15,11 @@ public class StoreMood {
     private String name;
 
     public String getId() {
-        return id.getId();
+        return id.getValue();
     }
 
     public String getName() {
         return name;
     }
+
 }
