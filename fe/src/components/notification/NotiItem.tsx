@@ -36,7 +36,7 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
     } = notification.target || {};
     const { notificationId, type, createdAt, updatedAt, read } = notification;
 
-    const notiTest = generateNotiText(type);
+    const notiText = generateNotiText(type);
 
     return (
       <Wrapper ref={ref} $isRead={read}>
@@ -45,7 +45,7 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
           <Content>
             <NotiText>
               <span>{nickname}</span>
-              {notiTest}
+              {notiText}
             </NotiText>
             {type !== 'MEMBER_FOLLOWED_EVENT' && (
               <Message>{commentMessage}</Message>
