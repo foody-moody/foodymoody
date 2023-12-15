@@ -78,7 +78,8 @@ public class MemberService {
     public void updateProfile(String loginId, String id, UpdateProfileRequest request) {
         validateAuthorization(loginId, id);
         Member member = findById(IdFactory.createMemberId(id));
-        if (Objects.nonNull(request.getProfileImageId())) {
+        if (Objects.nonNull(request.getProfileImageId())
+                && !Objects.equals(request.getProfileImageId(), member.getProfileImageId().getValue())) {
             Image image = imageService.findById(IdFactory.createImageId(request.getProfileImageId()));
             // TODO 리팩토링
             if (!Objects.equals(member.getProfileImageId(), ImageId.MEMBER_PROFILE_DEFAULT)) {
@@ -86,11 +87,13 @@ public class MemberService {
             }
             member.updateProfileImage(image.getId());
         }
-        if (Objects.nonNull(request.getTasteMoodId())) {
+        if (Objects.nonNull(request.getTasteMoodId())
+                && !Objects.equals(request.getTasteMoodId(), member.getTasteMoodId().getValue())) {
             TasteMood tasteMood = tasteMoodService.findById(IdFactory.createTasteMoodId(request.getTasteMoodId()));
             member.changeTasteMood(tasteMood.getId());
         }
-        if (Objects.nonNull(request.getNickname())) {
+        if (Objects.nonNull(request.getNickname())
+                && !Objects.equals(request.getNickname(), member.getNickname())) {
             validateNicknameDuplication(request.getNickname());
             member.changeNickname(request.getNickname());
         }
