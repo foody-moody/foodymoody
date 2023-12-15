@@ -1,6 +1,5 @@
 package com.foodymoody.be.common.util.ids;
 
-import com.foodymoody.be.common.util.Constants;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class ImageId extends BaseId {
 
-    public static final ImageId MEMBER_PROFILE_DEFAULT = IdFactory.createImageId(Constants.MEMBER_PROFILE_DEFAULT_IMAGE_ID);
+    public static final ImageId MEMBER_PROFILE_DEFAULT = new ImageId("member-profile-default");
 
     public ImageId(String value) {
         super(value);
