@@ -93,6 +93,10 @@ public class Member {
         this.tasteMoodId = tasteMoodId;
     }
 
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public void follow(Member target) {
         if (Objects.isNull(target) || Objects.equals(target, this)) {
             throw new IllegalArgumentException("팔로우할 수 없는 회원입니다");

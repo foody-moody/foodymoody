@@ -78,10 +78,6 @@ public class MemberService {
     public void updateProfile(String loginId, String id, UpdateProfileRequest request) {
         validateAuthorization(loginId, id);
         Member member = findById(IdFactory.createMemberId(id));
-        if (Objects.nonNull(request.getTasteMoodId())) {
-            TasteMood tasteMood = tasteMoodService.findById(IdFactory.createTasteMoodId(request.getTasteMoodId()));
-            member.changeTasteMood(tasteMood.getId());
-        }
         if (Objects.nonNull(request.getProfileImageId())) {
             Image image = imageService.findById(IdFactory.createImageId(request.getProfileImageId()));
             // TODO 리팩토링
@@ -89,6 +85,14 @@ public class MemberService {
                 imageService.delete(loginId, member.getProfileImageId().getValue());
             }
             member.updateProfileImage(image.getId());
+        }
+        if (Objects.nonNull(request.getTasteMoodId())) {
+            TasteMood tasteMood = tasteMoodService.findById(IdFactory.createTasteMoodId(request.getTasteMoodId()));
+            member.changeTasteMood(tasteMood.getId());
+        }
+        if (Objects.nonNull(request.getNickname())) {
+            validateNicknameDuplication(request.getNickname());
+            member.changeNickname(request.getNickname());
         }
     }
 
