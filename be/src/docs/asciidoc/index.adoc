@@ -285,7 +285,7 @@ operation::fetch_member_profile_if_login_success[snippets='http-request,http-res
 
 ==== 존재하지 않는 회원 id일 때
 
-operation::fetchMemberProfileNotExistMember_fail[snippets='http-response']
+operation::fetch_member_profile_if_member_not_exits_fail[snippets='http-response']
 
 === 회원별 피드 조회
 
