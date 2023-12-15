@@ -578,7 +578,6 @@ class MemberAcceptanceTest extends AcceptanceTest {
         @BeforeEach
         public void set푸반_아이디() {
             푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
-
         }
 
         @Test
@@ -586,15 +585,28 @@ class MemberAcceptanceTest extends AcceptanceTest {
             // docs
             api_문서_타이틀("deleteMember_success", spec);
 
+            // given
+            String 아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
+            팔로우한다(회원아티_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());
+            팔로우한다(회원푸반_액세스토큰, 아티_아이디, new RequestSpecBuilder().build());
+
             // when
             var response = 회원탈퇴한다(회원푸반_액세스토큰, 푸반_아이디, spec);
 
             // then
             ExtractableResponse<Response> 탈퇴한_푸반_로그인_응답 = 로그인_한다(회원_푸반.getEmail(), 회원_푸반.getPassword(),
                     new RequestSpecBuilder().build());
+            ExtractableResponse<Response> 아티_팔로잉목록조회_응답 = 팔로잉_목록을_조회한다(아티_아이디, new RequestSpecBuilder().build());
+            ExtractableResponse<Response> 아티_팔로워목록조회_응답 = 팔로워_목록을_조회한다(아티_아이디, new RequestSpecBuilder().build());
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
-                    () -> 상태코드를_검증한다(탈퇴한_푸반_로그인_응답, HttpStatus.NOT_FOUND)
+                    () -> 상태코드를_검증한다(탈퇴한_푸반_로그인_응답, HttpStatus.NOT_FOUND),
+                    () -> assertThat(아티_팔로잉목록조회_응답.jsonPath().getList("content"))
+                            .extracting("id")
+                            .doesNotContain(푸반_아이디),
+                    () -> assertThat(아티_팔로워목록조회_응답.jsonPath().getList("content"))
+                            .extracting("id")
+                            .doesNotContain(푸반_아이디)
             );
         }
 
