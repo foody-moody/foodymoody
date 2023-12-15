@@ -2,8 +2,10 @@ package com.foodymoody.be.member.domain;
 
 import com.foodymoody.be.common.exception.FollowFailedByAlreadyFollowingException;
 import com.foodymoody.be.common.exception.UnfollowFailedByNotFollowingException;
+import com.foodymoody.be.common.util.ids.MemberId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
@@ -17,15 +19,15 @@ public class MyFollowings {
     List<Follow> follows = new ArrayList<>();
 
     public void add(Member me, Member target) {
-        if (contains(target)) {
+        if (containsById(target.getId())) {
             throw new FollowFailedByAlreadyFollowingException();
         }
         this.follows.add(Follow.of(me, target));
     }
 
-    public boolean contains(Member member) {
+    public boolean containsById(MemberId id) {
         return this.follows.stream()
-                .anyMatch(follow -> follow.getFollowed().equals(member));
+                .anyMatch(follow -> Objects.equals(follow.getFollowed().getId(), id));
     }
 
     public void remove(Member target) {

@@ -12,12 +12,13 @@ import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.service.ImageService;
 import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
 import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
-import com.foodymoody.be.member.controller.dto.FollowInfoResponse;
+import com.foodymoody.be.member.controller.dto.FollowInfoMemberResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.controller.dto.UpdateProfileRequest;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.TasteMood;
+import com.foodymoody.be.member.repository.FollowInfoMember;
 import com.foodymoody.be.member.repository.FollowRepository;
 import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.repository.MemberRepository;
@@ -83,11 +84,11 @@ public class MemberService {
         }
         if (Objects.nonNull(request.getProfileImageId())) {
             Image image = imageService.findById(IdFactory.createImageId(request.getProfileImageId()));
+            // TODO 리팩토링
             if (!Objects.equals(member.getProfileImageId(), ImageId.MEMBER_PROFILE_DEFAULT)) {
-                // TODO 리팩토링
                 imageService.delete(loginId, member.getProfileImageId().getValue());
             }
-            member.setProfileImage(image.getId(), image.getUrl());
+            member.updateProfileImage(image.getId());
         }
     }
 
@@ -147,19 +148,19 @@ public class MemberService {
         member.unfollow(target);
     }
 
-    public Slice<FollowInfoResponse> listFollowings(String loginId, String id, Pageable pageable) {
+    public Slice<FollowInfoMemberResponse> listFollowings(String loginId, String id, Pageable pageable) {
         Member member = findById(id);
-        Slice<Member> followings = followRepository.findFollowedByFollowerOrderByCreatedAtDesc(member, pageable);
+        Slice<FollowInfoMember> followings = followRepository.findFollowedByFollowerOrderByCreatedAtDesc(member, pageable);
         return getFollowInfoResponses(loginId, followings);
     }
 
-    public Slice<FollowInfoResponse> listFollowers(String loginId, String id, Pageable pageable) {
+    public Slice<FollowInfoMemberResponse> listFollowers(String loginId, String id, Pageable pageable) {
         Member member = findById(id);
-        Slice<Member> followers = followRepository.findFollowerByFollowedOrderByCreatedAtDesc(member, pageable);
+        Slice<FollowInfoMember> followers = followRepository.findFollowerByFollowedOrderByCreatedAtDesc(member, pageable);
         return getFollowInfoResponses(loginId, followers);
     }
 
-    private Slice<FollowInfoResponse> getFollowInfoResponses(String loginId, Slice<Member> followers) {
+    private Slice<FollowInfoMemberResponse> getFollowInfoResponses(String loginId, Slice<FollowInfoMember> followers) {
         if(Objects.nonNull(loginId)) {
             Member loginMember = findById(loginId);
             return MemberMapper.toFollowInfo(loginMember, followers);
