@@ -17,7 +17,6 @@ export const useAllNotifications = () => {
       return lastPage.last ? undefined : lastPage.number + 1;
     },
     suspense: true,
-    staleTime: Infinity,
   });
 
   const notifications =

@@ -26,7 +26,6 @@ export const useAllFeeds = () => {
       return lastPage.last ? undefined : lastPage.number + 1;
     },
     suspense: true,
-    staleTime: Infinity,
   });
 
   const feeds = query.data?.pages?.flatMap((page) => page.content) || [];
