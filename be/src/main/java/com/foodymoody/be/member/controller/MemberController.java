@@ -81,7 +81,7 @@ public class MemberController {
     }
 
     @PutMapping("/{id}/taste-mood")
-    public ResponseEntity<Void> setTasteMood(@MemberId String loginId,
+    public ResponseEntity<Void> changeTasteMood(@MemberId String loginId,
                                              @PathVariable String id, @RequestParam("id") String tasteMoodId) {
         memberService.setTasteMood(loginId, id, tasteMoodId);
         return ResponseEntity.noContent().build();

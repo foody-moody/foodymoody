@@ -71,7 +71,7 @@ public class MemberService {
         Member member = findById(IdFactory.createMemberId(id));
         TasteMood tasteMood = tasteMoodService.findById(IdFactory.createTasteMoodId(tasteMoodId));
 
-        member.setTasteMood(tasteMood.getId());
+        member.changeTasteMood(tasteMood.getId());
     }
 
     @Transactional
@@ -80,7 +80,7 @@ public class MemberService {
         Member member = findById(IdFactory.createMemberId(id));
         if (Objects.nonNull(request.getTasteMoodId())) {
             TasteMood tasteMood = tasteMoodService.findById(IdFactory.createTasteMoodId(request.getTasteMoodId()));
-            member.setTasteMood(tasteMood.getId());
+            member.changeTasteMood(tasteMood.getId());
         }
         if (Objects.nonNull(request.getProfileImageId())) {
             Image image = imageService.findById(IdFactory.createImageId(request.getProfileImageId()));

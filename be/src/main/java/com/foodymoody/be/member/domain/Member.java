@@ -89,7 +89,7 @@ public class Member {
         this.profileImage = new MemberProfileImage(imageId);
     }
 
-    public void setTasteMood(TasteMoodId tasteMoodId) {
+    public void changeTasteMood(TasteMoodId tasteMoodId) {
         this.tasteMoodId = tasteMoodId;
     }
 
