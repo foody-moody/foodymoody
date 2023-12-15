@@ -66,22 +66,13 @@ public class MemberService {
     }
 
     @Transactional
-    public void setTasteMood(String loginId, String id, String tasteMoodId) {
-        validateAuthorization(loginId, id);
-        Member member = findById(IdFactory.createMemberId(id));
-        TasteMood tasteMood = tasteMoodService.findById(IdFactory.createTasteMoodId(tasteMoodId));
-
-        member.changeTasteMood(tasteMood.getId());
-    }
-
-    @Transactional
     public void updateProfile(String loginId, String id, UpdateProfileRequest request) {
         validateAuthorization(loginId, id);
         Member member = findById(IdFactory.createMemberId(id));
+        // FIXME 예외가 여러개 발생 시 응답에 전부 담아서 보내기
         if (Objects.nonNull(request.getProfileImageId())
                 && !Objects.equals(request.getProfileImageId(), member.getProfileImageId().getValue())) {
             Image image = imageService.findById(IdFactory.createImageId(request.getProfileImageId()));
-            // TODO 리팩토링
             if (!Objects.equals(member.getProfileImageId(), ImageId.MEMBER_PROFILE_DEFAULT)) {
                 imageService.delete(loginId, member.getProfileImageId().getValue());
             }

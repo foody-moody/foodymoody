@@ -80,13 +80,6 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/taste-mood")
-    public ResponseEntity<Void> changeTasteMood(@MemberId String loginId,
-                                             @PathVariable String id, @RequestParam("id") String tasteMoodId) {
-        memberService.setTasteMood(loginId, id, tasteMoodId);
-        return ResponseEntity.noContent().build();
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@MemberId String loginId, @PathVariable String id) {
         memberService.delete(loginId, id);

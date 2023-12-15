@@ -361,60 +361,6 @@ class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     @Nested
-    @DisplayName("회원 테이스트 무드 수정 인수테스트")
-    class setTasteMood {
-
-        private String 푸반_아이디;
-
-        @BeforeEach
-        public void set푸반_아이디() {
-            푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
-        }
-
-        @Test
-        void when_setTasteMood_then_success() {
-            // docs
-            api_문서_타이틀("setTasteMood_success", spec);
-
-            // when
-            var response = 테이스트무드를_설정한다(회원푸반_액세스토큰, 푸반_아이디, "3", spec);
-
-            // then
-
-            ExtractableResponse<Response> 푸반_프로필조회_응답 = 회원프로필을_조회한다(푸반_아이디, new RequestSpecBuilder().build());
-            Assertions.assertAll(
-                    () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("tasteMoodId")).isEqualTo("3")
-            );
-        }
-
-        @Test
-        void when_setTasteMoodUnauthorized_then_fail() {
-            // docs
-            api_문서_타이틀("setTasteMoodUnauthorized_fail", spec);
-
-            // when
-            var response = 테이스트무드를_설정한다(회원아티_액세스토큰, 푸반_아이디, "3", spec);
-
-            // then
-            상태코드를_검증한다(response, HttpStatus.UNAUTHORIZED);
-        }
-
-        @Test
-        void when_setTasteMoodNotExist_then_fail() {
-            // docs
-            api_문서_타이틀("setTasteMoodNotExist_fail", spec);
-
-            // when
-            var response = 테이스트무드를_설정한다(회원푸반_액세스토큰, 푸반_아이디, "10", spec);
-
-            // then
-            상태코드를_검증한다(response, HttpStatus.NOT_FOUND);
-        }
-
-    }
-
-    @Nested
     @DisplayName("회원 프로필 수정 인수테스트")
     class updateProfile {
 
@@ -538,7 +484,10 @@ class MemberAcceptanceTest extends AcceptanceTest {
             var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_존재하지_않는_프로필_이미지_수정_요청(), spec);
 
             // then
-            상태코드를_검증한다(response, HttpStatus.NOT_FOUND);
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.NOT_FOUND),
+                    () -> 오류코드를_검증한다(response, "i001")
+            );
         }
 
         @Test
@@ -550,7 +499,10 @@ class MemberAcceptanceTest extends AcceptanceTest {
             var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_존재하지_않는_테이스트_무드_수정_요청(), spec);
 
             // then
-            상태코드를_검증한다(response, HttpStatus.NOT_FOUND);
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.NOT_FOUND),
+                    () -> 오류코드를_검증한다(response, "o002")
+            );
         }
 
         @Test
@@ -567,6 +519,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     () -> 오류코드를_검증한다(response, "m003")
             );
         }
+
     }
 
     @Nested
