@@ -30,7 +30,7 @@ export const useAllFeeds = () => {
 
   const feeds = query.data?.pages?.flatMap((page) => page.content) || [];
 
-  console.log(feeds);
+  // console.log(feeds);
 
   return {
     ...query,

@@ -10,4 +10,6 @@ export const END_POINT = {
   feed: (id?: string) => (id ? `/feeds/${id}` : `/feeds`),
   comment: (id?: string) => (id ? `/comments/${id}` : `/comments`),
   reply: (id: string) => `/comments/${id}/replies`,
+  notifications: (id?: string) =>
+    id ? `/notifications/${id}` : `/notifications`,
 };
