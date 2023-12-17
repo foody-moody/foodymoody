@@ -31,7 +31,7 @@ import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
 import com.foodymoody.be.feed_heart_count.service.FeedHeartCountService;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.image.service.ImageService;
+import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.repository.MemberFeedData;
 import com.foodymoody.be.member.service.MemberService;

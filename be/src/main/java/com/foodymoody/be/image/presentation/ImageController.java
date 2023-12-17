@@ -1,8 +1,9 @@
-package com.foodymoody.be.image.controller;
+package com.foodymoody.be.image.presentation;
 
 import com.foodymoody.be.common.annotation.MemberId;
 import com.foodymoody.be.image.domain.ImageCategory;
-import com.foodymoody.be.image.service.ImageService;
+import com.foodymoody.be.image.application.ImageService;
+import com.foodymoody.be.image.presentation.response.ImageUploadResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -1,4 +1,4 @@
-package com.foodymoody.be.image.controller;
+package com.foodymoody.be.image.presentation.response;
 
 import lombok.Getter;
 

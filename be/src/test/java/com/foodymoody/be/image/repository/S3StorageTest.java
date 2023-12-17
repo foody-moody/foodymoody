@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.common.exception.InvalidImageUrlException;
 import com.foodymoody.be.image.domain.ImageCategory;
+import com.foodymoody.be.image.infra.persistence.S3Storage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

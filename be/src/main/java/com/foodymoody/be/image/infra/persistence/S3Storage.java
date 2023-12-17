@@ -1,4 +1,4 @@
-package com.foodymoody.be.image.repository;
+package com.foodymoody.be.image.infra.persistence;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -10,6 +10,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.foodymoody.be.common.exception.InvalidImageUrlException;
 import com.foodymoody.be.image.domain.ImageCategory;
 import com.foodymoody.be.image.domain.ImageResource;
+import com.foodymoody.be.image.domain.ImageStorage;
 import java.io.InputStream;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

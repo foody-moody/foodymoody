@@ -1,7 +1,4 @@
-package com.foodymoody.be.image.repository;
-
-import com.foodymoody.be.image.domain.ImageCategory;
-import com.foodymoody.be.image.domain.ImageResource;
+package com.foodymoody.be.image.domain;
 
 public interface ImageStorage {
 

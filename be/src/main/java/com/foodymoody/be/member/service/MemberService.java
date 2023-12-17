@@ -9,7 +9,7 @@ import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.image.service.ImageService;
+import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
 import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
 import com.foodymoody.be.member.controller.dto.FollowInfoMemberResponse;

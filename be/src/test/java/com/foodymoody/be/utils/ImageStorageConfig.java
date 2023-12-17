@@ -1,6 +1,6 @@
 package com.foodymoody.be.utils;
 
-import com.foodymoody.be.image.repository.ImageStorage;
+import com.foodymoody.be.image.domain.ImageStorage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

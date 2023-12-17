@@ -6,7 +6,7 @@ import com.foodymoody.be.feed.application.StoreMoodReadService;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
-import com.foodymoody.be.image.service.ImageService;
+import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.member.service.MemberService;
 import com.foodymoody.be.member.service.TasteMoodService;
 import java.util.List;

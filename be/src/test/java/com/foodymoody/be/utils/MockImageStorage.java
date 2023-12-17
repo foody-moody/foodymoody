@@ -2,7 +2,7 @@ package com.foodymoody.be.utils;
 
 import com.foodymoody.be.image.domain.ImageCategory;
 import com.foodymoody.be.image.domain.ImageResource;
-import com.foodymoody.be.image.repository.ImageStorage;
+import com.foodymoody.be.image.domain.ImageStorage;
 
 public class MockImageStorage implements ImageStorage {
 

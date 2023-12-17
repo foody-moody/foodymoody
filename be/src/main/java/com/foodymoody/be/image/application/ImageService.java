@@ -1,16 +1,16 @@
-package com.foodymoody.be.image.service;
+package com.foodymoody.be.image.application;
 
 import com.foodymoody.be.common.exception.ImageNotFoundException;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.image.controller.ImageUploadResponse;
+import com.foodymoody.be.image.domain.ImageRepository;
+import com.foodymoody.be.image.presentation.response.ImageUploadResponse;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.domain.ImageCategory;
 import com.foodymoody.be.image.domain.ImageResource;
-import com.foodymoody.be.image.repository.ImageRepository;
-import com.foodymoody.be.image.repository.ImageStorage;
-import com.foodymoody.be.image.util.ImageMapper;
+import com.foodymoody.be.image.domain.ImageStorage;
+import com.foodymoody.be.image.domain.ImageMapper;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

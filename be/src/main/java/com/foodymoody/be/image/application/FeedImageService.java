@@ -1,11 +1,11 @@
-package com.foodymoody.be.image.service;
+package com.foodymoody.be.image.application;
 
 import com.foodymoody.be.common.exception.UnauthorizedException;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.application.FeedReadService;
-import com.foodymoody.be.image.controller.ImageUploadResponse;
+import com.foodymoody.be.image.presentation.response.ImageUploadResponse;
 import com.foodymoody.be.image.domain.ImageCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
