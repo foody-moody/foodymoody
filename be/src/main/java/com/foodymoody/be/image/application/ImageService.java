@@ -50,14 +50,5 @@ public class ImageService {
                 .orElseThrow(ImageNotFoundException::new);
     }
 
-    /**
-     * @deprecated findById(ImageId id)를 사용해주세요
-     * */
-    @Deprecated(forRemoval = true)
-    @Transactional(readOnly = true)
-    public Image findById(String id) {
-        return imageRepository.findById(IdFactory.createImageId(id))
-                .orElseThrow(ImageNotFoundException::new);
-    }
 }
 
