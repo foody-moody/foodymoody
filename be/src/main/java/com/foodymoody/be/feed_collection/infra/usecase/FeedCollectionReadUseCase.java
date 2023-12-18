@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_collection.infra.usecase;
 
-import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.application.StoreMoodService;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
@@ -32,9 +32,8 @@ public class FeedCollectionReadUseCase {
         return feedCollectionReadService.fetchCollection(pageable);
     }
 
-    public FeedCollectionDetail fetchDetail(String id) {
-        var feedCollectionId = IdFactory.createFeedCollectionId(id);
-        var feedCollection = feedCollectionReadService.fetch(feedCollectionId);
+    public FeedCollectionDetail fetchDetail(FeedCollectionId id) {
+        var feedCollection = feedCollectionReadService.fetch(id);
         var author = memberService.findById(feedCollection.getAuthorId());
         var authorProfileImage = imageService.findById(author.getProfileImageId());
         var authorTasteMood = tasteMoodService.findById(author.getTasteMoodId());
