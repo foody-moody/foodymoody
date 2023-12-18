@@ -68,12 +68,10 @@ export const useLogout = () => {
 export const useRegister = () => {
   const toast = useToast();
   const navigate = useNavigate();
-  // const { navigateToLogin } = usePageNavigator();
 
   return useMutation({
     mutationFn: (body: RegisterBody) => fetchRegister(body),
     onSuccess: () => {
-      // navigateToLogin();
       navigate(PATH.LOGIN, { replace: true });
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
