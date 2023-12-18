@@ -13,7 +13,7 @@ import { QUERY_KEY } from 'service/constants/queryKey';
 export const useGetReplies = (id: string) => {
   const { data, hasNextPage, isFetching, fetchNextPage, refetch } =
     useInfiniteQuery({
-      // queryKey: [QUERY_KEY.replies],
+      // queryKey: [QUERY_KEY.replies], // 대댓글 전체가 렌더링됨
       queryKey: [QUERY_KEY.replies, id],
       queryFn: ({ pageParam = 0 }) => getAllReplies(pageParam, 10, id),
       getNextPageParam: (lastPage) => {

@@ -18,7 +18,8 @@ import { QUERY_KEY } from 'service/constants/queryKey';
 export const useGetComments = (id: string) => {
   const { data, hasNextPage, status, isLoading, fetchNextPage, refetch } =
     useInfiniteQuery({
-      queryKey: [QUERY_KEY.comments, id],
+      queryKey: [QUERY_KEY.comments],
+      // queryKey: [QUERY_KEY.comments, id],
       queryFn: ({ pageParam = 0 }) => getAllComments(pageParam, 10, id),
       getNextPageParam: (lastPage) => {
         return lastPage.last ? undefined : lastPage.number + 1;
@@ -40,14 +41,15 @@ export const useGetComments = (id: string) => {
   };
 };
 
-export const usePostComment = (id: string) => {
+export const usePostComment = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
   return useMutation({
     mutationFn: (body: NewCommentBody) => postNewComment(body),
     onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEY.comments, id]);
+      // queryClient.invalidateQueries([QUERY_KEY.comments, id]);
+      queryClient.invalidateQueries([QUERY_KEY.comments]);
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;

@@ -1,7 +1,7 @@
 import { useState, forwardRef } from 'react';
 import { useGetReplies, usePostReply } from 'service/queries/reply';
 import { styled } from 'styled-components';
-import { CommentInputContainer } from 'components/commentInput/CommentInputContainer';
+import { CommentInput } from 'components/commentInput/CommentInput';
 import { TextButton } from 'components/common/button/TextButton';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
@@ -79,7 +79,7 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
         </ReplyButtonBox>
         {isReplying && (
           <ReplyInputBox>
-            <CommentInputContainer
+            <CommentInput
               value={value}
               limitedLength={200}
               onChangeValue={handleChange}

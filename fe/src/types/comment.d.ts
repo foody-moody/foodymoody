@@ -20,8 +20,8 @@ type CommentItemType = {
   replyCount: number;
 
   // 변경사항
-  heartCount: number;
-  hearted: boolean;
+  likeCount: number;
+  liked: boolean;
 };
 
 type ReplyItemType = Omit<CommentItem, 'hasReply'>;
