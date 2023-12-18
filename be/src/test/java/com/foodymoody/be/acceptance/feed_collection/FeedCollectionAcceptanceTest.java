@@ -67,7 +67,7 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
     @Test
     void when_request_fetch_collection_if_success_then_return_code_200() {
         // docs
-        api_문서_타이틀("feed_collection_request_fetch_success", spec);
+        api_문서_타이틀("feed_collection_request_fetch_single_success", spec);
 
         // given
         피드_커렉션_등록한다(feedIds, 회원아티_액세스토큰);

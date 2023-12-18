@@ -62,7 +62,6 @@ public class FeedCollectionReadUseCase {
                             feed.getReview(),
                             feedTasteMood,
                             feed.getLikeCount(),
-                            false,
                             feed.getCommentCount(),
                             feed.getCreatedAt(),
                             feed.getUpdatedAt()

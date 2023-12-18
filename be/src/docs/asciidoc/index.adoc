@@ -537,3 +537,9 @@ operation::feed-collection-create-success[snippets='http-request,http-response']
 ==== 성공
 
 operation::feed_collection_request_fetch_all_success[snippets='http-request,http-response']
+
+=== 컬렉션 개별 조회
+
+==== 성공
+
+operation::feed_collection_request_fetch_single_success[snippets='http-request,http-response']

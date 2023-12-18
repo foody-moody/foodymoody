@@ -12,13 +12,12 @@ public class FeedSummaryResponse {
     private String content;
     private List<String> moods;
     private int likeCount;
-    private boolean isLiked;
     private int commentCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public FeedSummaryResponse(
-            String id, String thumbnailUrl, String content, List<String> moods, int likeCount, boolean isLiked,
+            String id, String thumbnailUrl, String content, List<String> moods, int likeCount,
             int commentCount, LocalDateTime createdAt, LocalDateTime updatedAt
     ) {
         this.id = id;
@@ -26,7 +25,6 @@ public class FeedSummaryResponse {
         this.content = content;
         this.moods = moods;
         this.likeCount = likeCount;
-        this.isLiked = isLiked;
         this.commentCount = commentCount;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
