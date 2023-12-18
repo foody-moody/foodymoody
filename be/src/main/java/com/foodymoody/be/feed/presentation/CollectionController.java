@@ -22,7 +22,7 @@ public class CollectionController {
      */
     @GetMapping("/api/collections/{collectionId}/feeds")
     public ResponseEntity<Slice<CollectionReadAllFeedResponse>> readAll(@PathVariable String collectionId, Pageable pageable) {
-        Slice<CollectionReadAllFeedResponse> collectionReadAllResponses = collectionUseCase.readAll(
+        Slice<CollectionReadAllFeedResponse> collectionReadAllResponses = collectionUseCase.readFeedList(
                 FeedMapper.toCollectionServiceReadAllFeedRequest(collectionId, pageable));
         return ResponseEntity.ok().body(collectionReadAllResponses);
     }

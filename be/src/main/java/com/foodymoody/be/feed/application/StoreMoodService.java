@@ -31,7 +31,7 @@ public class StoreMoodService {
     }
 
     public List<String> findNamesById(List<StoreMoodId> storeMoodIds) {
-        return storeMoodRepository.findAllByIdIn(storeMoodIds).stream()
+        return storeMoodRepository.findAllById(storeMoodIds).stream()
                 .map(StoreMood::getName)
                 .collect(Collectors.toList());
     }
