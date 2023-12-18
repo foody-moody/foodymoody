@@ -2,13 +2,11 @@ package com.foodymoody.be.feed.infra.usecase;
 
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.application.StoreMoodService;
-import com.foodymoody.be.feed.application.dto.request.CollectionServiceReadAllFeedRequest;
+import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedListServiceRequest;
 import com.foodymoody.be.feed.application.dto.response.CollectionReadAllFeedResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
-import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import java.util.List;
@@ -29,7 +27,7 @@ public class CollectionUseCase {
     private final FeedReadService feedReadService;
     private final StoreMoodService storeMoodService;
 
-    public Slice<CollectionReadAllFeedResponse> readAll(CollectionServiceReadAllFeedRequest request) {
+    public Slice<CollectionReadAllFeedResponse> readAll(CollectionReadFeedListServiceRequest request) {
         FeedCollectionId feedCollectionId = request.getFeedCollectionId();
         Pageable pageable = request.getPageable();
         final String sortBy = "createdAt";

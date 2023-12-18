@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CollectionServiceReadAllFeedRequest {
+public class CollectionReadFeedListServiceRequest {
 
     private FeedCollectionId feedCollectionId;
     private Pageable pageable;
 
-    public CollectionServiceReadAllFeedRequest(String collectionId, Pageable pageable) {
+    public CollectionReadFeedListServiceRequest(String collectionId, Pageable pageable) {
         this.feedCollectionId = IdFactory.createFeedCollectionId(collectionId);
         this.pageable = pageable;
     }
@@ -23,6 +23,14 @@ public class CollectionServiceReadAllFeedRequest {
 
     public Pageable getPageable() {
         return pageable;
+    }
+
+    public void setFeedCollectionId(FeedCollectionId feedCollectionId) {
+        this.feedCollectionId = feedCollectionId;
+    }
+
+    public void setPageable(Pageable pageable) {
+        this.pageable = pageable;
     }
 
 }
