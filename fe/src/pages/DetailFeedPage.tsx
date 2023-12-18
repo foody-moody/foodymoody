@@ -42,7 +42,7 @@ export const DetailFeedModalPage = () => {
     handleChange('');
   };
 
-  const isUpdated = feed?.createdAt === feed?.updatedAt;
+  const isUpdated = feed?.createdAt !== feed?.updatedAt;
 
   return (
     <>
@@ -62,7 +62,7 @@ export const DetailFeedModalPage = () => {
                 <Detail>
                   <FeedUserInfo // TODO 수정됨 요소 추가
                     member={feed?.member}
-                    createdAt={isUpdated ? feed.createdAt : feed.updatedAt}
+                    createdAt={isUpdated ? feed.updatedAt : feed.createdAt}
                     isUpdated={isUpdated}
                     location={feed?.location}
                     feedId={feed?.id}
