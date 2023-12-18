@@ -543,3 +543,12 @@ operation::feed_collection_request_fetch_all_success[snippets='http-request,http
 ==== 성공
 
 operation::feed_collection_request_fetch_single_success[snippets='http-request,http-response']
+
+[[feed-collection-comment]]
+== 컬렉션 댓글
+
+=== 컬렉션 댓글 등록
+
+==== 성공
+
+operation::feed_collection_comment_post_success[snippets='http-request,http-response']

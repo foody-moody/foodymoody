@@ -19,7 +19,7 @@ public class FeedCollectionCommentWriteController {
     private final FeedCollectionCommentWriteUseCase useCase;
 
 
-    @PostMapping("/api/feed_collections/{feedCollectionId}/comments")
+    @PostMapping("/api/collections/{feedCollectionId}/comments")
     public ResponseEntity<Void> post(
             @PathVariable FeedCollectionId feedCollectionId,
             @RequestBody CommentContent content,

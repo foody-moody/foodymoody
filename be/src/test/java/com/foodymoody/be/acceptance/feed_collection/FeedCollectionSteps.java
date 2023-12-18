@@ -41,6 +41,10 @@ public class FeedCollectionSteps {
                 .extract();
     }
 
+    public static String 피드_컬렉션_등록하고_아이디를_가져온다(List<String> feedIds, String accessToken) {
+        return 피드_커렉션_등록한다(feedIds, accessToken).jsonPath().getString("id");
+    }
+
     public static ExtractableResponse<Response> 전체_피드_컬렉션_조회한다(RequestSpecification spec, String accessToken) {
         return RestAssured.given()
                 .spec(spec)
