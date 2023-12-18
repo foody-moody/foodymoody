@@ -27,7 +27,7 @@ public class CollectionUseCase {
     private final FeedReadService feedReadService;
     private final StoreMoodService storeMoodService;
 
-    public Slice<CollectionReadAllFeedResponse> readAll(CollectionReadFeedListServiceRequest request) {
+    public Slice<CollectionReadAllFeedResponse> readFeedList(CollectionReadFeedListServiceRequest request) {
         FeedCollectionId feedCollectionId = request.getFeedCollectionId();
         Pageable pageable = request.getPageable();
         final String sortBy = "createdAt";
