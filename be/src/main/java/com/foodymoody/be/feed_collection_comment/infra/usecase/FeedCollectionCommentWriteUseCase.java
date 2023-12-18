@@ -30,4 +30,8 @@ public class FeedCollectionCommentWriteUseCase {
         feedCollectionCommentWriteService.delete(id, memberId);
         feedCollectionWriterService.removeCommentId(feedCollectionId, id);
     }
+
+    public void edit(FeedCollectionCommentId id, CommentContent content, MemberId memberId) {
+        feedCollectionCommentWriteService.edit(id, content, memberId);
+    }
 }

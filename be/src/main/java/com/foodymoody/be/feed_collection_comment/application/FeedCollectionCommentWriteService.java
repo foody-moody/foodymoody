@@ -16,25 +16,31 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class FeedCollectionCommentWriteService {
 
-    private final FeedCollectionCommentRepository feedCollectionCommentRepository;
+    private final FeedCollectionCommentRepository repository;
+    private final FeedCollectionCommentMapper mapper;
 
     @Transactional
     public FeedCollectionCommentId post(FeedCollectionId feedCollectionId, CommentContent content, MemberId memberId) {
-        FeedCollectionCommentId feedCollectionCommentId = IdFactory.createFeedCollectionCommentId();
-        LocalDateTime now = LocalDateTime.now();
-        FeedCollectionComment feedCollectionComment = new FeedCollectionComment(
-                feedCollectionCommentId, feedCollectionId, memberId, content, now);
-        return feedCollectionCommentRepository.save(feedCollectionComment).getId();
+        var feedCollectionCommentId = IdFactory.createFeedCollectionCommentId();
+        var now = LocalDateTime.now();
+        var feedCollectionComment = mapper.toEntity(feedCollectionId, content, memberId, feedCollectionCommentId, now);
+        return repository.save(feedCollectionComment).getId();
     }
 
     @Transactional
     public void delete(FeedCollectionCommentId id, MemberId memberId) {
         FeedCollectionComment feedCollectionComment = getFeedCollectionComment(id);
-        feedCollectionComment.delete(memberId);
+        feedCollectionComment.delete(memberId, LocalDateTime.now());
+    }
+
+    @Transactional
+    public void edit(FeedCollectionCommentId id, CommentContent content, MemberId memberId) {
+        FeedCollectionComment feedCollectionComment = getFeedCollectionComment(id);
+        feedCollectionComment.update(content, memberId, LocalDateTime.now());
     }
 
     private FeedCollectionComment getFeedCollectionComment(FeedCollectionCommentId id) {
-        return feedCollectionCommentRepository.findById(id)
+        return repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
     }
 }

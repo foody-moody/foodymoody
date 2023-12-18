@@ -20,10 +20,6 @@ public class FeedCollectionReplyIds {
     @OrderColumn(name = "comment_order", columnDefinition = "int default 0")
     private List<FeedCollectionReplyId> ids = new ArrayList<>();
 
-    public FeedCollectionReplyIds(List<FeedCollectionReplyId> ids) {
-        this.ids = ids;
-    }
-
     public List<FeedCollectionReplyId> getIds() {
         return ids;
     }

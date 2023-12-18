@@ -60,4 +60,25 @@ public class FeedCollectionCommentSteps {
     ) {
         return 피드_컬렉션에_댓글을_등록한다(accessToken, feedCollectionId).jsonPath().getString("id");
     }
+
+    public static ExtractableResponse<Response> 피드_컬렉션에_댓글을_수정한다(
+            String accessToken,
+            String feedCollectionId,
+            String id,
+            RequestSpecification spec
+    ) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("content", "수정된 댓글 내용");
+        return RestAssured
+                .given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .body(body).contentType("application/json")
+                .when()
+                .put("/api/collections/{ignoredFeedCollectionId}/comments/{id}", feedCollectionId, id)
+                .then()
+                .log().all()
+                .extract();
+    }
 }

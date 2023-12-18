@@ -47,11 +47,21 @@ public class FeedCollectionComment {
         return id;
     }
 
-    public void delete(MemberId memberId) {
+    public void delete(MemberId memberId, LocalDateTime updatedAt) {
         if (memberId.isSame(this.memberId)) {
             this.deleted = true;
+            this.updatedAt = updatedAt;
             return;
         }
         throw new IllegalArgumentException("삭제 권한이 없습니다.");
+    }
+
+    public void update(CommentContent content, MemberId memberId, LocalDateTime updatedAt) {
+        if (memberId.isSame(this.memberId)) {
+            this.content = content;
+            this.updatedAt = updatedAt;
+            return;
+        }
+        throw new IllegalArgumentException("수정 권한이 없습니다.");
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,6 +40,17 @@ public class FeedCollectionCommentWriteController {
             @CurrentMemberId MemberId memberId
     ) {
         useCase.delete(feedCollectionId, id, memberId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/api/collections/{ignoredFeedCollectionId}/comments/{id}")
+    public ResponseEntity<Void> edit(
+            @PathVariable FeedCollectionId ignoredFeedCollectionId,
+            @PathVariable FeedCollectionCommentId id,
+            @RequestBody CommentContent content,
+            @CurrentMemberId MemberId memberId
+    ) {
+        useCase.edit(id, content, memberId);
         return ResponseEntity.noContent().build();
     }
 }
