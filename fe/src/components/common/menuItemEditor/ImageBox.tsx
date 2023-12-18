@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useToast } from 'recoil/toast/useToast';
 import { usePostImage } from 'service/queries/imageUpload';
 import { styled } from 'styled-components';
+import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { PlusGhostIcon } from '../icon/icons';
 
 type Props = {
@@ -65,23 +66,25 @@ export const ImageBox: React.FC<Props> = ({
   };
 
   return (
-    <ImageWrapper onClick={handleImageClick}>
+    <ImageWrapper $isImageUrl={!!imageUrl} onClick={handleImageClick}>
       <input
         ref={inputRef}
         type="file"
         accept=".png, .jpg, .jpeg"
         onChange={handleUploadImage}
       />
-      <img src={imageData.url} alt="menu item image" />
+      <img
+        src={imageData.url || generateDefaultUserImage(menuId)}
+        alt="menu item image"
+      />
       <PlusGhostIcon />
     </ImageWrapper>
   );
 };
 
-const ImageWrapper = styled.div`
+const ImageWrapper = styled.div<{ $isImageUrl: boolean }>`
   width: 95px;
   height: 95px;
-  background-color: yellow;
   position: relative;
   display: flex;
   justify-content: center;
@@ -100,13 +103,11 @@ const ImageWrapper = styled.div`
     cursor: pointer;
   }
 
-  input {
+  input[type='file'] {
     display: none;
-    /* position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    border: 2px solid red; */
+    &::file-selector-button {
+      display: none;
+    }
   }
 
   img {
