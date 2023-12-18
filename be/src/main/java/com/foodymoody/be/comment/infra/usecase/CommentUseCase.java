@@ -15,9 +15,8 @@ public class CommentUseCase {
     private final FeedReadService feedReadService;
     private final CommentWriteService commentWriteService;
 
-    public CommentId registerComment(RegisterCommentRequest request, String memberId) {
+    public CommentId registerComment(RegisterCommentRequest request, MemberId memberId) {
         feedReadService.validateId(request.getFeedId());
-        MemberId memberWriterId = new MemberId(memberId);
-        return commentWriteService.registerComment(request, memberWriterId);
+        return commentWriteService.registerComment(request, memberId);
     }
 }

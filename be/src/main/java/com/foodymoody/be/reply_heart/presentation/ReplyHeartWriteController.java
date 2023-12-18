@@ -1,6 +1,9 @@
 package com.foodymoody.be.reply_heart.presentation;
 
-import com.foodymoody.be.common.annotation.MemberId;
+import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.ReplyId;
 import com.foodymoody.be.reply_heart.infra.usecase.ReplyHeartWriteUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,16 +20,22 @@ public class ReplyHeartWriteController {
     private final ReplyHeartWriteUseCase useCase;
 
     @PostMapping("/api/comments/{commentId}/replies/{replyId}/likes")
-    public ResponseEntity<Void> create(@PathVariable String commentId, @PathVariable String replyId,
-            @MemberId String memberId) {
+    public ResponseEntity<Void> create(
+            @PathVariable CommentId commentId,
+            @PathVariable ReplyId replyId,
+            @CurrentMemberId MemberId memberId
+    ) {
         useCase.registerReplyHeart(commentId, replyId, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/api/comments/{commentId}/replies/{replyId}/likes")
-    public ResponseEntity<Void> delete(@PathVariable String commentId, @PathVariable String replyId,
-            @MemberId String memberId) {
-        useCase.deleteReplyHeart(commentId, replyId, memberId);
+    @DeleteMapping("/api/comments/{ignoredCommentId}/replies/{replyId}/likes")
+    public ResponseEntity<Void> delete(
+            @PathVariable CommentId ignoredCommentId,
+            @PathVariable ReplyId replyId,
+            @CurrentMemberId MemberId memberId
+    ) {
+        useCase.deleteReplyHeart(replyId, memberId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
