@@ -1,16 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
 type Props = {
   variant: MoodVariant;
   badge: Mood;
+  selectedBadgeList?: Mood[];
   onClick?: (id: string, name: string) => void;
 };
 
-export const Badge: React.FC<Props> = ({ variant, badge, onClick }) => {
+export const Badge: React.FC<Props> = ({
+  variant,
+  badge,
+  selectedBadgeList,
+  onClick,
+}) => {
   const BadgeComponent = BADGE_VARIANT[variant];
   const [active, setActive] = useState(false);
   const isActive = onClick ? active : false;
+
+  useEffect(() => {
+    selectedBadgeList &&
+      setActive(selectedBadgeList.some((selected) => selected.id === badge.id));
+  }, [selectedBadgeList]);
 
   const handleClick = () => {
     if (onClick) {
