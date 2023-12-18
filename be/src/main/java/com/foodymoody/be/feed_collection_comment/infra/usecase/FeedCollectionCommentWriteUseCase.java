@@ -18,10 +18,16 @@ public class FeedCollectionCommentWriteUseCase {
     private final FeedCollectionWriterService feedCollectionWriterService;
 
     @Transactional
-    public void post(FeedCollectionId feedCollectionId, CommentContent content, MemberId memberId) {
+    public FeedCollectionCommentId post(FeedCollectionId feedCollectionId, CommentContent content, MemberId memberId) {
         feedCollectionWriterService.checkExistence(feedCollectionId);
-        FeedCollectionCommentId collectionCommentId = feedCollectionCommentWriteService.post(
-                feedCollectionId, content, memberId);
+        var collectionCommentId = feedCollectionCommentWriteService.post(feedCollectionId, content, memberId);
         feedCollectionWriterService.addCommentId(feedCollectionId, collectionCommentId);
+        return collectionCommentId;
+    }
+
+    @Transactional
+    public void delete(FeedCollectionId feedCollectionId, FeedCollectionCommentId id, MemberId memberId) {
+        feedCollectionCommentWriteService.delete(id, memberId);
+        feedCollectionWriterService.removeCommentId(feedCollectionId, id);
     }
 }

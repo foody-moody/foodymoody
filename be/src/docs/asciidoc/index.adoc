@@ -552,3 +552,9 @@ operation::feed_collection_request_fetch_single_success[snippets='http-request,h
 ==== 성공
 
 operation::feed_collection_comment_post_success[snippets='http-request,http-response']
+
+=== 컬렉션 댓글 삭제
+
+==== 성공
+
+operation::feed_collection_comment_delete_success[snippets='http-request,http-response']

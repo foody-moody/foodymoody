@@ -26,4 +26,15 @@ public class FeedCollectionCommentWriteService {
                 feedCollectionCommentId, feedCollectionId, memberId, content, now);
         return feedCollectionCommentRepository.save(feedCollectionComment).getId();
     }
+
+    @Transactional
+    public void delete(FeedCollectionCommentId id, MemberId memberId) {
+        FeedCollectionComment feedCollectionComment = getFeedCollectionComment(id);
+        feedCollectionComment.delete(memberId);
+    }
+
+    private FeedCollectionComment getFeedCollectionComment(FeedCollectionCommentId id) {
+        return feedCollectionCommentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
+    }
 }

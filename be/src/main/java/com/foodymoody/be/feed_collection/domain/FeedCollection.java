@@ -106,4 +106,8 @@ public class FeedCollection {
     public void addCommentId(FeedCollectionCommentId collectionCommentId) {
         commentIds.add(collectionCommentId);
     }
+
+    public void removeCommentId(FeedCollectionCommentId collectionCommentId) {
+        commentIds.remove(collectionCommentId);
+    }
 }

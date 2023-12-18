@@ -46,4 +46,12 @@ public class FeedCollectionComment {
     public FeedCollectionCommentId getId() {
         return id;
     }
+
+    public void delete(MemberId memberId) {
+        if (memberId.isSame(this.memberId)) {
+            this.deleted = true;
+            return;
+        }
+        throw new IllegalArgumentException("삭제 권한이 없습니다.");
+    }
 }

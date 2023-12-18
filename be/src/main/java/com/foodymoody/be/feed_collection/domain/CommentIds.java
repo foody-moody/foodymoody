@@ -25,4 +25,8 @@ public class CommentIds {
     public void add(FeedCollectionCommentId collectionCommentId) {
         ids.add(collectionCommentId);
     }
+
+    public void remove(FeedCollectionCommentId collectionCommentId) {
+        ids.remove(collectionCommentId);
+    }
 }

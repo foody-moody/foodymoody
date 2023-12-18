@@ -52,4 +52,9 @@ public class FeedCollectionWriterService {
         FeedCollection feedCollection = fetchById(feedCollectionId);
         feedCollection.addCommentId(collectionCommentId);
     }
+
+    public void removeCommentId(FeedCollectionId feedCollectionId, FeedCollectionCommentId collectionCommentId) {
+        FeedCollection feedCollection = fetchById(feedCollectionId);
+        feedCollection.removeCommentId(collectionCommentId);
+    }
 }
