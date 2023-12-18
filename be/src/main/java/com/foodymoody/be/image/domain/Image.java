@@ -23,6 +23,7 @@ public class Image {
 
     @EmbeddedId
     private ImageId id;
+    // TODO URL 로 리팩토링
     private String url;
     @CreatedDate
     private LocalDateTime createdAt;
