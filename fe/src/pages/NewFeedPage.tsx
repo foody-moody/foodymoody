@@ -34,6 +34,7 @@ export const NewFeedModalPage = () => {
     handleEditMenuName,
     handleEditStarRating,
   } = useMenuItem(feedDetailData?.images);
+
   console.log('feedDetailData', feedDetailData?.images);
   const {
     value: locationName,
@@ -59,19 +60,10 @@ export const NewFeedModalPage = () => {
   }, [feedDetailData]);
 
   const handleSubmit = () => {
-    // console.log({
-    //   location: locationName,
-    //   images: menuItems.map(({ imageId, menu }) => ({
-    //     imageId,
-    //     menu,
-    //   })),
-    //   storeMood: selectedBadgeList.map((badge) => badge.id),
-    //   review: reviewValue,
-    // });
     feedMutate({
       location: locationName,
-      images: menuItems.map(({ imageId, menu }) => ({
-        imageId,
+      images: menuItems.map(({ image, menu }) => ({
+        imageId: image.id,
         menu,
       })),
       storeMood: selectedBadgeList.map((badge) => badge.id),
