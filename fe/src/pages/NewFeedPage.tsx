@@ -75,9 +75,17 @@ export const NewFeedModalPage = () => {
     setSelectedBadgeList(badges);
   };
 
+  console.log(
+    'menuItems',
+    menuItems.map((menuItem) => menuItem.image.id).length > 1
+  );
+
   const isValid =
     isLocationNameVaild &&
     reviewValue.trim().length > 0 &&
+    menuItems
+      .map((menuItem) => menuItem.image.id)
+      .every((name) => name.trim().length > 0) &&
     selectedBadgeList.length > 0 &&
     menuItems
       .map((menuItem) => menuItem.menu.name)
