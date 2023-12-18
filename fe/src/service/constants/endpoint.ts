@@ -14,4 +14,6 @@ export const END_POINT = {
   reply: (id: string) => `/comments/${id}/replies`,
   imageUpload: (type: 'feed' | 'user') =>
     type === 'feed' ? `/images/feeds` : `/images/members`,
+  notifications: (id?: string) =>
+    id ? `/notifications/${id}` : `/notifications`,
 };
