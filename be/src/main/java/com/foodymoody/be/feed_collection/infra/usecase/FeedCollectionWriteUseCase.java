@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_collection.infra.usecase;
 
+import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedReadService;
@@ -16,15 +17,17 @@ public class FeedCollectionWriteUseCase {
     private final FeedCollectionWriterService service;
     private final FeedReadService feedReadService;
 
-    public void createCollection(FeedCollectionCreateRequest request, MemberId memberId) {
+    public FeedCollectionId createCollection(FeedCollectionCreateRequest request, MemberId memberId) {
         List<FeedId> feedIds = request.getFeedIds();
         feedReadService.validateIds(feedIds);
-        createCollection(request, memberId, feedIds);
+        return createCollection(request, memberId, feedIds);
     }
 
-    private void createCollection(FeedCollectionCreateRequest request, MemberId memberId, List<FeedId> feedIds) {
-        service.createCollection(request.getTitle(), request.getDescription(), request.getThumbnailUrl(),
-                                 request.isPrivate(), memberId, feedIds
+    private FeedCollectionId createCollection(
+            FeedCollectionCreateRequest request, MemberId memberId, List<FeedId> feedIds
+    ) {
+        return service.createCollection(request.getTitle(), request.getDescription(), request.getThumbnailUrl(),
+                                        request.isPrivate(), memberId, feedIds
         );
     }
 }

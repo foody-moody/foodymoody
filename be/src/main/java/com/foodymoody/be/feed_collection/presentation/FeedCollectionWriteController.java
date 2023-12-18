@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed_collection.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.IdResponse;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.infra.usecase.FeedCollectionWriteUseCase;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +18,11 @@ public class FeedCollectionWriteController {
     private final FeedCollectionWriteUseCase useCase;
 
     @PostMapping("/api/collections")
-    public ResponseEntity<Void> createCollection(
+    public ResponseEntity<IdResponse> createCollection(
             @RequestBody FeedCollectionCreateRequest request,
             @CurrentMemberId MemberId memberId
     ) {
-        useCase.createCollection(request, memberId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        var id = useCase.createCollection(request, memberId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 }

@@ -40,4 +40,30 @@ public class FeedCollectionSteps {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 전체_피드_컬렉션_조회한다(RequestSpecification spec, String accessToken) {
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .when()
+                .get("/api/collections?page=0&size=10")
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 개별_피드_컬렉션_조회한다(
+            String collectionId,
+            RequestSpecification spec,
+            String accessToken
+    ) {
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .when()
+                .get("/api/collections/{collectionId}", collectionId)
+                .then().log().all()
+                .extract();
+    }
 }

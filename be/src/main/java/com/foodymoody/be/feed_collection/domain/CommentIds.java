@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_collection.domain;
 
-import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CollectionTable;
@@ -16,9 +16,13 @@ public class CommentIds {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "feed_collection_comment_ids", joinColumns = @JoinColumn(name = "comment_id"))
     @OrderColumn(name = "comment_order", columnDefinition = "int default 0")
-    private List<CommentId> ids = new ArrayList<>();
+    private List<FeedCollectionCommentId> ids = new ArrayList<>();
 
-    public List<CommentId> getIds() {
+    public List<FeedCollectionCommentId> getIds() {
         return ids;
+    }
+
+    public void add(FeedCollectionCommentId collectionCommentId) {
+        ids.add(collectionCommentId);
     }
 }
