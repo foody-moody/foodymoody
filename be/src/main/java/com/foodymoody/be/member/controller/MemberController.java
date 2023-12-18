@@ -3,7 +3,7 @@ package com.foodymoody.be.member.controller;
 import com.foodymoody.be.common.annotation.MemberId;
 import com.foodymoody.be.feed.domain.repository.dto.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
-import com.foodymoody.be.member.controller.dto.FollowInfoResponse;
+import com.foodymoody.be.member.controller.dto.FollowInfoMemberResponse;
 import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
 import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
 import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
@@ -80,13 +80,6 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/taste-mood")
-    public ResponseEntity<Void> setTasteMood(@MemberId String loginId,
-                                             @PathVariable String id, @RequestParam("id") String tasteMoodId) {
-        memberService.setTasteMood(loginId, id, tasteMoodId);
-        return ResponseEntity.noContent().build();
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@MemberId String loginId, @PathVariable String id) {
         memberService.delete(loginId, id);
@@ -113,15 +106,15 @@ public class MemberController {
     }
 
     @GetMapping("/{id}/followings")
-    public ResponseEntity<Slice<FollowInfoResponse>> listFollowings(@MemberId String loginId,
+    public ResponseEntity<Slice<FollowInfoMemberResponse>> listFollowings(@MemberId String loginId,
             @PathVariable String id, @PageableDefault Pageable pageable) {
-        Slice<FollowInfoResponse> response = memberService.listFollowings(loginId, id, pageable);
+        Slice<FollowInfoMemberResponse> response = memberService.listFollowings(loginId, id, pageable);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}/followers")
-    public ResponseEntity<Slice<FollowInfoResponse>> listFollowers(@MemberId String loginId, @PathVariable String id, @PageableDefault Pageable pageable) {
-        Slice<FollowInfoResponse> response = memberService.listFollowers(loginId, id, pageable);
+    public ResponseEntity<Slice<FollowInfoMemberResponse>> listFollowers(@MemberId String loginId, @PathVariable String id, @PageableDefault Pageable pageable) {
+        Slice<FollowInfoMemberResponse> response = memberService.listFollowers(loginId, id, pageable);
         return ResponseEntity.ok(response);
     }
 }

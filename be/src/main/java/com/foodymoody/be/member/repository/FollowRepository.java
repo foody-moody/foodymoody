@@ -9,14 +9,20 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
 
-    @Query("SELECT f.followed FROM Follow f "
+    @Query("SELECT new com.foodymoody.be.member.repository.FollowInfoMember(following.id, following.nickname, i.url) "
+            + "FROM Follow f "
+            + "INNER JOIN Member following ON f.followed = following "
+            + "INNER JOIN Image i ON i.id = following.profileImage.id "
             + "WHERE f.follower = :member "
             + "ORDER BY f.createdAt DESC ")
-    Slice<Member> findFollowedByFollowerOrderByCreatedAtDesc(Member member, Pageable pageable);
+    Slice<FollowInfoMember> findFollowedByFollowerOrderByCreatedAtDesc(Member member, Pageable pageable);
 
-    @Query("SELECT f.follower FROM Follow f "
+    @Query("SELECT new com.foodymoody.be.member.repository.FollowInfoMember(follower.id, follower.nickname, i.url) "
+            + "FROM Follow f "
+            + "INNER JOIN Member follower ON f.follower = follower "
+            + "INNER JOIN Image i ON i.id = follower.profileImage.id "
             + "WHERE f.followed = :member "
             + "ORDER BY f.createdAt DESC ")
-    Slice<Member> findFollowerByFollowedOrderByCreatedAtDesc(Member member, Pageable pageable);
+    Slice<FollowInfoMember> findFollowerByFollowedOrderByCreatedAtDesc(Member member, Pageable pageable);
 
 }

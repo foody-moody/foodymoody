@@ -40,23 +40,31 @@ public enum MemberFixture {
     }
 
     public static UpdateProfileRequest 보노_프로필_수정_요청(String imageId) {
-        return new UpdateProfileRequest(imageId, "3");
+        return new UpdateProfileRequest("수정된보노", "3", imageId);
     }
 
     public static UpdateProfileRequest 보노_프로필_이미지만_수정_요청(String imageId) {
-        return new UpdateProfileRequest(imageId, null);
+        return new UpdateProfileRequest(null,null, imageId);
     }
 
     public static UpdateProfileRequest 푸반_테이스트_무드만_수정_요청() {
-        return new UpdateProfileRequest(null, "3");
+        return new UpdateProfileRequest(null, "3", null);
+    }
+
+    public static UpdateProfileRequest 푸반_닉네임만_수정_요청() {
+        return new UpdateProfileRequest("수정된푸반", null, null);
     }
 
     public static UpdateProfileRequest 푸반_존재하지_않는_프로필_이미지_수정_요청() {
-        return new UpdateProfileRequest("100", "2");
+        return new UpdateProfileRequest(null, null, "InvalidProfileImageId");
     }
 
     public static UpdateProfileRequest 푸반_존재하지_않는_테이스트_무드_수정_요청() {
-        return new UpdateProfileRequest("2", "100");
+        return new UpdateProfileRequest(null, "100", null);
+    }
+
+    public static UpdateProfileRequest 푸반_중복된_닉네임_수정_요청() {
+        return new UpdateProfileRequest("보노", null, null);
     }
 
     public static Map<String, Object> 보노_회원가입_요청() {
