@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
+import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { Badge } from '../badge/Badge';
 import { Dropdown } from '../dropdown/Dropdown';
 import { DropdownRow } from '../dropdown/DropdownRow';
@@ -84,7 +85,10 @@ export const FeedUserInfo: React.FC<Props> = ({
   return (
     <Wrapper>
       <ContentLeft>
-        <UserImage imageUrl={member.imageUrl} onClick={navigateToProfile} />
+        <UserImage
+          imageUrl={member.imageUrl || generateDefaultUserImage(member.id)}
+          onClick={navigateToProfile}
+        />
         <FlexColumnBox>
           <ContentHeader>
             <p>{member.nickname}</p>

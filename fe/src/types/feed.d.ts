@@ -14,8 +14,20 @@ type MainFeed = {
 
 type FeedImage = {
   id: string;
-  imageUrl: string;
+  // imageId?: string;
+  // imageUrl?: string;
+  image: ImageType;
   menu: MenuTag;
+};
+
+type ImageType = {
+  id: string;
+  url: string;
+};
+
+type MenuTag = {
+  name: string;
+  rating: number;
 };
 
 type FeedMemberInfo = {
@@ -25,18 +37,13 @@ type FeedMemberInfo = {
   tasteMood: Mood;
 };
 
-type MenuTag = {
-  name: string;
-  rating: number;
-};
-
 type NewFeedBody = {
   location: string;
   review: string;
   storeMood: string[];
   images: {
-    menu: MenuTag;
     imageId: string;
+    menu: MenuTag;
   }[];
 };
 /* TODO. 수정 예정 */

@@ -15,7 +15,6 @@ import {
   putEditFeed,
 } from 'service/axios/feed/feed';
 import { QUERY_KEY } from 'service/constants/queryKey';
-// import { usePageNavigator } from 'hooks/usePageNavigator';
 import { PATH } from 'constants/path';
 
 export const useAllFeeds = () => {
@@ -46,7 +45,6 @@ export const useFeedDetail = (id: string) =>
   });
 
 export const useFeedEditor = (id?: string) => {
-  // const { navigateToHome } = usePageNavigator();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const toast = useToast();
@@ -57,8 +55,14 @@ export const useFeedEditor = (id?: string) => {
     onSuccess: () => {
       if (id) {
         // edit 성공시 detail로 이동
-        queryClient.invalidateQueries([QUERY_KEY.feedDetail, id]); // invalidate 꼭해야하는지 확인하기
-        navigate(`${PATH.DETAIL_FEED}/${id}`, { replace: true });
+        queryClient.invalidateQueries([QUERY_KEY.feedDetail, id]);
+        queryClient.invalidateQueries([QUERY_KEY.allFeeds]);
+
+        toast.success('피드를 수정했습니다.');
+        navigate(`${PATH.DETAIL_FEED}/${id}`, {
+          state: { background: 'detailFeed' },
+          replace: true,
+        });
       } else {
         // post 성공시 home으로 이동
         queryClient.invalidateQueries([QUERY_KEY.allFeeds]);

@@ -13,7 +13,7 @@ type Props = {
   onSubmitComment?(): void;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-export const CommentInputContainer: React.FC<Props> = ({
+export const CommentInput: React.FC<Props> = ({
   value,
   limitedLength,
   onChangeValue,

@@ -8,7 +8,7 @@ import { ImageBox } from './ImageBox';
 
 type Props = {
   menuItem: FeedImage; //feedimage로 바꿔야하는지 확인
-  onEditMenuImage: (id: string, imageId: string) => void;
+  onEditMenuImage: (id: string, image: ImageType) => void;
   onEditMenuName: (id: string, name: string) => void;
   onEditStarRating: (id: string, rate: number) => void;
   onRemove: (id: string) => void;
@@ -23,8 +23,7 @@ export const MenuItemEditor: React.FC<Props> = ({
 }) => {
   const {
     id,
-    imageId,
-    imageUrl,
+    image,
     menu: { name, rating },
   } = menuItem;
 
@@ -33,15 +32,16 @@ export const MenuItemEditor: React.FC<Props> = ({
     validator: (value: string) => value.trim().length > 0,
     helperText: '메뉴 이름을 입력해주세요',
   });
-  console.log('imageUrl', imageUrl);
-  console.log('imageId', imageId);
+
+  console.log('imageUrl', image.url);
+  console.log('imageId', image.id);
 
   return (
     <Wrapper>
       <LeftContent>
         <ImageBox
           menuId={id}
-          imageUrl={imageUrl}
+          imageUrl={image.url}
           onEditMenuImage={onEditMenuImage}
         />
         <ContentBody>

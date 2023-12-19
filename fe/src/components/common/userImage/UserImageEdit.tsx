@@ -1,26 +1,93 @@
+import React, { useRef, useState } from 'react';
+import { useToast } from 'recoil/toast/useToast';
+import { usePostImage } from 'service/queries/imageUpload';
+import { useEditProfileImage } from 'service/queries/profile';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
+import { useAuthState } from 'hooks/auth/useAuth';
+import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { EditIcon } from '../icon/icons';
 import { UserImage } from './UserImage';
 
-type UserImageEditProps = {
+type Props = {
+  member: ProfileMemberInfo;
+  isAuthor: boolean;
+  imageId?: string;
   imageUrl?: string;
 };
 
-export const UserImageEdit: React.FC<UserImageEditProps> = ({ imageUrl }) => {
-  const randomGithubImageUrl =
-    'https://avatars.githubusercontent.com/u/63034672?v=4';
-  const userImage = imageUrl || randomGithubImageUrl;
+export const UserImageEdit: React.FC<Props> = ({
+  member,
+  isAuthor,
+  imageId,
+  imageUrl,
+}) => {
+  const [imageData, setImageData] = useState({
+    id: imageId,
+    url: imageUrl,
+  });
+  const { userInfo } = useAuthState();
+  const { mutate: imageMutate } = usePostImage('user');
+  const { mutate: profileMutate } = useEditProfileImage(member.id);
 
-  const handleEditImage = () => {};
+  const toast = useToast();
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const isAuthor = false;
+  const defaultImage = generateDefaultUserImage(userInfo.id);
+  const userImage = imageData.url || defaultImage;
+
+  const handleImageClick = () => {
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
+  };
+
+  const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    const ALLOWED_TYPES = ['image/png', 'image/jpg', 'image/jpeg'];
+    const MAX_FILE_SIZE_BYTES = 1024 * 1024 * 2; // 2MB
+
+    if (!ALLOWED_TYPES.includes(file.type) || file.size > MAX_FILE_SIZE_BYTES) {
+      toast.noti(
+        '이미지는 2MB 이하의 png, jpg, jpeg 파일만 업로드 가능합니다.'
+      );
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    imageMutate(formData, {
+      onSuccess: (res) => {
+        console.log(res, ' now res');
+        setImageData(res);
+        //여기에 프로필 수정 mutate하기
+        profileMutate({ profileImageId: res.id, tasteMoodId: null });
+      },
+    });
+
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
+  };
+  // 프로필 전체 수정 mutate가져와서 바뀐 이미지로 제출할수있게 하기
 
   return (
-    <Wrapper>
+    <Wrapper onClick={handleImageClick}>
       <UserImage variant="edit" imageUrl={userImage} />
+      <input
+        ref={inputRef}
+        type="file"
+        accept=".png, .jpg, .jpeg"
+        onChange={handleUploadImage}
+      />
       {isAuthor && (
-        <EditBtn onClick={handleEditImage}>
+        <EditBtn>
           <EditIcon />
         </EditBtn>
       )}
@@ -30,15 +97,28 @@ export const UserImageEdit: React.FC<UserImageEditProps> = ({ imageUrl }) => {
 
 const Wrapper = styled.div`
   position: relative;
+  cursor: pointer;
+  input {
+    display: none;
+  }
+
   img {
     width: 100px;
     height: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
   }
 
   ${media.md} {
     img {
       width: 75px;
       height: 75px;
+      min-width: 75px;
+      max-width: 75px;
+      min-height: 75px;
+      max-height: 75px;
     }
   }
 `;

@@ -2,28 +2,30 @@ import { styled } from 'styled-components';
 
 type UserImageProps = {
   variant?: 'default' | 'edit';
-  imageUrl?: string;
+  imageUrl: string;
   onClick?(): void;
 };
 
-export const UserImage: React.FC<UserImageProps> = (
-  { variant = 'default', imageUrl, onClick }
-) => {
-  const generateDefaultImage = `https://source.boringavatars.com/beam/${imageUrl}`;
-  // TODO imageUrl부분 전역으로 둔 member 아이디로 변경
-  const onErrorImage = (
-    event: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
-    event.currentTarget.src = generateDefaultImage;
-  };
+export const UserImage: React.FC<UserImageProps> = ({
+  variant = 'default',
+  imageUrl,
+  onClick,
+}) => {
+  //이미지 경로는 유효함, 그러나 그 이미지 경로가 요청이 안되는 것일때는?
+
+  // const onErrorImage = (
+  //   event: React.SyntheticEvent<HTMLImageElement, Event>
+  // ) => {
+  //   return (event.currentTarget.src = imageUrl); // 에러이미지로 변경
+  // };
 
   return (
     <Img
       onClick={onClick}
       $variant={variant}
-      src={imageUrl || generateDefaultImage}
+      src={imageUrl}
       alt="유저이미지"
-      onError={onErrorImage}
+      // onError={onErrorImage}
     />
   );
 };

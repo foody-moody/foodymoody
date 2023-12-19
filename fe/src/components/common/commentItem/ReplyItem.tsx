@@ -6,6 +6,7 @@ import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
+import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { DotGhostIcon, HeartSmallEmpty, HeartSmallFill } from '../icon/icons';
 import { Input } from '../input/Input';
 import { InputField } from '../input/InputField';
@@ -104,7 +105,11 @@ export const ReplyItem: React.FC<Props> = ({ commentId, reply, createdAt }) => {
     <Wrapper>
       <ReplyRow>
         <ContentLeft>
-          <UserImage imageUrl={reply.member.imageUrl} />
+          <UserImage
+            imageUrl={
+              reply.member.imageUrl || generateDefaultUserImage(reply.member.id)
+            }
+          />
           <FlexColumnBox>
             <ContentHeader>
               <Nickname>{reply.member.nickname}</Nickname>

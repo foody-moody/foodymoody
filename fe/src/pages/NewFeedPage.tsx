@@ -34,6 +34,7 @@ export const NewFeedModalPage = () => {
     handleEditMenuName,
     handleEditStarRating,
   } = useMenuItem(feedDetailData?.images);
+
   console.log('feedDetailData', feedDetailData?.images);
   const {
     value: locationName,
@@ -59,19 +60,10 @@ export const NewFeedModalPage = () => {
   }, [feedDetailData]);
 
   const handleSubmit = () => {
-    // console.log({
-    //   location: locationName,
-    //   images: menuItems.map(({ imageId, menu }) => ({
-    //     imageId,
-    //     menu,
-    //   })),
-    //   storeMood: selectedBadgeList.map((badge) => badge.id),
-    //   review: reviewValue,
-    // });
     feedMutate({
       location: locationName,
-      images: menuItems.map(({ imageId, menu }) => ({
-        imageId,
+      images: menuItems.map(({ image, menu }) => ({
+        imageId: image.id,
         menu,
       })),
       storeMood: selectedBadgeList.map((badge) => badge.id),
@@ -83,9 +75,17 @@ export const NewFeedModalPage = () => {
     setSelectedBadgeList(badges);
   };
 
+  console.log(
+    'menuItems',
+    menuItems.map((menuItem) => menuItem.image.id).length > 1
+  );
+
   const isValid =
     isLocationNameVaild &&
     reviewValue.trim().length > 0 &&
+    menuItems
+      .map((menuItem) => menuItem.image.id)
+      .every((name) => name.trim().length > 0) &&
     selectedBadgeList.length > 0 &&
     menuItems
       .map((menuItem) => menuItem.menu.name)

@@ -1,14 +1,19 @@
 type ProfileMemberInfo = {
-  memberId: string;
-  imageUrl: string;
+  id: string;
+  profileImageUrl: string;
+  profileImageId: string;
   nickname: string;
   email: string;
-  tasteMood: string;
-  myFeeds: MyFeeds[];
-  // myFeedsCount: number;
+  tasteMoodId: string;
+  feedCount: number;
 };
 
 type MyFeeds = {
   id: string;
   imageUrl: string;
+};
+
+type ProfileImageBody = {
+  profileImageId: string;
+  tasteMoodId: null;
 };

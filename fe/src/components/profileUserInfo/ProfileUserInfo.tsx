@@ -1,5 +1,7 @@
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
+import { useAuthState } from 'hooks/auth/useAuth';
+import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { Badge } from '../common/badge/Badge';
 import { Button } from '../common/button/Button';
 import { CollectableAddIcon, UserPlusIcon } from '../common/icon/icons';
@@ -15,16 +17,21 @@ const MOCK_BADGE = {
 };
 
 export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
+  const { userInfo } = useAuthState();
+  const isAuthor = member.id === userInfo.id;
+
   const handleAddCollection = () => {};
   const handleEditProfile = () => {};
-
-  // const isAuthor = member.id === '1';
-  const isAuthor = true;
-
   return (
     <Wrapper>
       <ContentLeft>
-        <UserImageEdit imageUrl={member.imageUrl} />
+        <UserImageEdit
+          member={member}
+          isAuthor={isAuthor}
+          imageUrl={
+            member.profileImageUrl || generateDefaultUserImage(member.id)
+          }
+        />
         <Column>
           <ContentHeader>
             <p>{member.nickname}</p>
@@ -97,6 +104,7 @@ const ContentWrapper = styled(Flex)`
 const ContentLeft = styled(Flex)`
   justify-content: center;
   align-items: center;
+  height: fit-content;
   gap: 32px;
 
   ${media.xs} {

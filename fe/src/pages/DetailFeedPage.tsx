@@ -6,13 +6,13 @@ import { styled } from 'styled-components';
 import { customScrollStyle } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
 import { CommentList } from 'components/comment/CommentList';
-import { CommentInputContainer } from 'components/commentInput/CommentInputContainer';
+import { CommentInput } from 'components/commentInput/CommentInput';
 import { Badge } from 'components/common/badge/Badge';
 import { Carousel } from 'components/common/carousel/Carousel';
 import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
-import { useModal } from 'components/common/modal/Modal';
+import { useModal } from 'components/common/modal/useModal';
 import { CommentSkeleton } from 'components/common/skeleton/CommentSkeleton';
 import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
 import { useInput } from 'hooks/useInput';
@@ -25,7 +25,7 @@ export const DetailFeedModalPage = () => {
   const { closeModal } = useModal<'commentAlert'>();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const { mutate: commentMutate } = usePostComment(feedId);
+  const { mutate: commentMutate } = usePostComment();
   const { navigateToHome } = usePageNavigator();
   const { value, handleChange, isValid } = useInput({
     validator: (value) =>
@@ -88,7 +88,7 @@ export const DetailFeedModalPage = () => {
                 commentCount={feed?.commentCount}
               />
               <CommentContainer>
-                <CommentInputContainer
+                <CommentInput
                   value={value}
                   limitedLength={200}
                   onChangeValue={handleChange}

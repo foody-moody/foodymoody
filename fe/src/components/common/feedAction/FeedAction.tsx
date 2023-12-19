@@ -16,7 +16,7 @@ type Props = {
 
 export const FeedAction: React.FC<Props> = ({
   feedId,
-  isLiked = false,
+  isLiked,
   likeCount = 0,
   commentCount = 0,
   onClickCommentIcon,
@@ -24,20 +24,14 @@ export const FeedAction: React.FC<Props> = ({
   const { id: param } = useParams() as { id: string };
   const { navigateToLogin } = usePageNavigator();
   const { isLogin } = useAuthState();
-  // const [isLiked, setIsLiked] = useState(false);
   const { mutate: likeMutate } = usePostFeedLike(param);
   const { mutate: unLikeMutate } = useDeleteFeedLike(param);
-  // TODO 로그인유무로 교체 const isLiked = isLogin ? feed.isLiked : false;
-  // feed: query로 받아온 feed데이터
+
   const LikeIcon = isLiked ? HeartFillIcon : HeartBgIcon;
-  const likeFn = isLiked ? unLikeMutate : likeMutate;
 
   const handleSubmitLike = () => {
-    // setIsLiked(!isLiked); // TODO 좋아요 연결시 삭제
-
     if (isLogin) {
-      // likeMutate(feedId);
-      likeFn(feedId);
+      isLiked ? unLikeMutate(feedId) : likeMutate(feedId);
     } else {
       navigateToLogin();
     }

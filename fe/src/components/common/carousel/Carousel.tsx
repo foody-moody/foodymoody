@@ -24,7 +24,7 @@ export const Carousel: React.FC<Props> = ({ images }) => {
       <CustomCarousel {...settings}>
         {images.map((image) => (
           <Slide key={image.id}>
-            <Image src={image.imageUrl} /> {/* alt 추가하기. */}
+            <Image src={image.image.url} /> {/* alt 추가하기. */}
             <MenuRateTag
               menu={{ name: image.menu.name, rating: image.menu.rating }}
             />
