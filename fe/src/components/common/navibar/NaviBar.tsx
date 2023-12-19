@@ -19,7 +19,8 @@ import { NotiIcon } from '../notiIcon/NotiIcon';
 import { PATH } from 'constants/path';
 
 export const NaviBar = () => {
-  const { navigateToHome, navigateToLogin } = usePageNavigator();
+  const { navigateToHome, navigateToLogin, navigateToSetting } =
+    usePageNavigator();
   const { mutate: logoutMutate } = useLogout();
   const { isLogin } = useAuthState();
   const NaviItems = [
@@ -71,7 +72,9 @@ export const NaviBar = () => {
     {
       id: 1,
       content: '설정',
-      onClick: () => {},
+      onClick: () => {
+        navigateToSetting();
+      },
     },
     {
       id: 2,

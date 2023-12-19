@@ -20,7 +20,7 @@ export const ProfilePage = () => {
     <Wrapper>
       <ContentWrapper>
         <ProfileWrapper>
-          {data && <ProfileUserInfo member={data.memberProfileData} />}
+          {data && <ProfileUserInfo member={data} />}
         </ProfileWrapper>
         <UserFeedTabs index={index} onClick={handleFeedTab} />
         <FeedsWrapper>
