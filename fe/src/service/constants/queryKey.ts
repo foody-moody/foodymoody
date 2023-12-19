@@ -1,5 +1,6 @@
 export const QUERY_KEY = {
   profile: 'profile',
+  nickname: 'nickname',
   allFeeds: 'allFeeds',
   feedDetail: 'feedDetail',
   comments: 'comments',

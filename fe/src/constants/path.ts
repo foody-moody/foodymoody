@@ -1,6 +1,7 @@
 export const PATH = {
   HOME: '/',
   PROFILE: '/profile',
+  PROFILE_EDIT: '/profile/edit',
   COLLECTION: '/collection',
   NOTI: '/noti',
   SEARCH: '/search',
@@ -9,4 +10,7 @@ export const PATH = {
   NEW_FEED: '/new/feed',
   EDIT_FEED: '/edit/feed',
   DETAIL_FEED: '/detail/feed',
+  SETTING: '/setting',
+  PASSWORD: '/password',
+  ACCOUNT: '/account',
 };
