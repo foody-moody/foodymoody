@@ -8,14 +8,19 @@ import com.foodymoody.be.menu.domain.Menu;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Feed {
 
@@ -34,22 +39,19 @@ public class Feed {
     private boolean isLiked;
     private int commentCount;
 
-    @ElementCollection
-    private List<StoreMoodId> storeMoodIds;
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StoreMood> storeMoods;
+
     @Embedded
     private ImageMenus imageMenus;
-    // TODO: Entity로 관리
 
-    public Feed() {
-    }
-
-    public Feed(FeedId id, MemberId memberId, String location, String review, List<StoreMoodId> storeMoodIds, List<Image> images,
+    public Feed(FeedId id, MemberId memberId, String location, String review, List<StoreMood> storeMoods, List<Image> images,
                 List<Menu> menus, String profileImageUrl) {
         this.id = id;
         this.memberId = memberId;
         this.location = location;
         this.review = review;
-        this.storeMoodIds = storeMoodIds;
+        this.storeMoods = storeMoods;
         this.imageMenus = new ImageMenus(images, menus);
         this.profileImageUrl = profileImageUrl;
     }
@@ -66,8 +68,8 @@ public class Feed {
         return review;
     }
 
-    public List<StoreMoodId> getStoreMoodIds() {
-        return storeMoodIds;
+    public List<StoreMood> getStoreMoods() {
+        return storeMoods;
     }
 
     public List<ImageMenu> getImageMenus() {
@@ -102,12 +104,12 @@ public class Feed {
         return profileImageUrl;
     }
 
-    public void update(MemberId memberId, String newLocation, String newReview, List<StoreMoodId> newStoreMoodIds,
+    public void update(MemberId memberId, String newLocation, String newReview, List<StoreMood> newStoreMoods,
                        List<Image> newImages, List<Menu> newMenus, String profileImageUrl) {
         this.memberId = memberId;
         this.location = newLocation;
         this.review = newReview;
-        this.storeMoodIds = newStoreMoodIds;
+        this.storeMoods = newStoreMoods;
         this.imageMenus.replaceWith(newImages, newMenus);
         this.profileImageUrl = profileImageUrl;
     }

@@ -7,11 +7,10 @@ import static com.foodymoody.be.feed.application.FeedMapper.toFeedMemberResponse
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.application.FeedWriteService;
-import com.foodymoody.be.feed.application.StoreMoodService;
+import com.foodymoody.be.feed.application.StoreMoodReadService;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceDeleteRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceUpdateRequest;
@@ -23,6 +22,7 @@ import com.foodymoody.be.feed.application.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
+import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
@@ -55,7 +55,7 @@ public class FeedUseCase {
     private final ImageService imageService;
     private final MemberService memberService;
     private final MenuService menuService;
-    private final StoreMoodService storeMoodService;
+    private final StoreMoodReadService storeMoodReadService;
     private final FeedHeartCountService feedHeartCountService;
 
     @Transactional
@@ -65,10 +65,15 @@ public class FeedUseCase {
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = toMenu(imageMenuPairs);
         List<Image> images = toImage(imageMenuPairs, memberId);
-        List<StoreMoodId> storeMoodIds = request.getStoreMoodIds();
+        // TODO: Request의 Id를 가지고 StoreMood 객체를 만들어서 넘겨야 하는데,
+        //  그렇게 하려면 Request의 StoreMoodId가 data.sql에 있는 StoreMoodId와 동일해야 함
+        //  하지만 data.sql에는 IdFactory로 암호화된 Id가 들어있지 않으니 fetch 할 때 id 불일치로 당연히 오류가 발생
+        //  이런 경우는 어떻게 하는 게 좋을까요??
+        List<StoreMood> storeMoods = storeMoodReadService.fetchAllByStoreMoodIds(request.getStoreMoodIds());
+
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
-        Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoodIds, images, menus,
+        Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoods, images, menus,
                 profileImageUrl);
         Feed savedFeed = feedWriteService.save(feed);
 
@@ -90,8 +95,7 @@ public class FeedUseCase {
     private List<FeedReadAllResponse> makeFeedReadAllResponseList(Slice<Feed> feeds) {
         return feeds.stream()
                 .map(feed -> makeFeedReadAllResponse(feed, makeFeedMemberResponse(feed),
-                        makeFeedStoreMoodResponses(feed.getStoreMoodIds(),
-                                storeMoodService.findAllById(feed.getStoreMoodIds())),
+                        makeFeedStoreMoodResponses(feed.getStoreMoods()),
                         makeFeedImageMenuResponses(feed)))
                 .collect(Collectors.toList());
     }
@@ -100,12 +104,12 @@ public class FeedUseCase {
         FeedId feedId = IdFactory.createFeedId(id);
         Feed feed = feedReadService.findFeed(feedId);
         List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feed);
-        List<StoreMoodId> storeMoodIds = feed.getStoreMoodIds();
+        List<StoreMood> storeMoods = feed.getStoreMoods();
 
         FeedMemberResponse feedMemberResponse = makeFeedMemberResponse(feed);
 
         return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
-                makeFeedStoreMoodResponses(storeMoodIds, storeMoodService.findAllById(storeMoodIds)));
+                makeFeedStoreMoodResponses(storeMoods));
     }
 
     @Transactional
@@ -116,10 +120,10 @@ public class FeedUseCase {
         MemberId memberId = member.getId();
         List<Image> newImages = toImage(request.getImages(), memberId);
         List<Menu> newMenus = toMenu(request.getImages());
-        List<StoreMoodId> newStoreMoodIds = request.getStoreMoodIds();
+        List<StoreMood> newStoreMoods = storeMoodReadService.fetchAllByStoreMoodIds(request.getStoreMoodIds());
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
-        feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoodIds, newImages, newMenus,
+        feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoods, newImages, newMenus,
                 profileImageUrl);
     }
 

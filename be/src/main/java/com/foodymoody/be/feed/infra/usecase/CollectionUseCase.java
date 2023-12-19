@@ -2,8 +2,9 @@ package com.foodymoody.be.feed.infra.usecase;
 
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.FeedReadService;
-import com.foodymoody.be.feed.application.StoreMoodService;
+import com.foodymoody.be.feed.application.StoreMoodReadService;
 import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedListServiceRequest;
 import com.foodymoody.be.feed.application.dto.response.CollectionReadAllFeedResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
@@ -25,7 +26,7 @@ public class CollectionUseCase {
 
     private final FeedCollectionReadService feedCollectionReadService;
     private final FeedReadService feedReadService;
-    private final StoreMoodService storeMoodService;
+    private final StoreMoodReadService storeMoodReadService;
 
     public Slice<CollectionReadAllFeedResponse> readFeedList(CollectionReadFeedListServiceRequest request) {
         FeedCollectionId feedCollectionId = request.getFeedCollectionId();
@@ -46,7 +47,7 @@ public class CollectionUseCase {
                         .createdAt(feed.getCreatedAt())
                         .updatedAt(feed.getUpdatedAt())
                         .description(feed.getReview())
-                        .moodNames(storeMoodService.findNamesById(feed.getStoreMoodIds()))
+                        .moodNames(FeedMapper.toFeedStoreMoodNames(feed.getStoreMoods()))
                         .isLiked(feed.isLiked())
                         .likeCount(feed.getLikeCount())
                         .feedCommentCount(feed.getCommentCount())

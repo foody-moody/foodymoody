@@ -38,9 +38,9 @@ public class FeedMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Feed toFeed(FeedId id, MemberId memberId, FeedServiceRegisterRequest request, List<StoreMoodId> moodIds,
+    public static Feed toFeed(FeedId id, MemberId memberId, FeedServiceRegisterRequest request, List<StoreMood> storeMoods,
                               List<Image> images, List<Menu> menus, String profileImageUrl) {
-        return new Feed(id, memberId, request.getLocation(), request.getReview(), moodIds, images, menus,
+        return new Feed(id, memberId, request.getLocation(), request.getReview(), storeMoods, images, menus,
                 profileImageUrl);
     }
 
@@ -135,11 +135,10 @@ public class FeedMapper {
                 .build();
     }
 
-    public static List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<StoreMoodId> storeMoodIds,
-                                                                         List<StoreMood> storeMoods) {
-        return IntStream.range(0, storeMoodIds.size())
-                .mapToObj(i -> new FeedStoreMoodResponse(storeMoodIds.get(i), storeMoods.get(i).getName()))
-                .collect(Collectors.toUnmodifiableList());
+    public static List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<StoreMood> storeMoods) {
+        return storeMoods.stream()
+                .map(storeMood -> new FeedStoreMoodResponse(storeMood.getStoreMoodId(), storeMood.getName()))
+                .collect(Collectors.toList());
     }
 
     public static CollectionReadFeedListServiceRequest toCollectionServiceReadAllFeedRequest(String collectionId,
@@ -147,4 +146,9 @@ public class FeedMapper {
         return new CollectionReadFeedListServiceRequest(collectionId, pageable);
     }
 
+    public static List<String> toFeedStoreMoodNames(List<StoreMood> storeMoods) {
+        return storeMoods.stream()
+                .map(StoreMood::getName)
+                .collect(Collectors.toList());
+    }
 }
