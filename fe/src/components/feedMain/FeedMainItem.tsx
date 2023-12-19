@@ -25,7 +25,7 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
       });
     };
 
-    const isUpdated = feed.createdAt === feed.updatedAt;
+    const isUpdated = feed.createdAt !== feed.updatedAt;
 
     return (
       <Wrapper ref={ref}>
@@ -33,7 +33,7 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
           <FeedUserInfo
             feedId={feed.id}
             member={feed.member}
-            createdAt={isUpdated ? feed.createdAt : feed.updatedAt}
+            createdAt={isUpdated ? feed.updatedAt : feed.createdAt}
             isUpdated={isUpdated}
             location={feed.location}
           />
