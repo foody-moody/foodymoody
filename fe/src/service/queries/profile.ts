@@ -29,7 +29,7 @@ export const useEditProfileImage = (id: string) => {
   });
 };
 
-export const useEditProfile = () => {};
+// export const useEditProfile = () => {};
 
 export const useGetNicknameDuplicate = (nickName: string) => {
   return useQuery({
@@ -38,19 +38,3 @@ export const useGetNicknameDuplicate = (nickName: string) => {
     enabled: false,
   });
 };
-
-export const useEditProfileImage = (id: string) => {
-  const toast = useToast();
-
-  return useMutation({
-    mutationFn: (body: ProfileImageBody) => patchProfileImage(id, body),
-    onError: (error: AxiosError<CustomErrorResponse>) => {
-      const errorData = error?.response?.data;
-      console.log('useEditProfileImage error: ', error);
-
-      errorData && toast.error(errorData.message);
-    },
-  });
-};
-
-export const useEditProfile = () => {};
