@@ -6,12 +6,14 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @MappedSuperclass
+@EqualsAndHashCode(of = "value")
 public abstract class BaseId implements Serializable {
 
     private static final long serialVersionUID = 536871008L;

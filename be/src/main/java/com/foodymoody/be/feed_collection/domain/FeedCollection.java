@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_collection.domain;
 
-import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -59,7 +59,7 @@ public class FeedCollection {
         return feedIds.getIds();
     }
 
-    public List<CommentId> getCommentIds() {
+    public List<FeedCollectionCommentId> getCommentIds() {
         return commentIds.getIds();
     }
 
@@ -101,5 +101,13 @@ public class FeedCollection {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void addCommentId(FeedCollectionCommentId collectionCommentId) {
+        commentIds.add(collectionCommentId);
+    }
+
+    public void removeCommentId(FeedCollectionCommentId collectionCommentId) {
+        commentIds.remove(collectionCommentId);
     }
 }

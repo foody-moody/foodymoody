@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_collection.presentation;
 
+import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import com.foodymoody.be.feed_collection.infra.usecase.FeedCollectionDetail;
 import com.foodymoody.be.feed_collection.infra.usecase.FeedCollectionReadUseCase;
@@ -28,9 +29,7 @@ public class FeedCollectionReadController {
     }
 
     @GetMapping("/api/collections/{id}")
-    public ResponseEntity<FeedCollectionDetail> fetchDetail(
-            @PathVariable String id
-    ) {
+    public ResponseEntity<FeedCollectionDetail> fetchDetail(@PathVariable FeedCollectionId id) {
         var feedCollection = useCase.fetchDetail(id);
         return ResponseEntity.ok(feedCollection);
     }

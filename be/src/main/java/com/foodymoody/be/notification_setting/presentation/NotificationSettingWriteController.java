@@ -1,6 +1,7 @@
 package com.foodymoody.be.notification_setting.presentation;
 
-import com.foodymoody.be.common.annotation.MemberId;
+import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.notification_setting.application.NotificationSettingWriteService;
 import com.foodymoody.be.notification_setting.application.dto.NotificationSettingUpdateRequest;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class NotificationSettingWriteController {
 
     @PutMapping("/api/notification/settings")
     public ResponseEntity<Void> update(
-            @MemberId String memberId,
+            @CurrentMemberId MemberId memberId,
             @RequestBody NotificationSettingUpdateRequest request
     ) {
         service.update(memberId, request);

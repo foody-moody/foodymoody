@@ -65,15 +65,6 @@ operation::unLikeFailed[snippets='http-request,http-response']
 
 operation::readAllStoreMood[snippets='http-request,http-response']
 
-[[colletion]]
-== 컬렉션
-
-=== 컬렉션 등록
-
-==== 성공
-
-operation::feed-collection-create-success[snippets='http-request,http-response']
-
 [[auth]]
 == 인증/인가
 
@@ -537,3 +528,30 @@ operation::feed-collection-create-success[snippets='http-request,http-response']
 ==== 성공
 
 operation::feed_collection_request_fetch_all_success[snippets='http-request,http-response']
+
+=== 컬렉션 개별 조회
+
+==== 성공
+
+operation::feed_collection_request_fetch_single_success[snippets='http-request,http-response']
+
+[[feed-collection-comment]]
+== 컬렉션 댓글
+
+=== 컬렉션 댓글 등록
+
+==== 성공
+
+operation::feed_collection_comment_post_success[snippets='http-request,http-response']
+
+=== 컬렉션 댓글 삭제
+
+==== 성공
+
+operation::feed_collection_comment_delete_success[snippets='http-request,http-response']
+
+=== 컬렉션 댓글 수정
+
+==== 성공
+
+operation::feed_collection_comment_edit_success[snippets='http-request,http-response']

@@ -8,7 +8,6 @@ import com.foodymoody.be.comment_heart_count.application.CommentHeartCountWriteS
 import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.CommentId;
-import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,9 +22,7 @@ public class CommentHeartWriteUseCase {
     private final CommentHeartCountWriteService commentHeartCountWriteService;
 
     @Transactional
-    public void registerCommentHeart(String commentIdValue, String memberIdValue) {
-        CommentId commentId = IdFactory.createCommentId(commentIdValue);
-        MemberId memberId = IdFactory.createMemberId(memberIdValue);
+    public void registerCommentHeart(CommentId commentId, MemberId memberId) {
         Comment comment = commentReadService.fetchById(commentId);
         if (commentHeartWriteService.existsByCommentIdAndMemberId(commentId, memberId)) {
             return;
@@ -37,9 +34,7 @@ public class CommentHeartWriteUseCase {
     }
 
     @Transactional
-    public void deleteCommentHeart(String commentIdValue, String memberIdValue) {
-        CommentId commentId = IdFactory.createCommentId(commentIdValue);
-        MemberId memberId = IdFactory.createMemberId(memberIdValue);
+    public void deleteCommentHeart(CommentId commentId, MemberId memberId) {
         commentReadService.fetchById(commentId);
         if (!commentHeartWriteService.existsByCommentIdAndMemberId(commentId, memberId)) {
             return;
@@ -48,8 +43,10 @@ public class CommentHeartWriteUseCase {
         commentHeartCountWriteService.decrement(commentId);
     }
 
-    private static CommentHeartAddedEvent toCommentHeartAddedEvent(Comment comment, CommentHeart commentHeart,
-            MemberId memberId) {
+    private static CommentHeartAddedEvent toCommentHeartAddedEvent(
+            Comment comment, CommentHeart commentHeart,
+            MemberId memberId
+    ) {
         return new CommentHeartAddedEvent(
                 comment.getFeedId(),
                 comment.getContent(),
