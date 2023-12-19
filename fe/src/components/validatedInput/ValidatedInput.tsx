@@ -6,6 +6,7 @@ import { InputField } from 'components/common/input/InputField';
 
 type Props = {
   type?: 'password' | 'text';
+  variant?: 'ghost' | 'underline' | 'default' | 'comment' | 'rectangle';
   value?: string;
   placeholder?: string;
   helperText?: string;
@@ -17,6 +18,7 @@ export const ValidatedInput = forwardRef<HTMLInputElement, Props>(
   (
     {
       type = 'text',
+      variant = 'default',
       value,
       placeholder,
       helperText,
@@ -41,7 +43,7 @@ export const ValidatedInput = forwardRef<HTMLInputElement, Props>(
 
     return (
       <Wrapper>
-        <Input variant="default" isFocused={isFocused} helperText={helperText}>
+        <Input variant={variant} isFocused={isFocused} helperText={helperText}>
           <Input.InnerLabel isFocused={isFocused}>
             {placeholder}
           </Input.InnerLabel>

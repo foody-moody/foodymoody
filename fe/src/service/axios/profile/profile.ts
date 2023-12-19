@@ -13,3 +13,9 @@ export const patchProfileImage = async (
   const { data } = await privateApi.patch(END_POINT.member(memberId), body);
   return data;
 };
+
+export const getNicknameDuplicate = async (nickname: string) => {
+  const encodedNickname = encodeURIComponent(nickname);
+  const { data } = await privateApi.get(END_POINT.nickName(encodedNickname));
+  return data;
+};

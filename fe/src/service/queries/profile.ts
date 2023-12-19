@@ -1,19 +1,19 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useToast } from 'recoil/toast/useToast';
-import { getProfile, patchProfileImage } from 'service/axios/profile/profile';
+import {
+  getNicknameDuplicate,
+  getProfile,
+  patchProfileImage,
+} from 'service/axios/profile/profile';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
-export const useGetProfile = (id?: string) => {
-  return useQuery({
+export const useGetProfile = (id?: string) =>
+  useQuery<ProfileMemberInfo>({
     queryKey: [QUERY_KEY.profile],
-    queryFn: async () => {
-      const { myFeeds, ...memberProfileData } = await getProfile(id);
-      return { myFeeds, memberProfileData };
-    },
+    queryFn: () => getProfile(id),
     staleTime: Infinity,
   });
-};
 
 export const useEditProfileImage = (id: string) => {
   const toast = useToast();
@@ -29,4 +29,12 @@ export const useEditProfileImage = (id: string) => {
   });
 };
 
-export const useEditProfile = () => {};
+// export const useEditProfile = () => {};
+
+export const useGetNicknameDuplicate = (nickName: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEY.nickname, nickName], //여기도 닉네임을 넣어줘야하는지?
+    queryFn: () => getNicknameDuplicate(nickName),
+    enabled: false,
+  });
+};

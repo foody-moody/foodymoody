@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { useAuthState } from 'hooks/auth/useAuth';
+import { usePageNavigator } from 'hooks/usePageNavigator';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { Badge } from '../common/badge/Badge';
 import { Button } from '../common/button/Button';
@@ -17,16 +18,22 @@ const MOCK_BADGE = {
 };
 
 export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
+  const { navigateToProfileEdit } = usePageNavigator();
   const { userInfo } = useAuthState();
   const isAuthor = member.id === userInfo.id;
 
   const handleAddCollection = () => {};
-  const handleEditProfile = () => {};
+  const handleEditProfile = () => {
+    navigateToProfileEdit();
+  };
+
+  const handleToggleFollow = () => {};
+
   return (
     <Wrapper>
       <ContentLeft>
         <UserImageEdit
-          member={member}
+
           isAuthor={isAuthor}
           imageUrl={
             member.profileImageUrl || generateDefaultUserImage(member.id)
@@ -71,7 +78,7 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
             size="s"
             backgroundColor="white"
             width={140}
-            onClick={handleEditProfile}
+            onClick={handleToggleFollow}
           >
             <UserPlusIcon />
             <span>팔로우</span>

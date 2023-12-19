@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { AccountPage } from 'pages/AcountPage';
 import { CollectionPage } from 'pages/CollectionPage';
 import { DetailFeedModalPage } from 'pages/DetailFeedPage';
 import { ErrorPage } from 'pages/ErrorPage';
@@ -7,10 +8,13 @@ import { Layout } from 'pages/Layout';
 import { LoginPage } from 'pages/LoginPage';
 import { NewFeedModalPage } from 'pages/NewFeedPage';
 import { NotiPage } from 'pages/NotiPage';
+import { PasswordPage } from 'pages/PasswordPage';
+import { ProfileEditPage } from 'pages/ProfileEditPage';
 import { ProfilePage } from 'pages/ProfilePage';
 import { ProtectedRoute } from 'pages/ProtectedRoute';
 import { RegisterPage } from 'pages/RegisterPage';
 import { SearchPage } from 'pages/SearchPage';
+import { SettingPage } from 'pages/SettingPage';
 import { PATH } from 'constants/path';
 
 const router = createBrowserRouter([
@@ -50,6 +54,22 @@ const router = createBrowserRouter([
               {
                 path: PATH.PROFILE,
                 element: <ProfilePage />,
+              },
+              {
+                path: PATH.PROFILE_EDIT,
+                element: <ProfileEditPage />,
+              },
+              {
+                path: PATH.SETTING,
+                element: <SettingPage />,
+              },
+              {
+                path: PATH.PASSWORD,
+                element: <PasswordPage />,
+              },
+              {
+                path: PATH.ACCOUNT,
+                element: <AccountPage />,
               },
             ],
           },

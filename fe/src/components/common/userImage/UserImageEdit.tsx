@@ -10,14 +10,14 @@ import { EditIcon } from '../icon/icons';
 import { UserImage } from './UserImage';
 
 type Props = {
-  member: ProfileMemberInfo;
+
   isAuthor: boolean;
   imageId?: string;
   imageUrl?: string;
 };
 
 export const UserImageEdit: React.FC<Props> = ({
-  member,
+
   isAuthor,
   imageId,
   imageUrl,
@@ -28,7 +28,8 @@ export const UserImageEdit: React.FC<Props> = ({
   });
   const { userInfo } = useAuthState();
   const { mutate: imageMutate } = usePostImage('user');
-  const { mutate: profileMutate } = useEditProfileImage(member.id);
+  const { mutate: profileMutate } = useEditProfileImage(userInfo.id);
+
 
   const toast = useToast();
   const inputRef = useRef<HTMLInputElement>(null);

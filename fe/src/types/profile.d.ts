@@ -1,10 +1,14 @@
 type ProfileMemberInfo = {
   id: string;
-  profileImageUrl: string;
   profileImageId: string;
+  profileImageUrl: string;
   nickname: string;
   email: string;
   tasteMoodId: string;
+  followingCount: number;
+  followerCount: number;
+  following: boolean;
+  followed: boolean;
   feedCount: number;
 };
 

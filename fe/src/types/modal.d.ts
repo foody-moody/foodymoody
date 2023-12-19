@@ -4,6 +4,7 @@ type ModalPropsMap = {
   test: TestModalProps;
   test2: Test2ModalProps;
   commentAlert: CommentAlertProps;
+  accountAlert: AccountAlertProps;
 };
 
 type Modal<T extends ModalType> = {
@@ -27,4 +28,9 @@ type CommentAlertProps = {
   onDelete?(): void;
   onClose?(): void;
   onReport?(): void;
+};
+
+type AccountAlertProps = {
+  onDelete?(): void;
+  onClose?(): void;
 };

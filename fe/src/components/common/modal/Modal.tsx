@@ -2,6 +2,7 @@ import { createPortal } from 'react-dom';
 import { useRecoilValue } from 'recoil';
 import { modalListState } from 'recoil/modal/atom';
 import { modalSelector } from 'recoil/modal/selector';
+import { AccountAlert } from './AccountAlert';
 import { CommentAlert } from './CommentAlert';
 import { TestModal, Test2Modal } from './TestModal';
 
@@ -9,6 +10,7 @@ const MODAL_COMPONENTS: {
   [key in ModalType]: React.ComponentType<ModalPropsMap[key]>;
 } = {
   commentAlert: CommentAlert,
+  accountAlert: AccountAlert,
   test: TestModal,
   test2: Test2Modal,
 };

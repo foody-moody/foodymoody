@@ -14,6 +14,8 @@ export const END_POINT = {
   reply: (id: string) => `/comments/${id}/replies`,
   imageUpload: (type: 'feed' | 'user') =>
     type === 'feed' ? `/images/feeds` : `/images/members`,
+  nickName: (nickname: string) =>
+    `/members/duplication-check?nickname=${nickname}`,
   notifications: (id?: string) =>
     id ? `/notifications/${id}` : `/notifications`,
 };

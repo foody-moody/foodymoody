@@ -8,7 +8,7 @@ import { NotiIcon } from '../notiIcon/NotiIcon';
 import { PATH } from 'constants/path';
 
 export const HeaderMob: React.FC = () => {
-  const { navigateToHome } = usePageNavigator();
+  const { navigateToHome,navigateToSetting } = usePageNavigator();
   const currentLocation = useLocation();
   const isProfilePage = currentLocation.pathname === PATH.PROFILE;
 
@@ -19,7 +19,7 @@ export const HeaderMob: React.FC = () => {
         <LogoLarge onClick={navigateToHome} />
         <ContentRight>
           <NotiIcon />
-          {isProfilePage && <GearIcon />}
+          {isProfilePage && <GearIcon  onClick={navigateToSetting}/>}
         </ContentRight>
       </FlexRowBox>
     </Wrapper>
