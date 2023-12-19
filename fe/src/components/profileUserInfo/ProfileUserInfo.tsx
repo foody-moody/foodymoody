@@ -23,16 +23,17 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
   const isAuthor = member.id === userInfo.id;
 
   const handleAddCollection = () => {};
-
   const handleEditProfile = () => {
     navigateToProfileEdit();
   };
 
   const handleToggleFollow = () => {};
+
   return (
     <Wrapper>
       <ContentLeft>
         <UserImageEdit
+
           isAuthor={isAuthor}
           imageUrl={
             member.profileImageUrl || generateDefaultUserImage(member.id)

@@ -10,12 +10,14 @@ import { EditIcon } from '../icon/icons';
 import { UserImage } from './UserImage';
 
 type Props = {
+
   isAuthor: boolean;
   imageId?: string;
   imageUrl?: string;
 };
 
 export const UserImageEdit: React.FC<Props> = ({
+
   isAuthor,
   imageId,
   imageUrl,
@@ -27,6 +29,7 @@ export const UserImageEdit: React.FC<Props> = ({
   const { userInfo } = useAuthState();
   const { mutate: imageMutate } = usePostImage('user');
   const { mutate: profileMutate } = useEditProfileImage(userInfo.id);
+
 
   const toast = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
