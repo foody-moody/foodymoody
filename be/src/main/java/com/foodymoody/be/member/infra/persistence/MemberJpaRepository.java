@@ -21,7 +21,7 @@ public interface MemberJpaRepository extends MemberRepository, JpaRepository<Mem
                     + "FROM Member m "
                     + "LEFT JOIN Feed f ON m.id = f.memberId "
                     + "LEFT JOIN Image i ON m.profileImage.id = i.id "
-                    + "LEFT JOIN TasteMood t ON m.tasteMoodId = t.id "
+                    + "INNER JOIN FETCH TasteMood t ON m.tasteMood = t "
                     + "LEFT JOIN FETCH Follow following ON following.follower = m "
                     + "LEFT JOIN FETCH Follow follower ON follower.followed = m "
                     + "LEFT JOIN FETCH Follow currentMemberFollowing ON currentMemberFollowing.follower.id = :currentMemberId AND currentMemberFollowing.followed = m "
@@ -34,7 +34,7 @@ public interface MemberJpaRepository extends MemberRepository, JpaRepository<Mem
     @Query("SELECT new com.foodymoody.be.member.application.dto.FeedAuthorSummary (m.id, i.url, m.nickname, t.name) "
             + "FROM Member m "
             + "LEFT JOIN Image i ON m.profileImage.id = i.id "
-            + "LEFT JOIN TasteMood t ON m.tasteMoodId = t.id "
+            + "LEFT JOIN FETCH TasteMood t ON m.tasteMood = t "
             + "WHERE m.id = :id")
     Optional<FeedAuthorSummary> fetchFeedAuthorSummaryById(MemberId id);
 

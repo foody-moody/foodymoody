@@ -24,7 +24,7 @@ public class MemberMapper {
                 request.getNickname(),
                 request.getPassword(),
                 request.getReconfirmPassword(),
-                tasteMood.getId()
+                tasteMood
         );
     }
 

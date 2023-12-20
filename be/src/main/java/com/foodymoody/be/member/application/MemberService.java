@@ -81,7 +81,7 @@ public class MemberService {
         if (Objects.nonNull(request.getTasteMoodId())
                 && !Objects.equals(request.getTasteMoodId(), member.getTasteMoodId().getValue())) {
             TasteMood tasteMood = tasteMoodService.findById(IdFactory.createTasteMoodId(request.getTasteMoodId()));
-            member.changeTasteMood(tasteMood.getId());
+            member.changeTasteMood(tasteMood);
         }
         if (Objects.nonNull(request.getNickname())
                 && !Objects.equals(request.getNickname(), member.getNickname())) {

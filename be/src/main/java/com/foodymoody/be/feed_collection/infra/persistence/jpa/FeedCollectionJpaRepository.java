@@ -27,7 +27,7 @@ public interface FeedCollectionJpaRepository extends JpaRepository<FeedCollectio
                     "FROM FeedCollection _feedCollection " +
                     "JOIN Member _member on _feedCollection.authorId = _member.id " +
                     "JOIN Image _image on _member.profileImage.id = _image.id " +
-                    "JOIN TasteMood _taste_mood on _member.tasteMoodId = _taste_mood.id "
+                    "JOIN TasteMood _taste_mood on _member.tasteMood = _taste_mood "
     )
     Slice<FeedCollectionSummary> findAllSummary(Pageable pageable);
 }
