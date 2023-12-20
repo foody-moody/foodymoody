@@ -1,6 +1,7 @@
 package com.foodymoody.be.acceptance.feed_collection_reply;
 
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -21,6 +22,30 @@ public class FeedCollectionReplySteps {
                 .body(body).contentType("application/json")
                 .when()
                 .post("/api/feed_collections/{commentId}/replies", commentId)
+                .then().log().all()
+                .extract();
+    }
+
+    public static String 피드_컬렉션_댓글에_대댓글을_등록하고_아이디를_반환한다(
+            String accessToken,
+            String commentId
+    ) {
+        return 피드_컬렉션_댓글에_대댓글을_등록한다(accessToken, commentId, new RequestSpecBuilder().build())
+                .jsonPath().getString("id");
+    }
+
+    public static ExtractableResponse<Response> 피드_컬렉션_댓글에_대댓글을_삭제한다(
+            String accessToken,
+            String replyId,
+            String commentId,
+            RequestSpecification spec
+    ) {
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .when()
+                .delete("/api/feed_collections/{commentId}/replies/{replyId}", commentId, replyId)
                 .then().log().all()
                 .extract();
     }

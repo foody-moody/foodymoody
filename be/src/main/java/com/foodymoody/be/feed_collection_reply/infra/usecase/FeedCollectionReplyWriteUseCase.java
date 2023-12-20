@@ -16,9 +16,12 @@ public class FeedCollectionReplyWriteUseCase {
     private final FeedCollectionReplyWriteService replyService;
     private final FeedCollectionCommentReadService commentService;
 
-
     public FeedCollectionReplyId post(FeedCollectionCommentId commentId, CommentContent content, MemberId memberId) {
         commentService.validateExistence(commentId);
         return replyService.post(commentId, content, memberId);
+    }
+
+    public void delete(FeedCollectionReplyId replyId, MemberId memberId) {
+        replyService.delete(replyId, memberId);
     }
 }
