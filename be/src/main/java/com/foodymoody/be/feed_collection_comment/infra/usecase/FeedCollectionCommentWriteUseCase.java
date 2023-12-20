@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_collection_comment.infra.usecase;
 
-import com.foodymoody.be.common.util.CommentContent;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -18,7 +18,7 @@ public class FeedCollectionCommentWriteUseCase {
     private final FeedCollectionWriterService feedCollectionWriterService;
 
     @Transactional
-    public FeedCollectionCommentId post(FeedCollectionId feedCollectionId, CommentContent content, MemberId memberId) {
+    public FeedCollectionCommentId post(FeedCollectionId feedCollectionId, Content content, MemberId memberId) {
         feedCollectionWriterService.checkExistence(feedCollectionId);
         var collectionCommentId = feedCollectionCommentWriteService.post(feedCollectionId, content, memberId);
         feedCollectionWriterService.addCommentId(feedCollectionId, collectionCommentId);
@@ -31,7 +31,7 @@ public class FeedCollectionCommentWriteUseCase {
         feedCollectionWriterService.removeCommentId(feedCollectionId, id);
     }
 
-    public void edit(FeedCollectionCommentId id, CommentContent content, MemberId memberId) {
+    public void edit(FeedCollectionCommentId id, Content content, MemberId memberId) {
         feedCollectionCommentWriteService.edit(id, content, memberId);
     }
 }

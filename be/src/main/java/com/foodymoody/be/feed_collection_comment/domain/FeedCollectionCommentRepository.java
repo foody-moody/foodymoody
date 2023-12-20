@@ -8,4 +8,6 @@ public interface FeedCollectionCommentRepository {
     FeedCollectionComment save(FeedCollectionComment feedCollectionComment);
 
     Optional<FeedCollectionComment> findById(FeedCollectionCommentId id);
+
+    boolean existsById(FeedCollectionCommentId commentId);
 }

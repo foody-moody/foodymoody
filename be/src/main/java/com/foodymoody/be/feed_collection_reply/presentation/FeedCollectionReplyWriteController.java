@@ -1,12 +1,12 @@
-package com.foodymoody.be.feed_collection_comment.presentation;
+package com.foodymoody.be.feed_collection_reply.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.IdResponse;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
-import com.foodymoody.be.common.util.ids.FeedCollectionId;
+import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_collection_comment.infra.usecase.FeedCollectionCommentWriteUseCase;
+import com.foodymoody.be.feed_collection_reply.infra.usecase.FeedCollectionReplyWriteUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,38 +19,38 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-public class FeedCollectionCommentWriteController {
+public class FeedCollectionReplyWriteController {
 
-    private final FeedCollectionCommentWriteUseCase useCase;
+    private final FeedCollectionReplyWriteUseCase useCase;
 
-    @PostMapping("/api/collections/{feedCollectionId}/comments")
+    @PostMapping("/api/feed_collections_comments/{commentId}/replies")
     public ResponseEntity<IdResponse> post(
-            @PathVariable FeedCollectionId feedCollectionId,
+            @PathVariable FeedCollectionCommentId commentId,
             @RequestBody Content content,
             @CurrentMemberId MemberId memberId
     ) {
-        var id = useCase.post(feedCollectionId, content, memberId);
+        var id = useCase.post(commentId, content, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
-    @DeleteMapping("/api/collections/{feedCollectionId}/comments/{id}")
+    @DeleteMapping("/api/feed_collections_comments/{ignoredCommentId}/replies/{replyId}")
     public ResponseEntity<Void> delete(
-            @PathVariable FeedCollectionId feedCollectionId,
-            @PathVariable FeedCollectionCommentId id,
+            @PathVariable FeedCollectionCommentId ignoredCommentId,
+            @PathVariable FeedCollectionReplyId replyId,
             @CurrentMemberId MemberId memberId
     ) {
-        useCase.delete(feedCollectionId, id, memberId);
+        useCase.delete(replyId, memberId);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/api/collections/{ignoredFeedCollectionId}/comments/{id}")
+    @PutMapping("/api/feed_collections_comments/{ignoredCommentId}/replies/{replyId}")
     public ResponseEntity<Void> edit(
-            @PathVariable FeedCollectionId ignoredFeedCollectionId,
-            @PathVariable FeedCollectionCommentId id,
+            @PathVariable FeedCollectionCommentId ignoredCommentId,
+            @PathVariable FeedCollectionReplyId replyId,
             @RequestBody Content content,
             @CurrentMemberId MemberId memberId
     ) {
-        useCase.edit(id, content, memberId);
+        useCase.edit(replyId, content, memberId);
         return ResponseEntity.noContent().build();
     }
 }

@@ -106,6 +106,14 @@ public class IdFactory {
         return createId(NotificationId.class);
     }
 
+    public static FeedCollectionReplyId createFeedCollectionReplyId() {
+        return createId(FeedCollectionReplyId.class);
+    }
+
+    public static FeedCollectionReplyId createFeedCollectionReplyId(String id) {
+        return createId(FeedCollectionReplyId.class, id);
+    }
+
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {
         try {
             Constructor<T> constructor = idClass.getConstructor(String.class);

@@ -1,7 +1,7 @@
 package com.foodymoody.be.feed_collection_comment.application;
 
 
-import com.foodymoody.be.common.util.CommentContent;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class FeedCollectionCommentMapper {
 
     public FeedCollectionComment toEntity(
-            FeedCollectionId feedCollectionId, CommentContent content, MemberId memberId,
+            FeedCollectionId feedCollectionId, Content content, MemberId memberId,
             FeedCollectionCommentId feedCollectionCommentId, LocalDateTime now
     ) {
         return new FeedCollectionComment(
