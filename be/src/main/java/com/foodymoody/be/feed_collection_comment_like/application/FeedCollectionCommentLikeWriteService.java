@@ -8,6 +8,7 @@ import com.foodymoody.be.feed_collection_comment_like.domain.FeedCollectionComme
 import com.foodymoody.be.feed_collection_comment_like.domain.FeedCollectionCommentLikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -15,9 +16,15 @@ public class FeedCollectionCommentLikeWriteService {
 
     private final FeedCollectionCommentLikeRepository repository;
 
+    @Transactional
     public FeedCollectionCommentLikeId like(FeedCollectionCommentId commentId, MemberId memberId) {
         var id = IdFactory.createFeedCollectionCommentLikeId();
         var commentLike = new FeedCollectionCommentLike(id, commentId, memberId);
         return repository.save(commentLike).getId();
+    }
+
+    @Transactional
+    public void cancel(FeedCollectionCommentId commentId, MemberId memberId) {
+        repository.deleteByCommentIdAndMemberId(commentId, memberId);
     }
 }

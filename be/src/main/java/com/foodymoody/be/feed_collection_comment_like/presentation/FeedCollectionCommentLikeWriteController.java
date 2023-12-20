@@ -8,6 +8,7 @@ import com.foodymoody.be.feed_collection_comment_like.infra.usecase.FeedCollecti
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,9 +21,19 @@ public class FeedCollectionCommentLikeWriteController {
 
     @PostMapping("/api/feed_collections_comments/{commentId}/likes")
     public ResponseEntity<IdResponse> like(
-            @PathVariable FeedCollectionCommentId commentId, @CurrentMemberId MemberId memberId
+            @PathVariable FeedCollectionCommentId commentId,
+            @CurrentMemberId MemberId memberId
     ) {
         var likeId = useCase.like(commentId, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(likeId));
+    }
+
+    @DeleteMapping("/api/feed_collections_comments/{commentId}/likes")
+    public ResponseEntity<Void> cancelLike(
+            @PathVariable FeedCollectionCommentId commentId,
+            @CurrentMemberId MemberId memberId
+    ) {
+        useCase.cancel(commentId, memberId);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -16,4 +16,8 @@ public class FeedCollectionCommentLikeUseCase {
     public FeedCollectionCommentLikeId like(FeedCollectionCommentId commentId, MemberId memberId) {
         return likeService.like(commentId, memberId);
     }
+
+    public void cancel(FeedCollectionCommentId commentId, MemberId memberId) {
+        likeService.cancel(commentId, memberId);
+    }
 }

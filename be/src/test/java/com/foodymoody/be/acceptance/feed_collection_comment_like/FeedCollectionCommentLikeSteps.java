@@ -21,4 +21,19 @@ public class FeedCollectionCommentLikeSteps {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 피드_컬렉션_댓글에_좋아요를_취소한다(
+            String accessToken,
+            String commentId,
+            RequestSpecification spec
+    ) {
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .when()
+                .delete("/api/feed_collections_comments/{commentId}/likes", commentId)
+                .then().log().all()
+                .extract();
+    }
 }
