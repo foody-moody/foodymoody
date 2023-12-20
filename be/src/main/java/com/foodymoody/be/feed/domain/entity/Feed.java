@@ -2,21 +2,17 @@ package com.foodymoody.be.feed.domain.entity;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,6 +28,7 @@ public class Feed {
     private MemberId memberId;
     private String profileImageUrl;
     private String location;
+    // TODO: service에서 Java 시간으로 생성자 주입
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
@@ -41,13 +38,14 @@ public class Feed {
     private boolean isLiked;
     private int commentCount;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<StoreMood> storeMoods;
 
     @Embedded
     private ImageMenus imageMenus;
 
-    public Feed(FeedId id, MemberId memberId, String location, String review, List<StoreMood> storeMoods, List<Image> images,
+    public Feed(FeedId id, MemberId memberId, String location, String review, List<StoreMood> storeMoods,
+                List<Image> images,
                 List<Menu> menus, String profileImageUrl) {
         this.id = id;
         this.memberId = memberId;

@@ -6,7 +6,6 @@ import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.domain.entity.Feed;
-import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
 import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
 import com.foodymoody.be.feed_heart_count.repository.FeedHeartCountRepository;
@@ -31,6 +30,8 @@ class FeedHeartCountServiceTest {
     @Autowired
     private FeedHeartCountService feedHeartCountService;
     @Autowired
+    private StoreMoodReadService storeMoodReadService;
+    @Autowired
     private FeedHeartCountRepository feedHeartCountRepository;
     @Autowired
     private FeedRepository feedRepository;
@@ -42,8 +43,7 @@ class FeedHeartCountServiceTest {
         feedHeartCountRepository.deleteAll();
         FeedId id = new FeedId(IdGenerator.generate());
         feedRepository.save(new Feed(id, IdFactory.createMemberId("1"), "위치", "리뷰",
-                List.of(new StoreMood(IdFactory.createStoreMoodId("1"), "가족과 함께"),
-                        new StoreMood(IdFactory.createStoreMoodId("2"), "혼밥")),
+                List.of(),
                 List.of(new Image(IdFactory.createImageId("1"), "https://www.naver.com",
                         IdFactory.createMemberId("2"))),
                 List.of(new Menu(IdFactory.createMenuId("1"), "메뉴 이름", 5)), "https://www.facebook.com"));
