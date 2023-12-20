@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,13 +33,24 @@ public class FeedCollectionReplyWriteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
-    @DeleteMapping("/api/feed_collections/{commentId}/replies/{replyId}")
+    @DeleteMapping("/api/feed_collections/{ignoredCommentId}/replies/{replyId}")
     public ResponseEntity<Void> delete(
-            @PathVariable FeedCollectionCommentId commentId,
+            @PathVariable FeedCollectionCommentId ignoredCommentId,
             @PathVariable FeedCollectionReplyId replyId,
             @CurrentMemberId MemberId memberId
     ) {
         useCase.delete(replyId, memberId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/api/feed_collections/{ignoredCommentId}/replies/{replyId}")
+    public ResponseEntity<Void> edit(
+            @PathVariable FeedCollectionCommentId ignoredCommentId,
+            @PathVariable FeedCollectionReplyId replyId,
+            @RequestBody CommentContent content,
+            @CurrentMemberId MemberId memberId
+    ) {
+        useCase.edit(replyId, content, memberId);
         return ResponseEntity.noContent().build();
     }
 }

@@ -28,7 +28,13 @@ public class FeedCollectionReplyWriteService {
     @Transactional
     public void delete(FeedCollectionReplyId replyId, MemberId memberId) {
         var reply = getReply(replyId);
-        reply.delete(memberId);
+        reply.delete(memberId, LocalDateTime.now());
+    }
+
+    @Transactional
+    public void edit(FeedCollectionReplyId replyId, CommentContent content, MemberId memberId) {
+        var reply = getReply(replyId);
+        reply.edit(content, memberId, LocalDateTime.now());
     }
 
     private FeedCollectionReply getReply(FeedCollectionReplyId replyId) {

@@ -24,4 +24,8 @@ public class FeedCollectionReplyWriteUseCase {
     public void delete(FeedCollectionReplyId replyId, MemberId memberId) {
         replyService.delete(replyId, memberId);
     }
+
+    public void edit(FeedCollectionReplyId replyId, CommentContent content, MemberId memberId) {
+        replyService.edit(replyId, content, memberId);
+    }
 }

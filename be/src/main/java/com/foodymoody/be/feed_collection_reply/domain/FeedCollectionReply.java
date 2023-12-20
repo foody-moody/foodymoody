@@ -10,12 +10,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class FeedCollectionReply {
 
+    @Getter
     @Id
     private FeedCollectionReplyId id;
     @AttributeOverride(name = "value", column = @Column(name = "comment_id"))
@@ -43,15 +45,21 @@ public class FeedCollectionReply {
         this.updatedAt = createdAt;
     }
 
-    public FeedCollectionReplyId getId() {
-        return id;
-    }
-
-    public void delete(MemberId memberId) {
+    public void delete(MemberId memberId, LocalDateTime updatedAt) {
         if (this.memberId.equals(memberId)) {
             this.deleted = true;
+            this.updatedAt = updatedAt;
             return;
         }
         throw new IllegalArgumentException("삭제 권한이 없습니다.");
+    }
+
+    public void edit(CommentContent content, MemberId memberId, LocalDateTime updatedAt) {
+        if (this.memberId.equals(memberId)) {
+            this.content = content;
+            this.updatedAt = updatedAt;
+            return;
+        }
+        throw new IllegalArgumentException("수정 권한이 없습니다.");
     }
 }

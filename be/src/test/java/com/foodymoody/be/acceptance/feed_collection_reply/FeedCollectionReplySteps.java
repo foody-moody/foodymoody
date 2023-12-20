@@ -34,7 +34,7 @@ public class FeedCollectionReplySteps {
                 .jsonPath().getString("id");
     }
 
-    public static ExtractableResponse<Response> 피드_컬렉션_댓글에_대댓글을_삭제한다(
+    public static ExtractableResponse<Response> 피드_컬렉션_댓글의_대댓글을_삭제한다(
             String accessToken,
             String replyId,
             String commentId,
@@ -46,6 +46,24 @@ public class FeedCollectionReplySteps {
                 .auth().oauth2(accessToken)
                 .when()
                 .delete("/api/feed_collections/{commentId}/replies/{replyId}", commentId, replyId)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 피드_컬렉션_댓글의_대댓글을_수정한다(
+            String accessToken,
+            String replyId,
+            String commentId,
+            RequestSpecification spec
+    ) {
+        Map<String, String> body = Map.of("content", "수정된 대댓글입니다.");
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .body(body).contentType("application/json")
+                .when()
+                .put("/api/feed_collections/{commentId}/replies/{replyId}", commentId, replyId)
                 .then().log().all()
                 .extract();
     }
