@@ -14,6 +14,8 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -39,7 +41,7 @@ public class Feed {
     private boolean isLiked;
     private int commentCount;
 
-    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany
     private List<StoreMood> storeMoods;
 
     @Embedded
