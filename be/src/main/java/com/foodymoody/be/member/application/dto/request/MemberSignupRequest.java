@@ -18,4 +18,5 @@ public class MemberSignupRequest {
     private String reconfirmPassword;
     @NotBlank(message = "올바른 무드를 입력해주세요")
     private String tasteMoodId;
+    
 }

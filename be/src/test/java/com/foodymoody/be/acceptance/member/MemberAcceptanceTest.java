@@ -1,6 +1,5 @@
 package com.foodymoody.be.acceptance.member;
 
-import static com.foodymoody.be.acceptance.auth.AuthSteps.로그인_한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.로그인한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_또_등록한다;
@@ -24,7 +23,6 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_40
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m003인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m004인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드를_검증한다;
-import static com.foodymoody.be.acceptance.member.MemberSteps.아직_피드를_작성하지_않은_회원아티가_작성한_피드목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.언팔로우한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.오류코드를_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.전체_테이스트_무드를_조회한다;
@@ -36,8 +34,6 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.회원가입한다
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원탈퇴한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_수정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_조회한다;
-import static com.foodymoody.be.member.util.MemberFixture.비회원_보노;
-import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
@@ -254,8 +250,11 @@ class MemberAcceptanceTest extends AcceptanceTest {
             // docs
             api_문서_타이틀("fetchMemberFeedsEmpty_success", spec);
 
+            // given
+            String 아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
+
             // when
-            var response = 아직_피드를_작성하지_않은_회원아티가_작성한_피드목록을_조회한다(spec);
+            var response = 피드목록을_조회한다(아티_아이디,0, 10, spec);
 
             // then
             상태코드가_200이고_빈_리스트를_응답하는지_검증한다(response);
@@ -322,8 +321,8 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_비밀번호_수정_요청(), spec);
 
             // then
-            String 새로운_비밀번호 = MemberFixture.푸반_비밀번호_수정_요청().getNewPassword();
-            ExtractableResponse<Response> 푸반_로그인_응답 = 로그인_한다(회원_푸반.getEmail(), 새로운_비밀번호,
+            String 새로운_비밀번호 = String.valueOf(MemberFixture.푸반_비밀번호_수정_요청().get("newPassword"));
+            ExtractableResponse<Response> 푸반_로그인_응답 = 로그인한다(AuthFixture.푸반_로그인_요청_수정된_비밀번호(새로운_비밀번호),
                     new RequestSpecBuilder().build());
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
@@ -370,7 +369,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         @BeforeEach
         public void setup() {
             회원가입한다(MemberFixture.보노_회원가입_요청(), new RequestSpecBuilder().build());
-            보노_액세스토큰 = 로그인_한다(비회원_보노.getEmail(), 비회원_보노.getPassword(), new RequestSpecBuilder().build())
+            보노_액세스토큰 = 로그인한다(AuthFixture.보노_로그인_요청(), new RequestSpecBuilder().build())
                     .jsonPath().getString("accessToken");
             보노_아이디 = jwtUtil.parseAccessToken(보노_액세스토큰).get("id");
             푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
@@ -546,8 +545,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             var response = 회원탈퇴한다(회원푸반_액세스토큰, 푸반_아이디, spec);
 
             // then
-            ExtractableResponse<Response> 탈퇴한_푸반_로그인_응답 = 로그인_한다(회원_푸반.getEmail(), 회원_푸반.getPassword(),
-                    new RequestSpecBuilder().build());
+            ExtractableResponse<Response> 탈퇴한_푸반_로그인_응답 = 로그인한다(AuthFixture.푸반_로그인_요청(), new RequestSpecBuilder().build());
             ExtractableResponse<Response> 아티_팔로잉목록조회_응답 = 팔로잉_목록을_조회한다(아티_아이디, new RequestSpecBuilder().build());
             ExtractableResponse<Response> 아티_팔로워목록조회_응답 = 팔로워_목록을_조회한다(아티_아이디, new RequestSpecBuilder().build());
             Assertions.assertAll(

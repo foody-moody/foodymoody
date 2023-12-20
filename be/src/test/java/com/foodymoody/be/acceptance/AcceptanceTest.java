@@ -1,6 +1,6 @@
 package com.foodymoody.be.acceptance;
 
-import static com.foodymoody.be.acceptance.auth.AuthSteps.로그인_한다;
+import static com.foodymoody.be.acceptance.auth.AuthSteps.로그인한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.푸반이_로그인한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.*;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
@@ -8,6 +8,7 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 import com.foodymoody.be.acceptance.util.DatabaseCleanup;
 import com.foodymoody.be.acceptance.util.SqlFileExecutor;
 import com.foodymoody.be.acceptance.util.TableCleanup;
+import com.foodymoody.be.auth.util.AuthFixture;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
@@ -95,12 +96,12 @@ public abstract class AcceptanceTest {
     }
 
     private static String 푸반_엑세스토큰_요청() {
-        푸반_회원_가입한다();
+        푸반_회원가입한다();
         return 푸반이_로그인한다(new RequestSpecBuilder().build()).jsonPath().getString("accessToken");
     }
 
     private static String 아티_액세스토큰_요청() {
-        아티_회원_가입한다();
-        return 로그인_한다("ati@ati.com", "atiati123!", new RequestSpecBuilder().build()).jsonPath().getString("accessToken");
+        아티_회원가입한다();
+        return 로그인한다(AuthFixture.아티_로그인_요청(), new RequestSpecBuilder().build()).jsonPath().getString("accessToken");
     }
 }

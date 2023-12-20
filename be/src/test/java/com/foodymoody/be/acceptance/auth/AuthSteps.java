@@ -1,7 +1,6 @@
 package com.foodymoody.be.acceptance.auth;
 
 import static com.foodymoody.be.acceptance.notification.NotificationSteps.회원의_모든_알람을_조회한다;
-import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.auth.application.dto.request.LoginRequest;
@@ -11,7 +10,6 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import java.util.HashMap;
 import java.util.Map;
 import org.assertj.core.api.AbstractIntegerAssert;
 import org.assertj.core.api.AbstractStringAssert;
@@ -31,35 +29,16 @@ public class AuthSteps {
     }
 
     public static ExtractableResponse<Response> 회원푸반이_틀린_비밀번호로_로그인한다(RequestSpecification spec) {
-        return 로그인_한다(회원_푸반.getEmail(), "wrongPassword", spec);
+        return 로그인한다(AuthFixture.푸반_로그인_요청_틀린_비밀번호(), spec);
     }
 
-    public static ExtractableResponse<Response> 로그인한다(LoginRequest request, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 로그인한다(Map<String, Object> loginRequest, RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
                 .log().all()
-                .body(request)
-                .when().post("/api/auth/login")
-                .then().log().all()
-                .extract();
-    }
-
-    /**
-     * @deprecated 로그인한다(LoginRequest request, RequestSpecification spec)을 사용해주세요
-     * */
-    @Deprecated(forRemoval = true)
-    public static ExtractableResponse<Response> 로그인_한다(String email, String password, RequestSpecification spec) {
-        Map<String, String> body = new HashMap<>();
-        body.put("email", email);
-        body.put("password", password);
-        return RestAssured
-                .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .spec(spec)
-                .log().all()
-                .body(body)
+                .body(loginRequest)
                 .when().post("/api/auth/login")
                 .then().log().all()
                 .extract();
