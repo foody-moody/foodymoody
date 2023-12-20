@@ -19,3 +19,11 @@ export const getNicknameDuplicate = async (nickname: string) => {
   const { data } = await privateApi.get(END_POINT.nickName(encodedNickname));
   return data;
 };
+
+export const patchEditProfile = async (
+  memberId: string,
+  body: ProfileEditBody
+) => {
+  const { data } = await privateApi.patch(END_POINT.member(memberId), body);
+  return data;
+};
