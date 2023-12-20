@@ -28,7 +28,6 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.아직_피드를_�
 import static com.foodymoody.be.acceptance.member.MemberSteps.언팔로우한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.오류코드를_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.전체_테이스트_무드를_조회한다;
-import static com.foodymoody.be.acceptance.member.MemberSteps.테이스트무드를_설정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.팔로우한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.팔로워_목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.팔로잉_목록을_조회한다;
@@ -43,7 +42,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
 import com.foodymoody.be.auth.util.AuthFixture;
-import com.foodymoody.be.auth.util.JwtUtil;
+import com.foodymoody.be.auth.infra.JwtUtil;
 import com.foodymoody.be.member.util.MemberFixture;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;

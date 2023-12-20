@@ -1,4 +1,4 @@
-package com.foodymoody.be.auth.util;
+package com.foodymoody.be.auth.infra;
 
 import com.foodymoody.be.common.exception.ClaimNotFoundException;
 import com.foodymoody.be.common.exception.InvalidTokenException;
@@ -61,7 +61,7 @@ public class JwtUtil {
         return getClaim(claims, "id", String.class);
     }
 
-    public long getExp(String token) {
+    public long extractExpiresAt(String token) {
         Claims claims = extractClaims(token);
         return getClaim(claims, "exp", Long.class);
     }

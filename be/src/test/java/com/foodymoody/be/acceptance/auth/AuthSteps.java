@@ -4,7 +4,7 @@ import static com.foodymoody.be.acceptance.notification.NotificationSteps.회원
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.foodymoody.be.auth.controller.dto.LoginRequest;
+import com.foodymoody.be.auth.application.dto.request.LoginRequest;
 import com.foodymoody.be.auth.util.AuthFixture;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;

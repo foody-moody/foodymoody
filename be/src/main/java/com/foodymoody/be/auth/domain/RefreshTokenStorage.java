@@ -1,8 +1,8 @@
-package com.foodymoody.be.auth.repository;
+package com.foodymoody.be.auth.domain;
 
 import com.foodymoody.be.common.util.ids.MemberId;
 
-public interface TokenStorage {
+public interface RefreshTokenStorage {
 
     void saveRefreshToken(MemberId memberId, String refreshToken);
 

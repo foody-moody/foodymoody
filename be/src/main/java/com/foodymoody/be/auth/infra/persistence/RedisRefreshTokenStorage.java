@@ -1,5 +1,6 @@
-package com.foodymoody.be.auth.repository;
+package com.foodymoody.be.auth.infra.persistence;
 
+import com.foodymoody.be.auth.domain.RefreshTokenStorage;
 import com.foodymoody.be.common.util.ids.MemberId;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RedisTokenStorage implements TokenStorage{
+public class RedisRefreshTokenStorage implements RefreshTokenStorage {
 
     private static final String REFRESH_PREFIX = "jwt:refresh:";
     private static final String BLACKLIST_PREFIX = "jwt:blacklist:";

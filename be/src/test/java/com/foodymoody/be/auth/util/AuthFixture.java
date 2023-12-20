@@ -5,7 +5,7 @@ import static com.foodymoody.be.member.util.MemberFixture.비회원_설리;
 import static com.foodymoody.be.member.util.MemberFixture.비회원_알버트;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 
-import com.foodymoody.be.auth.controller.dto.LoginRequest;
+import com.foodymoody.be.auth.application.dto.request.LoginRequest;
 
 public class AuthFixture {
 

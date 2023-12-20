@@ -1,4 +1,4 @@
-package com.foodymoody.be.auth.controller.dto;
+package com.foodymoody.be.auth.application.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
