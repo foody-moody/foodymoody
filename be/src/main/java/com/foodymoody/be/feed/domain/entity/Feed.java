@@ -10,10 +10,15 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Feed {
 
@@ -23,6 +28,7 @@ public class Feed {
     private MemberId memberId;
     private String profileImageUrl;
     private String location;
+    // TODO: service에서 Java 시간으로 생성자 주입
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
@@ -32,21 +38,20 @@ public class Feed {
     private boolean isLiked;
     private int commentCount;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<StoreMood> storeMoods;
+
     @Embedded
     private ImageMenus imageMenus;
-    @Embedded
-    private StoreMoods storeMoods;
 
-    public Feed() {
-    }
-
-    public Feed(FeedId id, MemberId memberId, String location, String review, List<String> moodIds, List<Image> images,
-            List<Menu> menus, String profileImageUrl) {
+    public Feed(FeedId id, MemberId memberId, String location, String review, List<StoreMood> storeMoods,
+                List<Image> images,
+                List<Menu> menus, String profileImageUrl) {
         this.id = id;
         this.memberId = memberId;
         this.location = location;
         this.review = review;
-        this.storeMoods = new StoreMoods(moodIds);
+        this.storeMoods = storeMoods;
         this.imageMenus = new ImageMenus(images, menus);
         this.profileImageUrl = profileImageUrl;
     }
@@ -63,8 +68,8 @@ public class Feed {
         return review;
     }
 
-    public List<String> getStoreMoodIds() {
-        return storeMoods.getStoreMoodIds();
+    public List<StoreMood> getStoreMoods() {
+        return storeMoods;
     }
 
     public List<ImageMenu> getImageMenus() {
@@ -91,28 +96,20 @@ public class Feed {
         return updatedAt;
     }
 
-    public StoreMoods getStoreMood() {
-        return storeMoods;
-    }
-
     public MemberId getMemberId() {
         return memberId;
-    }
-
-    public StoreMoods getStoreMoods() {
-        return storeMoods;
     }
 
     public String getProfileImageUrl() {
         return profileImageUrl;
     }
 
-    public void update(MemberId memberId, String newLocation, String newReview, List<String> newStoreMoodIds,
+    public void update(MemberId memberId, String newLocation, String newReview, List<StoreMood> newStoreMoods,
                        List<Image> newImages, List<Menu> newMenus, String profileImageUrl) {
         this.memberId = memberId;
         this.location = newLocation;
         this.review = newReview;
-        this.storeMoods = new StoreMoods(newStoreMoodIds);
+        this.storeMoods = newStoreMoods;
         this.imageMenus.replaceWith(newImages, newMenus);
         this.profileImageUrl = profileImageUrl;
     }

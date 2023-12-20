@@ -2,9 +2,8 @@ package com.foodymoody.be.feed_collection.infra.usecase;
 
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.feed.application.FeedReadService;
-import com.foodymoody.be.feed.application.StoreMoodService;
+import com.foodymoody.be.feed.application.StoreMoodReadService;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
-import com.foodymoody.be.feed.domain.entity.StoreMoodId;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import com.foodymoody.be.image.service.ImageService;
@@ -26,7 +25,7 @@ public class FeedCollectionReadUseCase {
     private final MemberService memberService;
     private final ImageService imageService;
     private final TasteMoodService tasteMoodService;
-    private final StoreMoodService storeMoodService;
+    private final StoreMoodReadService storeMoodReadService;
 
     public Slice<FeedCollectionSummary> fetchAll(Pageable pageable) {
         return feedCollectionReadService.fetchCollection(pageable);
@@ -47,13 +46,8 @@ public class FeedCollectionReadUseCase {
         List<FeedSummaryResponse> feeds = feedIds.stream()
                 .map(feedReadService::findFeed)
                 .map(feed -> {
-                    var feedTasteMood = storeMoodService.findAllById(
-                                    feed.getStoreMoods()
-                                            .getStoreMoodIds()
-                                            .stream()
-                                            .map(StoreMoodId::new)
-                                            .collect(Collectors.toList())
-                            ).stream()
+                    var feedTasteMood = feed.getStoreMoods()
+                            .stream()
                             .map(StoreMood::getName)
                             .collect(Collectors.toList());
                     return new FeedSummaryResponse(

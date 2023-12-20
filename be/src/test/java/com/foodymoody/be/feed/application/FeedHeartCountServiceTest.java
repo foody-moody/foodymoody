@@ -30,6 +30,8 @@ class FeedHeartCountServiceTest {
     @Autowired
     private FeedHeartCountService feedHeartCountService;
     @Autowired
+    private StoreMoodReadService storeMoodReadService;
+    @Autowired
     private FeedHeartCountRepository feedHeartCountRepository;
     @Autowired
     private FeedRepository feedRepository;
@@ -40,7 +42,8 @@ class FeedHeartCountServiceTest {
     void setUp() {
         feedHeartCountRepository.deleteAll();
         FeedId id = new FeedId(IdGenerator.generate());
-        feedRepository.save(new Feed(id, IdFactory.createMemberId("1"), "위치", "리뷰", List.of("1", "2"),
+        feedRepository.save(new Feed(id, IdFactory.createMemberId("1"), "위치", "리뷰",
+                List.of(),
                 List.of(new Image(IdFactory.createImageId("1"), "https://www.naver.com",
                         IdFactory.createMemberId("2"))),
                 List.of(new Menu(IdFactory.createMenuId("1"), "메뉴 이름", 5)), "https://www.facebook.com"));
