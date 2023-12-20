@@ -1,4 +1,4 @@
-package com.foodymoody.be.member.repository;
+package com.foodymoody.be.member.application.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -5,8 +5,8 @@ import static com.foodymoody.be.member.util.MemberFixture.회원_아티;
 import static com.foodymoody.be.member.util.MemberFixture.회원_푸반;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
-import com.foodymoody.be.member.controller.dto.UpdateProfileRequest;
+import com.foodymoody.be.member.application.dto.request.ChangePasswordRequest;
+import com.foodymoody.be.member.application.dto.request.UpdateProfileRequest;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;

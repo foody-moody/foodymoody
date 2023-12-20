@@ -1,10 +1,10 @@
-package com.foodymoody.be.member.service;
+package com.foodymoody.be.member.application;
 
 import com.foodymoody.be.common.exception.MoodNotFoundException;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
-import com.foodymoody.be.member.controller.dto.TasteMoodResponse;
+import com.foodymoody.be.member.application.dto.response.TasteMoodResponse;
 import com.foodymoody.be.member.domain.TasteMood;
-import com.foodymoody.be.member.repository.TasteMoodRepository;
+import com.foodymoody.be.member.domain.TasteMoodRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;

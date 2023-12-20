@@ -11,7 +11,7 @@ import com.foodymoody.be.feed_heart.repository.FeedHeartRepository;
 import com.foodymoody.be.feed_heart.util.FeedHeartMapper;
 import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
 import com.foodymoody.be.feed_heart_count.service.FeedHeartCountService;
-import com.foodymoody.be.member.service.MemberService;
+import com.foodymoody.be.member.application.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

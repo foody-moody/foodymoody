@@ -27,7 +27,7 @@ import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.member.repository.MemberFeedData;
+import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
 import com.foodymoody.be.menu.domain.Menu;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +111,7 @@ public class FeedMapper {
         return new FeedServiceDeleteRequest(id, memberId);
     }
 
-    public static FeedMemberResponse toFeedMemberResponse(MemberFeedData member) {
+    public static FeedMemberResponse toFeedMemberResponse(FeedAuthorSummary member) {
         return FeedMemberResponse.builder()
                 .id(member.getId())
                 .imageUrl(member.getProfileImageUrl())

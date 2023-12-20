@@ -1,13 +1,13 @@
-package com.foodymoody.be.member.repository;
+package com.foodymoody.be.member.application.dto;
 
-public class MemberFeedData {
+public class FeedAuthorSummary {
 
     private String id;
     private String profileImageUrl;
     private String nickname;
     private String moodName;
 
-    public MemberFeedData(String id, String profileImageUrl, String nickname, String moodName) {
+    public FeedAuthorSummary(String id, String profileImageUrl, String nickname, String moodName) {
         this.id = id;
         this.profileImageUrl = profileImageUrl;
         this.nickname = nickname;

@@ -1,17 +1,18 @@
-package com.foodymoody.be.member.repository;
+package com.foodymoody.be.member.infra.persistence;
 
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
+import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import com.foodymoody.be.member.domain.Member;
+import com.foodymoody.be.member.domain.MemberRepository;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface MemberRepository extends JpaRepository<Member, MemberId> {
+public interface MemberJpaRepository extends MemberRepository, JpaRepository<Member, MemberId> {
 
-    @Query("SELECT new com.foodymoody.be.member.repository.MemberProfileResponse (m.id.value, i.id.value, i.url, m.nickname, m.email, t.id.value, "
+    @Query("SELECT new com.foodymoody.be.member.application.dto.response.MemberProfileResponse (m.id.value, i.id.value, i.url, m.nickname, m.email, t.id.value, "
             + "COUNT(DISTINCT following), COUNT(DISTINCT follower),(COUNT(DISTINCT loginMemberFollowing) > 0), (COUNT(DISTINCT loginMemberFollower) > 0), COUNT(DISTINCT f)) "
                     + "FROM Member m "
                     + "LEFT JOIN FETCH Feed f ON m.id = f.memberId "
@@ -25,12 +26,12 @@ public interface MemberRepository extends JpaRepository<Member, MemberId> {
                     + "GROUP BY m.id")
     Optional<MemberProfileResponse> fetchMemberProfileById(@Param("id") MemberId id, @Param("loginId") String loginId);
 
-    @Query("SELECT new com.foodymoody.be.member.repository.MemberFeedData (m.id.value, i.url, m.nickname, t.name) "
+    @Query("SELECT new com.foodymoody.be.member.application.dto.FeedAuthorSummary (m.id.value, i.url, m.nickname, t.name) "
             + "FROM Member m "
             + "LEFT JOIN FETCH Image i ON m.profileImage.id = i.id "
             + "LEFT JOIN FETCH TasteMood t ON m.tasteMoodId = t.id "
             + "WHERE m.id = :id")
-    Optional<MemberFeedData> fetchFeedDataById(@Param("id") MemberId id);
+    Optional<FeedAuthorSummary> fetchFeedDataById(@Param("id") MemberId id);
 
     Optional<Member> findByEmail(String email);
 

@@ -1,4 +1,4 @@
-package com.foodymoody.be.member.service;
+package com.foodymoody.be.member.application;
 
 import com.foodymoody.be.common.exception.DuplicateMemberEmailException;
 import com.foodymoody.be.common.exception.DuplicateNicknameException;
@@ -10,19 +10,19 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.application.ImageService;
-import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
-import com.foodymoody.be.member.controller.dto.NicknameDuplicationCheckResponse;
-import com.foodymoody.be.member.controller.dto.FollowInfoMemberResponse;
-import com.foodymoody.be.member.controller.dto.MemberSignupRequest;
-import com.foodymoody.be.member.controller.dto.MemberSignupResponse;
-import com.foodymoody.be.member.controller.dto.UpdateProfileRequest;
+import com.foodymoody.be.member.application.dto.request.ChangePasswordRequest;
+import com.foodymoody.be.member.application.dto.response.NicknameDuplicationCheckResponse;
+import com.foodymoody.be.member.application.dto.response.FollowInfoMemberResponse;
+import com.foodymoody.be.member.application.dto.request.MemberSignupRequest;
+import com.foodymoody.be.member.application.dto.response.MemberSignupResponse;
+import com.foodymoody.be.member.application.dto.request.UpdateProfileRequest;
+import com.foodymoody.be.member.domain.FollowRepository;
 import com.foodymoody.be.member.domain.Member;
+import com.foodymoody.be.member.domain.MemberRepository;
 import com.foodymoody.be.member.domain.TasteMood;
-import com.foodymoody.be.member.repository.FollowInfoMember;
-import com.foodymoody.be.member.repository.FollowRepository;
-import com.foodymoody.be.member.repository.MemberFeedData;
-import com.foodymoody.be.member.repository.MemberRepository;
-import com.foodymoody.be.member.util.MemberMapper;
+import com.foodymoody.be.member.application.dto.FollowMemberSummary;
+import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
+import com.foodymoody.be.member.domain.MemberMapper;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -99,7 +99,7 @@ public class MemberService {
         return memberRepository.findByNickname(nickname).orElseThrow(MemberNotFoundException::new);
     }
 
-    public MemberFeedData fetchFeedDataById(MemberId id) {
+    public FeedAuthorSummary fetchFeedDataById(MemberId id) {
         return memberRepository.fetchFeedDataById(id).orElseThrow(MemberNotFoundException::new);
     }
 
@@ -149,17 +149,17 @@ public class MemberService {
 
     public Slice<FollowInfoMemberResponse> listFollowings(String loginId, String id, Pageable pageable) {
         Member member = findById(id);
-        Slice<FollowInfoMember> followings = followRepository.findFollowedByFollowerOrderByCreatedAtDesc(member, pageable);
+        Slice<FollowMemberSummary> followings = followRepository.findFollowedByFollowerOrderByCreatedAtDesc(member, pageable);
         return getFollowInfoResponses(loginId, followings);
     }
 
     public Slice<FollowInfoMemberResponse> listFollowers(String loginId, String id, Pageable pageable) {
         Member member = findById(id);
-        Slice<FollowInfoMember> followers = followRepository.findFollowerByFollowedOrderByCreatedAtDesc(member, pageable);
+        Slice<FollowMemberSummary> followers = followRepository.findFollowerByFollowedOrderByCreatedAtDesc(member, pageable);
         return getFollowInfoResponses(loginId, followers);
     }
 
-    private Slice<FollowInfoMemberResponse> getFollowInfoResponses(String loginId, Slice<FollowInfoMember> followers) {
+    private Slice<FollowInfoMemberResponse> getFollowInfoResponses(String loginId, Slice<FollowMemberSummary> followers) {
         if(Objects.nonNull(loginId)) {
             Member loginMember = findById(loginId);
             return MemberMapper.toFollowInfo(loginMember, followers);

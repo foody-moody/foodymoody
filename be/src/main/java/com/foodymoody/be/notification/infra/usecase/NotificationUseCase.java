@@ -7,7 +7,7 @@ import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.member.domain.Member;
-import com.foodymoody.be.member.service.MemberService;
+import com.foodymoody.be.member.application.MemberService;
 import com.foodymoody.be.notification.application.FeedNotificationWriteService;
 import com.foodymoody.be.notification.application.NotificationSummaryReadService;
 import com.foodymoody.be.notification.application.NotificationSummarySpecs;

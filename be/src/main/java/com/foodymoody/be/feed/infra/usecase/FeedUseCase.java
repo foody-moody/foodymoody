@@ -33,8 +33,8 @@ import com.foodymoody.be.feed_heart_count.service.FeedHeartCountService;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.member.domain.Member;
-import com.foodymoody.be.member.repository.MemberFeedData;
-import com.foodymoody.be.member.service.MemberService;
+import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
+import com.foodymoody.be.member.application.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.service.MenuService;
 import java.util.List;
@@ -161,7 +161,7 @@ public class FeedUseCase {
     }
 
     public FeedMemberResponse makeFeedMemberResponse(Feed feed) {
-        MemberFeedData memberData = memberService.fetchFeedDataById(feed.getMemberId());
+        FeedAuthorSummary memberData = memberService.fetchFeedDataById(feed.getMemberId());
         return toFeedMemberResponse(memberData);
     }
 

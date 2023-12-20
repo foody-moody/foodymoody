@@ -230,7 +230,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> 두번째_피드_등록_응답 = 피드를_또_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build());
 
             // when
-            var response = 피드목록을_조회한다(푸반_아이디, 0, 10, new RequestSpecBuilder().build());
+            var response = 피드목록을_조회한다(푸반_아이디, 0, 10, spec);
 
             // then
             List<Map<String, String>> expected = List.of(
@@ -963,7 +963,6 @@ class MemberAcceptanceTest extends AcceptanceTest {
             팔로우한다(회원아티_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());
             팔로우한다(알버트_액세스토큰, 보노_아이디, new RequestSpecBuilder().build());
             팔로우한다(회원푸반_액세스토큰, 보노_아이디, new RequestSpecBuilder().build());
-
             팔로우한다(회원푸반_액세스토큰, 아티_아이디, new RequestSpecBuilder().build());
             팔로우한다(회원푸반_액세스토큰, 알버트_아이디, new RequestSpecBuilder().build());
 

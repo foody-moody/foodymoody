@@ -1,7 +1,7 @@
 package com.foodymoody.be.member.util;
 
-import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
-import com.foodymoody.be.member.controller.dto.UpdateProfileRequest;
+import com.foodymoody.be.member.application.dto.request.ChangePasswordRequest;
+import com.foodymoody.be.member.application.dto.request.UpdateProfileRequest;
 import java.util.Map;
 
 public enum MemberFixture {

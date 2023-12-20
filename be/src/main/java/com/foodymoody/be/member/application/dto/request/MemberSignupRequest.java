@@ -1,4 +1,4 @@
-package com.foodymoody.be.member.controller.dto;
+package com.foodymoody.be.member.application.dto.request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

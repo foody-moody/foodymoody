@@ -4,7 +4,7 @@ import com.foodymoody.be.auth.application.TokenService;
 import com.foodymoody.be.auth.application.dto.request.LoginRequest;
 import com.foodymoody.be.auth.application.dto.response.TokenIssueResponse;
 import com.foodymoody.be.member.domain.Member;
-import com.foodymoody.be.member.service.MemberService;
+import com.foodymoody.be.member.application.MemberService;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
