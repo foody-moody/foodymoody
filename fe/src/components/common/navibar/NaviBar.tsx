@@ -15,7 +15,7 @@ import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { Dropdown } from '../dropdown/Dropdown';
 import { DropdownRow } from '../dropdown/DropdownRow';
-import { NotiIcon } from '../notiIcon/NotiIcon';
+import { NotiIcon } from '../icon/NotiIcon';
 import { PATH } from 'constants/path';
 
 export const NaviBar = () => {
@@ -204,6 +204,7 @@ const Navi = styled.nav`
   margin-top: 16px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   a {
     width: 100%;
@@ -212,6 +213,7 @@ const Navi = styled.nav`
     align-items: center;
     gap: 16px;
     padding: 12px;
+    height: 56px;
 
     &:hover {
       background-color: ${({ theme: { colors } }) => colors.bgGray200};

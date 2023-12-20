@@ -3,8 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { usePageNavigator } from 'hooks/usePageNavigator';
+import { NotiIcon } from '../icon/NotiIcon';
 import { GearIcon, LogoLarge, SantaHat } from '../icon/icons';
-import { NotiIcon } from '../notiIcon/NotiIcon';
 import { PATH } from 'constants/path';
 
 export const HeaderMob: React.FC = () => {
