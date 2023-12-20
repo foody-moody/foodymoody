@@ -5,7 +5,7 @@ import static com.foodymoody.be.common.util.Constants.UTILITY_CLASS;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.response.NicknameDuplicationCheckResponse;
-import com.foodymoody.be.member.application.dto.response.FollowInfoMemberResponse;
+import com.foodymoody.be.member.application.dto.response.FollowMemberSummaryResponse;
 import com.foodymoody.be.member.application.dto.request.MemberSignupRequest;
 import com.foodymoody.be.member.application.dto.response.MemberSignupResponse;
 import com.foodymoody.be.member.application.dto.FollowMemberSummary;
@@ -36,19 +36,19 @@ public class MemberMapper {
         return new NicknameDuplicationCheckResponse(isDuplicate);
     }
 
-    public static Slice<FollowInfoMemberResponse> toFollowInfo(Member loginMember, Slice<FollowMemberSummary> followInfoMembers) {
+    public static Slice<FollowMemberSummaryResponse> toFollowMemberSummaryResponse(Member currentMember, Slice<FollowMemberSummary> followInfoMembers) {
         return followInfoMembers.map(
-                followMemberSummary -> FollowInfoMemberResponse.of(
+                followMemberSummary -> FollowMemberSummaryResponse.of(
                             followMemberSummary.getId(),
                             followMemberSummary.getNickname(),
                             followMemberSummary.getProfileImageUrl(),
-                            loginMember.isMyFollowing(followMemberSummary.getId()),
-                            loginMember.isMyFollower(followMemberSummary.getId())));
+                            currentMember.isMyFollowing(followMemberSummary.getId()),
+                            currentMember.isMyFollower(followMemberSummary.getId())));
     }
 
-    public static Slice<FollowInfoMemberResponse> toFollowInfo(Slice<FollowMemberSummary> followInfoMembers) {
+    public static Slice<FollowMemberSummaryResponse> toFollowMemberSummaryResponse(Slice<FollowMemberSummary> followInfoMembers) {
         return followInfoMembers.map(
-                followMemberSummary -> FollowInfoMemberResponse.of(
+                followMemberSummary -> FollowMemberSummaryResponse.of(
                         followMemberSummary.getId(),
                         followMemberSummary.getNickname(),
                         followMemberSummary.getProfileImageUrl(),

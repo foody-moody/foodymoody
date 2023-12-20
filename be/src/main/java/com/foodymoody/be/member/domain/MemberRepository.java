@@ -2,14 +2,19 @@ package com.foodymoody.be.member.domain;
 
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
+import com.foodymoody.be.member.application.dto.response.FeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 public interface MemberRepository {
 
-    Optional<MemberProfileResponse> fetchMemberProfileById(MemberId id, MemberId loginId);
+    Optional<MemberProfileResponse> fetchMemberProfileResponseById(MemberId id, MemberId currentMemberId);
 
-    Optional<FeedAuthorSummary> fetchFeedDataById(MemberId id);
+    Optional<FeedAuthorSummary> fetchFeedAuthorSummaryById(MemberId id);
+
+    Slice<FeedPreviewResponse> fetchFeedPreviewResponsesById(MemberId id, Pageable pageable);
 
     Optional<Member> findByEmail(String email);
 

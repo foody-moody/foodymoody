@@ -12,7 +12,7 @@ import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.member.application.dto.request.ChangePasswordRequest;
 import com.foodymoody.be.member.application.dto.response.NicknameDuplicationCheckResponse;
-import com.foodymoody.be.member.application.dto.response.FollowInfoMemberResponse;
+import com.foodymoody.be.member.application.dto.response.FollowMemberSummaryResponse;
 import com.foodymoody.be.member.application.dto.request.MemberSignupRequest;
 import com.foodymoody.be.member.application.dto.response.MemberSignupResponse;
 import com.foodymoody.be.member.application.dto.request.UpdateProfileRequest;
@@ -98,8 +98,8 @@ public class MemberService {
         return memberRepository.findByNickname(nickname).orElseThrow(MemberNotFoundException::new);
     }
 
-    public FeedAuthorSummary fetchFeedDataById(MemberId id) {
-        return memberRepository.fetchFeedDataById(id).orElseThrow(MemberNotFoundException::new);
+    public FeedAuthorSummary fetchFeedAuthorSummaryById(MemberId id) {
+        return memberRepository.fetchFeedAuthorSummaryById(id).orElseThrow(MemberNotFoundException::new);
     }
 
     public void validateIdExists(MemberId id) {
@@ -137,24 +137,24 @@ public class MemberService {
         member.unfollow(target);
     }
 
-    public Slice<FollowInfoMemberResponse> listFollowings(MemberId currentMemberId, MemberId id, Pageable pageable) {
+    public Slice<FollowMemberSummaryResponse> listFollowings(MemberId currentMemberId, MemberId id, Pageable pageable) {
         Member member = findById(id);
         Slice<FollowMemberSummary> followings = followRepository.findFollowedByFollowerOrderByCreatedAtDesc(member, pageable);
         return getFollowInfoResponses(currentMemberId, followings);
     }
 
-    public Slice<FollowInfoMemberResponse> listFollowers(MemberId currentMemberId, MemberId id, Pageable pageable) {
+    public Slice<FollowMemberSummaryResponse> listFollowers(MemberId currentMemberId, MemberId id, Pageable pageable) {
         Member member = findById(id);
         Slice<FollowMemberSummary> followers = followRepository.findFollowerByFollowedOrderByCreatedAtDesc(member, pageable);
         return getFollowInfoResponses(currentMemberId, followers);
     }
 
-    private Slice<FollowInfoMemberResponse> getFollowInfoResponses(MemberId currentMemberId, Slice<FollowMemberSummary> followers) {
+    private Slice<FollowMemberSummaryResponse> getFollowInfoResponses(MemberId currentMemberId, Slice<FollowMemberSummary> followers) {
         if(Objects.nonNull(currentMemberId)) {
             Member loginMember = findById(currentMemberId);
-            return MemberMapper.toFollowInfo(loginMember, followers);
+            return MemberMapper.toFollowMemberSummaryResponse(loginMember, followers);
         }
-        return MemberMapper.toFollowInfo(followers);
+        return MemberMapper.toFollowMemberSummaryResponse(followers);
     }
 
     private void validateEmailDuplication(String email) {

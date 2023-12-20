@@ -2,14 +2,14 @@ package com.foodymoody.be.member.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed.domain.repository.dto.MemberProfileFeedPreviewResponse;
+import com.foodymoody.be.member.application.dto.response.FeedPreviewResponse;
 import com.foodymoody.be.member.application.MemberProfileService;
 import com.foodymoody.be.member.application.MemberService;
 import com.foodymoody.be.member.application.TasteMoodService;
 import com.foodymoody.be.member.application.dto.request.ChangePasswordRequest;
 import com.foodymoody.be.member.application.dto.request.MemberSignupRequest;
 import com.foodymoody.be.member.application.dto.request.UpdateProfileRequest;
-import com.foodymoody.be.member.application.dto.response.FollowInfoMemberResponse;
+import com.foodymoody.be.member.application.dto.response.FollowMemberSummaryResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import com.foodymoody.be.member.application.dto.response.MemberSignupResponse;
 import com.foodymoody.be.member.application.dto.response.NicknameDuplicationCheckResponse;
@@ -57,10 +57,10 @@ public class MemberController {
     }
 
     @GetMapping("/{id}/feeds")
-    public ResponseEntity<Slice<MemberProfileFeedPreviewResponse>> fetchMemberFeeds(
+    public ResponseEntity<Slice<FeedPreviewResponse>> fetchMemberFeeds(
             @PathVariable MemberId id,
             @PageableDefault Pageable pageable) {
-        Slice<MemberProfileFeedPreviewResponse> responses = memberProfileService.fetchProfileFeedPreviews(id, pageable);
+        Slice<FeedPreviewResponse> responses = memberProfileService.fetchFeedPreviews(id, pageable);
         return ResponseEntity.ok().body(responses);
     }
 
@@ -120,20 +120,20 @@ public class MemberController {
     }
 
     @GetMapping("/{id}/followings")
-    public ResponseEntity<Slice<FollowInfoMemberResponse>> listFollowings(
+    public ResponseEntity<Slice<FollowMemberSummaryResponse>> listFollowings(
             @CurrentMemberId MemberId currentMemberId,
             @PathVariable MemberId id,
             @PageableDefault Pageable pageable) {
-        Slice<FollowInfoMemberResponse> response = memberService.listFollowings(currentMemberId, id, pageable);
+        Slice<FollowMemberSummaryResponse> response = memberService.listFollowings(currentMemberId, id, pageable);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}/followers")
-    public ResponseEntity<Slice<FollowInfoMemberResponse>> listFollowers(
+    public ResponseEntity<Slice<FollowMemberSummaryResponse>> listFollowers(
             @CurrentMemberId MemberId currentMemberId,
             @PathVariable MemberId id,
             @PageableDefault Pageable pageable) {
-        Slice<FollowInfoMemberResponse> response = memberService.listFollowers(currentMemberId, id, pageable);
+        Slice<FollowMemberSummaryResponse> response = memberService.listFollowers(currentMemberId, id, pageable);
         return ResponseEntity.ok(response);
     }
 }

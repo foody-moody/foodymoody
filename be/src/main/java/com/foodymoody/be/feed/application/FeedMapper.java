@@ -113,10 +113,10 @@ public class FeedMapper {
 
     public static FeedMemberResponse toFeedMemberResponse(FeedAuthorSummary member) {
         return FeedMemberResponse.builder()
-                .id(member.getId())
+                .id(member.getId().getValue())
                 .imageUrl(member.getProfileImageUrl())
                 .nickname(member.getNickname())
-                .tasteMood(new FeedTasteMoodResponse(member.getId(), member.getMoodName()))
+                .tasteMood(new FeedTasteMoodResponse(member.getId().getValue(), member.getMoodName()))
                 .build();
     }
 

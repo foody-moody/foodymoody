@@ -4,7 +4,7 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import lombok.Getter;
 
 @Getter
-public class FollowInfoMemberResponse {
+public class FollowMemberSummaryResponse {
 
     private MemberId id;
     private String nickname;
@@ -12,7 +12,7 @@ public class FollowInfoMemberResponse {
     private boolean following;
     private boolean followed;
 
-    public FollowInfoMemberResponse(MemberId id, String nickname, String profileImageUrl, boolean following,
+    public FollowMemberSummaryResponse(MemberId id, String nickname, String profileImageUrl, boolean following,
             boolean followed) {
         this.id = id;
         this.nickname = nickname;
@@ -21,8 +21,8 @@ public class FollowInfoMemberResponse {
         this.followed = followed;
     }
 
-    public static FollowInfoMemberResponse of (MemberId id, String nickname, String profileImageUrl, boolean isMyFollowing, boolean isMyFollower) {
-        return new FollowInfoMemberResponse(id, nickname, profileImageUrl, isMyFollowing, isMyFollower);
+    public static FollowMemberSummaryResponse of (MemberId id, String nickname, String profileImageUrl, boolean isMyFollowing, boolean isMyFollower) {
+        return new FollowMemberSummaryResponse(id, nickname, profileImageUrl, isMyFollowing, isMyFollower);
     }
 
 }
