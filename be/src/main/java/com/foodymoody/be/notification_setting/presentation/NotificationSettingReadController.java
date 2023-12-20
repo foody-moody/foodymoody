@@ -1,6 +1,7 @@
 package com.foodymoody.be.notification_setting.presentation;
 
-import com.foodymoody.be.common.annotation.MemberId;
+import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
 import com.foodymoody.be.notification_setting.domain.NotificationSettingSummary;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class NotificationSettingReadController {
     private final NotificationSettingReadService notificationSettingReadService;
 
     @GetMapping("/api/notification/settings")
-    public ResponseEntity<NotificationSettingSummary> request(@MemberId String memberId) {
+    public ResponseEntity<NotificationSettingSummary> request(@CurrentMemberId MemberId memberId) {
         var notificationSettingSummary = notificationSettingReadService.request(memberId);
         return ResponseEntity.ok(notificationSettingSummary);
     }

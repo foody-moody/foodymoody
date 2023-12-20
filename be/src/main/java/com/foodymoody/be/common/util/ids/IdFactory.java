@@ -90,6 +90,14 @@ public class IdFactory {
         return createId(FeedCollectionId.class);
     }
 
+    public static FeedCollectionCommentId createFeedCollectionCommentId(String id) {
+        return createId(FeedCollectionCommentId.class, id);
+    }
+
+    public static FeedCollectionCommentId createFeedCollectionCommentId() {
+        return createId(FeedCollectionCommentId.class);
+    }
+
     public static ReplyId createReplyId(String id) {
         return createId(ReplyId.class, id);
     }
@@ -104,6 +112,14 @@ public class IdFactory {
 
     public static NotificationId createNotificationId() {
         return createId(NotificationId.class);
+    }
+
+    public static FeedCollectionReplyId createFeedCollectionReplyId() {
+        return createId(FeedCollectionReplyId.class);
+    }
+
+    public static FeedCollectionReplyId createFeedCollectionReplyId(String id) {
+        return createId(FeedCollectionReplyId.class, id);
     }
 
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {

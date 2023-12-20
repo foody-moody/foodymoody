@@ -1,6 +1,7 @@
 package com.foodymoody.be.sse.controller;
 
-import com.foodymoody.be.common.annotation.MemberId;
+import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.sse.service.SseService;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class SseController {
     private final SseService sseService;
 
     @GetMapping(value = "/api/sse", produces = "text/event-stream;charset=UTF-8")
-    public SseEmitter streamSeeMvc(@MemberId String memberId) {
+    public SseEmitter streamSeeMvc(@CurrentMemberId MemberId memberId) {
         SseEmitter emitter = new SseEmitter();
         try {
             emitter.send(SseEmitter.event().name("connect").data("connected!"));

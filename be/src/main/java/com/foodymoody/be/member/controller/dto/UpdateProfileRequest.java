@@ -1,18 +1,16 @@
 package com.foodymoody.be.member.controller.dto;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class UpdateProfileRequest {
 
-    private String profileImageId;
+    private String nickname;
     private String tasteMoodId;
-
-    public UpdateProfileRequest(String profileImageId, String tasteMoodId) {
-        this.profileImageId = profileImageId;
-        this.tasteMoodId = tasteMoodId;
-    }
+    private String profileImageId;
 }

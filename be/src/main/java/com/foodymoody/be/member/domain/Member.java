@@ -46,7 +46,7 @@ public class Member {
         this.nickname = nickname;
         this.password = new Password(password);
         this.tasteMoodId = moodId;
-        this.profileImage = MemberProfileImage.DEFAULT;
+        this.profileImage = new MemberProfileImage(ImageId.MEMBER_PROFILE_DEFAULT);
         Events.publish(toMemberCreatedEvent());
     }
 
@@ -72,10 +72,6 @@ public class Member {
 
     public ImageId getProfileImageId() { return profileImage.getId(); }
 
-    public String getProfileImageUrl() {
-        return profileImage.getUrl();
-    }
-
     public TasteMoodId getTasteMoodId() {
         return tasteMoodId;
     }
@@ -89,12 +85,16 @@ public class Member {
         this.password = new Password(newPassword);
     }
 
-    public void setProfileImage(ImageId imageId, String imageUrl) {
-        this.profileImage = new MemberProfileImage(imageId, imageUrl);
+    public void updateProfileImage(ImageId imageId) {
+        this.profileImage = new MemberProfileImage(imageId);
     }
 
-    public void setTasteMood(TasteMoodId tasteMoodId) {
+    public void changeTasteMood(TasteMoodId tasteMoodId) {
         this.tasteMoodId = tasteMoodId;
+    }
+
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public void follow(Member target) {
@@ -111,12 +111,12 @@ public class Member {
         this.myFollowings.remove(target);
     }
 
-    public boolean isMyFollowing(Member member) {
-        return myFollowings.contains(member);
+    public boolean isMyFollowing(MemberId id) {
+        return myFollowings.containsById(id);
     }
 
-    public boolean isMyFollower(Member member) {
-        return myFollowers.contains(member);
+    public boolean isMyFollower(MemberId id) {
+        return myFollowers.containsById(id);
     }
 
     private MemberCreatedEvent toMemberCreatedEvent() {

@@ -1,11 +1,12 @@
 package com.foodymoody.be.acceptance.feed_collection;
 
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고_아이디를_받는다;
+import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.개별_피드_컬렉션_조회한다;
+import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.전체_피드_컬렉션_조회한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_커렉션_등록한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
-import io.restassured.RestAssured;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.Test;
 class FeedCollectionAcceptanceTest extends AcceptanceTest {
 
     List<String> feedIds;
-
 
     @BeforeEach
     void setUp() {
@@ -50,14 +50,7 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
         피드_커렉션_등록한다(feedIds, 회원아티_액세스토큰);
 
         // when
-        var response = RestAssured.given()
-                .spec(spec)
-                .log().all()
-                .auth().oauth2(회원아티_액세스토큰)
-                .when()
-                .get("/api/collections?page=0&size=10")
-                .then().log().all()
-                .extract();
+        var response = 전체_피드_컬렉션_조회한다(spec, 회원아티_액세스토큰);
 
         // then
         assertThat(response.statusCode()).isEqualTo(200);
@@ -67,28 +60,14 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
     @Test
     void when_request_fetch_collection_if_success_then_return_code_200() {
         // docs
-        api_문서_타이틀("feed_collection_request_fetch_success", spec);
+        api_문서_타이틀("feed_collection_request_fetch_single_success", spec);
 
         // given
         피드_커렉션_등록한다(feedIds, 회원아티_액세스토큰);
-        var collectionId = RestAssured.given()
-                .spec(spec)
-                .log().all()
-                .auth().oauth2(회원아티_액세스토큰)
-                .when()
-                .get("/api/collections?page=0&size=10")
-                .then().log().all()
-                .extract().jsonPath().getString("content[0].id");
+        var collectionId = 전체_피드_컬렉션_조회한다(spec, 회원아티_액세스토큰).jsonPath().getString("content[0].id");
 
         // when
-        var response = RestAssured.given()
-                .spec(spec)
-                .log().all()
-                .auth().oauth2(회원아티_액세스토큰)
-                .when()
-                .get("/api/collections/{collectionId}", collectionId)
-                .then().log().all()
-                .extract();
+        var response = 개별_피드_컬렉션_조회한다(collectionId, spec, 회원아티_액세스토큰);
 
         // then
         assertThat(response.statusCode()).isEqualTo(200);

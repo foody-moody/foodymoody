@@ -1,6 +1,6 @@
 package com.foodymoody.be.notification.infra.usecase;
 
-import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.notification.application.NotificationReadService;
 import com.foodymoody.be.notification.application.NotificationSpecs;
 import com.foodymoody.be.notification.domain.FeedNotification;
@@ -19,8 +19,7 @@ public class NotificationSseReadUseCase {
     private final NotificationSettingReadService notificationSettingReadService;
 
     @Transactional(readOnly = true)
-    public long fetchCountNotReadNotification(String memberIdValue) {
-        var memberId = IdFactory.createMemberId(memberIdValue);
+    public long fetchCountNotReadNotification(MemberId memberId) {
         var notificationSettingSummary = notificationSettingReadService.request(memberId);
         var notificationSpecification = getNotificationSpecification(notificationSettingSummary);
         return notificationReadService.fetchCountNotReadNotification(memberId, notificationSpecification);
