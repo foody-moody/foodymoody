@@ -22,7 +22,7 @@ public class TasteMoodService {
 
     public List<TasteMoodResponse> findAll() {
         return tasteMoodRepository.findAll().stream()
-                .map(m -> new TasteMoodResponse(m.getId().getValue(), m.getName()))
+                .map(m -> new TasteMoodResponse(m.getId(), m.getName()))
                 .collect(Collectors.toUnmodifiableList());
     }
 }

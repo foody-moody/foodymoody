@@ -1,13 +1,13 @@
 package com.foodymoody.be.member.application.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
+@Getter
 public class NicknameDuplicationCheckResponse {
 
-    @JsonProperty
-    private boolean isDuplicate;
+    private boolean duplicate;
 
-    public NicknameDuplicationCheckResponse(boolean isDuplicate) {
-        this.isDuplicate = isDuplicate;
+    public NicknameDuplicationCheckResponse(boolean duplicate) {
+        this.duplicate = duplicate;
     }
 }

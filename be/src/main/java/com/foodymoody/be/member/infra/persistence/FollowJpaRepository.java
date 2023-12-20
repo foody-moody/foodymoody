@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface FollowJpaRepository extends FollowRepository, JpaRepository<Follow, Long> {
 
+    @Override
     @Query("SELECT new com.foodymoody.be.member.application.dto.FollowMemberSummary(following.id, following.nickname, i.url) "
             + "FROM Follow f "
             + "INNER JOIN Member following ON f.followed = following "
@@ -19,6 +20,7 @@ public interface FollowJpaRepository extends FollowRepository, JpaRepository<Fol
             + "ORDER BY f.createdAt DESC ")
     Slice<FollowMemberSummary> findFollowedByFollowerOrderByCreatedAtDesc(Member member, Pageable pageable);
 
+    @Override
     @Query("SELECT new com.foodymoody.be.member.application.dto.FollowMemberSummary(follower.id, follower.nickname, i.url) "
             + "FROM Follow f "
             + "INNER JOIN Member follower ON f.follower = follower "

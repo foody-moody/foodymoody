@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TasteMoodJpaRepository extends TasteMoodRepository, JpaRepository<TasteMood, TasteMoodId> {
 
-    TasteMood findByName(String name);
 }

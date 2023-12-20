@@ -29,7 +29,7 @@ public class MemberMapper {
     }
 
     public static MemberSignupResponse toSignupResponse(MemberId memberId) {
-        return MemberSignupResponse.from(memberId.getValue());
+        return MemberSignupResponse.from(memberId);
     }
 
     public static NicknameDuplicationCheckResponse toNicknameDuplicationCheckResponse(boolean isDuplicate) {
@@ -39,7 +39,7 @@ public class MemberMapper {
     public static Slice<FollowInfoMemberResponse> toFollowInfo(Member loginMember, Slice<FollowMemberSummary> followInfoMembers) {
         return followInfoMembers.map(
                 followMemberSummary -> FollowInfoMemberResponse.of(
-                            followMemberSummary.getId().getValue(),
+                            followMemberSummary.getId(),
                             followMemberSummary.getNickname(),
                             followMemberSummary.getProfileImageUrl(),
                             loginMember.isMyFollowing(followMemberSummary.getId()),
@@ -49,7 +49,7 @@ public class MemberMapper {
     public static Slice<FollowInfoMemberResponse> toFollowInfo(Slice<FollowMemberSummary> followInfoMembers) {
         return followInfoMembers.map(
                 followMemberSummary -> FollowInfoMemberResponse.of(
-                        followMemberSummary.getId().getValue(),
+                        followMemberSummary.getId(),
                         followMemberSummary.getNickname(),
                         followMemberSummary.getProfileImageUrl(),
                         Boolean.FALSE,

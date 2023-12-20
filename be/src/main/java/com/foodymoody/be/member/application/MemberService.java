@@ -51,31 +51,30 @@ public class MemberService {
     }
 
     @Transactional
-    public void changePassword(String loginId, String id, ChangePasswordRequest request) {
-        validateAuthorization(loginId, id);
-        Member member = findById(IdFactory.createMemberId(id));
+    public void changePassword(MemberId currentMemberId, MemberId id, ChangePasswordRequest request) {
+        validateAuthorization(currentMemberId, id);
+        Member member = findById(id);
         member.changePassword(request.getOldPassword(), request.getNewPassword());
     }
 
     @Transactional
-    public void delete(String loginId, String id) {
-        validateAuthorization(loginId, id);
-        Member member = findById(IdFactory.createMemberId(id));
+    public void delete(MemberId currentMemberId, MemberId id) {
+        validateAuthorization(currentMemberId, id);
+        Member member = findById(id);
 
         memberRepository.delete(member);
     }
 
     @Transactional
-    public void updateProfile(String loginId, String id, UpdateProfileRequest request) {
-        validateAuthorization(loginId, id);
-        Member member = findById(IdFactory.createMemberId(id));
+    public void updateProfile(MemberId currentMemberId, MemberId id, UpdateProfileRequest request) {
+        validateAuthorization(currentMemberId, id);
+        Member member = findById(id);
         // FIXME 예외가 여러개 발생 시 응답에 전부 담아서 보내기
         if (Objects.nonNull(request.getProfileImageId())
                 && !Objects.equals(request.getProfileImageId(), member.getProfileImageId().getValue())) {
             Image image = imageService.findById(IdFactory.createImageId(request.getProfileImageId()));
             if (!Objects.equals(member.getProfileImageId(), ImageId.MEMBER_PROFILE_DEFAULT)) {
-                // FIXME 회원 도메인 리팩토링 후 주석 해제
-//                imageService.delete(loginId, member.getProfileImageId().getValue());
+                imageService.delete(currentMemberId, member.getProfileImageId());
             }
             member.updateProfileImage(image.getId());
         }
@@ -118,50 +117,41 @@ public class MemberService {
         return MemberMapper.toNicknameDuplicationCheckResponse(isDuplicate);
     }
 
-    /**
-     * @deprecated findById(MemberId id)를 사용해주세요
-     * */
-    @Deprecated(forRemoval = true)
-    public Member findById(String id) {
-        MemberId key = new MemberId(id);
-        return memberRepository.findById(key).orElseThrow(MemberNotFoundException::new);
-    }
-
-    private void validateAuthorization(String loginId, String id) {
-        if (!Objects.equals(loginId, id)) {
+    private void validateAuthorization(MemberId currentMemberId, MemberId id) {
+        if (!Objects.equals(currentMemberId, id)) {
             throw new UnauthorizedException();
         }
     }
 
     @Transactional
-    public void follow(String id, String targetId) {
+    public void follow(MemberId id, MemberId targetId) {
         Member member = findById(id);
         Member target = findById(targetId);
         member.follow(target);
     }
 
     @Transactional
-    public void unfollow(String id, String targetId) {
+    public void unfollow(MemberId id, MemberId targetId) {
         Member member = findById(id);
         Member target = findById(targetId);
         member.unfollow(target);
     }
 
-    public Slice<FollowInfoMemberResponse> listFollowings(String loginId, String id, Pageable pageable) {
+    public Slice<FollowInfoMemberResponse> listFollowings(MemberId currentMemberId, MemberId id, Pageable pageable) {
         Member member = findById(id);
         Slice<FollowMemberSummary> followings = followRepository.findFollowedByFollowerOrderByCreatedAtDesc(member, pageable);
-        return getFollowInfoResponses(loginId, followings);
+        return getFollowInfoResponses(currentMemberId, followings);
     }
 
-    public Slice<FollowInfoMemberResponse> listFollowers(String loginId, String id, Pageable pageable) {
+    public Slice<FollowInfoMemberResponse> listFollowers(MemberId currentMemberId, MemberId id, Pageable pageable) {
         Member member = findById(id);
         Slice<FollowMemberSummary> followers = followRepository.findFollowerByFollowedOrderByCreatedAtDesc(member, pageable);
-        return getFollowInfoResponses(loginId, followers);
+        return getFollowInfoResponses(currentMemberId, followers);
     }
 
-    private Slice<FollowInfoMemberResponse> getFollowInfoResponses(String loginId, Slice<FollowMemberSummary> followers) {
-        if(Objects.nonNull(loginId)) {
-            Member loginMember = findById(loginId);
+    private Slice<FollowInfoMemberResponse> getFollowInfoResponses(MemberId currentMemberId, Slice<FollowMemberSummary> followers) {
+        if(Objects.nonNull(currentMemberId)) {
+            Member loginMember = findById(currentMemberId);
             return MemberMapper.toFollowInfo(loginMember, followers);
         }
         return MemberMapper.toFollowInfo(followers);

@@ -166,7 +166,7 @@ public class MemberSteps {
     public static void 상태코드가_200이고_중복되는_닉네임임을_검증한다(ExtractableResponse<Response> response) {
         Assertions.assertAll(
                 () -> 상태코드를_검증한다(response, HttpStatus.OK),
-                () -> assertThat(response.jsonPath().getBoolean("isDuplicate")).isTrue()
+                () -> assertThat(response.jsonPath().getBoolean("duplicate")).isTrue()
         );
     }
 

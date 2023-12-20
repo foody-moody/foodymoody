@@ -1,7 +1,6 @@
 package com.foodymoody.be.member.application;
 
 import com.foodymoody.be.common.exception.MemberNotFoundException;
-import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.repository.dto.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.feed.application.FeedReadService;
@@ -21,14 +20,12 @@ public class MemberProfileService {
     private final MemberJpaRepository memberRepository;
     private final FeedReadService feedReadService;
 
-    public Slice<MemberProfileFeedPreviewResponse> fetchProfileFeedPreviews(String id, Pageable pageable) {
-        MemberId memberId = IdFactory.createMemberId(id);
-        return feedReadService.fetchPreviewsByMemberId(memberId, pageable);
+    public Slice<MemberProfileFeedPreviewResponse> fetchProfileFeedPreviews(MemberId id, Pageable pageable) {
+        return feedReadService.fetchPreviewsByMemberId(id, pageable);
     }
 
-    public MemberProfileResponse fetchProfile(String loginId, String id) {
-        MemberId memberId = IdFactory.createMemberId(id);
-        return memberRepository.fetchMemberProfileById(memberId, loginId)
+    public MemberProfileResponse fetchProfile(MemberId currentMemberId, MemberId id) {
+        return memberRepository.fetchMemberProfileById(id, currentMemberId)
                 .orElseThrow(MemberNotFoundException::new);
     }
 
