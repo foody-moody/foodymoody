@@ -1,6 +1,6 @@
 package com.foodymoody.be.image.domain;
 
-import com.foodymoody.be.image.presentation.response.ImageUploadResponse;
+import com.foodymoody.be.image.presentation.dto.response.ImageUploadResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ImageMapper {

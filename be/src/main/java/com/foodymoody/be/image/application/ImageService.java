@@ -5,7 +5,7 @@ import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.image.domain.ImageRepository;
-import com.foodymoody.be.image.presentation.response.ImageUploadResponse;
+import com.foodymoody.be.image.presentation.dto.response.ImageUploadResponse;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.domain.ImageCategory;
 import com.foodymoody.be.image.domain.ImageResource;

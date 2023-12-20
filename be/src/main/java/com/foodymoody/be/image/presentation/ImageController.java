@@ -4,7 +4,7 @@ import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.image.application.ImageService;
-import com.foodymoody.be.image.presentation.response.ImageUploadResponse;
+import com.foodymoody.be.image.presentation.dto.response.ImageUploadResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

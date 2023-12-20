@@ -1,4 +1,4 @@
-package com.foodymoody.be.image.presentation.response;
+package com.foodymoody.be.image.presentation.dto.response;
 
 import com.foodymoody.be.common.util.ids.ImageId;
 import lombok.Getter;
