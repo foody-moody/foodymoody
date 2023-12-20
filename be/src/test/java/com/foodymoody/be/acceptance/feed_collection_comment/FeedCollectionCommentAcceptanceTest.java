@@ -25,10 +25,6 @@ class FeedCollectionCommentAcceptanceTest extends AcceptanceTest {
     void setUp() {
         List<String> feedIds = new ArrayList<>();
         feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰));
-        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰));
-        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰));
-        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰));
-        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰));
         feedCollectionId = 피드_컬렉션_등록하고_아이디를_가져온다(feedIds, 회원아티_액세스토큰);
     }
 

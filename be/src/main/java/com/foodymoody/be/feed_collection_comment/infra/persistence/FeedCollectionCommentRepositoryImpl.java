@@ -23,4 +23,9 @@ public class FeedCollectionCommentRepositoryImpl implements FeedCollectionCommen
     public Optional<FeedCollectionComment> findById(FeedCollectionCommentId id) {
         return repository.findById(id);
     }
+
+    @Override
+    public boolean existsById(FeedCollectionCommentId commentId) {
+        return repository.existsById(commentId);
+    }
 }

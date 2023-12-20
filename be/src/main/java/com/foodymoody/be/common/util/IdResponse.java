@@ -12,7 +12,7 @@ public class IdResponse {
 
     private BaseId id;
 
-    public IdResponse(BaseId id) {
+    private IdResponse(BaseId id) {
         this.id = id;
     }
 
