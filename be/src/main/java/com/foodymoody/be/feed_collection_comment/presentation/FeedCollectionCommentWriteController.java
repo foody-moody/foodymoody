@@ -1,7 +1,7 @@
 package com.foodymoody.be.feed_collection_comment.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
-import com.foodymoody.be.common.util.CommentContent;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.IdResponse;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
@@ -26,7 +26,7 @@ public class FeedCollectionCommentWriteController {
     @PostMapping("/api/collections/{feedCollectionId}/comments")
     public ResponseEntity<IdResponse> post(
             @PathVariable FeedCollectionId feedCollectionId,
-            @RequestBody CommentContent content,
+            @RequestBody Content content,
             @CurrentMemberId MemberId memberId
     ) {
         var id = useCase.post(feedCollectionId, content, memberId);
@@ -47,7 +47,7 @@ public class FeedCollectionCommentWriteController {
     public ResponseEntity<Void> edit(
             @PathVariable FeedCollectionId ignoredFeedCollectionId,
             @PathVariable FeedCollectionCommentId id,
-            @RequestBody CommentContent content,
+            @RequestBody Content content,
             @CurrentMemberId MemberId memberId
     ) {
         useCase.edit(id, content, memberId);

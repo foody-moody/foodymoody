@@ -555,3 +555,30 @@ operation::feed_collection_comment_delete_success[snippets='http-request,http-re
 ==== 성공
 
 operation::feed_collection_comment_edit_success[snippets='http-request,http-response']
+
+[[feed-collection-reply]]
+== 컬렉션 대댓글
+
+=== 컬렉션 대댓글 등록
+
+==== 성공
+
+operation::feed_collection_reply_post_success[snippets='http-request,http-response']
+
+=== 컬렉션 대댓글 삭제
+
+==== 성공
+
+operation::feed_collection_reply_delete_success[snippets='http-request,http-response']
+
+=== 컬렉션 대댓글 수정
+
+==== 성공
+
+operation::feed_collection_reply_edit_success[snippets='http-request,http-response']
+
+=== 컬렉션 대댓글 조회
+
+==== 성공
+
+operation::feed_collection_reply_fetch_success[snippets='http-request,http-response']

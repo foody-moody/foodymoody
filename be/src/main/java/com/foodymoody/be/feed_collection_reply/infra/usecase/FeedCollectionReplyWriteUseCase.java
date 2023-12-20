@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_collection_reply.infra.usecase;
 
-import com.foodymoody.be.common.util.CommentContent;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -16,7 +16,7 @@ public class FeedCollectionReplyWriteUseCase {
     private final FeedCollectionReplyWriteService replyService;
     private final FeedCollectionCommentReadService commentService;
 
-    public FeedCollectionReplyId post(FeedCollectionCommentId commentId, CommentContent content, MemberId memberId) {
+    public FeedCollectionReplyId post(FeedCollectionCommentId commentId, Content content, MemberId memberId) {
         commentService.validateExistence(commentId);
         return replyService.post(commentId, content, memberId);
     }
@@ -25,7 +25,7 @@ public class FeedCollectionReplyWriteUseCase {
         replyService.delete(replyId, memberId);
     }
 
-    public void edit(FeedCollectionReplyId replyId, CommentContent content, MemberId memberId) {
+    public void edit(FeedCollectionReplyId replyId, Content content, MemberId memberId) {
         replyService.edit(replyId, content, memberId);
     }
 }

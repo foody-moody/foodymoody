@@ -1,7 +1,7 @@
 package com.foodymoody.be.feed_collection_reply.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
-import com.foodymoody.be.common.util.CommentContent;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.IdResponse;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
@@ -23,17 +23,17 @@ public class FeedCollectionReplyWriteController {
 
     private final FeedCollectionReplyWriteUseCase useCase;
 
-    @PostMapping("/api/feed_collections/{commentId}/replies")
+    @PostMapping("/api/feed_collections_comments/{commentId}/replies")
     public ResponseEntity<IdResponse> post(
             @PathVariable FeedCollectionCommentId commentId,
-            @RequestBody CommentContent content,
+            @RequestBody Content content,
             @CurrentMemberId MemberId memberId
     ) {
         var id = useCase.post(commentId, content, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
-    @DeleteMapping("/api/feed_collections/{ignoredCommentId}/replies/{replyId}")
+    @DeleteMapping("/api/feed_collections_comments/{ignoredCommentId}/replies/{replyId}")
     public ResponseEntity<Void> delete(
             @PathVariable FeedCollectionCommentId ignoredCommentId,
             @PathVariable FeedCollectionReplyId replyId,
@@ -43,11 +43,11 @@ public class FeedCollectionReplyWriteController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/api/feed_collections/{ignoredCommentId}/replies/{replyId}")
+    @PutMapping("/api/feed_collections_comments/{ignoredCommentId}/replies/{replyId}")
     public ResponseEntity<Void> edit(
             @PathVariable FeedCollectionCommentId ignoredCommentId,
             @PathVariable FeedCollectionReplyId replyId,
-            @RequestBody CommentContent content,
+            @RequestBody Content content,
             @CurrentMemberId MemberId memberId
     ) {
         useCase.edit(replyId, content, memberId);

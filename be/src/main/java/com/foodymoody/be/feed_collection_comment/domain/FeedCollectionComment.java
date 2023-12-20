@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_collection_comment.domain;
 
-import com.foodymoody.be.common.util.CommentContent;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -24,7 +24,7 @@ public class FeedCollectionComment {
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
     @Embedded
-    private CommentContent content;
+    private Content content;
     private boolean deleted;
     private boolean hasReply;
     private LocalDateTime createdAt;
@@ -32,7 +32,7 @@ public class FeedCollectionComment {
     private FeedCollectionReplyIds replyIds;
 
     public FeedCollectionComment(
-            FeedCollectionCommentId id, FeedCollectionId feedId, MemberId memberId, CommentContent content,
+            FeedCollectionCommentId id, FeedCollectionId feedId, MemberId memberId, Content content,
             LocalDateTime createdAt
     ) {
         this.id = id;
@@ -56,7 +56,7 @@ public class FeedCollectionComment {
         throw new IllegalArgumentException("삭제 권한이 없습니다.");
     }
 
-    public void update(CommentContent content, MemberId memberId, LocalDateTime updatedAt) {
+    public void update(Content content, MemberId memberId, LocalDateTime updatedAt) {
         if (memberId.isSame(this.memberId)) {
             this.content = content;
             this.updatedAt = updatedAt;

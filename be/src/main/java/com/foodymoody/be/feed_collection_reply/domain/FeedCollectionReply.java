@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_collection_reply.domain;
 
-import com.foodymoody.be.common.util.CommentContent;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -24,7 +24,7 @@ public class FeedCollectionReply {
     private FeedCollectionCommentId commentId;
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
-    private CommentContent content;
+    private Content content;
     private boolean deleted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -33,7 +33,7 @@ public class FeedCollectionReply {
             FeedCollectionReplyId id,
             FeedCollectionCommentId commentId,
             MemberId memberId,
-            CommentContent content,
+            Content content,
             LocalDateTime createdAt
     ) {
         this.id = id;
@@ -54,7 +54,7 @@ public class FeedCollectionReply {
         throw new IllegalArgumentException("삭제 권한이 없습니다.");
     }
 
-    public void edit(CommentContent content, MemberId memberId, LocalDateTime updatedAt) {
+    public void edit(Content content, MemberId memberId, LocalDateTime updatedAt) {
         if (this.memberId.equals(memberId)) {
             this.content = content;
             this.updatedAt = updatedAt;

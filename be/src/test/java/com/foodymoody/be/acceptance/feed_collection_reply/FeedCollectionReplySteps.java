@@ -21,9 +21,16 @@ public class FeedCollectionReplySteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .post("/api/feed_collections/{commentId}/replies", commentId)
+                .post("/api/feed_collections_comments/{commentId}/replies", commentId)
                 .then().log().all()
                 .extract();
+    }
+
+    public static ExtractableResponse<Response> 피드_컬렉션_댓글에_대댓글을_등록한다(
+            String accessToken,
+            String commentId
+    ) {
+        return 피드_컬렉션_댓글에_대댓글을_등록한다(accessToken, commentId, new RequestSpecBuilder().build());
     }
 
     public static String 피드_컬렉션_댓글에_대댓글을_등록하고_아이디를_반환한다(
@@ -45,7 +52,7 @@ public class FeedCollectionReplySteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .delete("/api/feed_collections/{commentId}/replies/{replyId}", commentId, replyId)
+                .delete("/api/feed_collections_comments/{commentId}/replies/{replyId}", commentId, replyId)
                 .then().log().all()
                 .extract();
     }
@@ -63,7 +70,22 @@ public class FeedCollectionReplySteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .put("/api/feed_collections/{commentId}/replies/{replyId}", commentId, replyId)
+                .put("/api/feed_collections_comments/{commentId}/replies/{replyId}", commentId, replyId)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 피드_컬렉션_댓글의_대댓글을_조회한다(
+            String accessToken,
+            String commentId,
+            RequestSpecification spec
+    ) {
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .when()
+                .get("/api/feed_collections_comments/{commentId}/replies", commentId)
                 .then().log().all()
                 .extract();
     }
