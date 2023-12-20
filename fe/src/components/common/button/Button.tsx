@@ -2,19 +2,21 @@ import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  size: 's' | 'l';
-  backgroundColor: 'orange' | 'black' | 'white';
+  size: 'xs' | 's' | 'l';
+  backgroundColor: 'orange' | 'black' | 'white' | 'blue500';
   children: React.ReactNode;
   width?: number;
+  shadow?: boolean;
 };
 
 export const Button = forwardRef<HTMLButtonElement, Props>(
-  ({ children, backgroundColor, width, ...props }, ref) => {
+  ({ children, backgroundColor, width, shadow = false, ...props }, ref) => {
     return (
       <Wrapper
         ref={ref}
         $backgroundColor={backgroundColor}
         $width={width}
+        $shadow={shadow}
         {...props}
       >
         {children}
@@ -22,13 +24,16 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
     );
   }
 );
+
 const Wrapper = styled.button<{
-  size: 's' | 'l';
-  $backgroundColor: 'orange' | 'black' | 'white';
+  size: 'xs' | 's' | 'l';
+  $backgroundColor: 'orange' | 'black' | 'white' | 'blue500';
   $width?: number;
+  $shadow?: boolean;
 }>`
   font: ${({ theme: { fonts } }) => fonts.displayM16};
-  height: ${({ size }) => (size === 's' ? '40px' : '56px')};
+  height: ${({ size }) =>
+    size === 's' ? '40px' : size === 'l' ? '56px' : '32px'};
   padding-top: ${({ size }) => (size === 's' ? '8px' : '16px')};
   padding-bottom: ${({ size }) => (size === 's' ? '8px' : '16px')};
   border: 1px solid ${({ theme: { colors } }) => colors.black};
@@ -43,6 +48,8 @@ const Wrapper = styled.button<{
   justify-content: center;
   gap: 8px;
   transition: all 0.3s;
+  box-shadow: ${({ $shadow }) =>
+    $shadow ? '2px 2px 0px 0px #0A0A0A' : 'none'};
 
   &:hover {
     border-color: ${({ theme: { colors } }) => colors.black};
