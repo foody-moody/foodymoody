@@ -13,7 +13,7 @@ export const useProfileEditForm = (profile?: ProfileMemberInfo) => {
     getValues,
     watch,
     trigger,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValidating },
     clearErrors,
     setError,
   } = useForm<ProfileEditSchemaType>({
@@ -34,6 +34,7 @@ export const useProfileEditForm = (profile?: ProfileMemberInfo) => {
     trigger,
     errors,
     isSubmitting,
+    isValidating,
     clearErrors,
     setError,
   };

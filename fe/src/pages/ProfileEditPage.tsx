@@ -43,50 +43,18 @@ export const ProfileEditPage = () => {
     watch,
     trigger,
     errors,
+    isValidating,
     isSubmitting,
     clearErrors,
     setError,
   } = useProfileEditForm(profile);
 
-  const {
-    data: checkedNickname,
-    isFetching: isDuplicateFetching,
-    refetch: duplicateCheck,
-  } = useGetNicknameDuplicate(watch('nickname'));
-
   const { data: tastes } = useGetTasteMood();
   const { mutate: profileMutate } = useEditProfile(userInfo.id);
   const isAuthor = profile?.id === userInfo.id;
 
-  // const {
-  //   value: nicknameValue,
-  //   handleChange: handleNicknameChange,
-  //   helperText: nicknameHelperText,
-  //   isValid: isNicknameValid,
-  // } = useInput({
-  //   initialValue: '',
-  //   validator: (value) => value.length >= 2,
-  //   // nickname이 중복일때도 검증해야함
-  //   helperText: '닉네임은 2자 이상 입력해주세요',
-  // });
   console.log(errors, 'errors');
-
-  console.log(watch('nickname').length);
-
-  // const handleSubmit = () => {
-  //   const registerData = {
-  //     nickname: nicknameValue,
-  //     tasteMoodId: selectedTaste?.id,
-  //     profileImageId: '1', // 여기
-  //   };
-  //   console.log(registerData);
-
-  //   //mutate
-  // };
-
-  const handleDuplicateCheck = () => {
-    duplicateCheck();
-  };
+  console.log(errors.nickname?.message, 'errors message');
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedName = e.target.value;
@@ -100,7 +68,7 @@ export const ProfileEditPage = () => {
   // const isFormValid = isNicknameValid && selectedTaste.id !== '';
 
   const onSubmit = async (data: ProfileEditSchemaType) => {
-    console.log(data);
+    console.log(data, 'submitiiiiing');
 
     // const editedProfileBody = {
     //   nickname: data.nickname === profile?.nickname ? null : data.nickname,
@@ -146,10 +114,10 @@ export const ProfileEditPage = () => {
                     // async필요없나?
                     trigger('nickname');
                   }}
-                  disabled={isSubmitting || watch('nickname').length < 2}
+                  disabled={isValidating || watch('nickname').length < 2}
                 >
                   중복검사
-                  <Spinner isLoading={isDuplicateFetching} color="black" />
+                  <Spinner isLoading={isValidating} color="black" />
                 </Button>
               </Row>
             </SectionRow>
