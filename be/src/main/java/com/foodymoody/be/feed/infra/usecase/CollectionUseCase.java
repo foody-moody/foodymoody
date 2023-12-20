@@ -1,15 +1,19 @@
 package com.foodymoody.be.feed.infra.usecase;
 
+import com.foodymoody.be.common.exception.ImageNotFoundException;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.application.StoreMoodReadService;
 import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedListServiceRequest;
 import com.foodymoody.be.feed.application.dto.response.CollectionReadAllFeedResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
+import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
+import com.foodymoody.be.image.service.ImageService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +30,7 @@ public class CollectionUseCase {
 
     private final FeedCollectionReadService feedCollectionReadService;
     private final FeedReadService feedReadService;
+    private final ImageService imageService;
     private final StoreMoodReadService storeMoodReadService;
 
     public Slice<CollectionReadAllFeedResponse> readFeedCollectionDetail(CollectionReadFeedListServiceRequest request) {
@@ -41,7 +46,7 @@ public class CollectionUseCase {
         List<CollectionReadAllFeedResponse> responses = feeds.stream()
                 .map(feed -> CollectionReadAllFeedResponse.builder()
                         .feedAllCount(feeds.getSize())
-                        .feedThumbnailUrl(null) // TODO: 첫번째 이미지 가져오기
+                        .feedThumbnailUrl(imageService.findById(FeedMapper.findFirstImageId(feed)).getUrl())
                         .storeName(null) // TODO: 가게 API 구현 완료되면 가게 name 조회해오기
                         .feedId(feed.getId())
                         .createdAt(feed.getCreatedAt())
@@ -56,4 +61,5 @@ public class CollectionUseCase {
 
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
     }
+
 }

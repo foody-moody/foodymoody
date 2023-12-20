@@ -4,8 +4,10 @@ import static com.foodymoody.be.feed.application.FeedMapper.makeFeedReadAllRespo
 import static com.foodymoody.be.feed.application.FeedMapper.makeFeedStoreMoodResponses;
 import static com.foodymoody.be.feed.application.FeedMapper.toFeedMemberResponse;
 
+import com.foodymoody.be.common.exception.ImageNotFoundException;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.feed.application.FeedMapper;

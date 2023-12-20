@@ -1,7 +1,10 @@
 package com.foodymoody.be.feed.application;
 
+import com.foodymoody.be.common.exception.ImageNotFoundException;
 import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedListServiceRequest;
@@ -150,5 +153,14 @@ public class FeedMapper {
         return storeMoods.stream()
                 .map(StoreMood::getName)
                 .collect(Collectors.toList());
+    }
+
+    public static ImageId findFirstImageId(Feed feed) {
+        String imageIdString = feed.getImageMenus().stream()
+                .filter(imageMenu -> imageMenu.getDisplayOrder() == 0)
+                .findFirst()
+                .orElseThrow(ImageNotFoundException::new)
+                .getImageId();
+        return IdFactory.createImageId(imageIdString);
     }
 }
