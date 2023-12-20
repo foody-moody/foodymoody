@@ -7,20 +7,19 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class MemberId extends BaseId {
 
     public MemberId(String value) {
         super(value);
     }
 
+    /**
+     * @deprecated equals를 사용해주세요
+     * */
+    @Deprecated(forRemoval = true)
     public boolean isSame(MemberId memberId) {
         return value.equals(memberId.value);
     }
 
-    @Override
-    @EqualsAndHashCode.Include
-    public String getValue() {
-        return super.getValue();
-    }
 }
