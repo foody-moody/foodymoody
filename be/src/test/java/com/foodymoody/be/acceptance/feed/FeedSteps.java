@@ -53,7 +53,7 @@ public class FeedSteps {
         Map<String, Object> body = Map.of(
                 "location", "역삼동",
                 "review", "맛있어요!",
-                "storeMood", List.of("1", "3", "4"),
+                "storeMoodIds", List.of("1", "3", "4"),
                 "images", List.of(
                         Map.of(
                                 "imageId", "1",
@@ -91,7 +91,7 @@ public class FeedSteps {
         Map<String, Object> body = Map.of(
                 "location", "중동",
                 "review", "맛없어요!",
-                "storeMood", List.of("1", "2", "4"),
+                "storeMoodIds", List.of("1", "2", "4"),
                 "images", List.of(
                         Map.of(
                                 "imageId", "3",
@@ -159,7 +159,7 @@ public class FeedSteps {
         Map<String, Object> body = Map.of(
                 "location", "맛있게 매운 콩볼 범계점2",
                 "review", "맛있게 먹었습니다.2",
-                "storeMood", List.of("2", "5", "6"),
+                "storeMoodIds", List.of("2", "5", "6"),
                 "images", List.of(
                         Map.of(
                                 "imageId", "3",

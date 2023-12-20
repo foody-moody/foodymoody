@@ -7,6 +7,7 @@ import static com.foodymoody.be.feed.application.FeedMapper.toFeedMemberResponse
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.application.FeedWriteService;
@@ -69,7 +70,8 @@ public class FeedUseCase {
         //  그렇게 하려면 Request의 StoreMoodId가 data.sql에 있는 StoreMoodId와 동일해야 함
         //  하지만 data.sql에는 IdFactory로 암호화된 Id가 들어있지 않으니 fetch 할 때 id 불일치로 당연히 오류가 발생
         //  이런 경우는 어떻게 하는 게 좋을까요??
-        List<StoreMood> storeMoods = storeMoodReadService.fetchAllByStoreMoodIds(request.getStoreMoodIds());
+        List<StoreMoodId> storeMoodIds = request.getStoreMoodIds();
+        List<StoreMood> storeMoods = storeMoodReadService.fetchAllByStoreMoodIds(storeMoodIds);
 
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
