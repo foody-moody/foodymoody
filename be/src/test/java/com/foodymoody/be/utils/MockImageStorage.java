@@ -1,5 +1,6 @@
 package com.foodymoody.be.utils;
 
+import com.foodymoody.be.common.util.ids.BaseId;
 import com.foodymoody.be.image.domain.ImageCategory;
 import com.foodymoody.be.image.domain.ImageResource;
 import com.foodymoody.be.image.domain.ImageStorage;
@@ -16,7 +17,7 @@ public class MockImageStorage implements ImageStorage {
     }
 
     @Override
-    public String generateKey(ImageCategory category, String resourceId, String uuid, String originalFilename) {
+    public String generateKey(ImageCategory category, BaseId resourceId, String uuid, String originalFilename) {
         return "key";
     }
 

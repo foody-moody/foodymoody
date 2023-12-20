@@ -74,7 +74,8 @@ public class MemberService {
                 && !Objects.equals(request.getProfileImageId(), member.getProfileImageId().getValue())) {
             Image image = imageService.findById(IdFactory.createImageId(request.getProfileImageId()));
             if (!Objects.equals(member.getProfileImageId(), ImageId.MEMBER_PROFILE_DEFAULT)) {
-                imageService.delete(loginId, member.getProfileImageId().getValue());
+                // FIXME 회원 도메인 리팩토링 후 주석 해제
+//                imageService.delete(loginId, member.getProfileImageId().getValue());
             }
             member.updateProfileImage(image.getId());
         }

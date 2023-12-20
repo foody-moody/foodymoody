@@ -25,20 +25,29 @@ public class ImageService {
     private final ImageStorage imageStorage;
     private final ImageRepository imageRepository;
 
-    public ImageUploadResponse save(ImageCategory category, String resourceId, MultipartFile file) {
-        MemberId memberId = IdFactory.createMemberId(resourceId);
+    public ImageUploadResponse uploadFeedImage(MemberId currentMemberId, MultipartFile file) {
         ImageResource imageResource = ImageMapper.toImageResource(file);
         String uuid = UUID.randomUUID().toString();
-        String key = imageStorage.generateKey(category, resourceId, uuid, imageResource.getFilename());
-        String storageUrl = imageStorage.upload(key, imageResource);
-        Image savedImage = imageRepository.save(new Image(IdFactory.createImageId(), storageUrl, memberId));
-        return ImageMapper.toUploadResponse(savedImage);
+        // FIXME null을 매개변수로 받지 않도록 s3 key 생성 로직 리팩토링
+        String key = imageStorage.generateKey(ImageCategory.FEED, null, uuid, imageResource.getFilename());
+        return ImageMapper.toUploadResponse(upload(key, currentMemberId, imageResource));
     }
 
-    public void delete(String memberIdValue, String id) {
-        MemberId memberId = IdFactory.createMemberId(memberIdValue);
-        Image image = findById(IdFactory.createImageId(id));
-        image.validateIsUploader(memberId);
+    public ImageUploadResponse uploadMemberImage(MemberId currentMemberId, MultipartFile file) {
+        ImageResource imageResource = ImageMapper.toImageResource(file);
+        String uuid = UUID.randomUUID().toString();
+        String key = imageStorage.generateKey(ImageCategory.MEMBER, currentMemberId, uuid, imageResource.getFilename());
+        return ImageMapper.toUploadResponse(upload(key, currentMemberId, imageResource));
+    }
+
+    private Image upload(String key, MemberId uploaderId, ImageResource imageResource) {
+        String storageUrl = imageStorage.upload(key, imageResource);
+        return imageRepository.save(new Image(IdFactory.createImageId(), storageUrl, uploaderId));
+    }
+
+    public void delete(MemberId currentMemberId, ImageId id) {
+        Image image = findById(id);
+        image.validateIsUploader(currentMemberId);
         String key = imageStorage.getKey(image.getUrl());
         imageStorage.delete(key);
         imageRepository.delete(image);

@@ -8,6 +8,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.foodymoody.be.common.exception.InvalidImageUrlException;
+import com.foodymoody.be.common.util.ids.BaseId;
 import com.foodymoody.be.image.domain.ImageCategory;
 import com.foodymoody.be.image.domain.ImageResource;
 import com.foodymoody.be.image.domain.ImageStorage;
@@ -52,7 +53,7 @@ public class S3Storage implements ImageStorage {
     }
 
     @Override
-    public String generateKey(ImageCategory category, String resourceId, String uuid, String fileName) {
+    public String generateKey(ImageCategory category, BaseId resourceId, String uuid, String fileName) {
         return String.join("/", rootPrefix, category.getPrefix(resourceId), uuid, fileName);
     }
 

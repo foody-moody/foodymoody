@@ -1,7 +1,8 @@
 package com.foodymoody.be.image.presentation;
 
-import com.foodymoody.be.common.annotation.MemberId;
-import com.foodymoody.be.image.domain.ImageCategory;
+import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.ids.ImageId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.image.presentation.response.ImageUploadResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,23 +23,27 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping("/feeds")
-    public ResponseEntity<ImageUploadResponse> uploadFeedImage(@MemberId String memberId, @RequestPart MultipartFile file
+    public ResponseEntity<ImageUploadResponse> uploadFeedImage(
+            @CurrentMemberId MemberId memberId,
+            @RequestPart MultipartFile file
     ) {
-        ImageUploadResponse response = imageService.save(ImageCategory.FEED, memberId, file);
+        ImageUploadResponse response = imageService.uploadFeedImage(memberId, file);
         return ResponseEntity.ok().body(response);
     }
 
     @PostMapping("/members")
     public ResponseEntity<ImageUploadResponse> uploadMemberProfileImage(
-            @MemberId String memberId,
+            @CurrentMemberId MemberId memberId,
             @RequestPart MultipartFile file
     ) {
-        ImageUploadResponse response = imageService.save(ImageCategory.MEMBER, memberId, file);
+        ImageUploadResponse response = imageService.uploadMemberImage(memberId, file);
         return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteImage(@MemberId String memberId, @PathVariable String id) {
+    public ResponseEntity<Void> deleteImage(
+            @CurrentMemberId MemberId memberId,
+            @PathVariable ImageId id) {
         imageService.delete(memberId, id);
         return ResponseEntity.ok().build();
     }
