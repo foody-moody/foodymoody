@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.application.dto.response;
 
+import com.foodymoody.be.common.util.ids.FeedId;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedReadAllResponse {
 
-    private String id;
+    private FeedId id;
     private FeedMemberResponse member;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -22,7 +23,7 @@ public class FeedReadAllResponse {
     private int commentCount;
 
     @Builder
-    public FeedReadAllResponse(String id, FeedMemberResponse member, LocalDateTime createdAt, LocalDateTime updatedAt,
+    public FeedReadAllResponse(FeedId id, FeedMemberResponse member, LocalDateTime createdAt, LocalDateTime updatedAt,
                                String location, String review, List<FeedStoreMoodResponse> storeMood,
                                List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, int commentCount) {
         this.id = id;
@@ -38,7 +39,7 @@ public class FeedReadAllResponse {
         this.commentCount = commentCount;
     }
 
-    public String getId() {
+    public FeedId getId() {
         return id;
     }
 

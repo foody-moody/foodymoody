@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.application.dto.response;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -7,20 +8,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedMemberResponse {
 
-    private String id;
+    private MemberId id;
     private String imageUrl;
     private String nickname;
     private FeedTasteMoodResponse tasteMood;
 
     @Builder
-    public FeedMemberResponse(String id, String imageUrl, String nickname, FeedTasteMoodResponse tasteMood) {
+    public FeedMemberResponse(MemberId id, String imageUrl, String nickname, FeedTasteMoodResponse tasteMood) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.nickname = nickname;
         this.tasteMood = tasteMood;
     }
 
-    public String getId() {
+    public MemberId getId() {
         return id;
     }
 

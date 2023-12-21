@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface FeedJpaRepository extends JpaRepository<Feed, FeedId> {
 
-    @Query("SELECT NEW com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair(i.id.value, i.url) "
+    @Query("SELECT NEW com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair(i.id, i.url) "
             + "FROM ImageMenu im "
             + "JOIN Image i ON im.imageId = i.id "
             + "WHERE im IN :imageMenus")

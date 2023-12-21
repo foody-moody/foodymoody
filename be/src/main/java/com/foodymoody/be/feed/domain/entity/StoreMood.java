@@ -19,12 +19,8 @@ public class StoreMood {
         this.name = name;
     }
 
-    public StoreMoodId getStoreMoodId() {
+    public StoreMoodId getId() {
         return id;
-    }
-
-    public String getId() {
-        return id.getValue();
     }
 
     public String getName() {

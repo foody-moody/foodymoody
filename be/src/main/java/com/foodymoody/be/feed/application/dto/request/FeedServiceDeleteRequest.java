@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed.application.dto.request;
 
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -8,9 +9,9 @@ import lombok.NoArgsConstructor;
 public class FeedServiceDeleteRequest {
 
     private FeedId id;
-    private String memberId;
+    private MemberId memberId;
 
-    public FeedServiceDeleteRequest(FeedId id, String memberId) {
+    public FeedServiceDeleteRequest(FeedId id, MemberId memberId) {
         this.id = id;
         this.memberId = memberId;
     }
@@ -19,7 +20,7 @@ public class FeedServiceDeleteRequest {
         return id;
     }
 
-    public String getMemberId() {
+    public MemberId getMemberId() {
         return memberId;
     }
 
@@ -27,7 +28,7 @@ public class FeedServiceDeleteRequest {
         this.id = id;
     }
 
-    public void setMemberId(String memberId) {
+    public void setMemberId(MemberId memberId) {
         this.memberId = memberId;
     }
 

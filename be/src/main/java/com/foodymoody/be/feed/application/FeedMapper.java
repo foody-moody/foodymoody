@@ -1,7 +1,6 @@
 package com.foodymoody.be.feed.application;
 
 import com.foodymoody.be.common.exception.ImageNotFoundException;
-import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
@@ -47,14 +46,14 @@ public class FeedMapper {
     }
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {
-        return new FeedRegisterResponse(savedFeed.getId().getValue());
+        return new FeedRegisterResponse(savedFeed.getId());
     }
 
     public static FeedReadResponse toFeedReadResponse(FeedMemberResponse feedMemberResponse, Feed feed,
                                                       List<FeedImageMenuResponse> images,
                                                       List<FeedStoreMoodResponse> moodNames) {
         return FeedReadResponse.builder()
-                .id(feed.getId().getValue())
+                .id(feed.getId())
                 .member(feedMemberResponse)
                 .location(feed.getLocation())
                 .review(feed.getReview())
@@ -68,7 +67,7 @@ public class FeedMapper {
                 .build();
     }
 
-    public static FeedServiceRegisterRequest toServiceRegisterRequest(FeedRegisterRequest request, String memberId) {
+    public static FeedServiceRegisterRequest toServiceRegisterRequest(FeedRegisterRequest request, MemberId memberId) {
         return FeedServiceRegisterRequest.builder()
                 .memberId(memberId)
                 .location(request.getLocation())
@@ -78,7 +77,7 @@ public class FeedMapper {
                 .build();
     }
 
-    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedUpdateRequest request, String memberId) {
+    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedUpdateRequest request, MemberId memberId) {
         return FeedServiceUpdateRequest.builder()
                 .memberId(memberId)
                 .location(request.getLocation())
@@ -94,7 +93,7 @@ public class FeedMapper {
         for (int i = 0; i < imageIdUrlList.size(); i++) {
             feedImageMenuResponses.add(
                     new FeedImageMenuResponse(
-                            IdGenerator.generate(),
+                            IdFactory.createFeedId(),
                             new FeedImageResponse(imageIdUrlList.get(i).getId(),
                                     imageIdUrlList.get(i).getUrl()),
                             new FeedMenuResponse(menuNameRatingList.get(i).getName(),
@@ -106,16 +105,16 @@ public class FeedMapper {
         return feedImageMenuResponses;
     }
 
-    public static FeedServiceDeleteRequest toServiceDeleteRequest(String id, String memberId) {
+    public static FeedServiceDeleteRequest toServiceDeleteRequest(FeedId id, MemberId memberId) {
         return new FeedServiceDeleteRequest(id, memberId);
     }
 
     public static FeedMemberResponse toFeedMemberResponse(FeedAuthorSummary member) {
         return FeedMemberResponse.builder()
-                .id(member.getId().getValue())
+                .id(member.getId())
                 .imageUrl(member.getProfileImageUrl())
                 .nickname(member.getNickname())
-                .tasteMood(new FeedTasteMoodResponse(member.getId().getValue(), member.getMoodName()))
+                .tasteMood(new FeedTasteMoodResponse(member.getId(), member.getMoodName()))
                 .build();
     }
 
@@ -123,7 +122,7 @@ public class FeedMapper {
                                                               List<FeedStoreMoodResponse> makeFeedStoreMoodResponses,
                                                               List<FeedImageMenuResponse> makeFeedImageMenuResponses) {
         return FeedReadAllResponse.builder()
-                .id(feed.getId().getValue())
+                .id(feed.getId())
                 .member(makeFeedMemberResponse)
                 .location(feed.getLocation())
                 .review(feed.getReview())
@@ -139,7 +138,7 @@ public class FeedMapper {
 
     public static List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<StoreMood> storeMoods) {
         return storeMoods.stream()
-                .map(storeMood -> new FeedStoreMoodResponse(storeMood.getStoreMoodId(), storeMood.getName()))
+                .map(storeMood -> new FeedStoreMoodResponse(storeMood.getId(), storeMood.getName()))
                 .collect(Collectors.toList());
     }
 

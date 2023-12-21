@@ -1,6 +1,8 @@
 package com.foodymoody.be.feed.presentation;
 
-import com.foodymoody.be.common.annotation.MemberId;
+import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedUpdateRequest;
@@ -32,7 +34,7 @@ public class FeedController {
     @PostMapping("/api/feeds")
     public ResponseEntity<FeedRegisterResponse> register(
             @RequestBody FeedRegisterRequest feedRegisterRequest,
-            @MemberId String memberId) {
+            @CurrentMemberId MemberId memberId) {
         FeedRegisterResponse feedRegisterResponse = feedUseCase.register(
                 FeedMapper.toServiceRegisterRequest(feedRegisterRequest, memberId));
         return ResponseEntity.ok().body(feedRegisterResponse);
@@ -60,8 +62,8 @@ public class FeedController {
      * Feed 수정
      */
     @PutMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> update(@PathVariable String id, @RequestBody FeedUpdateRequest feedUpdateRequest,
-                                       @MemberId String memberId) {
+    public ResponseEntity<Void> update(@PathVariable FeedId id, @RequestBody FeedUpdateRequest feedUpdateRequest,
+                                       @CurrentMemberId MemberId memberId) {
         feedUseCase.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest, memberId));
         return ResponseEntity.noContent().build();
     }
@@ -70,7 +72,8 @@ public class FeedController {
      * Feed 삭제
      */
     @DeleteMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id, @MemberId String memberId) {
+    public ResponseEntity<Void> delete(@PathVariable FeedId id,
+                                       @CurrentMemberId MemberId memberId) {
         feedUseCase.delete(FeedMapper.toServiceDeleteRequest(id, memberId));
         return ResponseEntity.noContent().build();
     }

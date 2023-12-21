@@ -1,14 +1,16 @@
 package com.foodymoody.be.feed.application.dto.response;
 
+import com.foodymoody.be.common.util.ids.FeedId;
+
 public class FeedRegisterResponse {
 
-    private final String id;
+    private final FeedId id;
 
-    public FeedRegisterResponse(String id) {
+    public FeedRegisterResponse(FeedId id) {
         this.id = id;
     }
 
-    public String getId() {
+    public FeedId getId() {
         return id;
     }
 

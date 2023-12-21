@@ -1,24 +1,25 @@
 package com.foodymoody.be.feed.application.dto.request;
 
+import com.foodymoody.be.common.util.ids.ImageId;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ImageMenuPair {
 
-    private String imageId;
+    private ImageId imageId;
     private FeedRegisterRequestMenu menu;
 
-    public ImageMenuPair(String imageId, FeedRegisterRequestMenu menu) {
+    public ImageMenuPair(ImageId imageId, FeedRegisterRequestMenu menu) {
         this.imageId = imageId;
         this.menu = menu;
     }
 
-    public String getImageId() {
+    public ImageId getImageId() {
         return imageId;
     }
 
-    public void setImageId(String imageId) {
+    public void setImageId(ImageId imageId) {
         this.imageId = imageId;
     }
 
