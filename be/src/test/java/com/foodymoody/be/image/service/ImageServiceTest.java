@@ -9,11 +9,11 @@ import com.foodymoody.be.common.exception.UnauthorizedException;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.image.controller.ImageUploadResponse;
+import com.foodymoody.be.image.application.ImageService;
+import com.foodymoody.be.image.domain.ImageRepository;
+import com.foodymoody.be.image.infra.persistence.S3Storage;
+import com.foodymoody.be.image.presentation.dto.response.ImageUploadResponse;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.image.domain.ImageCategory;
-import com.foodymoody.be.image.repository.ImageRepository;
-import com.foodymoody.be.image.repository.ImageStorage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,7 +37,7 @@ class ImageServiceTest {
     @InjectMocks
     ImageService imageService;
     @Mock
-    ImageStorage imageStorage;
+    S3Storage imageStorage;
     @Mock
     ImageRepository imageRepository;
 
@@ -54,22 +54,51 @@ class ImageServiceTest {
     }
 
     @Nested
-    @DisplayName("이미지 저장 테스트")
-    class Save {
+    @DisplayName("피드 이미지 업로드 테스트")
+    class UploadFeedImage {
 
-        @DisplayName("이미지를 저장하면, 이미지 id와 이미지가 저장된 s3 url을 반환한다.")
+        @DisplayName("피드 이미지를 업로드하면, 이미지 id와 이미지가 저장된 s3 url을 반환한다.")
         @Test
-        void whenSaveImageSuccess_thenReturnIdAndS3Url() {
+        void whenUploadFeedImageSuccess_thenReturnIdAndS3Url() {
 //        given
-            given(imageStorage.upload(any(), any())).willReturn("https://s3Url/key");
+            when(imageStorage.generateKey(any(), any(), any(), any())).thenCallRealMethod();
+            when(imageStorage.upload(any(String.class), any())).thenAnswer(invocation -> "https://s3Url/" + invocation.getArgument(0));
             when(imageRepository.save(any(Image.class))).thenAnswer(invocation -> invocation.getArgument(0));
             MockMultipartFile file = createMockMultipartFileByPath("images/potato.jpg", "images/potato.jpg");
 
 //        when
-            ImageUploadResponse response = imageService.save(ImageCategory.MEMBER, "memberId", file);
+            ImageUploadResponse response = imageService.uploadFeedImage(new MemberId( "memberId"), file);
 
 //        then
-            assertThat(response.getId()).isNotNull();
+            Assertions.assertAll(
+                    () -> assertThat(response.getId()).isNotNull(),
+                    () -> assertThat(response.getUrl()).matches("https://s3Url/null/feeds/.+/potato.jpg")
+            );
+        }
+
+    }
+
+    @Nested
+    @DisplayName("회원 이미지 업로드 테스트")
+    class UploadMemberImage {
+
+        @DisplayName("회원 이미지를 업로드하면, 이미지 id와 이미지가 저장된 s3 url을 반환한다.")
+        @Test
+        void whenUploadMemberImageSuccess_thenReturnIdAndS3Url() {
+//        given
+            when(imageStorage.generateKey(any(), any(), any(), any())).thenCallRealMethod();
+            when(imageStorage.upload(any(String.class), any())).thenAnswer(invocation -> "https://s3Url/" + invocation.getArgument(0));
+            when(imageRepository.save(any(Image.class))).thenAnswer(invocation -> invocation.getArgument(0));
+            MockMultipartFile file = createMockMultipartFileByPath("images/potato.jpg", "images/potato.jpg");
+
+//        when
+            ImageUploadResponse response = imageService.uploadMemberImage(new MemberId( "memberId"), file);
+
+//        then
+            Assertions.assertAll(
+                    () -> assertThat(response.getId()).isNotNull(),
+                    () -> assertThat(response.getUrl()).matches("https://s3Url/null/members/memberId/.+/potato.jpg")
+            );
         }
 
     }
@@ -88,7 +117,7 @@ class ImageServiceTest {
             );
 
 //        when, then
-            Assertions.assertDoesNotThrow(() -> imageService.delete("testMemberId", "testId"));
+            Assertions.assertDoesNotThrow(() -> imageService.delete(new MemberId("testMemberId"), new ImageId("testId")));
         }
 
         @DisplayName("이미지 업로더의 id와 매개변수로 받은 회원 id가 다르면, 예외가 발생한다")
@@ -101,7 +130,7 @@ class ImageServiceTest {
 
 //        when, then
             Assertions.assertThrows(UnauthorizedException.class,
-                    () -> imageService.delete("differentMemberId", "testId"));
+                    () -> imageService.delete(new MemberId("differentMemberId"), new ImageId("testId")));
         }
 
     }

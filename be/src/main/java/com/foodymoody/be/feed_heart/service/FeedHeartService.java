@@ -11,7 +11,7 @@ import com.foodymoody.be.feed_heart.repository.FeedHeartRepository;
 import com.foodymoody.be.feed_heart.util.FeedHeartMapper;
 import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
 import com.foodymoody.be.feed_heart_count.service.FeedHeartCountService;
-import com.foodymoody.be.member.service.MemberService;
+import com.foodymoody.be.member.application.MemberQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,14 +25,14 @@ public class FeedHeartService {
 
     private final FeedHeartRepository feedHeartRepository;
     private final FeedHeartCountService feedHeartCountService;
-    private final MemberService memberService;
+    private final MemberQueryService memberQueryService;
     private final FeedReadService feedReadService;
 
     @Transactional
     public FeedHeartResponse like(String feedStringId, String memberStringId) {
         var memberId = IdFactory.createMemberId(memberStringId);
 
-        memberService.validateIdExists(memberId);
+        memberQueryService.validateIdExists(memberId);
 
         if (existsHeart(memberId, feedStringId)) {
             throw new IllegalArgumentException("이미 좋아요 누른 피드입니다.");
@@ -56,7 +56,7 @@ public class FeedHeartService {
     public void unLike(String feedStringId, String memberStringId) {
         var memberId = IdFactory.createMemberId(memberStringId);
 
-        memberService.validateIdExists(memberId);
+        memberQueryService.validateIdExists(memberId);
 
         if (!existsHeart(memberId, feedStringId)) {
             throw new IllegalArgumentException("좋아요 기록이 없어 취소할 수 없습니다.");

@@ -13,6 +13,8 @@ import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -33,29 +35,29 @@ public class Member {
     private Password password;
     @Embedded
     private MemberProfileImage profileImage;
-    @AttributeOverride(name = "value", column = @Column(name = "taste_mood_id"))
-    private TasteMoodId tasteMoodId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private TasteMood tasteMood;
     @Embedded
     private MyFollowings myFollowings;
     @Embedded
     private MyFollowers myFollowers;
 
-    private Member(MemberId id, String email, String nickname, String password, TasteMoodId moodId) {
+    private Member(MemberId id, String email, String nickname, String password, TasteMood tasteMood) {
         this.id = id;
         this.email = email;
         this.nickname = nickname;
         this.password = new Password(password);
-        this.tasteMoodId = moodId;
+        this.tasteMood = tasteMood;
         this.profileImage = new MemberProfileImage(ImageId.MEMBER_PROFILE_DEFAULT);
         Events.publish(toMemberCreatedEvent());
     }
 
     public static Member of(String id, String email, String nickname, String password, String reconfirmPassword,
-            TasteMoodId moodId) {
+            TasteMood tasteMood) {
         if (!Objects.equals(reconfirmPassword, password)) {
             throw new InvalidReconfirmPasswordException();
         }
-        return new Member(new MemberId(id), email, nickname, password, moodId);
+        return new Member(new MemberId(id), email, nickname, password, tasteMood);
     }
 
     public MemberId getId() {
@@ -73,7 +75,7 @@ public class Member {
     public ImageId getProfileImageId() { return profileImage.getId(); }
 
     public TasteMoodId getTasteMoodId() {
-        return tasteMoodId;
+        return tasteMood.getId();
     }
 
     public void checkPasswordMatch(String password) {
@@ -89,8 +91,8 @@ public class Member {
         this.profileImage = new MemberProfileImage(imageId);
     }
 
-    public void changeTasteMood(TasteMoodId tasteMoodId) {
-        this.tasteMoodId = tasteMoodId;
+    public void changeTasteMood(TasteMood tasteMood) {
+        this.tasteMood = tasteMood;
     }
 
     public void changeNickname(String nickname) {
@@ -120,7 +122,7 @@ public class Member {
     }
 
     private MemberCreatedEvent toMemberCreatedEvent() {
-        return MemberCreatedEvent.of(id, email, nickname, profileImage.getId().getValue(), tasteMoodId, LocalDateTime.now());
+        return MemberCreatedEvent.of(id, email, nickname, profileImage.getId(), tasteMood.getId(), LocalDateTime.now());
     }
 
 }

@@ -1,101 +1,118 @@
 package com.foodymoody.be.member.util;
 
-import com.foodymoody.be.member.controller.dto.ChangePasswordRequest;
-import com.foodymoody.be.member.controller.dto.UpdateProfileRequest;
 import java.util.Map;
 
 public enum MemberFixture {
-    비회원_알버트(null, "albert@albert.com", "testtest123!", "알버트", "1", "https://www.image.com"),
-    비회원_설리(null, "sully@sully.com", "testtest123!", "설리", "1", "https://www.image.com"),
-    비회원_보노(null, "bono@bono.com", "testtest123!", "보노", "1", "https://www.image.com"),
-    회원_아티("1", "ati@ati.com", "ati123!", "아티", "1", null),
-    회원_푸반("2", "puban@puban.com", "puban123!", "푸반", "1", null);
+    사용자_알버트("albert@albert.com", "albert123!", "알버트", "1"),
+    사용자_설리("sully@sully.com", "sully123!", "설리", "1"),
+    사용자_보노("bono@bono.com", "bono123!", "보노", "1"),
+    사용자_아티("ati@ati.com", "atiati123!", "아티", "1"),
+    사용자_푸반("puban@puban.com", "puban123!", "푸반", "1");
 
-    private String id;
     private String email;
     private String password;
     private String nickname;
     private String tasteMoodId;
-    private String myImageUrl;
 
-    MemberFixture(String id, String email, String password, String nickname, String tasteMoodId, String myImageUrl) {
-        this.id = id;
+    MemberFixture(String email, String password, String nickname, String tasteMoodId) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.tasteMoodId = tasteMoodId;
-        this.myImageUrl = myImageUrl;
     }
 
-    public static ChangePasswordRequest 푸반_비밀번호_수정_요청() {
-        return new ChangePasswordRequest("puban123!", "atiati123!");
+    public static Map<String, Object> 푸반_비밀번호_수정_요청() {
+        return Map.of(
+                "oldPassword", 사용자_푸반.getPassword(),
+                "newPassword", "atiati123!");
     }
 
-    public static ChangePasswordRequest 푸반_비밀번호_수정_요청_틀린_형식() {
-        return new ChangePasswordRequest("puban123!", "puban");
+    public static Map<String, Object> 푸반_비밀번호_수정_요청_틀린_형식() {
+        return Map.of(
+                "oldPassword", 사용자_푸반.getPassword(),
+                "newPassword", "puban");
     }
 
-    public static ChangePasswordRequest 푸반_비밀번호_수정_요청_인증_실패() {
-        return new ChangePasswordRequest("incorrect123!", "puban123!");
+    public static Map<String, Object> 푸반_비밀번호_수정_요청_인증_실패() {
+        return Map.of(
+                "oldPassword", "incorrect123!",
+                "newPassword", "atiati123!");
     }
 
-    public static UpdateProfileRequest 보노_프로필_수정_요청(String imageId) {
-        return new UpdateProfileRequest("수정된보노", "3", imageId);
+    public static Map<String, Object> 보노_프로필_수정_요청(String imageId) {
+        return Map.of(
+                "nickname", "수정된보노",
+                "tasteMoodId", "3",
+                "profileImageId", imageId);
     }
 
-    public static UpdateProfileRequest 보노_프로필_이미지만_수정_요청(String imageId) {
-        return new UpdateProfileRequest(null,null, imageId);
+    public static Map<String, Object> 보노_프로필_이미지만_수정_요청(String imageId) {
+        return Map.of("profileImageId", imageId);
     }
 
-    public static UpdateProfileRequest 푸반_테이스트_무드만_수정_요청() {
-        return new UpdateProfileRequest(null, "3", null);
+    public static Map<String, Object> 푸반_테이스트_무드만_수정_요청() {
+        return Map.of("tasteMoodId", "3");
     }
 
-    public static UpdateProfileRequest 푸반_닉네임만_수정_요청() {
-        return new UpdateProfileRequest("수정된푸반", null, null);
+    public static Map<String, Object> 푸반_닉네임만_수정_요청() {
+        return Map.of("nickname", "수정된푸반");
     }
 
-    public static UpdateProfileRequest 푸반_존재하지_않는_프로필_이미지_수정_요청() {
-        return new UpdateProfileRequest(null, null, "InvalidProfileImageId");
+    public static Map<String, Object> 푸반_존재하지_않는_프로필_이미지_수정_요청() {
+        return Map.of("profileImageId", "InvalidProfileImageId");
     }
 
-    public static UpdateProfileRequest 푸반_존재하지_않는_테이스트_무드_수정_요청() {
-        return new UpdateProfileRequest(null, "100", null);
+    public static Map<String, Object> 푸반_존재하지_않는_테이스트_무드_수정_요청() {
+        return Map.of("tasteMoodId", "100");
     }
 
-    public static UpdateProfileRequest 푸반_중복된_닉네임_수정_요청() {
-        return new UpdateProfileRequest("보노", null, null);
+    public static Map<String, Object> 푸반_중복된_닉네임_수정_요청() {
+        return Map.of("nickname", "보노");
     }
 
     public static Map<String, Object> 보노_회원가입_요청() {
         return Map.of(
-                "nickname", 비회원_보노.getNickname(),
-                "email", 비회원_보노.getEmail(),
-                "password", 비회원_보노.getPassword(),
-                "reconfirmPassword", 비회원_보노.getPassword(),
-                "tasteMoodId", 비회원_보노.getTasteMoodId());
+                "nickname", 사용자_보노.getNickname(),
+                "email", 사용자_보노.getEmail(),
+                "password", 사용자_보노.getPassword(),
+                "reconfirmPassword", 사용자_보노.getPassword(),
+                "tasteMoodId", 사용자_보노.getTasteMoodId());
     }
 
     public static Map<String, Object> 알버트_회원가입_요청() {
         return Map.of(
-                "nickname", 비회원_알버트.getNickname(),
-                "email", 비회원_알버트.getEmail(),
-                "password", 비회원_알버트.getPassword(),
-                "reconfirmPassword", 비회원_알버트.getPassword(),
-                "tasteMoodId", 비회원_알버트.getTasteMoodId());
+                "nickname", 사용자_알버트.getNickname(),
+                "email", 사용자_알버트.getEmail(),
+                "password", 사용자_알버트.getPassword(),
+                "reconfirmPassword", 사용자_알버트.getPassword(),
+                "tasteMoodId", 사용자_알버트.getTasteMoodId());
     }
 
     public static Map<String, Object> 설리_회원가입_요청() {
         return Map.of(
-                "nickname", 비회원_설리.getNickname(),
-                "email", 비회원_설리.getEmail(),
-                "password", 비회원_설리.getPassword(),
-                "reconfirmPassword", 비회원_설리.getPassword(),
-                "tasteMoodId", 비회원_설리.getTasteMoodId());
+                "nickname", 사용자_설리.getNickname(),
+                "email", 사용자_설리.getEmail(),
+                "password", 사용자_설리.getPassword(),
+                "reconfirmPassword", 사용자_설리.getPassword(),
+                "tasteMoodId", 사용자_설리.getTasteMoodId());
     }
 
-    public String getId() {
-        return id;
+    public static Map<String, Object> 아티_회원가입_요청() {
+        return Map.of(
+                "nickname", 사용자_아티.getNickname(),
+                "email", 사용자_아티.getEmail(),
+                "password", 사용자_아티.getPassword(),
+                "reconfirmPassword", 사용자_아티.getPassword(),
+                "tasteMoodId", 사용자_아티.getTasteMoodId());
+    }
+
+    public static Map<String, Object> 푸반_회원가입_요청() {
+        return Map.of(
+                "nickname", 사용자_푸반.getNickname(),
+                "email", 사용자_푸반.getEmail(),
+                "password", 사용자_푸반.getPassword(),
+                "reconfirmPassword", 사용자_푸반.getPassword(),
+                "tasteMoodId", 사용자_푸반.getTasteMoodId());
     }
 
     public String getEmail() {
@@ -114,7 +131,4 @@ public enum MemberFixture {
         return tasteMoodId;
     }
 
-    public String getMyImageUrl() {
-        return myImageUrl;
-    }
 }

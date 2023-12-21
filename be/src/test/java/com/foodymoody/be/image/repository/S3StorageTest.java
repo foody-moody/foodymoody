@@ -3,7 +3,9 @@ package com.foodymoody.be.image.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.common.exception.InvalidImageUrlException;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.image.domain.ImageCategory;
+import com.foodymoody.be.image.infra.persistence.S3Storage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -39,8 +41,8 @@ class S3StorageTest {
         @Test
         void whenGenerateKey_thenSuccess() {
 //            given, when
-            String memberImageUrl = s3Storage.generateKey(ImageCategory.MEMBER, "1", "uuid", "fileName.jpg");
-            String feedImageUrl = s3Storage.generateKey(ImageCategory.FEED, "1", "uuid", "fileName.jpg");
+            String memberImageUrl = s3Storage.generateKey(ImageCategory.MEMBER, new MemberId("1"), "uuid", "fileName.jpg");
+            String feedImageUrl = s3Storage.generateKey(ImageCategory.FEED, null, "uuid", "fileName.jpg");
 
 //            then
             Assertions.assertAll(
