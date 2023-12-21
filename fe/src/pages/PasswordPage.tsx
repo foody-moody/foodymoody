@@ -1,64 +1,46 @@
-import 'service/queries/profile';
+import { usePutPassword } from 'service/queries/account';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
 import {
   FlexColumnBox,
   FlexRowBox,
 } from 'components/common/feedUserInfo/FeedUserInfo';
-// import { Spinner } from 'components/common/loading/spinner';
+import { Spinner } from 'components/common/loading/spinner';
 import { ValidatedInput } from 'components/validatedInput/ValidatedInput';
-import { useInput } from 'hooks/useInput';
-
-// import { usePageNavigator } from 'hooks/usePageNavigator';
+import { useAuthState } from 'hooks/auth/useAuth';
+import { usePasswordEditForm } from 'hooks/usePasswordEditForm/usePasswordEditForm';
+import { PasswordEditSchemaType } from 'hooks/usePasswordEditForm/usePasswordEditSchema';
 
 export const PasswordPage = () => {
-  // const { navigateToHome, navigateToLogin } = usePageNavigator();
+  const { userInfo } = useAuthState();
+  const { register, handleSubmit, state, errorItem } = usePasswordEditForm();
 
-  const {
-    value: passwordValue,
-    handleChange: handlePasswordChange,
-    helperText: passwordHelperText,
-    isValid: isPasswordValid,
-  } = useInput({
-    initialValue: '',
-    validator: (value) => value.length > 7, // 검증 로직 변경
-    helperText: '비밀번호는',
-  });
+  const { mutate: passwordMutate } = usePutPassword(userInfo.id);
 
-  const {
-    value: NewPasswordValue,
-    handleChange: handleNewPasswordChange,
-    helperText: newPasswordHelperText,
-    isValid: isNewPasswordValid,
-  } = useInput({
-    initialValue: '',
-    validator: (value) => value.length > 7, // 검증 로직 변경
-    helperText: '비밀번호는 8자 이상 입력해주세요',
-  });
-
-  const {
-    value: confirmNewPasswordValue,
-    handleChange: handleConfirmNewPasswordChange,
-    helperText: confirmNewPasswordHelperText,
-    isValid: isConfirmNewPasswordValid,
-  } = useInput({
-    initialValue: '',
-    validator: (value) => value === NewPasswordValue, // 검증 로직 변경
-    helperText: '비밀번호가 일치하지 않습니다',
-  });
-
-  const handleSubmit = () => {
+  const onSubmit = async (value: PasswordEditSchemaType) => {
     const registerData = {
-      oldPassword: passwordValue,
-      newPassword: confirmNewPasswordValue,
+      oldPassword: value.password,
+      newPassword: value.newPasswordCheck,
     };
-    console.log(registerData);
-    
-    //mutate
-  };
 
-  const isFormValid =
-    isPasswordValid && isNewPasswordValid && isConfirmNewPasswordValid;
+    passwordMutate(registerData, {
+      onError: (error) => {
+        if (
+          error.response?.data.code === 'a005' ||
+          error.response?.data.code === 'm005'
+        ) {
+          errorItem.setError(
+            'password',
+            {
+              type: 'validate',
+              message: error.response?.data.message,
+            },
+            { shouldFocus: true }
+          );
+        }
+      },
+    });
+  };
 
   return (
     <Wrapper>
@@ -66,50 +48,56 @@ export const PasswordPage = () => {
         <SectionRow>
           <Title>비밀번호 변경</Title>
         </SectionRow>
-        <Content>
-          <SectionRow>
-            <SubTitle>현재 비밀번호</SubTitle>
-            <Row>
-              <ValidatedInput
-                type="password"
-                placeholder="비밀번호"
-                onChangeValue={handlePasswordChange}
-                helperText={passwordHelperText}
-              />
-            </Row>
-          </SectionRow>
-          <SectionRow>
-            <SubTitle>새 비밀번호</SubTitle>
-            <Row>
-              <ValidatedInput
-                type="password"
-                placeholder="새 비밀번호"
-                onChangeValue={handleNewPasswordChange}
-                helperText={newPasswordHelperText}
-              />
-            </Row>
-          </SectionRow>
-          <SectionRow>
-            <SubTitle>새 비밀번호 확인</SubTitle>
-            <Row>
-              <ValidatedInput
-                type="password"
-                placeholder="새 비밀번호 확인"
-                onChangeValue={handleConfirmNewPasswordChange}
-                helperText={confirmNewPasswordHelperText}
-              />
-            </Row>
-          </SectionRow>
-        </Content>
-        <Button
-          size="l"
-          backgroundColor="orange"
-          onClick={handleSubmit}
-          disabled={!isFormValid}
-        >
-          제출
-          {/* <Spinner isLoading={isLoading} color="black" /> */}
-        </Button>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Content>
+            <SectionRow>
+              <SubTitle>현재 비밀번호</SubTitle>
+              <Row>
+                <ValidatedInput
+                  {...register('password')}
+                  type="password"
+                  placeholder="비밀번호"
+                  helperText={errorItem.errors.password?.message}
+                />
+              </Row>
+            </SectionRow>
+            <SectionRow>
+              <SubTitle>새 비밀번호</SubTitle>
+              <Row>
+                <ValidatedInput
+                  {...register('newPassword')}
+                  type="password"
+                  placeholder="새 비밀번호"
+                  helperText={errorItem.errors.newPassword?.message}
+                />
+              </Row>
+            </SectionRow>
+            <SectionRow>
+              <SubTitle>새 비밀번호 확인</SubTitle>
+              <Row>
+                <ValidatedInput
+                  {...register('newPasswordCheck')}
+                  type="password"
+                  placeholder="새 비밀번호 확인"
+                  helperText={errorItem.errors.newPasswordCheck?.message}
+                />
+              </Row>
+            </SectionRow>
+          </Content>
+          <Button
+            size="l"
+            backgroundColor="orange"
+            disabled={
+              state.isValidating ||
+              state.isSubmitting ||
+              !state.isValid ||
+              !state.isDirty
+            }
+          >
+            제출
+            <Spinner isLoading={state.isSubmitting} color="black" />
+          </Button>
+        </Form>
       </Box>
     </Wrapper>
   );
@@ -132,6 +120,13 @@ const Box = styled.div`
   width: 100%;
   gap: 56px;
   padding: 10px;
+`;
+
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
 `;
 
 const Content = styled(FlexColumnBox)`
