@@ -19,6 +19,10 @@ export const Register: React.FC = () => {
     !state.isDirty ||
     !state.isValid;
 
+  const setErrorAction = (field: keyof RegisterSchemaType, message: string) => {
+    errorItem.setError(field, { message }, { shouldFocus: true });
+  };
+
   const onSubmit = async (value: RegisterSchemaType) => {
     const registerData = {
       email: value.email,
@@ -30,35 +34,19 @@ export const Register: React.FC = () => {
 
     resisterMutate(registerData, {
       onError: (error) => {
-        if (error.response?.data.code === 'm003') {
-          errorItem.setError(
-            'nickname',
-            {
-              type: 'duplicate',
-              message: error.response?.data.message,
-            },
-            { shouldFocus: true }
-          );
-        }
-        if (error.response?.data.code === 'm002') {
-          errorItem.setError(
-            'email',
-            {
-              type: 'duplicate',
-              message: error.response?.data.message,
-            },
-            { shouldFocus: true }
-          );
-        }
-        if (error.response?.data.code === 'm004') {
-          errorItem.setError(
-            'reconfirmPassword',
-            {
-              type: 'validate',
-              message: error.response?.data.message,
-            },
-            { shouldFocus: true }
-          );
+        switch (error.response?.data.code) {
+          case 'm002':
+            setErrorAction('email', error.response?.data.message);
+            break;
+          case 'm003':
+            setErrorAction('nickname', error.response?.data.message);
+            break;
+          case 'm004':
+            setErrorAction('reconfirmPassword', error.response?.data.message);
+            break;
+          default:
+            // TODO 추가처리
+            break;
         }
       },
     });

@@ -19,13 +19,31 @@ export const Login: React.FC = () => {
     }
   }, [state.isSubmitSuccessful]);
 
+  const setErrorAction = (field: keyof LoginSchemaType, message: string) => {
+    errorItem.setError(field, { message }, { shouldFocus: true });
+  };
+
   const onSubmit = (value: LoginSchemaType) => {
     const registerData = {
       email: value.email,
       password: value.password,
     };
 
-    loginMutate(registerData);
+    loginMutate(registerData, {
+      onError: (error) => {
+        switch (error.response?.data.code) {
+          case 'm001':
+            setErrorAction('email', error.response?.data.message);
+            break;
+          case 'a005':
+            setErrorAction('password', error.response?.data.message);
+            break;
+          default:
+            // TODO 추가처리
+            break;
+        }
+      },
+    });
   };
 
   return (
