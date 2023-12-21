@@ -8,7 +8,7 @@ import { RegisterSchemaType } from 'hooks/useRegisterForm/useRegisterFormSchema'
 import { Button } from '../common/button/Button';
 import { ArrowDownIcon } from '../common/icon/icons';
 
-export const Register: React.FC = () => {
+export const RegisterForm: React.FC = () => {
   const { register, handleSubmit, state, errorItem } = useRegisterForm();
   const { mutate: resisterMutate } = useRegister();
   const { data: tastes } = useGetTasteMood();

@@ -6,7 +6,7 @@ import { ValidatedInput } from 'components/validatedInput/ValidatedInput';
 import { useLoginForm } from 'hooks/useLoginForm/useLoginForm';
 import { LoginSchemaType } from 'hooks/useLoginForm/useLoginFormSchema';
 
-export const Login: React.FC = () => {
+export const LoginForm: React.FC = () => {
   const { mutate: loginMutate } = useLogin();
   // const passwordReff = useRef<HTMLInputElement>(null);
   // const buttonReff = useRef<HTMLButtonElement>(null);
