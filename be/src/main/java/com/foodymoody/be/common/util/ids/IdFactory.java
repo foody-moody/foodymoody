@@ -122,6 +122,30 @@ public class IdFactory {
         return createId(FeedCollectionReplyId.class, id);
     }
 
+    public static FeedCollectionCommentLikeId createFeedCollectionCommentLikeId() {
+        return createId(FeedCollectionCommentLikeId.class);
+    }
+
+    public static FeedCollectionCommentLikeId createFeedCollectionCommentLikeId(String id) {
+        return createId(FeedCollectionCommentLikeId.class, id);
+    }
+
+    public static FeedCollectionLikeId createFeedCollectionLikeId() {
+        return createId(FeedCollectionLikeId.class);
+    }
+
+    public static FeedCollectionLikeId createFeedCollectionLikeId(String id) {
+        return createId(FeedCollectionLikeId.class, id);
+    }
+
+    public static FeedCollectionReplyLikeId createFeedCollectionReplyLikeId() {
+        return createId(FeedCollectionReplyLikeId.class);
+    }
+
+    public static FeedCollectionReplyLikeId createFeedCollectionReplyLikeId(String id) {
+        return createId(FeedCollectionReplyLikeId.class, id);
+    }
+
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {
         try {
             Constructor<T> constructor = idClass.getConstructor(String.class);
