@@ -1,6 +1,5 @@
 package com.foodymoody.be.feed.application.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
@@ -10,33 +9,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedReadResponse {
 
-    @JsonProperty
     private String id;
-    @JsonProperty
     private FeedMemberResponse member;
-    @JsonProperty
     private String location;
-    @JsonProperty
     private LocalDateTime createdAt;
-    @JsonProperty
     private LocalDateTime updatedAt;
-    @JsonProperty
     private String review;
-    @JsonProperty
     private List<FeedStoreMoodResponse> storeMood;
-    @JsonProperty
     private List<FeedImageMenuResponse> images;
-    @JsonProperty
     private int likeCount;
-    @JsonProperty
     private boolean isLiked;
-    @JsonProperty
     private int commentCount;
 
     @Builder
     public FeedReadResponse(String id, FeedMemberResponse member, String location, LocalDateTime createdAt,
-            LocalDateTime updatedAt, String review, List<FeedStoreMoodResponse> storeMood,
-            List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, int commentCount) {
+                            LocalDateTime updatedAt, String review, List<FeedStoreMoodResponse> storeMood,
+                            List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, int commentCount) {
         this.id = id;
         this.member = member;
         this.location = location;
@@ -48,6 +36,50 @@ public class FeedReadResponse {
         this.likeCount = likeCount;
         this.isLiked = isLiked;
         this.commentCount = commentCount;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public FeedMemberResponse getMember() {
+        return member;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public List<FeedStoreMoodResponse> getStoreMood() {
+        return storeMood;
+    }
+
+    public List<FeedImageMenuResponse> getImages() {
+        return images;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
     }
 
 }

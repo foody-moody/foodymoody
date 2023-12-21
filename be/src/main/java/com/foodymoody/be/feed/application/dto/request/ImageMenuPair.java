@@ -2,9 +2,7 @@ package com.foodymoody.be.feed.application.dto.request;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ImageMenuPair {
 
@@ -20,8 +18,16 @@ public class ImageMenuPair {
         return imageId;
     }
 
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
+    }
+
     public FeedRegisterRequestMenu getMenu() {
         return menu;
+    }
+
+    public void setMenu(FeedRegisterRequestMenu menu) {
+        this.menu = menu;
     }
 
 }

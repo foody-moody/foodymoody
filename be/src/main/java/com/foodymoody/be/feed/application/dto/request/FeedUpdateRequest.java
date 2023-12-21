@@ -15,7 +15,8 @@ public class FeedUpdateRequest {
     private List<ImageMenuPair> images;
 
     @Builder
-    public FeedUpdateRequest(String location, String review, List<StoreMoodId> storeMoodIds, List<ImageMenuPair> images) {
+    public FeedUpdateRequest(String location, String review, List<StoreMoodId> storeMoodIds,
+                             List<ImageMenuPair> images) {
         this.location = location;
         this.review = review;
         this.storeMoodIds = storeMoodIds;
@@ -36,6 +37,22 @@ public class FeedUpdateRequest {
 
     public List<ImageMenuPair> getImages() {
         return images;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
+    public void setStoreMoodIds(List<StoreMoodId> storeMoodIds) {
+        this.storeMoodIds = storeMoodIds;
+    }
+
+    public void setImages(List<ImageMenuPair> images) {
+        this.images = images;
     }
 
 }

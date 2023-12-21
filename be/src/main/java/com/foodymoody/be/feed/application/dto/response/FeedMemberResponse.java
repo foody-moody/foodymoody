@@ -1,6 +1,5 @@
 package com.foodymoody.be.feed.application.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -8,13 +7,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedMemberResponse {
 
-    @JsonProperty
     private String id;
-    @JsonProperty
     private String imageUrl;
-    @JsonProperty
     private String nickname;
-    @JsonProperty
     private FeedTasteMoodResponse tasteMood;
 
     @Builder
@@ -23,6 +18,22 @@ public class FeedMemberResponse {
         this.imageUrl = imageUrl;
         this.nickname = nickname;
         this.tasteMood = tasteMood;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public FeedTasteMoodResponse getTasteMood() {
+        return tasteMood;
     }
 
 }

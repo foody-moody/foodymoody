@@ -1,6 +1,5 @@
 package com.foodymoody.be.feed.domain.entity;
 
-import com.foodymoody.be.common.util.ids.ImageId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import lombok.AccessLevel;

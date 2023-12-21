@@ -6,7 +6,6 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedListServiceRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceDeleteRequest;
@@ -32,7 +31,6 @@ import com.foodymoody.be.menu.domain.Menu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import org.springframework.data.domain.Pageable;
 
 public class FeedMapper {
@@ -41,7 +39,8 @@ public class FeedMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Feed toFeed(FeedId id, MemberId memberId, FeedServiceRegisterRequest request, List<StoreMood> storeMoods,
+    public static Feed toFeed(FeedId id, MemberId memberId, FeedServiceRegisterRequest request,
+                              List<StoreMood> storeMoods,
                               List<Image> images, List<Menu> menus, String profileImageUrl) {
         return new Feed(id, memberId, request.getLocation(), request.getReview(), storeMoods, images, menus,
                 profileImageUrl);

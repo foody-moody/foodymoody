@@ -15,7 +15,8 @@ public class FeedRegisterRequest {
     private List<ImageMenuPair> images;
 
     @Builder
-    public FeedRegisterRequest(String location, String review, List<StoreMoodId> storeMoodIds, List<ImageMenuPair> images) {
+    public FeedRegisterRequest(String location, String review, List<StoreMoodId> storeMoodIds,
+                               List<ImageMenuPair> images) {
         this.location = location;
         this.review = review;
         this.storeMoodIds = storeMoodIds;
@@ -26,16 +27,32 @@ public class FeedRegisterRequest {
         return location;
     }
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getReview() {
         return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
     }
 
     public List<StoreMoodId> getStoreMoodIds() {
         return storeMoodIds;
     }
 
+    public void setStoreMoodIds(List<StoreMoodId> storeMoodIds) {
+        this.storeMoodIds = storeMoodIds;
+    }
+
     public List<ImageMenuPair> getImages() {
         return images;
+    }
+
+    public void setImages(List<ImageMenuPair> images) {
+        this.images = images;
     }
 
 }

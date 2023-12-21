@@ -24,4 +24,12 @@ public class FeedRegisterRequestMenu {
         return rating;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
 }
