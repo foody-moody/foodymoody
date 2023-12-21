@@ -6,8 +6,7 @@ import org.springframework.data.domain.Slice;
 
 public interface FollowRepository {
 
-    Slice<FollowMemberSummary> findFollowedByFollowerOrderByCreatedAtDesc(Member member, Pageable pageable);
+    Slice<FollowMemberSummary> fetchMyFollowingSummariesByMember(Member member, Pageable pageable);
 
-    Slice<FollowMemberSummary> findFollowerByFollowedOrderByCreatedAtDesc(Member member, Pageable pageable);
-
+    Slice<FollowMemberSummary> fetchMyFollowerSummariesByMember(Member member, Pageable pageable);
 }
