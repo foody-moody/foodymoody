@@ -9,17 +9,23 @@ import {
 } from 'service/axios/profile/profile';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
-export const useGetProfile = (id?: string) =>
+export const useGetProfile = (memberId?: string) =>
   useQuery<ProfileMemberInfo>({
-    queryKey: [QUERY_KEY.profile, id],
-    queryFn: () => getProfile(id),
+    queryKey: [QUERY_KEY.profile, memberId],
+    queryFn: () => getProfile(memberId),
   });
 
-export const useEditProfileImage = (id: string) => {
+export const useEditProfileImage = (memberId: string) => {
+  const queryClient = useQueryClient();
+
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (body: ProfileImageBody) => patchProfileImage(id, body),
+    mutationFn: (body: ProfileImageBody) => patchProfileImage(memberId, body),
+    onSuccess: () => {
+      toast.success('프로필 이미지를 수정했습니다.');
+      queryClient.invalidateQueries([QUERY_KEY.profile, memberId]);
+    },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
       console.log('useEditProfileImage error: ', error);
@@ -37,7 +43,7 @@ export const useEditProfile = (memberId: string) => {
     mutationFn: (body: ProfileEditBody) => patchEditProfile(memberId, body),
     onSuccess: () => {
       toast.success('프로필을 수정했습니다.');
-      queryClient.invalidateQueries([QUERY_KEY.profile, memberId]); //디테일 페이지 데이터를 다시 갱신시키고 바뀐 imageId 싱크를 맞추기 위함, 이렇게해서 imageId는 항상 이전값과 같으므로 null로 보낼수있음, 이미지는 에딧 하자마자 뮤테이트 됨.
+      queryClient.invalidateQueries([QUERY_KEY.profile, memberId]);
 
       // 어디로 이동까지 시켜야할지?
     },

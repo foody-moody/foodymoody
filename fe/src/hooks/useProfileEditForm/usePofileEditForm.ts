@@ -9,33 +9,40 @@ export const useProfileEditForm = (profile?: ProfileMemberInfo) => {
   const {
     register,
     handleSubmit,
-    setValue,
-    getValues,
-    watch,
-    trigger,
-    formState: { errors, isSubmitting, isValidating },
-    clearErrors,
+    formState: {
+      errors,
+      isSubmitting,
+      isSubmitSuccessful,
+      isValidating,
+      isValid,
+      isDirty,
+    },
     setError,
+    trigger,
+    watch,
   } = useForm<ProfileEditSchemaType>({
     defaultValues: {
       nickname: profile?.nickname,
+      tasteMoodId: profile?.tasteMoodId,
+      // profileImageId: profile?.profileImageId,
     },
-    mode: 'onChange',
-    reValidateMode: 'onChange',
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
     resolver: zodResolver(profileEditSchema),
   });
 
   return {
     register,
     handleSubmit,
-    setValue,
-    getValues,
-    watch,
+    state: {
+      isSubmitting,
+      isSubmitSuccessful,
+      isValidating,
+      isValid,
+      isDirty,
+    },
+    errorItem: { errors, setError },
     trigger,
-    errors,
-    isSubmitting,
-    isValidating,
-    clearErrors,
-    setError,
+    watch,
   };
 };

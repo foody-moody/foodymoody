@@ -1,10 +1,5 @@
-import { useState } from 'react';
 import { useGetTasteMood } from 'service/queries/mood';
-import {
-  useEditProfile,
-  useGetNicknameDuplicate,
-  useGetProfile,
-} from 'service/queries/profile';
+import { useEditProfile, useGetProfile } from 'service/queries/profile';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
 import {
@@ -16,7 +11,6 @@ import { Spinner } from 'components/common/loading/spinner';
 import { UserImageEdit } from 'components/common/userImage/UserImageEdit';
 import { ValidatedInput } from 'components/validatedInput/ValidatedInput';
 import { useAuthState } from 'hooks/auth/useAuth';
-import { useInput } from 'hooks/useInput';
 import { useProfileEditForm } from 'hooks/useProfileEditForm/usePofileEditForm';
 import { ProfileEditSchemaType } from 'hooks/useProfileEditForm/useProfileEditSchema';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
@@ -27,64 +21,32 @@ export const ProfileEditPage = () => {
 
   //  문제상황
   // 왜 새로고침시 profile데이터가 날라가는가?
-  const [selectedTaste, setSelectedTaste] = useState<Mood>({
-    id: '',
-    name: '',
-  });
+  // const [selectedTaste, setSelectedTaste] = useState<Mood>({
+  //   id: '',
+  //   name: '',
+  // });
 
   const { userInfo } = useAuthState();
   const { data: profile } = useGetProfile(userInfo.id);
 
-  const {
-    register,
-    handleSubmit,
-    setValue, // 어떤 값을 set시킴
-    getValues, //서브밋 되고 난 이후의 값을 가져옴
-    watch,
-    trigger,
-    errors,
-    isValidating,
-    isSubmitting,
-    clearErrors,
-    setError,
-  } = useProfileEditForm(profile);
+  const { register, handleSubmit, state, errorItem, trigger, watch } =
+    useProfileEditForm(profile);
 
   const { data: tastes } = useGetTasteMood();
   const { mutate: profileMutate } = useEditProfile(userInfo.id);
   const isAuthor = profile?.id === userInfo.id;
 
-  console.log(errors, 'errors');
-  console.log(errors.nickname?.message, 'errors message');
+  console.log(watch(), 'all');
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedName = e.target.value;
+  const onSubmit = async (value: ProfileEditSchemaType) => {
+    const registerData = {
+      nickname: value.nickname === profile?.nickname ? null : value.nickname,
+      tasteMoodId:
+        value.tasteMoodId === profile?.tasteMoodId ? null : value.tasteMoodId,
+      profileImageId: null,
+    };
 
-    const selectedTaste = tastes.find(
-      (taste: Mood) => taste.name === selectedName
-    );
-    setSelectedTaste(selectedTaste || null);
-  };
-
-  // const isFormValid = isNicknameValid && selectedTaste.id !== '';
-
-  const onSubmit = async (data: ProfileEditSchemaType) => {
-    console.log(data, 'submitiiiiing');
-
-    // const editedProfileBody = {
-    //   nickname: data.nickname === profile?.nickname ? null : data.nickname,
-    //   // tasteMoodId: selectedTaste?.id,
-    //   // profileImageId: null, // 프로필이미지는 바꾸자마자
-    // };
-    // profileMutate(editedProfileBody, {
-    //   onError: (res) => {
-    //     if (res.code === 'i001') {
-    //       setError('nickname', {
-    //         type: 'server',
-    //         message: res.message,
-    //       });
-    //     }
-    //   },
-    // });
+    profileMutate(registerData);
   };
 
   return (
@@ -93,7 +55,6 @@ export const ProfileEditPage = () => {
         <SectionRow>
           <Title>프로필 수정</Title>
         </SectionRow>
-        {/*   서스펜스 필요 */}
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Content>
             <SectionRow>
@@ -102,22 +63,21 @@ export const ProfileEditPage = () => {
                 <ValidatedInput
                   {...register('nickname')}
                   variant="rectangle"
-                  placeholder="닉네임"
-                  helperText={errors.nickname?.message}
-                  //onChangeValue를 어떻게 전해주지?
+                  helperText={errorItem.errors.nickname?.message}
                 />
                 <Button
                   size="l"
                   backgroundColor="orange"
                   width={170}
-                  onClick={() => {
-                    // async필요없나?
-                    trigger('nickname');
+                  onClick={async () => {
+                    await trigger('nickname', {
+                      shouldFocus: true,
+                    });
                   }}
-                  disabled={isValidating || watch('nickname').length < 2}
+                  disabled={state.isValidating}
                 >
                   중복검사
-                  <Spinner isLoading={isValidating} color="black" />
+                  <Spinner isLoading={state.isValidating} color="black" />
                 </Button>
               </Row>
             </SectionRow>
@@ -125,21 +85,22 @@ export const ProfileEditPage = () => {
               <SubTitle>무드</SubTitle>
               <SelectLabel>
                 <Select
-                  value={selectedTaste?.name}
-                  onChange={handleSelectChange}
+                  {...register('tasteMoodId')}
+                  // value={selectedTaste?.name}
+                  // onChange={handleSelectChange}
                 >
-                  <Option value="" disabled={true}>
-                    무디를 선택해주세요!
-                  </Option>
                   {tastes &&
                     tastes?.map((taste: Mood) => (
-                      <Option key={taste.id} value={taste.name}>
+                      <Option key={taste.id} value={taste.id}>
                         {taste.name}
                       </Option>
                     ))}
                 </Select>
                 <ArrowDownIcon />
               </SelectLabel>
+              {errorItem.errors.tasteMoodId?.message && (
+                <p>{errorItem.errors.tasteMoodId?.message}</p>
+              )}
             </SectionRow>
 
             <Row>
@@ -160,11 +121,12 @@ export const ProfileEditPage = () => {
             type="submit"
             size="l"
             backgroundColor="orange"
-            // onClick={handleSubmit}
-            disabled={isSubmitting}
+            disabled={
+              state.isValidating || state.isSubmitting || !state.isValid
+            }
           >
             제출
-            {/* <Spinner isLoading={isLoading} color="black" /> */}
+            <Spinner isLoading={state.isSubmitting} color="black" />
           </Button>
         </Form>
       </Box>
