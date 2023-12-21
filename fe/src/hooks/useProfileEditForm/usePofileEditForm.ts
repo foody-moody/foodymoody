@@ -18,16 +18,15 @@ export const useProfileEditForm = (profile?: ProfileMemberInfo) => {
       isDirty,
     },
     setError,
-    trigger,
-    watch,
+    clearErrors,
+    getValues,
   } = useForm<ProfileEditSchemaType>({
     defaultValues: {
       nickname: profile?.nickname,
       tasteMoodId: profile?.tasteMoodId,
-      // profileImageId: profile?.profileImageId,
     },
-    mode: 'onSubmit',
-    reValidateMode: 'onSubmit',
+    mode: 'onChange',
+    reValidateMode: 'onChange',
     resolver: zodResolver(profileEditSchema),
   });
 
@@ -41,8 +40,7 @@ export const useProfileEditForm = (profile?: ProfileMemberInfo) => {
       isValid,
       isDirty,
     },
-    errorItem: { errors, setError },
-    trigger,
-    watch,
+    errorItem: { errors, setError, clearErrors },
+    getValues,
   };
 };

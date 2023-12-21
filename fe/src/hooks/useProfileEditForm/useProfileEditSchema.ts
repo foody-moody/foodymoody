@@ -1,4 +1,3 @@
-import { getNicknameDuplicate } from 'service/axios/profile/profile';
 import { z } from 'zod';
 
 export type ProfileEditSchemaType = z.infer<typeof profileEditSchema>;
@@ -11,12 +10,6 @@ const nickNameSchema = () => {
     .max(10, '닉네임은 2~10자 사이로 입력해주세요.');
 };
 
-const nickNameDuplicateCheck = async (nickname: string) => {
-  const response = await getNicknameDuplicate(nickname);
-
-  return !response.isDuplicate;
-};
-
 const tasteMoodSchema = () => {
   return z.string().min(1, '맛과 분위기를 선택해주세요.');
 };
@@ -25,21 +18,11 @@ const tasteMoodSchema = () => {
 //   return z.string().nullable().optional();
 // };
 
-export const profileEditSchema = z
-  .object({
-    nickname: nickNameSchema(),
-    tasteMoodId: tasteMoodSchema(),
-    // profileImageId: profileImageSchema(),
-  })
-  .refine(
-    async (value) => {
-      return await nickNameDuplicateCheck(value.nickname);
-    },
-    {
-      path: ['nickname'],
-      message: '중복된 닉네임입니다.',
-    }
-  );
+export const profileEditSchema = z.object({
+  nickname: nickNameSchema(),
+  tasteMoodId: tasteMoodSchema(),
+  // profileImageId: profileImageSchema(),
+});
 
 // const MAX_FILE_SIZE_BYTES = 1024 * 1024 * 2;
 // const ALLOWED_TYPES = ['image/png', 'image/jpg', 'image/jpeg'];

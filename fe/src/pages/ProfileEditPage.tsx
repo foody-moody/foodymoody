@@ -1,5 +1,11 @@
+import { get } from 'firebase/database';
+import { getNicknameDuplicate } from 'service/axios/profile/profile';
 import { useGetTasteMood } from 'service/queries/mood';
-import { useEditProfile, useGetProfile } from 'service/queries/profile';
+import {
+  useEditProfile,
+  useGetNicknameDuplicate,
+  useGetProfile,
+} from 'service/queries/profile';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
 import {
@@ -16,27 +22,39 @@ import { ProfileEditSchemaType } from 'hooks/useProfileEditForm/useProfileEditSc
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 
 export const ProfileEditPage = () => {
-  // 변경사항이 생겻는데 뒤로 가기 눌렀을때  alert (변경사항이 저장되지 않았습니다. 나가시겠습니까?)
-  // const [isChanged, setIschanged] = useState(false);
-
-  //  문제상황
-  // 왜 새로고침시 profile데이터가 날라가는가?
-  // const [selectedTaste, setSelectedTaste] = useState<Mood>({
-  //   id: '',
-  //   name: '',
-  // });
+  // 변경사항이 생겻는데 어디가려고할때 alert 할지? (변경사항이 저장되지 않았습니다. 나가시겠습니까?)
+  // 새로고침시 profile데이터가 전해지지 않음
+  // 페쳐컴포넌트 혹은 서스펜스 추가 필요
 
   const { userInfo } = useAuthState();
+  const { data: tastes } = useGetTasteMood();
   const { data: profile } = useGetProfile(userInfo.id);
-
-  const { register, handleSubmit, state, errorItem, trigger, watch } =
+  const { mutate: profileMutate } = useEditProfile(userInfo.id);
+  const { register, handleSubmit, state, errorItem, getValues } =
     useProfileEditForm(profile);
 
-  const { data: tastes } = useGetTasteMood();
-  const { mutate: profileMutate } = useEditProfile(userInfo.id);
   const isAuthor = profile?.id === userInfo.id;
 
-  console.log(watch(), 'all');
+  const checkBtnDisabled =
+    state.isValidating ||
+    !!errorItem.errors.nickname ||
+    getValues('nickname') === profile?.nickname;
+
+  const submitBtnDisabled =
+    state.isValidating || state.isSubmitting || !state.isDirty;
+
+  const handleDuplicateCheck = async () => {
+    const nickname = getValues('nickname');
+    const res = await getNicknameDuplicate(nickname);
+    if (res.isDuplicate) {
+      errorItem.setError('nickname', {
+        type: 'duplicate',
+        message: '이미 존재하는 닉네임입니다.',
+      });
+    } else {
+      errorItem.clearErrors('nickname');
+    }
+  };
 
   const onSubmit = async (value: ProfileEditSchemaType) => {
     const registerData = {
@@ -46,7 +64,20 @@ export const ProfileEditPage = () => {
       profileImageId: null,
     };
 
-    profileMutate(registerData);
+    profileMutate(registerData, {
+      onError: (error) => {
+        if (error.response?.data.code === 'm003') {
+          errorItem.setError(
+            'nickname',
+            {
+              type: 'duplicate',
+              message: error.response?.data.message,
+            },
+            { shouldFocus: true }
+          );
+        }
+      },
+    });
   };
 
   return (
@@ -66,18 +97,14 @@ export const ProfileEditPage = () => {
                   helperText={errorItem.errors.nickname?.message}
                 />
                 <Button
+                  type="button"
                   size="l"
                   backgroundColor="orange"
                   width={170}
-                  onClick={async () => {
-                    await trigger('nickname', {
-                      shouldFocus: true,
-                    });
-                  }}
-                  disabled={state.isValidating}
+                  disabled={checkBtnDisabled}
+                  onClick={handleDuplicateCheck}
                 >
                   중복검사
-                  <Spinner isLoading={state.isValidating} color="black" />
                 </Button>
               </Row>
             </SectionRow>
@@ -121,9 +148,7 @@ export const ProfileEditPage = () => {
             type="submit"
             size="l"
             backgroundColor="orange"
-            disabled={
-              state.isValidating || state.isSubmitting || !state.isValid
-            }
+            disabled={submitBtnDisabled}
           >
             제출
             <Spinner isLoading={state.isSubmitting} color="black" />
