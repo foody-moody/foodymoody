@@ -1,140 +1,118 @@
-import React, { useState } from 'react';
 import { useRegister } from 'service/queries/auth';
 import { useGetTasteMood } from 'service/queries/mood';
 import { styled } from 'styled-components';
 import { Spinner } from 'components/common/loading/spinner';
 import { ValidatedInput } from 'components/validatedInput/ValidatedInput';
-import { useInput } from 'hooks/useInput';
+import { useRegisterForm } from 'hooks/useRegisterForm/useRegisterForm';
+import { RegisterSchemaType } from 'hooks/useRegisterForm/useRegisterFormSchema';
 import { Button } from '../common/button/Button';
 import { ArrowDownIcon } from '../common/icon/icons';
 
 export const Register: React.FC = () => {
-  const { mutate: resisterMutate, isLoading } = useRegister();
+  const { register, handleSubmit, state, errorItem } = useRegisterForm();
+  const { mutate: resisterMutate } = useRegister();
   const { data: tastes } = useGetTasteMood();
-  const [selectedTaste, setSelectedTaste] = useState<Mood>({
-    id: '',
-    name: '',
-  });
 
-  const {
-    value: emailValue,
-    handleChange: handleEmailChange,
-    helperText: emailHelperText,
-    isValid: isEmailValid,
-  } = useInput({
-    initialValue: '',
-    validator: (value) =>
-      /^[a-zA-Z0-9._-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$/.test(value), // 검증 로직 변경
-    helperText: '올바른 이메일 형식이 아닙니다',
-  });
+  const submitBtnDisabled =
+    state.isValidating ||
+    state.isSubmitting ||
+    !state.isDirty ||
+    !state.isValid;
 
-  const {
-    value: nicknameValue,
-    handleChange: handleNicknameChange,
-    helperText: nicknameHelperText,
-    isValid: isNicknameValid,
-  } = useInput({
-    initialValue: '',
-    validator: (value) => value.length > 1, // 검증 로직 변경
-    helperText: '닉네임은 2자 이상 입력해주세요',
-  });
-
-  const {
-    value: passwordValue,
-    handleChange: handlePasswordChange,
-    helperText: passwordHelperText,
-    isValid: isPasswordValid,
-  } = useInput({
-    initialValue: '',
-    validator: (value) => value.length > 7, // 검증 로직 변경
-    helperText: '비밀번호는 8자 이상 입력해주세요',
-  });
-
-  const {
-    value: confirmPasswordValue,
-    handleChange: handleConfirmPasswordChange,
-    helperText: confirmPasswordHelperText,
-    isValid: isConfirmPasswordValid,
-  } = useInput({
-    initialValue: '',
-    validator: (value) => value === passwordValue, // 검증 로직 변경
-    helperText: '비밀번호가 일치하지 않습니다',
-  });
-
-  const handleSubmit = () => {
+  const onSubmit = async (value: RegisterSchemaType) => {
     const registerData = {
-      email: emailValue,
-      nickname: nicknameValue,
-      password: passwordValue,
-      reconfirmPassword: confirmPasswordValue,
-      tasteMoodId: selectedTaste?.id,
+      email: value.email,
+      nickname: value.nickname,
+      password: value.password,
+      reconfirmPassword: value.reconfirmPassword,
+      tasteMoodId: value.tasteMoodId,
     };
-    resisterMutate(registerData);
+
+    resisterMutate(registerData, {
+      onError: (error) => {
+        if (error.response?.data.code === 'm003') {
+          errorItem.setError(
+            'nickname',
+            {
+              type: 'duplicate',
+              message: error.response?.data.message,
+            },
+            { shouldFocus: true }
+          );
+        }
+        if (error.response?.data.code === 'm002') {
+          errorItem.setError(
+            'email',
+            {
+              type: 'duplicate',
+              message: error.response?.data.message,
+            },
+            { shouldFocus: true }
+          );
+        }
+        if (error.response?.data.code === 'm004') {
+          errorItem.setError(
+            'reconfirmPassword',
+            {
+              type: 'validate',
+              message: error.response?.data.message,
+            },
+            { shouldFocus: true }
+          );
+        }
+      },
+    });
   };
-
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedName = e.target.value;
-
-    const selectedTaste = tastes.find(
-      (taste: Mood) => taste.name === selectedName
-    );
-    setSelectedTaste(selectedTaste || null);
-  };
-
-  const isFormValid =
-    isEmailValid &&
-    isNicknameValid &&
-    isPasswordValid &&
-    isConfirmPasswordValid &&
-    selectedTaste.id !== '';
 
   return (
     <Wrapper>
-      <ValidatedInput
-        placeholder="이메일"
-        onChangeValue={handleEmailChange}
-        helperText={emailHelperText}
-      />
-      <ValidatedInput
-        placeholder="닉네임"
-        onChangeValue={handleNicknameChange}
-        helperText={nicknameHelperText}
-      />
-      <ValidatedInput
-        type="password"
-        placeholder="비밀번호"
-        onChangeValue={handlePasswordChange}
-        helperText={passwordHelperText}
-      />
-      <ValidatedInput
-        type="password"
-        placeholder="비밀번호 확인"
-        onChangeValue={handleConfirmPasswordChange}
-        helperText={confirmPasswordHelperText}
-      />
-      <SelectLabel>
-        <Select value={selectedTaste?.name} onChange={handleSelectChange}>
-          <Option value="" disabled={true}>
-            무디를 선택해주세요!
-          </Option>
-          {tastes &&
-            tastes?.map((taste: Mood) => (
-              <Option key={taste.id} value={taste.name}>
-                {taste.name}
-              </Option>
-            ))}
-        </Select>
-        <ArrowDownIcon />
-      </SelectLabel>
-      <Button
-        size="l"
-        backgroundColor="orange"
-        onClick={handleSubmit}
-        disabled={!isFormValid}
-      >
-        회원가입
-        <Spinner isLoading={isLoading} color="black" />
-      </Button>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <ValidatedInput
+          {...register('email')}
+          placeholder="이메일"
+          helperText={errorItem.errors.email?.message}
+        />
+        <ValidatedInput
+          {...register('nickname')}
+          placeholder="닉네임"
+          helperText={errorItem.errors.nickname?.message}
+        />
+        <ValidatedInput
+          {...register('password')}
+          type="password"
+          placeholder="비밀번호"
+          helperText={errorItem.errors.password?.message}
+        />
+        <ValidatedInput
+          {...register('reconfirmPassword')}
+          type="password"
+          placeholder="비밀번호 확인"
+          helperText={errorItem.errors.reconfirmPassword?.message}
+        />
+        <SelectLabel>
+          <Select {...register('tasteMoodId')}>
+            <Option value="" disabled={true}>
+              무디를 선택해주세요!
+            </Option>
+            {tastes &&
+              tastes?.map((taste: Mood) => (
+                <Option key={taste.id} value={taste.id}>
+                  {taste.name}
+                </Option>
+              ))}
+          </Select>
+          <ArrowDownIcon />
+        </SelectLabel>
+        <Button
+          type="submit"
+          size="l"
+          backgroundColor="orange"
+          disabled={submitBtnDisabled}
+        >
+          회원가입
+          <Spinner isLoading={state.isSubmitting} color="black" />
+        </Button>
+      </Form>
     </Wrapper>
   );
 };
@@ -146,8 +124,17 @@ const Wrapper = styled.div`
   gap: 16px;
 `;
 
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+`;
+
 const SelectLabel = styled.label`
   position: relative;
+  width: 240px;
 
   svg {
     position: absolute;
