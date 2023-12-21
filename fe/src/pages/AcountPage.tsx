@@ -1,3 +1,4 @@
+import { useDeleteAccount } from 'service/queries/account';
 import 'service/queries/profile';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
@@ -6,17 +7,19 @@ import {
   FlexRowBox,
 } from 'components/common/feedUserInfo/FeedUserInfo';
 import { useModal } from 'components/common/modal/useModal';
+import { useAuthState } from 'hooks/auth/useAuth';
 // import { Spinner } from 'components/common/loading/spinner';
 
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const AccountPage = () => {
   const { navigateToPassword } = usePageNavigator();
-
+  const { userInfo } = useAuthState();
+  const { mutate: accountMutate } = useDeleteAccount(userInfo.id);
   const { openModal, closeModal } = useModal<'accountAlert'>();
 
   const handleDelete = () => {
-    //deletemutate
+    accountMutate();
   };
 
   const handleAlert = () => {
