@@ -1,11 +1,6 @@
-import { get } from 'firebase/database';
 import { getNicknameDuplicate } from 'service/axios/profile/profile';
 import { useGetTasteMood } from 'service/queries/mood';
-import {
-  useEditProfile,
-  useGetNicknameDuplicate,
-  useGetProfile,
-} from 'service/queries/profile';
+import { useEditProfile, useGetProfile } from 'service/queries/profile';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
 import {
