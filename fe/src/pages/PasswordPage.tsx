@@ -32,7 +32,6 @@ export const PasswordPage = () => {
           errorItem.setError(
             'password',
             {
-              type: 'validate',
               message: error.response?.data.message,
             },
             { shouldFocus: true }

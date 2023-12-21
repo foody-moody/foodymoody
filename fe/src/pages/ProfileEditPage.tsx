@@ -41,9 +41,9 @@ export const ProfileEditPage = () => {
   const handleDuplicateCheck = async () => {
     const nickname = getValues('nickname');
     const res = await getNicknameDuplicate(nickname);
+
     if (res.isDuplicate) {
       errorItem.setError('nickname', {
-        type: 'duplicate',
         message: '이미 존재하는 닉네임입니다.',
       });
     } else {
@@ -65,7 +65,6 @@ export const ProfileEditPage = () => {
           errorItem.setError(
             'nickname',
             {
-              type: 'duplicate',
               message: error.response?.data.message,
             },
             { shouldFocus: true }
