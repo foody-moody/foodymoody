@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useLogin } from 'service/queries/auth';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
@@ -8,8 +8,8 @@ import { LoginSchemaType } from 'hooks/useLoginForm/useLoginFormSchema';
 
 export const Login: React.FC = () => {
   const { mutate: loginMutate } = useLogin();
-  const passwordReff = useRef<HTMLInputElement>(null);
-  const buttonReff = useRef<HTMLButtonElement>(null);
+  // const passwordReff = useRef<HTMLInputElement>(null);
+  // const buttonReff = useRef<HTMLButtonElement>(null);
 
   const { register, handleSubmit, state, errorItem, reset } = useLoginForm();
 
