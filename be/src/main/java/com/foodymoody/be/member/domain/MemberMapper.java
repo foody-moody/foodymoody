@@ -36,7 +36,7 @@ public class MemberMapper {
         return new NicknameDuplicationCheckResponse(isDuplicate);
     }
 
-    public static Slice<FollowMemberSummaryResponse> toFollowMemberSummaryResponse(Member currentMember, Slice<FollowMemberSummary> followInfoMembers) {
+    public static Slice<FollowMemberSummaryResponse> toFollowMemberSummaryResponses(Member currentMember, Slice<FollowMemberSummary> followInfoMembers) {
         return followInfoMembers.map(
                 followMemberSummary -> FollowMemberSummaryResponse.of(
                             followMemberSummary.getId(),
@@ -46,7 +46,7 @@ public class MemberMapper {
                             currentMember.isMyFollower(followMemberSummary.getId())));
     }
 
-    public static Slice<FollowMemberSummaryResponse> toFollowMemberSummaryResponse(Slice<FollowMemberSummary> followInfoMembers) {
+    public static Slice<FollowMemberSummaryResponse> toFollowMemberSummaryResponses(Slice<FollowMemberSummary> followInfoMembers) {
         return followInfoMembers.map(
                 followMemberSummary -> FollowMemberSummaryResponse.of(
                         followMemberSummary.getId(),

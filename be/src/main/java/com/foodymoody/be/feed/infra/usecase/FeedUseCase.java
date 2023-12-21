@@ -30,9 +30,9 @@ import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
 import com.foodymoody.be.feed_heart_count.service.FeedHeartCountService;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.application.ImageService;
+import com.foodymoody.be.member.application.MemberQueryService;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
-import com.foodymoody.be.member.application.MemberService;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.service.MenuService;
 import java.util.List;
@@ -54,14 +54,14 @@ public class FeedUseCase {
     private final FeedReadService feedReadService;
     private final FeedWriteService feedWriteService;
     private final ImageService imageService;
-    private final MemberService memberService;
+    private final MemberQueryService memberQueryService;
     private final MenuService menuService;
     private final StoreMoodReadService storeMoodReadService;
     private final FeedHeartCountService feedHeartCountService;
 
     @Transactional
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
-        Member member = memberService.findById(IdFactory.createMemberId(request.getMemberId()));
+        Member member = memberQueryService.findById(IdFactory.createMemberId(request.getMemberId()));
         MemberId memberId = member.getId();
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = toMenu(imageMenuPairs);
@@ -118,7 +118,7 @@ public class FeedUseCase {
     public void update(String id, FeedServiceUpdateRequest request) {
         FeedId feedId = IdFactory.createFeedId(id);
         Feed feed = feedReadService.findFeed(feedId);
-        Member member = memberService.findById(IdFactory.createMemberId(request.getMemberId()));
+        Member member = memberQueryService.findById(IdFactory.createMemberId(request.getMemberId()));
         MemberId memberId = member.getId();
         List<Image> newImages = toImage(request.getImages(), memberId);
         List<Menu> newMenus = toMenu(request.getImages());
@@ -132,7 +132,7 @@ public class FeedUseCase {
     @Transactional
     public void delete(FeedServiceDeleteRequest request) {
         FeedId feedId = IdFactory.createFeedId(request.getId());
-        MemberId memberId = memberService.findById(IdFactory.createMemberId(request.getMemberId())).getId();
+        MemberId memberId = memberQueryService.findById(IdFactory.createMemberId(request.getMemberId())).getId();
 
         if (!feedReadService.findFeed(feedId).getMemberId().isSame(memberId)) {
             throw new IllegalArgumentException("이 피드를 작성한 회원이 아닙니다.");
@@ -159,7 +159,7 @@ public class FeedUseCase {
     }
 
     public FeedMemberResponse makeFeedMemberResponse(Feed feed) {
-        FeedAuthorSummary memberData = memberService.fetchFeedAuthorSummaryById(feed.getMemberId());
+        FeedAuthorSummary memberData = memberQueryService.fetchFeedAuthorSummaryById(feed.getMemberId());
         return toFeedMemberResponse(memberData);
     }
 

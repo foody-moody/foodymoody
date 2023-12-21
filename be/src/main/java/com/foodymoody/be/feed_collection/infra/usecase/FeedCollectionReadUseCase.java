@@ -7,8 +7,8 @@ import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import com.foodymoody.be.image.application.ImageService;
-import com.foodymoody.be.member.application.MemberService;
-import com.foodymoody.be.member.application.TasteMoodService;
+import com.foodymoody.be.member.application.MemberQueryService;
+import com.foodymoody.be.member.application.TasteMoodReadService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +22,9 @@ public class FeedCollectionReadUseCase {
 
     private final FeedCollectionReadService feedCollectionReadService;
     private final FeedReadService feedReadService;
-    private final MemberService memberService;
+    private final MemberQueryService memberQueryService;
     private final ImageService imageService;
-    private final TasteMoodService tasteMoodService;
+    private final TasteMoodReadService tasteMoodReadService;
     private final StoreMoodReadService storeMoodReadService;
 
     public Slice<FeedCollectionSummary> fetchAll(Pageable pageable) {
@@ -33,9 +33,9 @@ public class FeedCollectionReadUseCase {
 
     public FeedCollectionDetail fetchDetail(FeedCollectionId id) {
         var feedCollection = feedCollectionReadService.fetch(id);
-        var author = memberService.findById(feedCollection.getAuthorId());
+        var author = memberQueryService.findById(feedCollection.getAuthorId());
         var authorProfileImage = imageService.findById(author.getProfileImageId());
-        var authorTasteMood = tasteMoodService.findById(author.getTasteMoodId());
+        var authorTasteMood = tasteMoodReadService.findById(author.getTasteMoodId());
         AuthorSummaryResponse authorSummaryResponse = new AuthorSummaryResponse(
                 author.getId().getValue(),
                 author.getNickname(),
