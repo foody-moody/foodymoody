@@ -1,16 +1,16 @@
 package com.foodymoody.be.feed.domain.entity;
 
 import com.foodymoody.be.common.util.ids.StoreMoodId;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class StoreMood {
 
-    @EmbeddedId
+    @Id
     private StoreMoodId id;
     private String name;
 

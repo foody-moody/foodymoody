@@ -135,6 +135,19 @@ class FeedMapperTest {
         });
     }
 
+    @DisplayName("makeFeedStoreMoodResponses()로 StoreMood 형식 그대로의 Response를 만들 수 있다.")
+    @Test
+    void makeFeedStoreMoodResponses() {
+        // given
+        List<StoreMood> storeMoods = makeStoreMoods();
+
+        // when
+        List<FeedStoreMoodResponse> feedStoreMoodResponses = FeedMapper.makeFeedStoreMoodResponses(storeMoods);
+
+        // then
+        assertThat(feedStoreMoodResponses).hasSameSizeAs(storeMoods);
+    }
+
     private Feed generateFeed() {
         FeedId feedId = makeFeedId();
         MemberId memberId = makeMemberId();
