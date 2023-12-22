@@ -1,14 +1,17 @@
 package com.foodymoody.be.feed.application.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.foodymoody.be.common.util.ids.FeedId;
 
 public class FeedRegisterResponse {
 
-    @JsonProperty
-    private final String id;
+    private final FeedId id;
 
-    public FeedRegisterResponse(String id) {
+    public FeedRegisterResponse(FeedId id) {
         this.id = id;
+    }
+
+    public FeedId getId() {
+        return id;
     }
 
 }

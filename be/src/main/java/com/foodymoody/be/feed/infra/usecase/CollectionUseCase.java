@@ -1,16 +1,13 @@
 package com.foodymoody.be.feed.infra.usecase;
 
-import com.foodymoody.be.common.exception.ImageNotFoundException;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.application.StoreMoodReadService;
 import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedListServiceRequest;
 import com.foodymoody.be.feed.application.dto.response.CollectionReadAllFeedResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
-import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.image.application.ImageService;

@@ -21,7 +21,8 @@ public class CollectionController {
      * 컬렉션 상세 페이지 피드 조회 API
      */
     @GetMapping("/api/collections/{collectionId}/feeds")
-    public ResponseEntity<Slice<CollectionReadAllFeedResponse>> readFeedCollectionDetail(@PathVariable String collectionId, Pageable pageable) {
+    public ResponseEntity<Slice<CollectionReadAllFeedResponse>> readFeedCollectionDetail(
+            @PathVariable String collectionId, Pageable pageable) {
         Slice<CollectionReadAllFeedResponse> collectionReadAllResponses = collectionUseCase.readFeedCollectionDetail(
                 FeedMapper.toCollectionServiceReadAllFeedRequest(collectionId, pageable));
         return ResponseEntity.ok().body(collectionReadAllResponses);

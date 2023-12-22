@@ -1,14 +1,18 @@
 package com.foodymoody.be.feed.infra.usecase.dto;
 
-import lombok.RequiredArgsConstructor;
+import com.foodymoody.be.common.util.ids.ImageId;
 
-@RequiredArgsConstructor
 public class ImageIdNamePair {
 
-    private final String id;
-    private final String url;
+    private ImageId id;
+    private String url;
 
-    public String getId() {
+    public ImageIdNamePair(ImageId id, String url) {
+        this.id = id;
+        this.url = url;
+    }
+
+    public ImageId getId() {
         return id;
     }
 

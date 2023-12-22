@@ -15,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -28,10 +26,7 @@ public class Feed {
     private MemberId memberId;
     private String profileImageUrl;
     private String location;
-    // TODO: service에서 Java 시간으로 생성자 주입
-    @CreationTimestamp
     private LocalDateTime createdAt;
-    @UpdateTimestamp
     private LocalDateTime updatedAt;
     private String review;
     private int likeCount;
@@ -45,8 +40,8 @@ public class Feed {
     private ImageMenus imageMenus;
 
     public Feed(FeedId id, MemberId memberId, String location, String review, List<StoreMood> storeMoods,
-                List<Image> images,
-                List<Menu> menus, String profileImageUrl) {
+                List<Image> images, List<Menu> menus, String profileImageUrl,
+                LocalDateTime createdAt) {
         this.id = id;
         this.memberId = memberId;
         this.location = location;
@@ -54,6 +49,7 @@ public class Feed {
         this.storeMoods = storeMoods;
         this.imageMenus = new ImageMenus(images, menus);
         this.profileImageUrl = profileImageUrl;
+        this.createdAt = createdAt;
     }
 
     public FeedId getId() {
@@ -105,13 +101,16 @@ public class Feed {
     }
 
     public void update(MemberId memberId, String newLocation, String newReview, List<StoreMood> newStoreMoods,
-                       List<Image> newImages, List<Menu> newMenus, String profileImageUrl) {
+                       List<Image> newImages, List<Menu> newMenus, String profileImageUrl,
+                       LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.memberId = memberId;
         this.location = newLocation;
         this.review = newReview;
         this.storeMoods = newStoreMoods;
         this.imageMenus.replaceWith(newImages, newMenus);
         this.profileImageUrl = profileImageUrl;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public void updateIsLikedBy(boolean isLiked) {

@@ -26,15 +26,16 @@ import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
-import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
-import com.foodymoody.be.feed_heart_count.service.FeedHeartCountService;
-import com.foodymoody.be.image.domain.Image;
+import com.foodymoody.be.feed_heart_count.application.FeedHeartCountService;
+import com.foodymoody.be.feed_heart_count.domain.entity.FeedHeartCount;
 import com.foodymoody.be.image.application.ImageService;
+import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.member.application.MemberQueryService;
-import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
+import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.service.MenuService;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -61,15 +62,11 @@ public class FeedUseCase {
 
     @Transactional
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
-        Member member = memberQueryService.findById(IdFactory.createMemberId(request.getMemberId()));
+        Member member = memberQueryService.findById(request.getMemberId());
         MemberId memberId = member.getId();
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = toMenu(imageMenuPairs);
         List<Image> images = toImage(imageMenuPairs, memberId);
-        // TODO: Request의 Id를 가지고 StoreMood 객체를 만들어서 넘겨야 하는데,
-        //  그렇게 하려면 Request의 StoreMoodId가 data.sql에 있는 StoreMoodId와 동일해야 함
-        //  하지만 data.sql에는 IdFactory로 암호화된 Id가 들어있지 않으니 fetch 할 때 id 불일치로 당연히 오류가 발생
-        //  이런 경우는 어떻게 하는 게 좋을까요??
         List<StoreMoodId> storeMoodIds = request.getStoreMoodIds();
         List<StoreMood> storeMoods = storeMoodReadService.fetchAllByStoreMoodIds(storeMoodIds);
 
@@ -115,10 +112,9 @@ public class FeedUseCase {
     }
 
     @Transactional
-    public void update(String id, FeedServiceUpdateRequest request) {
-        FeedId feedId = IdFactory.createFeedId(id);
-        Feed feed = feedReadService.findFeed(feedId);
-        Member member = memberQueryService.findById(IdFactory.createMemberId(request.getMemberId()));
+    public void update(FeedId id, FeedServiceUpdateRequest request) {
+        Feed feed = feedReadService.findFeed(id);
+        Member member = memberQueryService.findById(request.getMemberId());
         MemberId memberId = member.getId();
         List<Image> newImages = toImage(request.getImages(), memberId);
         List<Menu> newMenus = toMenu(request.getImages());
@@ -126,19 +122,19 @@ public class FeedUseCase {
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
         feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoods, newImages, newMenus,
-                profileImageUrl);
+                profileImageUrl, feed.getCreatedAt() ,LocalDateTime.now());
     }
 
     @Transactional
     public void delete(FeedServiceDeleteRequest request) {
-        FeedId feedId = IdFactory.createFeedId(request.getId());
-        MemberId memberId = memberQueryService.findById(IdFactory.createMemberId(request.getMemberId())).getId();
+        FeedId feedId = request.getId();
+        MemberId memberId = memberQueryService.findById(request.getMemberId()).getId();
 
-        if (!feedReadService.findFeed(feedId).getMemberId().isSame(memberId)) {
+        if (!feedReadService.findFeed(feedId).getMemberId().equals(memberId)) {
             throw new IllegalArgumentException("이 피드를 작성한 회원이 아닙니다.");
         }
 
-        feedWriteService.deleteById(IdFactory.createFeedId(request.getId()));
+        feedWriteService.deleteById(request.getId());
     }
 
     // TODO: 쿼리 사용하여 리팩토링
@@ -152,8 +148,8 @@ public class FeedUseCase {
 
     public List<Image> toImage(List<ImageMenuPair> imageMenuPairs, MemberId memberId) {
         return imageMenuPairs.stream()
-                .map(imageMenuPair -> new Image(IdFactory.createImageId(imageMenuPair.getImageId()),
-                        imageService.findById(IdFactory.createImageId(imageMenuPair.getImageId())).getUrl(),
+                .map(imageMenuPair -> new Image(imageMenuPair.getImageId(),
+                        imageService.findById(imageMenuPair.getImageId()).getUrl(),
                         memberId))
                 .collect(Collectors.toUnmodifiableList());
     }

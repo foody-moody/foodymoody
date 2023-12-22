@@ -26,6 +26,14 @@ public class IdFactory {
         return createId(FeedId.class);
     }
 
+    public static ImageMenuId createImageMenuId(String id) {
+        return createId(ImageMenuId.class, id);
+    }
+
+    public static ImageMenuId createImageMenuId() {
+        return createId(ImageMenuId.class);
+    }
+
     public static StoreMoodId createStoreMoodId(String id) {
         return createId(StoreMoodId.class, id);
     }

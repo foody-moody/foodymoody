@@ -1,12 +1,10 @@
 package com.foodymoody.be.feed.application;
 
 import com.foodymoody.be.common.exception.ImageNotFoundException;
-import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedListServiceRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceDeleteRequest;
@@ -29,10 +27,10 @@ import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
 import com.foodymoody.be.menu.domain.Menu;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import org.springframework.data.domain.Pageable;
 
 public class FeedMapper {
@@ -41,21 +39,22 @@ public class FeedMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Feed toFeed(FeedId id, MemberId memberId, FeedServiceRegisterRequest request, List<StoreMood> storeMoods,
+    public static Feed toFeed(FeedId id, MemberId memberId, FeedServiceRegisterRequest request,
+                              List<StoreMood> storeMoods,
                               List<Image> images, List<Menu> menus, String profileImageUrl) {
         return new Feed(id, memberId, request.getLocation(), request.getReview(), storeMoods, images, menus,
-                profileImageUrl);
+                profileImageUrl, LocalDateTime.now());
     }
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {
-        return new FeedRegisterResponse(savedFeed.getId().getValue());
+        return new FeedRegisterResponse(savedFeed.getId());
     }
 
     public static FeedReadResponse toFeedReadResponse(FeedMemberResponse feedMemberResponse, Feed feed,
                                                       List<FeedImageMenuResponse> images,
                                                       List<FeedStoreMoodResponse> moodNames) {
         return FeedReadResponse.builder()
-                .id(feed.getId().getValue())
+                .id(feed.getId())
                 .member(feedMemberResponse)
                 .location(feed.getLocation())
                 .review(feed.getReview())
@@ -69,7 +68,7 @@ public class FeedMapper {
                 .build();
     }
 
-    public static FeedServiceRegisterRequest toServiceRegisterRequest(FeedRegisterRequest request, String memberId) {
+    public static FeedServiceRegisterRequest toServiceRegisterRequest(FeedRegisterRequest request, MemberId memberId) {
         return FeedServiceRegisterRequest.builder()
                 .memberId(memberId)
                 .location(request.getLocation())
@@ -79,7 +78,7 @@ public class FeedMapper {
                 .build();
     }
 
-    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedUpdateRequest request, String memberId) {
+    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedUpdateRequest request, MemberId memberId) {
         return FeedServiceUpdateRequest.builder()
                 .memberId(memberId)
                 .location(request.getLocation())
@@ -95,7 +94,7 @@ public class FeedMapper {
         for (int i = 0; i < imageIdUrlList.size(); i++) {
             feedImageMenuResponses.add(
                     new FeedImageMenuResponse(
-                            IdGenerator.generate(),
+                            IdFactory.createFeedId(),
                             new FeedImageResponse(imageIdUrlList.get(i).getId(),
                                     imageIdUrlList.get(i).getUrl()),
                             new FeedMenuResponse(menuNameRatingList.get(i).getName(),
@@ -107,16 +106,16 @@ public class FeedMapper {
         return feedImageMenuResponses;
     }
 
-    public static FeedServiceDeleteRequest toServiceDeleteRequest(String id, String memberId) {
+    public static FeedServiceDeleteRequest toServiceDeleteRequest(FeedId id, MemberId memberId) {
         return new FeedServiceDeleteRequest(id, memberId);
     }
 
     public static FeedMemberResponse toFeedMemberResponse(FeedAuthorSummary member) {
         return FeedMemberResponse.builder()
-                .id(member.getId().getValue())
+                .id(member.getId())
                 .imageUrl(member.getProfileImageUrl())
                 .nickname(member.getNickname())
-                .tasteMood(new FeedTasteMoodResponse(member.getId().getValue(), member.getMoodName()))
+                .tasteMood(new FeedTasteMoodResponse(member.getId(), member.getMoodName()))
                 .build();
     }
 
@@ -124,7 +123,7 @@ public class FeedMapper {
                                                               List<FeedStoreMoodResponse> makeFeedStoreMoodResponses,
                                                               List<FeedImageMenuResponse> makeFeedImageMenuResponses) {
         return FeedReadAllResponse.builder()
-                .id(feed.getId().getValue())
+                .id(feed.getId())
                 .member(makeFeedMemberResponse)
                 .location(feed.getLocation())
                 .review(feed.getReview())
@@ -140,7 +139,7 @@ public class FeedMapper {
 
     public static List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<StoreMood> storeMoods) {
         return storeMoods.stream()
-                .map(storeMood -> new FeedStoreMoodResponse(storeMood.getStoreMoodId(), storeMood.getName()))
+                .map(storeMood -> new FeedStoreMoodResponse(storeMood.getId(), storeMood.getName()))
                 .collect(Collectors.toList());
     }
 
@@ -156,11 +155,11 @@ public class FeedMapper {
     }
 
     public static ImageId findFirstImageId(Feed feed) {
-        String imageIdString = feed.getImageMenus().stream()
+        return feed.getImageMenus().stream()
                 .filter(imageMenu -> imageMenu.getDisplayOrder() == 0)
                 .findFirst()
                 .orElseThrow(ImageNotFoundException::new)
                 .getImageId();
-        return IdFactory.createImageId(imageIdString);
     }
+
 }

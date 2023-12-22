@@ -1,8 +1,8 @@
-package com.foodymoody.be.feed_heart_count.service;
+package com.foodymoody.be.feed_heart_count.application;
 
 import com.foodymoody.be.common.util.ids.IdFactory;
-import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
-import com.foodymoody.be.feed_heart_count.repository.FeedHeartCountRepository;
+import com.foodymoody.be.feed_heart_count.domain.FeedHeartCountRepository;
+import com.foodymoody.be.feed_heart_count.domain.entity.FeedHeartCount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

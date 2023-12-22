@@ -1,6 +1,5 @@
 package com.foodymoody.be.feed.application.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.foodymoody.be.common.util.ids.FeedId;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,27 +10,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CollectionReadAllFeedResponse {
 
-    @JsonProperty
     private int feedAllCount;
-    @JsonProperty
     private String feedThumbnailUrl;
-    @JsonProperty
     private String storeName;
-    @JsonProperty
     private FeedId feedId;
-    @JsonProperty
     private LocalDateTime createdAt;
-    @JsonProperty
     private LocalDateTime updatedAt;
-    @JsonProperty
     private String description;
-    @JsonProperty
     private List<String> moodNames;
-    @JsonProperty
     private boolean isLiked;
-    @JsonProperty
     private int likeCount;
-    @JsonProperty
     private int feedCommentCount;
 
     @Builder
@@ -49,6 +37,50 @@ public class CollectionReadAllFeedResponse {
         this.isLiked = isLiked;
         this.likeCount = likeCount;
         this.feedCommentCount = feedCommentCount;
+    }
+
+    public int getFeedAllCount() {
+        return feedAllCount;
+    }
+
+    public String getFeedThumbnailUrl() {
+        return feedThumbnailUrl;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public FeedId getFeedId() {
+        return feedId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public List<String> getMoodNames() {
+        return moodNames;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public int getFeedCommentCount() {
+        return feedCommentCount;
     }
 
 }

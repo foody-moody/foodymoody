@@ -1,16 +1,15 @@
-package com.foodymoody.be.feed_heart.service;
+package com.foodymoody.be.feed_heart.application;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.application.FeedReadService;
-import com.foodymoody.be.feed_heart.domain.FeedHeart;
-import com.foodymoody.be.feed_heart.dto.response.FeedHeartResponse;
-import com.foodymoody.be.feed_heart.repository.FeedHeartRepository;
-import com.foodymoody.be.feed_heart.util.FeedHeartMapper;
-import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
-import com.foodymoody.be.feed_heart_count.service.FeedHeartCountService;
+import com.foodymoody.be.feed.domain.entity.Feed;
+import com.foodymoody.be.feed_heart.application.dto.response.FeedHeartResponse;
+import com.foodymoody.be.feed_heart.domain.FeedHeartRepository;
+import com.foodymoody.be.feed_heart.domain.entity.FeedHeart;
+import com.foodymoody.be.feed_heart_count.application.FeedHeartCountService;
+import com.foodymoody.be.feed_heart_count.domain.entity.FeedHeartCount;
 import com.foodymoody.be.member.application.MemberQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

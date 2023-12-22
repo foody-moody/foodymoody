@@ -2,7 +2,7 @@ package com.foodymoody.be.feed.application;
 
 import static com.foodymoody.be.feed.application.FeedValidator.validateFeedOfImagesAndMenus;
 
-import com.foodymoody.be.common.util.IdGenerator;
+import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
@@ -22,7 +22,7 @@ public class ImageMenuMapper {
         for (int i = 0; i < newImages.size(); i++) {
             Image image = newImages.get(i);
             Menu menu = newMenus.get(i);
-            imageMenus.add(new ImageMenu(IdGenerator.generate(), image.getId().getValue(), menu.getId().getValue(), i));
+            imageMenus.add(new ImageMenu(IdFactory.createImageMenuId(), image.getId(), menu.getId(), i));
         }
 
         return imageMenus;

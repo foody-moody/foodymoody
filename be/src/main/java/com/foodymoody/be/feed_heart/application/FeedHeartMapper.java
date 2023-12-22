@@ -1,12 +1,10 @@
-package com.foodymoody.be.feed_heart.util;
+package com.foodymoody.be.feed_heart.application;
 
 import com.foodymoody.be.common.util.ids.FeedHeartId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_heart.domain.FeedHeart;
-import com.foodymoody.be.feed_heart.dto.request.FeedHeartRequest;
-import com.foodymoody.be.feed_heart.dto.request.FeedHeartServiceRequest;
-import com.foodymoody.be.feed_heart.dto.response.FeedHeartResponse;
+import com.foodymoody.be.feed_heart.application.dto.response.FeedHeartResponse;
+import com.foodymoody.be.feed_heart.domain.entity.FeedHeart;
 
 public class FeedHeartMapper {
 
@@ -15,12 +13,12 @@ public class FeedHeartMapper {
     }
 
     public static FeedHeart makeFeedHeartWithFeedIdAndMemberId(FeedHeartId feedHeartId, FeedId feedId,
-            MemberId memberId) {
+                                                               MemberId memberId) {
         return new FeedHeart(feedHeartId, feedId, memberId);
     }
 
     public static FeedHeartResponse toHeartResponse(String id, String feedId, String memberId, boolean isLiked,
-            int feedHeartCount) {
+                                                    int feedHeartCount) {
         return new FeedHeartResponse(id, feedId, memberId, isLiked, feedHeartCount);
     }
 
