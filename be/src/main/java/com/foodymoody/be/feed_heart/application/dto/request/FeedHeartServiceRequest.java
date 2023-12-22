@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed_heart.dto.request;
+package com.foodymoody.be.feed_heart.application.dto.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

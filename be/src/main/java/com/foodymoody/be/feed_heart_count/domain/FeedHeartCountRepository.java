@@ -1,8 +1,8 @@
-package com.foodymoody.be.feed_heart_count.repository;
+package com.foodymoody.be.feed_heart_count.domain;
 
 import com.foodymoody.be.common.util.ids.FeedHeartCountId;
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.feed_heart_count.domain.FeedHeartCount;
+import com.foodymoody.be.feed_heart_count.domain.entity.FeedHeartCount;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

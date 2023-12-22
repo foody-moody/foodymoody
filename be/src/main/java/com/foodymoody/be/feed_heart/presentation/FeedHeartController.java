@@ -1,16 +1,13 @@
-package com.foodymoody.be.feed_heart.controller;
+package com.foodymoody.be.feed_heart.presentation;
 
 import com.foodymoody.be.common.annotation.MemberId;
-import com.foodymoody.be.feed_heart.dto.request.FeedHeartRequest;
-import com.foodymoody.be.feed_heart.dto.response.FeedHeartResponse;
-import com.foodymoody.be.feed_heart.service.FeedHeartService;
-import com.foodymoody.be.feed_heart.util.FeedHeartMapper;
+import com.foodymoody.be.feed_heart.application.FeedHeartService;
+import com.foodymoody.be.feed_heart.application.dto.response.FeedHeartResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor

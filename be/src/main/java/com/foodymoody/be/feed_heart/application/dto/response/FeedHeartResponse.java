@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed_heart.dto.response;
+package com.foodymoody.be.feed_heart.application.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

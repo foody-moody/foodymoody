@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed_heart.domain;
+package com.foodymoody.be.feed_heart.domain.entity;
 
 import com.foodymoody.be.common.util.ids.FeedHeartId;
 import com.foodymoody.be.common.util.ids.FeedId;
