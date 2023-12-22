@@ -35,6 +35,10 @@ export const UserImageEdit: React.FC<Props> = ({
   const userImage = imageData.url || defaultImage;
 
   const handleImageClick = () => {
+    if (!isAuthor) {
+      return;
+    }
+
     if (inputRef.current) {
       inputRef.current.click();
     }
