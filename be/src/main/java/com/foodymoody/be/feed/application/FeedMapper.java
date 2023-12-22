@@ -154,11 +154,11 @@ public class FeedMapper {
     }
 
     public static ImageId findFirstImageId(Feed feed) {
-        String imageIdString = feed.getImageMenus().stream()
+        return feed.getImageMenus().stream()
                 .filter(imageMenu -> imageMenu.getDisplayOrder() == 0)
                 .findFirst()
                 .orElseThrow(ImageNotFoundException::new)
                 .getImageId();
-        return IdFactory.createImageId(imageIdString);
     }
+
 }
