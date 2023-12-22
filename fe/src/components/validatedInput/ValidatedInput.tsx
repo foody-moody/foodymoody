@@ -44,9 +44,11 @@ export const ValidatedInput = forwardRef<HTMLInputElement, Props>(
     return (
       <Wrapper>
         <Input variant={variant} isFocused={isFocused} helperText={helperText}>
-          <Input.InnerLabel isFocused={isFocused}>
-            {placeholder}
-          </Input.InnerLabel>
+          {placeholder && (
+            <Input.InnerLabel isFocused={isFocused}>
+              {placeholder}
+            </Input.InnerLabel>
+          )}
           <Input.CenterContent>
             <InputField
               ref={ref}

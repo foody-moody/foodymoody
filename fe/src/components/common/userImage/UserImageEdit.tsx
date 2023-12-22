@@ -10,14 +10,12 @@ import { EditIcon } from '../icon/icons';
 import { UserImage } from './UserImage';
 
 type Props = {
-
   isAuthor: boolean;
   imageId?: string;
   imageUrl?: string;
 };
 
 export const UserImageEdit: React.FC<Props> = ({
-
   isAuthor,
   imageId,
   imageUrl,
@@ -28,8 +26,7 @@ export const UserImageEdit: React.FC<Props> = ({
   });
   const { userInfo } = useAuthState();
   const { mutate: imageMutate } = usePostImage('user');
-  const { mutate: profileMutate } = useEditProfileImage(userInfo.id);
-
+  const { mutate: profileImageMutate } = useEditProfileImage(userInfo.id);
 
   const toast = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -68,7 +65,11 @@ export const UserImageEdit: React.FC<Props> = ({
         console.log(res, ' now res');
         setImageData(res);
         //여기에 프로필 수정 mutate하기
-        profileMutate({ profileImageId: res.id, tasteMoodId: null });
+        profileImageMutate({
+          nickname: null,
+          tasteMoodId: null,
+          profileImageId: res.id,
+        });
       },
     });
 

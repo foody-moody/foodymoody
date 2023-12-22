@@ -1,9 +1,6 @@
-import { useState } from 'react';
+import { getNicknameDuplicate } from 'service/axios/profile/profile';
 import { useGetTasteMood } from 'service/queries/mood';
-import {
-  useGetNicknameDuplicate,
-  useGetProfile,
-} from 'service/queries/profile';
+import { useEditProfile, useGetProfile } from 'service/queries/profile';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
 import {
@@ -15,67 +12,67 @@ import { Spinner } from 'components/common/loading/spinner';
 import { UserImageEdit } from 'components/common/userImage/UserImageEdit';
 import { ValidatedInput } from 'components/validatedInput/ValidatedInput';
 import { useAuthState } from 'hooks/auth/useAuth';
-import { useInput } from 'hooks/useInput';
+import { useProfileEditForm } from 'hooks/useProfileEditForm/usePofileEditForm';
+import { ProfileEditSchemaType } from 'hooks/useProfileEditForm/useProfileEditSchema';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 
 export const ProfileEditPage = () => {
-  // const [isChanged, setIschanged] = useState(false);
-  const [selectedTaste, setSelectedTaste] = useState<Mood>({
-    id: '',
-    name: '',
-  });
+  // 변경사항이 생겻는데 어디가려고할때 alert 할지? (변경사항이 저장되지 않았습니다. 나가시겠습니까?)
+  // 새로고침시 profile데이터가 전해지지 않음
+  // 페쳐컴포넌트 혹은 서스펜스 추가 필요
 
-  // 변경사항이 생겻는데 뒤로 가기 눌렀을때  alert (변경사항이 저장되지 않았습니다. 나가시겠습니까?)
-  const { data: tastes } = useGetTasteMood();
   const { userInfo } = useAuthState();
-
+  const { data: tastes } = useGetTasteMood();
   const { data: profile } = useGetProfile(userInfo.id);
+  const { mutate: profileMutate } = useEditProfile(userInfo.id);
+  const { register, handleSubmit, state, errorItem, getValues } =
+    useProfileEditForm(profile);
+
   const isAuthor = profile?.id === userInfo.id;
 
-  const {
-    value: nicknameValue,
-    handleChange: handleNicknameChange,
-    helperText: nicknameHelperText,
-    isValid: isNicknameValid,
-  } = useInput({
-    initialValue: '',
-    validator: (value) => value.length >= 2,
-    // nickname이 중복일때도 검증해야함
-    helperText: '닉네임은 2자 이상 입력해주세요',
-  });
+  const checkBtnDisabled =
+    state.isValidating ||
+    !!errorItem.errors.nickname ||
+    getValues('nickname') === profile?.nickname;
 
-  const {
-    data: checkedNickname,
-    isFetching: isDuplicateLoading,
-    refetch: duplicateCheck,
-  } = useGetNicknameDuplicate(nicknameValue);
-  console.log(checkedNickname);
+  const submitBtnDisabled =
+    state.isValidating || state.isSubmitting || !state.isDirty;
 
-  const handleSubmit = () => {
+  const handleDuplicateCheck = async () => {
+    const nickname = getValues('nickname');
+    const res = await getNicknameDuplicate(nickname);
+
+    if (res.isDuplicate) {
+      errorItem.setError('nickname', {
+        message: '이미 존재하는 닉네임입니다.',
+      });
+    } else {
+      errorItem.clearErrors('nickname');
+    }
+  };
+
+  const onSubmit = async (value: ProfileEditSchemaType) => {
     const registerData = {
-      nickname: nicknameValue,
-      tasteMoodId: selectedTaste?.id,
-      profileImageId: '1', // 여기
+      nickname: value.nickname === profile?.nickname ? null : value.nickname,
+      tasteMoodId:
+        value.tasteMoodId === profile?.tasteMoodId ? null : value.tasteMoodId,
+      profileImageId: null,
     };
-    console.log(registerData);
 
-    //mutate
+    profileMutate(registerData, {
+      onError: (error) => {
+        if (error.response?.data.code === 'm003') {
+          errorItem.setError(
+            'nickname',
+            {
+              message: error.response?.data.message,
+            },
+            { shouldFocus: true }
+          );
+        }
+      },
+    });
   };
-
-  const handleDuplicateCheck = () => {
-    duplicateCheck();
-  };
-
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedName = e.target.value;
-
-    const selectedTaste = tastes.find(
-      (taste: Mood) => taste.name === selectedName
-    );
-    setSelectedTaste(selectedTaste || null);
-  };
-
-  const isFormValid = isNicknameValid && selectedTaste.id !== '';
 
   return (
     <Wrapper>
@@ -83,69 +80,74 @@ export const ProfileEditPage = () => {
         <SectionRow>
           <Title>프로필 수정</Title>
         </SectionRow>
-        <Content>
-          <SectionRow>
-            <SubTitle>닉네임</SubTitle>
-            <Row>
-              <ValidatedInput
-                variant="rectangle"
-                placeholder="닉네임"
-                onChangeValue={handleNicknameChange}
-                helperText={nicknameHelperText}
-              />
-              <Button
-                size="l"
-                backgroundColor="orange"
-                width={170}
-                onClick={handleDuplicateCheck}
-                disabled={!isNicknameValid}
-              >
-                중복검사
-                <Spinner isLoading={isDuplicateLoading} color="black" />
-              </Button>
-            </Row>
-          </SectionRow>
-          <SectionRow>
-            <SubTitle>무드</SubTitle>
-            <SelectLabel>
-              <Select value={selectedTaste?.name} onChange={handleSelectChange}>
-                <Option value="" disabled={true}>
-                  무디를 선택해주세요!
-                </Option>
-                {tastes &&
-                  tastes?.map((taste: Mood) => (
-                    <Option key={taste.id} value={taste.name}>
-                      {taste.name}
-                    </Option>
-                  ))}
-              </Select>
-              <ArrowDownIcon />
-            </SelectLabel>
-          </SectionRow>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Content>
+            <SectionRow>
+              <SubTitle>닉네임</SubTitle>
+              <Row>
+                <ValidatedInput
+                  {...register('nickname')}
+                  variant="rectangle"
+                  helperText={errorItem.errors.nickname?.message}
+                />
+                <Button
+                  type="button"
+                  size="l"
+                  backgroundColor="orange"
+                  width={170}
+                  disabled={checkBtnDisabled}
+                  onClick={handleDuplicateCheck}
+                >
+                  중복검사
+                </Button>
+              </Row>
+            </SectionRow>
+            <SectionRow>
+              <SubTitle>무드</SubTitle>
+              <SelectLabel>
+                <Select
+                  {...register('tasteMoodId')}
+                  // value={selectedTaste?.name}
+                  // onChange={handleSelectChange}
+                >
+                  {tastes &&
+                    tastes?.map((taste: Mood) => (
+                      <Option key={taste.id} value={taste.id}>
+                        {taste.name}
+                      </Option>
+                    ))}
+                </Select>
+                <ArrowDownIcon />
+              </SelectLabel>
+              {errorItem.errors.tasteMoodId?.message && (
+                <p>{errorItem.errors.tasteMoodId?.message}</p>
+              )}
+            </SectionRow>
 
-          <Row>
-            <UserImageEdit
-              isAuthor={isAuthor}
-              imageUrl={
-                profile?.profileImageUrl ||
-                generateDefaultUserImage(userInfo.id)
-              }
-            />
-            <InfoMessage>
-              프로필 사진을 변경할 수 있어요! <br />
-              사진은 2MB 이하의 JPG, PNG 파일로 업로드해주세요.
-            </InfoMessage>
-          </Row>
-        </Content>
-        <Button
-          size="l"
-          backgroundColor="orange"
-          onClick={handleSubmit}
-          disabled={!isFormValid}
-        >
-          제출
-          {/* <Spinner isLoading={isLoading} color="black" /> */}
-        </Button>
+            <Row>
+              <UserImageEdit
+                isAuthor={isAuthor}
+                imageUrl={
+                  profile?.profileImageUrl ||
+                  generateDefaultUserImage(userInfo.id)
+                }
+              />
+              <InfoMessage>
+                프로필 사진을 변경할 수 있어요! <br />
+                사진은 2MB 이하의 JPG, PNG 파일로 업로드해주세요.
+              </InfoMessage>
+            </Row>
+          </Content>
+          <Button
+            type="submit"
+            size="l"
+            backgroundColor="orange"
+            disabled={submitBtnDisabled}
+          >
+            제출
+            <Spinner isLoading={state.isSubmitting} color="black" />
+          </Button>
+        </Form>
       </Box>
     </Wrapper>
   );
@@ -168,6 +170,13 @@ const Box = styled.div`
   width: 100%;
   gap: 56px;
   padding: 10px;
+`;
+
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
 `;
 
 const Content = styled(FlexColumnBox)`

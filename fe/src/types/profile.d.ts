@@ -20,4 +20,12 @@ type MyFeeds = {
 type ProfileImageBody = {
   profileImageId: string;
   tasteMoodId: null;
+  nickname: null;
+};
+
+type ProfileEditBody = {
+  // 이전값이랑 비교해서 | null 해도 되는지 보기
+  profileImageId: string | null;
+  tasteMoodId: string | null;
+  nickname: string | null;
 };

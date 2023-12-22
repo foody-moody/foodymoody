@@ -9,6 +9,7 @@ export const END_POINT = {
   replyLike: ({ commentId, replyId }: ReplyLike) =>
     `comments/${commentId}/replies/${replyId}/likes`,
   member: (id?: string) => (id ? `/members/${id}` : `/members`),
+  password: (id?: string) => `/members/${id}/password`,
   feed: (id?: string) => (id ? `/feeds/${id}` : `/feeds`),
   comment: (id?: string) => (id ? `/comments/${id}` : `/comments`),
   reply: (id: string) => `/comments/${id}/replies`,

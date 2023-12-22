@@ -1,25 +1,31 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useToast } from 'recoil/toast/useToast';
 import {
   getNicknameDuplicate,
   getProfile,
+  patchEditProfile,
   patchProfileImage,
 } from 'service/axios/profile/profile';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
-export const useGetProfile = (id?: string) =>
+export const useGetProfile = (memberId?: string) =>
   useQuery<ProfileMemberInfo>({
-    queryKey: [QUERY_KEY.profile],
-    queryFn: () => getProfile(id),
-    staleTime: Infinity,
+    queryKey: [QUERY_KEY.profile, memberId],
+    queryFn: () => getProfile(memberId),
   });
 
-export const useEditProfileImage = (id: string) => {
+export const useEditProfileImage = (memberId: string) => {
+  const queryClient = useQueryClient();
+
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (body: ProfileImageBody) => patchProfileImage(id, body),
+    mutationFn: (body: ProfileImageBody) => patchProfileImage(memberId, body),
+    onSuccess: () => {
+      toast.success('프로필 이미지를 수정했습니다.');
+      queryClient.invalidateQueries([QUERY_KEY.profile, memberId]);
+    },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
       console.log('useEditProfileImage error: ', error);
@@ -29,11 +35,30 @@ export const useEditProfileImage = (id: string) => {
   });
 };
 
-// export const useEditProfile = () => {};
+export const useEditProfile = (memberId: string) => {
+  const queryClient = useQueryClient();
+  const toast = useToast();
+
+  return useMutation({
+    mutationFn: (body: ProfileEditBody) => patchEditProfile(memberId, body),
+    onSuccess: () => {
+      toast.success('프로필을 수정했습니다.');
+      queryClient.invalidateQueries([QUERY_KEY.profile, memberId]);
+
+      // 어디로 이동까지 시켜야할지?
+    },
+    onError: (error: AxiosError<CustomErrorResponse>) => {
+      const errorData = error?.response?.data;
+      console.log('useEditProfile error: ', error);
+
+      errorData && toast.error(errorData.message);
+    },
+  });
+};
 
 export const useGetNicknameDuplicate = (nickName: string) => {
   return useQuery({
-    queryKey: [QUERY_KEY.nickname, nickName], //여기도 닉네임을 넣어줘야하는지?
+    queryKey: [QUERY_KEY.nickname, nickName],
     queryFn: () => getNicknameDuplicate(nickName),
     enabled: false,
   });

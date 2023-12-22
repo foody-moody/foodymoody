@@ -143,8 +143,7 @@ const RectangleWrapper = styled(BaseWrapper)`
     ${({ $isFocused, $isError, theme: { colors } }) =>
       $isFocused && $isError ? colors.pink : colors.black};
   border-radius: 4px;
-  padding: ${({ $isFocused }) =>
-    $isFocused ? '20px 20px 4px 20px' : '12px 20px '};
+  padding: 12px 10px;
 
   &:focus-within {
     border-color: ${({ $isError, theme: { colors } }) =>

@@ -59,8 +59,10 @@ export const useLogout = () => {
       toast.success('로그아웃 되었습니다.');
       navigateToPath(from);
     },
-    onError: (error) => {
-      console.log('Logout error:', error);
+    onError: (error: AxiosError<CustomErrorResponse>) => {
+      const errorData = error?.response?.data;
+
+      errorData && toast.error(errorData.message);
     },
   });
 };
@@ -73,6 +75,7 @@ export const useRegister = () => {
     mutationFn: (body: RegisterBody) => fetchRegister(body),
     onSuccess: () => {
       navigate(PATH.LOGIN, { replace: true });
+      toast.success('회원가입 되었습니다.');
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
