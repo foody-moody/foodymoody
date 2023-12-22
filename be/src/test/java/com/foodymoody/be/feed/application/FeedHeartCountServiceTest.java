@@ -7,12 +7,13 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
-import com.foodymoody.be.feed_heart_count.domain.entity.FeedHeartCount;
-import com.foodymoody.be.feed_heart_count.domain.FeedHeartCountRepository;
 import com.foodymoody.be.feed_heart_count.application.FeedHeartCountService;
+import com.foodymoody.be.feed_heart_count.domain.FeedHeartCountRepository;
+import com.foodymoody.be.feed_heart_count.domain.entity.FeedHeartCount;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.utils.SpringBootIntegrationTest;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
@@ -42,11 +43,15 @@ class FeedHeartCountServiceTest {
     void setUp() {
         feedHeartCountRepository.deleteAll();
         FeedId id = new FeedId(IdGenerator.generate());
-        feedRepository.save(new Feed(id, IdFactory.createMemberId("1"), "위치", "리뷰",
-                List.of(),
-                List.of(new Image(IdFactory.createImageId("1"), "https://www.naver.com",
-                        IdFactory.createMemberId("2"))),
-                List.of(new Menu(IdFactory.createMenuId("1"), "메뉴 이름", 5)), "https://www.facebook.com"));
+        feedRepository.save(
+                new Feed(id, IdFactory.createMemberId("1"), "위치", "리뷰",
+                        List.of(),
+                        List.of(new Image(IdFactory.createImageId("1"), "https://www.naver.com",
+                                IdFactory.createMemberId("2"))),
+                        List.of(new Menu(IdFactory.createMenuId("1"), "메뉴 이름", 5)),
+                        "https://www.facebook.com",
+                        LocalDateTime.now())
+        );
     }
 
     @AfterEach

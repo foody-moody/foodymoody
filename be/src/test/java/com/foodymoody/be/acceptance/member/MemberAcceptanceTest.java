@@ -230,10 +230,10 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
             // then
             List<Map<String, String>> expected = List.of(
-                    Map.of("id", 첫번째_피드_등록_응답.jsonPath().getString("id"),
-                            "imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1"),
                     Map.of("id", 두번째_피드_등록_응답.jsonPath().getString("id"),
-                            "imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png3")
+                            "imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png3"),
+                    Map.of("id", 첫번째_피드_등록_응답.jsonPath().getString("id"),
+                            "imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1")
             );
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),

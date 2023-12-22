@@ -27,6 +27,7 @@ import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
 import com.foodymoody.be.menu.domain.Menu;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,7 +43,7 @@ public class FeedMapper {
                               List<StoreMood> storeMoods,
                               List<Image> images, List<Menu> menus, String profileImageUrl) {
         return new Feed(id, memberId, request.getLocation(), request.getReview(), storeMoods, images, menus,
-                profileImageUrl);
+                profileImageUrl, LocalDateTime.now());
     }
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {
