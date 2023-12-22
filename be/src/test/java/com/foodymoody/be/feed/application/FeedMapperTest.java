@@ -10,7 +10,14 @@ import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequestMenu;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.ImageMenuPair;
+import com.foodymoody.be.feed.application.dto.response.FeedImageMenuResponse;
+import com.foodymoody.be.feed.application.dto.response.FeedImageResponse;
+import com.foodymoody.be.feed.application.dto.response.FeedMemberResponse;
+import com.foodymoody.be.feed.application.dto.response.FeedMenuResponse;
+import com.foodymoody.be.feed.application.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
+import com.foodymoody.be.feed.application.dto.response.FeedStoreMoodResponse;
+import com.foodymoody.be.feed.application.dto.response.FeedTasteMoodResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.image.domain.Image;
@@ -70,6 +77,41 @@ class FeedMapperTest {
 
         // then
         assertThat(feedRegisterResponse.getId()).isEqualTo(feed.getId());
+    }
+
+    @DisplayName("toFeedReadResponse()로 피드 멤버 데이터를 만들 때의 FeedReadResponse를 만들 수 있다.")
+    @Test
+    void toFeedReadResponse() {
+        // given
+        MemberId memberId = makeMemberId();
+        String profileImageUrl = makeProfileImageUrl();
+        String nickname = "설리";
+        Feed feed = generateFeed();
+        FeedMemberResponse feedMemberResponse = new FeedMemberResponse(memberId, profileImageUrl, nickname,
+                new FeedTasteMoodResponse(memberId, nickname));
+        List<FeedImageMenuResponse> images = List.of(new FeedImageMenuResponse(feed.getId(),
+                        new FeedImageResponse(IdFactory.createImageId("1"),
+                                "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1"),
+                        new FeedMenuResponse("라면", 5)),
+                new FeedImageMenuResponse(feed.getId(), new FeedImageResponse(IdFactory.createImageId("2"),
+                        "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2"),
+                        new FeedMenuResponse("짬뽕", 4)));
+        List<FeedStoreMoodResponse> moodNames = List.of(
+                new FeedStoreMoodResponse(IdFactory.createStoreMoodId("1"), "가족과 함께"),
+                new FeedStoreMoodResponse(IdFactory.createStoreMoodId("2"), "혼밥"));
+
+        // when
+        FeedReadResponse feedReadResponse = FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images, moodNames);
+
+        // then
+        assertAll(() -> {
+            assertThat(feedReadResponse.getId()).isEqualTo(feed.getId());
+            assertThat(feedReadResponse.getMember()).isEqualTo(feedMemberResponse);
+            assertThat(feedReadResponse.getLocation()).isEqualTo(feed.getLocation());
+            assertThat(feedReadResponse.getReview()).isEqualTo(feed.getReview());
+            assertThat(feedReadResponse.getStoreMood()).isEqualTo(moodNames);
+            assertThat(feedReadResponse.getImages()).isEqualTo(images);
+        });
     }
 
     private Feed generateFeed() {

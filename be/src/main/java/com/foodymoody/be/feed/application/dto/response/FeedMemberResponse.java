@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 public class FeedMemberResponse {
 
     private MemberId id;
-    private String imageUrl;
+    private String profileImageUrl;
     private String nickname;
     private FeedTasteMoodResponse tasteMood;
 
     @Builder
-    public FeedMemberResponse(MemberId id, String imageUrl, String nickname, FeedTasteMoodResponse tasteMood) {
+    public FeedMemberResponse(MemberId id, String profileImageUrl, String nickname, FeedTasteMoodResponse tasteMood) {
         this.id = id;
-        this.imageUrl = imageUrl;
+        this.profileImageUrl = profileImageUrl;
         this.nickname = nickname;
         this.tasteMood = tasteMood;
     }
@@ -25,8 +25,8 @@ public class FeedMemberResponse {
         return id;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getProfileImageUrl() {
+        return profileImageUrl;
     }
 
     public String getNickname() {
