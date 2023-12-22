@@ -10,6 +10,7 @@ import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequestMenu;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.ImageMenuPair;
+import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.image.domain.Image;
@@ -56,6 +57,19 @@ class FeedMapperTest {
                 () -> assertThat(feed.getStoreMoods()).isEqualTo(storeMoods),
                 () -> assertThat(feed.getProfileImageUrl()).isEqualTo(profileImageUrl)
         );
+    }
+
+    @DisplayName("toFeedRegisterResponse()로 피드를 등록할 때의 FeedRegisterResponse를 만들 수 있다.")
+    @Test
+    void toFeedRegisterResponse() {
+        // given
+        Feed feed = generateFeed();
+
+        // when
+        FeedRegisterResponse feedRegisterResponse = FeedMapper.toFeedRegisterResponse(feed);
+
+        // then
+        assertThat(feedRegisterResponse.getId()).isEqualTo(feed.getId());
     }
 
     private Feed generateFeed() {
