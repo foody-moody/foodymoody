@@ -1,15 +1,17 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useGetProfile } from 'service/queries/profile';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { UserFeedTabs } from 'components/common/userFeedTabs/UserFeedTabs';
 import { ProfileUserInfo } from 'components/profileUserInfo/ProfileUserInfo';
-import { getUserInfo } from 'utils/localStorage';
 
 export const ProfilePage = () => {
-  const { id } = getUserInfo();
+  const { id } = useParams();
   const { data } = useGetProfile(id);
   /* TODO. data.myFeed 데이터 생기면 추가하기 */
+  console.log(data, 'profile data');
+
   const [index, setIndex] = useState(0);
 
   const handleFeedTab = (index: number) => {

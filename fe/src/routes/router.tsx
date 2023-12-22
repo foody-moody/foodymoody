@@ -56,6 +56,10 @@ const router = createBrowserRouter([
                 element: <ProfilePage />,
               },
               {
+                path: PATH.PROFILE + '/:id',
+                element: <ProfilePage />,
+              },
+              {
                 path: PATH.PROFILE_EDIT,
                 element: <ProfileEditPage />,
               },
