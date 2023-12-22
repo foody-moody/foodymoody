@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { useDeleteFeed } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
-import { usePageNavigator } from 'hooks/usePageNavigator';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { Badge } from '../badge/Badge';
@@ -27,11 +26,14 @@ export const FeedUserInfo: React.FC<Props> = ({
   location,
   feedId,
 }) => {
-  const { navigateToProfile } = usePageNavigator();
   const navigate = useNavigate();
   const { mutate: deleteMutate } = useDeleteFeed();
   const { isLogin, userInfo } = useAuthState();
   const formattedTimeStamp = formatTimeStamp(createdAt);
+
+  const handleNavigateProfile = () => {
+    navigate(PATH.PROFILE + '/' + member.id);
+  };
 
   const publicMenu = [
     {
@@ -87,7 +89,7 @@ export const FeedUserInfo: React.FC<Props> = ({
       <ContentLeft>
         <UserImage
           imageUrl={member.imageUrl || generateDefaultUserImage(member.id)}
-          onClick={navigateToProfile}
+          onClick={handleNavigateProfile}
         />
         <FlexColumnBox>
           <ContentHeader>

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDeleteComment, usePutComment } from 'service/queries/comment';
 import { useDeleteCommentLike, usePostCommentLike } from 'service/queries/like';
 import { styled } from 'styled-components';
@@ -11,6 +12,7 @@ import { Input } from '../input/Input';
 import { InputField } from '../input/InputField';
 import { useModal } from '../modal/useModal';
 import { UserImage } from '../userImage/UserImage';
+import { PATH } from 'constants/path';
 
 type Props = {
   createdAt: string;
@@ -20,6 +22,8 @@ type Props = {
 export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
   console.log(comment, ' now commentItems');
   const inputRef = useRef(null);
+  const navigate = useNavigate();
+
   const [isEdit, setIsEdit] = useState(false);
   const { isLogin, userInfo } = useAuthState();
   const { navigateToLogin } = usePageNavigator();
@@ -94,10 +98,17 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
     }
   };
 
+  const handleNavigateProfile = () => {
+    navigate(PATH.PROFILE + '/' + comment.member.id);
+  };
+
   return (
     <Wrapper>
       <ContentLeft>
-        <UserImage imageUrl={comment.member.imageUrl} />
+        <UserImage
+          imageUrl={comment.member.imageUrl}
+          onClick={handleNavigateProfile}
+        />
         <FlexColumnBox>
           <ContentHeader>
             <Nickname>{comment.member.nickname}</Nickname>
