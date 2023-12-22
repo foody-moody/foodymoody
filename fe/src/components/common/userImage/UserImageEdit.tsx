@@ -66,9 +66,8 @@ export const UserImageEdit: React.FC<Props> = ({
 
     imageMutate(formData, {
       onSuccess: (res) => {
-        console.log(res, ' now res');
         setImageData(res);
-        //여기에 프로필 수정 mutate하기
+
         profileImageMutate({
           nickname: null,
           tasteMoodId: null,
@@ -81,7 +80,6 @@ export const UserImageEdit: React.FC<Props> = ({
       inputRef.current.value = '';
     }
   };
-  // 프로필 전체 수정 mutate가져와서 바뀐 이미지로 제출할수있게 하기
 
   return (
     <Wrapper onClick={handleImageClick}>

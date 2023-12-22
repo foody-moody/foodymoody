@@ -49,8 +49,10 @@ export const FeedUserInfo: React.FC<Props> = ({
     {
       id: 3,
       content: '팔로우',
-      onClick: () => {},
-    },
+      onClick: () => {
+        navigate(`${PATH.PROFILE}/${member.id}`);
+      },
+    }, // 일단 프로필로 이동
     {
       id: 4,
       content: '공유하기',

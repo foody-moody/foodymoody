@@ -1,11 +1,12 @@
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
+import { FollowButton } from 'components/followButton/FollowButton';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { Badge } from '../common/badge/Badge';
 import { Button } from '../common/button/Button';
-import { CollectableAddIcon, UserPlusIcon } from '../common/icon/icons';
+import { CollectableAddIcon } from '../common/icon/icons';
 import { UserImageEdit } from '../common/userImage/UserImageEdit';
 
 type Props = {
@@ -27,13 +28,10 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
     navigateToProfileEdit();
   };
 
-  const handleToggleFollow = () => {};
-
   return (
     <Wrapper>
       <ContentLeft>
         <UserImageEdit
-
           isAuthor={isAuthor}
           imageUrl={
             member.profileImageUrl || generateDefaultUserImage(member.id)
@@ -48,13 +46,16 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
 
           <ContentBody>
             <InfoItem>
-              {/* {member.myFeedsCount} */}1<span>게시물</span>
+              {member.feedCount}
+              <span>게시물</span>
             </InfoItem>
             <InfoItem>
-              {/* {member.myFeedsCount} */}2<span>팔로잉</span>
+              {member.followingCount}
+              <span>팔로잉</span>
             </InfoItem>
             <InfoItem>
-              {/* {member.myFeedsCount} */}3<span>팔로워</span>
+              {member.followerCount}
+              <span>팔로워</span>
             </InfoItem>
           </ContentBody>
         </Column>
@@ -74,15 +75,7 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
             <span>프로필 수정</span>
           </Button>
         ) : (
-          <Button
-            size="s"
-            backgroundColor="white"
-            width={140}
-            onClick={handleToggleFollow}
-          >
-            <UserPlusIcon />
-            <span>팔로우</span>
-          </Button>
+          <FollowButton memberId={member.id} isFollowing={member.following} />
         )}
       </ButtonBox>
     </Wrapper>
