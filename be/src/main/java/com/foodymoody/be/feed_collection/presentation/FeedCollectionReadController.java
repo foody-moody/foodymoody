@@ -1,6 +1,8 @@
 package com.foodymoody.be.feed_collection.presentation;
 
+import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import com.foodymoody.be.feed_collection.infra.usecase.FeedCollectionDetail;
 import com.foodymoody.be.feed_collection.infra.usecase.FeedCollectionReadUseCase;
@@ -22,14 +24,26 @@ public class FeedCollectionReadController {
 
     @GetMapping("/api/collections")
     public ResponseEntity<Slice<FeedCollectionSummary>> fetchAll(
-            @PageableDefault(size = 20, sort = "createdAt", direction = Direction.DESC) Pageable pageable
+            @PageableDefault(size = 20, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
+            @CurrentMemberId MemberId memberId
     ) {
+        if (memberId != null) {
+            var feedCollections = useCase.fetchAll(memberId, pageable);
+            return ResponseEntity.ok(feedCollections);
+        }
         var feedCollections = useCase.fetchAll(pageable);
         return ResponseEntity.ok(feedCollections);
     }
 
     @GetMapping("/api/collections/{id}")
-    public ResponseEntity<FeedCollectionDetail> fetchDetail(@PathVariable FeedCollectionId id) {
+    public ResponseEntity<FeedCollectionDetail> fetchDetail(
+            @PathVariable FeedCollectionId id,
+            @CurrentMemberId MemberId memberId
+    ) {
+        if (memberId != null) {
+            var feedCollection = useCase.fetchDetail(id, memberId);
+            return ResponseEntity.ok(feedCollection);
+        }
         var feedCollection = useCase.fetchDetail(id);
         return ResponseEntity.ok(feedCollection);
     }

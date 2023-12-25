@@ -49,6 +49,8 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
 
         // given
         피드_커렉션_등록한다(feedIds, 회원아티_액세스토큰);
+        피드_커렉션_등록한다(feedIds, 회원푸반_액세스토큰);
+        피드_커렉션_등록한다(feedIds, 회원푸반_액세스토큰);
 
         // when
         var response = 전체_피드_컬렉션_조회한다(spec, 회원아티_액세스토큰);

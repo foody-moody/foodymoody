@@ -22,6 +22,8 @@ public interface FeedCollectionSummary {
 
     String getThumbnailUrl();
 
+    boolean isLiked();
+
     LocalDateTime getCreatedAt();
 
     LocalDateTime getUpdatedAt();

@@ -3,7 +3,6 @@ package com.foodymoody.be.feed_collection.infra.usecase;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedReadService;
-import com.foodymoody.be.feed.application.StoreMoodReadService;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
@@ -31,11 +30,14 @@ public class FeedCollectionReadUseCase {
     private final MemberQueryService memberQueryService;
     private final ImageService imageService;
     private final TasteMoodReadService tasteMoodReadService;
-    private final StoreMoodReadService storeMoodReadService;
     private final FeedHeartService feedHeartService;
 
     public Slice<FeedCollectionSummary> fetchAll(Pageable pageable) {
         return feedCollectionReadService.fetchCollection(pageable);
+    }
+
+    public Slice<FeedCollectionSummary> fetchAll(MemberId memberId, Pageable pageable) {
+        return feedCollectionReadService.fetchCollection(memberId, pageable);
     }
 
     @Transactional(readOnly = true)
@@ -55,19 +57,10 @@ public class FeedCollectionReadUseCase {
                 feedIds, Pageable.ofSize(10).withPage(0));
 
         List<FeedSummaryResponse> feeds = allDetailByIdIn.stream()
-                .map(feed -> new FeedSummaryResponse(
-                        feed.getId().getValue(),
-                        feed.getProfileImageUrl(),
-                        feed.getReview(),
-                        feed.getStoreMoods().stream()
-                                .map(StoreMood::getName)
-                                .collect(Collectors.toList()),
-                        feed.getLikeCount(),
-                        feed.getCommentCount(),
-                        false,
-                        feed.getCreatedAt(),
-                        feed.getUpdatedAt()
-                ))
+                .map(feed -> {
+                    List<String> moods = getMoods(feed.getStoreMoods());
+                    return getFeedSummaryResponse(feed, moods, false);
+                })
                 .collect(Collectors.toList());
         return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds);
     }
@@ -89,20 +82,34 @@ public class FeedCollectionReadUseCase {
                 feedIds, Pageable.ofSize(10).withPage(0));
 
         List<FeedSummaryResponse> feeds = allDetailByIdIn.stream()
-                .map(feed -> new FeedSummaryResponse(
-                        feed.getId().getValue(),
-                        feed.getProfileImageUrl(),
-                        feed.getReview(),
-                        feed.getStoreMoods().stream()
-                                .map(StoreMood::getName)
-                                .collect(Collectors.toList()),
-                        feed.getLikeCount(),
-                        feed.getCommentCount(),
-                        feedHeartService.existsHeart(memberId, feed.getId().getValue()),
-                        feed.getCreatedAt(),
-                        feed.getUpdatedAt()
-                ))
+                .map(feed -> {
+                    boolean isLiked = feedHeartService.existsHeart(memberId, feed.getId().getValue());
+                    List<String> moods = getMoods(feed.getStoreMoods());
+                    return getFeedSummaryResponse(feed, moods, isLiked);
+                })
                 .collect(Collectors.toList());
         return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds);
+    }
+
+    private FeedSummaryResponse getFeedSummaryResponse(
+            Feed feed, List<String> moods, boolean isLiked
+    ) {
+        return new FeedSummaryResponse(
+                feed.getId().getValue(),
+                feed.getProfileImageUrl(),
+                feed.getReview(),
+                moods,
+                feed.getLikeCount(),
+                feed.getCommentCount(),
+                isLiked,
+                feed.getCreatedAt(),
+                feed.getUpdatedAt()
+        );
+    }
+
+    private static List<String> getMoods(List<StoreMood> storeMoods) {
+        return storeMoods.stream()
+                .map(StoreMood::getName)
+                .collect(Collectors.toList());
     }
 }
