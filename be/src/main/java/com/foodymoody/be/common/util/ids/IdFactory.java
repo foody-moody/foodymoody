@@ -162,6 +162,14 @@ public class IdFactory {
         return createId(FeedCollectionLikeCountId.class, id);
     }
 
+    public static FeedCollectionCommentLikeCountId createFeedCollectionCommentLikeCountId() {
+        return createId(FeedCollectionCommentLikeCountId.class);
+    }
+
+    public static FeedCollectionCommentLikeCountId createFeedCollectionCommentLikeCountId(String id) {
+        return createId(FeedCollectionCommentLikeCountId.class, id);
+    }
+
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {
         try {
             Constructor<T> constructor = idClass.getConstructor(String.class);

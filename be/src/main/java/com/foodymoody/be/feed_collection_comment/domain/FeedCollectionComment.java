@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_collection_comment.domain;
 
+import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
@@ -11,12 +12,14 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class FeedCollectionComment {
 
+    @Getter
     @Id
     private FeedCollectionCommentId id;
     @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
@@ -41,14 +44,11 @@ public class FeedCollectionComment {
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-    }
-
-    public FeedCollectionCommentId getId() {
-        return id;
+        Events.publish(FeedCollectionCommentAddedEvent.of(id, createdAt));
     }
 
     public void delete(MemberId memberId, LocalDateTime updatedAt) {
-        if (memberId.isSame(this.memberId)) {
+        if (memberId.equals(this.memberId)) {
             this.deleted = true;
             this.updatedAt = updatedAt;
             return;
@@ -57,7 +57,7 @@ public class FeedCollectionComment {
     }
 
     public void update(Content content, MemberId memberId, LocalDateTime updatedAt) {
-        if (memberId.isSame(this.memberId)) {
+        if (memberId.equals(this.memberId)) {
             this.content = content;
             this.updatedAt = updatedAt;
             return;
