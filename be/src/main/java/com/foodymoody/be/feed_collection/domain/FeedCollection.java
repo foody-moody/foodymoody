@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_collection.domain;
 
+import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
@@ -53,6 +54,7 @@ public class FeedCollection {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.commentIds = new CommentIds();
+        Events.publish(FeedCollectionAddedEvent.of(id, createdAt));
     }
 
     public List<FeedId> getFeedIds() {
