@@ -170,6 +170,14 @@ public class IdFactory {
         return createId(FeedCollectionCommentLikeCountId.class, id);
     }
 
+    public static FeedCollectionReplyLikeCountId createFeedCollectionReplyLikeCountId() {
+        return createId(FeedCollectionReplyLikeCountId.class);
+    }
+
+    public static FeedCollectionReplyLikeCountId createFeedCollectionReplyLikeCountId(String id) {
+        return createId(FeedCollectionReplyLikeCountId.class, id);
+    }
+
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {
         try {
             Constructor<T> constructor = idClass.getConstructor(String.class);

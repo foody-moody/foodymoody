@@ -31,14 +31,14 @@ public class FeedCollectionReplyLikeWriteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
-    @DeleteMapping("/api/feed_collections_comments/{ignoredCommentId}/replies/{ignoredReplyId}/likes/{id}")
+    @DeleteMapping("/api/feed_collections_comments/{ignoredCommentId}/replies/{replyId}/likes/{id}")
     public ResponseEntity<Void> cancel(
             @PathVariable FeedCollectionCommentId ignoredCommentId,
-            @PathVariable FeedCollectionReplyId ignoredReplyId,
+            @PathVariable FeedCollectionReplyId replyId,
             @PathVariable FeedCollectionReplyLikeId id,
             @CurrentMemberId MemberId memberId
     ) {
-        useCase.cancel(memberId, id);
+        useCase.cancel(replyId, memberId, id);
         return ResponseEntity.noContent().build();
     }
 }
