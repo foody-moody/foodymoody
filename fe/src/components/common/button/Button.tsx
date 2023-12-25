@@ -31,7 +31,8 @@ const Wrapper = styled.button<{
   $width?: number;
   $shadow?: boolean;
 }>`
-  font: ${({ theme: { fonts } }) => fonts.displayM16};
+  font: ${({ size, theme: { fonts } }) =>
+    size === 'l' ? fonts.displayM16 : fonts.displayM14};
   height: ${({ size }) =>
     size === 's' ? '40px' : size === 'l' ? '56px' : '32px'};
   padding-top: ${({ size }) => (size === 's' ? '8px' : '16px')};

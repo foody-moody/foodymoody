@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
+import { Button } from 'components/common/button/Button';
 import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
 import { NotiSkeleton } from 'components/common/skeleton/NotiSkeleton';
 import { NotiList } from 'components/notification/NotiList';
@@ -9,8 +10,12 @@ export const NotiPage = () => {
   return (
     <Wrapper>
       <Buttons>
-        <button>모든 알림 읽기</button>
-        <button>읽은 알림 삭제</button>
+        <Button size="s" backgroundColor="white" shadow>
+          모든 알림 읽기
+        </Button>
+        <Button size="s" backgroundColor="white" shadow>
+          읽은 알림 삭제
+        </Button>
       </Buttons>
       <Suspense
         fallback={
@@ -27,7 +32,7 @@ export const NotiPage = () => {
 
 const Wrapper = styled.div`
   max-width: 540px;
-  margin: 60px auto;
+  margin: 20px auto;
 
   ${media.md} {
     margin: 16px auto;
@@ -37,5 +42,6 @@ const Wrapper = styled.div`
 const Buttons = styled.div`
   display: flex;
   flex: 1 1;
-  margin-bottom: 20px;
+  gap: 20px;
+  padding: 16px;
 `;

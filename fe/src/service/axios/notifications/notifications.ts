@@ -13,10 +13,9 @@ export const getNotification = async (id: string) => {
   return data;
 };
 
+// 이게 왜 get일까 ?
 export const readNotification = async (id: string) => {
-  const { data } = await privateApi.put(END_POINT.notifications(id), {
-    isRead: true,
-  });
+  const { data } = await privateApi.get(END_POINT.notifications(id));
   return data;
 };
 

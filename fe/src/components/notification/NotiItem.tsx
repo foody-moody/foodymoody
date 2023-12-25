@@ -1,9 +1,11 @@
 import { forwardRef } from 'react';
 import { styled } from 'styled-components';
+import { Button } from 'components/common/button/Button';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 
 type Props = {
   notification: NotificationItem;
+  onClick: (notificationId: string) => void;
 };
 
 // 분리하기
@@ -22,7 +24,7 @@ function generateNotiText(type: NotificationType) {
 }
 
 export const NotiItem = forwardRef<HTMLLIElement, Props>(
-  ({ notification }, ref) => {
+  ({ notification, onClick }, ref) => {
     const {
       id,
       nickname,
@@ -37,57 +39,82 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
     const { notificationId, type, createdAt, updatedAt, read } = notification;
 
     const notiText = generateNotiText(type);
+    const isFollowNoti = type === 'MEMBER_FOLLOWED_EVENT';
+
+    const handleClick = () => {
+      if (read) return;
+      onClick(notificationId);
+    };
 
     return (
-      <Wrapper ref={ref} $isRead={read}>
-        <Left>
+      <Wrapper ref={ref} $isRead={read} type={type} onClick={handleClick}>
+        <NotiInfo>
+          {/* TODO 2. 클릭시 해당 유저 프로필 페이지로 이동. 어떻게 해야할까? PAge에 props로 number를 받는게 좋을 것 같기도 함. */}
           <Thumbnail src={senderImageUrl} alt="유저 프로필 사진" />
+
+          {/* TODO 3. Content 영역 클릭 시 해당 글 모달 키기 */}
           <Content>
-            <NotiText>
-              <span>{nickname}</span>
-              {notiText}
-            </NotiText>
-            {type !== 'MEMBER_FOLLOWED_EVENT' && (
-              <Message>{commentMessage}</Message>
+            <div>
+              <NotiText>
+                <span>{nickname}</span>
+                {notiText}
+              </NotiText>
+              {!isFollowNoti && <Message>{commentMessage}</Message>}
+              <Time>{formatTimeStamp(notification.createdAt)}</Time>
+            </div>
+
+            {!isFollowNoti && (
+              <TargetFeedImg src={targetImageUrl} alt="피드 썸네일 이미지" />
             )}
-            <Time>{formatTimeStamp(notification.createdAt)}</Time>
           </Content>
-        </Left>
-        {type !== 'MEMBER_FOLLOWED_EVENT' && (
-          <TargetFeedImg src={targetImageUrl} alt="피드 썸네일 이미지" />
+        </NotiInfo>
+
+        {/* TODO 4. 팔로우 버튼 누르면 팔로우 요청 보내기. 
+            팔로우 된 경우에 언팔 버튼을 띄울지? 아니면 그냥 팔로우됨. 으로 띄울지 이야기 해부기 */}
+        {isFollowNoti && (
+          <FollowBtn backgroundColor="black" size="xs">
+            팔로우
+          </FollowBtn>
         )}
-        {type == 'MEMBER_FOLLOWED_EVENT' && <button>팔로우</button>}
       </Wrapper>
     );
   }
 );
 
+const FollowBtn = styled(Button)`
+  width: 6.25rem;
+`;
 const Wrapper = styled.li<{
   $isRead: boolean;
+  type: string;
 }>`
-  padding: 0 16px;
-  /* max-width: 530px; */
+  padding: 0 1rem;
+  /* max-width: 33.125rem; */
   display: flex;
   justify-content: space-between;
   width: 100%;
   opacity: ${({ $isRead }) => ($isRead ? 0.5 : 1)};
 `;
 
-const Left = styled.div`
+const NotiInfo = styled.div`
   display: flex;
-  gap: 16px;
-  /* align-items: center; */
+  gap: 1rem;
+  width: 100%;
 `;
 
 const Thumbnail = styled.img`
-  /* margin-top: 4px; */
-  width: 60px;
-  height: 60px;
-  border: 0.5px solid ${({ theme: { colors } }) => colors.black};
+  /* margin-top: .25rem; */
+  width: 3.75rem;
+  height: 3.75rem;
+  border: 0.0313rem solid ${({ theme: { colors } }) => colors.black};
   border-radius: ${({ theme: { radius } }) => radius.half};
 `;
 
-const Content = styled.div``;
+const Content = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`;
 const NotiText = styled.p`
   font: ${({ theme: { fonts } }) => fonts.displayM14};
 
@@ -107,10 +134,10 @@ const Time = styled.p`
 `;
 
 const TargetFeedImg = styled.img`
-  width: 60px;
-  height: 60px;
-  aspect-ratio: 1;
-  border: 0.5px solid ${({ theme: { colors } }) => colors.black};
-  border-radius: 4px;
-  margin-left: 8px;
+  width: 3.75rem;
+  height: 3.75rem;
+  aspect-ratio: 1/1;
+  border: 0.0313rem solid ${({ theme: { colors } }) => colors.black};
+  border-radius: 0.25rem;
+  margin-left: 0.5rem;
 `;
