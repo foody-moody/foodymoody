@@ -19,4 +19,5 @@ export const END_POINT = {
     `/members/duplication-check?nickname=${nickname}`,
   notifications: (id?: string) =>
     id ? `/notifications/${id}` : `/notifications`,
+  follow: (id: string) => `/members/${id}/followings`,
 };

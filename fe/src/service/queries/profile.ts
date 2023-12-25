@@ -8,13 +8,17 @@ import {
   patchProfileImage,
 } from 'service/axios/profile/profile';
 import { QUERY_KEY } from 'service/constants/queryKey';
+import { useAuthState } from 'hooks/auth/useAuth';
 
-export const useGetProfile = (memberId?: string) =>
-  useQuery<ProfileMemberInfo>({
-    queryKey: [QUERY_KEY.profile, memberId],
-    queryFn: () => getProfile(memberId),
+export const useGetProfile = (memberId?: string) => {
+  const { userInfo } = useAuthState();
+  const id = memberId ? memberId : userInfo?.id;
+
+  return useQuery<ProfileMemberInfo>({
+    queryKey: [QUERY_KEY.profile, id],
+    queryFn: () => getProfile(id),
   });
-
+};
 export const useEditProfileImage = (memberId: string) => {
   const queryClient = useQueryClient();
 
