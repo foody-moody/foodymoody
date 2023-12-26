@@ -35,6 +35,8 @@ public class FeedCollectionMoodSteps {
                 .spec(spec)
                 .log().all()
                 .auth().oauth2(accessToken)
+                .queryParam("page", 0)
+                .queryParam("size", 10)
                 .when()
                 .get("/api/feed-collection-moods")
                 .then().log().all()
