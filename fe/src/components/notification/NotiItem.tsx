@@ -102,14 +102,14 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
 );
 
 const FollowBtn = styled(Button)`
-  width: 6.25rem;
+  width: 100px;
 `;
+
 const Wrapper = styled.li<{
   $isRead: boolean;
   type: string;
 }>`
-  padding: 0 1rem;
-  /* max-width: 33.125rem; */
+  padding: 0 16px;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -118,15 +118,15 @@ const Wrapper = styled.li<{
 
 const NotiInfo = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 16px;
   width: 100%;
 `;
 
 const Thumbnail = styled.img`
   cursor: pointer;
-  width: 3.75rem;
-  height: 3.75rem;
-  border: 0.0313rem solid ${({ theme: { colors } }) => colors.black};
+  width: 60px;
+  height: 60px;
+  border: 0.5px solid ${({ theme: { colors } }) => colors.black};
   border-radius: ${({ theme: { radius } }) => radius.half};
 `;
 
@@ -154,10 +154,10 @@ const Time = styled.p`
 `;
 
 const TargetFeedImg = styled.img`
-  width: 3.75rem;
-  height: 3.75rem;
+  width: 60px;
+  height: 60px;
   aspect-ratio: 1/1;
-  border: 0.0313rem solid ${({ theme: { colors } }) => colors.black};
-  border-radius: 0.25rem;
-  margin-left: 0.5rem;
+  border: 0.5px solid ${({ theme: { colors } }) => colors.black};
+  border-radius: 4px;
+  margin-left: 8px;
 `;
