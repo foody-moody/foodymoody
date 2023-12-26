@@ -178,6 +178,22 @@ public class IdFactory {
         return createId(FeedCollectionReplyLikeCountId.class, id);
     }
 
+    public static FeedCollectionMoodId createFeedCollectionMoodId() {
+        return createId(FeedCollectionMoodId.class);
+    }
+
+    public static FeedCollectionMoodId createFeedCollectionMoodId(String id) {
+        return createId(FeedCollectionMoodId.class, id);
+    }
+
+    public static FeedCollectionMoodsId createFeedCollectionMoodsId() {
+        return createId(FeedCollectionMoodsId.class);
+    }
+
+    public static FeedCollectionMoodsId createFeedCollectionMoodsId(String id) {
+        return createId(FeedCollectionMoodsId.class, id);
+    }
+
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {
         try {
             Constructor<T> constructor = idClass.getConstructor(String.class);

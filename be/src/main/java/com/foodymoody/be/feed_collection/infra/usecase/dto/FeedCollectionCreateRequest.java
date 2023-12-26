@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed_collection.presentation;
+package com.foodymoody.be.feed_collection.infra.usecase.dto;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import java.util.List;

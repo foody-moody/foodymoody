@@ -5,7 +5,7 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed_collection.application.FeedCollectionWriterService;
-import com.foodymoody.be.feed_collection.presentation.FeedCollectionCreateRequest;
+import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionCreateRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,9 @@ public class FeedCollectionWriteUseCase {
 
     public FeedCollectionId createCollection(FeedCollectionCreateRequest request, MemberId memberId) {
         List<FeedId> feedIds = request.getFeedIds();
+        if (feedIds.isEmpty()) {
+            return createCollection(request, memberId, List.of());
+        }
         feedReadService.validateIds(feedIds);
         return createCollection(request, memberId, feedIds);
     }
