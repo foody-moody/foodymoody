@@ -8,6 +8,7 @@ import com.foodymoody.be.common.exception.ErrorMessage;
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,22 @@ class FeedReadServiceTest {
                 .isInstanceOf(FeedIdNotExistsException.class)
                 .message()
                 .isEqualTo(ErrorMessage.FEED_ID_NOT_EXISTS.getMessage());
+    }
+
+    @DisplayName("validateIds()로 feedId List가 DB에 저장되어 있지 않으면 FeedIdNotExistsException 예외가 발생한다.")
+    @Test
+    void validateIds() {
+        // given
+        List<FeedId> feedIds = List.of(new FeedId("not exists1"), new FeedId("not exists2"));
+        feedIds.forEach(feedId -> given(feedRepository.findById(feedId)).willReturn(Optional.empty()));
+
+        // when
+        // then
+        feedIds.forEach(feedId -> assertThatThrownBy(() -> feedReadService.findFeed(feedId))
+                .isInstanceOf(FeedIdNotExistsException.class)
+                .message()
+                .isEqualTo(ErrorMessage.FEED_ID_NOT_EXISTS.getMessage())
+        );
     }
 
 }
