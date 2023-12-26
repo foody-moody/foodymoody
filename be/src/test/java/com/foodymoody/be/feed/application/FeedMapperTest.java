@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreMoodId;
-import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedListServiceRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequestMenu;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.ImageMenuPair;
@@ -72,7 +72,7 @@ class FeedMapperTest {
     @Test
     void toFeedRegisterResponse() {
         // given
-        Feed feed = generateFeed();
+        Feed feed = makeFeed();
 
         // when
         FeedRegisterResponse feedRegisterResponse = FeedMapper.toFeedRegisterResponse(feed);
@@ -88,7 +88,7 @@ class FeedMapperTest {
         MemberId memberId = makeMemberId();
         String profileImageUrl = makeProfileImageUrl();
         String nickname = makeNickname();
-        Feed feed = generateFeed();
+        Feed feed = makeFeed();
         FeedMemberResponse feedMemberResponse = makeFeedMemberResponse(memberId, profileImageUrl, nickname);
         List<FeedImageMenuResponse> images = makeFeedImageMenuResponse(
                 feed);
@@ -112,7 +112,7 @@ class FeedMapperTest {
     @Test
     void makeFeedReadAllResponse() {
         // given
-        Feed feed = generateFeed();
+        Feed feed = makeFeed();
         MemberId memberId = makeMemberId();
         String profileImageUrl = makeProfileImageUrl();
         String nickname = makeNickname();
@@ -163,7 +163,21 @@ class FeedMapperTest {
         assertThat(feedStoreMoodNames).isEqualTo(expected);
     }
 
-    private Feed generateFeed() {
+    @DisplayName("findFirstImageId()로 Feed의 첫 번째 Image Id를 찾아낼 수 있다.")
+    @Test
+    void findFirstImageId() {
+        // given
+        Feed feed = makeFeed();
+        ImageId expected = IdFactory.createImageId("1");
+
+        // when
+        ImageId firstImageId = FeedMapper.findFirstImageId(feed);
+
+        // then
+        assertThat(firstImageId).isEqualTo(expected);
+    }
+
+    private Feed makeFeed() {
         FeedId feedId = makeFeedId();
         MemberId memberId = makeMemberId();
         String location = makeLocation();
