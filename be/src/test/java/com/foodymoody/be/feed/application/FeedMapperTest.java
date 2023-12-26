@@ -7,6 +7,7 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreMoodId;
+import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedListServiceRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequestMenu;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.ImageMenuPair;
@@ -146,6 +147,20 @@ class FeedMapperTest {
 
         // then
         assertThat(feedStoreMoodResponses).hasSameSizeAs(storeMoods);
+    }
+
+    @DisplayName("toFeedStoreMoodNames()로 StoreMood의 Name만을 뽑아낼 수 있다.")
+    @Test
+    void toFeedStoreMoodNames() {
+        // given
+        List<StoreMood> storeMoods = makeStoreMoods();
+        List<String> expected = List.of("가족과 함께", "혼밥");
+
+        // when
+        List<String> feedStoreMoodNames = FeedMapper.toFeedStoreMoodNames(storeMoods);
+
+        // then
+        assertThat(feedStoreMoodNames).isEqualTo(expected);
     }
 
     private Feed generateFeed() {
