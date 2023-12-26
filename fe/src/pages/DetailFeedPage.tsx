@@ -26,7 +26,7 @@ export const DetailFeedModalPage = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const { mutate: commentMutate } = usePostComment();
-  const { navigateToHome } = usePageNavigator();
+  const { navigateToBack } = usePageNavigator();
   const { value, handleChange, isValid } = useInput({
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
@@ -49,7 +49,7 @@ export const DetailFeedModalPage = () => {
       {/* 로딩, 에러 추가 */}
       <Dim
         onClick={() => {
-          navigateToHome();
+          navigateToBack();
           closeModal('commentAlert');
         }}
       />

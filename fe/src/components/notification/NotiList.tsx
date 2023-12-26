@@ -1,4 +1,7 @@
-import { useAllNotifications } from 'service/queries/notification';
+import {
+  useAllNotifications,
+  useReadNotification,
+} from 'service/queries/notification';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { useIntersectionObserver } from 'hooks/useObserver';
@@ -12,15 +15,21 @@ export const NotiList = () => {
     // error,
   } = useAllNotifications();
 
+  const { mutate: readNotiMutate } = useReadNotification();
+
   const { observeTarget } = useIntersectionObserver({
     callbackFn: () => {
       hasNextPage && fetchNextPage();
     },
   });
 
+  const handleNotificationClick = (notificationId: string) => {
+    readNotiMutate(notificationId);
+  };
+
   return (
     <Wrapper>
-      {notifications?.map((notification, index) => {
+      {notifications?.map((notification: NotificationItem, index) => {
         const isLastItem = index === notifications.length - 1;
 
         return (
@@ -28,6 +37,7 @@ export const NotiList = () => {
             notification={notification}
             key={notification.notificationId}
             ref={isLastItem ? observeTarget : null}
+            onClick={handleNotificationClick}
           />
         );
       })}

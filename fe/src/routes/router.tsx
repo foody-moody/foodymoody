@@ -50,6 +50,13 @@ const router = createBrowserRouter([
               {
                 path: PATH.NOTI,
                 element: <NotiPage />,
+                children: [
+                  {
+                    path: PATH.NOTI + PATH.DETAIL_FEED + '/:id',
+                    element: <DetailFeedModalPage />,
+                  },
+                  // 다른 페이지 모달들도 추가할 필요가 있을지?
+                ],
               },
               {
                 path: PATH.PROFILE,

@@ -4,7 +4,11 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { getNotifications } from 'service/axios/notifications/notifications';
+import { AxiosError } from 'axios';
+import {
+  getNotifications,
+  readNotification,
+} from 'service/axios/notifications/notifications';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
 export const useAllNotifications = () => {
@@ -28,4 +32,22 @@ export const useAllNotifications = () => {
     ...query,
     notifications,
   };
+};
+
+export const useReadNotification = () => {
+  // const toast = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => readNotification(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries([QUERY_KEY.notifications]);
+    },
+    onError: (error: AxiosError<CustomErrorResponse>) => {
+      const errorData = error?.response?.data;
+      console.log(errorData);
+
+      // errorData && toast.error(errorData.message);
+    },
+  });
 };

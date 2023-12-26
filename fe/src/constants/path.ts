@@ -11,6 +11,7 @@ export const PATH = {
   EDIT_FEED: '/edit/feed',
   DETAIL_FEED: '/detail/feed',
   SETTING: '/setting',
+  SETTING_NOTI: '/setting/noti',
   PASSWORD: '/password',
   ACCOUNT: '/account',
 };
