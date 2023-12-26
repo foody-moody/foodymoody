@@ -108,6 +108,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 40px;
+  padding: 0 16px;
 `;
 
 const Box = styled.div`
@@ -118,7 +119,6 @@ const Box = styled.div`
   max-width: 564px;
   width: 100%;
   gap: 56px;
-  padding: 10px;
 `;
 
 const Form = styled.form`
@@ -148,5 +148,5 @@ const Title = styled.h1`
   font: ${({ theme: { fonts } }) => fonts.displayB24};
 `;
 const SubTitle = styled.h2`
-  font: ${({ theme: { fonts } }) => fonts.displayM20};
+  font: ${({ theme: { fonts } }) => fonts.displayB20};
 `;

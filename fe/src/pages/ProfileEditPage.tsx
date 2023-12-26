@@ -77,9 +77,6 @@ export const ProfileEditPage = () => {
   return (
     <Wrapper>
       <Box>
-        <SectionRow>
-          <Title>프로필 수정</Title>
-        </SectionRow>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Content>
             <SectionRow>
@@ -158,7 +155,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 40px;
+  padding: 0 16px;
 `;
 
 const Box = styled.div`
@@ -169,7 +166,6 @@ const Box = styled.div`
   max-width: 564px;
   width: 100%;
   gap: 56px;
-  padding: 10px;
 `;
 
 const Form = styled.form`
@@ -195,11 +191,8 @@ const Row = styled(FlexRowBox)`
   gap: 8px;
 `;
 
-const Title = styled.h1`
-  font: ${({ theme: { fonts } }) => fonts.displayB24};
-`;
 const SubTitle = styled.h2`
-  font: ${({ theme: { fonts } }) => fonts.displayM20};
+  font: ${({ theme: { fonts } }) => fonts.displayB20};
 `;
 
 const InfoMessage = styled.p`

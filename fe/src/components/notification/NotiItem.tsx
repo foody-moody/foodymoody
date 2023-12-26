@@ -83,6 +83,7 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
               <Time>{formatTimeStamp(notification.createdAt)}</Time>
             </div>
 
+            {/* TODO. UsrImage 컴포넌트 수정되면 바꾸기 */}
             {!isFollowNoti && (
               <TargetFeedImg src={targetImageUrl} alt="피드 썸네일 이미지" />
             )}

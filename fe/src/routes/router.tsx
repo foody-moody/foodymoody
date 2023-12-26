@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { AccountPage } from 'pages/AcountPage';
+import { AccountSettingPage } from 'pages/AccountSettingPage';
 import { CollectionPage } from 'pages/CollectionPage';
 import { DetailFeedModalPage } from 'pages/DetailFeedPage';
 import { ErrorPage } from 'pages/ErrorPage';
@@ -8,6 +8,7 @@ import { Layout } from 'pages/Layout';
 import { LoginPage } from 'pages/LoginPage';
 import { NewFeedModalPage } from 'pages/NewFeedPage';
 import { NotiPage } from 'pages/NotiPage';
+import { NotiSettingPage } from 'pages/NotiSettingPage';
 import { PasswordPage } from 'pages/PasswordPage';
 import { ProfileEditPage } from 'pages/ProfileEditPage';
 import { ProfilePage } from 'pages/ProfilePage';
@@ -66,21 +67,31 @@ const router = createBrowserRouter([
                 path: PATH.PROFILE + '/:id',
                 element: <ProfilePage />,
               },
-              {
-                path: PATH.PROFILE_EDIT,
-                element: <ProfileEditPage />,
-              },
+              // {
+              //   path: PATH.PROFILE_EDIT,
+              //   element: <ProfileEditPage />,
+              // },
               {
                 path: PATH.SETTING,
                 element: <SettingPage />,
+                children: [
+                  {
+                    path: PATH.SETTING_NOTI,
+                    element: <NotiSettingPage />,
+                  },
+                  {
+                    path: PATH.SETTING_PROFILE,
+                    element: <ProfileEditPage />,
+                  },
+                  {
+                    path: PATH.SETTING_ACCOUNT,
+                    element: <AccountSettingPage />,
+                  },
+                ],
               },
               {
                 path: PATH.PASSWORD,
                 element: <PasswordPage />,
-              },
-              {
-                path: PATH.ACCOUNT,
-                element: <AccountPage />,
               },
             ],
           },
