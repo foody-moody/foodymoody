@@ -1,7 +1,10 @@
 import { forwardRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
+import { useModal } from './useModal';
+import { PATH } from 'constants/path';
 
 type Props = {
   notification: NotificationItem;
@@ -25,6 +28,8 @@ function generateNotiText(type: NotificationType) {
 
 export const NotiItem = forwardRef<HTMLLIElement, Props>(
   ({ notification, onClick }, ref) => {
+    const navigate = useNavigate();
+
     const {
       id,
       nickname,
@@ -46,14 +51,29 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
       onClick(notificationId);
     };
 
+    const handleNavigateProfile = () => {
+      // api에서 지금 sender id를 제대로 안주고 있음
+      navigate(PATH.PROFILE + '/' + id);
+    };
+
+    const handleNavigateTarget = () => {
+      // TODO.컬렉션일 경우도 나중에 처리해야함
+      navigate('detail/feed/' + feedId, {
+        state: { background: 'notiDetailFeed' },
+      });
+    };
+
     return (
       <Wrapper ref={ref} $isRead={read} type={type} onClick={handleClick}>
         <NotiInfo>
-          {/* TODO 2. 클릭시 해당 유저 프로필 페이지로 이동. 어떻게 해야할까? PAge에 props로 number를 받는게 좋을 것 같기도 함. */}
-          <Thumbnail src={senderImageUrl} alt="유저 프로필 사진" />
+          <Thumbnail
+            src={senderImageUrl}
+            alt="유저 프로필 사진"
+            onClick={handleNavigateProfile}
+          />
 
           {/* TODO 3. Content 영역 클릭 시 해당 글 모달 키기 */}
-          <Content>
+          <Content onClick={handleNavigateTarget}>
             <div>
               <NotiText>
                 <span>{nickname}</span>
@@ -103,7 +123,7 @@ const NotiInfo = styled.div`
 `;
 
 const Thumbnail = styled.img`
-  /* margin-top: .25rem; */
+  cursor: pointer;
   width: 3.75rem;
   height: 3.75rem;
   border: 0.0313rem solid ${({ theme: { colors } }) => colors.black};

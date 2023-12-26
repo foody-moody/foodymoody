@@ -1,12 +1,17 @@
 import { Suspense } from 'react';
+import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { Button } from 'components/common/button/Button';
 import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
 import { NotiSkeleton } from 'components/common/skeleton/NotiSkeleton';
 import { NotiList } from 'components/notification/NotiList';
+import { DetailFeedModalPage } from './DetailFeedPage';
 
 export const NotiPage = () => {
+  const location = useLocation();
+  const background = location.state && location.state.background;
+
   return (
     <Wrapper>
       <Buttons>
@@ -26,6 +31,8 @@ export const NotiPage = () => {
       >
         <NotiList />
       </Suspense>
+
+      {background === 'notiDetailFeed' && <DetailFeedModalPage />}
     </Wrapper>
   );
 };

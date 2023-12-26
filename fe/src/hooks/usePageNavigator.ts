@@ -17,6 +17,7 @@ export const usePageNavigator = () => {
     navigateToPassword: () => navigate(PATH.PASSWORD),
     navigateToAccount: () => navigate(PATH.ACCOUNT),
     navigateToPath: (path: string) => navigate(path),
+    navigateToBack: () => navigate(-1),
 
     /* 잠시 생성 */
     navigateToNewFeed: () => navigate(PATH.NEW_FEED),
