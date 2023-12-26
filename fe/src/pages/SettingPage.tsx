@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin: 40px 60px 0;
+  margin: 40px auto 60px auto;
   gap: 20px;
 `;
 
@@ -39,7 +39,7 @@ const TapItem = styled(NavLink)`
   &.active {
     margin: -1px;
     color: ${({ theme: { colors } }) => colors.orange};
-    border-bottom: 1px solid ${({ theme: { colors } }) => colors.orange};
+    border-bottom: 2px solid ${({ theme: { colors } }) => colors.orange};
   }
 `;
 
