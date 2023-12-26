@@ -12,7 +12,7 @@ import { useAuthState } from 'hooks/auth/useAuth';
 
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
-export const AccountPage = () => {
+export const AccountSettingPage = () => {
   const { navigateToPassword } = usePageNavigator();
   const { userInfo } = useAuthState();
   const { mutate: accountMutate } = useDeleteAccount(userInfo.id);
@@ -39,9 +39,6 @@ export const AccountPage = () => {
   return (
     <Wrapper>
       <Box>
-        <SectionRow>
-          <Title>계정 관리</Title>
-        </SectionRow>
         <Content>
           <SectionRow>
             <Row>
@@ -50,6 +47,7 @@ export const AccountPage = () => {
                 size="l"
                 backgroundColor="orange"
                 onClick={navigateToPassword}
+                width={180}
               >
                 비밀번호 변경
               </Button>
@@ -57,17 +55,15 @@ export const AccountPage = () => {
           </SectionRow>
           <SectionRow>
             <SubTitle>회원 탈퇴</SubTitle>
-            <Row>
-              <InfoMessage>
-                계정을 삭제할 수 있어요. <br />
-                계정을 삭제하면 해당 계정의 정보는 복구되지 않으므로 신중히
-                진행해주세요.
-              </InfoMessage>
-              <Button size="l" backgroundColor="orange" onClick={handleAlert}>
-                회원 탈퇴
-              </Button>
-              {/* 알러트 */}
-            </Row>
+            <InfoMessage>
+              계정을 삭제할 수 있어요. <br />
+              계정을 삭제하면 해당 계정의 정보는 복구되지 않으므로 신중히
+              진행해주세요.
+            </InfoMessage>
+            <Button size="l" backgroundColor="black" onClick={handleAlert}>
+              회원 탈퇴
+            </Button>
+            {/* 알러트 */}
           </SectionRow>
         </Content>
       </Box>
@@ -80,7 +76,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 40px;
+  padding: 0 16px;
 `;
 
 const Box = styled.div`
@@ -91,7 +87,6 @@ const Box = styled.div`
   max-width: 564px;
   width: 100%;
   gap: 56px;
-  padding: 10px;
 `;
 
 const Content = styled(FlexColumnBox)`
@@ -101,22 +96,22 @@ const Content = styled(FlexColumnBox)`
 
 const SectionRow = styled(FlexColumnBox)`
   width: 100%;
-  gap: 8px;
+  gap: 16px;
 `;
 
 const Row = styled(FlexRowBox)`
   width: 100%;
   align-items: center;
   gap: 8px;
+  justify-content: space-between;
 `;
 
-const Title = styled.h1`
-  font: ${({ theme: { fonts } }) => fonts.displayB24};
-`;
 const SubTitle = styled.h2`
-  font: ${({ theme: { fonts } }) => fonts.displayM20};
+  flex-shrink: 0;
+  font: ${({ theme: { fonts } }) => fonts.displayB20};
 `;
+
 const InfoMessage = styled.p`
-  font: ${({ theme: { fonts } }) => fonts.displayM16};
+  font: ${({ theme: { fonts } }) => fonts.displayM14};
   color: ${({ theme: { colors } }) => colors.textPrimary};
 `;
