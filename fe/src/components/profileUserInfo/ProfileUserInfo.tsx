@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
-import { FollowButton } from 'components/follow/followButton/FollowButton';
+import { FollowProfileButton } from 'components/follow/followButton/FollowProfileButton';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
@@ -90,7 +90,10 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
             <span>프로필 수정</span>
           </Button>
         ) : (
-          <FollowButton memberId={member.id} isFollowing={member.following} />
+          <FollowProfileButton
+            memberId={member.id}
+            isFollowing={member.following}
+          />
         )}
       </ButtonBox>
     </Wrapper>

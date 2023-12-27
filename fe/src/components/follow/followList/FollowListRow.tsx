@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { FlexRowBox } from 'components/common/feedUserInfo/FeedUserInfo';
 import { UserImage } from 'components/common/userImage/UserImage';
-import { FollowButton } from 'components/follow/followButton/FollowButton';
+import { FollowListButton } from '../followButton/FollowListButton';
 import { PATH } from 'constants/path';
 
 type Props = {
@@ -33,7 +33,7 @@ export const FollowListRow = forwardRef<HTMLLIElement, Props>(
           </UserName>
         </Info>
         {!isAuthor && (
-          <FollowButton
+          <FollowListButton
             size="xs"
             width={100}
             memberId={followListItem.id}

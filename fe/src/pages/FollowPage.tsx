@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { Dim } from 'components/common/dim/Dim';
 import { FlexRowBox } from 'components/common/feedUserInfo/FeedUserInfo';
-import { CloseSmallIcon } from 'components/common/icon/icons';
 import { CommentSkeleton } from 'components/common/skeleton/CommentSkeleton';
 import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
 import { FollowList } from 'components/follow/followList/FollowList';
@@ -27,11 +26,6 @@ export const FollowModalPage = () => {
       <Wrapper ref={wrapperRef}>
         <Header>
           <Title>{followType === 'followers' ? '팔로워' : '팔로잉'}</Title>
-          <CloseSmallIcon
-            onClick={() => {
-              navigateToBack();
-            }}
-          />
         </Header>
         <Suspense
           fallback={
@@ -77,6 +71,5 @@ const Header = styled(FlexRowBox)`
 const Title = styled.p`
   flex: 1;
   text-align: center;
-  margin-left: 30px;
   font: ${({ theme: { fonts } }) => fonts.displayB16};
 `;

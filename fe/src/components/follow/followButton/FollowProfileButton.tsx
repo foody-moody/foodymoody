@@ -10,7 +10,7 @@ type Props = {
   memberId: string;
   isFollowing: boolean;
 };
-export const FollowButton: React.FC<Props> = ({
+export const FollowProfileButton: React.FC<Props> = ({
   size = 's',
   width = 140,
   memberId,
@@ -41,7 +41,7 @@ export const FollowButton: React.FC<Props> = ({
         ) : (
           <UserPlusIcon />
         )}
-        <span>{isFollowing ? '팔로우' : '팔로잉'}</span>
+        <span>{isFollowing ? '팔로잉' : '팔로우'}</span>
         {/* <Spinner isLoading={isFollowLoading || isUnFlollowLoading} /> 일부러 시간을 오래잡아서 스피너를 보여줄지? */}
       </Button>
     </>
