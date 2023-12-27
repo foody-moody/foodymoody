@@ -19,7 +19,7 @@ import { NotiIcon } from '../icon/NotiIcon';
 import { PATH } from 'constants/path';
 
 export const NaviBar = () => {
-  const { navigateToHome, navigateToLogin, navigateToSetting } =
+  const { navigateToHome, navigateToLogin, navigateToProfileSetting } =
     usePageNavigator();
   const { mutate: logoutMutate } = useLogout();
   const { isLogin } = useAuthState();
@@ -73,7 +73,7 @@ export const NaviBar = () => {
       id: 1,
       content: '설정',
       onClick: () => {
-        navigateToSetting();
+        navigateToProfileSetting();
       },
     },
     {

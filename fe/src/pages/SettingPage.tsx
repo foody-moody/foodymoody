@@ -1,47 +1,49 @@
+import { Outlet, NavLink } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { Button } from 'components/common/button/Button';
-import { usePageNavigator } from 'hooks/usePageNavigator';
+import { PATH } from 'constants/path';
 
 export const SettingPage = () => {
-  const { navigateToProfileEdit, navigateToPassword, navigateToAccount } =
-    usePageNavigator();
-
   return (
     <Wrapper>
       <Title>설정</Title>
-      <SubTitle>내 FoodyMoody</SubTitle>
-      <Button size="l" backgroundColor="orange" onClick={navigateToProfileEdit}>
-        프로필 수정
-      </Button>
-      <Button size="l" backgroundColor="orange" onClick={() => {}}>
-        알림 설정
-      </Button>
-      <SubTitle>계정 · 보안</SubTitle>
-      <Button size="l" backgroundColor="orange" onClick={navigateToPassword}>
-        비밀번호 변경
-      </Button>
-      <Button size="l" backgroundColor="orange" onClick={navigateToAccount}>
-        회원 탈퇴
-      </Button>
-      <SubTitle>추가 설정?</SubTitle>
+      <Tap>
+        <TapItem to={PATH.SETTING_PROFILE}>프로필 수정</TapItem>
+        <TapItem to={PATH.SETTING_NOTI}>알림 설정</TapItem>
+        <TapItem to={PATH.SETTING_ACCOUNT}>계정 설정</TapItem>
+      </Tap>
+      <Outlet />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  height: 100vh;
-  width: 200px;
+  max-width: 564px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  margin: 40px auto 60px auto;
   gap: 20px;
+`;
+
+const Tap = styled.div`
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid black;
+  align-items: center;
+`;
+const TapItem = styled(NavLink)`
+  padding: 8px 16px;
+  flex-shrink: 0;
+  font: ${({ theme: { fonts } }) => fonts.displayM16};
+
+  &.active {
+    margin: -1px;
+    color: ${({ theme: { colors } }) => colors.orange};
+    border-bottom: 2px solid ${({ theme: { colors } }) => colors.orange};
+  }
 `;
 
 const Title = styled.h1`
   font: ${({ theme: { fonts } }) => fonts.displayB24};
-`;
-
-const SubTitle = styled.h2`
-  font: ${({ theme: { fonts } }) => fonts.displayM20};
+  padding: 0 16px;
 `;
