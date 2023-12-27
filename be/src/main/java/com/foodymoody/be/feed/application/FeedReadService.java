@@ -27,18 +27,22 @@ public class FeedReadService {
     private final FeedJpaRepository feedJpaRepository;
 
     public void validateId(String feedId) {
-        if (!exists(feedId)) {
+        if (!isExists(feedId)) {
             throw new FeedIdNotExistsException();
         }
     }
 
     public void validateIds(List<FeedId> feedIds) {
-        if (!feedRepository.existsAllByIdIn(feedIds)) {
+        if (!isExistsAllByIdIn(feedIds)) {
             throw new FeedIdNotExistsException();
         }
     }
 
-    private boolean exists(String feedId) {
+    private boolean isExistsAllByIdIn(List<FeedId> feedIds) {
+        return feedRepository.existsAllByIdIn(feedIds);
+    }
+
+    private boolean isExists(String feedId) {
         return feedRepository.existsById(IdFactory.createFeedId(feedId));
     }
 
