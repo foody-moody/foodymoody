@@ -162,6 +162,7 @@ const ButtonBox = styled(Flex)`
 
 const InfoItem = styled(ContentWrapper)`
   gap: 4px;
+  cursor: pointer;
   font: ${({ theme: { fonts } }) => fonts.displayB14};
   span {
     font: ${({ theme: { fonts } }) => fonts.displayM14};

@@ -2,7 +2,9 @@ import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
+import { UserImage } from 'components/common/userImage/UserImage';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
+import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { useModal } from './useModal';
 import { PATH } from 'constants/path';
 
@@ -66,9 +68,9 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
     return (
       <Wrapper ref={ref} $isRead={read} type={type} onClick={handleClick}>
         <NotiInfo>
-          <Thumbnail
-            src={senderImageUrl}
-            alt="유저 프로필 사진"
+          <UserImage
+            size="m"
+            imageUrl={senderImageUrl || generateDefaultUserImage(id)}
             onClick={handleNavigateProfile}
           />
 
