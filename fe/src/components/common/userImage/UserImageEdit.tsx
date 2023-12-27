@@ -83,7 +83,7 @@ export const UserImageEdit: React.FC<Props> = ({
 
   return (
     <Wrapper onClick={handleImageClick}>
-      <UserImage variant="edit" imageUrl={userImage} />
+      <UserImage size="l" imageUrl={userImage} />
       <input
         ref={inputRef}
         type="file"

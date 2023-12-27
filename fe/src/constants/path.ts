@@ -15,4 +15,6 @@ export const PATH = {
   SETTING_ACCOUNT: '/setting/account',
   PASSWORD: '/password',
   ACCOUNT: '/account',
+  FOLLOWER: '/followers',
+  FOLLOWING: '/followings',
 };

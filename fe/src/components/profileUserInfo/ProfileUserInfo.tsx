@@ -1,6 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
-import { FollowButton } from 'components/followButton/FollowButton';
+import { FollowProfileButton } from 'components/follow/followButton/FollowProfileButton';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
@@ -8,6 +9,7 @@ import { Badge } from '../common/badge/Badge';
 import { Button } from '../common/button/Button';
 import { CollectableAddIcon } from '../common/icon/icons';
 import { UserImageEdit } from '../common/userImage/UserImageEdit';
+import { PATH } from 'constants/path';
 
 type Props = {
   member: ProfileMemberInfo;
@@ -19,6 +21,7 @@ const MOCK_BADGE = {
 };
 
 export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
+  const navigate = useNavigate();
   const { navigateToProfileSetting } = usePageNavigator();
   const { userInfo } = useAuthState();
   const isAuthor = member.id === userInfo.id;
@@ -26,6 +29,18 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
   const handleAddCollection = () => {};
   const handleEditProfile = () => {
     navigateToProfileSetting();
+  };
+
+  const handleOpenFollowings = () => {
+    navigate(PATH.PROFILE + '/' + member.id + PATH.FOLLOWING, {
+      state: { background: 'followings' },
+    });
+  };
+
+  const handleOpenFollowers = () => {
+    navigate(PATH.PROFILE + '/' + member.id + PATH.FOLLOWER, {
+      state: { background: 'followers' },
+    });
   };
 
   return (
@@ -49,11 +64,11 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
               {member.feedCount}
               <span>게시물</span>
             </InfoItem>
-            <InfoItem>
+            <InfoItem onClick={handleOpenFollowings}>
               {member.followingCount}
               <span>팔로잉</span>
             </InfoItem>
-            <InfoItem>
+            <InfoItem onClick={handleOpenFollowers}>
               {member.followerCount}
               <span>팔로워</span>
             </InfoItem>
@@ -75,7 +90,10 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
             <span>프로필 수정</span>
           </Button>
         ) : (
-          <FollowButton memberId={member.id} isFollowing={member.following} />
+          <FollowProfileButton
+            memberId={member.id}
+            isFollowing={member.following}
+          />
         )}
       </ButtonBox>
     </Wrapper>
@@ -147,6 +165,7 @@ const ButtonBox = styled(Flex)`
 
 const InfoItem = styled(ContentWrapper)`
   gap: 4px;
+  cursor: pointer;
   font: ${({ theme: { fonts } }) => fonts.displayB14};
   span {
     font: ${({ theme: { fonts } }) => fonts.displayM14};

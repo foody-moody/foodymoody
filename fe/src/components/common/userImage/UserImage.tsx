@@ -1,13 +1,13 @@
 import { styled } from 'styled-components';
 
 type UserImageProps = {
-  variant?: 'default' | 'edit';
+  size?: 's' | 'm' | 'l';
   imageUrl: string;
   onClick?(): void;
 };
 
 export const UserImage: React.FC<UserImageProps> = ({
-  variant = 'default',
+  size = 's',
   imageUrl,
   onClick,
 }) => {
@@ -22,7 +22,7 @@ export const UserImage: React.FC<UserImageProps> = ({
   return (
     <Img
       onClick={onClick}
-      $variant={variant}
+      $size={size}
       src={imageUrl}
       alt="유저이미지"
       // onError={onErrorImage}
@@ -31,13 +31,16 @@ export const UserImage: React.FC<UserImageProps> = ({
 };
 
 const Img = styled.img<{
-  $variant: 'default' | 'edit';
+  $size: 's' | 'm' | 'l';
 }>`
-  width: ${({ $variant }) => ($variant === 'default' ? '40px' : '100%')};
-  height: ${({ $variant }) => ($variant === 'default' ? '40px' : '100%')};
+  width: ${({ $size }) =>
+    $size === 's' ? '40px' : $size === 'm' ? '60px' : '100%'};
+  height: ${({ $size }) =>
+    $size === 's' ? '40px' : $size === 'm' ? '60px' : '100%'};
+
   transition: all 0.3s ease-in-out;
   object-fit: cover;
   border-radius: ${({ theme: { radius } }) => radius.half};
   border: 1px solid ${({ theme: { colors } }) => colors.black};
-  cursor: ${({ $variant }) => ($variant === 'default' ? 'pointer' : 'default')};
+  cursor: ${({ $size }) => ($size === 'l' ? 'default' : 'pointer')};
 `;
