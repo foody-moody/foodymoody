@@ -14,4 +14,5 @@ export const PATH = {
   SETTING_NOTI: '/setting/noti',
   PASSWORD: '/password',
   ACCOUNT: '/account',
+  FOLLOW: '/follow',
 };

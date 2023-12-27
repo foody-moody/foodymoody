@@ -3,6 +3,8 @@ import { AccountPage } from 'pages/AcountPage';
 import { CollectionPage } from 'pages/CollectionPage';
 import { DetailFeedModalPage } from 'pages/DetailFeedPage';
 import { ErrorPage } from 'pages/ErrorPage';
+import { FollowersModalPage } from 'pages/FollowersPage';
+import { FollowingsModalPage } from 'pages/FollowingsPage';
 import { HomePage } from 'pages/HomePage';
 import { Layout } from 'pages/Layout';
 import { LoginPage } from 'pages/LoginPage';
@@ -61,6 +63,16 @@ const router = createBrowserRouter([
               {
                 path: PATH.PROFILE,
                 element: <ProfilePage />,
+                children: [
+                  {
+                    path: PATH.PROFILE + PATH.FOLLOW + '/:id',
+                    element: <FollowingsModalPage />,
+                  },
+                  {
+                    path: PATH.PROFILE + PATH.FOLLOW + '/:id',
+                    element: <FollowersModalPage />,
+                  },
+                ],
               },
               {
                 path: PATH.PROFILE + '/:id',
