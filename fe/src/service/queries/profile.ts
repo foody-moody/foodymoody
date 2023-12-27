@@ -19,6 +19,7 @@ export const useGetProfile = (memberId?: string) => {
     queryFn: () => getProfile(id),
   });
 };
+
 export const useEditProfileImage = (memberId: string) => {
   const queryClient = useQueryClient();
 
