@@ -5,10 +5,17 @@ import { UserCheckedIcon, UserPlusIcon } from 'components/common/icon/icons';
 // import { Spinner } from 'components/common/loading/spinner';
 
 type Props = {
+  size?: 's' | 'xs';
+  width?: number;
   memberId: string;
   isFollowing: boolean;
 };
-export const FollowButton: React.FC<Props> = ({ memberId, isFollowing }) => {
+export const FollowButton: React.FC<Props> = ({
+  size = 's',
+  width = 140,
+  memberId,
+  isFollowing,
+}) => {
   const { mutate: followMutate, isLoading: isFollowLoading } =
     usePostFollow(memberId);
   const { mutate: unfollowMutate, isLoading: isUnFlollowLoading } =
@@ -21,11 +28,11 @@ export const FollowButton: React.FC<Props> = ({ memberId, isFollowing }) => {
   return (
     <>
       <Button
-        size="s"
+        size={size}
         backgroundColor={
           isFollowLoading || isUnFlollowLoading ? 'black' : 'white'
         }
-        width={140}
+        width={width}
         disabled={isFollowLoading || isUnFlollowLoading}
         onClick={handleToggleFollow}
       >
