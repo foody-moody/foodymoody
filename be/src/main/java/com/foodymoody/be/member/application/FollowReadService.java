@@ -24,22 +24,21 @@ public class FollowReadService {
     public Slice<FollowMemberSummaryResponse> listFollowings(
             MemberId currentMemberId, MemberId id, Pageable pageable) {
         Member member = memberQueryService.findById(id);
-        Slice<FollowMemberSummary> followings = followRepository.findFollowedByFollowerOrderByCreatedAtDesc(member, pageable);
-        return toResponseWithCurrentMember(currentMemberId, followings);
+        Slice<FollowMemberSummary> followings = followRepository.fetchMyFollowingSummariesByMember(member, pageable);
+        return toFollowSummaryResponsesWithCurrentMember(currentMemberId, followings);
     }
 
     public Slice<FollowMemberSummaryResponse> listFollowers(MemberId currentMemberId, MemberId id, Pageable pageable) {
         Member member = memberQueryService.findById(id);
-        Slice<FollowMemberSummary> followers = followRepository.findFollowerByFollowedOrderByCreatedAtDesc(member, pageable);
-        return toResponseWithCurrentMember(currentMemberId, followers);
+        Slice<FollowMemberSummary> followers = followRepository.fetchMyFollowerSummariesByMember(member, pageable);
+        return toFollowSummaryResponsesWithCurrentMember(currentMemberId, followers);
     }
 
-    private Slice<FollowMemberSummaryResponse> toResponseWithCurrentMember(MemberId currentMemberId, Slice<FollowMemberSummary> followers) {
+    private Slice<FollowMemberSummaryResponse> toFollowSummaryResponsesWithCurrentMember(MemberId currentMemberId, Slice<FollowMemberSummary> followers) {
         if(Objects.nonNull(currentMemberId)) {
             Member currentMember = memberQueryService.findById(currentMemberId);
             return MemberMapper.toFollowMemberSummaryResponses(currentMember, followers);
         }
         return MemberMapper.toFollowMemberSummaryResponses(followers);
     }
-
 }

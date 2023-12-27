@@ -340,7 +340,7 @@ operation::updateMemberProfileImageNotExist_fail[snippets='http-response']
 
 ==== 존재하지 않는 테이스트 무드 id일 때
 
-operation::updateMemberProfileImageNotExist_fail[snippets='http-response']
+operation::updateTasteMoodNotExist_fail[snippets='http-response']
 
 === 회원 탈퇴
 

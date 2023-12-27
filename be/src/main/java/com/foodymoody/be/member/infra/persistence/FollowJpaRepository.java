@@ -18,7 +18,7 @@ public interface FollowJpaRepository extends FollowRepository, JpaRepository<Fol
             + "INNER JOIN Image i ON i.id = following.profileImage.id "
             + "WHERE f.follower = :member "
             + "ORDER BY f.createdAt DESC ")
-    Slice<FollowMemberSummary> findFollowedByFollowerOrderByCreatedAtDesc(Member member, Pageable pageable);
+    Slice<FollowMemberSummary> fetchMyFollowingSummariesByMember(Member member, Pageable pageable);
 
     @Override
     @Query("SELECT new com.foodymoody.be.member.application.dto.FollowMemberSummary(follower.id, follower.nickname, i.url) "
@@ -27,6 +27,5 @@ public interface FollowJpaRepository extends FollowRepository, JpaRepository<Fol
             + "INNER JOIN Image i ON i.id = follower.profileImage.id "
             + "WHERE f.followed = :member "
             + "ORDER BY f.createdAt DESC ")
-    Slice<FollowMemberSummary> findFollowerByFollowedOrderByCreatedAtDesc(Member member, Pageable pageable);
-
+    Slice<FollowMemberSummary> fetchMyFollowerSummariesByMember(Member member, Pageable pageable);
 }
