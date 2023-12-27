@@ -8,4 +8,6 @@ export const QUERY_KEY = {
   tasteMood: 'tasteMood',
   storeMood: 'storeMood',
   notifications: 'notifications',
+  followings: 'followings',
+  followers: 'followers',
 };
