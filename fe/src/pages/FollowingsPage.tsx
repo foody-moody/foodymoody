@@ -46,7 +46,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   border: 1px solid ${({ theme: { colors } }) => colors.black};
   background: ${({ theme: { colors } }) => colors.white};
-  padding: 16px;
+  padding: 16px 12px 16px 16px;
   position: fixed;
   top: 50%;
   left: 50%;
