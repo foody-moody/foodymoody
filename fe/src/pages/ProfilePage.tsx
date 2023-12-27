@@ -1,16 +1,21 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useGetProfile } from 'service/queries/profile';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { UserFeedTabs } from 'components/common/userFeedTabs/UserFeedTabs';
 import { ProfileUserInfo } from 'components/profileUserInfo/ProfileUserInfo';
+import { FollowersModalPage } from './FollowersPage';
+import { FollowingsModalPage } from './FollowingsPage';
 
 export const ProfilePage = () => {
   const { id } = useParams();
   const { data } = useGetProfile(id);
   /* TODO. data.myFeed 데이터 생기면 추가하기 */
   console.log(data, 'profile data');
+
+  const location = useLocation();
+  const background = location.state && location.state.background;
 
   const [index, setIndex] = useState(0);
 
@@ -36,6 +41,9 @@ export const ProfilePage = () => {
           ))}
         </FeedsWrapper>
       </ContentWrapper>
+
+      {background === 'followings' && <FollowingsModalPage />}
+      {background === 'followers' && <FollowersModalPage />}
     </Wrapper>
   );
 };

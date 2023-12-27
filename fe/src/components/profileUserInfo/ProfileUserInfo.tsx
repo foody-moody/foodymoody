@@ -1,6 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
-import { FollowButton } from 'components/followButton/FollowButton';
+import { FollowButton } from 'components/follow/followButton/FollowButton';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
@@ -8,6 +9,7 @@ import { Badge } from '../common/badge/Badge';
 import { Button } from '../common/button/Button';
 import { CollectableAddIcon } from '../common/icon/icons';
 import { UserImageEdit } from '../common/userImage/UserImageEdit';
+import { PATH } from 'constants/path';
 
 type Props = {
   member: ProfileMemberInfo;
@@ -19,6 +21,7 @@ const MOCK_BADGE = {
 };
 
 export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
+  const navigate = useNavigate();
   const { navigateToProfileEdit } = usePageNavigator();
   const { userInfo } = useAuthState();
   const isAuthor = member.id === userInfo.id;
@@ -26,6 +29,18 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
   const handleAddCollection = () => {};
   const handleEditProfile = () => {
     navigateToProfileEdit();
+  };
+
+  const handleOpenFollowings = () => {
+    navigate(PATH.PROFILE + PATH.FOLLOW + '/' + member.id, {
+      state: { background: 'followings' },
+    });
+  };
+
+  const handleOpenFollowers = () => {
+    navigate(PATH.PROFILE + PATH.FOLLOW + '/' + member.id, {
+      state: { background: 'followers' },
+    });
   };
 
   return (
@@ -49,11 +64,11 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
               {member.feedCount}
               <span>게시물</span>
             </InfoItem>
-            <InfoItem>
+            <InfoItem onClick={handleOpenFollowings}>
               {member.followingCount}
               <span>팔로잉</span>
             </InfoItem>
-            <InfoItem>
+            <InfoItem onClick={handleOpenFollowers}>
               {member.followerCount}
               <span>팔로워</span>
             </InfoItem>
