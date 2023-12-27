@@ -4,6 +4,7 @@ import static com.foodymoody.be.feed.application.FeedMapper.makeFeedReadAllRespo
 import static com.foodymoody.be.feed.application.FeedMapper.makeFeedStoreMoodResponses;
 import static com.foodymoody.be.feed.application.FeedMapper.toFeedMemberResponse;
 
+import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -131,7 +132,7 @@ public class FeedUseCase {
         MemberId memberId = memberQueryService.findById(request.getMemberId()).getId();
 
         if (!feedReadService.findFeed(feedId).getMemberId().equals(memberId)) {
-            throw new IllegalArgumentException("이 피드를 작성한 회원이 아닙니다.");
+            throw new FeedIdNotExistsException();
         }
 
         feedWriteService.deleteById(request.getId());
