@@ -32,13 +32,13 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
   };
 
   const handleOpenFollowings = () => {
-    navigate(PATH.PROFILE + PATH.FOLLOW + '/' + member.id, {
+    navigate(PATH.PROFILE + '/' + member.id + PATH.FOLLOWING, {
       state: { background: 'followings' },
     });
   };
 
   const handleOpenFollowers = () => {
-    navigate(PATH.PROFILE + PATH.FOLLOW + '/' + member.id, {
+    navigate(PATH.PROFILE + '/' + member.id + PATH.FOLLOWER, {
       state: { background: 'followers' },
     });
   };

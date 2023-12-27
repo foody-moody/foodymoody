@@ -14,6 +14,7 @@ type Props = {
 export const FollowList: React.FC<Props> = ({ followType, rootRef }) => {
   const { id } = useParams();
   const { userInfo } = useAuthState();
+
   const USER_ID = id || userInfo.id;
   const {
     followList,

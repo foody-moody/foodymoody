@@ -1,4 +1,5 @@
 import { Suspense, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { Dim } from 'components/common/dim/Dim';
 import { FlexRowBox } from 'components/common/feedUserInfo/FeedUserInfo';
@@ -8,9 +9,14 @@ import { DeferredComponent } from 'components/common/skeleton/DeferredComponent'
 import { FollowList } from 'components/follow/followList/FollowList';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
-export const FollowingsModalPage = () => {
+export const FollowModalPage = () => {
   const { navigateToBack } = usePageNavigator();
+  const { pathname } = useLocation();
+  const followType = pathname.includes('/followers')
+    ? 'followers'
+    : 'followings';
   const wrapperRef = useRef<HTMLDivElement>(null);
+
   return (
     <>
       <Dim
@@ -20,7 +26,7 @@ export const FollowingsModalPage = () => {
       />
       <Wrapper ref={wrapperRef}>
         <Header>
-          <Title>팔로잉</Title>
+          <Title>{followType === 'followers' ? '팔로워' : '팔로잉'}</Title>
           <CloseSmallIcon
             onClick={() => {
               navigateToBack();
@@ -34,7 +40,7 @@ export const FollowingsModalPage = () => {
             </DeferredComponent>
           }
         >
-          <FollowList rootRef={wrapperRef} followType="followings" />
+          <FollowList rootRef={wrapperRef} followType={followType} />
         </Suspense>
       </Wrapper>
     </>

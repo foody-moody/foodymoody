@@ -5,8 +5,7 @@ import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { UserFeedTabs } from 'components/common/userFeedTabs/UserFeedTabs';
 import { ProfileUserInfo } from 'components/profileUserInfo/ProfileUserInfo';
-import { FollowersModalPage } from './FollowersPage';
-import { FollowingsModalPage } from './FollowingsPage';
+import { FollowModalPage } from './FollowPage';
 
 export const ProfilePage = () => {
   const { id } = useParams();
@@ -42,8 +41,8 @@ export const ProfilePage = () => {
         </FeedsWrapper>
       </ContentWrapper>
 
-      {background === 'followings' && <FollowingsModalPage />}
-      {background === 'followers' && <FollowersModalPage />}
+      {background === 'followings' && <FollowModalPage />}
+      {background === 'followers' && <FollowModalPage />}
     </Wrapper>
   );
 };
