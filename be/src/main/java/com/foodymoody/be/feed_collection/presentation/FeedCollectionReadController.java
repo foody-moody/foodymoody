@@ -3,12 +3,10 @@ package com.foodymoody.be.feed_collection.presentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import com.foodymoody.be.feed_collection.infra.usecase.FeedCollectionDetail;
 import com.foodymoody.be.feed_collection.infra.usecase.FeedCollectionReadUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +21,7 @@ public class FeedCollectionReadController {
     private final FeedCollectionReadUseCase useCase;
 
     @GetMapping("/api/collections")
-    public ResponseEntity<Slice<FeedCollectionSummary>> fetchAll(
+    public ResponseEntity<Object> fetchAll(
             @PageableDefault(size = 20, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
             @CurrentMemberId MemberId memberId
     ) {

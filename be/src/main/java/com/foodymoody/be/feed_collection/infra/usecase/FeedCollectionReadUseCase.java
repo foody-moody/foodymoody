@@ -6,6 +6,7 @@ import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
+import com.foodymoody.be.feed_collection.domain.FeedCollectionSample;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import com.foodymoody.be.feed_heart.application.FeedHeartService;
 import com.foodymoody.be.image.application.ImageService;
@@ -36,7 +37,7 @@ public class FeedCollectionReadUseCase {
         return feedCollectionReadService.fetchCollection(pageable);
     }
 
-    public Slice<FeedCollectionSummary> fetchAll(MemberId memberId, Pageable pageable) {
+    public Slice<FeedCollectionSample> fetchAll(MemberId memberId, Pageable pageable) {
         return feedCollectionReadService.fetchCollection(memberId, pageable);
     }
 
@@ -58,7 +59,7 @@ public class FeedCollectionReadUseCase {
 
         List<FeedSummaryResponse> feeds = allDetailByIdIn.stream()
                 .map(feed -> {
-                    List<String> moods = getMoods(feed.getStoreMoods());
+                    List<String> moods = getStoreMoodsNames(feed.getStoreMoods());
                     return getFeedSummaryResponse(feed, moods, false);
                 })
                 .collect(Collectors.toList());
@@ -84,7 +85,7 @@ public class FeedCollectionReadUseCase {
         List<FeedSummaryResponse> feeds = allDetailByIdIn.stream()
                 .map(feed -> {
                     boolean isLiked = feedHeartService.existsHeart(memberId, feed.getId().getValue());
-                    List<String> moods = getMoods(feed.getStoreMoods());
+                    List<String> moods = getStoreMoodsNames(feed.getStoreMoods());
                     return getFeedSummaryResponse(feed, moods, isLiked);
                 })
                 .collect(Collectors.toList());
@@ -107,7 +108,7 @@ public class FeedCollectionReadUseCase {
         );
     }
 
-    private static List<String> getMoods(List<StoreMood> storeMoods) {
+    private static List<String> getStoreMoodsNames(List<StoreMood> storeMoods) {
         return storeMoods.stream()
                 .map(StoreMood::getName)
                 .collect(Collectors.toList());

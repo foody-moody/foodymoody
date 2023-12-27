@@ -17,7 +17,9 @@ public class FeedCollectionMood {
     private FeedCollectionMoodId id;
     @Getter
     private String name;
+    @Getter
     private LocalDateTime createdAt;
+    @Getter
     private LocalDateTime updatedAt;
 
     public FeedCollectionMood(FeedCollectionMoodId id, String name, LocalDateTime createdAt) {

@@ -10,13 +10,11 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OrderColumn;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
 
 @NoArgsConstructor
 @Embeddable
 public class FeedIds {
 
-    @BatchSize(size = 50)
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "feed_collection_feed_ids", joinColumns = @JoinColumn(name = "feed_id"))
     @OrderColumn(name = "feed_order")

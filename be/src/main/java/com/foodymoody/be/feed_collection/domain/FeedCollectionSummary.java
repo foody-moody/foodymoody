@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed_collection.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface FeedCollectionSummary {
 
@@ -19,6 +20,12 @@ public interface FeedCollectionSummary {
     String getAuthorMood();
 
     long getLikeCount();
+
+    long getCommentCount();
+
+    long getFeedCount();
+
+    List<String> getMoods();
 
     String getThumbnailUrl();
 

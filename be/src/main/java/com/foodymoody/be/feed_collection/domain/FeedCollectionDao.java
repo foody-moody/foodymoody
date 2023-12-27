@@ -10,7 +10,7 @@ public interface FeedCollectionDao {
 
     Slice<FeedCollectionSummary> findAllSummary(Pageable pageable);
 
-    Slice<FeedCollectionSummary> findAllSummary(MemberId memberId, Pageable pageable);
+    Slice<FeedCollectionSample> findAllSummary(MemberId memberId, Pageable pageable);
 
     Optional<FeedCollection> fetchById(FeedCollectionId feedCollectionId);
 }

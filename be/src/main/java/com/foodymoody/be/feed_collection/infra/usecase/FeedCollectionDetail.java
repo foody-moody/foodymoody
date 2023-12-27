@@ -18,6 +18,8 @@ public class FeedCollectionDetail {
     private int followerCount;
     private boolean isPrivate;
     private int viewCount;
+    private int commentCount;
+    private int feedCount;
     private List<FeedSummaryResponse> feeds;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -38,5 +40,6 @@ public class FeedCollectionDetail {
         this.createdAt = feedCollection.getCreatedAt();
         this.updatedAt = feedCollection.getUpdatedAt();
         this.feeds = feeds;
+        this.feedCount = feeds.size();
     }
 }

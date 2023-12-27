@@ -6,6 +6,7 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
+import com.foodymoody.be.feed_collection.domain.FeedCollectionMood;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionRepository;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,19 +20,30 @@ public class FeedCollectionWriterService {
 
     private final FeedCollectionRepository repository;
 
+    @Transactional
     public FeedCollectionId createCollection(
             String title,
             String description,
             String thumbnailUrl,
             boolean isPrivate,
             MemberId memberId,
-            List<FeedId> feedIds
+            List<FeedId> feedIds,
+            List<FeedCollectionMood> moods
     ) {
         var id = IdFactory.createFeedCollectionId();
         LocalDateTime now = LocalDateTime.now();
         var feedCollection = new FeedCollection(
-                id, memberId, thumbnailUrl, title, description, 0, isPrivate, false, feedIds
-                , now, now
+                id,
+                memberId,
+                thumbnailUrl,
+                title,
+                description,
+                0,
+                isPrivate,
+                false,
+                feedIds,
+                moods,
+                now
         );
         return repository.save(feedCollection).getId();
     }

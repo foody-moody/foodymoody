@@ -4,6 +4,7 @@ import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionDao;
+import com.foodymoody.be.feed_collection.domain.FeedCollectionSample;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +21,7 @@ public class FeedCollectionReadService {
         return dao.findAllSummary(pageable);
     }
 
-    public Slice<FeedCollectionSummary> fetchCollection(MemberId memberId, Pageable pageable) {
+    public Slice<FeedCollectionSample> fetchCollection(MemberId memberId, Pageable pageable) {
         return dao.findAllSummary(memberId, pageable);
     }
 

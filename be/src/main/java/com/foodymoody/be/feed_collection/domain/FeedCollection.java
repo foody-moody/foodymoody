@@ -16,12 +16,14 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(name = "feed_collection")
 public class FeedCollection {
 
     @Getter
@@ -48,7 +50,6 @@ public class FeedCollection {
     private FeedIds feedIds;
     @Embedded
     private CommentIds commentIds;
-
     @OneToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true)
@@ -57,27 +58,6 @@ public class FeedCollection {
     private LocalDateTime createdAt;
     @Getter
     private LocalDateTime updatedAt;
-
-    public FeedCollection(
-            FeedCollectionId id, MemberId memberId, String thumbnailUrl, String title, String description,
-            int followerCount, boolean isPrivate, boolean isDeleted, List<FeedId> feedIds, LocalDateTime createdAt,
-            LocalDateTime updatedAt
-    ) {
-        this.id = id;
-        this.authorId = memberId;
-        this.thumbnailUrl = thumbnailUrl;
-        this.title = title;
-        this.description = description;
-        this.followerCount = followerCount;
-        this.isPrivate = isPrivate;
-        this.isDeleted = isDeleted;
-        this.feedIds = new FeedIds(feedIds);
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.commentIds = new CommentIds();
-        this.moods = new FeedCollectionMoods(IdFactory.createFeedCollectionMoodsId(), List.of(), createdAt);
-        Events.publish(FeedCollectionAddedEvent.of(id, createdAt));
-    }
 
     public FeedCollection(
             FeedCollectionId id, MemberId memberId, String thumbnailUrl, String title, String description,

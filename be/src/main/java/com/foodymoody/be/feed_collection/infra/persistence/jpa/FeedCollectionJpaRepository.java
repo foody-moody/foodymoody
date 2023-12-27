@@ -25,11 +25,18 @@ public interface FeedCollectionJpaRepository extends JpaRepository<FeedCollectio
                     ", _feedCollection.isPrivate as isPrivate " +
                     ", _feedCollection.createdAt as createdAt " +
                     ", _feedCollection.updatedAt as updatedAt " +
+                    ", count(_feed) as feedCount " +
+                    ", count(_comment) as commentCount " +
+                    ", false as liked " +
                     "FROM FeedCollection _feedCollection " +
                     "JOIN Member _member on _feedCollection.authorId = _member.id " +
                     "JOIN Image _image on _member.profileImage.id = _image.id " +
                     "JOIN TasteMood _taste_mood on _member.tasteMood = _taste_mood " +
-                    "JOIN FeedCollectionLikeCount _like_count on _feedCollection.id = _like_count.feedCollectionId "
+                    "JOIN FeedCollectionLikeCount _like_count on _feedCollection.id = _like_count.feedCollectionId " +
+                    "JOIN _feedCollection.feedIds.ids as _feed " +
+                    "JOIN _feedCollection.commentIds.ids as _comment " +
+                    "JOIN _feedCollection.moods.moodList as _mood " +
+                    "GROUP BY _feedCollection.id"
     )
     Slice<FeedCollectionSummary> findAllSummary(Pageable pageable);
 
@@ -47,13 +54,19 @@ public interface FeedCollectionJpaRepository extends JpaRepository<FeedCollectio
                     ", _feedCollection.isPrivate as isPrivate " +
                     ", _feedCollection.createdAt as createdAt " +
                     ", _feedCollection.updatedAt as updatedAt " +
+                    ", _feed.size as feedCount " +
+                    ", _comment.size as commentCount " +
                     ", (case when _like is not null then true else false end) as liked " +
+                    ", _moods.name as moods " +
                     "FROM FeedCollection _feedCollection " +
                     "JOIN Member _member on _feedCollection.authorId = _member.id " +
                     "JOIN Image _image on _member.profileImage.id = _image.id " +
                     "JOIN TasteMood _taste_mood on _member.tasteMood = _taste_mood " +
                     "LEFT JOIN FeedCollectionLike _like on _feedCollection.id = _like.feedCollectionId and _like.memberId = :memberId " +
-                    "JOIN FeedCollectionLikeCount _like_count on _feedCollection.id = _like_count.feedCollectionId "
+                    "LEFT JOIN FeedCollectionLikeCount _like_count on _feedCollection.id = _like_count.feedCollectionId " +
+                    "LEFT JOIN _feedCollection.feedIds.ids as _feed " +
+                    "LEFT JOIN _feedCollection.commentIds.ids as _comment " +
+                    "LEFT JOIN _feedCollection.moods.moodList as _moods "
     )
     Slice<FeedCollectionSummary> findAllSummary(MemberId memberId, Pageable pageable);
 }

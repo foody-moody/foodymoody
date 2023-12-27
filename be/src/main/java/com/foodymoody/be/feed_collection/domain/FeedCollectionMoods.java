@@ -2,24 +2,25 @@ package com.foodymoody.be.feed_collection.domain;
 
 import com.foodymoody.be.common.util.ids.FeedCollectionMoodsId;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class FeedCollectionMoods {
 
     @Id
     private FeedCollectionMoodsId id;
-    @Getter
-    @ManyToMany
-    private List<FeedCollectionMood> moodList;
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<FeedCollectionMood> moodList = new ArrayList<>();
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
