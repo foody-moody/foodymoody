@@ -22,13 +22,13 @@ const MOCK_BADGE = {
 
 export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
   const navigate = useNavigate();
-  const { navigateToProfileEdit } = usePageNavigator();
+  const { navigateToProfileSetting } = usePageNavigator();
   const { userInfo } = useAuthState();
   const isAuthor = member.id === userInfo.id;
 
   const handleAddCollection = () => {};
   const handleEditProfile = () => {
-    navigateToProfileEdit();
+    navigateToProfileSetting();
   };
 
   const handleOpenFollowings = () => {
