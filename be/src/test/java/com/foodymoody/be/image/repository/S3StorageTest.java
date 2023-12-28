@@ -5,7 +5,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.foodymoody.be.common.exception.InvalidImageUrlException;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.image.domain.ImageCategory;
+import com.foodymoody.be.image.domain.ImageResource;
 import com.foodymoody.be.image.infra.persistence.S3Storage;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -13,6 +18,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 
 
@@ -83,6 +91,82 @@ class S3StorageTest {
             );
         }
 
+    }
+
+    @Nested
+    @DisplayName("업로드 테스트")
+    class Upload {
+
+        @DisplayName("jpg 파일을 업로드하면, 파일이 저장된 s3경로를 반환한다")
+        @Test
+        void whenUploadJpgFile_thenUploadToS3() {
+//            given
+            MockMultipartFile file = createMockMultipartFileByPath("images/potato.jpg");
+            ImageResource imageResource = new ImageResource(file);
+
+//            when
+            String url = s3Storage.upload("upload-test", imageResource);
+
+//            then
+            String expectedUrl = String.join("/", s3EndPoint, "upload-test");
+            assertThat(url).isEqualTo(expectedUrl);
+        }
+
+    }
+
+    @Nested
+    @DisplayName("삭제 테스트")
+    class Delete {
+
+        @DisplayName("jpg 파일을 s3에 업로드 후 삭제하면, 예외가 발생하지 않는다")
+        @Test
+        void whenUploadJpgFileAndDelete_thenSuccess() {
+//            given
+            MockMultipartFile file = createMockMultipartFileByPath("images/potato.jpg");
+            ImageResource imageResource = new ImageResource(file);
+            String url = s3Storage.upload("delete-test", imageResource);
+
+//            when, then
+            Assertions.assertDoesNotThrow(
+                    () -> s3Storage.delete("delete-test")
+            );
+        }
+
+    }
+
+    @Nested
+    @DisplayName("배치 삭제 테스트")
+    class DeleteInBatch {
+
+        @DisplayName("jpg 파일을 s3에 업로드 후 삭제하면, 예외가 발생하지 않는다")
+        @Test
+        void whenUploadJpgFilesAndDeleteInBatch_thenSuccess() {
+//            given
+            MockMultipartFile file = createMockMultipartFileByPath("images/potato.jpg");
+            ImageResource imageResource = new ImageResource(file);
+            s3Storage.upload("delete-test1", imageResource);
+            s3Storage.upload("delete-test2", imageResource);
+
+//            when
+            boolean hasNotError = s3Storage.deleteInBatch(List.of("delete-test1", "delete-test2"));
+
+//            then
+            assertThat(hasNotError).isTrue();
+        }
+
+    }
+
+    private MockMultipartFile createMockMultipartFileByPath(String path) {
+        Resource resource = new ClassPathResource(path);
+        try {
+            Path absolutePath = resource.getFile().toPath();
+            String MIMEType = Files.probeContentType(absolutePath);
+            byte[] bytes = Files.readAllBytes(absolutePath);
+            return new MockMultipartFile("file", resource.getFilename(), MIMEType, bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
 }
