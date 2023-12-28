@@ -1,12 +1,5 @@
 package com.foodymoody.be.image.infra.persistence;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.foodymoody.be.common.exception.InvalidImageUrlException;
 import com.foodymoody.be.common.util.ids.BaseId;
 import com.foodymoody.be.image.domain.ImageCategory;
@@ -14,8 +7,20 @@ import com.foodymoody.be.image.domain.ImageResource;
 import com.foodymoody.be.image.domain.ImageStorage;
 import java.io.InputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.Delete;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+import software.amazon.awssdk.services.s3.model.DeleteObjectsRequest;
+import software.amazon.awssdk.services.s3.model.DeleteObjectsResponse;
+import software.amazon.awssdk.services.s3.model.ObjectIdentifier;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @Component
 public class S3Storage implements ImageStorage {
@@ -23,7 +28,7 @@ public class S3Storage implements ImageStorage {
     private final String s3EndPoint;
     private final String bucketName;
     private final String rootPrefix;
-    private final AmazonS3 s3Client;
+    private final S3Client s3Client;
 
     public S3Storage(
             @Value("${aws.iam.s3.accesskey}") String accessKey,
@@ -36,28 +41,42 @@ public class S3Storage implements ImageStorage {
         this.s3EndPoint = s3EndPoint;
         this.bucketName = bucketName;
         this.rootPrefix = rootPrefix;
-        this.s3Client = AmazonS3ClientBuilder.standard()
-                .withRegion(region)
-                .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
+        this.s3Client = S3Client.builder()
+                .region(Region.of(region))
+                .credentialsProvider(
+                        StaticCredentialsProvider.create(
+                                AwsBasicCredentials.create(accessKey, secretKey))
+                )
                 .build();
     }
 
     @Override
     public String upload(String key, ImageResource file) {
-        return upload(key, file.getInputStream(), file.getObjectMetadata());
+        return upload(key, file.getInputStream(), file.getContentType(), file.getContentLength());
     }
 
     @Override
-    public void deleteAll(List<String> imageKeys) {
-        // TODO s3 sdk v2로 변경하고 벌크 삭제
-        for (String key : imageKeys) {
-            delete(key);
-        }
+    public boolean deleteInBatch(List<String> imageKeys) {
+        List<ObjectIdentifier> s3Keys = imageKeys.stream()
+                .map(key -> ObjectIdentifier.builder().key(key).build())
+                .collect(Collectors.toUnmodifiableList());
+        Delete delete = Delete.builder()
+                .objects(s3Keys)
+                .build();
+        DeleteObjectsRequest deleteObjectsRequest = DeleteObjectsRequest.builder()
+                .bucket(bucketName)
+                .delete(delete)
+                .build();
+        DeleteObjectsResponse deleteObjectsResponse = s3Client.deleteObjects(deleteObjectsRequest);
+        return !deleteObjectsResponse.hasErrors();
     }
 
     @Override
     public void delete(String key) {
-        DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucketName, key);
+        DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .build();
         s3Client.deleteObject(deleteObjectRequest);
     }
 
@@ -75,10 +94,15 @@ public class S3Storage implements ImageStorage {
         return url.replace(rootPath, "");
     }
 
-    private String upload(String key, InputStream inputStream, ObjectMetadata metadata) {
-        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, inputStream, metadata);
-        s3Client.putObject(putObjectRequest);
-        return s3Client.getUrl(bucketName, key).toString();
+    private String upload(String key, InputStream inputStream, String contentType, long contentLength) {
+        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .contentType(contentType)
+                .build();
+        s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, contentLength));
+
+        return String.join("/", s3EndPoint, key);
     }
 
 }

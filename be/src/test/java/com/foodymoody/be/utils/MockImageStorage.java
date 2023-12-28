@@ -14,7 +14,8 @@ public class MockImageStorage implements ImageStorage {
     }
 
     @Override
-    public void deleteAll(List<String> imageKeys) {
+    public boolean deleteInBatch(List<String> imageKeys) {
+        return false;
     }
 
     @Override

@@ -69,7 +69,8 @@ public class ImageService {
         List<String> imageKeys = images.stream()
                 .map(image -> imageStorage.getKey(image.getUrl()))
                 .collect(Collectors.toUnmodifiableList());
-        imageStorage.deleteAll(imageKeys);
+        // TODO s3, 테이블 간 동기화
+        imageStorage.deleteInBatch(imageKeys);
         imageRepository.deleteAllInBatch(images);
     }
 
