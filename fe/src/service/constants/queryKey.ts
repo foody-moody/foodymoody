@@ -10,4 +10,5 @@ export const QUERY_KEY = {
   notifications: 'notifications',
   followings: 'followings',
   followers: 'followers',
+  collections: 'collections',
 };

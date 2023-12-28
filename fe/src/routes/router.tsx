@@ -78,10 +78,6 @@ const router = createBrowserRouter([
                 path: PATH.PROFILE + '/:id',
                 element: <ProfilePage />,
               },
-              // {
-              //   path: PATH.PROFILE_EDIT,
-              //   element: <ProfileEditPage />,
-              // },
               {
                 path: PATH.SETTING,
                 element: <SettingPage />,
@@ -100,6 +96,7 @@ const router = createBrowserRouter([
                   },
                 ],
               },
+
               {
                 path: PATH.PASSWORD,
                 element: <PasswordPage />,
