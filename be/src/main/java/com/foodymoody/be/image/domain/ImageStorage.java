@@ -1,10 +1,13 @@
 package com.foodymoody.be.image.domain;
 
 import com.foodymoody.be.common.util.ids.BaseId;
+import java.util.List;
 
 public interface ImageStorage {
 
     String upload(String key, ImageResource imageResource);
+
+    void deleteAll(List<String> imageKeys);
 
     void delete(String key);
 

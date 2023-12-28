@@ -11,8 +11,12 @@ import com.foodymoody.be.image.domain.ImageCategory;
 import com.foodymoody.be.image.domain.ImageResource;
 import com.foodymoody.be.image.domain.ImageStorage;
 import com.foodymoody.be.image.domain.ImageMapper;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,23 +44,38 @@ public class ImageService {
         return ImageMapper.toUploadResponse(upload(key, currentMemberId, imageResource));
     }
 
-    private Image upload(String key, MemberId uploaderId, ImageResource imageResource) {
-        String storageUrl = imageStorage.upload(key, imageResource);
-        return imageRepository.save(new Image(IdFactory.createImageId(), storageUrl, uploaderId));
+    public void softDelete(MemberId currentMemberId, ImageId id) {
+        Image image = findById(id);
+        image.softDelete(currentMemberId);
     }
 
-    public void delete(MemberId currentMemberId, ImageId id) {
-        Image image = findById(id);
-        image.validateIsUploader(currentMemberId);
-        String key = imageStorage.getKey(image.getUrl());
-        imageStorage.delete(key);
-        imageRepository.delete(image);
+    public void softDelete(MemberId currentMemberId, List<ImageId> ids) {
+        List<Image> images = imageRepository.findAllByIdInAndDeletedFalse(ids);
+        images.forEach(image -> image.validateIsUploader(currentMemberId));
+        imageRepository.setDeletedTrueInBatch(images);
     }
 
     @Transactional(readOnly = true)
     public Image findById(ImageId id) {
-        return imageRepository.findById(id)
+        return imageRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(ImageNotFoundException::new);
+    }
+
+    @Async
+    @Scheduled(cron = "0 0 0 ? * MON")
+    @Transactional
+    void hardDelete() {
+        List<Image> images = imageRepository.findAllByDeletedTrue();
+        List<String> imageKeys = images.stream()
+                .map(image -> imageStorage.getKey(image.getUrl()))
+                .collect(Collectors.toUnmodifiableList());
+        imageStorage.deleteAll(imageKeys);
+        imageRepository.deleteAllInBatch(images);
+    }
+
+    private Image upload(String key, MemberId uploaderId, ImageResource imageResource) {
+        String storageUrl = imageStorage.upload(key, imageResource);
+        return imageRepository.save(new Image(IdFactory.createImageId(), storageUrl, uploaderId));
     }
 
 }

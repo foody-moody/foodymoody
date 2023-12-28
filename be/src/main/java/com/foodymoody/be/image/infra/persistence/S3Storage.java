@@ -13,6 +13,7 @@ import com.foodymoody.be.image.domain.ImageCategory;
 import com.foodymoody.be.image.domain.ImageResource;
 import com.foodymoody.be.image.domain.ImageStorage;
 import java.io.InputStream;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -44,6 +45,14 @@ public class S3Storage implements ImageStorage {
     @Override
     public String upload(String key, ImageResource file) {
         return upload(key, file.getInputStream(), file.getObjectMetadata());
+    }
+
+    @Override
+    public void deleteAll(List<String> imageKeys) {
+        // TODO s3 sdk v2로 변경하고 벌크 삭제
+        for (String key : imageKeys) {
+            delete(key);
+        }
     }
 
     @Override
