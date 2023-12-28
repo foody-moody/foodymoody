@@ -1,18 +1,15 @@
-import { useSetLayout } from 'recoil/booleanState/useSetLayout';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { CollectionContainer } from 'components/collection/CollectionContainer';
 import { LayoutButton } from 'components/layoutButton/LayoutButton';
 
 export const CollectionPage = () => {
-  const { isGrid } = useSetLayout();
-
   return (
     <Wrapper>
       <ContentWrapper>
         CollectionPage
         <LayoutButton />
-        <CollectionContainer isGrid={isGrid} />
+        <CollectionContainer />
       </ContentWrapper>
     </Wrapper>
   );
