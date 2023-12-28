@@ -1,30 +1,18 @@
-import { useState } from 'react';
+import { useSetLayout } from 'recoil/booleanState/useSetLayout';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { CollectionContainer } from 'components/collection/CollectionContainer';
-import { TextButton } from 'components/common/button/TextButton';
-import { MenuIcon, StarLargeEmptyIcon } from 'components/common/icon/icons';
+import { LayoutButton } from 'components/layoutButton/LayoutButton';
 
 export const CollectionPage = () => {
-  const [isGrid, setIsGrid] = useState(true);
-  const handleSetGrid = () => {
-    setIsGrid(true);
-  };
-  const handleSetList = () => {
-    setIsGrid(false);
-  };
+  const { isOn } = useSetLayout();
 
   return (
     <Wrapper>
       <ContentWrapper>
         CollectionPage
-        <TextButton color="black" onClick={handleSetGrid}>
-          <StarLargeEmptyIcon />
-        </TextButton>
-        <TextButton color="black" onClick={handleSetList}>
-          <MenuIcon />
-        </TextButton>
-        <CollectionContainer isGrid={isGrid}></CollectionContainer>
+        <LayoutButton />
+        <CollectionContainer isGrid={isOn}></CollectionContainer>
       </ContentWrapper>
     </Wrapper>
   );
