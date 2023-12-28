@@ -9,15 +9,15 @@ import {
 } from 'components/common/icon/icons';
 
 export const LayoutButton = () => {
-  const { isOn, handleSetOn, handleSetOff } = useSetLayout();
+  const { isGrid, handleSetOn, handleSetOff } = useSetLayout();
 
   return (
     <Wrapper>
       <TextButton color="black" onClick={handleSetOn}>
-        {isOn ? <GridOnIcon /> : <GridOffIcon />}
+        {isGrid ? <GridOnIcon /> : <GridOffIcon />}
       </TextButton>
       <TextButton color="black" onClick={handleSetOff}>
-        {isOn ? <ListOffIcon /> : <ListOnIcon />}
+        {isGrid ? <ListOffIcon /> : <ListOnIcon />}
       </TextButton>
     </Wrapper>
   );

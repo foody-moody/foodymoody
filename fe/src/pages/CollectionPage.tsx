@@ -5,14 +5,14 @@ import { CollectionContainer } from 'components/collection/CollectionContainer';
 import { LayoutButton } from 'components/layoutButton/LayoutButton';
 
 export const CollectionPage = () => {
-  const { isOn } = useSetLayout();
+  const { isGrid } = useSetLayout();
 
   return (
     <Wrapper>
       <ContentWrapper>
         CollectionPage
         <LayoutButton />
-        <CollectionContainer isGrid={isOn} />
+        <CollectionContainer isGrid={isGrid} />
       </ContentWrapper>
     </Wrapper>
   );

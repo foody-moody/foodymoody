@@ -2,15 +2,15 @@ import { useRecoilState } from 'recoil';
 import { booleanState } from './atom';
 
 export const useSetLayout = () => {
-  const [isOn, setIsOn] = useRecoilState(booleanState);
+  const [isGrid, setIsGrid] = useRecoilState(booleanState);
 
   const handleSetOn = () => {
-    setIsOn(true);
+    setIsGrid(true);
   };
 
   const handleSetOff = () => {
-    setIsOn(false);
+    setIsGrid(false);
   };
 
-  return { handleSetOn, handleSetOff, isOn };
+  return { handleSetOn, handleSetOff, isGrid };
 };
