@@ -12,7 +12,7 @@ export const CollectionPage = () => {
       <ContentWrapper>
         CollectionPage
         <LayoutButton />
-        <CollectionContainer isGrid={isOn}></CollectionContainer>
+        <CollectionContainer isGrid={isOn} />
       </ContentWrapper>
     </Wrapper>
   );
