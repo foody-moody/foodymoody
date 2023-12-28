@@ -41,3 +41,7 @@ export { default as HeartSmallEmpty } from 'assets/heartSmallEmpty.svg?react';
 export { default as HeartSmallFill } from 'assets/heartSmallFill.svg?react';
 export { default as EyeVisble } from 'assets/eyeVisble.svg?react';
 export { default as EyeInvisible } from 'assets/eyeInvisible.svg?react';
+export { default as GridOffIcon } from 'assets/gridOff.svg?react';
+export { default as GridOnIcon } from 'assets/gridOn.svg?react';
+export { default as ListOffIcon } from 'assets/listOff.svg?react';
+export { default as ListOnIcon } from 'assets/listOn.svg?react';
