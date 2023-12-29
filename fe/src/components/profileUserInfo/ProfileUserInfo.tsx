@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { TasteMoodBadge } from 'components/common/badge/TasteMoodBadge';
+import { useModal } from 'components/common/modal/useModal';
 import { FollowProfileButton } from 'components/follow/followButton/FollowProfileButton';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
@@ -23,10 +24,13 @@ const MOCK_BADGE = {
 export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
   const navigate = useNavigate();
   const { navigateToProfileSetting } = usePageNavigator();
+  const { openModal } = useModal<'collection'>();
   const { userInfo } = useAuthState();
   const isAuthor = member.id === userInfo.id;
 
-  const handleAddCollection = () => {};
+  const handleAddCollection = () => {
+    openModal('collection', {});
+  };
   const handleEditProfile = () => {
     navigateToProfileSetting();
   };

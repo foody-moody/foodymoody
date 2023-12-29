@@ -5,6 +5,7 @@ type ModalPropsMap = {
   test2: Test2ModalProps;
   commentAlert: CommentAlertProps;
   accountAlert: AccountAlertProps;
+  collection: CollectionModalProps;
 };
 
 type Modal<T extends ModalType> = {
@@ -21,6 +22,10 @@ type TestModalProps = {
 type Test2ModalProps = {
   title: string;
   content: string;
+};
+
+type CollectionModalProps = {
+  data?: any;
 };
 
 type CommentAlertProps = {
