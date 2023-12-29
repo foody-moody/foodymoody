@@ -1,4 +1,4 @@
-package com.foodymoody.be.image.service;
+package com.foodymoody.be.image.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,7 +9,6 @@ import com.foodymoody.be.common.exception.UnauthorizedException;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.image.domain.ImageRepository;
 import com.foodymoody.be.image.infra.persistence.S3Storage;
 import com.foodymoody.be.image.presentation.dto.response.ImageUploadResponse;

@@ -63,7 +63,6 @@ dependencies {
 
     // AWS
     implementation 'software.amazon.awssdk:s3:2.20.162'
-//    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.587'
 
     // Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.14'

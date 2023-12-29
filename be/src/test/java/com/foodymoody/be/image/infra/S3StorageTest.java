@@ -1,16 +1,11 @@
-package com.foodymoody.be.image.repository;
+package com.foodymoody.be.image.infra;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.common.exception.InvalidImageUrlException;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.image.domain.ImageCategory;
-import com.foodymoody.be.image.domain.ImageResource;
 import com.foodymoody.be.image.infra.persistence.S3Storage;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -18,9 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 
 

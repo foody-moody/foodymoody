@@ -1,4 +1,4 @@
-package com.foodymoody.be.image.repository;
+package com.foodymoody.be.image.infra;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
