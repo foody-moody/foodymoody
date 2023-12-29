@@ -1,14 +1,13 @@
+import { useSetLayout } from 'recoil/booleanState/useSetLayout';
 import { styled } from 'styled-components';
 import { GridItem } from './GridItem';
 import { ListItem } from './ListItem';
 
-type Props = {
-  isGrid: boolean;
-};
-
-export const CollectionContainer: React.FC<Props> = ({ isGrid }) => {
+export const CollectionContainer = () => {
   // const { collections } = useGetCollection();
   // console.log(collections);
+  const { isGrid } = useSetLayout();
+
   return (
     <Wrapper>
       {isGrid ? (
