@@ -6,6 +6,7 @@ import com.foodymoody.be.image.domain.ImageCategory;
 import com.foodymoody.be.image.domain.ImageResource;
 import com.foodymoody.be.image.domain.ImageStorage;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 @Component
 public class S3Storage implements ImageStorage {
 
+    private static final int MAX_DELETE_BATCH_SIZE = 1000;
     private final String s3EndPoint;
     private final String bucketName;
     private final String rootPrefix;
@@ -56,19 +58,22 @@ public class S3Storage implements ImageStorage {
     }
 
     @Override
-    public boolean deleteInBatch(List<String> imageKeys) {
+    public boolean deleteAll(List<String> imageKeys) {
         List<ObjectIdentifier> s3Keys = imageKeys.stream()
                 .map(key -> ObjectIdentifier.builder().key(key).build())
                 .collect(Collectors.toUnmodifiableList());
-        Delete delete = Delete.builder()
-                .objects(s3Keys)
-                .build();
-        DeleteObjectsRequest deleteObjectsRequest = DeleteObjectsRequest.builder()
-                .bucket(bucketName)
-                .delete(delete)
-                .build();
-        DeleteObjectsResponse deleteObjectsResponse = s3Client.deleteObjects(deleteObjectsRequest);
-        return !deleteObjectsResponse.hasErrors();
+        boolean hasNotError = true;
+
+        List<ObjectIdentifier> buffer = new ArrayList<>();
+
+        for (ObjectIdentifier s3Key : s3Keys) {
+            buffer.add(s3Key);
+            if (buffer.size() > MAX_DELETE_BATCH_SIZE) {
+                hasNotError = hasNotError && deleteInBatch(buffer);
+                buffer.clear();
+            }
+        }
+        return hasNotError && deleteInBatch(buffer);
     }
 
     @Override
@@ -103,6 +108,18 @@ public class S3Storage implements ImageStorage {
         s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, contentLength));
 
         return String.join("/", s3EndPoint, key);
+    }
+
+    private boolean deleteInBatch(List<ObjectIdentifier> s3Keys) {
+        Delete delete = Delete.builder()
+                .objects(s3Keys)
+                .build();
+        DeleteObjectsRequest deleteObjectsRequest = DeleteObjectsRequest.builder()
+                .bucket(bucketName)
+                .delete(delete)
+                .build();
+        DeleteObjectsResponse deleteObjectsResponse = s3Client.deleteObjects(deleteObjectsRequest);
+        return !deleteObjectsResponse.hasErrors();
     }
 
 }

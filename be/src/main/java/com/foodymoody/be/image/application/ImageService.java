@@ -70,7 +70,7 @@ public class ImageService {
                 .map(image -> imageStorage.getKey(image.getUrl()))
                 .collect(Collectors.toUnmodifiableList());
         // TODO s3, 테이블 간 동기화
-        imageStorage.deleteInBatch(imageKeys);
+        imageStorage.deleteAll(imageKeys);
         imageRepository.deleteAllInBatch(images);
     }
 

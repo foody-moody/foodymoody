@@ -7,7 +7,7 @@ public interface ImageStorage {
 
     String upload(String key, ImageResource imageResource);
 
-    boolean deleteInBatch(List<String> imageKeys);
+    boolean deleteAll(List<String> imageKeys);
 
     void delete(String key);
 
