@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
+import { TasteMoodBadge } from 'components/common/badge/TasteMoodBadge';
 import { FollowProfileButton } from 'components/follow/followButton/FollowProfileButton';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
-import { Badge } from '../common/badge/Badge';
 import { Button } from '../common/button/Button';
 import { CollectableAddIcon } from '../common/icon/icons';
 import { UserImageEdit } from '../common/userImage/UserImageEdit';
@@ -56,7 +56,7 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
           <ContentHeader>
             <p>{member.nickname}</p>
             {/* TODO. Badge 적용 해야함..*/}
-            <Badge badge={MOCK_BADGE} variant="taste" />
+            <TasteMoodBadge name={MOCK_BADGE.name} />
           </ContentHeader>
 
           <ContentBody>

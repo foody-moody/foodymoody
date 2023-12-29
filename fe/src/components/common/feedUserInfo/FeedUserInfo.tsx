@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
-import { Badge } from '../badge/Badge';
+import { TasteMoodBadge } from '../badge/TasteMoodBadge';
 import { Dropdown } from '../dropdown/Dropdown';
 import { DropdownRow } from '../dropdown/DropdownRow';
 import { DotGhostIcon, MapPinSmallIcon } from '../icon/icons';
@@ -108,7 +108,7 @@ export const FeedUserInfo: React.FC<Props> = ({
       </ContentLeft>
 
       <ContentRight>
-        <Badge variant="taste" badge={member.tasteMood} />
+        <TasteMoodBadge name={member.tasteMood.name} />
 
         <Dropdown align="right" opener={<DotGhostIcon />}>
           {menu.map((item) => (

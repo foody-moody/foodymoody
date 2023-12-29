@@ -7,7 +7,7 @@ import { customScrollStyle } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
 import { CommentList } from 'components/comment/CommentList';
 import { CommentInput } from 'components/commentInput/CommentInput';
-import { Badge } from 'components/common/badge/Badge';
+import { StoreMoodBadge } from 'components/common/badge/StoreMoodBadge';
 import { Carousel } from 'components/common/carousel/Carousel';
 import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
@@ -70,15 +70,9 @@ export const DetailFeedModalPage = () => {
                 </Detail>
                 <Review>{feed?.review}</Review>
                 <StoreMoodList>
-                  {feed?.storeMood.map(
-                    (storeMood: { id: string; name: string }) => (
-                      <Badge
-                        variant="store"
-                        badge={storeMood}
-                        key={storeMood.id}
-                      />
-                    )
-                  )}
+                  {feed?.storeMood.map((storeMood: Badge) => (
+                    <StoreMoodBadge name={storeMood.name} key={storeMood.id} />
+                  ))}
                 </StoreMoodList>
               </Info>
               <FeedAction
