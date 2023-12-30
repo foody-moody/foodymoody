@@ -74,7 +74,7 @@ export const useGetFollowers = (memberId?: string) => {
   };
 };
 
-export const usePostFollow = (memberId: string) => {
+export const usePostFollow = (memberId?: string) => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
@@ -92,7 +92,7 @@ export const usePostFollow = (memberId: string) => {
   });
 };
 
-export const useDeleteFollow = (memberId: string) => {
+export const useDeleteFollow = (memberId?: string) => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
