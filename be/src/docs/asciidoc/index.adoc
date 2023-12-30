@@ -521,7 +521,7 @@ operation::deleteFeedImage_failedByUnAuthorized[snippets='http-response']
 
 ==== 성공
 
-operation::feed-collection-create-success[snippets='http-request,http-response']
+operation::feed_collection_request_create_success[snippets='http-request,http-response']
 
 === 컬렉션 전체 조회
 

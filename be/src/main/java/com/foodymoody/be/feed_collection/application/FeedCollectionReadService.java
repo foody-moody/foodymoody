@@ -4,11 +4,10 @@ import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionDao;
-import com.foodymoody.be.feed_collection.domain.FeedCollectionSample;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -17,11 +16,11 @@ public class FeedCollectionReadService {
 
     private final FeedCollectionDao dao;
 
-    public Slice<FeedCollectionSummary> fetchCollection(Pageable pageable) {
+    public List<FeedCollectionSummary> fetchCollection(Pageable pageable) {
         return dao.findAllSummary(pageable);
     }
 
-    public Slice<FeedCollectionSample> fetchCollection(MemberId memberId, Pageable pageable) {
+    public List<FeedCollectionSummary> fetchCollection(MemberId memberId, Pageable pageable) {
         return dao.findAllSummary(memberId, pageable);
     }
 

@@ -6,7 +6,6 @@ import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
-import com.foodymoody.be.feed_collection.domain.FeedCollectionSample;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import com.foodymoody.be.feed_heart.application.FeedHeartService;
 import com.foodymoody.be.image.application.ImageService;
@@ -33,11 +32,11 @@ public class FeedCollectionReadUseCase {
     private final TasteMoodReadService tasteMoodReadService;
     private final FeedHeartService feedHeartService;
 
-    public Slice<FeedCollectionSummary> fetchAll(Pageable pageable) {
+    public List<FeedCollectionSummary> fetchAll(Pageable pageable) {
         return feedCollectionReadService.fetchCollection(pageable);
     }
 
-    public Slice<FeedCollectionSample> fetchAll(MemberId memberId, Pageable pageable) {
+    public List<FeedCollectionSummary> fetchAll(MemberId memberId, Pageable pageable) {
         return feedCollectionReadService.fetchCollection(memberId, pageable);
     }
 
