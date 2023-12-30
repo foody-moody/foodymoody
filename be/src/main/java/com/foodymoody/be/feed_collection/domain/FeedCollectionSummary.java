@@ -2,8 +2,7 @@ package com.foodymoody.be.feed_collection.domain;
 
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_collection.infra.usecase.AuthorSummaryResponse;
-import com.foodymoody.be.feed_collection.infra.usecase.FeedSummaryResponse;
+import com.querydsl.core.annotations.QueryProjection;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import lombok.Getter;
 @Getter
 public class FeedCollectionSummary {
 
-    List<String> moods;
+    private List<String> moods;
     private FeedCollectionId id;
     private String thumbnailUrl;
     private AuthorSummaryResponse author;
@@ -20,14 +19,12 @@ public class FeedCollectionSummary {
     private Long likeCount;
     private boolean isLiked;
     private int followerCount;
-    private boolean isPrivate;
-    private int viewCount;
     private int commentCount;
     private int feedCount;
-    private List<FeedSummaryResponse> feeds;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    @QueryProjection
     public FeedCollectionSummary(
             FeedCollectionId id,
             String thumbnailUrl,
@@ -41,7 +38,6 @@ public class FeedCollectionSummary {
             int followerCount,
             int feedCount,
             int commentCount,
-            boolean isPrivate,
             boolean isLiked,
             List<String> moods,
             LocalDateTime createdAt,
@@ -55,7 +51,6 @@ public class FeedCollectionSummary {
         this.likeCount = likeCount;
         this.isLiked = isLiked;
         this.followerCount = followerCount;
-        this.isPrivate = isPrivate;
         this.commentCount = commentCount;
         this.moods = moods;
         this.feedCount = feedCount;

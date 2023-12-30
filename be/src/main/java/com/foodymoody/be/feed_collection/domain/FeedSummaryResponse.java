@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed_collection.infra.usecase;
+package com.foodymoody.be.feed_collection.domain;
 
 import java.time.LocalDateTime;
 import java.util.List;

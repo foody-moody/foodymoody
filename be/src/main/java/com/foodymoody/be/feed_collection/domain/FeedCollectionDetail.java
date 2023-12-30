@@ -1,6 +1,5 @@
-package com.foodymoody.be.feed_collection.infra.usecase;
+package com.foodymoody.be.feed_collection.domain;
 
-import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
