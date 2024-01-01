@@ -1,5 +1,7 @@
 package com.foodymoody.be.feed.presentation;
 
+import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.dto.response.CollectionReadAllFeedResponse;
 import com.foodymoody.be.feed.infra.usecase.CollectionUseCase;
@@ -22,9 +24,10 @@ public class CollectionController {
      */
     @GetMapping("/api/collections/{collectionId}/feeds")
     public ResponseEntity<Slice<CollectionReadAllFeedResponse>> readFeedCollectionDetail(
-            @PathVariable String collectionId, Pageable pageable) {
+            @PathVariable String collectionId, Pageable pageable,
+            @CurrentMemberId MemberId memberId) {
         Slice<CollectionReadAllFeedResponse> collectionReadAllResponses = collectionUseCase.readFeedCollectionDetail(
-                FeedMapper.toCollectionServiceReadAllFeedRequest(collectionId, pageable));
+                FeedMapper.toCollectionServiceReadAllFeedRequest(collectionId, pageable, memberId));
         return ResponseEntity.ok().body(collectionReadAllResponses);
     }
 

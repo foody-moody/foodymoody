@@ -2,6 +2,7 @@ package com.foodymoody.be.feed.infra.usecase;
 
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.application.StoreMoodReadService;
@@ -33,6 +34,8 @@ public class CollectionUseCase {
     public Slice<CollectionReadAllFeedResponse> readFeedCollectionDetail(CollectionReadFeedListServiceRequest request) {
         FeedCollectionId feedCollectionId = request.getFeedCollectionId();
         Pageable pageable = request.getPageable();
+        MemberId memberId = request.getMemberId();
+
         final String sortBy = "createdAt";
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sortBy).descending());
 
@@ -40,7 +43,18 @@ public class CollectionUseCase {
         List<FeedId> feedIds = feedCollection.getFeedIds();
         Slice<Feed> feeds = feedReadService.findAllByIdIn(feedIds, pageable);
 
-        List<CollectionReadAllFeedResponse> responses = feeds.stream()
+        List<CollectionReadAllFeedResponse> responses;
+        if (memberId == null) {
+            responses = makeCollectionReadAllFeedResponsesWhenMemberIdIsNull(feeds);
+        } else {
+            responses = makeCollectionReadAllFeedResponsesWhenMemberIdIsNotNull(feeds);
+        }
+
+        return new SliceImpl<>(responses, pageable, feeds.hasNext());
+    }
+
+    private List<CollectionReadAllFeedResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNull(Slice<Feed> feeds) {
+        return feeds.stream()
                 .map(feed -> CollectionReadAllFeedResponse.builder()
                         .feedAllCount(feeds.getSize())
                         .feedThumbnailUrl(imageService.findById(FeedMapper.findFirstImageId(feed)).getUrl())
@@ -50,13 +64,29 @@ public class CollectionUseCase {
                         .updatedAt(feed.getUpdatedAt())
                         .description(feed.getReview())
                         .moodNames(FeedMapper.toFeedStoreMoodNames(feed.getStoreMoods()))
-                        .isLiked(feed.isLiked())
+                        .isLiked(false)
                         .likeCount(feed.getLikeCount())
                         .feedCommentCount(feed.getCommentCount())
                         .build())
                 .collect(Collectors.toUnmodifiableList());
+    }
 
-        return new SliceImpl<>(responses, pageable, feeds.hasNext());
+    private List<CollectionReadAllFeedResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNotNull(Slice<Feed> feeds) {
+        return feeds.stream()
+                .map(feed -> CollectionReadAllFeedResponse.builder()
+                        .feedAllCount(feeds.getSize())
+                        .feedThumbnailUrl(imageService.findById(FeedMapper.findFirstImageId(feed)).getUrl())
+                        .storeName(null) // TODO: 가게 API 구현 완료되면 가게 name 조회해오기
+                        .feedId(feed.getId())
+                        .createdAt(feed.getCreatedAt())
+                        .updatedAt(feed.getUpdatedAt())
+                        .description(feed.getReview())
+                        .moodNames(FeedMapper.toFeedStoreMoodNames(feed.getStoreMoods()))
+                        .isLiked(feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()))
+                        .likeCount(feed.getLikeCount())
+                        .feedCommentCount(feed.getCommentCount())
+                        .build())
+                .collect(Collectors.toUnmodifiableList());
     }
 
 }
