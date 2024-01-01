@@ -39,16 +39,16 @@ public class FeedHeartService {
 
         FeedHeart feedHeart = FeedHeartMapper
                 .makeFeedHeartWithFeedIdAndMemberId(IdFactory.createFeedHeartId(), IdFactory.createFeedId(feedStringId),
-                        memberId);
+                        memberId, true);
         FeedHeart savedFeedHeart = feedHeartRepository.save(feedHeart);
 
         feedHeartCountService.incrementFeedHeartCount(feedStringId);
 
         FeedHeartCount feedHeartCount = feedHeartCountService.findFeedHeartCountByFeedId(feedStringId);
-        Feed feed = updateFeed(feedStringId, feedHeartCount.getCount(), true);
+        updateFeed(feedStringId, feedHeartCount.getCount());
 
         return FeedHeartMapper.toHeartResponse(savedFeedHeart.getId().getValue(), savedFeedHeart.getFeedId().getValue(),
-                savedFeedHeart.getMemberId().getValue(), feed.isLiked(), feedHeartCount.getCount());
+                savedFeedHeart.getMemberId().getValue(), savedFeedHeart.isLiked(), feedHeartCount.getCount());
     }
 
     @Transactional
@@ -66,17 +66,14 @@ public class FeedHeartService {
         feedHeartCountService.decrementFeedHeartCount(feedStringId);
 
         FeedHeartCount feedHeartCount = feedHeartCountService.findFeedHeartCountByFeedId(feedStringId);
-        updateFeed(feedStringId, feedHeartCount.getCount(), false);
+        updateFeed(feedStringId, feedHeartCount.getCount());
     }
 
-    private Feed updateFeed(String feedId, int heartCount, boolean isLiked) {
+    private void updateFeed(String feedId, int heartCount) {
         FeedId feedIdObj = IdFactory.createFeedId(feedId);
         Feed feed = feedReadService.findFeed(feedIdObj);
 
-        feed.updateIsLikedBy(isLiked);
         feed.updateLikeCountBy(heartCount);
-
-        return feed;
     }
 
     private boolean existsHeart(MemberId memberId, String feedId) {
