@@ -8,6 +8,7 @@ import static com.foodymoody.be.acceptance.feed_collection_reply.FeedCollectionR
 import static com.foodymoody.be.acceptance.feed_collection_reply.FeedCollectionReplySteps.피드_컬렉션_댓글의_대댓글을_삭제한다;
 import static com.foodymoody.be.acceptance.feed_collection_reply.FeedCollectionReplySteps.피드_컬렉션_댓글의_대댓글을_수정한다;
 import static com.foodymoody.be.acceptance.feed_collection_reply.FeedCollectionReplySteps.피드_컬렉션_댓글의_대댓글을_조회한다;
+import static com.foodymoody.be.acceptance.feed_collection_reply_like.FeedCollectionReplyLikeSteps.피드_컬렉션_대댓글에_좋아요를_등록한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
@@ -85,7 +86,8 @@ class FeedCollectionReplyAcceptanceTest extends AcceptanceTest {
         // given
         피드_컬렉션_댓글에_대댓글을_등록한다(회원아티_액세스토큰, commentId);
         피드_컬렉션_댓글에_대댓글을_등록한다(회원아티_액세스토큰, commentId);
-        피드_컬렉션_댓글에_대댓글을_등록한다(회원아티_액세스토큰, commentId);
+        String id = 피드_컬렉션_댓글에_대댓글을_등록하고_아이디를_반환한다(회원아티_액세스토큰, commentId);
+        피드_컬렉션_대댓글에_좋아요를_등록한다(회원푸반_액세스토큰, commentId, id);
 
         // when
         var response = 피드_컬렉션_댓글의_대댓글을_조회한다(회원푸반_액세스토큰, commentId, spec);

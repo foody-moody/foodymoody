@@ -20,4 +20,8 @@ public interface FeedCollectionReplaySummary {
     String getNickname();
 
     String getProfileUrl();
+
+    boolean isLiked();
+
+    long getLikeCount();
 }
