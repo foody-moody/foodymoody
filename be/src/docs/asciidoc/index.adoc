@@ -535,6 +535,12 @@ operation::feed_collection_request_update_success[snippets='http-request,http-re
 
 operation::feed_collection_request_update_feed_list_success[snippets='http-request,http-response']
 
+=== 컬렉션 삭제
+
+==== 성공
+
+operation::feed_collection_request_delete_success[snippets='http-request,http-response']
+
 === 컬렉션 전체 조회
 
 ==== 성공
