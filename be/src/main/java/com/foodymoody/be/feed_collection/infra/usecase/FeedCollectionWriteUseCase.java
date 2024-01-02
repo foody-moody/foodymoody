@@ -44,6 +44,10 @@ public class FeedCollectionWriteUseCase {
         service.update(id, feedIds, memberId);
     }
 
+    public void delete(FeedCollectionId id, MemberId memberId) {
+        service.delete(id, memberId);
+    }
+
     private FeedCollectionId createCollection(
             FeedCollectionCreateRequest request, MemberId memberId, List<FeedId> feedIds
     ) {

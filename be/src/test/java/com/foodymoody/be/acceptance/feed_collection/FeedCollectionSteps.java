@@ -117,4 +117,19 @@ public class FeedCollectionSteps {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 피드_컬렉션을_삭제한다(
+            String collectionId,
+            String accessToken,
+            RequestSpecification spec
+    ) {
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .when()
+                .delete("/api/collections/{collectionId}", collectionId)
+                .then().log().all()
+                .extract();
+    }
 }

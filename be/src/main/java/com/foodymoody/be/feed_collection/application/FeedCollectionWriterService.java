@@ -86,4 +86,10 @@ public class FeedCollectionWriterService {
         FeedCollection feedCollection = fetchById(id);
         feedCollection.update(feedIds, memberId, LocalDateTime.now());
     }
+
+    @Transactional
+    public void delete(FeedCollectionId id, MemberId memberId) {
+        FeedCollection feedCollection = fetchById(id);
+        feedCollection.delete(memberId, LocalDateTime.now());
+    }
 }
