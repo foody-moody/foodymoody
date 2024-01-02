@@ -523,6 +523,12 @@ operation::deleteFeedImage_failedByUnAuthorized[snippets='http-response']
 
 operation::feed_collection_request_create_success[snippets='http-request,http-response']
 
+=== 컬렉션 수정
+
+==== 성공
+
+operation::feed_collection_request_update_success[snippets='http-request,http-response']
+
 === 컬렉션 전체 조회
 
 ==== 성공

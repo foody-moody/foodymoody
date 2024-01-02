@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed_collection.domain;
 
 import com.foodymoody.be.common.event.Events;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
@@ -101,16 +102,29 @@ public class FeedCollection {
     }
 
     public void addMood(MemberId memberId, FeedCollectionMood mood) {
-        if (!memberId.equals(authorId)) {
-            throw new IllegalArgumentException("피드 컬렉션 작성자가 아닙니다.");
-        }
+        validateAuthor(memberId);
         moods.add(mood);
     }
 
     public void removeMood(MemberId memberId, FeedCollectionMood mood) {
+        validateAuthor(memberId);
+        moods.remove(mood);
+    }
+
+    public void edit(
+            String title, Content content, String thumbnailUrl, List<FeedCollectionMood> moodIds, MemberId memberId
+    ) {
+        validateAuthor(memberId);
+        this.title = title;
+        this.description = content.getValue();
+        this.thumbnailUrl = thumbnailUrl;
+        this.moods.update(moodIds);
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    private void validateAuthor(MemberId memberId) {
         if (!memberId.equals(authorId)) {
             throw new IllegalArgumentException("피드 컬렉션 작성자가 아닙니다.");
         }
-        moods.remove(mood);
     }
 }

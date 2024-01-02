@@ -7,10 +7,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Embeddable
 public class Content {
 
@@ -20,4 +22,8 @@ public class Content {
     @Size(max = 200)
     @JsonProperty("content")
     private String value;
+
+    public Content(String value) {
+        this.value = value;
+    }
 }

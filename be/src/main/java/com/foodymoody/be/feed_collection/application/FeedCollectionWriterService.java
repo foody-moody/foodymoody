@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_collection.application;
 
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
@@ -65,8 +66,18 @@ public class FeedCollectionWriterService {
         feedCollection.addCommentId(collectionCommentId);
     }
 
+    @Transactional
     public void removeCommentId(FeedCollectionId feedCollectionId, FeedCollectionCommentId collectionCommentId) {
         FeedCollection feedCollection = fetchById(feedCollectionId);
         feedCollection.removeCommentId(collectionCommentId);
+    }
+
+    @Transactional
+    public void edit(
+            FeedCollectionId id, String title, Content content, String thumbnailUrl, List<FeedCollectionMood> moods,
+            MemberId memberId
+    ) {
+        FeedCollection feedCollection = fetchById(id);
+        feedCollection.edit(title, content, thumbnailUrl, moods, memberId);
     }
 }

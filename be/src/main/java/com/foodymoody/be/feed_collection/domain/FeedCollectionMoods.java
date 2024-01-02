@@ -38,4 +38,8 @@ public class FeedCollectionMoods {
     public void remove(FeedCollectionMood mood) {
         moodList.remove(mood);
     }
+
+    public void update(List<FeedCollectionMood> moodIds) {
+        this.moodList = moodIds;
+    }
 }
