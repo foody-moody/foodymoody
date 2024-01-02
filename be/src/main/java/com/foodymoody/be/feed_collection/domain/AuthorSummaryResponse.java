@@ -1,16 +1,19 @@
 package com.foodymoody.be.feed_collection.domain;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import lombok.Getter;
 
 @Getter
 public class AuthorSummaryResponse {
 
-    private String authorId;
+    private MemberId authorId;
     private String authorName;
     private String authorMood;
     private String authorProfileImageUrl;
 
-    public AuthorSummaryResponse(String authorId, String authorName, String authorMood, String authorProfileImageUrl) {
+    public AuthorSummaryResponse(
+            MemberId authorId, String authorName, String authorMood, String authorProfileImageUrl
+    ) {
         this.authorId = authorId;
         this.authorName = authorName;
         this.authorMood = authorMood;

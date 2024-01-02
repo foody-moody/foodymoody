@@ -45,7 +45,7 @@ public class FeedCollectionSummary {
     ) {
         this.id = id;
         this.thumbnailUrl = thumbnailUrl;
-        this.author = new AuthorSummaryResponse(authorId.getValue(), nickname, tasteMoodName, profileImageUrl);
+        this.author = new AuthorSummaryResponse(authorId, nickname, tasteMoodName, profileImageUrl);
         this.title = title;
         this.description = description;
         this.likeCount = likeCount;

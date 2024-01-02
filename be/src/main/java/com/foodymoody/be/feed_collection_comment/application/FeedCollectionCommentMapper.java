@@ -13,10 +13,18 @@ import org.springframework.stereotype.Component;
 public class FeedCollectionCommentMapper {
 
     public FeedCollectionComment toEntity(
-            FeedCollectionId feedCollectionId, Content content, MemberId memberId,
-            FeedCollectionCommentId feedCollectionCommentId, LocalDateTime now
+            FeedCollectionId feedCollectionId,
+            Content content,
+            MemberId memberId,
+            FeedCollectionCommentId feedCollectionCommentId,
+            LocalDateTime now
     ) {
         return new FeedCollectionComment(
-                feedCollectionCommentId, feedCollectionId, memberId, content, now);
+                feedCollectionCommentId,
+                feedCollectionId,
+                memberId,
+                content,
+                now
+        );
     }
 }

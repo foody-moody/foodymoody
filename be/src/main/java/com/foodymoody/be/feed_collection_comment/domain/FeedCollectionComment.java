@@ -8,7 +8,6 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import lombok.AccessLevel;
@@ -26,7 +25,7 @@ public class FeedCollectionComment {
     private FeedCollectionId feedId;
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
-    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "content"))
     private Content content;
     private boolean deleted;
     private boolean hasReply;

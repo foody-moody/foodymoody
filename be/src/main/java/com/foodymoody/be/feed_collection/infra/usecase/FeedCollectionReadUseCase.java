@@ -1,15 +1,22 @@
 package com.foodymoody.be.feed_collection.infra.usecase;
 
+import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.AuthorSummaryResponse;
+import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionDetail;
+import com.foodymoody.be.feed_collection.domain.FeedCollectionMood;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import com.foodymoody.be.feed_collection.domain.FeedSummaryResponse;
+import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionCommentResponse;
+import com.foodymoody.be.feed_collection_comment.application.FeedCollectionCommentReadService;
+import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionCommentSummary;
 import com.foodymoody.be.feed_heart.application.FeedHeartService;
 import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.member.application.MemberQueryService;
@@ -34,6 +41,7 @@ public class FeedCollectionReadUseCase {
     private final ImageService imageService;
     private final TasteMoodReadService tasteMoodReadService;
     private final FeedHeartService feedHeartService;
+    private final FeedCollectionCommentReadService commentReadService;
 
     public Slice<FeedCollectionSummary> fetchAll(Pageable pageable) {
         return feedCollectionReadService.fetchCollection(pageable);
@@ -46,52 +54,98 @@ public class FeedCollectionReadUseCase {
     @Transactional(readOnly = true)
     public FeedCollectionDetail fetchDetail(FeedCollectionId id) {
         var feedCollection = feedCollectionReadService.fetch(id);
-        var author = memberQueryService.findById(feedCollection.getAuthorId());
-        var authorProfileImage = imageService.findById(author.getProfileImageId());
-        var authorTasteMood = tasteMoodReadService.findById(author.getTasteMoodId());
-        AuthorSummaryResponse authorSummaryResponse = new AuthorSummaryResponse(
-                author.getId().getValue(),
-                author.getNickname(),
-                authorProfileImage.getUrl(),
-                authorTasteMood.getName()
-        );
-        var feedIds = feedCollection.getFeedIds();
-        Slice<Feed> allDetailByIdIn = feedReadService.findAllByIdIn(
-                feedIds, Pageable.ofSize(10).withPage(0));
-
-        List<FeedSummaryResponse> feeds = allDetailByIdIn.stream()
-                .map(feed -> {
-                    List<String> moods = getStoreMoodsNames(feed.getStoreMoods());
-                    return getFeedSummaryResponse(feed, moods, false);
-                })
-                .collect(Collectors.toList());
-        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds);
+        var authorSummaryResponse = getAuthorSummaryResponse(feedCollection);
+        var feeds = getFeeds(feedCollection.getFeedIds());
+        var comments = getComments(feedCollection.getCommentIds());
+        var moods = getMoods(feedCollection);
+        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods);
     }
 
     @Transactional(readOnly = true)
     public FeedCollectionDetail fetchDetail(FeedCollectionId id, MemberId memberId) {
         var feedCollection = feedCollectionReadService.fetch(id);
-        var author = memberQueryService.findById(feedCollection.getAuthorId());
-        var authorProfileImage = imageService.findById(author.getProfileImageId());
-        var authorTasteMood = tasteMoodReadService.findById(author.getTasteMoodId());
-        AuthorSummaryResponse authorSummaryResponse = new AuthorSummaryResponse(
-                author.getId().getValue(),
-                author.getNickname(),
-                authorProfileImage.getUrl(),
-                authorTasteMood.getName()
-        );
-        var feedIds = feedCollection.getFeedIds();
-        Slice<Feed> allDetailByIdIn = feedReadService.findAllByIdIn(
-                feedIds, Pageable.ofSize(10).withPage(0));
+        var authorSummaryResponse = getAuthorSummaryResponse(feedCollection);
+        var feeds = getFeeds(memberId, feedCollection);
+        var commentIds = feedCollection.getCommentIds();
+        var comments = getComments(memberId, commentIds);
+        var moods = getMoods(feedCollection);
+        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods);
+    }
 
-        List<FeedSummaryResponse> feeds = allDetailByIdIn.stream()
+    private Slice<FeedCollectionCommentResponse> getComments(
+            MemberId memberId,
+            List<FeedCollectionCommentId> commentIds
+    ) {
+        Slice<FeedCollectionCommentSummary> comments = commentReadService.findSummaryAllByIdIn(
+                memberId, commentIds, Pageable.ofSize(10).withPage(0));
+        return toCommentResponse(comments);
+    }
+
+    private List<FeedSummaryResponse> getFeeds(MemberId memberId, FeedCollection feedCollection) {
+        var feedIds = feedCollection.getFeedIds();
+        Slice<Feed> feeds = feedReadService.findAllByIdIn(
+                feedIds,
+                Pageable.ofSize(10).withPage(0)
+        );
+        return feeds.stream()
                 .map(feed -> {
                     boolean isLiked = feedHeartService.existsHeart(memberId, feed.getId().getValue());
                     List<String> moods = getStoreMoodsNames(feed.getStoreMoods());
                     return getFeedSummaryResponse(feed, moods, isLiked);
                 })
                 .collect(Collectors.toList());
-        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds);
+    }
+
+    private AuthorSummaryResponse getAuthorSummaryResponse(FeedCollection feedCollection) {
+        var author = memberQueryService.findById(feedCollection.getAuthorId());
+        var authorProfileImage = imageService.findById(author.getProfileImageId());
+        var authorTasteMood = tasteMoodReadService.findById(author.getTasteMoodId());
+        return new AuthorSummaryResponse(
+                author.getId(),
+                author.getNickname(),
+                authorProfileImage.getUrl(),
+                authorTasteMood.getName()
+        );
+    }
+
+    private Slice<FeedCollectionCommentResponse> getComments(List<FeedCollectionCommentId> commentIds) {
+        Slice<FeedCollectionCommentSummary> comments = commentReadService.findSummaryAllByIdIn(
+                commentIds,
+                Pageable.ofSize(10).withPage(0)
+        );
+        return toCommentResponse(comments);
+    }
+
+    private List<FeedSummaryResponse> getFeeds(List<FeedId> feedIds) {
+        Slice<Feed> feeds = feedReadService.findAllByIdIn(
+                feedIds, Pageable.ofSize(10).withPage(0));
+        return feeds.stream()
+                .map(feed -> {
+                    List<String> moods = getStoreMoodsNames(feed.getStoreMoods());
+                    return getFeedSummaryResponse(feed, moods, false);
+                })
+                .collect(Collectors.toList());
+    }
+
+    private static Slice<FeedCollectionCommentResponse> toCommentResponse(
+            Slice<FeedCollectionCommentSummary> comments
+    ) {
+        return comments.map(comment -> new FeedCollectionCommentResponse(
+                comment.getId(),
+                comment.getFeedId(),
+                comment.getContent(),
+                comment.isDeleted(),
+                comment.isHasReply(),
+                comment.getCreatedAt(),
+                comment.getUpdatedAt(),
+                comment.getReplyCount(),
+                comment.isLiked(),
+                comment.getLikeCount(),
+                comment.getMemberId(),
+                comment.getNickname(),
+                comment.getProfileImageUrl(),
+                comment.getMood()
+        ));
     }
 
     private FeedSummaryResponse getFeedSummaryResponse(
@@ -108,6 +162,13 @@ public class FeedCollectionReadUseCase {
                 feed.getCreatedAt(),
                 feed.getUpdatedAt()
         );
+    }
+
+    private static List<String> getMoods(FeedCollection feedCollection) {
+        return feedCollection.getMoods()
+                .stream()
+                .map(FeedCollectionMood::getName)
+                .collect(Collectors.toList());
     }
 
     private static List<String> getStoreMoodsNames(List<StoreMood> storeMoods) {

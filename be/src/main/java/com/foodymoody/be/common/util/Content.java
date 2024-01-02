@@ -1,5 +1,6 @@
 package com.foodymoody.be.common.util;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
@@ -17,5 +18,6 @@ public class Content {
     @NotNull
     @NotBlank
     @Size(max = 200)
+    @JsonProperty("content")
     private String value;
 }
