@@ -1,4 +1,4 @@
-package com.foodymoody.be.image.service;
+package com.foodymoody.be.image.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,7 +9,6 @@ import com.foodymoody.be.common.exception.UnauthorizedException;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.image.domain.ImageRepository;
 import com.foodymoody.be.image.infra.persistence.S3Storage;
 import com.foodymoody.be.image.presentation.dto.response.ImageUploadResponse;
@@ -104,20 +103,20 @@ class ImageServiceTest {
     }
 
     @Nested
-    @DisplayName("이미지 삭제 테스트")
-    class Delete {
+    @DisplayName("이미지 soft delete 테스트")
+    class SoftDelete {
 
-        @DisplayName("이미지를 삭제한다")
+        @DisplayName("이미지를 soft delete 한다")
         @Test
-        void whenDeleteImage_thenSuccess() {
+        void whenSoftDeleteImage_thenSuccess() {
 //        given
             ImageId testId = IdFactory.createImageId("testId");
-            given(imageRepository.findById(any(ImageId.class))).willReturn(
+            given(imageRepository.findByIdAndDeletedFalse(any(ImageId.class))).willReturn(
                     Optional.of(new Image(testId, "https://s3Url/key", IdFactory.createMemberId("testMemberId")))
             );
 
 //        when, then
-            Assertions.assertDoesNotThrow(() -> imageService.delete(new MemberId("testMemberId"), new ImageId("testId")));
+            Assertions.assertDoesNotThrow(() -> imageService.softDelete(new MemberId("testMemberId"), new ImageId("testId")));
         }
 
         @DisplayName("이미지 업로더의 id와 매개변수로 받은 회원 id가 다르면, 예외가 발생한다")
@@ -125,12 +124,12 @@ class ImageServiceTest {
         void whenRequestMemberIdIsNotImageUploaderId_thenFail() {
 //        given
             ImageId testId = IdFactory.createImageId("testId");
-            given(imageRepository.findById(any(ImageId.class))).willReturn(
+            given(imageRepository.findByIdAndDeletedFalse(any(ImageId.class))).willReturn(
                     Optional.of(new Image(testId, "https://s3Url.com/key", new MemberId("testMemberId"))));
 
 //        when, then
             Assertions.assertThrows(UnauthorizedException.class,
-                    () -> imageService.delete(new MemberId("differentMemberId"), new ImageId("testId")));
+                    () -> imageService.softDelete(new MemberId("differentMemberId"), new ImageId("testId")));
         }
 
     }
