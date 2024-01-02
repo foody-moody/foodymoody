@@ -1,4 +1,4 @@
-package com.foodymoody.be.acceptance.heart;
+package com.foodymoody.be.acceptance.feed_heart;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
