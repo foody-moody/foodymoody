@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("피드 컬렉션 인수 테스트")
 class FeedCollectionAcceptanceTest extends AcceptanceTest {
 
     List<String> feedIds;

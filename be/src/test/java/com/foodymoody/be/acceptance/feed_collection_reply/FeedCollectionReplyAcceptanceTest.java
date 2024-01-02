@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("피드 컬렉션 댓글 인수 테스트")
 class FeedCollectionReplyAcceptanceTest extends AcceptanceTest {
 
     String commentId;

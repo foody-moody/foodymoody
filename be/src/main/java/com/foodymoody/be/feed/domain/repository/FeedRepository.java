@@ -12,5 +12,4 @@ public interface FeedRepository extends JpaRepository<Feed, FeedId> {
     boolean existsAllByIdIn(List<FeedId> feedIds);
 
     Slice<Feed> findAllByIdIn(List<FeedId> feedIds, Pageable pageable);
-
 }

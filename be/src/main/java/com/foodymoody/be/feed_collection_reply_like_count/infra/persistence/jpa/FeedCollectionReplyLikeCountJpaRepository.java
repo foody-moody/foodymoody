@@ -12,15 +12,15 @@ public interface FeedCollectionReplyLikeCountJpaRepository extends
         JpaRepository<FeedCollectionReplyLikeCount, FeedCollectionReplyLikeCountId> {
 
     @Modifying
-    @Query("UPDATE FeedCollectionReplyLikeCount " +
-            "SET count = count + 1 " +
-            "WHERE feedCollectionReplyId = :feedCollectionReplyId")
+    @Query("UPDATE FeedCollectionReplyLikeCount _lickCount " +
+            "SET _lickCount.count = _lickCount.count + 1 " +
+            "WHERE _lickCount.feedCollectionReplyId = :feedCollectionReplyId")
     void increaseCount(FeedCollectionReplyId feedCollectionReplyId);
 
     @Modifying
-    @Query("UPDATE FeedCollectionReplyLikeCount " +
-            "SET count = count - 1 " +
-            "WHERE feedCollectionReplyId = :feedCollectionReplyId")
+    @Query("UPDATE FeedCollectionReplyLikeCount _lickCount " +
+            "SET _lickCount.count = _lickCount.count - 1 " +
+            "WHERE _lickCount.feedCollectionReplyId = :feedCollectionReplyId")
     void decreaseCount(FeedCollectionReplyId feedCollectionReplyId);
 
     Optional<FeedCollectionReplyLikeCount> findByFeedCollectionReplyId(FeedCollectionReplyId feedCollectionReplyId);

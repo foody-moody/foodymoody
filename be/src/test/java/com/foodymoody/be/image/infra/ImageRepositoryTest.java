@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+@DisplayName("ImageRepository 테스트")
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 class ImageRepositoryTest {

@@ -68,5 +68,4 @@ public class FeedReadService {
     public Slice<Feed> findAllByIdIn(List<FeedId> feedIds, Pageable pageable) {
         return feedRepository.findAllByIdIn(feedIds, pageable);
     }
-
 }
