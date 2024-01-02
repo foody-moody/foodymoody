@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDeleteFeed } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
+import { useKakaoShare } from 'hooks/useKakaoShare';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { Badge } from '../badge/Badge';
@@ -9,28 +10,31 @@ import { Dropdown } from '../dropdown/Dropdown';
 import { DropdownRow } from '../dropdown/DropdownRow';
 import { DotGhostIcon, MapPinSmallIcon } from '../icon/icons';
 import { UserImage } from '../userImage/UserImage';
+import { Share } from './Share';
 import { PATH } from 'constants/path';
 
 type Props = {
+  feedId?: string;
   member: FeedMemberInfo;
   createdAt: string;
   isUpdated: boolean;
   location: string;
-  feedId?: string;
+  thumbnail?: string;
 };
 
 export const FeedUserInfo: React.FC<Props> = ({
+  feedId,
   member,
   createdAt,
   isUpdated,
   location,
-  feedId,
+  thumbnail,
 }) => {
   const navigate = useNavigate();
   const { mutate: deleteMutate } = useDeleteFeed();
   const { isLogin, userInfo } = useAuthState();
   const formattedTimeStamp = formatTimeStamp(createdAt);
-
+  // const { share } = useKakaoShare();
   const handleNavigateProfile = () => {
     navigate(PATH.PROFILE + '/' + member.id);
   };
@@ -53,11 +57,6 @@ export const FeedUserInfo: React.FC<Props> = ({
         navigate(`${PATH.PROFILE}/${member.id}`);
       },
     }, // 일단 프로필로 이동
-    {
-      id: 4,
-      content: '공유하기',
-      onClick: () => {},
-    },
   ];
 
   const privateMenu = [
@@ -111,6 +110,9 @@ export const FeedUserInfo: React.FC<Props> = ({
         <Badge variant="taste" badge={member.tasteMood} />
 
         <Dropdown align="right" opener={<DotGhostIcon />}>
+          <DropdownRow>
+            <Share imageUrl={thumbnail} targetId={feedId} />
+          </DropdownRow>
           {menu.map((item) => (
             <DropdownRow key={item.id} onClick={item.onClick}>
               {item.content}

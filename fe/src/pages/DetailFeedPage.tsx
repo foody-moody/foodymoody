@@ -20,6 +20,7 @@ import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const DetailFeedModalPage = () => {
   // TODO 로딩 에러
+
   const { id: feedId } = useParams() as { id: string };
   const { data: feed } = useFeedDetail(feedId);
   const { closeModal } = useModal<'commentAlert'>();
