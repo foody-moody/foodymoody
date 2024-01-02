@@ -140,9 +140,9 @@ const Dummy = styled.div`
   border-radius: 4px;
 `;
 
-const BannerContent = styled.div`
-  background: ${({ theme: { colors } }) => colors.blue500};
-  width: 80%;
-  height: 100px;
-  border-radius: 4px;
-`;
+// const BannerContent = styled.div`
+//   background: ${({ theme: { colors } }) => colors.blue500};
+//   width: 80%;
+//   height: 100px;
+//   border-radius: 4px;
+// `;
