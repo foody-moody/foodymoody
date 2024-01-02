@@ -7,7 +7,7 @@ import { LayoutButton } from 'components/layoutButton/LayoutButton';
 export const CollectionPage = () => {
   return (
     <Wrapper>
-      <BannerContent />
+      {/* <BannerContent /> */}
       <ContentWrapper>
         <HeaderContent>
           <SubTitle>오늘의 컬렉션🎉</SubTitle>
@@ -23,7 +23,7 @@ export const CollectionPage = () => {
             <HeaderRight>
               <Text>푸디무디들이 엄선한 맛집모음!</Text>
               <SortBox>
-                <Dummy></Dummy>
+                <Dummy>{/* 셀렉트component자리*/}</Dummy>
                 <LayoutButton />
               </SortBox>
             </HeaderRight>
