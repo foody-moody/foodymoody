@@ -33,7 +33,7 @@ public class UpdateMemberProfileUseCase {
                 && !Objects.equals(request.getProfileImageId(), member.getProfileImageId().getValue())) {
             Image image = imageService.findById(IdFactory.createImageId(request.getProfileImageId()));
             if (!Objects.equals(member.getProfileImageId(), ImageId.MEMBER_PROFILE_DEFAULT)) {
-                imageService.delete(currentMemberId, member.getProfileImageId());
+                image.softDelete(currentMemberId);
             }
             member.updateProfileImage(image.getId());
         }

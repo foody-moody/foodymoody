@@ -44,7 +44,7 @@ public class ImageController {
     public ResponseEntity<Void> deleteImage(
             @CurrentMemberId MemberId memberId,
             @PathVariable ImageId id) {
-        imageService.delete(memberId, id);
+        imageService.softDelete(memberId, id);
         return ResponseEntity.ok().build();
     }
 }
