@@ -15,12 +15,12 @@ export const getFollowers = async (id?: string, page = 0, size = 10) => {
   return data;
 };
 
-export const postFollow = async (id: string) => {
+export const postFollow = async (id?: string) => {
   const { data } = await privateApi.post(END_POINT.followings(id));
   return data;
 };
 
-export const deleteFollow = async (id: string) => {
+export const deleteFollow = async (id?: string) => {
   const { data } = await privateApi.delete(END_POINT.followings(id));
   return data;
 };

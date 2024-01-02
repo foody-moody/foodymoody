@@ -60,7 +60,7 @@ const Grid = styled.div`
   cursor: pointer;
   width: 100%;
   height: 100%;
-  border: 1px solid ${({ theme: { colors } }) => colors.black};
+  /* border: 1px solid ${({ theme: { colors } }) => colors.black}; */
 
   img {
     width: 100%;

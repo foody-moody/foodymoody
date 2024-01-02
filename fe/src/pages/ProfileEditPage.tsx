@@ -18,12 +18,13 @@ import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 
 export const ProfileEditPage = () => {
   // 변경사항이 생겻는데 어디가려고할때 alert 할지? (변경사항이 저장되지 않았습니다. 나가시겠습니까?)
-  // 새로고침시 profile데이터가 전해지지 않음
-  // 페쳐컴포넌트 혹은 서스펜스 추가 필요
+  // 새로고침시 profile데이터가 전해지지 않음 => id전해주는 방식을 변경, useGetProfile에서 판단하지 않도록 함
 
   const { userInfo } = useAuthState();
-  const { data: tastes } = useGetTasteMood();
   const { data: profile } = useGetProfile(userInfo.id);
+  const { data: tastes } = useGetTasteMood();
+  console.log(profile);
+
   const { mutate: profileMutate } = useEditProfile(userInfo.id);
   const { register, handleSubmit, state, errorItem, getValues } =
     useProfileEditForm(profile);

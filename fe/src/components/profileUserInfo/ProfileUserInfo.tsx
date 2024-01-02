@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetProfile } from 'service/queries/profile';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { FollowProfileButton } from 'components/follow/followButton/FollowProfileButton';
@@ -11,20 +12,20 @@ import { CollectableAddIcon } from '../common/icon/icons';
 import { UserImageEdit } from '../common/userImage/UserImageEdit';
 import { PATH } from 'constants/path';
 
-type Props = {
-  member: ProfileMemberInfo;
-};
-
 const MOCK_BADGE = {
   id: '0',
   name: '도전적인',
 };
 
-export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
+export const ProfileUserInfo = () => {
+  const { id } = useParams();
+  const { userInfo } = useAuthState();
+  const USER_ID = id || userInfo.id;
+  const { data: member } = useGetProfile(USER_ID);
+
   const navigate = useNavigate();
   const { navigateToProfileSetting } = usePageNavigator();
-  const { userInfo } = useAuthState();
-  const isAuthor = member.id === userInfo.id;
+  const isAuthor = member?.id === userInfo.id;
 
   const handleAddCollection = () => {};
   const handleEditProfile = () => {
@@ -32,13 +33,13 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
   };
 
   const handleOpenFollowings = () => {
-    navigate(PATH.PROFILE + '/' + member.id + PATH.FOLLOWING, {
+    navigate(PATH.PROFILE + '/' + member?.id + PATH.FOLLOWING, {
       state: { background: 'followings' },
     });
   };
 
   const handleOpenFollowers = () => {
-    navigate(PATH.PROFILE + '/' + member.id + PATH.FOLLOWER, {
+    navigate(PATH.PROFILE + '/' + member?.id + PATH.FOLLOWER, {
       state: { background: 'followers' },
     });
   };
@@ -49,27 +50,27 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
         <UserImageEdit
           isAuthor={isAuthor}
           imageUrl={
-            member.profileImageUrl || generateDefaultUserImage(member.id)
+            member?.profileImageUrl || generateDefaultUserImage(member?.id)
           }
         />
         <Column>
           <ContentHeader>
-            <p>{member.nickname}</p>
+            <p>{member?.nickname}</p>
             {/* TODO. Badge 적용 해야함..*/}
             <Badge badge={MOCK_BADGE} variant="taste" />
           </ContentHeader>
 
           <ContentBody>
             <InfoItem>
-              {member.feedCount}
+              {member?.feedCount}
               <span>게시물</span>
             </InfoItem>
             <InfoItem onClick={handleOpenFollowings}>
-              {member.followingCount}
+              {member?.followingCount}
               <span>팔로잉</span>
             </InfoItem>
             <InfoItem onClick={handleOpenFollowers}>
-              {member.followerCount}
+              {member?.followerCount}
               <span>팔로워</span>
             </InfoItem>
           </ContentBody>
@@ -91,8 +92,8 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
           </Button>
         ) : (
           <FollowProfileButton
-            memberId={member.id}
-            isFollowing={member.following}
+            memberId={member?.id}
+            isFollowing={member?.following}
           />
         )}
       </ButtonBox>

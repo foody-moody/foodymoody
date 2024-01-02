@@ -7,8 +7,8 @@ import { UserCheckedIcon, UserPlusIcon } from 'components/common/icon/icons';
 type Props = {
   size?: 's' | 'xs';
   width?: number;
-  memberId: string;
-  isFollowing: boolean;
+  memberId?: string;
+  isFollowing?: boolean;
 };
 export const FollowProfileButton: React.FC<Props> = ({
   size = 's',
