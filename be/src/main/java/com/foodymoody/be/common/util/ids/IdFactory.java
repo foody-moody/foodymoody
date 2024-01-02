@@ -154,6 +154,46 @@ public class IdFactory {
         return createId(FeedCollectionReplyLikeId.class, id);
     }
 
+    public static FeedCollectionLikeCountId createFeedCollectionLikeCountId() {
+        return createId(FeedCollectionLikeCountId.class);
+    }
+
+    public static FeedCollectionLikeCountId createFeedCollectionLikeCountId(String id) {
+        return createId(FeedCollectionLikeCountId.class, id);
+    }
+
+    public static FeedCollectionCommentLikeCountId createFeedCollectionCommentLikeCountId() {
+        return createId(FeedCollectionCommentLikeCountId.class);
+    }
+
+    public static FeedCollectionCommentLikeCountId createFeedCollectionCommentLikeCountId(String id) {
+        return createId(FeedCollectionCommentLikeCountId.class, id);
+    }
+
+    public static FeedCollectionReplyLikeCountId createFeedCollectionReplyLikeCountId() {
+        return createId(FeedCollectionReplyLikeCountId.class);
+    }
+
+    public static FeedCollectionReplyLikeCountId createFeedCollectionReplyLikeCountId(String id) {
+        return createId(FeedCollectionReplyLikeCountId.class, id);
+    }
+
+    public static FeedCollectionMoodId createFeedCollectionMoodId() {
+        return createId(FeedCollectionMoodId.class);
+    }
+
+    public static FeedCollectionMoodId createFeedCollectionMoodId(String id) {
+        return createId(FeedCollectionMoodId.class, id);
+    }
+
+    public static FeedCollectionMoodsId createFeedCollectionMoodsId() {
+        return createId(FeedCollectionMoodsId.class);
+    }
+
+    public static FeedCollectionMoodsId createFeedCollectionMoodsId(String id) {
+        return createId(FeedCollectionMoodsId.class, id);
+    }
+
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {
         try {
             Constructor<T> constructor = idClass.getConstructor(String.class);

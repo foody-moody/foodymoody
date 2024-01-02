@@ -11,16 +11,18 @@ import java.util.Map;
 
 public class FeedCollectionSteps {
 
-    public static ExtractableResponse<Response> 피드_커렉션_등록한다(
+    public static ExtractableResponse<Response> 피드_컬렉션_등록한다(
             List<String> feedIds,
+            List<String> moodIds,
             String accessToken
     ) {
-        return 피드_커렉션_등록한다(feedIds, accessToken, new RequestSpecBuilder().build());
+        return 피드_컬렉션_등록한다(feedIds, moodIds, accessToken, new RequestSpecBuilder().build());
     }
 
 
-    public static ExtractableResponse<Response> 피드_커렉션_등록한다(
+    public static ExtractableResponse<Response> 피드_컬렉션_등록한다(
             List<String> feedIds,
+            List<String> moodIds,
             String accessToken,
             RequestSpecification spec
     ) {
@@ -30,6 +32,7 @@ public class FeedCollectionSteps {
         body.put("thumbnailUrl", "https://thumbnail.url");
         body.put("private", false);
         body.put("feedIds", feedIds);
+        body.put("moodIds", moodIds);
         return RestAssured.given()
                 .spec(spec)
                 .log().all()
@@ -42,7 +45,11 @@ public class FeedCollectionSteps {
     }
 
     public static String 피드_컬렉션_등록하고_아이디를_가져온다(List<String> feedIds, String accessToken) {
-        return 피드_커렉션_등록한다(feedIds, accessToken).jsonPath().getString("id");
+        return 피드_컬렉션_등록한다(feedIds, List.of(), accessToken).jsonPath().getString("id");
+    }
+
+    public static String 피드_컬렉션_등록하고_아이디를_가져온다(List<String> feedIds, List<String> moodIds, String accessToken) {
+        return 피드_컬렉션_등록한다(feedIds, moodIds, accessToken).jsonPath().getString("id");
     }
 
     public static ExtractableResponse<Response> 전체_피드_컬렉션_조회한다(RequestSpecification spec, String accessToken) {
@@ -67,6 +74,61 @@ public class FeedCollectionSteps {
                 .auth().oauth2(accessToken)
                 .when()
                 .get("/api/collections/{collectionId}", collectionId)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 피드_컬렉션을_수정한다(
+            String collectionId,
+            String accessToken,
+            List<String> moodIds,
+            RequestSpecification spec
+    ) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("title", "수정된 테스트 컬렉션");
+        body.put("content", "수정된 테스트 컬렉션입니다.");
+        body.put("moodIds", moodIds);
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .body(body).contentType("application/json")
+                .when()
+                .put("/api/collections/{collectionId}", collectionId)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 피드_컬렉션_피드리스트를_수정한다(
+            String collectionId,
+            String accessToken,
+            List<String> feedIds,
+            RequestSpecification spec
+    ) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("feedIds", feedIds);
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .body(body).contentType("application/json")
+                .when()
+                .put("/api/collections/{collectionId}/feeds", collectionId)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 피드_컬렉션을_삭제한다(
+            String collectionId,
+            String accessToken,
+            RequestSpecification spec
+    ) {
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .when()
+                .delete("/api/collections/{collectionId}", collectionId)
                 .then().log().all()
                 .extract();
     }

@@ -29,13 +29,13 @@ public class FeedCollectionLikeWriteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
-    @DeleteMapping("/api/feed-collections/{ignoredFeedCollectionId}/likes/{likeId}")
+    @DeleteMapping("/api/feed-collections/{feedCollectionId}/likes/{likeId}")
     public ResponseEntity<Void> cancel(
-            @PathVariable FeedCollectionId ignoredFeedCollectionId,
+            @PathVariable FeedCollectionId feedCollectionId,
             @PathVariable FeedCollectionLikeId likeId,
             @CurrentMemberId MemberId memberId
     ) {
-        useCase.cancel(likeId, memberId);
+        useCase.cancel(likeId, feedCollectionId, memberId);
         return ResponseEntity.noContent().build();
     }
 }

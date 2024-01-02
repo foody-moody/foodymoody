@@ -14,7 +14,9 @@ public class FeedCollectionReplyMapper {
                 summary.getUpdatedAt(),
                 summary.getMemberId(),
                 summary.getNickname(),
-                summary.getProfileUrl()
+                summary.getProfileUrl(),
+                summary.isLiked(),
+                summary.getLikeCount()
         );
     }
 }

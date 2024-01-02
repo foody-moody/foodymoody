@@ -521,7 +521,25 @@ operation::deleteFeedImage_failedByUnAuthorized[snippets='http-response']
 
 ==== 성공
 
-operation::feed-collection-create-success[snippets='http-request,http-response']
+operation::feed_collection_request_create_success[snippets='http-request,http-response']
+
+=== 컬렉션 수정
+
+==== 성공
+
+operation::feed_collection_request_update_success[snippets='http-request,http-response']
+
+=== 컬렉션 피드 리스트 수정
+
+==== 성공
+
+operation::feed_collection_request_update_feed_list_success[snippets='http-request,http-response']
+
+=== 컬렉션 삭제
+
+==== 성공
+
+operation::feed_collection_request_delete_success[snippets='http-request,http-response']
 
 === 컬렉션 전체 조회
 
@@ -534,6 +552,18 @@ operation::feed_collection_request_fetch_all_success[snippets='http-request,http
 ==== 성공
 
 operation::feed_collection_request_fetch_single_success[snippets='http-request,http-response']
+
+=== 컬렉션 무드 추가
+
+==== 성공
+
+operation::feed_collection_add_mood_success[snippets='http-request,http-response']
+
+=== 컬렉션 무드 삭제
+
+==== 성공
+
+operation::feed_collection_remove_mood_success[snippets='http-request,http-response']
 
 [[feed-collection-comment]]
 == 컬렉션 댓글
@@ -597,3 +627,48 @@ operation::feed_collection_comment_like_post_success[snippets='http-request,http
 ==== 성공
 
 operation::feed_collection_comment_like_cancel_success[snippets='http-request,http-response']
+
+[[feed-collection-reply-like]]
+== 컬렉션 대댓글 좋아요
+
+=== 컬렉션 대댓글 좋아요 등록
+
+==== 성공
+
+operation::feed_collection_reply_like_post_success[snippets='http-request,http-response']
+
+=== 컬렉션 대댓글 좋아요 취소
+
+==== 성공
+
+operation::feed_collection_reply_like_cancel_success[snippets='http-request,http-response']
+
+[[feed-collection-like]]
+== 컬렉션 좋아요
+
+=== 컬렉션 좋아요 등록
+
+==== 성공
+
+operation::feed_collection_like_post_success[snippets='http-request,http-response']
+
+=== 컬렉션 좋아요 취소
+
+==== 성공
+
+operation::feed_collection_like_cancel_success[snippets='http-request,http-response']
+
+[[feed-collection-mood]]
+== 컬렉션 무드
+
+=== 컬렉션 무드 등록
+
+==== 성공
+
+operation::feed_collection_mood_created_success[snippets='http-request,http-response']
+
+=== 컬렉션 무드 조회
+
+==== 성공
+
+operation::feed_collection_mood_find_all_success[snippets='http-request,http-response']

@@ -39,7 +39,8 @@ public class FeedHeartService {
 
         FeedHeart feedHeart = FeedHeartMapper
                 .makeFeedHeartWithFeedIdAndMemberId(IdFactory.createFeedHeartId(), IdFactory.createFeedId(feedStringId),
-                        memberId);
+                                                    memberId
+                );
         FeedHeart savedFeedHeart = feedHeartRepository.save(feedHeart);
 
         feedHeartCountService.incrementFeedHeartCount(feedStringId);
@@ -48,7 +49,9 @@ public class FeedHeartService {
         Feed feed = updateFeed(feedStringId, feedHeartCount.getCount(), true);
 
         return FeedHeartMapper.toHeartResponse(savedFeedHeart.getId().getValue(), savedFeedHeart.getFeedId().getValue(),
-                savedFeedHeart.getMemberId().getValue(), feed.isLiked(), feedHeartCount.getCount());
+                                               savedFeedHeart.getMemberId().getValue(), feed.isLiked(),
+                                               feedHeartCount.getCount()
+        );
     }
 
     @Transactional
@@ -69,6 +72,10 @@ public class FeedHeartService {
         updateFeed(feedStringId, feedHeartCount.getCount(), false);
     }
 
+    public boolean existsHeart(MemberId memberId, String feedId) {
+        return feedHeartRepository.existsHeartByMemberIdAndFeedId(memberId, IdFactory.createFeedId(feedId));
+    }
+
     private Feed updateFeed(String feedId, int heartCount, boolean isLiked) {
         FeedId feedIdObj = IdFactory.createFeedId(feedId);
         Feed feed = feedReadService.findFeed(feedIdObj);
@@ -77,10 +84,6 @@ public class FeedHeartService {
         feed.updateLikeCountBy(heartCount);
 
         return feed;
-    }
-
-    private boolean existsHeart(MemberId memberId, String feedId) {
-        return feedHeartRepository.existsHeartByMemberIdAndFeedId(memberId, IdFactory.createFeedId(feedId));
     }
 
 }

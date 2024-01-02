@@ -1,9 +1,10 @@
-package com.foodymoody.be.feed_collection.infra.usecase;
+package com.foodymoody.be.feed_collection.domain;
 
-import com.foodymoody.be.feed_collection.domain.FeedCollection;
+import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionCommentResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
+import org.springframework.data.domain.Slice;
 
 @Getter
 public class FeedCollectionDetail {
@@ -18,12 +19,20 @@ public class FeedCollectionDetail {
     private int followerCount;
     private boolean isPrivate;
     private int viewCount;
+    private int feedCount;
+    private int commentCount;
     private List<FeedSummaryResponse> feeds;
+    private Slice<FeedCollectionCommentResponse> comments;
+    private List<String> moods;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public FeedCollectionDetail(
-            FeedCollection feedCollection, AuthorSummaryResponse author, List<FeedSummaryResponse> feeds
+            FeedCollection feedCollection,
+            AuthorSummaryResponse author,
+            List<FeedSummaryResponse> feeds,
+            Slice<FeedCollectionCommentResponse> comments,
+            List<String> moods
     ) {
         this.author = author;
         this.id = feedCollection.getId().getValue();
@@ -38,5 +47,9 @@ public class FeedCollectionDetail {
         this.createdAt = feedCollection.getCreatedAt();
         this.updatedAt = feedCollection.getUpdatedAt();
         this.feeds = feeds;
+        this.feedCount = feeds.size();
+        this.comments = comments;
+        commentCount = comments.getContent().size();
+        this.moods = moods;
     }
 }

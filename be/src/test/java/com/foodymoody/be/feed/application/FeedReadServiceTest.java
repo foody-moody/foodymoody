@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+@DisplayName("FeedReadService 테스트")
 @ExtendWith(MockitoExtension.class)
 class FeedReadServiceTest {
 

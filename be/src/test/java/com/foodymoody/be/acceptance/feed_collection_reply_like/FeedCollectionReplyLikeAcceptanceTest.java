@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("피드 컬렉션 대댓글 좋아요 관련 기능")
 class FeedCollectionReplyLikeAcceptanceTest extends AcceptanceTest {
 
     String commentId;
