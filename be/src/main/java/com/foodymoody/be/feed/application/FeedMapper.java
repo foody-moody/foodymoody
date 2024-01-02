@@ -5,7 +5,7 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedListServiceRequest;
+import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedDetailsServiceRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceDeleteRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceRegisterRequest;
@@ -145,10 +145,10 @@ public class FeedMapper {
                 .collect(Collectors.toList());
     }
 
-    public static CollectionReadFeedListServiceRequest toCollectionServiceReadAllFeedRequest(String collectionId,
-                                                                                             Pageable pageable,
-                                                                                             MemberId memberId) {
-        return new CollectionReadFeedListServiceRequest(collectionId, pageable, memberId);
+    public static CollectionReadFeedDetailsServiceRequest toCollectionReadFeedDetailsServiceRequest(String collectionId,
+                                                                                                    Pageable pageable,
+                                                                                                    MemberId memberId) {
+        return new CollectionReadFeedDetailsServiceRequest(collectionId, pageable, memberId);
     }
 
     public static List<String> toFeedStoreMoodNames(List<StoreMood> storeMoods) {

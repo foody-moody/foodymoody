@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CollectionReadAllFeedResponse {
+public class CollectionReadFeedDetailsResponse {
 
     private int feedAllCount;
     private String feedThumbnailUrl;
@@ -23,9 +23,9 @@ public class CollectionReadAllFeedResponse {
     private int feedCommentCount;
 
     @Builder
-    public CollectionReadAllFeedResponse(int feedAllCount, String feedThumbnailUrl, String storeName, FeedId feedId,
-                                         LocalDateTime createdAt, LocalDateTime updatedAt, String description,
-                                         List<String> moodNames, boolean isLiked, int likeCount, int feedCommentCount) {
+    public CollectionReadFeedDetailsResponse(int feedAllCount, String feedThumbnailUrl, String storeName, FeedId feedId,
+                                             LocalDateTime createdAt, LocalDateTime updatedAt, String description,
+                                             List<String> moodNames, boolean isLiked, int likeCount, int feedCommentCount) {
         this.feedAllCount = feedAllCount;
         this.feedThumbnailUrl = feedThumbnailUrl;
         this.storeName = storeName;

@@ -5,9 +5,8 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.FeedReadService;
-import com.foodymoody.be.feed.application.StoreMoodReadService;
-import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedListServiceRequest;
-import com.foodymoody.be.feed.application.dto.response.CollectionReadAllFeedResponse;
+import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedDetailsServiceRequest;
+import com.foodymoody.be.feed.application.dto.response.CollectionReadFeedDetailsResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
@@ -29,9 +28,9 @@ public class CollectionUseCase {
     private final FeedCollectionReadService feedCollectionReadService;
     private final FeedReadService feedReadService;
     private final ImageService imageService;
-    private final StoreMoodReadService storeMoodReadService;
 
-    public Slice<CollectionReadAllFeedResponse> readFeedCollectionDetail(CollectionReadFeedListServiceRequest request) {
+    public Slice<CollectionReadFeedDetailsResponse> readCollectionFeedDetails(
+            CollectionReadFeedDetailsServiceRequest request) {
         FeedCollectionId feedCollectionId = request.getFeedCollectionId();
         Pageable pageable = request.getPageable();
         MemberId memberId = request.getMemberId();
@@ -43,7 +42,7 @@ public class CollectionUseCase {
         List<FeedId> feedIds = feedCollection.getFeedIds();
         Slice<Feed> feeds = feedReadService.findAllByIdIn(feedIds, pageable);
 
-        List<CollectionReadAllFeedResponse> responses;
+        List<CollectionReadFeedDetailsResponse> responses;
         if (memberId == null) {
             responses = makeCollectionReadAllFeedResponsesWhenMemberIdIsNull(feeds);
         } else {
@@ -53,9 +52,9 @@ public class CollectionUseCase {
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
     }
 
-    private List<CollectionReadAllFeedResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNull(Slice<Feed> feeds) {
+    private List<CollectionReadFeedDetailsResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNull(Slice<Feed> feeds) {
         return feeds.stream()
-                .map(feed -> CollectionReadAllFeedResponse.builder()
+                .map(feed -> CollectionReadFeedDetailsResponse.builder()
                         .feedAllCount(feeds.getSize())
                         .feedThumbnailUrl(imageService.findById(FeedMapper.findFirstImageId(feed)).getUrl())
                         .storeName(null) // TODO: 가게 API 구현 완료되면 가게 name 조회해오기
@@ -71,9 +70,9 @@ public class CollectionUseCase {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private List<CollectionReadAllFeedResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNotNull(Slice<Feed> feeds) {
+    private List<CollectionReadFeedDetailsResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNotNull(Slice<Feed> feeds) {
         return feeds.stream()
-                .map(feed -> CollectionReadAllFeedResponse.builder()
+                .map(feed -> CollectionReadFeedDetailsResponse.builder()
                         .feedAllCount(feeds.getSize())
                         .feedThumbnailUrl(imageService.findById(FeedMapper.findFirstImageId(feed)).getUrl())
                         .storeName(null) // TODO: 가게 API 구현 완료되면 가게 name 조회해오기

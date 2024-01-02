@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CollectionReadFeedListServiceRequest {
+public class CollectionReadFeedDetailsServiceRequest {
 
     private FeedCollectionId feedCollectionId;
     private Pageable pageable;
     private MemberId memberId;
 
-    public CollectionReadFeedListServiceRequest(String feedCollectionId, Pageable pageable,
-                                                MemberId memberId) {
+    public CollectionReadFeedDetailsServiceRequest(String feedCollectionId, Pageable pageable,
+                                                   MemberId memberId) {
         this.feedCollectionId = IdFactory.createFeedCollectionId(feedCollectionId);
         this.pageable = pageable;
         this.memberId = memberId;
