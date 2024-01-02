@@ -39,6 +39,11 @@ public class FeedCollectionWriteUseCase {
         );
     }
 
+    public void update(FeedCollectionId id, List<FeedId> feedIds, MemberId memberId) {
+        feedReadService.validateIds(feedIds);
+        service.update(id, feedIds, memberId);
+    }
+
     private FeedCollectionId createCollection(
             FeedCollectionCreateRequest request, MemberId memberId, List<FeedId> feedIds
     ) {

@@ -78,6 +78,12 @@ public class FeedCollectionWriterService {
             MemberId memberId
     ) {
         FeedCollection feedCollection = fetchById(id);
-        feedCollection.edit(title, content, thumbnailUrl, moods, memberId);
+        feedCollection.edit(title, content, thumbnailUrl, moods, memberId, LocalDateTime.now());
+    }
+
+    @Transactional
+    public void update(FeedCollectionId id, List<FeedId> feedIds, MemberId memberId) {
+        FeedCollection feedCollection = fetchById(id);
+        feedCollection.update(feedIds, memberId, LocalDateTime.now());
     }
 }

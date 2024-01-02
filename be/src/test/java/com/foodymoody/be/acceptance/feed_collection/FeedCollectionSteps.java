@@ -98,4 +98,23 @@ public class FeedCollectionSteps {
                 .then().log().all()
                 .extract();
     }
+
+    public static ExtractableResponse<Response> 피드_컬렉션_피드리스트를_수정한다(
+            String collectionId,
+            String accessToken,
+            List<String> feedIds,
+            RequestSpecification spec
+    ) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("feedIds", feedIds);
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .body(body).contentType("application/json")
+                .when()
+                .put("/api/collections/{collectionId}/feeds", collectionId)
+                .then().log().all()
+                .extract();
+    }
 }

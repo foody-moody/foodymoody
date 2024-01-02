@@ -112,14 +112,21 @@ public class FeedCollection {
     }
 
     public void edit(
-            String title, Content content, String thumbnailUrl, List<FeedCollectionMood> moodIds, MemberId memberId
+            String title, Content content, String thumbnailUrl, List<FeedCollectionMood> moodIds, MemberId memberId,
+            LocalDateTime updatedAt
     ) {
         validateAuthor(memberId);
         this.title = title;
         this.description = content.getValue();
         this.thumbnailUrl = thumbnailUrl;
         this.moods.update(moodIds);
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = updatedAt;
+    }
+
+    public void update(List<FeedId> feedIds, MemberId memberId, LocalDateTime updatedAt) {
+        validateAuthor(memberId);
+        this.feedIds.update(feedIds);
+        this.updatedAt = updatedAt;
     }
 
     private void validateAuthor(MemberId memberId) {

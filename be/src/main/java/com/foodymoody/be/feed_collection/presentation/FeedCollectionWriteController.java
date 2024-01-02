@@ -7,6 +7,7 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.infra.usecase.FeedCollectionWriteUseCase;
 import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionCreateRequest;
 import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionEditRequest;
+import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionFeedsUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,16 @@ public class FeedCollectionWriteController {
             @CurrentMemberId MemberId memberId
     ) {
         useCase.edit(id, request, memberId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/api/collections/{id}/feeds")
+    public ResponseEntity<Void> updateFeed(
+            @PathVariable FeedCollectionId id,
+            @RequestBody FeedCollectionFeedsUpdateRequest request,
+            @CurrentMemberId MemberId memberId
+    ) {
+        useCase.update(id, request.getFeedIds(), memberId);
         return ResponseEntity.noContent().build();
     }
 }

@@ -27,4 +27,8 @@ public class FeedIds {
     public List<FeedId> getIds() {
         return ids;
     }
+
+    public void update(List<FeedId> feedIds) {
+        ids = feedIds;
+    }
 }
