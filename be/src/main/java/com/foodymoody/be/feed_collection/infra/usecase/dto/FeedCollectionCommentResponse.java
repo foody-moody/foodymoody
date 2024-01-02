@@ -18,7 +18,6 @@ public class FeedCollectionCommentResponse {
     private boolean hasReply;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private int replyCount;
     private boolean liked;
     private int likeCount;
     private AuthorSummaryResponse author;
@@ -31,7 +30,6 @@ public class FeedCollectionCommentResponse {
             boolean hasReply,
             LocalDateTime createdAt,
             LocalDateTime updatedAt,
-            int replyCount,
             boolean liked,
             int likeCount,
             MemberId memberId,
@@ -46,7 +44,6 @@ public class FeedCollectionCommentResponse {
         this.hasReply = hasReply;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.replyCount = replyCount;
         this.liked = liked;
         this.likeCount = likeCount;
         this.author = new AuthorSummaryResponse(memberId, nickname, mood, profileImageUrl);

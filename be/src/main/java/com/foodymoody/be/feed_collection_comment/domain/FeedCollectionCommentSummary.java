@@ -22,7 +22,6 @@ public interface FeedCollectionCommentSummary {
 
     LocalDateTime getUpdatedAt();
 
-    int getReplyCount();
 
     boolean isLiked();
 

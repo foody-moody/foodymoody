@@ -19,12 +19,14 @@ public interface FeedCollectionCommentJpaRepository extends
                     ", _comment.memberId AS memberId " +
                     ", _comment.content AS content " +
                     ", _comment.deleted AS deleted " +
-                    ", _comment.hasReply AS hasReply " +
+                    ", (CASE WHEN EXISTS (select 1 from FeedCollectionReply _reply where _reply.commentId = _comment.id) " +
+                    " THEN true " +
+                    " ELSE false " +
+                    " END) AS hasReply " +
                     ", _comment.createdAt AS createdAt " +
                     ", _comment.updatedAt AS updatedAt " +
                     ", _member.nickname AS nickname " +
                     ", _image.url AS profileImageUrl " +
-                    ", _comment.replyIds.ids.size AS replyCount " +
                     ", _member.tasteMood.name AS mood " +
                     ", (_like.id IS NOT NULL) AS liked " +
                     ", _likeCount.count AS likeCount " +
@@ -48,12 +50,14 @@ public interface FeedCollectionCommentJpaRepository extends
                     ", _comment.memberId AS memberId " +
                     ", _comment.content AS content " +
                     ", _comment.deleted AS deleted " +
-                    ", _comment.hasReply AS hasReply " +
+                    ", (CASE WHEN EXISTS (select 1 from FeedCollectionReply _reply where _reply.commentId = _comment.id) " +
+                    " THEN true " +
+                    " ELSE false " +
+                    " END) AS hasReply " +
                     ", _comment.createdAt AS createdAt " +
                     ", _comment.updatedAt AS updatedAt " +
                     ", _member.nickname AS nickname " +
                     ", _image.url AS profileImageUrl " +
-                    ", _comment.replyIds.ids.size AS replyCount " +
                     ", _member.tasteMood.name AS mood " +
                     ", false AS liked " +
                     ", _likeCount.count AS likeCount " +

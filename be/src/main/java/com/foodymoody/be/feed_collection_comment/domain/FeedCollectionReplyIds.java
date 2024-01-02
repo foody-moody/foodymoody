@@ -23,4 +23,8 @@ public class FeedCollectionReplyIds {
     public List<FeedCollectionReplyId> getIds() {
         return ids;
     }
+
+    public void add(FeedCollectionReplyId id) {
+        ids.add(id);
+    }
 }

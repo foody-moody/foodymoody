@@ -4,6 +4,7 @@ import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
+import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
 import javax.persistence.AttributeOverride;
@@ -28,7 +29,6 @@ public class FeedCollectionComment {
     @AttributeOverride(name = "value", column = @Column(name = "content"))
     private Content content;
     private boolean deleted;
-    private boolean hasReply;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private FeedCollectionReplyIds replyIds;
@@ -62,5 +62,9 @@ public class FeedCollectionComment {
             return;
         }
         throw new IllegalArgumentException("수정 권한이 없습니다.");
+    }
+
+    public void addReplyIds(FeedCollectionReplyId id) {
+        this.replyIds.add(id);
     }
 }

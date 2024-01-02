@@ -66,8 +66,7 @@ public class FeedCollectionReadUseCase {
         var feedCollection = feedCollectionReadService.fetch(id);
         var authorSummaryResponse = getAuthorSummaryResponse(feedCollection);
         var feeds = getFeeds(memberId, feedCollection);
-        var commentIds = feedCollection.getCommentIds();
-        var comments = getComments(memberId, commentIds);
+        var comments = getComments(memberId, feedCollection.getCommentIds());
         var moods = getMoods(feedCollection);
         return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods);
     }
@@ -127,27 +126,6 @@ public class FeedCollectionReadUseCase {
                 .collect(Collectors.toList());
     }
 
-    private static Slice<FeedCollectionCommentResponse> toCommentResponse(
-            Slice<FeedCollectionCommentSummary> comments
-    ) {
-        return comments.map(comment -> new FeedCollectionCommentResponse(
-                comment.getId(),
-                comment.getFeedId(),
-                comment.getContent(),
-                comment.isDeleted(),
-                comment.isHasReply(),
-                comment.getCreatedAt(),
-                comment.getUpdatedAt(),
-                comment.getReplyCount(),
-                comment.isLiked(),
-                comment.getLikeCount(),
-                comment.getMemberId(),
-                comment.getNickname(),
-                comment.getProfileImageUrl(),
-                comment.getMood()
-        ));
-    }
-
     private FeedSummaryResponse getFeedSummaryResponse(
             Feed feed, List<String> moods, boolean isLiked
     ) {
@@ -162,6 +140,26 @@ public class FeedCollectionReadUseCase {
                 feed.getCreatedAt(),
                 feed.getUpdatedAt()
         );
+    }
+
+    private static Slice<FeedCollectionCommentResponse> toCommentResponse(
+            Slice<FeedCollectionCommentSummary> comments
+    ) {
+        return comments.map(comment -> new FeedCollectionCommentResponse(
+                comment.getId(),
+                comment.getFeedId(),
+                comment.getContent(),
+                comment.isDeleted(),
+                comment.isHasReply(),
+                comment.getCreatedAt(),
+                comment.getUpdatedAt(),
+                comment.isLiked(),
+                comment.getLikeCount(),
+                comment.getMemberId(),
+                comment.getNickname(),
+                comment.getProfileImageUrl(),
+                comment.getMood()
+        ));
     }
 
     private static List<String> getMoods(FeedCollection feedCollection) {
