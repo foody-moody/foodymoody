@@ -1,5 +1,6 @@
 package com.foodymoody.be.sse.service;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.notification.infra.usecase.NotificationSseReadUseCase;
 import java.io.IOException;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class SseAsyncService {
     private final ScheduledExecutorService scheduledExecutorService;
 
     @Async
-    public void sendSseEvents(String memberId, Map<String, SseEmitter> emitters) {
+    public void sendSseEvents(MemberId memberId, Map<MemberId, SseEmitter> emitters) {
         SseEmitter emitter = emitters.get(memberId);
         if (emitter == null) {
             log.error("Emitter for member {} not found", memberId);
@@ -40,7 +41,7 @@ public class SseAsyncService {
                 long count = useCase.fetchCountNotReadNotification(memberId);
                 if (count > MIN_COUNT) {
                     SseResponse sseResponse = new SseResponse(count);
-                    emitter.send(SseEmitter.event().name("notification").id(memberId).data(sseResponse));
+                    emitter.send(SseEmitter.event().name("notification").id(memberId.getValue()).data(sseResponse));
                 }
             } catch (IOException e) {
                 log.error("Error sending SSE for member {}", memberId, e);

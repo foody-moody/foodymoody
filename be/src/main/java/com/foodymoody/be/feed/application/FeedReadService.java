@@ -5,11 +5,9 @@ import com.foodymoody.be.common.exception.ImageNotFoundException;
 import com.foodymoody.be.common.exception.MenuNotFoundException;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
-import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
-import com.foodymoody.be.feed.domain.repository.dto.MemberProfileFeedPreviewResponse;
 import com.foodymoody.be.feed.infra.persistence.jpa.FeedJpaRepository;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
@@ -29,18 +27,22 @@ public class FeedReadService {
     private final FeedJpaRepository feedJpaRepository;
 
     public void validateId(String feedId) {
-        if (!exists(feedId)) {
+        if (!isExists(feedId)) {
             throw new FeedIdNotExistsException();
         }
     }
 
     public void validateIds(List<FeedId> feedIds) {
-        if (!feedRepository.existsAllByIdIn(feedIds)) {
+        if (!isExistsAllByIdIn(feedIds)) {
             throw new FeedIdNotExistsException();
         }
     }
 
-    private boolean exists(String feedId) {
+    private boolean isExistsAllByIdIn(List<FeedId> feedIds) {
+        return feedRepository.existsAllByIdIn(feedIds);
+    }
+
+    private boolean isExists(String feedId) {
         return feedRepository.existsById(IdFactory.createFeedId(feedId));
     }
 
@@ -53,10 +55,6 @@ public class FeedReadService {
         return feedRepository.findAll(pageable);
     }
 
-    public Slice<MemberProfileFeedPreviewResponse> fetchPreviewsByMemberId(MemberId memberId, Pageable pageable) {
-        return feedJpaRepository.fetchPreviewsByMemberId(memberId, pageable);
-    }
-
     public List<ImageIdNamePair> fetchImageIdUrlList(List<ImageMenu> imageMenus) {
         return feedJpaRepository.fetchImageIdUrlList(imageMenus)
                 .orElseThrow(ImageNotFoundException::new);
@@ -67,4 +65,7 @@ public class FeedReadService {
                 .orElseThrow(MenuNotFoundException::new);
     }
 
+    public Slice<Feed> findAllByIdIn(List<FeedId> feedIds, Pageable pageable) {
+        return feedRepository.findAllByIdIn(feedIds, pageable);
+    }
 }

@@ -26,6 +26,22 @@ public class IdFactory {
         return createId(FeedId.class);
     }
 
+    public static ImageMenuId createImageMenuId(String id) {
+        return createId(ImageMenuId.class, id);
+    }
+
+    public static ImageMenuId createImageMenuId() {
+        return createId(ImageMenuId.class);
+    }
+
+    public static StoreMoodId createStoreMoodId(String id) {
+        return createId(StoreMoodId.class, id);
+    }
+
+    public static StoreMoodId createStoreMoodId() {
+        return createId(StoreMoodId.class);
+    }
+
     public static FeedHeartId createFeedHeartId(String id) {
         return createId(FeedHeartId.class, id);
     }
@@ -82,6 +98,14 @@ public class IdFactory {
         return createId(FeedCollectionId.class);
     }
 
+    public static FeedCollectionCommentId createFeedCollectionCommentId(String id) {
+        return createId(FeedCollectionCommentId.class, id);
+    }
+
+    public static FeedCollectionCommentId createFeedCollectionCommentId() {
+        return createId(FeedCollectionCommentId.class);
+    }
+
     public static ReplyId createReplyId(String id) {
         return createId(ReplyId.class, id);
     }
@@ -96,6 +120,78 @@ public class IdFactory {
 
     public static NotificationId createNotificationId() {
         return createId(NotificationId.class);
+    }
+
+    public static FeedCollectionReplyId createFeedCollectionReplyId() {
+        return createId(FeedCollectionReplyId.class);
+    }
+
+    public static FeedCollectionReplyId createFeedCollectionReplyId(String id) {
+        return createId(FeedCollectionReplyId.class, id);
+    }
+
+    public static FeedCollectionCommentLikeId createFeedCollectionCommentLikeId() {
+        return createId(FeedCollectionCommentLikeId.class);
+    }
+
+    public static FeedCollectionCommentLikeId createFeedCollectionCommentLikeId(String id) {
+        return createId(FeedCollectionCommentLikeId.class, id);
+    }
+
+    public static FeedCollectionLikeId createFeedCollectionLikeId() {
+        return createId(FeedCollectionLikeId.class);
+    }
+
+    public static FeedCollectionLikeId createFeedCollectionLikeId(String id) {
+        return createId(FeedCollectionLikeId.class, id);
+    }
+
+    public static FeedCollectionReplyLikeId createFeedCollectionReplyLikeId() {
+        return createId(FeedCollectionReplyLikeId.class);
+    }
+
+    public static FeedCollectionReplyLikeId createFeedCollectionReplyLikeId(String id) {
+        return createId(FeedCollectionReplyLikeId.class, id);
+    }
+
+    public static FeedCollectionLikeCountId createFeedCollectionLikeCountId() {
+        return createId(FeedCollectionLikeCountId.class);
+    }
+
+    public static FeedCollectionLikeCountId createFeedCollectionLikeCountId(String id) {
+        return createId(FeedCollectionLikeCountId.class, id);
+    }
+
+    public static FeedCollectionCommentLikeCountId createFeedCollectionCommentLikeCountId() {
+        return createId(FeedCollectionCommentLikeCountId.class);
+    }
+
+    public static FeedCollectionCommentLikeCountId createFeedCollectionCommentLikeCountId(String id) {
+        return createId(FeedCollectionCommentLikeCountId.class, id);
+    }
+
+    public static FeedCollectionReplyLikeCountId createFeedCollectionReplyLikeCountId() {
+        return createId(FeedCollectionReplyLikeCountId.class);
+    }
+
+    public static FeedCollectionReplyLikeCountId createFeedCollectionReplyLikeCountId(String id) {
+        return createId(FeedCollectionReplyLikeCountId.class, id);
+    }
+
+    public static FeedCollectionMoodId createFeedCollectionMoodId() {
+        return createId(FeedCollectionMoodId.class);
+    }
+
+    public static FeedCollectionMoodId createFeedCollectionMoodId(String id) {
+        return createId(FeedCollectionMoodId.class, id);
+    }
+
+    public static FeedCollectionMoodsId createFeedCollectionMoodsId() {
+        return createId(FeedCollectionMoodsId.class);
+    }
+
+    public static FeedCollectionMoodsId createFeedCollectionMoodsId(String id) {
+        return createId(FeedCollectionMoodsId.class, id);
     }
 
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {

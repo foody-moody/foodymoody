@@ -1,8 +1,10 @@
 package com.foodymoody.be.utils;
 
+import com.foodymoody.be.common.util.ids.BaseId;
 import com.foodymoody.be.image.domain.ImageCategory;
 import com.foodymoody.be.image.domain.ImageResource;
-import com.foodymoody.be.image.repository.ImageStorage;
+import com.foodymoody.be.image.domain.ImageStorage;
+import java.util.List;
 
 public class MockImageStorage implements ImageStorage {
 
@@ -12,11 +14,16 @@ public class MockImageStorage implements ImageStorage {
     }
 
     @Override
+    public boolean deleteAll(List<String> imageKeys) {
+        return true;
+    }
+
+    @Override
     public void delete(String key) {
     }
 
     @Override
-    public String generateKey(ImageCategory category, String resourceId, String uuid, String originalFilename) {
+    public String generateKey(ImageCategory category, BaseId resourceId, String uuid, String originalFilename) {
         return "key";
     }
 

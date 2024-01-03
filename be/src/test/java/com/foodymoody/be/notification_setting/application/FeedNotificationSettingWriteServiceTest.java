@@ -4,7 +4,7 @@ import static com.foodymoody.be.notification_setting.util.TestFixture.memberAlbe
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.member.repository.MemberRepository;
+import com.foodymoody.be.member.infra.persistence.MemberJpaRepository;
 import com.foodymoody.be.notification_setting.infra.persistence.jpa.NotificationSettingJpaRepository;
 import com.foodymoody.be.utils.SpringBootIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 class FeedNotificationSettingWriteServiceTest {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberJpaRepository memberRepository;
 
     @Autowired
     private NotificationSettingJpaRepository notificationSettingRepository;

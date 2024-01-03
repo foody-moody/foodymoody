@@ -4,13 +4,16 @@ import com.foodymoody.be.common.util.ids.TasteMoodId;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class TasteMood {
 
     @EmbeddedId
+    @EqualsAndHashCode.Include
     private TasteMoodId id;
     private String name;
 

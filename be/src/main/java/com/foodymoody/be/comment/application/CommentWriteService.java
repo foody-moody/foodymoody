@@ -38,28 +38,23 @@ public class CommentWriteService {
     }
 
     @Transactional
-    public void edit(String id, EditCommentRequest request, String memberIdValue) {
-        CommentId commentId = new CommentId(id);
-        MemberId memberId = IdFactory.createMemberId(memberIdValue);
-        Comment comment = fetchById(commentId);
+    public void edit(CommentId id, EditCommentRequest request, MemberId memberId) {
+        Comment comment = fetchById(id);
         String content = request.getContent();
         comment.edit(memberId, content, LocalDateTime.now());
     }
 
     @Transactional
-    public void delete(String id, String memberIdValue) {
-        CommentId commentId = IdFactory.createCommentId(id);
-        MemberId memberId = IdFactory.createMemberId(memberIdValue);
-        Comment comment = fetchById(commentId);
+    public void delete(CommentId id, MemberId memberId) {
+        Comment comment = fetchById(id);
         comment.delete(memberId, LocalDateTime.now());
     }
 
     @Transactional
-    public void reply(String id, @Valid RegisterReplyRequest request, String memberId) {
-        Comment comment = fetchById(new CommentId(id));
+    public void reply(CommentId id, @Valid RegisterReplyRequest request, MemberId memberId) {
+        Comment comment = fetchById(id);
         ReplyId replyId = IdFactory.createReplyId();
-        MemberId toMemberId = IdFactory.createMemberId(memberId);
-        Reply reply = commentMapper.toReply(replyId, LocalDateTime.now(), toMemberId, request.getContent());
+        Reply reply = commentMapper.toReply(replyId, LocalDateTime.now(), memberId, request.getContent());
         comment.addReply(reply);
     }
 
