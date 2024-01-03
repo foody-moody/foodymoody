@@ -5,4 +5,4 @@ filter:
     GET /api/feeds, GET /api/feeds/.*,
     GET /api/comments,
     GET /api/moods/random, GET /api/moods, GET /api/moods/.*, POST /api/moods,
-    POST /api/images,GET /api/comments/.*/replies
+    POST /api/images,GET /api/comments/.*/replies,GET /api/comments/.*/replies/.*,

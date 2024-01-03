@@ -2,7 +2,9 @@ package com.foodymoody.be.comment.persentation;
 
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummaryResponse;
 import com.foodymoody.be.comment.infra.usecase.MemberReplyUseCase;
-import com.foodymoody.be.common.annotation.MemberId;
+import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -19,17 +21,17 @@ public class ReplyController {
 
     private final MemberReplyUseCase memberReplyUseCase;
 
-    @GetMapping("/api/comments/{id}/replies")
+    @GetMapping("/api/comments/{commentId}/replies")
     public ResponseEntity<Slice<MemberReplySummaryResponse>> fetchAllReply(
-            @PathVariable String id,
+            @PathVariable CommentId commentId,
             @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable,
-            @MemberId String memberId
+            @CurrentMemberId MemberId memberId
     ) {
         if (memberId != null) {
-            var allReplay = memberReplyUseCase.fetchAllReplyByMemberId(id, memberId, pageable);
+            var allReplay = memberReplyUseCase.fetchAllReplyByMemberId(commentId, memberId, pageable);
             return ResponseEntity.ok(allReplay);
         }
-        var allReplay = memberReplyUseCase.fetchAllReply(id, pageable);
+        var allReplay = memberReplyUseCase.fetchAllReply(commentId, pageable);
         return ResponseEntity.ok(allReplay);
     }
 }

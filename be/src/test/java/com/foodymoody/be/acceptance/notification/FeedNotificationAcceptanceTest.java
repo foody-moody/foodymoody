@@ -13,7 +13,7 @@ import static com.foodymoody.be.acceptance.notification.NotificationSteps.회원
 import static com.foodymoody.be.acceptance.notification.NotificationSteps.회원의_모든_알람을_조회한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
-import com.foodymoody.be.auth.util.JwtUtil;
+import com.foodymoody.be.auth.infra.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

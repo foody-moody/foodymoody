@@ -1,8 +1,10 @@
 package com.foodymoody.be.common.config;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
+import javax.persistence.EntityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,5 +22,10 @@ public class AppConfig {
     @Bean
     public ThreadPoolExecutor threadPoolExecutor() {
         return (ThreadPoolExecutor) Executors.newFixedThreadPool(CORE_POOL_SIZE);
+    }
+
+    @Bean
+    public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
+        return new JPAQueryFactory(entityManager);
     }
 }

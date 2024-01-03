@@ -2,7 +2,9 @@ package com.foodymoody.be.comment.persentation;
 
 import com.foodymoody.be.comment.application.dto.response.MemberCommentSummaryResponse;
 import com.foodymoody.be.comment.infra.usecase.FeedCommentReadUseCase;
-import com.foodymoody.be.common.annotation.MemberId;
+import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -21,9 +23,9 @@ public class FeedCommentController {
 
     @GetMapping("/api/comments")
     public ResponseEntity<Slice<MemberCommentSummaryResponse>> fetchComments(
-            @RequestParam String feedId,
+            @RequestParam FeedId feedId,
             @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable,
-            @MemberId String memberId
+            @CurrentMemberId MemberId memberId
     ) {
 
         Slice<MemberCommentSummaryResponse> comments;

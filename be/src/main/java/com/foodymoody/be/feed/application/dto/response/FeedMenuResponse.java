@@ -17,4 +17,5 @@ public class FeedMenuResponse {
     public int getRating() {
         return rating;
     }
+
 }

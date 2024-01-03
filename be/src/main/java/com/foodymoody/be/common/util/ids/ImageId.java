@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class ImageId extends BaseId {
 
     public static final ImageId MEMBER_PROFILE_DEFAULT = new ImageId("member-profile-default");
@@ -16,9 +16,4 @@ public class ImageId extends BaseId {
         super(value);
     }
 
-    @Override
-    @EqualsAndHashCode.Include
-    public String getValue() {
-        return super.getValue();
-    }
 }

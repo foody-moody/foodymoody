@@ -1,6 +1,5 @@
 package com.foodymoody.be.image.domain;
 
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.foodymoody.be.common.exception.InvalidImageFileException;
 import com.foodymoody.be.common.exception.UnsupportedImageFormatException;
 import java.io.IOException;
@@ -25,15 +24,16 @@ public class ImageResource {
         this.contentLength = file.getSize();
     }
 
-    public ObjectMetadata getObjectMetadata() {
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType(mimeType);
-        metadata.setContentLength(contentLength);
-        return metadata;
-    }
-
     public String getFilename() {
         return resource.getFilename();
+    }
+
+    public String getContentType() {
+        return this.mimeType;
+    }
+
+    public long getContentLength() {
+        return this.contentLength;
     }
 
     public InputStream getInputStream() {

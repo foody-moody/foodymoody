@@ -12,10 +12,14 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ReplyJpaRepository extends JpaRepository<Reply, ReplyId> {
 
-    @Query("select _reply.id.value as replyId, _reply.content as content,"
-            + "_reply.memberId.value as memberId, _member.nickname as nickname, "
-            + "_image.url as imageUrl, _reply.createdAt as createdAt, _reply.updatedAt as updatedAt, "
-            + "_heartCount.count as heartCount,false as hearted "
+    @Query("select _reply.id.value as replyId" +
+            ", _reply.content as content" +
+            ", _reply.memberId.value as memberId" +
+            ", _member.nickname as nickname" +
+            ", _image.url as imageUrl" +
+            ", _reply.createdAt as createdAt" +
+            ", _reply.updatedAt as updatedAt" +
+            ", coalesce(_heartCount.count,0) as heartCount,false as hearted "
             + "from Comment _comment "
             + "left join _comment.replyComments.commentList _reply "
             + "left join Member _member on _reply.memberId = _member.id.value "
@@ -24,10 +28,14 @@ public interface ReplyJpaRepository extends JpaRepository<Reply, ReplyId> {
             + "where _comment.id = :commentId")
     Slice<MemberReplySummary> findReplyByCommentId(CommentId commentId, Pageable pageable);
 
-    @Query("select _reply.id.value as replyId, _reply.content as content,"
-            + "_reply.memberId.value as memberId, _member.nickname as nickname, "
-            + "_image.url as imageUrl, _reply.createdAt as createdAt, _reply.updatedAt as updatedAt, "
-            + "_heartCount.count as heartCount,(case when _heart is not null then true else false end) as hearted "
+    @Query("select _reply.id.value as replyId, _reply.content as content" +
+            ", _reply.memberId.value as memberId" +
+            ", _member.nickname as nickname" +
+            ", _image.url as imageUrl" +
+            ", _reply.createdAt as createdAt" +
+            ", _reply.updatedAt as updatedAt" +
+            ", coalesce(_heartCount.count,0) as heartCount" +
+            ", (case when _heart is not null then true else false end) as hearted "
             + "from Comment _comment "
             + "left join _comment.replyComments.commentList _reply "
             + "left join Member _member on _reply.memberId = _member.id "
