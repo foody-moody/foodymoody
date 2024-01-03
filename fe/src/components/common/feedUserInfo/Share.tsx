@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const { MODE, VITE_API_URL } = import.meta.env;
+const { MODE, VITE_API_URL, VITE_KAKAO_MAP } = import.meta.env;
 
 type Props = {
   targetId?: string;
@@ -9,25 +9,13 @@ type Props = {
 
 export const Share: React.FC<Props> = ({ targetId, imageUrl }) => {
   useEffect(() => {
-    // init 해주기 전에 clean up 을 해준다.
-    // window.Kakao.cleanup();
-
     if (window.Kakao) {
-      //인증이 안되어있는 경우 인증한다.
+      //인증이 안되어있는 경우 init
       if (!window.Kakao.isInitialized()) {
-        window.Kakao.init('196c5208e381632051ffe916af88cca1');
+        window.Kakao.init(VITE_KAKAO_MAP);
       }
     }
   }, []);
-
-  // const handleShare = () => {
-  //   window.Kakao.Share.sendCustom({
-  //     templateId: 102388,
-  //     templateArgs: {
-  //       THU: imageUrl,
-  //     },
-  //   });
-  // };
 
   const target =
     MODE === 'development' ? 'http://localhost:5173' : VITE_API_URL;
