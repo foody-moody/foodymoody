@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFeedDetail, useFeedEditor } from 'service/queries/feed';
 import { styled } from 'styled-components';
