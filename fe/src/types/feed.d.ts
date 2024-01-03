@@ -33,7 +33,7 @@ type MenuTag = {
 type FeedMemberInfo = {
   id: string;
   nickname: string;
-  imageUrl: string;
+  profileImageUrl: string;
   tasteMood: Mood;
 };
 

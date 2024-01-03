@@ -89,7 +89,9 @@ export const FeedUserInfo: React.FC<Props> = ({
     <Wrapper>
       <ContentLeft>
         <UserImage
-          imageUrl={member.imageUrl || generateDefaultUserImage(member.id)}
+          imageUrl={
+            member.profileImageUrl || generateDefaultUserImage(member.id)
+          }
           onClick={handleNavigateProfile}
         />
         <FlexColumnBox>
