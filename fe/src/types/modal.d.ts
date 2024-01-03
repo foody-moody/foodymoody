@@ -26,6 +26,7 @@ type Test2ModalProps = {
 
 type CollectionModalProps = {
   data?: any;
+  type: 'default' | 'add';
 };
 
 type CommentAlertProps = {
