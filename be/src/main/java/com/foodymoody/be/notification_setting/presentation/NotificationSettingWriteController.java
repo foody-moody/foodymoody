@@ -24,4 +24,13 @@ public class NotificationSettingWriteController {
         service.update(memberId, request);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/api/notification/settings/all")
+    public ResponseEntity<Void> updateAll(
+            @CurrentMemberId MemberId memberId,
+            @RequestBody AllAllowRequest request
+    ) {
+        service.updateAll(memberId, request.isAllow());
+        return ResponseEntity.noContent().build();
+    }
 }

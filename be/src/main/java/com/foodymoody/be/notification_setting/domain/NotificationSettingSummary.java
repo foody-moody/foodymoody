@@ -1,8 +1,10 @@
 package com.foodymoody.be.notification_setting.domain;
 
+import com.foodymoody.be.common.util.ids.NotificationSettingId;
+
 public interface NotificationSettingSummary {
 
-    String getId();
+    NotificationSettingId getId();
 
     boolean isFeedLike();
 
