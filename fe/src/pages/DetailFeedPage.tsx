@@ -25,6 +25,7 @@ export const DetailFeedModalPage = () => {
 
   const { id: feedId } = useParams() as { id: string };
   const { data: feed } = useFeedDetail(feedId);
+
   const { closeModal } = useModal<'commentAlert'>();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -59,12 +60,6 @@ export const DetailFeedModalPage = () => {
   return (
     <>
       {/* 로딩, 에러 추가 */}
-      {/* <Dim
-        onClick={() => {
-          navigateToBack();
-          closeModal('commentAlert');
-        }}
-      /> */}
       <Dim
         onClick={() => {
           handleNavigateToBack();
@@ -78,11 +73,12 @@ export const DetailFeedModalPage = () => {
               <Info>
                 <Detail>
                   <FeedUserInfo // TODO 수정됨 요소 추가
+                    feedId={feed?.id}
                     member={feed?.member}
                     createdAt={isUpdated ? feed.updatedAt : feed.createdAt}
                     isUpdated={isUpdated}
                     location={feed?.location}
-                    feedId={feed?.id}
+                    thumbnail={feed.images[0]?.image.url}
                   />
                 </Detail>
                 <Review>{feed?.review}</Review>
@@ -100,7 +96,7 @@ export const DetailFeedModalPage = () => {
               </Info>
               <FeedAction
                 feedId={feed?.id}
-                isLiked={feed?.isLiked}
+                isLiked={feed?.liked}
                 likeCount={feed?.likeCount}
                 commentCount={feed?.commentCount}
               />
