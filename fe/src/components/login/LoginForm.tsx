@@ -8,8 +8,6 @@ import { LoginSchemaType } from 'hooks/useLoginForm/useLoginFormSchema';
 
 export const LoginForm: React.FC = () => {
   const { mutate: loginMutate } = useLogin();
-  // const passwordReff = useRef<HTMLInputElement>(null);
-  // const buttonReff = useRef<HTMLButtonElement>(null);
 
   const { register, handleSubmit, state, errorItem, reset } = useLoginForm();
 
@@ -53,21 +51,15 @@ export const LoginForm: React.FC = () => {
           {...register('email')}
           placeholder="아이디"
           helperText={errorItem.errors.email?.message}
-          // nextRef={passwordReff}
-          // onChangeValue={handleIdChange}
         />
         <ValidatedInput
           {...register('password')}
-          // ref={passwordReff}
           type="password"
           placeholder="비밀번호"
           helperText={errorItem.errors.password?.message}
-          // nextRef={buttonReff}
-          // onChangeValue={handlePasswordChange}
         />
         <Button
           type="submit"
-          // ref={buttonReff}
           size="l"
           backgroundColor={state.isSubmitting ? 'black' : 'orange'}
         >
