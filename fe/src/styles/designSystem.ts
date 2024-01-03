@@ -34,6 +34,7 @@ const colors = {
   blue500: '#1ea8ed',
   yellow100: '#fdf4d7',
   yellow500: '#E9A13B',
+  primary300: '#F8B494',
   white: '#FFFFFF',
   red: '#A72826',
   green: '#62B273',
