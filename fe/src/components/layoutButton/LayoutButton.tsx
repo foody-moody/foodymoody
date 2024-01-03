@@ -1,4 +1,4 @@
-import { useSetLayout } from 'recoil/booleanState/useSetLayout';
+import { useToggle } from 'recoil/booleanState/useToggle';
 import { styled } from 'styled-components';
 import { TextButton } from 'components/common/button/TextButton';
 import {
@@ -9,15 +9,16 @@ import {
 } from 'components/common/icon/icons';
 
 export const LayoutButton = () => {
-  const { isGrid, handleSetOn, handleSetOff } = useSetLayout();
+  const grid = useToggle('grid');
+  // const { isGrid, handleSetOn, handleSetOff } = useSetLayout();
 
   return (
     <Wrapper>
-      <TextButton color="black" onClick={handleSetOn}>
-        {isGrid ? <GridOnIcon /> : <GridOffIcon />}
+      <TextButton color="black" onClick={grid.toggleOn}>
+        {grid.isTrue ? <GridOnIcon /> : <GridOffIcon />}
       </TextButton>
-      <TextButton color="black" onClick={handleSetOff}>
-        {isGrid ? <ListOffIcon /> : <ListOnIcon />}
+      <TextButton color="black" onClick={grid.toggleOff}>
+        {grid.isTrue ? <ListOffIcon /> : <ListOnIcon />}
       </TextButton>
     </Wrapper>
   );

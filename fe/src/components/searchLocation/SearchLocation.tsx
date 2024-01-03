@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useToggle } from 'recoil/booleanState/useToggle';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
 import { TextButton } from 'components/common/button/TextButton';
@@ -21,8 +22,9 @@ export const SearchLocation: React.FC<Props> = ({
   handleLocationChange,
 }) => {
   const [searchResult, setSearchResult] = useState([]);
-  const [openTools, setOpenTools] = useState(false);
-  const [openSearch, setOpenSearch] = useState(true);
+  const search = useToggle('search');
+  const tool = useToggle('tool');
+
   const [selectedLocation, setSelectedLocation] = useState({
     id: '',
     placeName: '',
@@ -38,19 +40,19 @@ export const SearchLocation: React.FC<Props> = ({
   });
 
   const handleOpenTools = () => {
-    !openSearch && setOpenTools(true);
+    !search.isTrue && tool.toggle();
   };
 
   const handleCloseTools = () => {
-    setOpenTools(false);
+    tool.toggleOff();
   };
 
   const handleOpenSearch = () => {
-    setOpenSearch(true);
+    search.toggleOn();
   };
 
   const handleCloseSearch = () => {
-    setOpenSearch(false);
+    search.toggleOff();
   };
 
   const handleSelectLocation = (location: any) => {
@@ -109,7 +111,7 @@ export const SearchLocation: React.FC<Props> = ({
             {selectedLocation.placeName}
           </SelectedLocation>
         )}
-        {openTools && (
+        {tool.isTrue && (
           <Button
             size="xs"
             backgroundColor="orange"
@@ -124,7 +126,7 @@ export const SearchLocation: React.FC<Props> = ({
         )}
       </Location>
 
-      {openSearch && (
+      {search.isTrue && (
         <SearchContainer>
           <SearchPanelInput
             variant="underline"
@@ -134,11 +136,12 @@ export const SearchLocation: React.FC<Props> = ({
             helperText={locationNameHelperText}
             data={searchResult}
             onSelectLocation={handleSelectLocation}
-            onCloseSearch={handleCloseSearch}
           />
-          <TextButton size="m" color="black" onClick={handleCloseSearch}>
-            <CloseSmallIcon />
-          </TextButton>
+          {selectedLocation.placeName && (
+            <TextButton size="m" color="black" onClick={handleCloseSearch}>
+              <CloseSmallIcon />
+            </TextButton>
+          )}
         </SearchContainer>
       )}
     </Wrapper>

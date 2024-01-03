@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useToggle } from 'recoil/booleanState/useToggle';
 import { styled } from 'styled-components';
 import { TextButton } from 'components/common/button/TextButton';
 import { SearchIcon } from 'components/common/icon/icons';
@@ -12,7 +13,6 @@ type Props = {
   data: any;
   onChangeValue?(value: string): void;
   onSelectLocation(location: any): void;
-  onCloseSearch(): void;
 };
 
 export const SearchPanelInput: React.FC<Props> = ({
@@ -22,9 +22,9 @@ export const SearchPanelInput: React.FC<Props> = ({
   data,
   onChangeValue,
   onSelectLocation,
-  onCloseSearch,
 }) => {
   // TODO panel 데이터 페치
+  const search = useToggle('search');
 
   const handlePanelClose = () => {
     onChangeValue?.('');
@@ -36,11 +36,6 @@ export const SearchPanelInput: React.FC<Props> = ({
         <Input.CenterContent>
           <InputField value={value} onChangeValue={onChangeValue} />
         </Input.CenterContent>
-        {/* <Input.RightContent>
-          <TextButton size="m" color="black" onClick={handleSearch}>
-            <SearchIcon />
-          </TextButton>
-        </Input.RightContent> */}
         <Input.BottomPanel isOpen={value?.trim().length !== 0}>
           {data.map((result) => (
             <ItemRow
@@ -49,7 +44,7 @@ export const SearchPanelInput: React.FC<Props> = ({
                 console.log(result, 'result');
                 onSelectLocation(result);
                 handlePanelClose();
-                onCloseSearch();
+                search.toggleOff();
               }}
             >
               <PlaceName>{result.place_name}</PlaceName>
