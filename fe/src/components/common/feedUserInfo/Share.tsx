@@ -26,7 +26,7 @@ export const Share: React.FC<Props> = ({ targetId, imageUrl }) => {
       objectType: 'feed',
       content: {
         title: '푸디무디',
-        description: `'진짜'만 모은 맛잘알들의 SNS!`,
+        description: `'진짜'만 모은 맛잘알들의 SNS!`, // TODO feed review로 변경
         imageUrl: imageUrl,
         link: {
           mobileWebUrl: `${baseUrl}/detail/feed/${targetId}`,

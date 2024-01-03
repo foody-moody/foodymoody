@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFeedDetail, useFeedEditor } from 'service/queries/feed';
 import { styled } from 'styled-components';
@@ -10,7 +10,7 @@ import { TextButton } from 'components/common/button/TextButton';
 import { PlusIcon } from 'components/common/icon/icons';
 import { MenuItemEditor } from 'components/common/menuItemEditor/MenuItemEditor';
 import { TextArea } from 'components/common/textarea/Textarea';
-import { SearchPanelInput } from 'components/searchPanelInput/SearchPanelInput';
+import { SearchLocation } from 'components/searchLocation/SearchLocation';
 import { useInput } from 'hooks/useInput';
 import { useMenuItem } from 'hooks/useMenuItem';
 import { usePageNavigator } from 'hooks/usePageNavigator';
@@ -18,6 +18,7 @@ import { usePageNavigator } from 'hooks/usePageNavigator';
 export const FeedEditor: React.FC = () => {
   const { navigateToHome } = usePageNavigator();
   const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
+
   const { id: feedId } = useParams() as { id: string };
   const { mutate: feedMutate } = useFeedEditor(feedId);
   const { data: feedDetailData } = useFeedDetail(feedId);
@@ -93,12 +94,11 @@ export const FeedEditor: React.FC = () => {
       <Content>
         <Div>
           <InputBox>
-            <Title>가게 이름을 작성해주세요</Title>
-            <SearchPanelInput
-              variant="underline"
-              value={locationName}
-              onChangeValue={handleLocationChange}
-              helperText={locationNameHelperText}
+            <Title>가게를 등록해주세요</Title>
+            <SearchLocation
+              locationName={locationName}
+              locationNameHelperText={locationNameHelperText}
+              handleLocationChange={handleLocationChange}
             />
           </InputBox>
           <MenuEditorWrapper>
@@ -243,3 +243,9 @@ const Caption = styled.p`
   font: ${({ theme: { fonts } }) => fonts.displayM12};
   color: ${({ theme: { colors } }) => colors.textSecondary};
 `;
+
+// const DummyMap = styled.div`
+//   width: 100%;
+//   height: 300px;
+//   background-color: ${({ theme: { colors } }) => colors.black};
+// `;
