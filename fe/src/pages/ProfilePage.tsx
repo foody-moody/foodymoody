@@ -26,15 +26,15 @@ export const ProfilePage = () => {
     <Wrapper>
       <ContentWrapper>
         <ProfileWrapper>
-          {/* <Suspense
+          <Suspense
             fallback={
               <DeferredComponent>
                 <ProfileUserInfoSkeleton />
               </DeferredComponent>
             }
-          > */}
-          <ProfileUserInfo />
-          {/* </Suspense> */}
+          >
+            <ProfileUserInfo />
+          </Suspense>
         </ProfileWrapper>
         <UserFeedTabs index={index} onClick={handleFeedTab} />
         {/* defaultFeed, collection, likedFeed 컴포넌트로 분리 */}
