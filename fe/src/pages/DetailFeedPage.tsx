@@ -1,5 +1,5 @@
 import { Suspense, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { usePostComment } from 'service/queries/comment';
 import { useFeedDetail } from 'service/queries/feed';
 import { styled } from 'styled-components';
@@ -20,6 +20,8 @@ import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const DetailFeedModalPage = () => {
   // TODO 로딩 에러
+  const location = useLocation();
+  const background = location.state && location.state.background;
 
   const { id: feedId } = useParams() as { id: string };
   const { data: feed } = useFeedDetail(feedId);
@@ -27,11 +29,20 @@ export const DetailFeedModalPage = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const { mutate: commentMutate } = usePostComment();
-  const { navigateToBack } = usePageNavigator();
+  const { navigateToBack, navigateToHome } = usePageNavigator();
   const { value, handleChange, isValid } = useInput({
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
   });
+
+  const handleNavigateToBack = () => {
+    if (background === 'detailFeed') {
+      navigateToBack();
+      closeModal('commentAlert');
+    } else {
+      navigateToHome();
+    }
+  };
 
   const handleSubmit = () => {
     isValid &&
@@ -48,10 +59,15 @@ export const DetailFeedModalPage = () => {
   return (
     <>
       {/* 로딩, 에러 추가 */}
-      <Dim
+      {/* <Dim
         onClick={() => {
           navigateToBack();
           closeModal('commentAlert');
+        }}
+      /> */}
+      <Dim
+        onClick={() => {
+          handleNavigateToBack();
         }}
       />
       <Wrapper ref={wrapperRef}>
