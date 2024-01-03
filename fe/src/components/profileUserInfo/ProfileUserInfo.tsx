@@ -26,14 +26,14 @@ export const ProfileUserInfo = () => {
 
   const navigate = useNavigate();
   const { navigateToProfileSetting } = usePageNavigator();
+  const isAuthor = member?.id === userInfo.id;
   const { openModal } = useModal<'collection'>();
-  const { userInfo } = useAuthState();
-  const isAuthor = member.id === userInfo.id;
 
   const handleAddCollection = () => {
+    // 나중에 수정 예정
     openModal('collection', {});
   };
-  
+
   const handleEditProfile = () => {
     navigateToProfileSetting();
   };
