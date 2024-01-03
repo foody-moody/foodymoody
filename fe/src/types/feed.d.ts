@@ -8,7 +8,7 @@ type MainFeed = {
   storeMood: Mood[];
   images: FeedImage[];
   likeCount: number;
-  isLiked: boolean;
+  liked: boolean;
   commentCount: number;
 };
 
