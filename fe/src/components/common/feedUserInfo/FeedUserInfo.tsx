@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { useDeleteFeed } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
-import { useKakaoShare } from 'hooks/useKakaoShare';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { Badge } from '../badge/Badge';
