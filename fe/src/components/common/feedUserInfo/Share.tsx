@@ -17,7 +17,8 @@ export const Share: React.FC<Props> = ({ targetId, imageUrl }) => {
     }
   }, []);
 
-  const target =
+  // 링크 상수화
+  const baseUrl =
     MODE === 'development' ? 'http://localhost:5173' : VITE_API_URL;
 
   const handleShare = () => {
@@ -28,16 +29,16 @@ export const Share: React.FC<Props> = ({ targetId, imageUrl }) => {
         description: `'진짜'만 모은 맛잘알들의 SNS!`,
         imageUrl: imageUrl,
         link: {
-          mobileWebUrl: `${target}/detail/feed/${targetId}`,
-          webUrl: `${target}/detail/feed/${targetId}`,
+          mobileWebUrl: `${baseUrl}/detail/feed/${targetId}`,
+          webUrl: `${baseUrl}/detail/feed/${targetId}`,
         },
       },
       buttons: [
         {
           title: '둘러보기',
           link: {
-            mobileWebUrl: `${target}/detail/feed/${targetId}`,
-            webUrl: `${target}/detail/feed/${targetId}`,
+            mobileWebUrl: `${baseUrl}/detail/feed/${targetId}`,
+            webUrl: `${baseUrl}/detail/feed/${targetId}`,
           },
         },
       ],
