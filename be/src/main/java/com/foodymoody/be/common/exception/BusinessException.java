@@ -2,9 +2,14 @@ package com.foodymoody.be.common.exception;
 
 public abstract class BusinessException extends RuntimeException {
 
-    protected BusinessException(String message) {
-        super(message);
+    private final ErrorMessage errorMessage;
+
+    protected BusinessException(ErrorMessage errorMessage) {
+        super(errorMessage.getMessage());
+        this.errorMessage = errorMessage;
     }
 
-    abstract String getCode();
+    public String getCode() {
+        return errorMessage.getCode();
+    }
 }

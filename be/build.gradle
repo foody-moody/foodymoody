@@ -14,7 +14,6 @@ java {
 }
 
 configurations {
-    // 마크다운 플러그인
     asciidoctorExt
 
     compileOnly {
@@ -36,6 +35,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    // querydsl
+    implementation "com.querydsl:querydsl-jpa"
+    implementation "com.querydsl:querydsl-core"
+    implementation "com.querydsl:querydsl-collections"
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
+    // querydsl JPAAnnotationProcessor 사용 지정
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    // java.lang.NoClassDefFoundError (javax.annotation.Generated) 대응 코드
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    // java.lang.NoClassDefFoundError (javax.annotation.Entity) 대응 코드
+
     // Spring Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
@@ -56,19 +66,21 @@ dependencies {
 
     // JaCoCo
     testImplementation 'org.jacoco:org.jacoco.agent:0.8.9'
+
+    //Jwt
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
+    // AWS
+    implementation 'software.amazon.awssdk:s3:2.20.162'
+
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.14'
+
 }
 
 ext {
     snippetsDir = file('build/generated-snippets')
-}
-
-tasks.register('copyDocument', Copy) {
-    dependsOn asciidoctor
-
-    from file("build/docs/asciidoc")
-    into file("src/main/resources/static/docs")
-
-    enabled = true;
 }
 
 test {
@@ -92,11 +104,19 @@ jacoco {
 
 asciidoctor {
     inputs.dir snippetsDir
+    outputDir file("src/main/resources/static/docs")
     configurations 'asciidoctorExt'
     dependsOn test
 }
 
-bootJar {
-    dependsOn asciidoctor, copyDocument
-    enabled = true;
+jar {
+    enabled = false
 }
+
+bootJar {
+    dependsOn asciidoctor
+    from("${asciidoctor.outputDir}") {
+        into 'static/docs'
+    }
+}
+

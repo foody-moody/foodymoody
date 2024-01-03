@@ -1,40 +1,54 @@
 import { useState } from 'react';
+// import { usePostLike } from 'service/queries/like';
 import { styled } from 'styled-components';
+import { useAuthState } from 'hooks/auth/useAuth';
+import { usePageNavigator } from 'hooks/usePageNavigator';
 import { ChatDotsIcon, HeartBgIcon, HeartFillIcon } from '../icon/icons';
 
 type Props = {
-  likeCount: number;
-  commentCount: number;
+  feedId: string;
+  likeCount?: number;
+  commentCount?: number;
+  onClickCommentIcon?: () => void;
 };
 
-// TODO 기본값 삭제
-export const FeedAction: React.FC<Props> = (
-  { likeCount = 12, commentCount = 11 }
-) => {
+export const FeedAction: React.FC<Props> = ({
+  feedId,
+  likeCount = 0,
+  commentCount = 0,
+  onClickCommentIcon,
+}) => {
+  const { navigateToLogin } = usePageNavigator();
+  const { isLogin } = useAuthState();
   const [isLiked, setIsLiked] = useState(false);
+  // const { mutate: likeMutate } = usePostLike();
   // TODO 로그인유무로 교체 const isLiked = isLogin ? feed.isLiked : false;
   // feed: query로 받아온 feed데이터
   const LikeIcon = isLiked ? HeartFillIcon : HeartBgIcon;
 
-  const handleToggleLike = () => {
-    // TODO Mutation으로 교체
-    // TODO 로그인false => mutate 불가
+  const handleSubmitLike = () => {
+    setIsLiked(!isLiked); // TODO 좋아요 연결시 삭제
 
-    setIsLiked(!isLiked);
-  };
-
-  const handleNavigateToDetail = () => {
-    // TODO navigate, url이 detail이면 return
+    if (isLogin) {
+      const body = {
+        feedId: feedId,
+      };
+      console.log(body);
+      // likeMutate(body);
+    } else {
+      navigateToLogin();
+    }
   };
 
   return (
     <Wrapper>
       <InfoItem>
-        <LikeIcon onClick={handleToggleLike} />
+        <LikeIcon onClick={handleSubmitLike} />
         {likeCount}
       </InfoItem>
-      <InfoItem>
-        <ChatDotsIcon onClick={handleNavigateToDetail} />
+
+      <InfoItem onClick={onClickCommentIcon}>
+        <ChatDotsIcon />
         {commentCount}
       </InfoItem>
     </Wrapper>
@@ -43,7 +57,7 @@ export const FeedAction: React.FC<Props> = (
 
 const Wrapper = styled.div`
   font: ${({ theme: { fonts } }) => fonts.displayB14};
-  width: 343px;
+  width: 100%;
   padding: 16px;
   text-align: center;
   display: flex;

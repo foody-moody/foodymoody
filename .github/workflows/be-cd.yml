@@ -5,7 +5,9 @@ on:
       - release
 
 env:
-  ROOT_PATH: "./be"
+  ROOT_PATH: ${{ github.workspace }}/be
+  MAIN_RESOURCE_PATH: ${{ github.workspace }}/be/src/main/resources
+  TEST_RESOURCE_PATH: ${{ github.workspace }}/be/src/test/resources
 
 jobs:
   be-cd:
@@ -18,6 +20,14 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '11'
+      - name: 설정파일을 추가한다
+        run: |
+          cd ${{ env.MAIN_RESOURCE_PATH }}
+          echo "${{ secrets.APPLICATION_AWS_YML }}" > application-aws.yml
+          echo "${{ secrets.APPLICATION_JWT_YML }}" > application-jwt.yml          
+          cd ${{ env.TEST_RESOURCE_PATH }}
+          echo "${{ secrets.APPLICATION_AWS_YML }}" > application-aws.yml
+          echo "${{ secrets.APPLICATION_JWT_YML }}" > application-jwt.yml
       - name: 어플리케이션을 빌드한다
         run: |
           chmod +x gradlew
