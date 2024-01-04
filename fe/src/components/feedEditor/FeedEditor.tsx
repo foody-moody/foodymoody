@@ -4,7 +4,7 @@ import { useFeedDetail, useFeedEditor } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { customScrollStyle, flexColumn, flexRow } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
-import { BadgeSelector } from 'components/common/badgeSelector/BadgeSelector';
+import { StoreMoodSelector } from 'components/common/badge/StoreMoodSelector';
 import { Button } from 'components/common/button/Button';
 import { TextButton } from 'components/common/button/TextButton';
 import { PlusIcon } from 'components/common/icon/icons';
@@ -133,11 +133,9 @@ export const FeedEditor: React.FC = () => {
           <MoodSelector>
             <Title>가게의 무드를 선택해주세요</Title>
             <Caption>(무드는 최대 3가지를 고를 수 있어요)</Caption>
-            <BadgeSelector
-              variant="store"
-              maxCount={3}
-              selectedBadgeList={selectedBadgeList}
-              onActiveBadge={handleSelectBadgeList}
+            <StoreMoodSelector
+              selectedBadges={selectedBadgeList}
+              onSelectedBadges={handleSelectBadgeList}
             />
           </MoodSelector>
           <TextareaBox>

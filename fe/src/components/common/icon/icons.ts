@@ -26,6 +26,7 @@ export { default as PencilLineIcon } from 'assets/pencilLine.svg?react';
 export { default as PlusOutlineIcon } from 'assets/plusOutline.svg?react';
 export { default as PlusIcon } from 'assets/plus.svg?react';
 export { default as PlusGhostIcon } from 'assets/plusGhost.svg?react';
+export { default as PlusSquareIcon } from 'assets/plusSquare.svg?react';
 export { default as SearchIcon } from 'assets/search.svg?react';
 export { default as StarLargeEmptyIcon } from 'assets/starLargeEmpty.svg?react';
 export { default as StarLargeFillIcon } from 'assets/starLargeFill.svg?react';
