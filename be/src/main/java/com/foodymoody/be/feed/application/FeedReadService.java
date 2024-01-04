@@ -73,7 +73,7 @@ public class FeedReadService {
 
     public boolean fetchIsLikedByMemberId(FeedId feedId, MemberId memberId) {
         return feedJpaRepository.fetchIsLikedByMemberId(feedId, memberId)
-                .orElseThrow(IsLikedNotExistsException::new);
+                .orElse(false);
     }
 
 }
