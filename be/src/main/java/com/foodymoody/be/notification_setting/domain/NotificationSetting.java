@@ -51,4 +51,13 @@ public class NotificationSetting {
         this.isFeedComment = isFeedComment;
         this.isCollectionComment = isCollectionComment;
     }
+
+    public void updateAll(boolean allow) {
+        this.isFeedLike = allow;
+        this.isCollectionLike = allow;
+        this.isCommentLike = allow;
+        this.isFollow = allow;
+        this.isFeedComment = allow;
+        this.isCollectionComment = allow;
+    }
 }
