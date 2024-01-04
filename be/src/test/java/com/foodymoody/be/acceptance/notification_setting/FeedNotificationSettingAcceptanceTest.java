@@ -2,19 +2,18 @@ package com.foodymoody.be.acceptance.notification_setting;
 
 import static com.foodymoody.be.acceptance.notification_setting.NotificationSettingSteps.알림_설정_조회_검증;
 import static com.foodymoody.be.acceptance.notification_setting.NotificationSettingSteps.알림_설정을_요청한다;
+import static com.foodymoody.be.acceptance.notification_setting.NotificationSettingSteps.알림설정을_수정한다;
 import static com.foodymoody.be.acceptance.notification_setting.NotificationSettingSteps.응답코드_204;
+import static com.foodymoody.be.acceptance.notification_setting.NotificationSettingSteps.전체_알림설정을_수정한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
-import io.restassured.RestAssured;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("알림 설정 관련 기능")
 class FeedNotificationSettingAcceptanceTest extends AcceptanceTest {
 
-    @DisplayName("회원아이디로 알림 설정을 조회한다.")
+    @DisplayName("알림 설정을 조회한다.")
     @Test
     void findNotificationSettingByMemberId() {
         // docs
@@ -27,22 +26,28 @@ class FeedNotificationSettingAcceptanceTest extends AcceptanceTest {
         알림_설정_조회_검증(response);
     }
 
-    @DisplayName("회원아이디로 알림 설정을 수정한다.")
+    @DisplayName("알림 설정을 수정 성공 하면 204를 반환한다.")
     @Test
-    void updateNotificationSettingByMemberId() {
+    void when_request_update_notification_setting_if_success_then_return_code_204() {
         // docs
         api_문서_타이틀("notification_setting_update_success", spec);
 
         // when
-        Map<String, Object> body = new HashMap<>();
-        body.put("heart", false);
-        body.put("comment", false);
-        body.put("feed", false);
-        var response = RestAssured
-                .given().log().all().spec(spec).auth().oauth2(회원아티_액세스토큰)
-                .body(body).contentType("application/json")
-                .when().put("/api/notification/settings")
-                .then().log().all().extract();
+        var response = 알림설정을_수정한다(회원아티_액세스토큰, spec);
+
+        // then
+        응답코드_204(response);
+    }
+
+
+    @DisplayName("모든 알림 설정을 off으로 수정 요청 성공 하면 204를 반환한다.")
+    @Test
+    void when_request_update_all_notification_setting_if_success_then_return_code_204() {
+        // docs
+        api_문서_타이틀("notification_setting_update_all_success", spec);
+
+        // when
+        var response = 전체_알림설정을_수정한다(회원아티_액세스토큰, spec);
 
         // then
         응답코드_204(response);
