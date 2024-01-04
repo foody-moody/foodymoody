@@ -49,7 +49,6 @@ public class FeedHeartService {
 
         return FeedHeartMapper.toHeartResponse(savedFeedHeart.getId().getValue(), savedFeedHeart.getFeedId().getValue(),
                 savedFeedHeart.getMemberId().getValue(), savedFeedHeart.isLiked(), feedHeartCount.getCount());
-        );
     }
 
     @Transactional
@@ -77,7 +76,7 @@ public class FeedHeartService {
         feed.updateLikeCountBy(heartCount);
     }
 
-    private boolean existsHeart(MemberId memberId, String feedId) {
+    public boolean existsHeart(MemberId memberId, String feedId) {
         return feedHeartRepository.existsHeartByMemberIdAndFeedId(memberId, IdFactory.createFeedId(feedId));
     }
 
