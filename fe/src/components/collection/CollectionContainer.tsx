@@ -1,4 +1,4 @@
-import { useSetLayout } from 'recoil/booleanState/useSetLayout';
+import { useToggle } from 'recoil/booleanState/useToggle';
 import { styled } from 'styled-components';
 import { GridItem } from './GridItem';
 import { ListItem } from './ListItem';
@@ -6,11 +6,11 @@ import { ListItem } from './ListItem';
 export const CollectionContainer = () => {
   // const { collections } = useGetCollection();
   // console.log(collections);
-  const { isGrid } = useSetLayout();
+  const grid = useToggle('grid');
 
   return (
     <Wrapper>
-      {isGrid ? (
+      {grid.isTrue ? (
         <GridItem collections={MOCK_FEEDS} />
       ) : (
         <ListItem collections={MOCK_FEEDS} />

@@ -1,6 +1,6 @@
-import { atom } from 'recoil';
+import { atomFamily } from 'recoil';
 
-export const booleanState = atom({
+export const booleanStateFamily = atomFamily({
   key: 'booleanState',
-  default: true,
+  default: (id) => (id === 'tool' ? false : true),
 });

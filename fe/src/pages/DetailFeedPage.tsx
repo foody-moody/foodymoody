@@ -1,5 +1,5 @@
 import { Suspense, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { usePostComment } from 'service/queries/comment';
 import { useFeedDetail } from 'service/queries/feed';
 import { styled } from 'styled-components';
@@ -20,17 +20,30 @@ import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const DetailFeedModalPage = () => {
   // TODO 로딩 에러
+  const location = useLocation();
+  const background = location.state && location.state.background;
+
   const { id: feedId } = useParams() as { id: string };
   const { data: feed } = useFeedDetail(feedId);
+
   const { closeModal } = useModal<'commentAlert'>();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const { mutate: commentMutate } = usePostComment();
-  const { navigateToBack } = usePageNavigator();
+  const { navigateToBack, navigateToHome } = usePageNavigator();
   const { value, handleChange, isValid } = useInput({
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
   });
+
+  const handleNavigateToBack = () => {
+    if (background === 'detailFeed') {
+      navigateToBack();
+      closeModal('commentAlert');
+    } else {
+      navigateToHome();
+    }
+  };
 
   const handleSubmit = () => {
     isValid &&
@@ -49,8 +62,7 @@ export const DetailFeedModalPage = () => {
       {/* 로딩, 에러 추가 */}
       <Dim
         onClick={() => {
-          navigateToBack();
-          closeModal('commentAlert');
+          handleNavigateToBack();
         }}
       />
       <Wrapper ref={wrapperRef}>
@@ -61,11 +73,12 @@ export const DetailFeedModalPage = () => {
               <Info>
                 <Detail>
                   <FeedUserInfo // TODO 수정됨 요소 추가
+                    feedId={feed?.id}
                     member={feed?.member}
                     createdAt={isUpdated ? feed.updatedAt : feed.createdAt}
                     isUpdated={isUpdated}
                     location={feed?.location}
-                    feedId={feed?.id}
+                    thumbnail={feed.images[0]?.image.url}
                   />
                 </Detail>
                 <Review>{feed?.review}</Review>
@@ -77,7 +90,7 @@ export const DetailFeedModalPage = () => {
               </Info>
               <FeedAction
                 feedId={feed?.id}
-                isLiked={feed?.isLiked}
+                isLiked={feed?.liked}
                 likeCount={feed?.likeCount}
                 commentCount={feed?.commentCount}
               />

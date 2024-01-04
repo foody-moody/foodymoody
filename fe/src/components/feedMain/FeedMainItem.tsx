@@ -36,6 +36,7 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
             createdAt={isUpdated ? feed.updatedAt : feed.createdAt}
             isUpdated={isUpdated}
             location={feed.location}
+            thumbnail={feed.images[0]?.image.url}
           />
         </Info>
 

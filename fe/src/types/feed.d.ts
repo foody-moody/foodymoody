@@ -8,7 +8,7 @@ type MainFeed = {
   storeMood: Mood[];
   images: FeedImage[];
   likeCount: number;
-  isLiked: boolean;
+  liked: boolean;
   commentCount: number;
 };
 
@@ -33,12 +33,13 @@ type MenuTag = {
 type FeedMemberInfo = {
   id: string;
   nickname: string;
-  imageUrl: string;
+  profileImageUrl: string;
   tasteMood: Mood;
 };
 
 type NewFeedBody = {
-  location: string;
+  location: string; //location으로 바껴야함
+  // location: Location;
   review: string;
   storeMood: string[];
   images: {
@@ -49,4 +50,15 @@ type NewFeedBody = {
 /* TODO. 수정 예정 */
 type DetailFeedProps = {
   feed: MainFeed;
+};
+
+type Location = {
+  address_name: string;
+  id: string;
+  phone: string;
+  place_name: string;
+  place_url: string;
+  road_address_name: string;
+  x: string;
+  y: string;
 };

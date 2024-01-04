@@ -33,9 +33,6 @@ export const MenuItemEditor: React.FC<Props> = ({
     helperText: '메뉴 이름을 입력해주세요',
   });
 
-  console.log('imageUrl', image.url);
-  console.log('imageId', image.id);
-
   return (
     <Wrapper>
       <LeftContent>
