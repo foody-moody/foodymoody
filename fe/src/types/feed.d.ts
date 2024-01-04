@@ -5,7 +5,7 @@ type MainFeed = {
   updatedAt: string;
   location: string;
   review: string;
-  storeMood: Mood[];
+  storeMood: Badge[];
   images: FeedImage[];
   likeCount: number;
   liked: boolean;
@@ -34,7 +34,7 @@ type FeedMemberInfo = {
   id: string;
   nickname: string;
   profileImageUrl: string;
-  tasteMood: Mood;
+  tasteMood: Badge;
 };
 
 type NewFeedBody = {

@@ -61,7 +61,7 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
         <FeedAction
           feedId={feed.id}
           likeCount={feed.likeCount}
-          isLiked={feed.isLiked}
+          isLiked={feed.liked}
           commentCount={feed.commentCount}
           onClickCommentIcon={handleOpenDetailFeed}
         />

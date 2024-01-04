@@ -107,7 +107,7 @@ export const ProfileEditForm = () => {
               // onChange={handleSelectChange}
             >
               {tastes &&
-                tastes?.map((taste: Mood) => (
+                tastes?.map((taste: Badge) => (
                   <Option key={taste.id} value={taste.id}>
                     {taste.name}
                   </Option>
