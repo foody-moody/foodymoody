@@ -33,6 +33,12 @@ public class NotificationSettingWriteService {
         );
     }
 
+    @Transactional
+    public void updateAll(MemberId memberId, boolean allow) {
+        NotificationSetting notificationSetting = getNotificationSettingByMemberId(memberId);
+        notificationSetting.updateAll(allow);
+    }
+
     private NotificationSetting getNotificationSettingByMemberId(MemberId memberId) {
         return notificationSettingRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("알림 설정이 존재하지 않습니다."));

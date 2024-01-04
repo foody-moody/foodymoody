@@ -11,6 +11,14 @@ public class FeedCollectionReplyLikeSteps {
     public static ExtractableResponse<Response> 피드_컬렉션_대댓글에_좋아요를_등록한다(
             String accessToken,
             String commentId,
+            String replyId
+    ) {
+        return 피드_컬렉션_대댓글에_좋아요를_등록한다(accessToken, commentId, replyId, new RequestSpecBuilder().build());
+    }
+
+    public static ExtractableResponse<Response> 피드_컬렉션_대댓글에_좋아요를_등록한다(
+            String accessToken,
+            String commentId,
             String replyId,
             RequestSpecification spec
     ) {

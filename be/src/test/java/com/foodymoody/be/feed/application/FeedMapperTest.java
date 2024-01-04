@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("FeedMapper 테스트")
 class FeedMapperTest {
 
     @DisplayName("toFeed를 활용하여 피드 등록에서의 Feed Entity 객체를 만들고 받아올 수 있다.")

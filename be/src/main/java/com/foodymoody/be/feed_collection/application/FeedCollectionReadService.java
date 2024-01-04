@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed_collection.application;
 
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionDao;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
@@ -17,6 +18,10 @@ public class FeedCollectionReadService {
 
     public Slice<FeedCollectionSummary> fetchCollection(Pageable pageable) {
         return dao.findAllSummary(pageable);
+    }
+
+    public Slice<FeedCollectionSummary> fetchCollection(MemberId memberId, Pageable pageable) {
+        return dao.findAllSummary(memberId, pageable);
     }
 
     public FeedCollection fetch(FeedCollectionId feedCollectionId) {

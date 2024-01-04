@@ -13,7 +13,7 @@ public interface NotificationSettingJpaRepository extends JpaRepository<Notifica
     Optional<NotificationSetting> findByMemberId(MemberId memberId);
 
     @Query("select " +
-            "_notificationSetting.id.value as id" +
+            "_notificationSetting.id as id" +
             ",_notificationSetting.isFeedComment as feedComment" +
             ",_notificationSetting.isCollectionComment as collectionComment" +
             ",_notificationSetting.isCollectionLike as collectionLike" +

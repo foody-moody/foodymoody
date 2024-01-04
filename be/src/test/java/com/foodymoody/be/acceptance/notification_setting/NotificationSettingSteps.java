@@ -6,6 +6,8 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 
 public class NotificationSettingSteps {
@@ -14,6 +16,28 @@ public class NotificationSettingSteps {
         return RestAssured
                 .given().log().all().spec(spec).auth().oauth2(accessToken)
                 .when().get("/api/notification/settings")
+                .then().log().all().extract();
+    }
+
+    public static ExtractableResponse<Response> 알림설정을_수정한다(String accessToken, RequestSpecification spec) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("heart", false);
+        body.put("comment", false);
+        body.put("feed", false);
+        return RestAssured
+                .given().log().all().spec(spec).auth().oauth2(accessToken)
+                .body(body).contentType("application/json")
+                .when().put("/api/notification/settings")
+                .then().log().all().extract();
+    }
+
+    public static ExtractableResponse<Response> 전체_알림설정을_수정한다(String accessToken, RequestSpecification spec) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("allow", false);
+        return RestAssured
+                .given().log().all().spec(spec).auth().oauth2(accessToken)
+                .body(body).contentType("application/json")
+                .when().put("/api/notification/settings/all")
                 .then().log().all().extract();
     }
 

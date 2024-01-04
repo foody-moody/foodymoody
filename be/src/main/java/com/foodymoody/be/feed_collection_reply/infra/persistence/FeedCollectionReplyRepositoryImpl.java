@@ -35,7 +35,7 @@ public class FeedCollectionReplyRepositoryImpl implements FeedCollectionReplyRep
             MemberId memberId,
             Pageable pageable
     ) {
-        return repository.findSummaryByCommentId(commentId, pageable);
+        return repository.findSummaryByCommentId(commentId, memberId, pageable);
     }
 
     @Override

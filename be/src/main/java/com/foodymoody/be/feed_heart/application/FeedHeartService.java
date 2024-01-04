@@ -49,6 +49,7 @@ public class FeedHeartService {
 
         return FeedHeartMapper.toHeartResponse(savedFeedHeart.getId().getValue(), savedFeedHeart.getFeedId().getValue(),
                 savedFeedHeart.getMemberId().getValue(), savedFeedHeart.isLiked(), feedHeartCount.getCount());
+        );
     }
 
     @Transactional

@@ -14,15 +14,19 @@ public class FeedCollectionReplyResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private MemberResponse member;
+    private boolean isLiked;
+    private long likeCount;
 
     public FeedCollectionReplyResponse(
             FeedCollectionReplyId id, Content content, LocalDateTime createdAt, LocalDateTime updatedAt,
-            MemberId memberId, String nickname, String profileUrl
+            MemberId memberId, String nickname, String profileUrl, boolean isLiked, long likeCount
     ) {
         this.id = id;
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.isLiked = isLiked;
+        this.likeCount = likeCount;
         this.member = new MemberResponse(memberId, nickname, profileUrl);
     }
 
