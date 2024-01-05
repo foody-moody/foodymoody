@@ -23,6 +23,7 @@ public class MemberWriteService {
     private final MemberRepository memberRepository;
     private final TasteMoodReadService tasteMoodReadService;
 
+    @Transactional
     public MemberSignupResponse create(MemberSignupRequest request) {
         TasteMoodId tasteMoodId = IdFactory.createTasteMoodId(request.getTasteMoodId());
         TasteMood tasteMood = tasteMoodReadService.findById(tasteMoodId);

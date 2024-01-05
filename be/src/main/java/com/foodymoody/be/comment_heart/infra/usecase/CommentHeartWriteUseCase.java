@@ -30,7 +30,7 @@ public class CommentHeartWriteUseCase {
         CommentHeart commentHeart = commentHeartWriteService.registerCommentHeart(commentId, memberId);
         commentHeartCountWriteService.increment(commentId);
         MemberId commentWriterId = comment.getMemberId();
-        Events.publish(toCommentHeartAddedEvent(comment, commentHeart, commentWriterId));
+        Events.raise(toCommentHeartAddedEvent(comment, commentHeart, commentWriterId));
     }
 
     @Transactional

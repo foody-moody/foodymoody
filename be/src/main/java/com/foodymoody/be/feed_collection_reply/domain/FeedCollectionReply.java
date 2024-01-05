@@ -44,7 +44,7 @@ public class FeedCollectionReply {
         this.deleted = false;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-        Events.publish(FeedCollectionReplyAddedEvent.of(id));
+        Events.raise(FeedCollectionReplyAddedEvent.of(id));
     }
 
     public void delete(MemberId memberId, LocalDateTime updatedAt) {

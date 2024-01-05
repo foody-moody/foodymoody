@@ -78,7 +78,7 @@ public class FeedCollection {
         this.updatedAt = createdAt;
         this.commentIds = new CommentIds();
         this.moods = new FeedCollectionMoods(IdFactory.createFeedCollectionMoodsId(), moods, createdAt);
-        Events.publish(FeedCollectionAddedEvent.of(id, createdAt));
+        Events.raise(FeedCollectionAddedEvent.of(id, createdAt));
     }
 
     public List<FeedId> getFeedIds() {

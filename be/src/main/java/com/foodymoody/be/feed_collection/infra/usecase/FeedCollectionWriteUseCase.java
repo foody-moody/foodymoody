@@ -21,7 +21,6 @@ public class FeedCollectionWriteUseCase {
     private final FeedReadService feedReadService;
     private final FeedCollectionMoodWriteService moodService;
 
-    @Transactional
     public FeedCollectionId createCollection(FeedCollectionCreateRequest request, MemberId memberId) {
         List<FeedId> feedIds = request.getFeedIds();
         if (feedIds.isEmpty()) {
