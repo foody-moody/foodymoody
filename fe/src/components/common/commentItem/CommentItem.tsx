@@ -7,6 +7,7 @@ import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
+import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { DotGhostIcon, HeartSmallEmpty, HeartSmallFill } from '../icon/icons';
 import { Input } from '../input/Input';
 import { InputField } from '../input/InputField';
@@ -106,7 +107,10 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
     <Wrapper>
       <ContentLeft>
         <UserImage
-          imageUrl={comment.member.imageUrl}
+          imageUrl={
+            comment.member.imageUrl ||
+            generateDefaultUserImage(comment.member.id)
+          }
           onClick={handleNavigateProfile}
         />
         <FlexColumnBox>

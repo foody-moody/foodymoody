@@ -37,7 +37,7 @@ export const DetailFeedModalPage = () => {
   });
 
   const handleNavigateToBack = () => {
-    if (background === 'detailFeed') {
+    if (background === 'detailFeed' || background === 'notiDetailFeed') {
       navigateToBack();
       closeModal('commentAlert');
     } else {
