@@ -1,9 +1,8 @@
 package com.foodymoody.be.acceptance.auth;
 
-import static com.foodymoody.be.acceptance.notification.NotificationSteps.회원의_모든_알람을_조회한다;
+import static com.foodymoody.be.acceptance.notification.NotificationSteps.회원의_모든_알림을_조회한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.foodymoody.be.auth.application.dto.request.LoginRequest;
 import com.foodymoody.be.auth.util.AuthFixture;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -79,7 +78,9 @@ public class AuthSteps {
         );
     }
 
-    public static void 상태코드가_200이고_새로운_토큰이_발급됐음을_검증한다(ExtractableResponse<Response> reIssueResponse, ExtractableResponse<Response> loginResponse) {
+    public static void 상태코드가_200이고_새로운_토큰이_발급됐음을_검증한다(
+            ExtractableResponse<Response> reIssueResponse, ExtractableResponse<Response> loginResponse
+    ) {
 
         String loginAccessToken = loginResponse.jsonPath().getString("accessToken");
         String loginRefreshToken = loginResponse.jsonPath().getString("refreshToken");
@@ -105,10 +106,10 @@ public class AuthSteps {
         상태코드를_검증한다(response, HttpStatus.NO_CONTENT);
     }
 
-    public static void 로그아웃한_푸반의_액세스토큰으로_알람이_조회가_안됨을_검증한다(String accessToken) {
-        ExtractableResponse<Response> 푸반_알람조회_응답 = 회원의_모든_알람을_조회한다(accessToken, new RequestSpecBuilder().build());
+    public static void 로그아웃한_푸반의_액세스토큰으로_알림이_조회가_안됨을_검증한다(String accessToken) {
+        ExtractableResponse<Response> 푸반_알림조회_응답 = 회원의_모든_알림을_조회한다(accessToken, new RequestSpecBuilder().build());
         Assertions.assertAll(
-                () -> assertThat(푸반_알람조회_응답.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value())
+                () -> assertThat(푸반_알림조회_응답.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value())
         );
     }
 
@@ -127,8 +128,10 @@ public class AuthSteps {
         return assertThat(response.jsonPath().getString("code")).isEqualTo(code);
     }
 
-    private static AbstractIntegerAssert<?> 상태코드를_검증한다(ExtractableResponse<Response> response,
-            HttpStatus expectedHttpStatus) {
+    private static AbstractIntegerAssert<?> 상태코드를_검증한다(
+            ExtractableResponse<Response> response,
+            HttpStatus expectedHttpStatus
+    ) {
         return assertThat(response.statusCode()).isEqualTo(expectedHttpStatus.value());
     }
 }

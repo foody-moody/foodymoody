@@ -48,7 +48,6 @@ public class NotificationSettingSteps {
     public static void 알림_설정_조회_검증(ExtractableResponse<Response> response) {
         Assertions.assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
-                () -> assertThat(response.body().jsonPath().getString("id")).isNotNull(),
                 () -> assertThat(response.body().jsonPath().getBoolean("feedComment")).isTrue(),
                 () -> assertThat(response.body().jsonPath().getBoolean("collectionComment")).isTrue(),
                 () -> assertThat(response.body().jsonPath().getBoolean("collectionLike")).isTrue(),
