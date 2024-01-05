@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed_collection.domain;
 
 import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionCommentResponse;
+import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionMoodResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class FeedCollectionDetail {
     private int commentCount;
     private List<FeedSummaryResponse> feeds;
     private Slice<FeedCollectionCommentResponse> comments;
-    private List<String> moods;
+    private List<FeedCollectionMoodResponse> moods;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -32,7 +33,7 @@ public class FeedCollectionDetail {
             AuthorSummaryResponse author,
             List<FeedSummaryResponse> feeds,
             Slice<FeedCollectionCommentResponse> comments,
-            List<String> moods
+            List<FeedCollectionMoodResponse> moods
     ) {
         this.author = author;
         this.id = feedCollection.getId().getValue();

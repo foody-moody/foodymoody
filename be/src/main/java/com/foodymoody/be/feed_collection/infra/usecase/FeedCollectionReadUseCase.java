@@ -65,7 +65,7 @@ public class FeedCollectionReadUseCase {
         var authorSummaryResponse = getAuthorSummaryResponse(feedCollection);
         var feeds = getFeeds(feedCollection.getFeedIds());
         var comments = getComments(feedCollection.getCommentIds());
-        var moods = getMoods(feedCollection);
+        var moods = getMoodResponses(id);
         return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods);
     }
 
@@ -75,7 +75,7 @@ public class FeedCollectionReadUseCase {
         var authorSummaryResponse = getAuthorSummaryResponse(feedCollection);
         var feeds = getFeeds(memberId, feedCollection);
         var comments = getComments(memberId, feedCollection.getCommentIds());
-        var moods = getMoods(feedCollection);
+        var moods = getMoodResponses(id);
         return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods);
     }
 
@@ -195,13 +195,6 @@ public class FeedCollectionReadUseCase {
                 comment.getProfileImageUrl(),
                 comment.getMood()
         ));
-    }
-
-    private static List<String> getMoods(FeedCollection feedCollection) {
-        return feedCollection.getMoods()
-                .stream()
-                .map(FeedCollectionMood::getName)
-                .collect(Collectors.toList());
     }
 
     private static List<String> getStoreMoodsNames(List<StoreMood> storeMoods) {
