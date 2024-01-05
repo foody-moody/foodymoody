@@ -16,6 +16,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
@@ -24,7 +25,12 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "feed_collection")
+@Table(
+        name = "feed_collection",
+        indexes = {
+                @Index(name = "idx_feed_collection_created_at", columnList = "created_at")
+        }
+)
 public class FeedCollection {
 
     @Getter
@@ -56,6 +62,7 @@ public class FeedCollection {
             orphanRemoval = true)
     private FeedCollectionMoods moods;
     @Getter
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Getter
     private LocalDateTime updatedAt;

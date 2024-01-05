@@ -14,7 +14,7 @@ import javax.persistence.OrderColumn;
 public class CommentIds {
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "feed_collection_comment_ids", joinColumns = @JoinColumn(name = "comment_id"))
+    @CollectionTable(name = "feed_collection_comment_ids", joinColumns = @JoinColumn(name = "feed_collection_id"))
     @OrderColumn(name = "comment_order", columnDefinition = "int default 0")
     private List<FeedCollectionCommentId> ids = new ArrayList<>();
 

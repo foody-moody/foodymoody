@@ -4,12 +4,20 @@ import com.foodymoody.be.common.util.ids.FeedCollectionMoodId;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(
+        name = "feed_collection_mood",
+        indexes = {
+                @Index(name = "feed_collection_mood_name_idx", columnList = "name")
+        }
+)
 public class FeedCollectionMood {
 
     @Getter
