@@ -30,7 +30,6 @@ public class Feed {
     private LocalDateTime updatedAt;
     private String review;
     private int likeCount;
-    private boolean isLiked;
     private int commentCount;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -76,10 +75,6 @@ public class Feed {
         return likeCount;
     }
 
-    public boolean isLiked() {
-        return isLiked;
-    }
-
     public int getCommentCount() {
         return commentCount;
     }
@@ -111,10 +106,6 @@ public class Feed {
         this.profileImageUrl = profileImageUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-    }
-
-    public void updateIsLikedBy(boolean isLiked) {
-        this.isLiked = isLiked;
     }
 
     public void updateLikeCountBy(int heartCount) {

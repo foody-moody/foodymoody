@@ -553,6 +553,12 @@ operation::feed_collection_request_fetch_all_success[snippets='http-request,http
 
 operation::feed_collection_request_fetch_single_success[snippets='http-request,http-response']
 
+=== 컬렉션 피드 리스트 조회
+
+==== 성공
+
+operation::feed_collection_request_read_feed_list_success[snippets='http-request,http-response']
+
 === 컬렉션 무드 추가
 
 ==== 성공

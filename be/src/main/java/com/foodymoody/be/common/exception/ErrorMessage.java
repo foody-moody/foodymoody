@@ -41,7 +41,8 @@ public enum ErrorMessage {
     INVALID_IMAGE_URL("유효하지 않은 이미지 url입니다", "i006"),
     MAX_UPLOAD_SIZE_EXEEDED("2.8MB 이하의 이미지만 업로드 가능합니다", "i007"),
     INVALID_IMAGE_ID("유효하지 않은 이미지 id입니다", "i008"),
-    MENU_NOT_FOUND("유효하지 않은 메뉴 id입니다.", "i010");
+    MENU_NOT_FOUND("유효하지 않은 메뉴 id입니다.", "i010"),
+    IS_LIKED_NOT_EXISTS("isLiked를 찾아올 수 없습니다.", "i012");
 
     private final String message;
     private final String code;
