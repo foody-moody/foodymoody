@@ -39,7 +39,7 @@ public class FeedCollectionSteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .post("/api/collections")
+                .post("/api/feed_collections")
                 .then().log().all()
                 .extract();
     }
@@ -58,7 +58,7 @@ public class FeedCollectionSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .get("/api/collections?page=0&size=10")
+                .get("/api/feed_collections?page=0&size=10")
                 .then().log().all()
                 .extract();
     }
@@ -73,7 +73,7 @@ public class FeedCollectionSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .get("/api/collections/{collectionId}", collectionId)
+                .get("/api/feed_collections/{collectionId}", collectionId)
                 .then().log().all()
                 .extract();
     }
@@ -94,7 +94,7 @@ public class FeedCollectionSteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .put("/api/collections/{collectionId}", collectionId)
+                .put("/api/feed_collections/{collectionId}", collectionId)
                 .then().log().all()
                 .extract();
     }
@@ -131,7 +131,7 @@ public class FeedCollectionSteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .put("/api/collections/{collectionId}/feeds", collectionId)
+                .put("/api/feed_collections/{collectionId}/feeds", collectionId)
                 .then().log().all()
                 .extract();
     }
@@ -146,7 +146,7 @@ public class FeedCollectionSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .delete("/api/collections/{collectionId}", collectionId)
+                .delete("/api/feed_collections/{collectionId}", collectionId)
                 .then().log().all()
                 .extract();
     }

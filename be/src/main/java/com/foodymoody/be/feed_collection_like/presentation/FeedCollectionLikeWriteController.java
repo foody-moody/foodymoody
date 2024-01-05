@@ -20,7 +20,7 @@ public class FeedCollectionLikeWriteController {
 
     private final FeedCollectionLikeWriteUseCase useCase;
 
-    @PostMapping("/api/feed-collections/{feedCollectionId}/likes")
+    @PostMapping("/api/feed_collections/{feedCollectionId}/likes")
     public ResponseEntity<IdResponse> post(
             @PathVariable FeedCollectionId feedCollectionId,
             @CurrentMemberId MemberId memberId
@@ -29,7 +29,7 @@ public class FeedCollectionLikeWriteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
-    @DeleteMapping("/api/feed-collections/{feedCollectionId}/likes/{likeId}")
+    @DeleteMapping("/api/feed_collections/{feedCollectionId}/likes/{likeId}")
     public ResponseEntity<Void> cancel(
             @PathVariable FeedCollectionId feedCollectionId,
             @PathVariable FeedCollectionLikeId likeId,

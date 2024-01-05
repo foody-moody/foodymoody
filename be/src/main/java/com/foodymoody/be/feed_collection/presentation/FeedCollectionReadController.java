@@ -20,7 +20,7 @@ public class FeedCollectionReadController {
 
     private final FeedCollectionReadUseCase useCase;
 
-    @GetMapping("/api/collections")
+    @GetMapping("/api/feed_collections")
     public ResponseEntity<Object> fetchAll(
             @PageableDefault(size = 20, sort = "createdAt", direction = Direction.DESC) Pageable pageable,
             @CurrentMemberId MemberId memberId
@@ -33,7 +33,7 @@ public class FeedCollectionReadController {
         return ResponseEntity.ok(feedCollections);
     }
 
-    @GetMapping("/api/collections/{id}")
+    @GetMapping("/api/feed_collections/{id}")
     public ResponseEntity<FeedCollectionDetail> fetchDetail(
             @PathVariable FeedCollectionId id,
             @CurrentMemberId MemberId memberId
