@@ -110,7 +110,7 @@ const ContentWrapper = styled.div`
   border-right: 1px solid ${({ theme: { colors } }) => colors.black};
   background: ${({ theme: { colors } }) => colors.white};
   //추가한 부분
-  margin-top: 40px;
+  margin-top: 58px;
   padding: 16px;
   box-sizing: border-box;
   border: 1px solid ${({ theme: { colors } }) => colors.black};
@@ -122,6 +122,7 @@ const ContentWrapper = styled.div`
     max-width: 568px;
     width: 100%;
     //추가한 부분
+    margin-top: 40px;
     margin-bottom: 40px;
   }
 
