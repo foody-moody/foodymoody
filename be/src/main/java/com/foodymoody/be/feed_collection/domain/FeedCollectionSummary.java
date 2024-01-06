@@ -13,7 +13,6 @@ public class FeedCollectionSummary {
 
     private List<FeedCollectionMoodResponse> moods;
     private FeedCollectionId id;
-    private String thumbnailUrl;
     private AuthorSummaryResponse author;
     private String title;
     private String description;
@@ -28,7 +27,6 @@ public class FeedCollectionSummary {
     @QueryProjection
     public FeedCollectionSummary(
             FeedCollectionId id,
-            String thumbnailUrl,
             MemberId authorId,
             String nickname,
             String tasteMoodName,
@@ -44,7 +42,6 @@ public class FeedCollectionSummary {
             LocalDateTime updatedAt
     ) {
         this.id = id;
-        this.thumbnailUrl = thumbnailUrl;
         this.author = new AuthorSummaryResponse(authorId, nickname, tasteMoodName, profileImageUrl);
         this.title = title;
         this.description = description;

@@ -27,7 +27,6 @@ public class FeedCollectionSteps {
         Map<String, Object> body = new HashMap<>();
         body.put("title", "테스트 컬렉션");
         body.put("description", "테스트 컬렉션입니다.");
-        body.put("thumbnailUrl", "https://thumbnail.url");
         body.put("private", false);
         body.put("moodIds", moodIds);
         return RestAssured.given()

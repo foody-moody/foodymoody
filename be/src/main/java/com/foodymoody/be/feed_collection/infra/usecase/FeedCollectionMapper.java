@@ -28,7 +28,6 @@ public class FeedCollectionMapper {
     ) {
         return new FeedCollectionResponse(
                 summary.getId(),
-                summary.getThumbnailUrl(),
                 summary.getAuthor(),
                 summary.getTitle(),
                 summary.getDescription(),

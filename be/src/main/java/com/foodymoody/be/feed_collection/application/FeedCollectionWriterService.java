@@ -25,7 +25,6 @@ public class FeedCollectionWriterService {
     public FeedCollectionId create(
             String title,
             String description,
-            String thumbnailUrl,
             boolean isPrivate,
             MemberId memberId,
             List<FeedCollectionMood> moods
@@ -35,7 +34,6 @@ public class FeedCollectionWriterService {
         var feedCollection = new FeedCollection(
                 id,
                 memberId,
-                thumbnailUrl,
                 title,
                 description,
                 0,
@@ -72,11 +70,11 @@ public class FeedCollectionWriterService {
 
     @Transactional
     public void edit(
-            FeedCollectionId id, String title, Content content, String thumbnailUrl, List<FeedCollectionMood> moods,
+            FeedCollectionId id, String title, Content content, List<FeedCollectionMood> moods,
             MemberId memberId
     ) {
         FeedCollection feedCollection = fetchById(id);
-        feedCollection.edit(title, content, thumbnailUrl, moods, memberId, LocalDateTime.now());
+        feedCollection.edit(title, content, moods, memberId, LocalDateTime.now());
     }
 
     @Transactional

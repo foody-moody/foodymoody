@@ -11,7 +11,6 @@ import org.springframework.data.domain.Slice;
 public class FeedCollectionDetail {
 
     private String id;
-    private String thumbnailUrl;
     private AuthorSummaryResponse author;
     private String title;
     private String description;
@@ -37,7 +36,6 @@ public class FeedCollectionDetail {
     ) {
         this.author = author;
         this.id = feedCollection.getId().getValue();
-        this.thumbnailUrl = feedCollection.getThumbnailUrl();
         this.title = feedCollection.getTitle();
         this.description = feedCollection.getDescription();
         this.likeCount = feedCollection.getHeartCount();

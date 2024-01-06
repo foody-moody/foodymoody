@@ -31,7 +31,6 @@ class FeedCollectionRepositoryTest {
         var feedCollection = new FeedCollection(
                 IdFactory.createFeedCollectionId(),
                 IdFactory.createMemberId(),
-                "url",
                 "title",
                 "description",
                 0,

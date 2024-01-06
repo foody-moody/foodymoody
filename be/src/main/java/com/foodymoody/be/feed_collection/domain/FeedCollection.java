@@ -40,8 +40,6 @@ public class FeedCollection {
     @AttributeOverride(name = "value", column = @Column(name = "author_id"))
     private MemberId authorId;
     @Getter
-    private String thumbnailUrl;
-    @Getter
     private String title;
     @Getter
     private String description;
@@ -70,7 +68,6 @@ public class FeedCollection {
     public FeedCollection(
             FeedCollectionId id,
             MemberId memberId,
-            String thumbnailUrl,
             String title,
             String description,
             int followerCount,
@@ -81,7 +78,6 @@ public class FeedCollection {
     ) {
         this.id = id;
         this.authorId = memberId;
-        this.thumbnailUrl = thumbnailUrl;
         this.title = title;
         this.description = description;
         this.followerCount = followerCount;
@@ -126,13 +122,15 @@ public class FeedCollection {
     }
 
     public void edit(
-            String title, Content content, String thumbnailUrl, List<FeedCollectionMood> moodIds, MemberId memberId,
+            String title,
+            Content content,
+            List<FeedCollectionMood> moodIds,
+            MemberId memberId,
             LocalDateTime updatedAt
     ) {
         validateAuthor(memberId);
         this.title = title;
         this.description = content.getValue();
-        this.thumbnailUrl = thumbnailUrl;
         this.moods.update(moodIds);
         this.updatedAt = updatedAt;
     }

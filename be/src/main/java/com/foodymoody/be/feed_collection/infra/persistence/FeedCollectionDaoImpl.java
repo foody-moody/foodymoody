@@ -91,7 +91,6 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
                         .list(Projections.constructor(
                                 FeedCollectionSummary.class,
                                 feedCollection.id,
-                                feedCollection.thumbnailUrl,
                                 member.id,
                                 member.nickname,
                                 tasteMood.name,

@@ -25,7 +25,6 @@ public class FeedCollectionWriteUseCase {
         return service.create(
                 request.getTitle(),
                 request.getDescription(),
-                request.getThumbnailUrl(),
                 request.isPrivate(),
                 memberId,
                 moods
@@ -38,7 +37,6 @@ public class FeedCollectionWriteUseCase {
                 id,
                 request.getTitle(),
                 request.getContent(),
-                request.getThumbnailUrl(),
                 moods,
                 memberId
         );

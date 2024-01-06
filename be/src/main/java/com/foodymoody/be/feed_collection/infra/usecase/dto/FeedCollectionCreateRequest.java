@@ -13,7 +13,6 @@ public class FeedCollectionCreateRequest {
 
     private String title;
     private String description;
-    private String thumbnailUrl;
     private List<FeedCollectionMoodId> moodIds;
     private boolean isPrivate;
 }
