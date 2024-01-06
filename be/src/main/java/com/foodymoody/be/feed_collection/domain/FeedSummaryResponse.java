@@ -11,7 +11,7 @@ public class FeedSummaryResponse {
     private String id;
     private String thumbnailUrl;
     private String content;
-    private List<StoreMoodResponse> moods;
+    private List<StoreMoodResponse> storeMood;
     private int likeCount;
     private int commentCount;
     private boolean isLiked;
@@ -25,7 +25,7 @@ public class FeedSummaryResponse {
         this.id = id;
         this.thumbnailUrl = thumbnailUrl;
         this.content = content;
-        this.moods = moods;
+        this.storeMood = moods;
         this.likeCount = likeCount;
         this.commentCount = commentCount;
         this.isLiked = isLiked;
