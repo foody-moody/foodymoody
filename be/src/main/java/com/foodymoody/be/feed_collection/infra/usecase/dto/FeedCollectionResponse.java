@@ -19,7 +19,7 @@ public class FeedCollectionResponse {
     private int followerCount;
     private int commentCount;
     private int feedCount;
-    private List<FeedCollectionMoodResponse> moods;
+    private List<FeedCollectionMoodResponse> storeMood;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -38,7 +38,7 @@ public class FeedCollectionResponse {
         this.followerCount = followerCount;
         this.commentCount = commentCount;
         this.feedCount = feedCount;
-        this.moods = moods;
+        this.storeMood = moods;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
