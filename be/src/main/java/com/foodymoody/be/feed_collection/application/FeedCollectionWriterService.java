@@ -22,13 +22,12 @@ public class FeedCollectionWriterService {
     private final FeedCollectionRepository repository;
 
     @Transactional
-    public FeedCollectionId createCollection(
+    public FeedCollectionId create(
             String title,
             String description,
             String thumbnailUrl,
             boolean isPrivate,
             MemberId memberId,
-            List<FeedId> feedIds,
             List<FeedCollectionMood> moods
     ) {
         var id = IdFactory.createFeedCollectionId();
@@ -42,7 +41,6 @@ public class FeedCollectionWriterService {
                 0,
                 isPrivate,
                 false,
-                feedIds,
                 moods,
                 now
         );

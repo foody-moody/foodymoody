@@ -25,11 +25,11 @@ public class FeedCollectionWriteController {
     private final FeedCollectionWriteUseCase useCase;
 
     @PostMapping("/api/feed_collections")
-    public ResponseEntity<IdResponse> createCollection(
+    public ResponseEntity<IdResponse> create(
             @RequestBody FeedCollectionCreateRequest request,
             @CurrentMemberId MemberId memberId
     ) {
-        var id = useCase.createCollection(request, memberId);
+        var id = useCase.create(request, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 

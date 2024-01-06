@@ -11,7 +11,6 @@ import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionEditReq
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,20 +20,27 @@ public class FeedCollectionWriteUseCase {
     private final FeedReadService feedReadService;
     private final FeedCollectionMoodWriteService moodService;
 
-    public FeedCollectionId createCollection(FeedCollectionCreateRequest request, MemberId memberId) {
-        List<FeedId> feedIds = request.getFeedIds();
-        if (feedIds.isEmpty()) {
-            return createCollection(request, memberId, List.of());
-        }
-        feedReadService.validateIds(feedIds);
-        return createCollection(request, memberId, feedIds);
+    public FeedCollectionId create(FeedCollectionCreateRequest request, MemberId memberId) {
+        var moods = moodService.findAllById(request.getMoodIds());
+        return service.create(
+                request.getTitle(),
+                request.getDescription(),
+                request.getThumbnailUrl(),
+                request.isPrivate(),
+                memberId,
+                moods
+        );
     }
 
-    @Transactional
     public void edit(FeedCollectionId id, FeedCollectionEditRequest request, MemberId memberId) {
         var moods = moodService.findAllById(request.getMoodIds());
-        service.edit(id, request.getTitle(), request.getContent(), request.getThumbnailUrl(),
-                     moods, memberId
+        service.edit(
+                id,
+                request.getTitle(),
+                request.getContent(),
+                request.getThumbnailUrl(),
+                moods,
+                memberId
         );
     }
 
@@ -45,14 +51,5 @@ public class FeedCollectionWriteUseCase {
 
     public void delete(FeedCollectionId id, MemberId memberId) {
         service.delete(id, memberId);
-    }
-
-    private FeedCollectionId createCollection(
-            FeedCollectionCreateRequest request, MemberId memberId, List<FeedId> feedIds
-    ) {
-        var moods = moodService.findAllById(request.getMoodIds());
-        return service.createCollection(request.getTitle(), request.getDescription(), request.getThumbnailUrl(),
-                                        request.isPrivate(), memberId, feedIds, moods
-        );
     }
 }
