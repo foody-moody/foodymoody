@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class FeedIds {
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "feed_collection_feed_ids", joinColumns = @JoinColumn(name = "feed_id"))
+    @CollectionTable(name = "feed_collection_feed_ids", joinColumns = @JoinColumn(name = "feed_collection_id"))
     @OrderColumn(name = "feed_order")
     private List<FeedId> ids = new ArrayList<>();
 

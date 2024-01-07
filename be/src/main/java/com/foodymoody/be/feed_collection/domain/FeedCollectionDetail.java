@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed_collection.domain;
 
 import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionCommentResponse;
+import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionMoodResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
@@ -10,7 +11,6 @@ import org.springframework.data.domain.Slice;
 public class FeedCollectionDetail {
 
     private String id;
-    private String thumbnailUrl;
     private AuthorSummaryResponse author;
     private String title;
     private String description;
@@ -23,7 +23,7 @@ public class FeedCollectionDetail {
     private int commentCount;
     private List<FeedSummaryResponse> feeds;
     private Slice<FeedCollectionCommentResponse> comments;
-    private List<String> moods;
+    private List<FeedCollectionMoodResponse> moods;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -32,11 +32,10 @@ public class FeedCollectionDetail {
             AuthorSummaryResponse author,
             List<FeedSummaryResponse> feeds,
             Slice<FeedCollectionCommentResponse> comments,
-            List<String> moods
+            List<FeedCollectionMoodResponse> moods
     ) {
         this.author = author;
         this.id = feedCollection.getId().getValue();
-        this.thumbnailUrl = feedCollection.getThumbnailUrl();
         this.title = feedCollection.getTitle();
         this.description = feedCollection.getDescription();
         this.likeCount = feedCollection.getHeartCount();

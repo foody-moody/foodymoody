@@ -14,14 +14,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.foodymoody.be.acceptance.AcceptanceTest;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("피드 컬렉션 댓글에 대댓글 관련 기능")
 class FeedCollectionReplyAcceptanceTest extends AcceptanceTest {
 
     String commentId;
+
+    @Autowired
+    EntityManager em;
 
     @DisplayName("피드 컬렉션 생성하고 댓글을 작성 한다")
     @BeforeEach

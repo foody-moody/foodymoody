@@ -12,16 +12,14 @@ import java.util.Map;
 public class FeedCollectionSteps {
 
     public static ExtractableResponse<Response> 피드_컬렉션_등록한다(
-            List<String> feedIds,
             List<String> moodIds,
             String accessToken
     ) {
-        return 피드_컬렉션_등록한다(feedIds, moodIds, accessToken, new RequestSpecBuilder().build());
+        return 피드_컬렉션_등록한다(moodIds, accessToken, new RequestSpecBuilder().build());
     }
 
 
     public static ExtractableResponse<Response> 피드_컬렉션_등록한다(
-            List<String> feedIds,
             List<String> moodIds,
             String accessToken,
             RequestSpecification spec
@@ -29,9 +27,7 @@ public class FeedCollectionSteps {
         Map<String, Object> body = new HashMap<>();
         body.put("title", "테스트 컬렉션");
         body.put("description", "테스트 컬렉션입니다.");
-        body.put("thumbnailUrl", "https://thumbnail.url");
         body.put("private", false);
-        body.put("feedIds", feedIds);
         body.put("moodIds", moodIds);
         return RestAssured.given()
                 .spec(spec)
@@ -39,17 +35,23 @@ public class FeedCollectionSteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .post("/api/collections")
+                .post("/api/feed_collections")
                 .then().log().all()
                 .extract();
     }
 
-    public static String 피드_컬렉션_등록하고_아이디를_가져온다(List<String> feedIds, String accessToken) {
-        return 피드_컬렉션_등록한다(feedIds, List.of(), accessToken).jsonPath().getString("id");
+    public static String 피드_컬렉션_등록하고_아이디를_가져온다(String accessToken) {
+        return 피드_컬렉션_등록한다(List.of(), accessToken).jsonPath().getString("id");
     }
 
-    public static String 피드_컬렉션_등록하고_아이디를_가져온다(List<String> feedIds, List<String> moodIds, String accessToken) {
-        return 피드_컬렉션_등록한다(feedIds, moodIds, accessToken).jsonPath().getString("id");
+    public static String 피드_컬렉션_등록하고_아이디를_가져온다(List<String> moodIds, String accessToken) {
+        return 피드_컬렉션_등록한다(moodIds, accessToken).jsonPath().getString("id");
+    }
+
+    public static String 피드_컬렉션_등록하고_피드_리스트도_추가한다(List<String> moodIds, String accessToken, List<String> feedIds) {
+        String feedCollectionId = 피드_컬렉션_등록하고_아이디를_가져온다(moodIds, accessToken);
+        피드_컬렉션_피드리스트를_수정한다(feedCollectionId, accessToken, feedIds, new RequestSpecBuilder().build());
+        return feedCollectionId;
     }
 
     public static ExtractableResponse<Response> 전체_피드_컬렉션_조회한다(RequestSpecification spec, String accessToken) {
@@ -58,7 +60,7 @@ public class FeedCollectionSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .get("/api/collections?page=0&size=10")
+                .get("/api/feed_collections?page=0&size=10")
                 .then().log().all()
                 .extract();
     }
@@ -73,7 +75,7 @@ public class FeedCollectionSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .get("/api/collections/{collectionId}", collectionId)
+                .get("/api/feed_collections/{collectionId}", collectionId)
                 .then().log().all()
                 .extract();
     }
@@ -94,7 +96,7 @@ public class FeedCollectionSteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .put("/api/collections/{collectionId}", collectionId)
+                .put("/api/feed_collections/{collectionId}", collectionId)
                 .then().log().all()
                 .extract();
     }
@@ -131,7 +133,7 @@ public class FeedCollectionSteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .put("/api/collections/{collectionId}/feeds", collectionId)
+                .put("/api/feed_collections/{collectionId}/feeds", collectionId)
                 .then().log().all()
                 .extract();
     }
@@ -146,7 +148,7 @@ public class FeedCollectionSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .delete("/api/collections/{collectionId}", collectionId)
+                .delete("/api/feed_collections/{collectionId}", collectionId)
                 .then().log().all()
                 .extract();
     }

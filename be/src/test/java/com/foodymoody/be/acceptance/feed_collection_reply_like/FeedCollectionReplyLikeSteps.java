@@ -27,7 +27,7 @@ public class FeedCollectionReplyLikeSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .post("/api/feed_collections_comments/{commentId}/replies/{replyId}/likes", commentId, replyId)
+                .post("/api/feed_collections/comments/{commentId}/replies/{replyId}/likes", commentId, replyId)
                 .then().log().all()
                 .extract();
     }
@@ -54,7 +54,7 @@ public class FeedCollectionReplyLikeSteps {
                 .auth().oauth2(accessToken)
                 .when()
                 .delete(
-                        "/api/feed_collections_comments/{commentId}/replies/{replyId}/likes/{id}",
+                        "/api/feed_collections/comments/{commentId}/replies/{replyId}/likes/{id}",
                         commentId, replyId, id
                 )
                 .then().log().all()

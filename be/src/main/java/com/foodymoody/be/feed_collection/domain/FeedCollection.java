@@ -16,6 +16,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
@@ -24,7 +25,12 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "feed_collection")
+@Table(
+        name = "feed_collection",
+        indexes = {
+                @Index(name = "idx_feed_collection_created_at", columnList = "created_at")
+        }
+)
 public class FeedCollection {
 
     @Getter
@@ -33,8 +39,6 @@ public class FeedCollection {
     @Getter
     @AttributeOverride(name = "value", column = @Column(name = "author_id"))
     private MemberId authorId;
-    @Getter
-    private String thumbnailUrl;
     @Getter
     private String title;
     @Getter
@@ -56,29 +60,35 @@ public class FeedCollection {
             orphanRemoval = true)
     private FeedCollectionMoods moods;
     @Getter
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Getter
     private LocalDateTime updatedAt;
 
     public FeedCollection(
-            FeedCollectionId id, MemberId memberId, String thumbnailUrl, String title, String description,
-            int followerCount, boolean isPrivate, boolean isDeleted, List<FeedId> feedIds,
-            List<FeedCollectionMood> moods, LocalDateTime createdAt
+            FeedCollectionId id,
+            MemberId memberId,
+            String title,
+            String description,
+            int followerCount,
+            boolean isPrivate,
+            boolean isDeleted,
+            List<FeedCollectionMood> moods,
+            LocalDateTime createdAt
     ) {
         this.id = id;
         this.authorId = memberId;
-        this.thumbnailUrl = thumbnailUrl;
         this.title = title;
         this.description = description;
         this.followerCount = followerCount;
         this.isPrivate = isPrivate;
         this.isDeleted = isDeleted;
-        this.feedIds = new FeedIds(feedIds);
+        this.feedIds = new FeedIds();
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
         this.commentIds = new CommentIds();
         this.moods = new FeedCollectionMoods(IdFactory.createFeedCollectionMoodsId(), moods, createdAt);
-        Events.publish(FeedCollectionAddedEvent.of(id, createdAt));
+        Events.raise(FeedCollectionAddedEvent.of(id, createdAt));
     }
 
     public List<FeedId> getFeedIds() {
@@ -112,13 +122,15 @@ public class FeedCollection {
     }
 
     public void edit(
-            String title, Content content, String thumbnailUrl, List<FeedCollectionMood> moodIds, MemberId memberId,
+            String title,
+            Content content,
+            List<FeedCollectionMood> moodIds,
+            MemberId memberId,
             LocalDateTime updatedAt
     ) {
         validateAuthor(memberId);
         this.title = title;
         this.description = content.getValue();
-        this.thumbnailUrl = thumbnailUrl;
         this.moods.update(moodIds);
         this.updatedAt = updatedAt;
     }

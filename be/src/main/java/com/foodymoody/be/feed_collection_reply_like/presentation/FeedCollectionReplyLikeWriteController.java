@@ -21,7 +21,7 @@ public class FeedCollectionReplyLikeWriteController {
 
     private final FeedCollectionReplyLikeWriteUseCase useCase;
 
-    @PostMapping("/api/feed_collections_comments/{ignoredCommentId}/replies/{replyId}/likes")
+    @PostMapping("/api/feed_collections/comments/{ignoredCommentId}/replies/{replyId}/likes")
     public ResponseEntity<IdResponse> post(
             @PathVariable FeedCollectionCommentId ignoredCommentId,
             @PathVariable FeedCollectionReplyId replyId,
@@ -31,7 +31,7 @@ public class FeedCollectionReplyLikeWriteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
-    @DeleteMapping("/api/feed_collections_comments/{ignoredCommentId}/replies/{replyId}/likes/{id}")
+    @DeleteMapping("/api/feed_collections/comments/{ignoredCommentId}/replies/{replyId}/likes/{id}")
     public ResponseEntity<Void> cancel(
             @PathVariable FeedCollectionCommentId ignoredCommentId,
             @PathVariable FeedCollectionReplyId replyId,

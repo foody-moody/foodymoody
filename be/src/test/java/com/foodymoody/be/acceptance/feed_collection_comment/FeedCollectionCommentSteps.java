@@ -24,7 +24,7 @@ public class FeedCollectionCommentSteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .post("/api/collections/{id}/comments", feedCollectionId)
+                .post("/api/feed_collections/{id}/comments", feedCollectionId)
                 .then()
                 .log().all()
                 .extract();
@@ -41,7 +41,7 @@ public class FeedCollectionCommentSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .delete("/api/collections/{feedCollectionId}/comments/{id}", feedCollectionId, id)
+                .delete("/api/feed_collections/{feedCollectionId}/comments/{id}", feedCollectionId, id)
                 .then()
                 .log().all()
                 .extract();
@@ -76,7 +76,7 @@ public class FeedCollectionCommentSteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .put("/api/collections/{ignoredFeedCollectionId}/comments/{id}", feedCollectionId, id)
+                .put("/api/feed_collections/{ignoredFeedCollectionId}/comments/{id}", feedCollectionId, id)
                 .then()
                 .log().all()
                 .extract();

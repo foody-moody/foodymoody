@@ -6,7 +6,6 @@ import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionDao;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import com.foodymoody.be.feed_collection.domain.QFeedCollection;
-import com.foodymoody.be.feed_collection.domain.QFeedCollectionMood;
 import com.foodymoody.be.feed_collection.infra.persistence.jpa.FeedCollectionJpaRepository;
 import com.foodymoody.be.feed_collection_like.domain.QFeedCollectionLike;
 import com.foodymoody.be.feed_collection_like_count.domain.QFeedCollectionLikeCount;
@@ -69,7 +68,6 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
         QImage image = QImage.image;
         QTasteMood tasteMood = QTasteMood.tasteMood;
         QFeedCollectionLikeCount likeCount = QFeedCollectionLikeCount.feedCollectionLikeCount;
-        QFeedCollectionMood mood = QFeedCollectionMood.feedCollectionMood;
 
         JPAQuery<?> query = queryFactory
                 .from(feedCollection)
@@ -77,7 +75,6 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
                 .join(image).on(member.profileImage.id.eq(image.id))
                 .join(tasteMood).on(member.tasteMood.eq(tasteMood))
                 .join(likeCount).on(feedCollection.id.eq(likeCount.feedCollectionId))
-                .join(mood).on(mood.in(feedCollection.moods.moodList))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1L);
 
@@ -94,7 +91,6 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
                         .list(Projections.constructor(
                                 FeedCollectionSummary.class,
                                 feedCollection.id,
-                                feedCollection.thumbnailUrl,
                                 member.id,
                                 member.nickname,
                                 tasteMood.name,
@@ -106,7 +102,6 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
                                 feedCollection.feedIds.ids.size(),
                                 feedCollection.commentIds.ids.size(),
                                 liked,
-                                GroupBy.list(mood.name),
                                 feedCollection.createdAt,
                                 feedCollection.updatedAt
                         )));

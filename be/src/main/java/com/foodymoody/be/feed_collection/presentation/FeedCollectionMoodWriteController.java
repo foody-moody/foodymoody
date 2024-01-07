@@ -23,7 +23,7 @@ public class FeedCollectionMoodWriteController {
 
     private final FeedCollectionMoodWriteService service;
 
-    @PostMapping("/api/feed-collection-moods")
+    @PostMapping("/api/feed_collections/moods")
     public ResponseEntity<IdResponse> create(
             @RequestBody FeedCollectionMoodCreateRequest request
     ) {
@@ -32,7 +32,7 @@ public class FeedCollectionMoodWriteController {
     }
 
 
-    @PostMapping("/api/feed-collection/{feedCollectionId}/moods")
+    @PostMapping("/api/feed_collections/{feedCollectionId}/moods")
     public ResponseEntity<Void> addMood(
             @PathVariable FeedCollectionId feedCollectionId,
             @CurrentMemberId MemberId memberId,
@@ -42,7 +42,7 @@ public class FeedCollectionMoodWriteController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/api/feed-collection/{feedCollectionId}/moods/{moodId}")
+    @DeleteMapping("/api/feed_collections/{feedCollectionId}/moods/{moodId}")
     public ResponseEntity<Void> removeMood(
             @PathVariable FeedCollectionId feedCollectionId,
             @CurrentMemberId MemberId memberId,

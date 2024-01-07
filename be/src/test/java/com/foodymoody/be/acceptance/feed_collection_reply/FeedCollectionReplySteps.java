@@ -21,7 +21,7 @@ public class FeedCollectionReplySteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .post("/api/feed_collections_comments/{commentId}/replies", commentId)
+                .post("/api/feed_collections/comments/{commentId}/replies", commentId)
                 .then().log().all()
                 .extract();
     }
@@ -52,7 +52,7 @@ public class FeedCollectionReplySteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .delete("/api/feed_collections_comments/{commentId}/replies/{replyId}", commentId, replyId)
+                .delete("/api/feed_collections/comments/{commentId}/replies/{replyId}", commentId, replyId)
                 .then().log().all()
                 .extract();
     }
@@ -70,7 +70,7 @@ public class FeedCollectionReplySteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .put("/api/feed_collections_comments/{commentId}/replies/{replyId}", commentId, replyId)
+                .put("/api/feed_collections/comments/{commentId}/replies/{replyId}", commentId, replyId)
                 .then().log().all()
                 .extract();
     }
@@ -85,7 +85,7 @@ public class FeedCollectionReplySteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .get("/api/feed_collections_comments/{commentId}/replies", commentId)
+                .get("/api/feed_collections/comments/{commentId}/replies", commentId)
                 .then().log().all()
                 .extract();
     }

@@ -17,7 +17,7 @@ public class FeedCollectionMoodSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
-                .when().post("/api/feed-collection-moods")
+                .when().post("/api/feed_collections/moods")
                 .then().log().all()
                 .extract();
     }
@@ -38,7 +38,7 @@ public class FeedCollectionMoodSteps {
                 .queryParam("page", 0)
                 .queryParam("size", 10)
                 .when()
-                .get("/api/feed-collection-moods")
+                .get("/api/feed_collections/moods")
                 .then().log().all()
                 .extract();
     }
@@ -56,7 +56,7 @@ public class FeedCollectionMoodSteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .post("/api/feed-collection/" + feedCollectionId + "/moods")
+                .post("/api/feed_collections/" + feedCollectionId + "/moods")
                 .then().log().all()
                 .extract();
     }
@@ -80,7 +80,7 @@ public class FeedCollectionMoodSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .delete("/api/feed-collection/{feedCollectionId}/moods/{moodId}", feedCollectionId, moodId)
+                .delete("/api/feed_collections/{feedCollectionId}/moods/{moodId}", feedCollectionId, moodId)
                 .then().log().all()
                 .extract();
     }
