@@ -1,21 +1,32 @@
 package com.foodymoody.be.common.event;
 
-import org.springframework.context.ApplicationEventPublisher;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Events {
 
-    private static ApplicationEventPublisher publisher;
+    private static final ThreadLocal<List<Event>> threadLocalEvents = new ThreadLocal<>();
 
     private Events() {
         throw new IllegalStateException("Utility class");
     }
 
-    public static void publish(Event event) {
-        publisher.publishEvent(event);
+    public static List<Event> getEvents() {
+        if (threadLocalEvents.get() == null) {
+            threadLocalEvents.set(new ArrayList<>());
+        }
+        return threadLocalEvents.get();
     }
 
-    public static void setPublisher(ApplicationEventPublisher publisher) {
-        Events.publisher = publisher;
+    public static void clear() {
+        threadLocalEvents.remove();
+    }
+
+    public static void raise(Event event) {
+        if (event == null) {
+            return;
+        }
+        getEvents().add(event);
     }
 }

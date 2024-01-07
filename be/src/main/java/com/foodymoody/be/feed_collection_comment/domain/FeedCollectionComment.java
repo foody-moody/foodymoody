@@ -43,7 +43,7 @@ public class FeedCollectionComment {
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-        Events.publish(FeedCollectionCommentAddedEvent.of(id, createdAt));
+        Events.raise(FeedCollectionCommentAddedEvent.of(id, createdAt));
     }
 
     public void delete(MemberId memberId, LocalDateTime updatedAt) {

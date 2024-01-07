@@ -2,7 +2,8 @@ package com.foodymoody.be.acceptance;
 
 import static com.foodymoody.be.acceptance.auth.AuthSteps.로그인한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.푸반이_로그인한다;
-import static com.foodymoody.be.acceptance.member.MemberSteps.*;
+import static com.foodymoody.be.acceptance.member.MemberSteps.아티_회원가입한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.푸반_회원가입한다;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import com.foodymoody.be.acceptance.util.DatabaseCleanup;
@@ -57,8 +58,11 @@ public abstract class AcceptanceTest {
     protected RequestSpecification spec;
 
     public static void api_문서_타이틀(String documentName, RequestSpecification specification) {
-        specification.filter(document(documentName, Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                Preprocessors.preprocessResponse(Preprocessors.prettyPrint())));
+        specification.filter(document(
+                documentName,
+                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
+        ));
     }
 
     @PostConstruct

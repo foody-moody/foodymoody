@@ -34,8 +34,10 @@ public class Comment {
     @Embedded
     private ReplyComments replyComments;
 
-    public Comment(CommentId id, String content, FeedId feedId, boolean deleted, MemberId memberId,
-            LocalDateTime createdAt) {
+    public Comment(
+            CommentId id, String content, FeedId feedId, boolean deleted, MemberId memberId,
+            LocalDateTime createdAt
+    ) {
         CommentValidator.validate(id, content, feedId, createdAt);
         this.id = id;
         this.content = content;
@@ -44,7 +46,7 @@ public class Comment {
         this.memberId = memberId;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-        Events.publish(toCommentAddedEvent());
+        Events.raise(toCommentAddedEvent());
     }
 
     public CommentId getId() {
@@ -76,7 +78,7 @@ public class Comment {
     }
 
     public void edit(MemberId memberId, String content, LocalDateTime updatedAt) {
-        if (!this.memberId.isSame(memberId)) {
+        if (!this.memberId.equals(memberId)) {
             throw new IllegalArgumentException();
         }
         if (this.deleted) {
@@ -88,7 +90,7 @@ public class Comment {
     }
 
     public void delete(MemberId memberId, LocalDateTime deletedAt) {
-        if (!this.memberId.isSame(memberId)) {
+        if (!this.memberId.equals(memberId)) {
             throw new IllegalArgumentException();
         }
         if (this.deleted) {
@@ -105,12 +107,13 @@ public class Comment {
     public void addReply(Reply reply) {
         this.replyComments.add(reply);
         this.hasReply = true;
-        Events.publish(toCommentRepliedAddedEvent(reply));
+        Events.raise(toCommentRepliedAddedEvent(reply));
     }
 
     private Event toCommentRepliedAddedEvent(Reply reply) {
         return CommentRepliedAddedEvent.of(id, reply.getId(), memberId, reply.getMemberId(), reply.getContent(), feedId,
-                reply.getCreatedAt());
+                                           reply.getCreatedAt()
+        );
     }
 
     private Event toCommentAddedEvent() {

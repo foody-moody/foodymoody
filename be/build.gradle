@@ -4,6 +4,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id "org.asciidoctor.jvm.convert" version "3.3.2"
     id 'jacoco'
+    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
 group = 'com.foodymoody'
@@ -118,5 +119,19 @@ bootJar {
     from("${asciidoctor.outputDir}") {
         into 'static/docs'
     }
+}
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = "$buildDir/generated/sources/annotationProcessor/java/main"
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+    enabled = false
 }
 

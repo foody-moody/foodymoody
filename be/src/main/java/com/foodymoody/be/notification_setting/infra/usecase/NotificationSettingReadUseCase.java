@@ -21,7 +21,6 @@ public class NotificationSettingReadUseCase {
 
     private static NotificationSettingResponse toResponse(NotificationSettingSummary summary) {
         return new NotificationSettingResponse(
-                summary.getId(),
                 isAllNotification(summary),
                 summary.isFeedLike(),
                 summary.isCollectionLike(),

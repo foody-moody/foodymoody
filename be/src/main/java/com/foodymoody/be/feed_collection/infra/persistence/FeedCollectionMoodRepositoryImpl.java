@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_collection.infra.persistence;
 
+import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedCollectionMoodId;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionMood;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionMoodRepository;
@@ -35,5 +36,10 @@ public class FeedCollectionMoodRepositoryImpl implements FeedCollectionMoodRepos
     @Override
     public List<FeedCollectionMood> findAllById(List<FeedCollectionMoodId> moodsIds) {
         return repository.findAllById(moodsIds);
+    }
+
+    @Override
+    public List<FeedCollectionMood> findResponseByFeedCollectionId(FeedCollectionId id) {
+        return repository.findResponseByFeedCollectionId(id);
     }
 }

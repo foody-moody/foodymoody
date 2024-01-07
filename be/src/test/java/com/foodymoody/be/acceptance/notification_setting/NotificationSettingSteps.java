@@ -20,10 +20,15 @@ public class NotificationSettingSteps {
     }
 
     public static ExtractableResponse<Response> 알림설정을_수정한다(String accessToken, RequestSpecification spec) {
+
         Map<String, Object> body = new HashMap<>();
-        body.put("heart", false);
-        body.put("comment", false);
-        body.put("feed", false);
+        body.put("feedLike", false);
+        body.put("collectionLike", false);
+        body.put("commentLike", false);
+        body.put("follow", false);
+        body.put("feedComment", false);
+        body.put("collectionComment", false);
+
         return RestAssured
                 .given().log().all().spec(spec).auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
@@ -48,7 +53,6 @@ public class NotificationSettingSteps {
     public static void 알림_설정_조회_검증(ExtractableResponse<Response> response) {
         Assertions.assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
-                () -> assertThat(response.body().jsonPath().getString("id")).isNotNull(),
                 () -> assertThat(response.body().jsonPath().getBoolean("feedComment")).isTrue(),
                 () -> assertThat(response.body().jsonPath().getBoolean("collectionComment")).isTrue(),
                 () -> assertThat(response.body().jsonPath().getBoolean("collectionLike")).isTrue(),

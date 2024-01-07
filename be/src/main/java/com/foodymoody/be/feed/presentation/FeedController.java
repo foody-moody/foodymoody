@@ -44,8 +44,9 @@ public class FeedController {
      * 전체 Feed 조회
      */
     @GetMapping("/api/feeds")
-    public ResponseEntity<Slice<FeedReadAllResponse>> readAll(Pageable pageable) {
-        Slice<FeedReadAllResponse> feedReadAllResponses = feedUseCase.readAll(pageable);
+    public ResponseEntity<Slice<FeedReadAllResponse>> readAll(Pageable pageable,
+                                                              @CurrentMemberId MemberId memberId) {
+        Slice<FeedReadAllResponse> feedReadAllResponses = feedUseCase.readAll(pageable, memberId);
         return ResponseEntity.ok().body(feedReadAllResponses);
     }
 
@@ -53,8 +54,9 @@ public class FeedController {
      * 개별 Feed 조회
      */
     @GetMapping("/api/feeds/{id}")
-    public ResponseEntity<FeedReadResponse> read(@PathVariable String id) {
-        FeedReadResponse feedReadResponse = feedUseCase.read(id);
+    public ResponseEntity<FeedReadResponse> read(@PathVariable String id,
+                                                 @CurrentMemberId MemberId memberId) {
+        FeedReadResponse feedReadResponse = feedUseCase.read(id, memberId);
         return ResponseEntity.ok().body(feedReadResponse);
     }
 

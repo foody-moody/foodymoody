@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed_collection.infra.persistence.jpa.FeedCollectionMoodJpaRepository;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,13 +31,11 @@ class FeedCollectionRepositoryTest {
         var feedCollection = new FeedCollection(
                 IdFactory.createFeedCollectionId(),
                 IdFactory.createMemberId(),
-                "url",
                 "title",
                 "description",
                 0,
                 false,
                 false,
-                Collections.EMPTY_LIST,
                 List.of(mood),
                 LocalDateTime.now()
         );

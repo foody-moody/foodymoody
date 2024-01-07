@@ -96,7 +96,7 @@ class FeedMapperTest {
         List<FeedStoreMoodResponse> moodNames = makeFeedStoreMoodResponse();
 
         // when
-        FeedReadResponse feedReadResponse = FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images, moodNames);
+        FeedReadResponse feedReadResponse = FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images, moodNames, false);
 
         // then
         assertAll(() -> {
@@ -124,7 +124,8 @@ class FeedMapperTest {
         // when
         FeedReadAllResponse feedReadAllResponse = FeedMapper.makeFeedReadAllResponse(feed, makeFeedMemberResponse,
                 makeFeedStoreMoodResponses,
-                makeFeedImageMenuResponses);
+                makeFeedImageMenuResponses,
+                false);
 
         // then
         assertAll(() -> {

@@ -49,7 +49,7 @@ public class Member {
         this.password = new Password(password);
         this.tasteMood = tasteMood;
         this.profileImage = new MemberProfileImage(ImageId.MEMBER_PROFILE_DEFAULT);
-        Events.publish(toMemberCreatedEvent());
+        Events.raise(toMemberCreatedEvent());
     }
 
     public static Member of(String id, String email, String nickname, String password, String reconfirmPassword,

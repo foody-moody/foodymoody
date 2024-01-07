@@ -20,11 +20,13 @@ public class FeedHeart {
     private FeedId feedId;
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
+    private boolean isLiked;
 
-    public FeedHeart(FeedHeartId id, FeedId feedId, MemberId memberId) {
+    public FeedHeart(FeedHeartId id, FeedId feedId, MemberId memberId, boolean isLiked) {
         this.id = id;
         this.feedId = feedId;
         this.memberId = memberId;
+        this.isLiked = isLiked;
     }
 
     public FeedHeartId getId() {
@@ -37,6 +39,10 @@ public class FeedHeart {
 
     public MemberId getMemberId() {
         return memberId;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
     }
 
 }
