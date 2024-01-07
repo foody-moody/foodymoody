@@ -18,7 +18,7 @@ public class FeedCollectionLikeSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .post("/api/feed-collections/{feedCollectionId}/likes", feedCollectionId)
+                .post("/api/feed_collections/{feedCollectionId}/likes", feedCollectionId)
                 .then().log().all()
                 .extract();
     }
@@ -42,7 +42,7 @@ public class FeedCollectionLikeSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .delete("/api/feed-collections/{feedCollectionId}/likes/{id}", feedCollectionId, id)
+                .delete("/api/feed_collections/{feedCollectionId}/likes/{id}", feedCollectionId, id)
                 .then().log().all()
                 .extract();
     }

@@ -21,7 +21,7 @@ public class FeedCollectionReplyReadController {
 
     private final FeedCollectionReplyReadUseCase useCase;
 
-    @GetMapping("/api/feed_collections_comments/{commentId}/replies")
+    @GetMapping("/api/feed_collections/comments/{commentId}/replies")
     public ResponseEntity<Slice<FeedCollectionReplyResponse>> fetch(
             @PathVariable FeedCollectionCommentId commentId,
             @CurrentMemberId MemberId memberId,

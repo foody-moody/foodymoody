@@ -5,7 +5,7 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedListServiceRequest;
+import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedDetailsServiceRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceDeleteRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceRegisterRequest;
@@ -52,7 +52,8 @@ public class FeedMapper {
 
     public static FeedReadResponse toFeedReadResponse(FeedMemberResponse feedMemberResponse, Feed feed,
                                                       List<FeedImageMenuResponse> images,
-                                                      List<FeedStoreMoodResponse> moodNames) {
+                                                      List<FeedStoreMoodResponse> moodNames,
+                                                      boolean isLiked) {
         return FeedReadResponse.builder()
                 .id(feed.getId())
                 .member(feedMemberResponse)
@@ -62,7 +63,7 @@ public class FeedMapper {
                 .images(images)
                 .createdAt(feed.getCreatedAt())
                 .updatedAt(feed.getUpdatedAt())
-                .isLiked(feed.isLiked())
+                .isLiked(isLiked)
                 .likeCount(feed.getLikeCount())
                 .commentCount(feed.getCommentCount())
                 .build();
@@ -121,7 +122,8 @@ public class FeedMapper {
 
     public static FeedReadAllResponse makeFeedReadAllResponse(Feed feed, FeedMemberResponse makeFeedMemberResponse,
                                                               List<FeedStoreMoodResponse> makeFeedStoreMoodResponses,
-                                                              List<FeedImageMenuResponse> makeFeedImageMenuResponses) {
+                                                              List<FeedImageMenuResponse> makeFeedImageMenuResponses,
+                                                              boolean isLiked) {
         return FeedReadAllResponse.builder()
                 .id(feed.getId())
                 .member(makeFeedMemberResponse)
@@ -132,7 +134,7 @@ public class FeedMapper {
                 .createdAt(feed.getCreatedAt())
                 .updatedAt(feed.getUpdatedAt())
                 .commentCount(feed.getCommentCount())
-                .isLiked(feed.isLiked())
+                .isLiked(isLiked)
                 .likeCount(feed.getLikeCount())
                 .build();
     }
@@ -143,9 +145,10 @@ public class FeedMapper {
                 .collect(Collectors.toList());
     }
 
-    public static CollectionReadFeedListServiceRequest toCollectionServiceReadAllFeedRequest(String collectionId,
-                                                                                             Pageable pageable) {
-        return new CollectionReadFeedListServiceRequest(collectionId, pageable);
+    public static CollectionReadFeedDetailsServiceRequest toCollectionReadFeedDetailsServiceRequest(String collectionId,
+                                                                                                    Pageable pageable,
+                                                                                                    MemberId memberId) {
+        return new CollectionReadFeedDetailsServiceRequest(collectionId, pageable, memberId);
     }
 
     public static List<String> toFeedStoreMoodNames(List<StoreMood> storeMoods) {

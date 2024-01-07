@@ -4,8 +4,10 @@ import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.개별_피드_컬렉션_조회한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.전체_피드_컬렉션_조회한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_등록하고_아이디를_가져온다;
+import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_등록하고_피드_리스트도_추가한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_등록한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_피드리스트를_수정한다;
+import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_피드리스트를_조회한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션을_삭제한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션을_수정한다;
 import static com.foodymoody.be.acceptance.feed_collection_comment.FeedCollectionCommentSteps.피드_컬렉션에_댓글을_등록하고_아이디를_받는다;
@@ -50,7 +52,7 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_request_create_success", spec);
 
         // when
-        var response = 피드_컬렉션_등록한다(feedIds, moodIds, 회원아티_액세스토큰, spec);
+        var response = 피드_컬렉션_등록한다(moodIds, 회원아티_액세스토큰, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(201);
@@ -63,9 +65,9 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_request_fetch_all_success", spec);
 
         // given
-        피드_컬렉션_등록한다(feedIds, moodIds, 회원아티_액세스토큰);
-        피드_컬렉션_등록한다(feedIds, moodIds, 회원푸반_액세스토큰);
-        피드_컬렉션_등록한다(feedIds, moodIds, 회원푸반_액세스토큰);
+        피드_컬렉션_등록하고_피드_리스트도_추가한다(moodIds, 회원아티_액세스토큰, feedIds);
+        피드_컬렉션_등록하고_피드_리스트도_추가한다(moodIds, 회원아티_액세스토큰, feedIds);
+        피드_컬렉션_등록하고_피드_리스트도_추가한다(moodIds, 회원아티_액세스토큰, feedIds);
 
         // when
         var response = 전체_피드_컬렉션_조회한다(spec, 회원아티_액세스토큰);
@@ -81,7 +83,7 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_request_fetch_single_success", spec);
 
         // given
-        var collectionId = 피드_컬렉션_등록하고_아이디를_가져온다(feedIds, moodIds, 회원아티_액세스토큰);
+        var collectionId = 피드_컬렉션_등록하고_피드_리스트도_추가한다(moodIds, 회원아티_액세스토큰, feedIds);
         피드_컬렉션에_댓글을_등록한다(회원푸반_액세스토큰, collectionId);
         피드_컬렉션에_댓글을_등록한다(회원푸반_액세스토큰, collectionId);
         String commentId = 피드_컬렉션에_댓글을_등록하고_아이디를_받는다(회원푸반_액세스토큰, collectionId);
@@ -102,7 +104,7 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_request_update_success", spec);
 
         // given
-        var collectionId = 피드_컬렉션_등록하고_아이디를_가져온다(feedIds, moodIds, 회원아티_액세스토큰);
+        var collectionId = 피드_컬렉션_등록하고_아이디를_가져온다(moodIds, 회원아티_액세스토큰);
         moodIds.remove(0);
 
         // when
@@ -112,6 +114,23 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(204);
     }
 
+    @DisplayName("Feed Collection의 Feed List 조회에 성공하면 응답 코드 200을 반환한다.")
+    @Test
+    void when_request_to_read_feed_list_then_response_code_200() {
+        // docs
+        api_문서_타이틀("feed_collection_request_read_feed_list_success", spec);
+
+        // given
+        var collectionId = 피드_컬렉션_등록하고_아이디를_가져온다(moodIds, 회원아티_액세스토큰);
+        Collections.reverse(feedIds);
+
+        // when
+        var response = 피드_컬렉션_피드리스트를_조회한다(collectionId, 회원아티_액세스토큰, feedIds, spec);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(200);
+    }
+
     @DisplayName("피드 켈렉션의 피드리스틀 수정 요청 성공하면 응답 코드 204를 반환한다.")
     @Test
     void when_request_to_update_feed_list_then_response_code_204() {
@@ -119,7 +138,7 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_request_update_feed_list_success", spec);
 
         // given
-        var collectionId = 피드_컬렉션_등록하고_아이디를_가져온다(feedIds, moodIds, 회원아티_액세스토큰);
+        var collectionId = 피드_컬렉션_등록하고_아이디를_가져온다(moodIds, 회원아티_액세스토큰);
         Collections.reverse(feedIds);
 
         // when
@@ -136,7 +155,7 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_request_delete_success", spec);
 
         // given
-        var collectionId = 피드_컬렉션_등록하고_아이디를_가져온다(feedIds, moodIds, 회원아티_액세스토큰);
+        var collectionId = 피드_컬렉션_등록하고_아이디를_가져온다(moodIds, 회원아티_액세스토큰);
 
         // when
         var response = 피드_컬렉션을_삭제한다(collectionId, 회원아티_액세스토큰, spec);

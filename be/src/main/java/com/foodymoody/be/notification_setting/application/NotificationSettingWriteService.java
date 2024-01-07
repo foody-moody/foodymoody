@@ -28,7 +28,7 @@ public class NotificationSettingWriteService {
     @Transactional
     public void update(MemberId memberId, NotificationSettingUpdateRequest request) {
         NotificationSetting notificationSetting = getNotificationSettingByMemberId(memberId);
-        notificationSetting.update(request.isFeedLike(), request.isCollectionLike(), request.isReplyLike(),
+        notificationSetting.update(request.isFeedLike(), request.isCollectionLike(), request.isCommentLike(),
                                    request.isFollow(), request.isFeedComment(), request.isCollectionComment()
         );
     }

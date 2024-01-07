@@ -41,12 +41,12 @@ public class NotificationSetting {
 
 
     public void update(
-            boolean isFeedLike, boolean isCollectionLike, boolean isReplyLike, boolean isFollow,
+            boolean isFeedLike, boolean isCollectionLike, boolean isCommentLike, boolean isFollow,
             boolean isFeedComment, boolean isCollectionComment
     ) {
         this.isFeedLike = isFeedLike;
         this.isCollectionLike = isCollectionLike;
-        this.isCommentLike = isReplyLike;
+        this.isCommentLike = isCommentLike;
         this.isFollow = isFollow;
         this.isFeedComment = isFeedComment;
         this.isCollectionComment = isCollectionComment;

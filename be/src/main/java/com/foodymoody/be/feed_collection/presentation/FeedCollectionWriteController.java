@@ -24,16 +24,16 @@ public class FeedCollectionWriteController {
 
     private final FeedCollectionWriteUseCase useCase;
 
-    @PostMapping("/api/collections")
-    public ResponseEntity<IdResponse> createCollection(
+    @PostMapping("/api/feed_collections")
+    public ResponseEntity<IdResponse> create(
             @RequestBody FeedCollectionCreateRequest request,
             @CurrentMemberId MemberId memberId
     ) {
-        var id = useCase.createCollection(request, memberId);
+        var id = useCase.create(request, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
-    @PutMapping("/api/collections/{id}")
+    @PutMapping("/api/feed_collections/{id}")
     public ResponseEntity<Void> edit(
             @PathVariable FeedCollectionId id,
             @RequestBody FeedCollectionEditRequest request,
@@ -43,7 +43,7 @@ public class FeedCollectionWriteController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/api/collections/{id}/feeds")
+    @PutMapping("/api/feed_collections/{id}/feeds")
     public ResponseEntity<Void> updateFeed(
             @PathVariable FeedCollectionId id,
             @RequestBody FeedCollectionFeedsUpdateRequest request,
@@ -53,7 +53,7 @@ public class FeedCollectionWriteController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/api/collections/{id}")
+    @DeleteMapping("/api/feed_collections/{id}")
     public ResponseEntity<Void> delete(
             @PathVariable FeedCollectionId id,
             @CurrentMemberId MemberId memberId

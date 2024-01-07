@@ -417,47 +417,47 @@ operation::list_follower_if_follower_not_exists_success[snippets='http-response'
 operation::list_following_if_login_and_other_success[snippets='http-response']
 
 [[notification]]
-== 알람
+== 알림
 
-=== 알람 전체 조회
+=== 알림 전체 조회
 
 ==== 성공 - 페이징
 
 operation::notification_request_all_success[snippets='http-request,http-response']
 
-=== 개별 알람 조회
+=== 개별 알림 조회
 
 ==== 성공 (예시: 읽음으로 변경 )
 
 operation::notification_request_single_success[snippets='http-request,http-response']
 
-=== 모든 알람을 읽음으로 변경
+=== 모든 알림을 읽음으로 변경
 
 ==== 성공 - 읽음
 
 operation::notification_mark_all_read_success[snippets='http-request,http-response']
 
-=== 알람 개별 삭제
+=== 알림 개별 삭제
 
 ==== 성공
 
 operation::notification_delete_success[snippets='http-request,http-response']
 
-=== 모든 읽은 알람 삭제
+=== 모든 읽은 알림 삭제
 
 ==== 성공
 
-operation::notification_delete_all_read_success[snippets='http-request,http-response']
+operation::notification_mark_all_read_success[snippets='http-request,http-response']
 
-== 알람 설정
+== 알림 설정
 
-=== 알람 설정 조회
+=== 알림 설정 조회
 
 ==== 성공
 
 operation::notification_setting_request_success[snippets='http-request,http-response']
 
-=== 알람 설정 변경
+=== 알림 설정 변경
 
 ==== 성공
 
@@ -465,7 +465,7 @@ operation::notification_setting_update_success[snippets='http-request,http-respo
 
 == SSE
 
-=== 알람 실시간 전송
+=== 알림 실시간 전송
 
 ==== 성공
 
@@ -552,6 +552,12 @@ operation::feed_collection_request_fetch_all_success[snippets='http-request,http
 ==== 성공
 
 operation::feed_collection_request_fetch_single_success[snippets='http-request,http-response']
+
+=== 컬렉션 피드 리스트 조회
+
+==== 성공
+
+operation::feed_collection_request_read_feed_list_success[snippets='http-request,http-response']
 
 === 컬렉션 무드 추가
 

@@ -6,17 +6,20 @@ import lombok.Getter;
 @Getter
 public class AuthorSummaryResponse {
 
-    private MemberId authorId;
-    private String authorName;
-    private String authorMood;
-    private String authorProfileImageUrl;
+    private MemberId id;
+    private String name;
+    private String mood;
+    private String profileImageUrl;
 
     public AuthorSummaryResponse(
-            MemberId authorId, String authorName, String authorMood, String authorProfileImageUrl
+            MemberId id,
+            String name,
+            String mood,
+            String profileImageUrl
     ) {
-        this.authorId = authorId;
-        this.authorName = authorName;
-        this.authorMood = authorMood;
-        this.authorProfileImageUrl = authorProfileImageUrl;
+        this.id = id;
+        this.name = name;
+        this.mood = mood;
+        this.profileImageUrl = profileImageUrl;
     }
 }

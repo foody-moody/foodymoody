@@ -82,25 +82,42 @@ public class FeedUseCase {
         return FeedMapper.toFeedRegisterResponse(savedFeed);
     }
 
-    public Slice<FeedReadAllResponse> readAll(Pageable pageable) {
+    public Slice<FeedReadAllResponse> readAll(Pageable pageable, MemberId memberId) {
         final String sortBy = "createdAt";
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sortBy).descending());
 
         Slice<Feed> feeds = feedReadService.findAll(pageable);
-        List<FeedReadAllResponse> responses = makeFeedReadAllResponseList(feeds);
+
+        List<FeedReadAllResponse> responses;
+        if (memberId == null) {
+            responses = makeFeedReadAllResponseListWhenMemberIdIsNull(feeds);
+        } else {
+            responses = makeFeedReadAllResponseListWhenMemberIdIsNotNull(feeds);
+        }
 
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
     }
 
-    private List<FeedReadAllResponse> makeFeedReadAllResponseList(Slice<Feed> feeds) {
+    private List<FeedReadAllResponse> makeFeedReadAllResponseListWhenMemberIdIsNull(Slice<Feed> feeds) {
         return feeds.stream()
                 .map(feed -> makeFeedReadAllResponse(feed, makeFeedMemberResponse(feed),
                         makeFeedStoreMoodResponses(feed.getStoreMoods()),
-                        makeFeedImageMenuResponses(feed)))
+                        makeFeedImageMenuResponses(feed),
+                        false))
                 .collect(Collectors.toList());
     }
 
-    public FeedReadResponse read(String id) {
+    private List<FeedReadAllResponse> makeFeedReadAllResponseListWhenMemberIdIsNotNull(Slice<Feed> feeds) {
+        return feeds.stream()
+                .map(feed -> makeFeedReadAllResponse(feed, makeFeedMemberResponse(feed),
+                        makeFeedStoreMoodResponses(feed.getStoreMoods()),
+                        makeFeedImageMenuResponses(feed),
+                        // feed의 memberId로 feedHeart를 가져와서 그 feedHeart의 isLiked를 여기 넣어주기
+                        feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId())))
+                .collect(Collectors.toList());
+    }
+
+    public FeedReadResponse read(String id, MemberId memberId) {
         FeedId feedId = IdFactory.createFeedId(id);
         Feed feed = feedReadService.findFeed(feedId);
         List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feed);
@@ -108,8 +125,13 @@ public class FeedUseCase {
 
         FeedMemberResponse feedMemberResponse = makeFeedMemberResponse(feed);
 
+        if (memberId == null) {
+            return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
+                    makeFeedStoreMoodResponses(storeMoods), false);
+        }
+
         return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
-                makeFeedStoreMoodResponses(storeMoods));
+                makeFeedStoreMoodResponses(storeMoods), feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()));
     }
 
     @Transactional
@@ -123,7 +145,7 @@ public class FeedUseCase {
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
         feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoods, newImages, newMenus,
-                profileImageUrl, feed.getCreatedAt() ,LocalDateTime.now());
+                profileImageUrl, feed.getCreatedAt(), LocalDateTime.now());
     }
 
     @Transactional

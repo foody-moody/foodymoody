@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -16,10 +17,12 @@ public class FeedCollectionReadService {
 
     private final FeedCollectionDao dao;
 
+    @Transactional(readOnly = true)
     public Slice<FeedCollectionSummary> fetchCollection(Pageable pageable) {
         return dao.findAllSummary(pageable);
     }
 
+    @Transactional(readOnly = true)
     public Slice<FeedCollectionSummary> fetchCollection(MemberId memberId, Pageable pageable) {
         return dao.findAllSummary(memberId, pageable);
     }

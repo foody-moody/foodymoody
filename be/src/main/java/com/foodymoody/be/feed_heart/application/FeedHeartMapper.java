@@ -13,8 +13,8 @@ public class FeedHeartMapper {
     }
 
     public static FeedHeart makeFeedHeartWithFeedIdAndMemberId(FeedHeartId feedHeartId, FeedId feedId,
-                                                               MemberId memberId) {
-        return new FeedHeart(feedHeartId, feedId, memberId);
+                                                               MemberId memberId, boolean isLiked) {
+        return new FeedHeart(feedHeartId, feedId, memberId, isLiked);
     }
 
     public static FeedHeartResponse toHeartResponse(String id, String feedId, String memberId, boolean isLiked,

@@ -22,13 +22,11 @@ public class FeedCollectionWriterService {
     private final FeedCollectionRepository repository;
 
     @Transactional
-    public FeedCollectionId createCollection(
+    public FeedCollectionId create(
             String title,
             String description,
-            String thumbnailUrl,
             boolean isPrivate,
             MemberId memberId,
-            List<FeedId> feedIds,
             List<FeedCollectionMood> moods
     ) {
         var id = IdFactory.createFeedCollectionId();
@@ -36,13 +34,11 @@ public class FeedCollectionWriterService {
         var feedCollection = new FeedCollection(
                 id,
                 memberId,
-                thumbnailUrl,
                 title,
                 description,
                 0,
                 isPrivate,
                 false,
-                feedIds,
                 moods,
                 now
         );
@@ -74,11 +70,11 @@ public class FeedCollectionWriterService {
 
     @Transactional
     public void edit(
-            FeedCollectionId id, String title, Content content, String thumbnailUrl, List<FeedCollectionMood> moods,
+            FeedCollectionId id, String title, Content content, List<FeedCollectionMood> moods,
             MemberId memberId
     ) {
         FeedCollection feedCollection = fetchById(id);
-        feedCollection.edit(title, content, thumbnailUrl, moods, memberId, LocalDateTime.now());
+        feedCollection.edit(title, content, moods, memberId, LocalDateTime.now());
     }
 
     @Transactional

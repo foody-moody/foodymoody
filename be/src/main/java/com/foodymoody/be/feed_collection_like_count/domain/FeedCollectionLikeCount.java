@@ -7,12 +7,20 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(
+        name = "feed_collection_like_count",
+        indexes = {
+                @Index(name = "idx_feed_collection_like_count_on_feed_collection_id", columnList = "feed_collection_id")
+        }
+)
 public class FeedCollectionLikeCount {
 
     @Getter

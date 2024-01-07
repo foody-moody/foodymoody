@@ -17,7 +17,7 @@ public class FeedCollectionMoodReadeController {
 
     private final FeedCollectionMoodReadUseCase useCase;
 
-    @GetMapping("/api/feed-collection-moods")
+    @GetMapping("/api/feed_collections/moods")
     public ResponseEntity<Slice<FeedCollectionMoodResponse>> findAll(
             @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
