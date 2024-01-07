@@ -121,7 +121,7 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_request_read_feed_list_success", spec);
 
         // given
-        var collectionId = 피드_컬렉션_등록하고_아이디를_가져온다(feedIds, moodIds, 회원아티_액세스토큰);
+        var collectionId = 피드_컬렉션_등록하고_아이디를_가져온다(moodIds, 회원아티_액세스토큰);
         Collections.reverse(feedIds);
 
         // when
