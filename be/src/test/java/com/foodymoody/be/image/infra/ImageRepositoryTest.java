@@ -3,6 +3,7 @@ package com.foodymoody.be.image.infra;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.foodymoody.be.common.config.AppConfig;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.image.domain.Image;
@@ -16,9 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 @DisplayName("ImageRepository 테스트")
 @DataJpaTest
+@Import(AppConfig.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 class ImageRepositoryTest {
 
