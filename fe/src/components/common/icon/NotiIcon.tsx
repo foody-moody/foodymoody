@@ -21,21 +21,21 @@ type Props = {
 
 export const NotiIcon: React.FC<Props> = ({ onClick }) => {
   const [notiCount, setNotiCount] = useState(0);
-  const [currentToken, setCurrentToken] = useState<string | null>(null);
+  const [authToken, setAuthToken] = useState<string | null>(null);
 
   const { isLogin } = useAuthState();
   useEffect(() => {
     if (isLogin) {
-      const token = getAccessToken();
+      const currentToken = getAccessToken();
 
-      if (token !== currentToken) {
-        setCurrentToken(token);
+      if (currentToken !== authToken) {
+        setAuthToken(currentToken);
       }
 
       const eventSource = new EventSourcePolyfill(`${BASE_API_URL}/sse`, {
         headers: {
           'Content-Type': 'text/event-stream',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${currentToken}`,
         },
       });
 
@@ -62,7 +62,7 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
             setAccessToken(accessToken);
             setRefreshToken(refreshToken);
             setUserInfo(JSON.stringify(payload));
-            setCurrentToken(accessToken);
+            setAuthToken(accessToken);
           } catch (error) {
             clearLoginInfo();
             return;
@@ -74,7 +74,7 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
         eventSource.close();
       };
     }
-  }, [isLogin, notiCount, currentToken]);
+  }, [isLogin, notiCount, authToken]);
 
   return (
     <Wrapper>
