@@ -1,4 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom';
+import { useToggle } from 'recoil/booleanState/useToggle';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { Dim } from 'components/common/dim/Dim';
@@ -11,10 +12,16 @@ export const NewFeedModalPage = () => {
   const currentPath = useLocation();
   const { isLogin } = useAuthState();
   const { navigateToHome } = usePageNavigator();
+  const search = useToggle('search');
 
   return isLogin ? (
     <>
-      <Dim onClick={navigateToHome} />
+      <Dim
+        onClick={() => {
+          navigateToHome();
+          search.toggleOn();
+        }}
+      />
       <Wrapper>
         <FeedEditor />
       </Wrapper>
