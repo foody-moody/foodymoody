@@ -2,11 +2,13 @@ package com.foodymoody.be.feed.infra.usecase;
 
 import static com.foodymoody.be.feed.application.FeedMapper.makeFeedReadAllResponse;
 import static com.foodymoody.be.feed.application.FeedMapper.makeFeedStoreMoodResponses;
+import static com.foodymoody.be.feed.application.FeedMapper.makeImageIds;
 import static com.foodymoody.be.feed.application.FeedMapper.toFeedMemberResponse;
 
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.feed.application.FeedMapper;
@@ -131,7 +133,8 @@ public class FeedUseCase {
         }
 
         return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
-                makeFeedStoreMoodResponses(storeMoods), feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()));
+                makeFeedStoreMoodResponses(storeMoods),
+                feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()));
     }
 
     @Transactional
@@ -153,11 +156,19 @@ public class FeedUseCase {
         FeedId feedId = request.getId();
         MemberId memberId = memberQueryService.findById(request.getMemberId()).getId();
 
+        validateFeedMember(feedId, memberId);
+
+        List<ImageMenu> imageMenus = feedReadService.findFeed(feedId).getImageMenus();
+        List<ImageId> imageIds = makeImageIds(imageMenus);
+
+        imageService.softDelete(memberId, imageIds);
+        feedWriteService.deleteById(request.getId());
+    }
+
+    private void validateFeedMember(FeedId feedId, MemberId memberId) {
         if (!feedReadService.findFeed(feedId).getMemberId().equals(memberId)) {
             throw new FeedIdNotExistsException();
         }
-
-        feedWriteService.deleteById(request.getId());
     }
 
     // TODO: 쿼리 사용하여 리팩토링
