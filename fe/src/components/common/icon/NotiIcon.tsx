@@ -30,7 +30,6 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
 
       if (token !== currentToken) {
         setCurrentToken(token);
-        // 토큰 변경에 따른 추가적인 로직
       }
 
       const eventSource = new EventSourcePolyfill(`${BASE_API_URL}/sse`, {
