@@ -21,16 +21,17 @@ type Props = {
 
 export const NotiIcon: React.FC<Props> = ({ onClick }) => {
   const [notiCount, setNotiCount] = useState(0);
-  // const [eventSource, setEventSource] = useState<EventSourcePolyfill | null>();
-  const { isLogin, userInfo } = useAuthState();
+  const [currentToken, setCurrentToken] = useState<string | null>(null);
 
+  const { isLogin } = useAuthState();
   useEffect(() => {
-    console.log('is changed userinfo');
-
     if (isLogin) {
       const token = getAccessToken();
-      const reg = getRefreshToken();
-      console.log(token, reg, 'sse start tokens');
+
+      if (token !== currentToken) {
+        setCurrentToken(token);
+        // 토큰 변경에 따른 추가적인 로직
+      }
 
       const eventSource = new EventSourcePolyfill(`${BASE_API_URL}/sse`, {
         headers: {
@@ -38,7 +39,6 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('eventSource', eventSource);
 
       eventSource.addEventListener('notification', (event) => {
         const messageEvent = event as MessageEvent;
@@ -49,20 +49,8 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
         }
       });
 
-      eventSource.onerror = async (error) => {
-        if (!eventSource) return;
-        console.log(eventSource.readyState, 'ventSource.readyState');
-        console.log(EventSource.CLOSED, 'ventSource.CLOSED');
-        // oldcheck?
+      eventSource.onerror = async () => {
         if (eventSource.readyState === EventSource.CLOSED) {
-          // window.setTimeout(() => {
-          //   console.log('reconnect 할거임');
-
-          //   return eventSource;
-          // }, 0);
-          // return;
-          console.log('sse에러발생', error);
-
           const token = getRefreshToken();
           if (!token) {
             clearLoginInfo();
@@ -75,26 +63,19 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
             setAccessToken(accessToken);
             setRefreshToken(refreshToken);
             setUserInfo(JSON.stringify(payload));
-            console.log('sse리프레시 토큰 다시받아서 요청 보낼거임');
-            console.log(
-              accessToken,
-              refreshToken,
-              'SSE accessToken,refreshToken'
-            );
+            setCurrentToken(accessToken);
           } catch (error) {
-            console.log(error, 'sse리프레시 토큰 만료~~ 에러 ');
             clearLoginInfo();
-            //error던지고 에러바운더리로 why? 그냥 이동하면 에러페이지가 뜸
             return;
           }
         }
       };
 
       return () => {
-        eventSource && eventSource.close();
+        eventSource.close();
       };
     }
-  }, [isLogin, notiCount, userInfo]);
+  }, [isLogin, notiCount, currentToken]);
 
   return (
     <Wrapper>

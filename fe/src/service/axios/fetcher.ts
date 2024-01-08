@@ -58,10 +58,7 @@ privateApi.interceptors.response.use(
     if (error.response.status === 401) {
       const token = getRefreshToken();
       if (!token) {
-        // TODO 에러바운더리 처리
         clearLoginInfo();
-        // const navigate = useNavigate();
-        // navigate(PATH.HOME, { replace: true });
         return;
       }
 
@@ -72,16 +69,11 @@ privateApi.interceptors.response.use(
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
         setUserInfo(JSON.stringify(payload));
-        console.log('리프레시 토큰 다시받아서 요청 보낼거임');
 
         error.config.headers['Authorization'] = `Bearer ${accessToken}`;
         return privateApi.request(error.config);
       } catch (error) {
-        console.log(error, '리프레시 토큰 만료~~ 에러 ');
-        //리프레쉬토큰 만료
         clearLoginInfo();
-        // const navigate = useNavigate();
-        // navigate(PATH.HOME, { replace: true });
         return;
       }
     }
