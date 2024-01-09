@@ -1,5 +1,7 @@
 package com.foodymoody.be.feed_heart.application;
 
+import com.foodymoody.be.common.exception.FeedHeartAlreadyExistsException;
+import com.foodymoody.be.common.exception.NotFoundFeedHeartException;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -34,7 +36,7 @@ public class FeedHeartService {
         memberQueryService.validateIdExists(memberId);
 
         if (existsHeart(memberId, feedStringId)) {
-            throw new IllegalArgumentException("이미 좋아요 누른 피드입니다.");
+            throw new FeedHeartAlreadyExistsException();
         }
 
         FeedHeart feedHeart = FeedHeartMapper
@@ -58,7 +60,7 @@ public class FeedHeartService {
         memberQueryService.validateIdExists(memberId);
 
         if (!existsHeart(memberId, feedStringId)) {
-            throw new IllegalArgumentException("좋아요 기록이 없어 취소할 수 없습니다.");
+            throw new NotFoundFeedHeartException();
         }
 
         feedHeartRepository.deleteByFeedIdAndMemberId(IdFactory.createFeedId(feedStringId), memberId);

@@ -42,7 +42,9 @@ public enum ErrorMessage {
     MAX_UPLOAD_SIZE_EXEEDED("2.8MB 이하의 이미지만 업로드 가능합니다", "i007"),
     INVALID_IMAGE_ID("유효하지 않은 이미지 id입니다", "i008"),
     MENU_NOT_FOUND("유효하지 않은 메뉴 id입니다.", "i010"),
-    IS_LIKED_NOT_EXISTS("isLiked를 찾아올 수 없습니다.", "i012");
+    IS_LIKED_NOT_EXISTS("isLiked를 찾아올 수 없습니다.", "i012"),
+    FEED_HEART_ALREADY_EXISTS("이미 좋아요 누른 피드입니다.", "i014"),
+    FEED_HEART_NOT_FOUND("좋아요 기록이 없어 취소할 수 없습니다.", "i016");
 
     private final String message;
     private final String code;
