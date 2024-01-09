@@ -45,6 +45,10 @@ public class FeedSteps {
         return 피드를_등록한다(accessToken, new RequestSpecBuilder().build(), imageIds);
     }
 
+    public static ExtractableResponse<Response> 피드를_또_등록한다(String accessToken, List<String> imageIds) {
+        return 피드를_또_등록한다(accessToken, new RequestSpecBuilder().build(), imageIds);
+    }
+
     public static String 피드를_등록하고_아이디를_받는다(String accessToken, List<String> imageIds) {
         return 피드를_등록한다(accessToken, new RequestSpecBuilder().build(), imageIds).jsonPath().getString("id");
     }

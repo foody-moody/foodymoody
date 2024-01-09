@@ -1,5 +1,6 @@
 package com.foodymoody.be.acceptance.feed;
 
+import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글을_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.개별_피드를_조회한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_id가_존재하면_정상적으로_등록된_피드;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_개별_피드가_조회되면_정상적으로_등록된_피드;
@@ -34,8 +35,10 @@ class FeedAcceptanceTest extends AcceptanceTest {
         // docs
         api_문서_타이틀("registerFeed", spec);
 
-        // given,when
+        // given
         List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
+
+        // when
         var response = 피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
 
         // then
@@ -48,11 +51,18 @@ class FeedAcceptanceTest extends AcceptanceTest {
         // docs
         api_문서_타이틀("readAllFeed", spec);
 
-        // when
+        // given
         List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
-        피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
+        var feedResponse = 피드를_등록한다(회원아티_액세스토큰, imageIds);
+        String feedId = feedResponse.jsonPath().getString("id");
+        피드에_댓글을_등록한다(feedId, 회원푸반_액세스토큰);
+
         List<String> imageIdsAgain = 피드_이미지_업로드_후_id_리스트를_반환한다();
-        피드를_또_등록한다(회원푸반_액세스토큰, spec, imageIdsAgain);
+        var feedResponseAgain = 피드를_또_등록한다(회원푸반_액세스토큰, imageIdsAgain);
+        String feedIdAgain = feedResponseAgain.jsonPath().getString("id");
+        피드에_댓글을_등록한다(feedIdAgain, 회원푸반_액세스토큰);
+
+        // when
         var readFeedResponse = 전체_피드를_조회한다(spec, 0, 10);
 
         // then
@@ -67,8 +77,9 @@ class FeedAcceptanceTest extends AcceptanceTest {
 
         // given
         List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
-        var response = 피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
+        var response = 피드를_등록한다(회원아티_액세스토큰, imageIds);
         String registeredId = response.jsonPath().getString("id");
+        피드에_댓글을_등록한다(registeredId, 회원푸반_액세스토큰);
 
         // when
         var readFeedResponse = 개별_피드를_조회한다(registeredId, spec);
@@ -85,7 +96,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
 
         // given
         List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
-        var response = 피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
+        var response = 피드를_등록한다(회원아티_액세스토큰, imageIds);
         String registeredId = response.jsonPath().getString("id");
 
         // when
@@ -103,7 +114,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
 
         // given
         List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
-        var response = 피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
+        var response = 피드를_등록한다(회원아티_액세스토큰, imageIds);
         String registeredId = response.jsonPath().getString("id");
 
         // when
