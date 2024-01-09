@@ -63,6 +63,7 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
             setRefreshToken(refreshToken);
             setUserInfo(JSON.stringify(payload));
             setAuthToken(accessToken);
+            return;
           } catch (error) {
             clearLoginInfo();
             return;
