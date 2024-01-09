@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useToggle } from 'recoil/booleanState/useToggle';
 import { useFeedDetail, useFeedEditor } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { customScrollStyle, flexColumn, flexRow } from 'styles/customStyle';
@@ -16,11 +17,12 @@ import { useMenuItem } from 'hooks/useMenuItem';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const FeedEditor: React.FC = () => {
+  const search = useToggle('search');
   const { navigateToHome } = usePageNavigator();
   const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
 
   const { id: feedId } = useParams() as { id: string };
-  const { mutate: feedMutate } = useFeedEditor(feedId);
+  const { mutate: feedMutate, status } = useFeedEditor(feedId);
   const { data: feedDetailData } = useFeedDetail(feedId);
   const {
     menuItems,
@@ -64,6 +66,7 @@ export const FeedEditor: React.FC = () => {
       storeMood: selectedBadgeList.map((badge) => badge.id),
       review: reviewValue,
     });
+    status === 'success' && search.toggleOn();
   };
 
   const handleSelectBadgeList = (badges: Badge[]) => {
@@ -80,6 +83,7 @@ export const FeedEditor: React.FC = () => {
     menuItems
       .map((menuItem) => menuItem.menu.name)
       .every((name) => name.trim().length > 0);
+  console.log(locationName, 'isValid');
 
   return (
     <Wrapper>

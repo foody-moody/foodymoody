@@ -1,7 +1,7 @@
 export const END_POINT = {
   login: `/auth/login`,
   logout: `/auth/logout`,
-  refresh: `/auth/refresh`, // 수정가능성
+  refresh: `/auth/token`, // 수정가능성
   tasteMood: `/members/taste-moods`,
   storeMood: `/feeds/store-moods`,
   collection: (id?: string) => (id ? `/collections/${id}` : `/collections`),

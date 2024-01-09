@@ -26,24 +26,28 @@ export const SearchPanelInput: React.FC<Props> = ({
   // TODO panel 데이터 페치
   const search = useToggle('search');
 
-  const handlePanelClose = () => {
-    onChangeValue?.('');
-  };
+  // const handlePanelClose = () => {
+  //   onChangeValue?.('');
+  // };
 
   return (
     <Wrapper>
       <Input variant={variant} helperText={helperText}>
         <Input.CenterContent>
-          <InputField value={value} onChangeValue={onChangeValue} />
+          <InputField
+            value={value}
+            onChangeValue={onChangeValue}
+            onClick={search.toggleOn}
+          />
         </Input.CenterContent>
-        <Input.BottomPanel isOpen={value?.trim().length !== 0}>
+        <Input.BottomPanel isOpen={search.isTrue && value?.trim().length !== 0}>
           {data.map((result) => (
             <ItemRow
               key={result.id}
               onClick={() => {
                 console.log(result, 'result');
                 onSelectLocation(result);
-                handlePanelClose();
+                // handlePanelClose();
                 search.toggleOff();
               }}
             >

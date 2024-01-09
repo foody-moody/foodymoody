@@ -24,6 +24,8 @@ export const SearchLocation: React.FC<Props> = ({
   const [searchResult, setSearchResult] = useState([]);
   const search = useToggle('search');
   const tool = useToggle('tool');
+  console.log(search.isTrue, 'search istrue');
+  console.log(tool.isTrue, 'search istrue');
 
   const [selectedLocation, setSelectedLocation] = useState({
     id: '',
@@ -71,6 +73,7 @@ export const SearchLocation: React.FC<Props> = ({
       category_name: location.category_name,
       category_group_code: location.category_group_code,
     });
+    handleLocationChange(location.place_name);
   };
 
   const handleSearchLocation = (locationName: string) => {
@@ -89,7 +92,7 @@ export const SearchLocation: React.FC<Props> = ({
     });
   };
 
-  const placesSearchCB = (data, status) => {
+  const placesSearchCB = (data: any, status: any) => {
     if (status === window.kakao.maps.services.Status.OK) {
       console.log(data, 'kakao search data');
       setSearchResult(data);
