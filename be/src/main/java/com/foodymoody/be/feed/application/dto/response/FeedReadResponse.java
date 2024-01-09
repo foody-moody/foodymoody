@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.application.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.foodymoody.be.common.util.ids.FeedId;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +20,7 @@ public class FeedReadResponse {
     private List<FeedStoreMoodResponse> storeMood;
     private List<FeedImageMenuResponse> images;
     private int likeCount;
+    @JsonProperty
     private boolean isLiked;
     private int commentCount;
 
