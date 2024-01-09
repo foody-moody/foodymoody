@@ -21,6 +21,7 @@ import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedStoreMoodResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedTasteMoodResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
+import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
@@ -163,6 +164,12 @@ public class FeedMapper {
                 .findFirst()
                 .orElseThrow(ImageNotFoundException::new)
                 .getImageId();
+    }
+
+    public static List<ImageId> makeImageIds(List<ImageMenu> imageMenus) {
+        return imageMenus.stream()
+                .map(ImageMenu::getImageId)
+                .collect(Collectors.toList());
     }
 
 }

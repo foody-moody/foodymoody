@@ -15,6 +15,7 @@ import static com.foodymoody.be.acceptance.feed_collection_comment.FeedCollectio
 import static com.foodymoody.be.acceptance.feed_collection_comment_like.FeedCollectionCommentLikeSteps.피드_컬렉션_댓글에_좋아요를_등록한다;
 import static com.foodymoody.be.acceptance.feed_collection_mood.FeedCollectionMoodSteps.피드_컬렉션_무드를_등록하고_아이디를_가져온다;
 import static com.foodymoody.be.acceptance.feed_collection_reply.FeedCollectionReplySteps.피드_컬렉션_댓글에_대댓글을_등록한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
@@ -33,13 +34,19 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
 
     @BeforeEach
     void setUp() {
+        var imageResponse1 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec);
+        String id1 = imageResponse1.jsonPath().getString("id");
+        var imageResponse2 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec);
+        String id2 = imageResponse2.jsonPath().getString("id");
+        List<String> imageIds = List.of(id1, id2);
+
         feedIds = new ArrayList<>();
         moodIds = new ArrayList<>();
-        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰));
-        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰));
-        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰));
-        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰));
-        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰));
+        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, imageIds));
+        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, imageIds));
+        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, imageIds));
+        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, imageIds));
+        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, imageIds));
         moodIds.add(피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰));
         moodIds.add(피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰));
         moodIds.add(피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰));
