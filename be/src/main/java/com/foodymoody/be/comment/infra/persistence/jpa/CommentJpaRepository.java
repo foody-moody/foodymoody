@@ -17,7 +17,7 @@ public interface CommentJpaRepository extends JpaRepository<Comment, CommentId> 
 
     @Query("select _comment.id.value as id,_comment.content as content,"
             + "_member.id.value as memberId,_member.nickname as nickname,_image.url as imageUrl,_comment.hasReply as hasReply,"
-            + "_reply.commentList.size as replyCount,_comment.createdAt as createdAt,_comment.updatedAt as updatedAt, "
+            + "size(_reply.commentList) as replyCount,_comment.createdAt as createdAt,_comment.updatedAt as updatedAt, "
             + "_heartCount.count as heartCount,false as hearted "
             + "from Comment _comment "
             + "left join _comment.replyComments _reply "
@@ -32,7 +32,7 @@ public interface CommentJpaRepository extends JpaRepository<Comment, CommentId> 
 
     @Query("select _comment.id.value as id,_comment.content as content,"
             + "_member.id.value as memberId,_member.nickname as nickname,_image.url as imageUrl,_comment.hasReply as hasReply,"
-            + "_reply.commentList.size as replyCount,_comment.createdAt as createdAt,_comment.updatedAt as updatedAt, "
+            + "size(_reply.commentList) as replyCount,_comment.createdAt as createdAt,_comment.updatedAt as updatedAt, "
             + "_heartCount.count as heartCount, "
             + "(case when _heart is not null then true else false end) as hearted "
             + "from Comment _comment "
