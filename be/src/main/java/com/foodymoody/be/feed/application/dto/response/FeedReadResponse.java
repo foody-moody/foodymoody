@@ -77,10 +77,6 @@ public class FeedReadResponse {
         return likeCount;
     }
 
-    public boolean isLiked() {
-        return isLiked;
-    }
-
     public int getCommentCount() {
         return commentCount;
     }
