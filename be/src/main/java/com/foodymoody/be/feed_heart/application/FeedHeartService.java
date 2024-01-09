@@ -30,9 +30,7 @@ public class FeedHeartService {
     private final FeedReadService feedReadService;
 
     @Transactional
-    public FeedHeartResponse like(String feedStringId, String memberStringId) {
-        var memberId = IdFactory.createMemberId(memberStringId);
-
+    public FeedHeartResponse like(String feedStringId, MemberId memberId) {
         memberQueryService.validateIdExists(memberId);
 
         if (existsHeart(memberId, feedStringId)) {
@@ -54,9 +52,7 @@ public class FeedHeartService {
     }
 
     @Transactional
-    public void unLike(String feedStringId, String memberStringId) {
-        var memberId = IdFactory.createMemberId(memberStringId);
-
+    public void unLike(String feedStringId, MemberId memberId) {
         memberQueryService.validateIdExists(memberId);
 
         if (!existsHeart(memberId, feedStringId)) {
