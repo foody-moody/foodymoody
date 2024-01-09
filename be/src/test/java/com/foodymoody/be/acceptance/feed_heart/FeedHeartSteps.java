@@ -57,7 +57,7 @@ public class FeedHeartSteps {
                 .log().all()
                 .statusCode(400)
                 .body("message", equalTo("이미 좋아요 누른 피드입니다."))
-                .body("code", equalTo("g001"))
+                .body("code", equalTo("i014"))
                 .extract();
     }
 
@@ -102,7 +102,7 @@ public class FeedHeartSteps {
                 .log().all()
                 .statusCode(400)
                 .body("message", equalTo("좋아요 기록이 없어 취소할 수 없습니다."))
-                .body("code", equalTo("g001"))
+                .body("code", equalTo("i016"))
                 .extract();
     }
 
