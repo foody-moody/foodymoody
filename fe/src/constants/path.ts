@@ -17,4 +17,5 @@ export const PATH = {
   ACCOUNT: '/account',
   FOLLOWER: '/followers',
   FOLLOWING: '/followings',
+  STORE: '/store',
 };

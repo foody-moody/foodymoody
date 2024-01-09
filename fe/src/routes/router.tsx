@@ -17,6 +17,7 @@ import { ProtectedRoute } from 'pages/ProtectedRoute';
 import { RegisterPage } from 'pages/RegisterPage';
 import { SearchPage } from 'pages/SearchPage';
 import { SettingPage } from 'pages/SettingPage';
+import { StorePage } from 'pages/StorePage';
 import { PATH } from 'constants/path';
 
 const router = createBrowserRouter([
@@ -110,6 +111,10 @@ const router = createBrowserRouter([
           {
             path: PATH.SEARCH,
             element: <SearchPage />,
+          },
+          {
+            path: PATH.STORE + '/:id',
+            element: <StorePage />,
           },
         ],
       },

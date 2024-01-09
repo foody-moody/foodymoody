@@ -38,6 +38,10 @@ export const FeedUserInfo: React.FC<Props> = ({
     navigate(PATH.PROFILE + '/' + member.id);
   };
 
+  const hadleNavigateStore = () => {
+    navigate(PATH.STORE + '/' + '1'); // 가게 id로 변경해야함
+  };
+
   const publicMenu = [
     {
       id: 1,
@@ -100,7 +104,7 @@ export const FeedUserInfo: React.FC<Props> = ({
             {isUpdated && <span>수정됨</span>}
           </ContentHeader>
 
-          <ContentBody>
+          <ContentBody onClick={hadleNavigateStore}>
             <MapPinSmallIcon />
             <p>{location}</p>
           </ContentBody>
