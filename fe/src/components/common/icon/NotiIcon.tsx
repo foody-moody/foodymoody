@@ -34,6 +34,13 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
         }
       });
 
+      eventSource.onerror = (err) => {
+        if (eventSource.readyState === EventSource.CLOSED) {
+          console.log(err, 'SSE closed');
+          // 오류 날릴지 여부
+        }
+      };
+
       return () => {
         eventSource.close();
       };

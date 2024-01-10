@@ -4,18 +4,24 @@ export const localStorageEffect: <T>(key: string) => AtomEffect<T> =
   (key: string) =>
   ({ setSelf, onSet }) => {
     const savedValue = localStorage.getItem(key);
+    console.log(savedValue, 'savedValue!!!!!!!!!!!!!!!!!');
 
     if (savedValue != null) {
+      console.log(savedValue, 'not null savedValue!!!!!!!!!!!!!!!!!');
       if (key === 'userInfo') {
-        return setSelf(JSON.parse(savedValue));
+        console.log(JSON.parse(savedValue), 'this is Userinfo');
+
+        return setSelf(savedValue);
       } else {
+        console.log(savedValue, 'this is not Userinfo');
+
         return setSelf(savedValue);
       }
     }
 
     onSet((newValue) => {
       if (newValue != null) {
-        return localStorage.setItem(key, newValue);
+        return localStorage.setItem(key, newValue as string);
       } else {
         localStorage.removeItem(key);
       }

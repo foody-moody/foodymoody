@@ -92,54 +92,115 @@ export const useRegister = () => {
 };
 
 export const useRefreshToken = () => {
-  const [isTokenExpiring, setIsTokenExpiring] = useState(false);
   const refreshToken = useRecoilValue(refreshTokenState);
   const userInfo = useRecoilValue(userInfoState);
-  console.log('userInfo', JSON.parse(userInfo));
+
   const setAccessToken = useSetRecoilState(accessTokenState);
   const setRefreshToken = useSetRecoilState(refreshTokenState);
   const setUserInfo = useSetRecoilState(userInfoState);
+  console.log('userInfo', userInfo);
 
+  const refreshTokenMutation = useMutation(
+    () => {
+      if (!refreshToken) throw new Error('No refresh token available');
+      return fetchRefresh(refreshToken);
+    },
+    {
+      onSuccess: (data) => {
+        const { accessToken, refreshToken } = data;
+        const payload = jwtDecode(accessToken);
+
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken);
+        setUserInfo(JSON.stringify(payload));
+      },
+      onError: (error: AxiosError<CustomErrorResponse>) => {
+        const errorData = error?.response?.data;
+        errorData && console.log(errorData.message);
+        clearLoginInfo();
+      },
+    }
+  );
+
+  const INTERVAL_TIME = 5 * 1000;
   useEffect(() => {
     const checkInterval = setInterval(() => {
       if (!userInfo) return;
       const isExpiring = checkTokenExpiry(JSON.parse(userInfo));
-      setIsTokenExpiring(isExpiring);
-    }, 30 * 1000); // 예: 30초마다 체크
+      if (isExpiring) {
+        refreshTokenMutation.mutate();
+      }
+    }, INTERVAL_TIME);
 
-    return () => clearInterval(checkInterval); // 컴포넌트 언마운트 시 인터벌 정리
-  }, [userInfo]);
+    return () => clearInterval(checkInterval);
+  }, [userInfo, refreshTokenMutation]);
 
-  const tokenQuery = useQuery({
-    queryKey: [QUERY_KEY.refresh],
-    queryFn: () => {
-      if (!refreshToken) return Promise.reject();
-      return fetchRefresh(refreshToken);
-    },
-    enabled: isTokenExpiring, // 토큰 만료 여부에 따라 쿼리 활성화
-    refetchOnWindowFocus: true,
-  });
-
-  useEffect(() => {
-    if (tokenQuery.data) {
-      const { accessToken, refreshToken } = tokenQuery.data;
-      const payload = jwtDecode(accessToken);
-
-      setAccessToken(accessToken);
-      setRefreshToken(refreshToken);
-      setUserInfo(JSON.stringify(payload));
-    }
-  }, [tokenQuery.data]);
+  // 다른 필요한 로직 추가
 };
 
-export const checkTokenExpiry = (userInfo: UserInfoType) => {
-  if (!userInfo) return false;
+// export const useRefreshToken = () => {
+//   const [isTokenExpiring, setIsTokenExpiring] = useState(false);
+//   const refreshToken = useRecoilValue(refreshTokenState);
+//   const userInfo = useRecoilValue(userInfoState);
+//   console.log('userInfo', userInfo);
+//   // console.log('userInfo', JSON.parse(userInfo));
 
-  const { exp } = userInfo || { exp: 0 };
-  console.log(exp, 'exp');
+//   const setAccessToken = useSetRecoilState(accessTokenState);
+//   const setRefreshToken = useSetRecoilState(refreshTokenState);
+//   const setUserInfo = useSetRecoilState(userInfoState);
+
+//   // const INTERVAL_TIME = 30 * 1000;
+//   const INTERVAL_TIME = 5 * 1000;
+//   // 30초마다 토큰 만료 여부 체크
+//   // TODO 만료 시간 연장되면 더 늘리기
+//   useEffect(() => {
+//     const checkInterval = setInterval(() => {
+//       if (!userInfo) return;
+//       const isExpiring = checkTokenExpiry(userInfo);
+//       // const isExpiring = checkTokenExpiry(JSON.parse(userInfo));
+//       setIsTokenExpiring(isExpiring);
+//     }, INTERVAL_TIME);
+
+//     return () => clearInterval(checkInterval);
+//   }, [userInfo]);
+
+//   const tokenQuery = useQuery({
+//     queryKey: [QUERY_KEY.refresh],
+//     queryFn: () => {
+//       if (!refreshToken) return Promise.reject();
+//       return fetchRefresh(refreshToken);
+//     },
+//     enabled: isTokenExpiring, // 토큰 만료 여부에 따라 쿼리 활성화
+//     refetchOnWindowFocus: true,
+//     refetchOnMount: true,
+//   });
+
+//   useEffect(() => {
+//     if (tokenQuery.data) {
+//       const { accessToken, refreshToken } = tokenQuery.data;
+//       const payload = jwtDecode(accessToken);
+//       const ref = jwtDecode(refreshToken);
+//       console.log('payload ref', ref);
+
+//       setAccessToken(accessToken);
+//       setRefreshToken(refreshToken);
+//       setUserInfo(JSON.stringify(payload));
+//     }
+//   }, [tokenQuery.data]);
+// };
+
+export const checkTokenExpiry = (userInfo: any) => {
+  const { exp } = userInfo;
+  console.log('exp', exp);
+
   const now = Date.now() / 1000;
-
-  return exp - now < 60 && exp - now > 0;
+  const BEFORE_EXPIRY = 60;
+  // exp: 만료 시간
   // 만료 1분 전인지 체크
   // TODO 만료 시간 연장되면 더 늘리기
+  console.log('expire ??', exp - now < BEFORE_EXPIRY);
+  console.log('valid ??', exp - now > 0);
+
+  // return exp - now < BEFORE_EXPIRY && exp - now > 0;
+  return exp - now < BEFORE_EXPIRY;
 };
