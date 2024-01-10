@@ -6,7 +6,9 @@ import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
+import lombok.Getter;
 
+@Getter
 public class CommentAddedEvent implements Event {
 
     private final FeedId feedId;
@@ -48,30 +50,4 @@ public class CommentAddedEvent implements Event {
                 createdAt
         );
     }
-
-    public FeedId getFeedId() {
-        return feedId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public NotificationType getNotificationType() {
-        return notificationType;
-    }
-
-    public CommentId getCommentId() {
-        return commentId;
-    }
-
-    public MemberId getMemberId() {
-        return memberId;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-
 }

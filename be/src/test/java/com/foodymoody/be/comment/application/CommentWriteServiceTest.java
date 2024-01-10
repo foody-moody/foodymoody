@@ -1,6 +1,6 @@
 package com.foodymoody.be.comment.application;
 
-import static com.foodymoody.be.comment.util.CommentFixture.getMemberId;
+import static com.foodymoody.be.comment.util.CommentFixture.memberId;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.foodymoody.be.comment.domain.repository.CommentRepository;
@@ -35,7 +35,7 @@ class CommentWriteServiceTest {
     void when_register_comment_if_content_not_exists_throw_exception() {
         // given
         var request = CommentFixture.registerCommentRequestWithoutContent();
-        MemberId memberId = getMemberId();
+        MemberId memberId = memberId();
 
         // when,then
         assertThatThrownBy(() -> commentWriteService.registerComment(request, memberId))
@@ -48,7 +48,7 @@ class CommentWriteServiceTest {
     void when_register_comment_if_content_is_blank_then_throw_exception() {
         // given
         var request = CommentFixture.registerCommentRequestWithEmptyContent();
-        MemberId memberId = getMemberId();
+        MemberId memberId = memberId();
 
         // when,then
         assertThatThrownBy(() -> commentWriteService.registerComment(request, memberId))
@@ -61,7 +61,7 @@ class CommentWriteServiceTest {
     void when_register_comment_if_content_is_space_then_throw_exception() {
         // given
         var request = CommentFixture.registerCommentRequestWithSpace();
-        MemberId memberId = getMemberId();
+        MemberId memberId = memberId();
 
         // when,then
         assertThatThrownBy(() -> commentWriteService.registerComment(request, memberId))
@@ -74,7 +74,7 @@ class CommentWriteServiceTest {
     void when_register_comment_if_content_is_larger_than_200_then_throw_exception() {
         // given
         var request = CommentFixture.registerCommentRequestWithContentOver200();
-        MemberId memberId = getMemberId();
+        MemberId memberId = memberId();
 
         // when,then
         assertThatThrownBy(() -> commentWriteService.registerComment(request, memberId))

@@ -3,23 +3,31 @@ package com.foodymoody.be.comment.domain.entity;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.ReplyId;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Entity
 public class Reply {
 
+    @Getter
     @EmbeddedId
     private ReplyId id;
+    @Getter
     private String content;
+    @Getter
     private boolean deleted;
+    @Getter
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
+    @Getter
     private LocalDateTime createdAt;
+    @Getter
     private LocalDateTime updatedAt;
 
     public Reply(ReplyId replyId, String content, boolean deleted, MemberId memberId,
@@ -32,27 +40,20 @@ public class Reply {
         this.updatedAt = updatedAt;
     }
 
-    public ReplyId getId() {
-        return id;
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public MemberId getMemberId() {
-        return memberId;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Reply)) {
+            return false;
+        }
+        Reply reply = (Reply) o;
+        return Objects.equals(getId(), reply.getId());
     }
 }

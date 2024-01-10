@@ -18,14 +18,7 @@ public class CommentReadService {
 
     @Transactional(readOnly = true)
     public Comment fetchById(CommentId id) {
-        return commentRepository.findById(id).orElseThrow(CommentNotExistsException::new);
-    }
-
-    @Transactional(readOnly = true)
-    public void validate(CommentId commentId) {
-        if (commentRepository.existsById(commentId)) {
-            return;
-        }
-        throw new CommentNotExistsException();
+        return commentRepository.findById(id)
+                .orElseThrow(CommentNotExistsException::new);
     }
 }

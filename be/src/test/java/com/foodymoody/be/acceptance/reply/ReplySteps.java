@@ -36,8 +36,23 @@ public class ReplySteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 댓글의_댓글을_조회한다(
+            String commentId, String accessToken, RequestSpecification spec
+    ) {
+        return RestAssured.given().spec(spec).log().all().auth().oauth2(accessToken)
+                .params(Map.of("page", "0", "size", "10"))
+                .when().get("/api/comments/{commentId}/replies", commentId)
+                .then().log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> 댓글에_댓글을_등록한다(String feedId, String commentId, String accessToken) {
         return 댓글에_댓글을_등록한다(feedId, commentId, accessToken, new RequestSpecBuilder().build());
+    }
+
+    public static String 댓글에_댓글을_등록하고_아이디를_가져온다(String feedId, String commentId, String accessToken) {
+        return 댓글에_댓글을_등록한다(feedId, commentId, accessToken, new RequestSpecBuilder().build()).jsonPath()
+                .getString("id");
     }
 
 }

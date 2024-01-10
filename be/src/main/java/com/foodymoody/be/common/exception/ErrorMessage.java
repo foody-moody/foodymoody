@@ -15,6 +15,9 @@ public enum ErrorMessage {
     REGISTER_COMMENT_REQUEST_NOT_NULL("등록 요청이 없으면 안된다", "c006"),
     COMMENT_NOT_EXISTS("댓글이 존재하지 않는다", "c007"),
     COMMENT_DELETED("삭제된 댓글입니다.", "c008"),
+
+    // reply
+    REPLY_NOT_EXISTS("답글이 존재하지 않습니다.", "r001"),
     // member
     MEMBER_NOT_FOUND("존재하지 않는 회원입니다", "m001"),
     DUPLICATE_MEMBER_EMAIL("이미 가입된 이메일입니다", "m002"),

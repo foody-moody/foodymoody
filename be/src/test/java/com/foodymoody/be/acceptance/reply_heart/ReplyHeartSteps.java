@@ -8,7 +8,12 @@ import io.restassured.specification.RequestSpecification;
 
 public class ReplyHeartSteps {
 
-    static ExtractableResponse<Response> 좋아요를_누린다(String accessToken, String commentId, String replyId,
+    public static ExtractableResponse<Response> 대댓글에_좋아요를_추가한다(String accessToken, String commentId, String replyId) {
+        return 대댓글에_좋아요를_추가한다(accessToken, commentId, replyId, new RequestSpecBuilder().build());
+    }
+
+    static ExtractableResponse<Response> 대댓글에_좋아요를_추가한다(
+            String accessToken, String commentId, String replyId,
             RequestSpecification spec) {
         return RestAssured
                 .given(spec).auth().oauth2(accessToken)
@@ -17,11 +22,8 @@ public class ReplyHeartSteps {
                 .extract();
     }
 
-    static ExtractableResponse<Response> 좋아요를_누린다(String accessToken, String commentId, String replyId) {
-        return 좋아요를_누린다(accessToken, commentId, replyId, new RequestSpecBuilder().build());
-    }
-
-    static ExtractableResponse<Response> 좋아요를_취소한다(String accessToken, String commentId, String replyId,
+    static ExtractableResponse<Response> 대댓글의_좋아요를_취소한다(
+            String accessToken, String commentId, String replyId,
             RequestSpecification spec) {
         return RestAssured
                 .given(spec).auth().oauth2(accessToken)

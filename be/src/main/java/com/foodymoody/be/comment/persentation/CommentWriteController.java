@@ -33,7 +33,7 @@ public class CommentWriteController {
             @CurrentMemberId MemberId memberId
     ) {
         var id = commentUseCase.registerComment(request, memberId);
-        return ResponseEntity.ok(IdResponse.of(id));
+        return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
     @PutMapping("/api/comments/{id}")
@@ -56,12 +56,12 @@ public class CommentWriteController {
     }
 
     @PostMapping("/api/comments/{id}")
-    public ResponseEntity<Void> reply(
+    public ResponseEntity<IdResponse> reply(
             @PathVariable CommentId id,
             @Valid @RequestBody RegisterReplyRequest request,
             @CurrentMemberId MemberId memberId
     ) {
-        commentWriteService.reply(id, request, memberId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        var replyId = commentWriteService.reply(id, request, memberId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(replyId));
     }
 }

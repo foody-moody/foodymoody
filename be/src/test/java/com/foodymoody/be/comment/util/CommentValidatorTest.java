@@ -72,4 +72,21 @@ class CommentValidatorTest {
         assertThatThrownBy(() -> CommentValidator.validateCreateTime(null))
                 .isInstanceOf(CreateTimeIsNullException.class);
     }
+
+    @Test
+    @DisplayName("피드 아이디가 null이면 예외가 발생한다.")
+    void when_feed_id_is_null_then_throw_exception() {
+        // given
+        var commentId = CommentFixture.commentId();
+        var content = CommentFixture.content();
+
+        // when,then
+        assertThatThrownBy(() -> CommentValidator.validate(
+                commentId,
+                content,
+                null,
+                CommentFixture.CREATED_AT
+        ))
+                .isInstanceOf(ContentNotExistsException.class);
+    }
 }
