@@ -103,7 +103,6 @@ public class FeedUseCase {
     }
 
     private List<FeedReadAllResponse> makeFeedReadAllResponseListWhenMemberIdIsNull(Slice<Feed> feeds) {
-        // TODO: commentCount는 동시성 문제가 생길 수 있음
         return feeds.stream()
                 .map(feed -> makeFeedReadAllResponse(feed, makeFeedMemberResponse(feed),
                         makeFeedStoreMoodResponses(feed.getStoreMoods()),
@@ -114,7 +113,6 @@ public class FeedUseCase {
     }
 
     private List<FeedReadAllResponse> makeFeedReadAllResponseListWhenMemberIdIsNotNull(Slice<Feed> feeds) {
-        // TODO: commentCount는 동시성 문제가 생길 수 있음
         return feeds.stream()
                 .map(feed -> makeFeedReadAllResponse(feed, makeFeedMemberResponse(feed),
                         makeFeedStoreMoodResponses(feed.getStoreMoods()),
@@ -138,7 +136,6 @@ public class FeedUseCase {
                     findCommentCount(feed.getId()));
         }
 
-        // TODO: commentCount는 동시성 문제가 생길 수 있음
         return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
                 makeFeedStoreMoodResponses(storeMoods),
                 feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()),
@@ -211,6 +208,7 @@ public class FeedUseCase {
     }
 
     public Long findCommentCount(FeedId feedId) {
+        // TODO: comment쪽에서 댓글이 등록되면 feed에 저장되도록 리팩토링
         return feedCommentCountReadService.fetchCountByFeedId(feedId);
     }
 
