@@ -678,3 +678,17 @@ operation::feed_collection_mood_created_success[snippets='http-request,http-resp
 ==== 성공
 
 operation::feed_collection_mood_find_all_success[snippets='http-request,http-response']
+
+== 가게
+
+=== 가게 상세정보 조회
+
+==== 성공
+
+operation::fetch_store_details_success[snippets='http-request,http-response']
+
+=== 가게 검색
+
+==== 성공
+
+operation::search_store_success[snippets='http-request,http-response']
