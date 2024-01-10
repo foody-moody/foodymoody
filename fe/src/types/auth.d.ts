@@ -10,3 +10,10 @@ type RegisterBody = {
   reconfirmPassword: string;
   tasteMoodId?: string;
 };
+type UserInfoType = {
+  email: string;
+  exp: number;
+  iat: number;
+  id: string;
+  iss: string;
+};

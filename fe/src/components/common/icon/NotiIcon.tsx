@@ -1,20 +1,10 @@
 import { EventSourcePolyfill } from 'event-source-polyfill';
-import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { accessTokenState } from 'recoil/localStorage/atom';
-import { fetchRefresh } from 'service/axios/auth/login';
 import { BASE_API_URL } from 'service/axios/fetcher';
 import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
-import {
-  clearLoginInfo,
-  getAccessToken,
-  getRefreshToken,
-  setAccessToken,
-  setRefreshToken,
-  setUserInfo,
-} from 'utils/localStorage';
 import { NotificationIcon } from './icons';
 
 type Props = {
@@ -23,14 +13,8 @@ type Props = {
 
 export const NotiIcon: React.FC<Props> = ({ onClick }) => {
   const [notiCount, setNotiCount] = useState(0);
-
   const { isLogin } = useAuthState();
-  // const currentToken = getAccessToken();
-  // 여기 리코일로   const [authToken, setAuthToken] = useState<string | null>(null); 이거 바꿔서 디펜던시에 authToken넣어주고 되나 보기
   const accessToken = useRecoilValue(accessTokenState);
-  console.log(accessToken, ' now accessToken');
-  const token = localStorage.getItem('accessToken');
-  console.log(token, ' now tokentokenaccessToken');
 
   useEffect(() => {
     if (isLogin) {

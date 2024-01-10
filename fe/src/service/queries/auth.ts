@@ -90,6 +90,7 @@ export const useRegister = () => {
     },
   });
 };
+
 export const useRefreshToken = () => {
   const [isTokenExpiring, setIsTokenExpiring] = useState(false);
   const refreshToken = useRecoilValue(refreshTokenState);
@@ -101,6 +102,7 @@ export const useRefreshToken = () => {
 
   useEffect(() => {
     const checkInterval = setInterval(() => {
+      if (!userInfo) return;
       const isExpiring = checkTokenExpiry(JSON.parse(userInfo));
       setIsTokenExpiring(isExpiring);
     }, 30 * 1000); // 예: 30초마다 체크
@@ -125,14 +127,12 @@ export const useRefreshToken = () => {
 
       setAccessToken(accessToken);
       setRefreshToken(refreshToken);
-      // setUserInfo(JSON.stringify(payload));
       setUserInfo(JSON.stringify(payload));
     }
   }, [tokenQuery.data]);
 };
 
-export const checkTokenExpiry = (userInfo: any) => {
-  // const userInfo = getUserInfo();
+export const checkTokenExpiry = (userInfo: UserInfoType) => {
   if (!userInfo) return false;
 
   const { exp } = userInfo || { exp: 0 };
@@ -140,4 +140,6 @@ export const checkTokenExpiry = (userInfo: any) => {
   const now = Date.now() / 1000;
 
   return exp - now < 60 && exp - now > 0;
+  // 만료 1분 전인지 체크
+  // TODO 만료 시간 연장되면 더 늘리기
 };
