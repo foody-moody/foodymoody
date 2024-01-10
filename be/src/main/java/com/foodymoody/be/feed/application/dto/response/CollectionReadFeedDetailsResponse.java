@@ -22,12 +22,12 @@ public class CollectionReadFeedDetailsResponse {
     @JsonProperty
     private boolean isLiked;
     private int likeCount;
-    private int feedCommentCount;
+    private Long feedCommentCount;
 
     @Builder
     public CollectionReadFeedDetailsResponse(int feedAllCount, String feedThumbnailUrl, String storeName, FeedId feedId,
                                              LocalDateTime createdAt, LocalDateTime updatedAt, String description,
-                                             List<String> moodNames, boolean isLiked, int likeCount, int feedCommentCount) {
+                                             List<String> moodNames, boolean isLiked, int likeCount, Long feedCommentCount) {
         this.feedAllCount = feedAllCount;
         this.feedThumbnailUrl = feedThumbnailUrl;
         this.storeName = storeName;
@@ -81,7 +81,7 @@ public class CollectionReadFeedDetailsResponse {
         return likeCount;
     }
 
-    public int getFeedCommentCount() {
+    public Long getFeedCommentCount() {
         return feedCommentCount;
     }
 

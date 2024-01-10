@@ -22,12 +22,12 @@ public class FeedReadResponse {
     private int likeCount;
     @JsonProperty
     private boolean isLiked;
-    private int commentCount;
+    private Long commentCount;
 
     @Builder
     public FeedReadResponse(FeedId id, FeedMemberResponse member, String location, LocalDateTime createdAt,
                             LocalDateTime updatedAt, String review, List<FeedStoreMoodResponse> storeMood,
-                            List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, int commentCount) {
+                            List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, Long commentCount) {
         this.id = id;
         this.member = member;
         this.location = location;
@@ -77,7 +77,7 @@ public class FeedReadResponse {
         return likeCount;
     }
 
-    public int getCommentCount() {
+    public Long getCommentCount() {
         return commentCount;
     }
 

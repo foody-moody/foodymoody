@@ -54,7 +54,7 @@ public class FeedController {
      * 개별 Feed 조회
      */
     @GetMapping("/api/feeds/{id}")
-    public ResponseEntity<FeedReadResponse> read(@PathVariable String id,
+    public ResponseEntity<FeedReadResponse> read(@PathVariable FeedId id,
                                                  @CurrentMemberId MemberId memberId) {
         FeedReadResponse feedReadResponse = feedUseCase.read(id, memberId);
         return ResponseEntity.ok().body(feedReadResponse);

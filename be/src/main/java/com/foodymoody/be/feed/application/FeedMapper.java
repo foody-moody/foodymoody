@@ -54,7 +54,8 @@ public class FeedMapper {
     public static FeedReadResponse toFeedReadResponse(FeedMemberResponse feedMemberResponse, Feed feed,
                                                       List<FeedImageMenuResponse> images,
                                                       List<FeedStoreMoodResponse> moodNames,
-                                                      boolean isLiked) {
+                                                      boolean isLiked,
+                                                      Long commentCount) {
         return FeedReadResponse.builder()
                 .id(feed.getId())
                 .member(feedMemberResponse)
@@ -66,7 +67,7 @@ public class FeedMapper {
                 .updatedAt(feed.getUpdatedAt())
                 .isLiked(isLiked)
                 .likeCount(feed.getLikeCount())
-                .commentCount(feed.getCommentCount())
+                .commentCount(commentCount)
                 .build();
     }
 
@@ -124,7 +125,8 @@ public class FeedMapper {
     public static FeedReadAllResponse makeFeedReadAllResponse(Feed feed, FeedMemberResponse makeFeedMemberResponse,
                                                               List<FeedStoreMoodResponse> makeFeedStoreMoodResponses,
                                                               List<FeedImageMenuResponse> makeFeedImageMenuResponses,
-                                                              boolean isLiked) {
+                                                              boolean isLiked,
+                                                              Long commentCount) {
         return FeedReadAllResponse.builder()
                 .id(feed.getId())
                 .member(makeFeedMemberResponse)
@@ -134,7 +136,7 @@ public class FeedMapper {
                 .images(makeFeedImageMenuResponses)
                 .createdAt(feed.getCreatedAt())
                 .updatedAt(feed.getUpdatedAt())
-                .commentCount(feed.getCommentCount())
+                .commentCount(commentCount)
                 .isLiked(isLiked)
                 .likeCount(feed.getLikeCount())
                 .build();

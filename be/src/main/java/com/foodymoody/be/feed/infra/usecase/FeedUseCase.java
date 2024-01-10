@@ -11,6 +11,7 @@ import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreMoodId;
+import com.foodymoody.be.feed.application.FeedCommentCountReadService;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.application.FeedWriteService;
@@ -62,6 +63,7 @@ public class FeedUseCase {
     private final MenuService menuService;
     private final StoreMoodReadService storeMoodReadService;
     private final FeedHeartCountService feedHeartCountService;
+    private final FeedCommentCountReadService feedCommentCountReadService;
 
     @Transactional
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
@@ -105,7 +107,8 @@ public class FeedUseCase {
                 .map(feed -> makeFeedReadAllResponse(feed, makeFeedMemberResponse(feed),
                         makeFeedStoreMoodResponses(feed.getStoreMoods()),
                         makeFeedImageMenuResponses(feed),
-                        false))
+                        false,
+                        findCommentCount(feed.getId())))
                 .collect(Collectors.toList());
     }
 
@@ -114,14 +117,13 @@ public class FeedUseCase {
                 .map(feed -> makeFeedReadAllResponse(feed, makeFeedMemberResponse(feed),
                         makeFeedStoreMoodResponses(feed.getStoreMoods()),
                         makeFeedImageMenuResponses(feed),
-                        // feed의 memberId로 feedHeart를 가져와서 그 feedHeart의 isLiked를 여기 넣어주기
-                        feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId())))
+                        feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()),
+                        findCommentCount(feed.getId())))
                 .collect(Collectors.toList());
     }
 
-    public FeedReadResponse read(String id, MemberId memberId) {
-        FeedId feedId = IdFactory.createFeedId(id);
-        Feed feed = feedReadService.findFeed(feedId);
+    public FeedReadResponse read(FeedId id, MemberId memberId) {
+        Feed feed = feedReadService.findFeed(id);
         List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feed);
         List<StoreMood> storeMoods = feed.getStoreMoods();
 
@@ -129,12 +131,15 @@ public class FeedUseCase {
 
         if (memberId == null) {
             return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
-                    makeFeedStoreMoodResponses(storeMoods), false);
+                    makeFeedStoreMoodResponses(storeMoods),
+                    false,
+                    findCommentCount(feed.getId()));
         }
 
         return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
                 makeFeedStoreMoodResponses(storeMoods),
-                feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()));
+                feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()),
+                findCommentCount(feed.getId()));
     }
 
     @Transactional
@@ -172,7 +177,7 @@ public class FeedUseCase {
     }
 
     // TODO: 쿼리 사용하여 리팩토링
-    public List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
+    private List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
         return imageMenuPairs.stream()
                 .map(imageMenuPair -> menuService.save(
                         new Menu(IdFactory.createMenuId(), imageMenuPair.getMenu().getName(),
@@ -180,7 +185,7 @@ public class FeedUseCase {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    public List<Image> toImage(List<ImageMenuPair> imageMenuPairs, MemberId memberId) {
+    private List<Image> toImage(List<ImageMenuPair> imageMenuPairs, MemberId memberId) {
         return imageMenuPairs.stream()
                 .map(imageMenuPair -> new Image(imageMenuPair.getImageId(),
                         imageService.findById(imageMenuPair.getImageId()).getUrl(),
@@ -188,18 +193,23 @@ public class FeedUseCase {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    public FeedMemberResponse makeFeedMemberResponse(Feed feed) {
+    private FeedMemberResponse makeFeedMemberResponse(Feed feed) {
         FeedAuthorSummary memberData = memberQueryService.fetchFeedAuthorSummaryById(feed.getMemberId());
         return toFeedMemberResponse(memberData);
     }
 
-    public List<FeedImageMenuResponse> makeFeedImageMenuResponses(Feed feed) {
+    private List<FeedImageMenuResponse> makeFeedImageMenuResponses(Feed feed) {
         List<ImageMenu> imageMenus = feed.getImageMenus();
 
         List<ImageIdNamePair> imageIdUrlList = feedReadService.fetchImageIdUrlList(imageMenus);
         List<MenuNameRatingPair> menuNameRatingList = feedReadService.fetchMenuNameRatingList(imageMenus);
 
         return FeedMapper.toFeedImageMenuResponses(imageIdUrlList, menuNameRatingList);
+    }
+
+    public Long findCommentCount(FeedId feedId) {
+        // TODO: comment쪽에서 댓글이 등록되면 feed에 저장되도록 리팩토링
+        return feedCommentCountReadService.fetchCountByFeedId(feedId);
     }
 
 }
