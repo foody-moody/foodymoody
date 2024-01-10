@@ -5,8 +5,8 @@ import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고
 import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
 import static com.foodymoody.be.acceptance.reply.ReplySteps.댓글에_댓글을_등록한다;
 import static com.foodymoody.be.acceptance.reply.ReplySteps.댓글의_댓글을_조회한다;
-import static com.foodymoody.be.acceptance.reply_heart.ReplyHeartSteps.좋아요를_누린다;
-import static com.foodymoody.be.acceptance.reply_heart.ReplyHeartSteps.좋아요를_취소한다;
+import static com.foodymoody.be.acceptance.reply_heart.ReplyHeartSteps.대댓글에_좋아요를_추가한다;
+import static com.foodymoody.be.acceptance.reply_heart.ReplyHeartSteps.대댓글의_좋아요를_취소한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
@@ -43,7 +43,7 @@ class ReplyFeedHeartAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("reply_heart_register_success", spec);
 
         // when
-        var response = 좋아요를_누린다(회원푸반_액세스토큰, commentId, firstReplyId, spec);
+        var response = 대댓글에_좋아요를_추가한다(회원푸반_액세스토큰, commentId, firstReplyId, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(201);
@@ -56,10 +56,10 @@ class ReplyFeedHeartAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("reply_heart_cancel_success", spec);
 
         // given
-        좋아요를_누린다(회원푸반_액세스토큰, commentId, firstReplyId);
+        대댓글에_좋아요를_추가한다(회원푸반_액세스토큰, commentId, firstReplyId);
 
         // when
-        var response = 좋아요를_취소한다(회원푸반_액세스토큰, commentId, firstReplyId, spec);
+        var response = 대댓글의_좋아요를_취소한다(회원푸반_액세스토큰, commentId, firstReplyId, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(204);

@@ -18,8 +18,6 @@ public interface CommentRepository {
 
     Slice<MemberCommentSummary> findWithMemberAllByFeedId(FeedId feedId, Pageable pageable);
 
-    boolean existsById(CommentId commentId);
-
     Slice<MemberCommentSummary> findWithMemberAllByFeedId(FeedId feedId, MemberId memberId, Pageable pageable);
 
 }

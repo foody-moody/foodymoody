@@ -8,8 +8,8 @@ import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글없이_피
 import static com.foodymoody.be.acceptance.comment.CommentSteps.댓글을_삭제한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.비여있는_댓글로_댓글_수정한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.요청_내용_없이_댓글_등록한다;
-import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200과_id를_반환한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200을_반환한다;
+import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_201과_id를_반환한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_400_검증한다;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.페이지_적용_조회_검증;
 import static com.foodymoody.be.acceptance.comment.CommentSteps.페이지_적용_피드별_댓글을_조회한다;
@@ -61,7 +61,7 @@ class CommentAcceptanceTest extends AcceptanceTest {
             var response = 피드에_댓글을_등록한다(feedId, 회원아티_액세스토큰, spec);
 
             // then
-            응답코드_200과_id를_반환한다(response);
+            응답코드_201과_id를_반환한다(response);
         }
 
         @DisplayName("댓글 등록 요청시 요청 바디가 없으면 응답코드 400을 응답한다")

@@ -51,11 +51,13 @@ public class CommentWriteService {
     }
 
     @Transactional
-    public void reply(CommentId id, @Valid RegisterReplyRequest request, MemberId memberId) {
+    public ReplyId reply(CommentId id, @Valid RegisterReplyRequest request, MemberId memberId) {
         Comment comment = fetchById(id);
         ReplyId replyId = IdFactory.createReplyId();
-        Reply reply = commentMapper.toReply(replyId, LocalDateTime.now(), memberId, request.getContent());
-        comment.addReply(reply);
+        LocalDateTime now = LocalDateTime.now();
+        Reply reply = commentMapper.toReply(replyId, now, memberId, request.getContent());
+        comment.addReply(reply, now);
+        return reply.getId();
     }
 
     private Comment fetchById(CommentId id) {

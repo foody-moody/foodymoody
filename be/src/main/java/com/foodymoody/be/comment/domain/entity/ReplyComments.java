@@ -20,4 +20,8 @@ public class ReplyComments {
     public List<Reply> getCommentList() {
         return commentList;
     }
+
+    public void delete(Reply reply) {
+        commentList.remove(reply);
+    }
 }
