@@ -1,6 +1,8 @@
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { accessTokenState } from 'recoil/localStorage/atom';
 import { fetchRefresh } from 'service/axios/auth/login';
 import { BASE_API_URL } from 'service/axios/fetcher';
 import { styled } from 'styled-components';
@@ -21,17 +23,21 @@ type Props = {
 
 export const NotiIcon: React.FC<Props> = ({ onClick }) => {
   const [notiCount, setNotiCount] = useState(0);
-  const [authToken, setAuthToken] = useState<string | null>(null);
 
   const { isLogin } = useAuthState();
+  // const currentToken = getAccessToken();
+  // 여기 리코일로   const [authToken, setAuthToken] = useState<string | null>(null); 이거 바꿔서 디펜던시에 authToken넣어주고 되나 보기
+  const accessToken = useRecoilValue(accessTokenState);
+  console.log(accessToken, ' now accessToken');
+  const token = localStorage.getItem('accessToken');
+  console.log(token, ' now tokentokenaccessToken');
+
   useEffect(() => {
     if (isLogin) {
-      const currentToken = getAccessToken();
-
       const eventSource = new EventSourcePolyfill(`${BASE_API_URL}/sse`, {
         headers: {
           'Content-Type': 'text/event-stream',
-          Authorization: `Bearer ${currentToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
@@ -44,36 +50,11 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
         }
       });
 
-      eventSource.onerror = async () => {
-        if (eventSource.readyState === EventSource.CLOSED) {
-          const token = getRefreshToken();
-          if (!token) {
-            clearLoginInfo();
-            return;
-          }
-          try {
-            const { accessToken, refreshToken } = await fetchRefresh(token);
-            const payload = jwtDecode(accessToken);
-            // TODO 백에서 refresh에 변동이 있을수있음
-            setAccessToken(accessToken);
-            setRefreshToken(refreshToken);
-            setUserInfo(JSON.stringify(payload));
-            if (accessToken !== authToken) {
-              setAuthToken(accessToken);
-            }
-            return;
-          } catch (error) {
-            clearLoginInfo();
-            return;
-          }
-        }
-      };
-
       return () => {
         eventSource.close();
       };
     }
-  }, [isLogin, authToken]);
+  }, [isLogin, accessToken]);
 
   return (
     <Wrapper>

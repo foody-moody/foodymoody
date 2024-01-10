@@ -27,46 +27,6 @@ export const useAuthState = () => {
   return { isLogin, userInfo };
 };
 
-export const useRefreshToken = () => {
-  useEffect(() => {
-    const refreshToken = getRefreshToken();
-
-    if (!refreshToken) return;
-
-    const getAccessTokenByRefreshToken = async () => {
-      try {
-        // const { accessToken, refreshToken } = await //Token 요청;
-        // setAccessToken(accessToken);
-        // setRefreshToken(refreshToken);
-      } catch (error) {
-        console.error('Error during fetching access token:', error);
-        // 로그아웃
-        clearLoginInfo();
-      }
-    };
-
-    getAccessTokenByRefreshToken();
-  }, []);
-};
-
-// export const useLogout = () => {
-//   // const setIsLogin = useSetRecoilState(isLoginState);
-//   const { navigateToHome } = usePageNavigator();
-
-//   const handleLogout = async () => {
-//     try {
-//       await fetchLogout();
-//       clearLoginInfo();
-//       // setIsLogin(false);
-//       navigateToHome();
-//     } catch (error) {
-//       console.error('Logout error:', error);
-//     }
-//   };
-
-//   return { handleLogout };
-// };
-
 export const useUnRegister = () => {
   const { navigateToHome } = usePageNavigator();
 

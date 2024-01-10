@@ -1,15 +1,14 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { RouterProvider } from 'react-router-dom';
+import { RouteContainer } from 'RouteContainer';
+// import { RouterProvider } from 'react-router-dom';
 import { RecoilRoot, RecoilEnv } from 'recoil';
 import { ThemeProvider } from 'styled-components';
-import router from 'routes/router';
+// import router from 'routes/router';
 import { theme } from 'styles/designSystem';
 import { GlobalStyles } from 'styles/globalStyles.ts';
 import { GlobalModals } from 'components/common/modal/Modal';
 import { GlobalToasts } from 'components/common/toast/Toast';
-
-// import { useRefreshToken } from 'hooks/auth/useAuth';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,7 +21,6 @@ const queryClient = new QueryClient({
 
 function App() {
   RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
-  // useRefreshToken();
 
   return (
     <>
@@ -33,7 +31,8 @@ function App() {
             <GlobalStyles />
             <GlobalModals />
             <GlobalToasts />
-            <RouterProvider router={router} />
+            {/* <RouterProvider router={router} /> */}
+            <RouteContainer />
           </RecoilRoot>
         </ThemeProvider>
       </QueryClientProvider>
