@@ -4,44 +4,38 @@ export const localStorageEffect: <T>(key: string) => AtomEffect<T> =
   (key: string) =>
   ({ setSelf, onSet }) => {
     const savedValue = localStorage.getItem(key);
-    console.log(savedValue, 'savedValue!!!!!!!!!!!!!!!!!');
 
     if (savedValue != null) {
-      console.log(savedValue, 'not null savedValue!!!!!!!!!!!!!!!!!');
-      if (key === 'userInfo') {
-        console.log(JSON.parse(savedValue), 'this is Userinfo');
-
-        return setSelf(savedValue);
-      } else {
-        console.log(savedValue, 'this is not Userinfo');
-
-        return setSelf(savedValue);
-      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return setSelf(savedValue as any); //string
+    } else {
+      localStorage.removeItem(key);
     }
 
     onSet((newValue) => {
       if (newValue != null) {
-        return localStorage.setItem(key, newValue as string);
+        // return localStorage.setItem(key, newValue as string);
+        localStorage.setItem(key, newValue as string);
       } else {
         localStorage.removeItem(key);
       }
     });
   };
 
-export const accessTokenState = atom<string | null>({
+export const accessTokenState = atom<string>({
   key: 'accessTokenState',
-  default: null,
+  default: '',
   effects: [localStorageEffect('accessToken')],
 });
 
-export const refreshTokenState = atom<string | null>({
+export const refreshTokenState = atom<string>({
   key: 'refreshTokenState',
-  default: null,
+  default: '',
   effects: [localStorageEffect('refreshToken')],
 });
 
-export const userInfoState = atom<string | null>({
+export const userInfoState = atom<string>({
   key: 'userInfoState',
-  default: null,
+  default: '',
   effects: [localStorageEffect('userInfo')],
 });
