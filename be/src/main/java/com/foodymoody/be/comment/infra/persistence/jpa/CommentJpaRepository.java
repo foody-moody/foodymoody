@@ -5,6 +5,8 @@ import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -42,4 +44,8 @@ public interface CommentJpaRepository extends JpaRepository<Comment, CommentId> 
             + "where _comment.feedId = :feedId and _comment.deleted = false")
     Slice<MemberCommentSummary> findWithMemberAllByFeedIdAndMemberId(FeedId feedId, MemberId memberId,
             Pageable pageable);
+
+    @Query("SELECT COUNT(c) FROM Comment c WHERE c.feedId = :feedId")
+    Optional<Long> fetchCountByFeedId(@Param("feedId") FeedId feedId);
+
 }
