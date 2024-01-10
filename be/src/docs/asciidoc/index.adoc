@@ -463,6 +463,12 @@ operation::notification_setting_request_success[snippets='http-request,http-resp
 
 operation::notification_setting_update_success[snippets='http-request,http-response']
 
+=== 모든 알림 설정 on/off
+
+==== 성공
+
+operation::notification_setting_update_all_success[snippets='http-request,http-response']
+
 == SSE
 
 === 알림 실시간 전송
