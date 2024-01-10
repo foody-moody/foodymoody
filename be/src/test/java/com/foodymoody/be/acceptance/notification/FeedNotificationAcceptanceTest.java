@@ -6,7 +6,6 @@ import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_
 import static com.foodymoody.be.acceptance.notification.NotificationSteps.모든_알림을_읽음으로_변경한다;
 import static com.foodymoody.be.acceptance.notification.NotificationSteps.알림_아이디로_알림을_조회한다;
 import static com.foodymoody.be.acceptance.notification.NotificationSteps.알림을_삭제한다;
-import static com.foodymoody.be.acceptance.notification.NotificationSteps.알림을_읽음으로_변경;
 import static com.foodymoody.be.acceptance.notification.NotificationSteps.유저의_모든_읽음_알림을_삭제한다;
 import static com.foodymoody.be.acceptance.notification.NotificationSteps.응답코드가_200;
 import static com.foodymoody.be.acceptance.notification.NotificationSteps.응답코드가_204;
@@ -57,19 +56,6 @@ class FeedNotificationAcceptanceTest extends AcceptanceTest {
         응답코드가_200(response);
     }
 
-    @DisplayName("모든 읽음 알림을 모두 삭제하면 응답코드 204를 반환한다")
-    @Test
-    void when_delete_all_read_if_success_then_return_code_204() {
-        // docs
-        api_문서_타이틀("notification_delete_all_read", spec);
-
-        // when
-        var response = 유저의_모든_읽음_알림을_삭제한다(회원아티_액세스토큰, spec);
-
-        // then
-        응답코드가_204(response);
-    }
-
     @DisplayName("알림이 존재하고")
     @Nested
     class ExistsNotifications {
@@ -108,14 +94,14 @@ class FeedNotificationAcceptanceTest extends AcceptanceTest {
             응답코드가_204(response);
         }
 
-        @DisplayName("알림을 읽음으로 요청하면 응답코드 204과 알림을 읽음으로 변경한다.")
+        @DisplayName("모든 읽음 알림을 모두 삭제하면 응답코드 204를 반환한다")
         @Test
-        void when_request_delete_all_read_is_success_return_code_204() {
+        void when_delete_all_read_if_success_then_return_code_204() {
             // docs
-            api_문서_타이틀("notification_delete_all_read_success", spec);
+            api_문서_타이틀("notification_delete_all_read", spec);
 
             // when
-            var response = 알림을_읽음으로_변경(알림_아이디, 회원아티_액세스토큰, spec);
+            var response = 유저의_모든_읽음_알림을_삭제한다(회원아티_액세스토큰, spec);
 
             // then
             응답코드가_204(response);

@@ -447,7 +447,7 @@ operation::notification_delete_success[snippets='http-request,http-response']
 
 ==== 성공
 
-operation::notification_mark_all_read_success[snippets='http-request,http-response']
+operation::notification_delete_all_read[snippets='http-request,http-response']
 
 == 알림 설정
 
