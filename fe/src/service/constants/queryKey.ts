@@ -11,5 +11,6 @@ export const QUERY_KEY = {
   followings: 'followings',
   followers: 'followers',
   collections: 'collections',
+  notificationSetting: 'notificationSettings',
   refresh: 'refresh',
 };

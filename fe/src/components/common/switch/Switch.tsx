@@ -10,19 +10,19 @@ export const Switch = ({ isOn, onClick, label = null }: Props) => {
   return (
     <Wrapper>
       {label && <Label>{label}</Label>}
-      <SwitchWrapper isOn={isOn} onClick={onClick}>
-        <SwitchSlider isOn={isOn} />
+      <SwitchWrapper $isOn={isOn} onClick={onClick}>
+        <SwitchSlider $isOn={isOn} />
       </SwitchWrapper>
     </Wrapper>
   );
 };
 
-const SwitchWrapper = styled.div<{ isOn: boolean }>`
+const SwitchWrapper = styled.div<{ $isOn: boolean }>`
   width: 44px;
   height: 24px;
   border-radius: 12px;
-  background-color: ${({ isOn, theme: { colors } }) =>
-    isOn ? colors.black : colors.bgGray400};
+  background-color: ${({ $isOn, theme: { colors } }) =>
+    $isOn ? colors.black : colors.bgGray400};
   position: relative;
   transition: background-color 0.2s;
   cursor: pointer;
@@ -38,7 +38,7 @@ const Label = styled.p`
   font: ${({ theme: { fonts } }) => fonts.displayM16};
 `;
 
-const SwitchSlider = styled.div<{ isOn: boolean }>`
+const SwitchSlider = styled.div<{ $isOn: boolean }>`
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -46,6 +46,6 @@ const SwitchSlider = styled.div<{ isOn: boolean }>`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: ${(props) => (props.isOn ? 'calc(100% - 20px)' : '4px')};
+  left: ${(props) => (props.$isOn ? 'calc(100% - 20px)' : '4px')};
   transition: left 0.3s;
 `;
