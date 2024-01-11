@@ -91,23 +91,28 @@ export const useRegister = () => {
 };
 
 export const useRefreshToken = () => {
-  const refreshToken = useRecoilValue(refreshTokenState);
-  const userInfo = useRecoilValue(userInfoState);
-
   const setAccessToken = useSetRecoilState(accessTokenState);
   const setRefreshToken = useSetRecoilState(refreshTokenState);
   const setUserInfo = useSetRecoilState(userInfoState);
 
+  const refreshToken = useRecoilValue(refreshTokenState);
+  const userInfo = useRecoilValue(userInfoState);
+
   const refreshTokenMutation = useMutation(
     () => {
+      // 리프레쉬 토큰 만료될것같으면 clearInfo?
       if (!refreshToken) throw new Error('No refresh token available');
       return fetchRefresh(refreshToken);
     },
     {
       onSuccess: (data) => {
+        console.log('refreshTokenMutation onSuccess', data);
+
         const { accessToken, refreshToken } = data;
         const payload = jwtDecode(accessToken);
-
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('userInfo', JSON.stringify(payload));
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
         setUserInfo(JSON.stringify(payload));
@@ -120,7 +125,7 @@ export const useRefreshToken = () => {
     }
   );
 
-  const INTERVAL_TIME = 30 * 1000;
+  const INTERVAL_TIME = 10 * 1000;
   // TODO 30초마다 체크, 만료 시간 연장되면 더 늘리기
   useEffect(() => {
     const checkInterval = setInterval(() => {
@@ -138,7 +143,7 @@ export const useRefreshToken = () => {
 export const checkTokenExpiry = (userInfo: UserInfoType) => {
   const { exp } = userInfo;
   const now = Date.now() / 1000;
-  const BEFORE_EXPIRY = 60;
+  const BEFORE_EXPIRY = 100;
   // exp: 만료 시간
   // 만료 1분 전인지 체크
   // TODO 만료 시간 연장되면 더 늘리기
