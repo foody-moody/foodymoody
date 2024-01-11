@@ -33,3 +33,15 @@ type NotificationType =
   | 'MEMBER_MENTIONED_EVENT'
   // 팔로우
   | 'MEMBER_FOLLOWED_EVENT';
+
+// 알림 설정
+type NotiSettingKeys =
+  | 'allNotification'
+  | 'feedComment'
+  | 'collectionComment'
+  | 'feedLike'
+  | 'collectionLike'
+  | 'commentLike'
+  | 'follow';
+
+type NotiSettingType = Record<NotiSettingKeys, boolean>;
