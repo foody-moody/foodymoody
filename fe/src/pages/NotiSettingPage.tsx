@@ -1,40 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import {
+  useNotificationSettings,
+  useUpdateAllNotificationSettings,
+  useUpdateNotificationSettings,
+} from 'service/queries/notification';
 import { styled } from 'styled-components';
 import { Switch } from 'components/common/switch/Switch';
 
-// 임시 데이터 지울꺼임
-const SETTING_EX = {
-  allNotification: false, // 전체 댓글
-  feedComment: false, // 파드 댓글
-  collectionComment: true, // 콜렉션 댓글
-  feedLike: true, // 피드 좋아요
-  collectionLike: false, // 컬랙션 좋아요
-  commentLike: false, // 댓글 좋아요
-  follow: true, // 팔로우 알림
+const DEFAULT_SETTING: NotiSettingType = {
+  allNotification: false,
+  feedComment: false,
+  collectionComment: false,
+  feedLike: false,
+  collectionLike: false,
+  commentLike: false,
+  follow: false,
 };
-
-type NotiSettingType = {
-  allNotification: boolean;
-  feedComment: boolean;
-  collectionComment: boolean;
-  feedLike: boolean;
-  collectionLike: boolean;
-  commentLike: boolean;
-  follow: boolean;
-  // 나중에 멘션 알림 타입 추가해야함
-};
-
-/* TODO. API 수정되면 연동하기 */
 
 export const NotiSettingPage = () => {
-  const [settings, setSettings] = useState(SETTING_EX);
+  const { data: settingData } = useNotificationSettings();
+  const { mutate } = useUpdateNotificationSettings();
+  const [settings, setSettings] = useState(DEFAULT_SETTING);
+  const { mutate: updateAll } = useUpdateAllNotificationSettings();
 
-  // 나중에 수정할겡요
+  useEffect(() => {
+    if (settingData) {
+      setSettings(settingData);
+    }
+  }, [settingData]);
+
   const handleToggle = (setting: keyof NotiSettingType) => {
-    const updatedSettings = { ...settings, [setting]: !settings[setting] };
-    setSettings(updatedSettings);
-
-    // 알림 변경 관련 요청
+    if (setting === 'allNotification') {
+      const allNotiState = { allow: !settings['allNotification'] };
+      updateAll(allNotiState);
+    } else {
+      const updatedSettings = { ...settings, [setting]: !settings[setting] };
+      mutate(updatedSettings);
+    }
   };
 
   return (
@@ -44,7 +46,7 @@ export const NotiSettingPage = () => {
         <Switch
           isOn={settings.allNotification}
           onClick={() => handleToggle('allNotification')}
-          label="전체 알림 해제"
+          label="전체 알림"
         />
       </Section>
 
