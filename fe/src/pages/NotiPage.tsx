@@ -1,5 +1,9 @@
 import { Suspense } from 'react';
 import { useLocation } from 'react-router-dom';
+import {
+  useDeleteReadNotification,
+  useReadAllNotification,
+} from 'service/queries/notification';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { Button } from 'components/common/button/Button';
@@ -12,13 +16,34 @@ export const NotiPage = () => {
   const location = useLocation();
   const background = location.state && location.state.background;
 
+  const { mutate: readAllNotifications } = useReadAllNotification();
+  const { mutate: deleteReadNotifications } = useDeleteReadNotification();
+
+  const handleReadAllClick = () => {
+    readAllNotifications();
+  };
+
+  const handleDeleteReadClick = () => {
+    deleteReadNotifications();
+  };
+
   return (
     <Wrapper>
       <Buttons>
-        <Button size="s" backgroundColor="white" shadow>
+        <Button
+          size="s"
+          backgroundColor="white"
+          shadow
+          onClick={handleReadAllClick}
+        >
           모든 알림 읽기
         </Button>
-        <Button size="s" backgroundColor="white" shadow>
+        <Button
+          size="s"
+          backgroundColor="white"
+          shadow
+          onClick={handleDeleteReadClick}
+        >
           읽은 알림 삭제
         </Button>
       </Buttons>

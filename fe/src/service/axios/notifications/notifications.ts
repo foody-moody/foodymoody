@@ -20,7 +20,16 @@ export const readNotification = async (id: string) => {
 };
 
 // 수정되면 추가
-// export const readAllNotifications = async (id: string) => {
-//   const { data } = await privateApi.get(END_POINT.notifications(id));
-//   return data;
-// };
+export const readAllNotifications = async () => {
+  const { data } = await privateApi.put(
+    END_POINT.notifications() + '/read-status'
+  );
+  return data;
+};
+
+export const deleteReadNotifications = async () => {
+  const { data } = await privateApi.delete(
+    END_POINT.notifications() + '/read-status'
+  );
+  return data;
+};

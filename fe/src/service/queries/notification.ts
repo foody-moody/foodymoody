@@ -6,7 +6,9 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import {
+  deleteReadNotifications,
   getNotifications,
+  readAllNotifications,
   readNotification,
 } from 'service/axios/notifications/notifications';
 import { QUERY_KEY } from 'service/constants/queryKey';
@@ -46,8 +48,36 @@ export const useReadNotification = () => {
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
       console.log(errorData);
+    },
+  });
+};
 
-      // errorData && toast.error(errorData.message);
+export const useReadAllNotification = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => readAllNotifications(),
+    onSuccess: () => {
+      queryClient.invalidateQueries([QUERY_KEY.notifications]);
+    },
+    onError: (error: AxiosError<CustomErrorResponse>) => {
+      const errorData = error?.response?.data;
+      console.log(errorData);
+    },
+  });
+};
+
+export const useDeleteReadNotification = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => deleteReadNotifications(),
+    onSuccess: () => {
+      queryClient.invalidateQueries([QUERY_KEY.notifications]);
+    },
+    onError: (error: AxiosError<CustomErrorResponse>) => {
+      const errorData = error?.response?.data;
+      console.log(errorData);
     },
   });
 };
