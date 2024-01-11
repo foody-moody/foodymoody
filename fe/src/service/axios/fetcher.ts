@@ -1,13 +1,5 @@
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
-import {
-  clearLoginInfo,
-  getRefreshToken,
-  setAccessToken,
-  setRefreshToken,
-  setUserInfo,
-} from 'utils/localStorage';
-import { fetchRefresh } from './auth/login';
+import { getAccessToken } from 'utils/localStorage';
 
 const { MODE, VITE_API_URL } = import.meta.env;
 
@@ -37,7 +29,7 @@ export const multiFormApi = axios.create({
 
 privateApi.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('accessToken');
+    const token = getAccessToken();
 
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
@@ -55,29 +47,6 @@ privateApi.interceptors.response.use(
   async (error) => {
     console.log(error.response, '페쳐 error.response');
 
-    if (error.response.status === 401) {
-      const token = getRefreshToken();
-      if (!token) {
-        clearLoginInfo();
-        return;
-      }
-
-      try {
-        const { accessToken, refreshToken } = await fetchRefresh(token);
-        const payload = jwtDecode(accessToken);
-        // TODO 백에서 refresh에 변동이 있을수있음
-        setAccessToken(accessToken);
-        setRefreshToken(refreshToken);
-        setUserInfo(JSON.stringify(payload));
-
-        error.config.headers['Authorization'] = `Bearer ${accessToken}`;
-        return privateApi.request(error.config);
-      } catch (error) {
-        clearLoginInfo();
-        return;
-      }
-    }
-    // 에러처리
     return Promise.reject(error);
   }
 );

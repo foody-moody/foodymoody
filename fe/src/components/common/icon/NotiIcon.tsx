@@ -1,18 +1,10 @@
 import { EventSourcePolyfill } from 'event-source-polyfill';
-import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
-import { fetchRefresh } from 'service/axios/auth/login';
+import { useRecoilValue } from 'recoil';
+import { accessTokenState } from 'recoil/localStorage/atom';
 import { BASE_API_URL } from 'service/axios/fetcher';
 import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
-import {
-  clearLoginInfo,
-  getAccessToken,
-  getRefreshToken,
-  setAccessToken,
-  setRefreshToken,
-  setUserInfo,
-} from 'utils/localStorage';
 import { NotificationIcon } from './icons';
 
 type Props = {
@@ -21,21 +13,15 @@ type Props = {
 
 export const NotiIcon: React.FC<Props> = ({ onClick }) => {
   const [notiCount, setNotiCount] = useState(0);
-  const [authToken, setAuthToken] = useState<string | null>(null);
-
   const { isLogin } = useAuthState();
+  const accessToken = useRecoilValue(accessTokenState);
+
   useEffect(() => {
     if (isLogin) {
-      const currentToken = getAccessToken();
-
-      if (currentToken !== authToken) {
-        setAuthToken(currentToken);
-      }
-
       const eventSource = new EventSourcePolyfill(`${BASE_API_URL}/sse`, {
         headers: {
           'Content-Type': 'text/event-stream',
-          Authorization: `Bearer ${currentToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
@@ -48,26 +34,10 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
         }
       });
 
-      eventSource.onerror = async () => {
+      eventSource.onerror = (err) => {
         if (eventSource.readyState === EventSource.CLOSED) {
-          const token = getRefreshToken();
-          if (!token) {
-            clearLoginInfo();
-            return;
-          }
-          try {
-            const { accessToken, refreshToken } = await fetchRefresh(token);
-            const payload = jwtDecode(accessToken);
-            // TODO 백에서 refresh에 변동이 있을수있음
-            setAccessToken(accessToken);
-            setRefreshToken(refreshToken);
-            setUserInfo(JSON.stringify(payload));
-            setAuthToken(accessToken);
-            return;
-          } catch (error) {
-            clearLoginInfo();
-            return;
-          }
+          console.log(err, 'SSE closed');
+          // 오류 날릴지 여부
         }
       };
 
@@ -75,7 +45,7 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
         eventSource.close();
       };
     }
-  }, [isLogin, notiCount, authToken]);
+  }, [isLogin, accessToken]);
 
   return (
     <Wrapper>

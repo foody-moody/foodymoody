@@ -12,4 +12,5 @@ export const QUERY_KEY = {
   followers: 'followers',
   collections: 'collections',
   notificationSetting: 'notificationSettings',
+  refresh: 'refresh',
 };
