@@ -7,9 +7,12 @@ import {
 import { AxiosError } from 'axios';
 import {
   deleteReadNotifications,
+  getNotificationSettings,
   getNotifications,
   readAllNotifications,
   readNotification,
+  updateAllNotificationSettings,
+  updateNotificationSettings,
 } from 'service/axios/notifications/notifications';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
@@ -28,8 +31,6 @@ export const useAllNotifications = () => {
   const notifications =
     query.data?.pages?.flatMap((page) => page.content) || [];
 
-  // console.log(notifications);
-
   return {
     ...query,
     notifications,
@@ -37,7 +38,6 @@ export const useAllNotifications = () => {
 };
 
 export const useReadNotification = () => {
-  // const toast = useToast();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -80,4 +80,67 @@ export const useDeleteReadNotification = () => {
       console.log(errorData);
     },
   });
+};
+
+// 알림 설정
+
+export const useNotificationSettings = () => {
+  return useQuery([QUERY_KEY.notificationSetting], getNotificationSettings);
+};
+
+type MutationFn<T> = (settings: T) => Promise<NotiSettingType>;
+type UpdateFn<T> = (
+  previousSettings: NotiSettingType,
+  newSettings: T
+) => NotiSettingType;
+
+const useCommonUpdateNotificationSettings = <T>(
+  mutationFn: MutationFn<T>,
+  updateFn: UpdateFn<T>
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn,
+    onMutate: async (newSettings: T) => {
+      const previousSettings = queryClient.getQueryData([
+        QUERY_KEY.notificationSetting,
+      ]) as NotiSettingType;
+
+      queryClient.setQueryData(
+        [QUERY_KEY.notificationSetting],
+        updateFn(previousSettings, newSettings)
+      );
+
+      return { previousSettings };
+    },
+    onError: (error, _, context) => {
+      if (context?.previousSettings) {
+        queryClient.setQueryData(
+          [QUERY_KEY.notificationSetting],
+          context.previousSettings
+        );
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries([QUERY_KEY.notificationSetting]);
+    },
+  });
+};
+
+export const useUpdateNotificationSettings = () => {
+  return useCommonUpdateNotificationSettings<NotiSettingType>(
+    updateNotificationSettings,
+    (previousSettings, newSettings) => ({ ...previousSettings, ...newSettings })
+  );
+};
+
+export const useUpdateAllNotificationSettings = () => {
+  return useCommonUpdateNotificationSettings<{ allow: boolean }>(
+    updateAllNotificationSettings,
+    (previousSettings, allNotiState) => ({
+      ...previousSettings,
+      allNotification: allNotiState.allow,
+    })
+  );
 };
