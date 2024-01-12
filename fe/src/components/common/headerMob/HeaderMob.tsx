@@ -8,9 +8,10 @@ import { GearIcon, LogoLarge } from '../icon/icons';
 import { PATH } from 'constants/path';
 
 export const HeaderMob: React.FC = () => {
-  const { navigateToHome, navigateToProfileSetting } = usePageNavigator();
+  const { navigateToHome, navigateToProfileSetting, navigateToNoti } =
+    usePageNavigator();
   const currentLocation = useLocation();
-  const allowedPaths = [PATH.PROFILE, PATH.PASSWORD, PATH.HOME];
+  const allowedPaths = [PATH.PROFILE, PATH.PASSWORD, PATH.HOME, PATH.NOTI];
   const accessToSetting = allowedPaths.includes(currentLocation.pathname);
 
   return (
@@ -18,7 +19,7 @@ export const HeaderMob: React.FC = () => {
       <FlexRowBox>
         <LogoLarge onClick={navigateToHome} />
         <ContentRight>
-          <NotiIcon />
+          <NotiIcon onClick={navigateToNoti} />
           {accessToSetting && <GearIcon onClick={navigateToProfileSetting} />}
         </ContentRight>
       </FlexRowBox>
