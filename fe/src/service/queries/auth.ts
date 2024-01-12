@@ -36,7 +36,9 @@ export const useLogin = () => {
     onSuccess: (data) => {
       const { accessToken, refreshToken } = data;
       const payload = jwtDecode(accessToken);
-
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('userInfo', JSON.stringify(payload));
       setAccessToken(accessToken);
       setRefreshToken(refreshToken);
       setUserInfo(JSON.stringify(payload));
