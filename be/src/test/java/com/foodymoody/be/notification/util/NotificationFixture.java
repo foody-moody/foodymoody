@@ -1,6 +1,7 @@
 package com.foodymoody.be.notification.util;
 
 import com.foodymoody.be.common.event.NotificationType;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
@@ -31,7 +32,8 @@ public class NotificationFixture {
     }
 
     public static FeedNotification notification(NotificationId id) {
-        return new FeedNotification(id, getFromMemberId(), getToMemberId(), NOTIFICATION_MESSAGE, getFeedId(),
+        return new FeedNotification(id, getFromMemberId(), getToMemberId(), new Content(NOTIFICATION_MESSAGE),
+                                    getFeedId(),
                                     COMMENT_ID, NotificationType.FEED_COMMENT_ADDED_EVENT, false, false,
                                     CREATE_AT, UPDATE_AT
         );

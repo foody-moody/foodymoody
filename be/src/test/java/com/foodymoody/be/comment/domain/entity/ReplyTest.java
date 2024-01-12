@@ -15,8 +15,8 @@ class ReplyTest {
     void if_id_is_same_then_reply_is_same() {
         // given
         ReplyId replyId = IdFactory.createReplyId();
-        Reply reply = new Reply(replyId, CommentFixture.CONTENT, false, null, null, null);
-        Reply sameIdReply = new Reply(replyId, CommentFixture.NEW_CONTENT, false, null, null, null);
+        Reply reply = new Reply(replyId, CommentFixture.content(), false, null, null, null);
+        Reply sameIdReply = new Reply(replyId, CommentFixture.content(), false, null, null, null);
 
         // when ,then
         assertThat(reply).isEqualTo(sameIdReply);

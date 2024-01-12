@@ -1,6 +1,7 @@
 package com.foodymoody.be.comment.application;
 
-import com.foodymoody.be.comment.application.dto.request.RegisterCommentRequest;
+import com.foodymoody.be.comment.application.dto.data.RegisterCommentData;
+import com.foodymoody.be.comment.application.dto.data.RegisterReplyData;
 import com.foodymoody.be.comment.application.dto.response.MemberCommentSummary;
 import com.foodymoody.be.comment.application.dto.response.MemberCommentSummaryResponse;
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummary;
@@ -9,12 +10,8 @@ import com.foodymoody.be.comment.application.dto.response.MemberSummaryResponse;
 import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.comment.domain.entity.Reply;
 import com.foodymoody.be.common.util.ids.CommentId;
-import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.ReplyId;
 import java.time.LocalDateTime;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +19,8 @@ import org.springframework.stereotype.Component;
 public class CommentMapper {
 
     public static Slice<MemberCommentSummaryResponse> mapToSummaryResponse(
-            Slice<MemberCommentSummary> withMemberAllByFeedId) {
+            Slice<MemberCommentSummary> withMemberAllByFeedId
+    ) {
         return withMemberAllByFeedId.map(
                 summary -> new MemberCommentSummaryResponse(
                         summary.getId(),
@@ -38,12 +36,17 @@ public class CommentMapper {
         );
     }
 
-    public Comment toEntity(RegisterCommentRequest request, FeedId feedId, LocalDateTime createdAt, CommentId commentId,
-            MemberId memberId) {
-        return new Comment(commentId, request.getContent(), feedId, false, memberId, createdAt);
+    public Comment toEntity(
+            RegisterCommentData data,
+            CommentId commentId,
+            LocalDateTime createdAt
+    ) {
+        return new Comment(commentId, data.getContent(), data.getFeedId(), false, data.getMemberId(), createdAt);
     }
 
-    public Reply toReply(ReplyId replyId, LocalDateTime now, MemberId memberId, @NotNull @NotBlank String content) {
+    public Reply toReply(ReplyId replyId, RegisterReplyData data, LocalDateTime now) {
+        var content = data.getContent();
+        var memberId = data.getMemberId();
         return new Reply(replyId, content, false, memberId, now, now);
     }
 
@@ -55,7 +58,8 @@ public class CommentMapper {
                         summary.getCreatedAt(),
                         summary.getUpdatedAt(),
                         new MemberSummaryResponse(summary.getMemberId(), summary.getNickname(), summary.getImageUrl()),
-                        summary.getHeartCount(), summary.isHearted())
+                        summary.getHeartCount(), summary.isHearted()
+                )
         );
     }
 }

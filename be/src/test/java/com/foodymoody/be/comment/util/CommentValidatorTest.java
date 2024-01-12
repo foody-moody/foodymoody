@@ -1,92 +1,105 @@
 package com.foodymoody.be.comment.util;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.foodymoody.be.comment.domain.entity.CommentValidator;
-import com.foodymoody.be.common.exception.ContentIsEmptyException;
-import com.foodymoody.be.common.exception.ContentIsOver200Exception;
-import com.foodymoody.be.common.exception.ContentIsSpaceException;
 import com.foodymoody.be.common.exception.ContentNotExistsException;
 import com.foodymoody.be.common.exception.CreateTimeIsNullException;
 import com.foodymoody.be.common.exception.InvalidIdException;
+import com.foodymoody.be.common.util.Content;
+import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
+import java.time.LocalDateTime;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("댓글 유효성 검사 테스트")
 class CommentValidatorTest {
 
-    @Test
-    @DisplayName("댓글 내용이 없으면 댓글 내용 없음 예외가 발생한다.")
-    void when_content_is_null_then_throw_exception() {
-        // when,then
-        assertThatThrownBy(() -> CommentValidator.validateContent(null))
-                .isInstanceOf(ContentNotExistsException.class);
-    }
+    CommentId commentId;
+    Content content;
+    FeedId feedId;
+    MemberId memberId;
+    LocalDateTime createdAt;
 
-    @Test
-    @DisplayName("댓글 내용이 공백이면 댓글 내용 공백 예외가 발생한다.")
-    void when_content_is_empty_then_throw_exception() {
-        // when,then
-        assertThatThrownBy(() -> CommentValidator.validateContent(""))
-                .isInstanceOf(ContentIsEmptyException.class);
-    }
-
-    @Test
-    @DisplayName("댓글 내용이 space 뿐이면 댓글 내용 공백 예외가 발생한다.")
-    void when_content_is_space_then_throw_exception() {
-        // when,then
-        assertThatThrownBy(() -> CommentValidator.validateContent(" "))
-                .isInstanceOf(ContentIsSpaceException.class);
-    }
-
-    @Test
-    @DisplayName("댓글 내용이 200자를 초과하면 댓글 내용 200자 초과 예외가 발생한다.")
-    void when_content_is_over_200_then_throw_exception() {
-        String content = "a".repeat(201);
-        // when,then
-        assertThatThrownBy(() -> CommentValidator.validateContent(content))
-                .isInstanceOf(ContentIsOver200Exception.class);
-    }
-
-    @Test
-    @DisplayName("댓글 내용이 200자를 초과하지 않으면 댓글 내용 200자 초과 예외가 발생하지 않는다.")
-    void when_content_is_not_over_200_then_not_throw_exception() {
-        // when,then
-        assertThatCode(() -> CommentValidator.validateContent("a".repeat(200)))
-                .doesNotThrowAnyException();
-    }
-
-    @Test
-    @DisplayName("아이디가 null이면 아이디 예외가 발생한다.")
-    void when_id_is_null_then_throw_exception() {
-        // when,then
-        assertThatThrownBy(() -> CommentValidator.validateId(null))
-                .isInstanceOf(InvalidIdException.class);
-    }
-
-    @Test
-    @DisplayName("생성시간이 null이면 예외가 발생한다.")
-    void when_created_at_is_null_then_throw_exception() {
-        // when,then
-        assertThatThrownBy(() -> CommentValidator.validateCreateTime(null))
-                .isInstanceOf(CreateTimeIsNullException.class);
+    @BeforeEach
+    void setUp() {
+        commentId = CommentFixture.commentId();
+        content = CommentFixture.content();
+        memberId = CommentFixture.memberId();
+        createdAt = CommentFixture.createdAt();
+        feedId = CommentFixture.feedId();
     }
 
     @Test
     @DisplayName("피드 아이디가 null이면 예외가 발생한다.")
     void when_feed_id_is_null_then_throw_exception() {
-        // given
-        var commentId = CommentFixture.commentId();
-        var content = CommentFixture.content();
-
         // when,then
         assertThatThrownBy(() -> CommentValidator.validate(
                 commentId,
                 content,
                 null,
-                CommentFixture.CREATED_AT
+                memberId,
+                createdAt
+        ))
+                .isInstanceOf(InvalidIdException.class);
+    }
+
+    @Test
+    @DisplayName("댓글 내용이 null이면 예외가 발생한다.")
+    void when_content_is_null_then_throw_exception() {
+        // when,then
+        assertThatThrownBy(() -> CommentValidator.validate(
+                commentId,
+                null,
+                feedId,
+                memberId,
+                createdAt
         ))
                 .isInstanceOf(ContentNotExistsException.class);
+    }
+
+    @Test
+    @DisplayName("댓글 작성자 아이디가 null이면 예외가 발생한다.")
+    void when_member_id_is_null_then_throw_exception() {
+        // when,then
+        assertThatThrownBy(() -> CommentValidator.validate(
+                commentId,
+                content,
+                feedId,
+                null,
+                createdAt
+        ))
+                .isInstanceOf(InvalidIdException.class);
+    }
+
+    @Test
+    @DisplayName("댓글 작성 시간이 null이면 예외가 발생한다.")
+    void when_created_at_is_null_then_throw_exception() {
+        // when,then
+        assertThatThrownBy(() -> CommentValidator.validate(
+                commentId,
+                content,
+                feedId,
+                memberId,
+                null
+        ))
+                .isInstanceOf(CreateTimeIsNullException.class);
+    }
+
+    @Test
+    @DisplayName("댓글 아이디가 null이면 예외가 발생한다.")
+    void when_comment_id_is_null_then_throw_exception() {
+        // when,then
+        assertThatThrownBy(() -> CommentValidator.validate(
+                null,
+                content,
+                feedId,
+                memberId,
+                createdAt
+        ))
+                .isInstanceOf(InvalidIdException.class);
     }
 }

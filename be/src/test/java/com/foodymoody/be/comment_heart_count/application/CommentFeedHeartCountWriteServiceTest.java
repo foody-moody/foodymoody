@@ -63,7 +63,7 @@ class CommentFeedHeartCountWriteServiceTest {
         // then
         Optional<CommentHeartCount> heartCount = commentHeartCountJpaRepository.findByCommentId(commentId);
         assertThat(heartCount).isPresent();
-        assertThat(heartCount.get().getCount()).isEqualTo(101L);
+        assertThat(heartCount.get()).hasFieldOrPropertyWithValue("count", 101L);
     }
 
     @DisplayName("댓글 하트 카운트를 100번 비동기로 증가시키면 100번 증가한다.")
@@ -91,6 +91,6 @@ class CommentFeedHeartCountWriteServiceTest {
         // then
         Optional<CommentHeartCount> heartCount = commentHeartCountJpaRepository.findByCommentId(commentId);
         assertThat(heartCount).isPresent();
-        assertThat(heartCount.get().getCount()).isZero();
+        assertThat(heartCount.get()).hasFieldOrPropertyWithValue("count", 0L);
     }
 }

@@ -2,72 +2,62 @@ package com.foodymoody.be.comment.domain.entity;
 
 import static com.foodymoody.be.common.util.Constants.UTILITY_CLASS;
 
-import com.foodymoody.be.common.exception.ContentIsEmptyException;
-import com.foodymoody.be.common.exception.ContentIsOver200Exception;
-import com.foodymoody.be.common.exception.ContentIsSpaceException;
 import com.foodymoody.be.common.exception.ContentNotExistsException;
 import com.foodymoody.be.common.exception.CreateTimeIsNullException;
 import com.foodymoody.be.common.exception.InvalidIdException;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
 
 public class CommentValidator {
 
-    public static final int COUNT_MAX_SIZE = 200;
 
     private CommentValidator() {
-        throw new IllegalStateException(UTILITY_CLASS);
+        throw new AssertionError(UTILITY_CLASS);
     }
 
-    public static boolean isOver200(String content) {
-        return content.length() > COUNT_MAX_SIZE;
-    }
-
-    public static boolean isBlank(String content) {
-        return content.isBlank();
-    }
-
-    public static boolean isEmpty(String content) {
-        return content.isEmpty();
-    }
-
-    public static boolean isNull(Object object) {
-        return object == null;
-    }
-
-    public static void validate(CommentId id, String content, FeedId feedId, LocalDateTime createdAt) {
+    public static void validate(
+            CommentId id,
+            Content content,
+            FeedId feedId,
+            MemberId memberId,
+            LocalDateTime createdAt
+    ) {
         validateId(id);
         validateContent(content);
-        if (isNull(feedId)) {
-            throw new ContentNotExistsException();
-        }
-        validateCreateTime(createdAt);
+        validateFeedId(feedId);
+        validateMemberId(memberId);
+        validateCreatedAt(createdAt);
     }
 
-    public static void validateContent(String content) {
-        if (isNull(content)) {
-            throw new ContentNotExistsException();
-        }
-        if (isEmpty(content)) {
-            throw new ContentIsEmptyException();
-        }
-        if (isBlank(content)) {
-            throw new ContentIsSpaceException();
-        }
-        if (isOver200(content)) {
-            throw new ContentIsOver200Exception();
-        }
-    }
-
-    public static void validateId(CommentId id) {
-        if (isNull(id) || isNull(id.getValue())) {
+    public static void validateMemberId(MemberId id) {
+        if (id == null) {
             throw new InvalidIdException();
         }
     }
 
-    public static void validateCreateTime(LocalDateTime createdAt) {
-        if (isNull(createdAt)) {
+    public static void validateId(CommentId id) {
+        if (id == null) {
+            throw new InvalidIdException();
+        }
+    }
+
+    public static void validateContent(Content content) {
+        if (content == null) {
+            throw new ContentNotExistsException();
+        }
+    }
+
+    public static void validateFeedId(FeedId feedId) {
+        if (feedId == null) {
+            throw new InvalidIdException();
+        }
+    }
+
+    public static void validateCreatedAt(LocalDateTime createdAt) {
+        if (createdAt == null) {
             throw new CreateTimeIsNullException();
         }
     }

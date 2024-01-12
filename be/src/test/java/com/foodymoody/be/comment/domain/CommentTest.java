@@ -30,11 +30,12 @@ class CommentTest {
         LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
 
         // when
-        comment.edit(CommentFixture.memberId(), CommentFixture.NEW_CONTENT, updatedAt);
+        comment.edit(CommentFixture.memberId(), CommentFixture.newContent(), updatedAt);
 
         // then
         assertAll(
-                () -> assertThat(comment.getContent()).isEqualTo(CommentFixture.NEW_CONTENT),
+                () -> assertThat(comment.getContent()).usingRecursiveComparison()
+                        .isEqualTo(CommentFixture.newContent()),
                 () -> assertThat(comment.getUpdatedAt()).isEqualTo(updatedAt),
                 () -> assertThat(comment.getUpdatedAt()).isNotEqualTo(comment.getCreatedAt())
         );
@@ -47,10 +48,11 @@ class CommentTest {
         Comment comment = CommentFixture.deletedComment();
         LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
         MemberId memberId = CommentFixture.memberId();
+        var content = CommentFixture.newContent();
 
         // when
         assertThatThrownBy(
-                () -> comment.edit(memberId, CommentFixture.NEW_CONTENT, updatedAt))
+                () -> comment.edit(memberId, content, updatedAt))
                 .isInstanceOf(CommentDeletedException.class)
                 .message().isEqualTo(ErrorMessage.COMMENT_DELETED.getMessage());
     }
@@ -62,10 +64,11 @@ class CommentTest {
         Comment comment = CommentFixture.comment();
         LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
         MemberId memberId = CommentFixture.notExistsMemberId();
+        var content = CommentFixture.newContent();
 
         // when
         assertThatThrownBy(
-                () -> comment.edit(memberId, CommentFixture.NEW_CONTENT, updatedAt))
+                () -> comment.edit(memberId, content, updatedAt))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

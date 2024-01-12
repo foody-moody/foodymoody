@@ -1,6 +1,7 @@
 package com.foodymoody.be.notification.domain;
 
 import com.foodymoody.be.common.event.NotificationType;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -20,27 +21,38 @@ import lombok.RequiredArgsConstructor;
 @Entity
 public class FeedNotification {
 
+    @Getter
     @EmbeddedId
     private NotificationId id;
     @Getter
     @AttributeOverride(name = "value", column = @Column(name = "from_member_id"))
     private MemberId fromMemberId;
+    @Getter
     @AttributeOverride(name = "value", column = @Column(name = "to_member_id"))
     private MemberId toMemberId;
-    private String message;
+    @Getter
+    @AttributeOverride(name = "value", column = @Column(name = "message"))
+    private Content message;
+    @Getter
     @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
     private FeedId feedId;
+    @Getter
     @AttributeOverride(name = "value", column = @Column(name = "comment_id"))
     private CommentId commentId;
+    @Getter
     @Enumerated(EnumType.STRING)
     private NotificationType type;
+    @Getter
     private boolean isRead;
+    @Getter
     private boolean isDeleted;
+    @Getter
     private LocalDateTime createdAt;
+    @Getter
     private LocalDateTime updatedAt;
 
     public FeedNotification(
-            NotificationId id, MemberId fromMemberId, MemberId toMemberId, String message, FeedId feedId,
+            NotificationId id, MemberId fromMemberId, MemberId toMemberId, Content message, FeedId feedId,
             CommentId commentId, NotificationType type, boolean isRead, boolean isDeleted, LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
@@ -70,48 +82,8 @@ public class FeedNotification {
     }
 
     public void checkMemberId(MemberId memberId) {
-        if (!toMemberId.isSame(memberId)) {
+        if (!this.toMemberId.equals(memberId)) {
             throw new IllegalArgumentException("해당 알림을 수정할 수 없습니다.");
         }
-    }
-
-    public MemberId getToMemberId() {
-        return toMemberId;
-    }
-
-    public NotificationType getType() {
-        return type;
-    }
-
-    public FeedId getFeedId() {
-        return feedId;
-    }
-
-    public CommentId getCommentId() {
-        return commentId;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public NotificationId getId() {
-        return id;
-    }
-
-    public boolean isRead() {
-        return isRead;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
     }
 }

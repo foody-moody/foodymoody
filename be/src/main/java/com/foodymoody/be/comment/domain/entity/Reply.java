@@ -1,5 +1,6 @@
 package com.foodymoody.be.comment.domain.entity;
 
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.ReplyId;
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ public class Reply {
     @EmbeddedId
     private ReplyId id;
     @Getter
-    private String content;
+    private Content content;
     @Getter
     private boolean deleted;
     @Getter
@@ -30,8 +31,10 @@ public class Reply {
     @Getter
     private LocalDateTime updatedAt;
 
-    public Reply(ReplyId replyId, String content, boolean deleted, MemberId memberId,
-            LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Reply(
+            ReplyId replyId, Content content, boolean deleted, MemberId memberId,
+            LocalDateTime createdAt, LocalDateTime updatedAt
+    ) {
         this.id = replyId;
         this.content = content;
         this.deleted = deleted;
