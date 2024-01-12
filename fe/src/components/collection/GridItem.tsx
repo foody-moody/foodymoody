@@ -1,76 +1,102 @@
+import { forwardRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { media } from 'styles/mediaQuery';
 import { HeartSmallFill } from 'components/common/icon/icons';
 import { UserImage } from 'components/common/userImage/UserImage';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
+import { PATH } from 'constants/path';
 
 type Props = {
-  collections: any;
+  collection: CollectionItem;
 };
 
-export const GridItem: React.FC<Props> = ({ collections }) => {
-  return (
-    <Wrapper>
-      {collections.map((collection) => (
-        <Grid key={collection.id}>
+export const GridItem = forwardRef<HTMLLIElement, Props>(
+  ({ collection }, ref) => {
+    const navigate = useNavigate();
+
+    const handleNavigateToDetail = (id: string) => {
+      navigate(PATH.COLLECTION + '/' + id);
+    };
+
+    const handleNavigateToProfile = (id: string) => {
+      navigate(PATH.PROFILE + '/' + id);
+    };
+
+    return (
+      <Wrapper
+        ref={ref}
+        onClick={() => {
+          handleNavigateToDetail(collection.id);
+        }}
+      >
+        <ImageContainer>
           <img
-            src={collection.imageUrl}
-            alt={collection.imageUrl}
-            onClick={() => {}}
+            src={
+              !collection.thumbnailUrl || collection.feedCount === 0
+                ? generateDefaultUserImage(collection.id)
+                : collection.thumbnailUrl
+            }
+            alt="thumbnail"
           />
           <GridFilter className="grid-filter" />
-          <GridContent>
-            <GridHeader>
-              <FeedCounter>{7}</FeedCounter>
-            </GridHeader>
-            <GridInfo>
-              <Title>{'겁나 맛있었던 곳10선'}</Title>
-              <InfoBottom>
-                <InfoLeft>
-                  <UserImage imageUrl={generateDefaultUserImage('얌')} />
-                  <UserName>{'산타'}</UserName>
-                </InfoLeft>
-                <InfoRight>
-                  <HeartSmallFill />
-                  <LikeCount>{11}</LikeCount>
-                </InfoRight>
-              </InfoBottom>
-            </GridInfo>
-          </GridContent>
-        </Grid>
-      ))}
-    </Wrapper>
-  );
-};
-
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-
-  ${media.xs} {
-    grid-template-columns: repeat(2, 1fr);
+        </ImageContainer>
+        <GridContent>
+          <GridHeader>
+            <FeedCounter>{collection.feedCount}</FeedCounter>
+          </GridHeader>
+          <GridInfo>
+            <Title>{collection.title}</Title>
+            <InfoBottom>
+              <InfoLeft
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNavigateToProfile(collection.author.id);
+                }}
+              >
+                <UserImage
+                  imageUrl={
+                    collection.author.profileImageUrl ||
+                    generateDefaultUserImage('얌')
+                  }
+                />
+                <UserName>{collection.author.name}</UserName>
+              </InfoLeft>
+              <InfoRight>
+                <HeartSmallFill />
+                <LikeCount>{collection.likeCount}</LikeCount>
+              </InfoRight>
+            </InfoBottom>
+          </GridInfo>
+        </GridContent>
+      </Wrapper>
+    );
   }
-`;
+);
 
-const Grid = styled.div`
+const Wrapper = styled.li`
   position: relative;
   display: flex;
   flex-direction: column;
   cursor: pointer;
   width: 100%;
   height: 100%;
-  /* border: 1px solid ${({ theme: { colors } }) => colors.black}; */
 
   img {
+    aspect-ratio: 1/1;
     width: 100%;
     height: 100%;
     cursor: pointer;
+    vertical-align: top;
   }
 
   &:hover .grid-filter::after {
     opacity: 0;
   }
+`;
+
+const ImageContainer = styled.div`
+  width: 100%;
+  height: 100%;
 `;
 
 const GridFilter = styled.div`

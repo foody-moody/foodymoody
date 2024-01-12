@@ -83,7 +83,7 @@ export const RegisterForm: React.FC = () => {
               무디를 선택해주세요!
             </Option>
             {tastes &&
-              tastes?.map((taste: Mood) => (
+              tastes?.map((taste: Badge) => (
                 <Option key={taste.id} value={taste.id}>
                   {taste.name}
                 </Option>

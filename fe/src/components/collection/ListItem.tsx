@@ -1,73 +1,173 @@
+import { forwardRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { TextButton } from 'components/common/button/TextButton';
+import { StoreMoodBadge } from 'components/common/badge/StoreMoodBadge';
+import { Dropdown } from 'components/common/dropdown/Dropdown';
+import { DropdownRow } from 'components/common/dropdown/DropdownRow';
 import {
   ChatDotsIcon,
   DotGhostIcon,
   HeartFillIcon,
 } from 'components/common/icon/icons';
 import { UserImage } from 'components/common/userImage/UserImage';
+import { useAuthState } from 'hooks/auth/useAuth';
+import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
+import { PATH } from 'constants/path';
 
 type Props = {
-  collections: any;
+  collection: CollectionItem;
 };
 
-export const ListItem: React.FC<Props> = ({ collections }) => {
-  return (
-    <Wrapper>
-      {collections.map((collection) => (
-        <List key={collection.id}>
-          <Thumbnail>
-            <FeedCounter>{7}</FeedCounter>
-            <img
-              src={collection.imageUrl}
-              alt={collection.imageUrl}
-              onClick={() => {}}
-            />
-          </Thumbnail>
-          <ListContent>
-            <ContentHeader>
-              <Title>{'겁나 맛있었던 곳 10선'}</Title>
-              <TextButton color="black">
-                <DotGhostIcon />
-              </TextButton>
-            </ContentHeader>
-            <ContentBody>
-              <ContentText>
-                {'맛있었던 곳 10선을 소개합니다 설명설명'}
-              </ContentText>
-              <BadgeWrapper>{/* 배지 영역입니다  */}</BadgeWrapper>
-            </ContentBody>
-            <ContentBottom>
-              <InfoLeft>
-                <UserImage imageUrl={generateDefaultUserImage('얌')} />
-                <ListUserName>{'산타'}</ListUserName>
-              </InfoLeft>
-              <InfoRight>
-                <IconBox>
-                  <HeartFillIcon />
-                  <ListLikeCount>{11}</ListLikeCount>
-                </IconBox>
-                <IconBox>
-                  <ChatDotsIcon />
-                  <ListLikeCount>{4}</ListLikeCount>
-                </IconBox>
-              </InfoRight>
-            </ContentBottom>
-          </ListContent>
-        </List>
-      ))}
-    </Wrapper>
-  );
-};
+export const ListItem = forwardRef<HTMLLIElement, Props>(
+  ({ collection }, ref) => {
+    const { author } = collection;
+    const { isLogin, userInfo } = useAuthState();
+    const navigate = useNavigate();
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
+    const handleNavigateToDetail = (id: string) => {
+      navigate(PATH.COLLECTION + '/' + id);
+    };
 
-const List = styled.div`
+    const handleNavigateToProfile = (id: string) => {
+      navigate(PATH.PROFILE + '/' + id);
+    };
+
+    const timeStamp = (createdAt: string, updatedAt: string) => {
+      if (createdAt === updatedAt) {
+        return formatTimeStamp(createdAt);
+      } else {
+        return `${formatTimeStamp(updatedAt)} 업데이트`;
+      }
+    };
+
+    const publicMenu = [
+      {
+        id: 1,
+        content: '신고하기',
+        onClick: () => {},
+      },
+
+      {
+        id: 2,
+        content: '팔로우',
+        onClick: () => {
+          navigate(`${PATH.PROFILE}/${author.id}`);
+        },
+      },
+    ];
+
+    const privateMenu = [
+      {
+        id: 1,
+        content: '수정하기',
+        onClick: () => {},
+      },
+      {
+        id: 2,
+        content: '삭제하기',
+        onClick: () => {
+          // feedId && deleteMutate(feedId);
+        },
+      },
+    ];
+
+    const menu =
+      isLogin && userInfo.id === author.id ? privateMenu : publicMenu;
+
+    return (
+      <Wrapper key={collection.id} ref={ref}>
+        <Thumbnail
+          onClick={() => {
+            handleNavigateToDetail(collection.id);
+          }}
+        >
+          <FeedCounter>{collection.feedCount}</FeedCounter>
+          <img
+            src={
+              !collection.thumbnailUrl || collection.feedCount === 0
+                ? generateDefaultUserImage(collection.id)
+                : collection.thumbnailUrl
+            }
+            alt="thumbnail"
+            onClick={() => {}}
+          />
+        </Thumbnail>
+        <ListContent>
+          <ContentHeader>
+            <TitleContainer
+              onClick={() => {
+                handleNavigateToDetail(collection.id);
+              }}
+            >
+              <Title>{collection.title}</Title>
+              <TimeStamp>
+                {timeStamp(collection.createdAt, collection.updatedAt)}
+              </TimeStamp>
+            </TitleContainer>
+            {/* <TextButton color="black">
+                  <DotGhostIcon />
+                </TextButton> */}
+            <Dropdown align="right" opener={<DotGhostIcon />}>
+              {/* <DropdownRow>
+                    <Share imageUrl={thumbnail} targetId={feedId} />
+                  </DropdownRow> */}
+              {menu.map((item) => (
+                <DropdownRow key={item.id} onClick={item.onClick}>
+                  {item.content}
+                </DropdownRow>
+              ))}
+            </Dropdown>
+          </ContentHeader>
+          <ContentBody
+            onClick={() => {
+              handleNavigateToDetail(collection.id);
+            }}
+          >
+            <ContentText>{collection.title}</ContentText>
+            {/* <BadgeWrapper>배지 영역입니다 </BadgeWrapper> */}
+            <BadgeWrapper>
+              {collection.storeMood.map((storeMood) => (
+                <StoreMoodBadge name={storeMood.name} key={storeMood.id} />
+              ))}
+            </BadgeWrapper>
+          </ContentBody>
+          <ContentBottom>
+            <InfoLeft
+              onClick={() => {
+                handleNavigateToProfile(collection.author.id);
+              }}
+            >
+              <UserImage
+                imageUrl={
+                  collection.author.profileImageUrl ||
+                  generateDefaultUserImage('얌')
+                }
+              />
+              <ListUserName>{collection.author.name}</ListUserName>
+            </InfoLeft>
+            <InfoRight>
+              <IconBox>
+                <HeartFillIcon />
+                <ListLikeCount>{collection.likeCount}</ListLikeCount>
+              </IconBox>
+              <IconBox>
+                <ChatDotsIcon
+                  onClick={() => {
+                    handleNavigateToDetail(collection.id);
+                  }}
+                />
+                <ListLikeCount>{collection.commentCount}</ListLikeCount>
+              </IconBox>
+            </InfoRight>
+          </ContentBottom>
+        </ListContent>
+      </Wrapper>
+    );
+  }
+);
+
+const Wrapper = styled.li`
   display: flex;
   width: 100%;
   height: 135px;
@@ -121,9 +221,19 @@ const ContentHeader = styled.div`
   align-items: center;
 `;
 
+const TitleContainer = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
 const Title = styled.div`
   font: ${({ theme: { fonts } }) => fonts.displayB14};
   color: ${({ theme: { colors } }) => colors.black};
+`;
+
+const TimeStamp = styled.p`
+  font: ${({ theme: { fonts } }) => fonts.displayM12};
+  color: ${({ theme: { colors } }) => colors.textSecondary};
 `;
 
 const ContentBody = styled.div`
@@ -144,10 +254,14 @@ const ContentText = styled.div`
 
 const BadgeWrapper = styled.div`
   display: flex;
-  height: 20px;
+  height: fit-content;
   gap: 4px;
-  width: 100%;
+  /* width: 100%; */
   border: 1px solid red;
+
+  /* display: flex;
+  gap: 8px;
+  margin-top: 16px; */
   /* 배지 영역입니다 */
 `;
 
@@ -156,6 +270,7 @@ const ContentBottom = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
 const InfoLeft = styled.div`
   display: flex;
   gap: 8px;
@@ -185,3 +300,9 @@ const IconBox = styled.div`
   gap: 2px;
   align-items: center;
 `;
+
+// const StoreMoodList = styled.div`
+//   display: flex;
+//   gap: 8px;
+//   margin-top: 16px;
+// `;

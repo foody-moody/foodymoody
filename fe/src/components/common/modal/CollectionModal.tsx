@@ -47,13 +47,15 @@ const DATA = [
 // ];
 
 export const CollectionModal: React.FC<CollectionModalProps> = ({
-  data,
+  // data,
   type = 'default',
 }) => {
-  const { openModal, closeModal } = useModal<'collection'>();
+  const {
+    //  openModal,
+    closeModal,
+  } = useModal<'collection'>();
   const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
   const [isFormToggle, setIsFormToggle] = useState(false);
-  // storeMood: selectedBadgeList.map((badge) => badge.id),
   const [checkedIds, setCheckedIds] = useState(
     DATA ? DATA.filter((item) => item.checked).map((item) => item.id) : []
   );
@@ -77,9 +79,10 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
     setIsFormToggle(!isFormToggle);
   };
 
-  const hand = () => {
-    console.log(checkedIds);
-  };
+  console.log(checkedIds);
+  // const hand = () => {
+  //   console.log(checkedIds);
+  // };
 
   return (
     <>

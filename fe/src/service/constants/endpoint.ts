@@ -4,7 +4,8 @@ export const END_POINT = {
   refresh: `/auth/token`, // 수정가능성
   tasteMood: `/members/taste-moods`,
   storeMood: `/feeds/store-moods`,
-  collection: (id?: string) => (id ? `/collections/${id}` : `/collections`),
+  collection: (id?: string) =>
+    id ? `/feed_collections/${id}` : `/feed_collections`,
   feedLike: (id: string) => `/feeds/${id}/likes`,
   commentLike: (id: string) => `/comments/${id}/likes`,
   replyLike: ({ commentId, replyId }: ReplyLike) =>
