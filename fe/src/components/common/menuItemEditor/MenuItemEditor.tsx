@@ -2,11 +2,13 @@ import { styled } from 'styled-components';
 import { useInput } from 'hooks/useInput';
 import { CloseSmallIcon } from '../icon/icons';
 import { Input } from '../input/Input';
+import { InputField } from '../input/InputField';
 import { StarRating } from '../starRating/StarRating';
 import { ImageBox } from './ImageBox';
 
 type Props = {
   menuItem: FeedImage; //feedimage로 바꿔야하는지 확인
+  onEditMenuImage: (id: string, image: ImageType) => void;
   onEditMenuName: (id: string, name: string) => void;
   onEditStarRating: (id: string, rate: number) => void;
   onRemove: (id: string) => void;
@@ -14,45 +16,47 @@ type Props = {
 
 export const MenuItemEditor: React.FC<Props> = ({
   menuItem,
+  onEditMenuImage,
   onEditMenuName,
   onEditStarRating,
   onRemove,
 }) => {
   const {
     id,
+    image,
     menu: { name, rating },
   } = menuItem;
 
   const { value, handleChange, helperText } = useInput({
     initialValue: name,
-    validator: (value) => value.trim().length > 0,
+    validator: (value: string) => value.trim().length > 0,
     helperText: '메뉴 이름을 입력해주세요',
   });
-
-  const handleUploadImage = () => {};
 
   return (
     <Wrapper>
       <LeftContent>
         <ImageBox
-          imageUrl={'https://picsum.photos/200'}
-          onClick={handleUploadImage}
+          menuId={id}
+          imageUrl={image.url}
+          onEditMenuImage={onEditMenuImage}
         />
         <ContentBody>
           <Content>
             <label htmlFor="menu">메뉴 이름</label>
-            <Input
-              id="menu"
-              variant="ghost"
-              helperText={helperText}
-              value={value}
-              onChangeValue={(value) => {
-                handleChange(value);
-              }}
-              onBlur={() => {
-                onEditMenuName(id, value);
-              }}
-            />
+            <Input variant="ghost" helperText={helperText}>
+              <Input.CenterContent>
+                <InputField
+                  value={value}
+                  onChangeValue={(value) => {
+                    handleChange(value);
+                  }}
+                  onBlur={() => {
+                    onEditMenuName(id, value);
+                  }}
+                />
+              </Input.CenterContent>
+            </Input>
           </Content>
           <Content>
             <label>메뉴 별점</label>

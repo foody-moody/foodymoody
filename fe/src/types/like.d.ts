@@ -1,3 +1,4 @@
-type LikeBody = {
-  feedId: string;
+type ReplyLike = {
+  commentId: string;
+  replyId: string;
 };

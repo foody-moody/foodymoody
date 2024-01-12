@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDeleteFeedLike, usePostFeedLike } from 'service/queries/like';
 // import { usePostLike } from 'service/queries/like';
 import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
@@ -7,6 +8,7 @@ import { ChatDotsIcon, HeartBgIcon, HeartFillIcon } from '../icon/icons';
 
 type Props = {
   feedId: string;
+  isLiked?: boolean;
   likeCount?: number;
   commentCount?: number;
   onClickCommentIcon?: () => void;
@@ -14,27 +16,22 @@ type Props = {
 
 export const FeedAction: React.FC<Props> = ({
   feedId,
+  isLiked,
   likeCount = 0,
   commentCount = 0,
   onClickCommentIcon,
 }) => {
+  const { id: param } = useParams() as { id: string };
   const { navigateToLogin } = usePageNavigator();
   const { isLogin } = useAuthState();
-  const [isLiked, setIsLiked] = useState(false);
-  // const { mutate: likeMutate } = usePostLike();
-  // TODO 로그인유무로 교체 const isLiked = isLogin ? feed.isLiked : false;
-  // feed: query로 받아온 feed데이터
+  const { mutate: likeMutate } = usePostFeedLike(param);
+  const { mutate: unLikeMutate } = useDeleteFeedLike(param);
+
   const LikeIcon = isLiked ? HeartFillIcon : HeartBgIcon;
 
   const handleSubmitLike = () => {
-    setIsLiked(!isLiked); // TODO 좋아요 연결시 삭제
-
     if (isLogin) {
-      const body = {
-        feedId: feedId,
-      };
-      console.log(body);
-      // likeMutate(body);
+      isLiked ? unLikeMutate(feedId) : likeMutate(feedId);
     } else {
       navigateToLogin();
     }

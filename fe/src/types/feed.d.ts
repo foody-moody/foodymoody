@@ -5,24 +5,24 @@ type MainFeed = {
   updatedAt: string;
   location: string;
   review: string;
-  storeMood: Mood[];
+  storeMood: Badge[];
   images: FeedImage[];
   likeCount: number;
-  isLiked: boolean;
+  liked: boolean;
   commentCount: number;
 };
 
 type FeedImage = {
   id: string;
-  imageUrl: string;
+  // imageId?: string;
+  // imageUrl?: string;
+  image: ImageType;
   menu: MenuTag;
 };
 
-type FeedMemberInfo = {
+type ImageType = {
   id: string;
-  nickname: string;
-  imageUrl: string;
-  tasteMood: Mood;
+  url: string;
 };
 
 type MenuTag = {
@@ -30,16 +30,35 @@ type MenuTag = {
   rating: number;
 };
 
+type FeedMemberInfo = {
+  id: string;
+  nickname: string;
+  profileImageUrl: string;
+  tasteMood: Badge;
+};
+
 type NewFeedBody = {
-  location: string;
+  location: string; //location으로 바껴야함
+  // location: Location;
   review: string;
   storeMood: string[];
   images: {
-    menu: MenuTag;
     imageId: string;
+    menu: MenuTag;
   }[];
 };
 /* TODO. 수정 예정 */
 type DetailFeedProps = {
   feed: MainFeed;
+};
+
+type Location = {
+  address_name: string;
+  id: string;
+  phone: string;
+  place_name: string;
+  place_url: string;
+  road_address_name: string;
+  x: string;
+  y: string;
 };

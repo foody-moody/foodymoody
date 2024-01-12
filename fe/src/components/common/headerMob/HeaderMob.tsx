@@ -3,23 +3,23 @@ import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { usePageNavigator } from 'hooks/usePageNavigator';
-import { GearIcon, LogoLarge, SantaHat } from '../icon/icons';
-import { NotiIcon } from '../notiIcon/NotiIcon';
+import { NotiIcon } from '../icon/NotiIcon';
+import { GearIcon, LogoLarge } from '../icon/icons';
 import { PATH } from 'constants/path';
 
 export const HeaderMob: React.FC = () => {
-  const { navigateToHome } = usePageNavigator();
+  const { navigateToHome, navigateToProfileSetting } = usePageNavigator();
   const currentLocation = useLocation();
-  const isProfilePage = currentLocation.pathname === PATH.PROFILE;
+  const allowedPaths = [PATH.PROFILE, PATH.PASSWORD, PATH.HOME];
+  const accessToSetting = allowedPaths.includes(currentLocation.pathname);
 
   return (
     <Wrapper>
       <FlexRowBox>
-        <StyledHat />
         <LogoLarge onClick={navigateToHome} />
         <ContentRight>
           <NotiIcon />
-          {isProfilePage && <GearIcon />}
+          {accessToSetting && <GearIcon onClick={navigateToProfileSetting} />}
         </ContentRight>
       </FlexRowBox>
     </Wrapper>
@@ -53,11 +53,4 @@ const FlexRowBox = styled.div`
 
 const ContentRight = styled(FlexRowBox)`
   gap: 12px;
-`;
-
-const StyledHat = styled(SantaHat)`
-  display: block;
-  position: absolute;
-  top: 0px;
-  left: 100px;
 `;

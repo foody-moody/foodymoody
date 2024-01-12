@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { getAccessToken } from 'utils/localStorage';
 
 const { MODE, VITE_API_URL } = import.meta.env;
 
 const DEV = MODE === 'development';
-const BASE_API_URL = DEV ? `${VITE_API_URL}/api` : `/api`;
+export const BASE_API_URL = DEV ? `${VITE_API_URL}/api` : `/api`;
 
 export const publicApi = axios.create({
   baseURL: BASE_API_URL,
@@ -28,7 +29,7 @@ export const multiFormApi = axios.create({
 
 privateApi.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('accessToken');
+    const token = getAccessToken();
 
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
@@ -44,10 +45,7 @@ privateApi.interceptors.request.use(
 privateApi.interceptors.response.use(
   (response) => response,
   async (error) => {
-    console.log(error.response.status, '페쳐 error.response.status');
     console.log(error.response, '페쳐 error.response');
-
-    // TODO 리프레시 토큰 및 에러
 
     return Promise.reject(error);
   }

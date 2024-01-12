@@ -1,18 +1,18 @@
 import { Suspense, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { usePostComment } from 'service/queries/comment';
 import { useFeedDetail } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { customScrollStyle } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
 import { CommentList } from 'components/comment/CommentList';
-import { Badge } from 'components/common/badge/Badge';
+import { CommentInput } from 'components/commentInput/CommentInput';
+import { StoreMoodBadge } from 'components/common/badge/StoreMoodBadge';
 import { Carousel } from 'components/common/carousel/Carousel';
 import { Dim } from 'components/common/dim/Dim';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
-import { CommentInput } from 'components/common/input/CommentInput';
-import { useModal } from 'components/common/modal/Modal';
+import { useModal } from 'components/common/modal/useModal';
 import { CommentSkeleton } from 'components/common/skeleton/CommentSkeleton';
 import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
 import { useInput } from 'hooks/useInput';
@@ -20,18 +20,30 @@ import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const DetailFeedModalPage = () => {
   // TODO 로딩 에러
+  const location = useLocation();
+  const background = location.state && location.state.background;
+
   const { id: feedId } = useParams() as { id: string };
   const { data: feed } = useFeedDetail(feedId);
+
   const { closeModal } = useModal<'commentAlert'>();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const { mutate: commentMutate } = usePostComment(feedId);
-  const { navigateToHome } = usePageNavigator();
+  const { mutate: commentMutate } = usePostComment();
+  const { navigateToBack, navigateToHome } = usePageNavigator();
   const { value, handleChange, isValid } = useInput({
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
   });
-  console.log(feed);
+
+  const handleNavigateToBack = () => {
+    if (background === 'detailFeed' || background === 'notiDetailFeed') {
+      navigateToBack();
+      closeModal('commentAlert');
+    } else {
+      navigateToHome();
+    }
+  };
 
   const handleSubmit = () => {
     isValid &&
@@ -43,15 +55,14 @@ export const DetailFeedModalPage = () => {
     handleChange('');
   };
 
-  const isUpdated = feed?.createdAt === feed?.updatedAt;
+  const isUpdated = feed?.createdAt !== feed?.updatedAt;
 
   return (
     <>
       {/* 로딩, 에러 추가 */}
       <Dim
         onClick={() => {
-          navigateToHome();
-          closeModal('commentAlert');
+          handleNavigateToBack();
         }}
       />
       <Wrapper ref={wrapperRef}>
@@ -62,28 +73,24 @@ export const DetailFeedModalPage = () => {
               <Info>
                 <Detail>
                   <FeedUserInfo // TODO 수정됨 요소 추가
+                    feedId={feed?.id}
                     member={feed?.member}
-                    createdAt={isUpdated ? feed.createdAt : feed.updatedAt}
+                    createdAt={isUpdated ? feed.updatedAt : feed.createdAt}
                     isUpdated={isUpdated}
                     location={feed?.location}
-                    feedId={feed?.id}
+                    thumbnail={feed.images[0]?.image.url}
                   />
                 </Detail>
                 <Review>{feed?.review}</Review>
                 <StoreMoodList>
-                  {feed?.storeMood.map(
-                    (storeMood: { id: string; name: string }) => (
-                      <Badge
-                        variant="store"
-                        badge={storeMood}
-                        key={storeMood.id}
-                      />
-                    )
-                  )}
+                  {feed?.storeMood.map((storeMood: Badge) => (
+                    <StoreMoodBadge name={storeMood.name} key={storeMood.id} />
+                  ))}
                 </StoreMoodList>
               </Info>
               <FeedAction
                 feedId={feed?.id}
+                isLiked={feed?.liked}
                 likeCount={feed?.likeCount}
                 commentCount={feed?.commentCount}
               />

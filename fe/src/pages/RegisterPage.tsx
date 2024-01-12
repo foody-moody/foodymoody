@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { TextButton } from 'components/common/button/TextButton';
 import { LogoXLarge } from 'components/common/icon/icons';
-import { Register } from 'components/register/Register';
+import { RegisterForm } from 'components/register/RegisterForm';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const RegisterPage = () => {
@@ -12,9 +12,7 @@ export const RegisterPage = () => {
         <Header>
           <LogoXLarge onClick={navigateToHome} />
         </Header>
-
-        <Register />
-
+        <RegisterForm />
         <ButtonWrapper>
           <span>계정이 있으신가요?</span>
           <TextButton color="orange" size="m" onClick={navigateToLogin}>

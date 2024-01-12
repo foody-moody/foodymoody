@@ -1,15 +1,21 @@
-import { useState } from 'react';
-import { useGetProfile } from 'service/queries/profile';
+import { Suspense, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
+import { CollectionContainer } from 'components/collection/CollectionContainer';
+import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
+import { ProfileUserInfoSkeleton } from 'components/common/skeleton/ProfileUserInfoSkeleton';
 import { UserFeedTabs } from 'components/common/userFeedTabs/UserFeedTabs';
+import { LayoutButton } from 'components/layoutButton/LayoutButton';
 import { ProfileUserInfo } from 'components/profileUserInfo/ProfileUserInfo';
-import { getUserInfo } from 'utils/localStorage';
+import { FollowModalPage } from './FollowPage';
 
 export const ProfilePage = () => {
-  const { id } = getUserInfo();
-  const { data } = useGetProfile(id);
   /* TODO. data.myFeed 데이터 생기면 추가하기 */
+
+  const location = useLocation();
+  const background = location.state && location.state.background;
+
   const [index, setIndex] = useState(0);
 
   const handleFeedTab = (index: number) => {
@@ -20,20 +26,47 @@ export const ProfilePage = () => {
     <Wrapper>
       <ContentWrapper>
         <ProfileWrapper>
-          {data && <ProfileUserInfo member={data.memberProfileData} />}
+          <Suspense
+            fallback={
+              <DeferredComponent>
+                <ProfileUserInfoSkeleton />
+              </DeferredComponent>
+            }
+          >
+            <ProfileUserInfo />
+          </Suspense>
         </ProfileWrapper>
         <UserFeedTabs index={index} onClick={handleFeedTab} />
-        <FeedsWrapper>
-          {MOCK_FEEDS.map((feed) => (
-            <img
-              key={feed.id}
-              src={feed.imageUrl}
-              alt={feed.imageUrl}
-              onClick={() => {}}
-            />
-          ))}
-        </FeedsWrapper>
+        {/* defaultFeed, collection, likedFeed 컴포넌트로 분리 */}
+        {index === 0 ? (
+          <FeedsWrapper>
+            {MOCK_FEEDS.map((feed) => (
+              <img
+                key={feed.id}
+                src={feed.imageUrl}
+                alt={feed.imageUrl}
+                onClick={() => {}}
+              />
+            ))}
+          </FeedsWrapper>
+        ) : (
+          <Collection>
+            <Header>
+              <HeaderLeft>
+                <Title>콜렉션</Title>
+                <CollectionCounter>{12}</CollectionCounter>
+              </HeaderLeft>
+              <LayoutButton />
+            </Header>
+            <Contents>
+              <CollectionContainer />
+            </Contents>
+          </Collection>
+        )}
       </ContentWrapper>
+
+      {background === 'followings' && <FollowModalPage />}
+      {background === 'followers' && <FollowModalPage />}
     </Wrapper>
   );
 };
@@ -89,3 +122,39 @@ const MOCK_FEEDS = Array.from({ length: 20 }, (_, index) => ({
   id: index + 1,
   imageUrl: generateDefaultImage(`githubrandomProfileimageurl${index + 1}`),
 }));
+
+/* 컬렉션 */
+const Collection = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+`;
+
+const Header = styled.div`
+  border-top: 1px solid ${({ theme: { colors } }) => colors.black};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+`;
+
+const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
+const Title = styled.h2`
+  font: ${({ theme: { fonts } }) => fonts.displayB14};
+  color: ${({ theme: { colors } }) => colors.black};
+`;
+
+const CollectionCounter = styled.p`
+  font: ${({ theme: { fonts } }) => fonts.displayB14};
+  color: ${({ theme: { colors } }) => colors.textSecondary};
+`;
+const Contents = styled.div`
+  width: 100%;
+  height: 100%;
+`;
