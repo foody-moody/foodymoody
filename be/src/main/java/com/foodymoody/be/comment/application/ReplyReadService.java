@@ -1,6 +1,5 @@
 package com.foodymoody.be.comment.application;
 
-import com.foodymoody.be.comment.application.dto.response.MemberReplySummary;
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummaryResponse;
 import com.foodymoody.be.comment.domain.entity.Reply;
 import com.foodymoody.be.comment.domain.repository.ReplyRepository;
@@ -23,14 +22,14 @@ public class ReplyReadService {
 
     @Transactional(readOnly = true)
     public Slice<MemberReplySummaryResponse> fetchAllReply(CommentId commentId, Pageable pageable) {
-        Slice<MemberReplySummary> memberReplySummaries = replyRepository.findByCommentId(commentId, pageable);
+        var memberReplySummaries = replyRepository.findByCommentId(commentId, pageable);
         return commentMapper.toReplySummaryResponse(memberReplySummaries);
     }
 
     @Transactional(readOnly = true)
     public Slice<MemberReplySummaryResponse> fetchAllReplyByMemberId(CommentId commentId, MemberId memberId,
             Pageable pageable) {
-        Slice<MemberReplySummary> memberReplySummaries = replyRepository.findByCommentIdAndMemberId(
+        var memberReplySummaries = replyRepository.findByCommentIdAndMemberId(
                 commentId,
                 memberId,
                 pageable
@@ -45,6 +44,7 @@ public class ReplyReadService {
         throw new ReplyNotExistsException();
     }
 
+    @Transactional(readOnly = true)
     public Reply fetchById(ReplyId replyId) {
         return replyRepository.findById(replyId)
                 .orElseThrow(ReplyNotExistsException::new);

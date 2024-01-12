@@ -27,11 +27,11 @@ public class ReplyController {
             @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable,
             @CurrentMemberId MemberId memberId
     ) {
-        if (memberId != null) {
-            var allReplay = memberReplyUseCase.fetchAllReplyByMemberId(commentId, memberId, pageable);
-            return ResponseEntity.ok(allReplay);
+        if (memberId == null) {
+            var response = memberReplyUseCase.fetchAllReply(commentId, pageable);
+            return ResponseEntity.ok(response);
         }
-        var allReplay = memberReplyUseCase.fetchAllReply(commentId, pageable);
-        return ResponseEntity.ok(allReplay);
+        var response = memberReplyUseCase.fetchAllReplyByMemberId(commentId, memberId, pageable);
+        return ResponseEntity.ok(response);
     }
 }

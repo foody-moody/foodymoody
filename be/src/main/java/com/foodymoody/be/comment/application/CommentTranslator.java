@@ -27,7 +27,7 @@ public class CommentTranslator {
     }
 
     public RegisterReplyData toRegisterReplyData(RegisterReplyRequest request, MemberId memberId, CommentId id) {
-        Content content = new Content(request.getContent());
+        var content = new Content(request.getContent());
         return new RegisterReplyData(id, memberId, content);
     }
 }
