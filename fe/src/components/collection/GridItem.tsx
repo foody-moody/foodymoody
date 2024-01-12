@@ -1,44 +1,100 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { HeartSmallFill } from 'components/common/icon/icons';
 import { UserImage } from 'components/common/userImage/UserImage';
+import { useIntersectionObserver } from 'hooks/useObserver';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
+import { PATH } from 'constants/path';
 
 type Props = {
-  collections: any;
+  collections: CollectionItem[];
+  hasNextPage?: boolean;
+  fetchNextPage(): void;
 };
 
-export const GridItem: React.FC<Props> = ({ collections }) => {
+export const GridItem: React.FC<Props> = ({
+  collections,
+  hasNextPage,
+  fetchNextPage,
+}) => {
+  const navigate = useNavigate();
+  const { observeTarget } = useIntersectionObserver({
+    callbackFn: () => {
+      hasNextPage && fetchNextPage();
+    },
+  });
+
+  const handleNavigateToDetail = (id: string) => {
+    navigate(PATH.COLLECTION + '/' + id);
+  };
+
+  const handleNavigateToProfile = (id: string) => {
+    navigate(PATH.PROFILE + '/' + id);
+  };
+
   return (
     <Wrapper>
-      {collections.map((collection) => (
-        <Grid key={collection.id}>
-          <img
-            src={collection.imageUrl}
-            alt={collection.imageUrl}
-            onClick={() => {}}
-          />
-          <GridFilter className="grid-filter" />
-          <GridContent>
-            <GridHeader>
-              <FeedCounter>{7}</FeedCounter>
-            </GridHeader>
-            <GridInfo>
-              <Title>{'겁나 맛있었던 곳10선'}</Title>
-              <InfoBottom>
-                <InfoLeft>
-                  <UserImage imageUrl={generateDefaultUserImage('얌')} />
-                  <UserName>{'산타'}</UserName>
-                </InfoLeft>
-                <InfoRight>
-                  <HeartSmallFill />
-                  <LikeCount>{11}</LikeCount>
-                </InfoRight>
-              </InfoBottom>
-            </GridInfo>
-          </GridContent>
-        </Grid>
-      ))}
+      {collections.map((collection: CollectionItem, index: number) => {
+        const isLastItem = index === collections.length - 2;
+
+        return (
+          <Grid
+            key={collection.id}
+            ref={isLastItem ? observeTarget : null}
+            onClick={() => {
+              handleNavigateToDetail(collection.id);
+            }}
+          >
+            <ImageContainer>
+              <img
+                src={
+                  !collection.thumbnailUrl || collection.feedCount === 0
+                    ? generateDefaultUserImage(collection.id)
+                    : collection.thumbnailUrl
+                }
+                alt="thumbnail"
+              />
+              <GridFilter className="grid-filter" />
+            </ImageContainer>
+            <GridContent>
+              <GridHeader>
+                <FeedCounter>{collection.feedCount}</FeedCounter>
+              </GridHeader>
+              <GridInfo>
+                <Title
+                  onClick={() => {
+                    handleNavigateToDetail(collection.id);
+                  }}
+                >
+                  {collection.title}
+                </Title>
+                <InfoBottom>
+                  <InfoLeft
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNavigateToProfile(collection.author.id);
+                    }}
+                  >
+                    <UserImage
+                      imageUrl={
+                        collection.author.profileImageUrl ||
+                        generateDefaultUserImage('얌')
+                      }
+                    />
+                    <UserName>{collection.author.name}</UserName>
+                  </InfoLeft>
+                  <InfoRight>
+                    <HeartSmallFill />
+                    <LikeCount>{collection.likeCount}</LikeCount>
+                  </InfoRight>
+                </InfoBottom>
+              </GridInfo>
+            </GridContent>
+          </Grid>
+        );
+      })}
     </Wrapper>
   );
 };
@@ -63,14 +119,24 @@ const Grid = styled.div`
   /* border: 1px solid ${({ theme: { colors } }) => colors.black}; */
 
   img {
+    aspect-ratio: 1/1;
     width: 100%;
     height: 100%;
     cursor: pointer;
+    vertical-align: top;
   }
 
   &:hover .grid-filter::after {
     opacity: 0;
   }
+`;
+
+const ImageContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  border: 1px solid red;
+  min-width: fit-content;
+  min-height: fit-content;
 `;
 
 const GridFilter = styled.div`

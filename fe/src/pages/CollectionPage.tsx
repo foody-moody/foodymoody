@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { CollectionContainer } from 'components/collection/CollectionContainer';
-import { GridItem } from 'components/collection/GridItem';
+// import { GridItem } from 'components/collection/GridItem';
 import { LayoutButton } from 'components/layoutButton/LayoutButton';
 
 export const CollectionPage = () => {
@@ -12,7 +12,7 @@ export const CollectionPage = () => {
         <HeaderContent>
           <SubTitle>오늘의 컬렉션🎉</SubTitle>
           <CollectionSlick>
-            <GridItem collections={MOCK_FEEDS} />
+            {/* <GridItem collections={MOCK_FEEDS} /> */}
           </CollectionSlick>
         </HeaderContent>
         <BodyContent>
@@ -67,13 +67,13 @@ const ContentWrapper = styled.div`
 
 /* 컬렉션 */
 
-const generateDefaultImage = (imageUrl: string) =>
-  `https://source.boringavatars.com/beam/${imageUrl}?colors=FF4E50,FC913A,F9D423,EDE574,E1F5C4&square`;
+// const generateDefaultImage = (imageUrl: string) =>
+//   `https://source.boringavatars.com/beam/${imageUrl}?colors=FF4E50,FC913A,F9D423,EDE574,E1F5C4&square`;
 
-const MOCK_FEEDS = Array.from({ length: 3 }, (_, index) => ({
-  id: index + 1,
-  imageUrl: generateDefaultImage(`githubrandomProfileimageurl${index + 1}`),
-}));
+// const MOCK_FEEDS = Array.from({ length: 3 }, (_, index) => ({
+//   id: index + 1,
+//   imageUrl: generateDefaultImage(`githubrandomProfileimageurl${index + 1}`),
+// }));
 
 const HeaderContent = styled.div`
   width: 100%;
