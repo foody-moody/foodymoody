@@ -21,6 +21,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -31,6 +32,7 @@ public class CollectionUseCase {
     private final ImageService imageService;
     private final FeedCommentCountReadService feedCommentCountReadService;
 
+    @Transactional
     public Slice<CollectionReadFeedDetailsResponse> readCollectionFeedDetails(
             CollectionReadFeedDetailsServiceRequest request) {
         FeedCollectionId feedCollectionId = request.getFeedCollectionId();
@@ -40,6 +42,9 @@ public class CollectionUseCase {
         final String sortBy = "createdAt";
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sortBy).descending());
 
+        // TODO: feedCollection에 FeedID가 불러와지지 않는 문제 해결하기
+        //  아마도 FeedIds(일급컬렉션)으로 리팩토링해서 그런 듯
+        //  나도 일급컬렉션을 생각해서 다시 구현하면 금방 해결될 듯
         FeedCollection feedCollection = feedCollectionReadService.fetch(feedCollectionId);
         List<FeedId> feedIds = feedCollection.getFeedIds();
         Slice<Feed> feeds = feedReadService.findAllByIdIn(feedIds, pageable);

@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed.application;
 
 import com.foodymoody.be.common.exception.ImageNotFoundException;
+import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
@@ -148,7 +149,7 @@ public class FeedMapper {
                 .collect(Collectors.toList());
     }
 
-    public static CollectionReadFeedDetailsServiceRequest toCollectionReadFeedDetailsServiceRequest(String collectionId,
+    public static CollectionReadFeedDetailsServiceRequest toCollectionReadFeedDetailsServiceRequest(FeedCollectionId collectionId,
                                                                                                     Pageable pageable,
                                                                                                     MemberId memberId) {
         return new CollectionReadFeedDetailsServiceRequest(collectionId, pageable, memberId);

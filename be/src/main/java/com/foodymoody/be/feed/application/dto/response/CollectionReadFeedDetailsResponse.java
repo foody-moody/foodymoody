@@ -73,10 +73,6 @@ public class CollectionReadFeedDetailsResponse {
         return moodNames;
     }
 
-    public boolean isLiked() {
-        return isLiked;
-    }
-
     public int getLikeCount() {
         return likeCount;
     }
