@@ -1,46 +1,83 @@
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetProfile } from 'service/queries/profile';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
-import { Badge } from '../common/badge/Badge';
+import { TasteMoodBadge } from 'components/common/badge/TasteMoodBadge';
+// import { useModal } from 'components/common/modal/useModal';
+import { FollowProfileButton } from 'components/follow/followButton/FollowProfileButton';
+import { useAuthState } from 'hooks/auth/useAuth';
+import { usePageNavigator } from 'hooks/usePageNavigator';
+import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { Button } from '../common/button/Button';
-import { CollectableAddIcon, UserPlusIcon } from '../common/icon/icons';
+import { CollectableAddIcon } from '../common/icon/icons';
 import { UserImageEdit } from '../common/userImage/UserImageEdit';
-
-type Props = {
-  member: ProfileMemberInfo;
-};
+import { PATH } from 'constants/path';
 
 const MOCK_BADGE = {
   id: '0',
   name: '도전적인',
 };
 
-export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
-  const handleAddCollection = () => {};
-  const handleEditProfile = () => {};
+export const ProfileUserInfo = () => {
+  const { id } = useParams();
+  const { userInfo } = useAuthState();
+  const USER_ID = id || userInfo.id;
+  const { data: member } = useGetProfile(USER_ID);
 
-  // const isAuthor = member.id === '1';
-  const isAuthor = true;
+  const navigate = useNavigate();
+  const { navigateToProfileSetting } = usePageNavigator();
+  const isAuthor = member?.id === userInfo.id;
+  // const { openModal } = useModal<'collection'>();
+
+  const handleAddCollection = () => {
+    // 나중에 수정 예정
+    // openModal('collection', {});
+  };
+
+  const handleEditProfile = () => {
+    navigateToProfileSetting();
+  };
+
+  const handleOpenFollowings = () => {
+    navigate(PATH.PROFILE + '/' + member?.id + PATH.FOLLOWING, {
+      state: { background: 'followings' },
+    });
+  };
+
+  const handleOpenFollowers = () => {
+    navigate(PATH.PROFILE + '/' + member?.id + PATH.FOLLOWER, {
+      state: { background: 'followers' },
+    });
+  };
 
   return (
     <Wrapper>
       <ContentLeft>
-        <UserImageEdit imageUrl={member.imageUrl} />
+        <UserImageEdit
+          isAuthor={isAuthor}
+          imageUrl={
+            member?.profileImageUrl || generateDefaultUserImage(member?.id)
+          }
+        />
         <Column>
           <ContentHeader>
-            <p>{member.nickname}</p>
+            <p>{member?.nickname}</p>
             {/* TODO. Badge 적용 해야함..*/}
-            <Badge badge={MOCK_BADGE} variant="taste" />
+            <TasteMoodBadge name={MOCK_BADGE.name} />
           </ContentHeader>
 
           <ContentBody>
             <InfoItem>
-              {/* {member.myFeedsCount} */}1<span>게시물</span>
+              {member?.feedCount}
+              <span>게시물</span>
             </InfoItem>
-            <InfoItem>
-              {/* {member.myFeedsCount} */}2<span>팔로잉</span>
+            <InfoItem onClick={handleOpenFollowings}>
+              {member?.followingCount}
+              <span>팔로잉</span>
             </InfoItem>
-            <InfoItem>
-              {/* {member.myFeedsCount} */}3<span>팔로워</span>
+            <InfoItem onClick={handleOpenFollowers}>
+              {member?.followerCount}
+              <span>팔로워</span>
             </InfoItem>
           </ContentBody>
         </Column>
@@ -60,15 +97,10 @@ export const ProfileUserInfo: React.FC<Props> = ({ member }) => {
             <span>프로필 수정</span>
           </Button>
         ) : (
-          <Button
-            size="s"
-            backgroundColor="white"
-            width={140}
-            onClick={handleEditProfile}
-          >
-            <UserPlusIcon />
-            <span>팔로우</span>
-          </Button>
+          <FollowProfileButton
+            memberId={member?.id}
+            isFollowing={member?.following}
+          />
         )}
       </ButtonBox>
     </Wrapper>
@@ -97,6 +129,7 @@ const ContentWrapper = styled(Flex)`
 const ContentLeft = styled(Flex)`
   justify-content: center;
   align-items: center;
+  height: fit-content;
   gap: 32px;
 
   ${media.xs} {
@@ -139,6 +172,7 @@ const ButtonBox = styled(Flex)`
 
 const InfoItem = styled(ContentWrapper)`
   gap: 4px;
+  cursor: pointer;
   font: ${({ theme: { fonts } }) => fonts.displayB14};
   span {
     font: ${({ theme: { fonts } }) => fonts.displayM14};

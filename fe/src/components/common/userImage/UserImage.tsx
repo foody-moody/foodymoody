@@ -1,41 +1,46 @@
 import { styled } from 'styled-components';
 
 type UserImageProps = {
-  variant?: 'default' | 'edit';
-  imageUrl?: string;
+  size?: 's' | 'm' | 'l';
+  imageUrl: string;
   onClick?(): void;
 };
 
-export const UserImage: React.FC<UserImageProps> = (
-  { variant = 'default', imageUrl, onClick }
-) => {
-  const generateDefaultImage = `https://source.boringavatars.com/beam/${imageUrl}`;
-  // TODO imageUrl부분 전역으로 둔 member 아이디로 변경
-  const onErrorImage = (
-    event: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
-    event.currentTarget.src = generateDefaultImage;
-  };
+export const UserImage: React.FC<UserImageProps> = ({
+  size = 's',
+  imageUrl,
+  onClick,
+}) => {
+  //이미지 경로는 유효함, 그러나 그 이미지 경로가 요청이 안되는 것일때는?
+
+  // const onErrorImage = (
+  //   event: React.SyntheticEvent<HTMLImageElement, Event>
+  // ) => {
+  //   return (event.currentTarget.src = imageUrl); // 에러이미지로 변경
+  // };
 
   return (
     <Img
       onClick={onClick}
-      $variant={variant}
-      src={imageUrl || generateDefaultImage}
+      $size={size}
+      src={imageUrl}
       alt="유저이미지"
-      onError={onErrorImage}
+      // onError={onErrorImage}
     />
   );
 };
 
 const Img = styled.img<{
-  $variant: 'default' | 'edit';
+  $size: 's' | 'm' | 'l';
 }>`
-  width: ${({ $variant }) => ($variant === 'default' ? '40px' : '100%')};
-  height: ${({ $variant }) => ($variant === 'default' ? '40px' : '100%')};
+  width: ${({ $size }) =>
+    $size === 's' ? '40px' : $size === 'm' ? '60px' : '100%'};
+  height: ${({ $size }) =>
+    $size === 's' ? '40px' : $size === 'm' ? '60px' : '100%'};
+
   transition: all 0.3s ease-in-out;
   object-fit: cover;
   border-radius: ${({ theme: { radius } }) => radius.half};
   border: 1px solid ${({ theme: { colors } }) => colors.black};
-  cursor: ${({ $variant }) => ($variant === 'default' ? 'pointer' : 'default')};
+  cursor: ${({ $size }) => ($size === 'l' ? 'default' : 'pointer')};
 `;

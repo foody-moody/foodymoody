@@ -7,6 +7,7 @@ type Props = {
   feedId: string;
   rootRef: React.MutableRefObject<HTMLDivElement | null>;
 };
+
 export const CommentList = ({ feedId, rootRef }: Props) => {
   const { comments, hasNextPage, fetchNextPage } = useGetComments(feedId);
   const { observeTarget } = useIntersectionObserver({

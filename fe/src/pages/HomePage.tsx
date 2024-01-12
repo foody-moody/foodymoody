@@ -10,6 +10,7 @@ import { NewFeedModalPage } from './NewFeedPage';
 export const HomePage = () => {
   const location = useLocation();
   const background = location.state && location.state.background;
+  const isDetailFeedUrl = location.pathname.includes('/detail/feed');
 
   return (
     <Wrapper>
@@ -22,8 +23,7 @@ export const HomePage = () => {
       >
         <FeedMainList />
       </Suspense>
-
-      {background === 'detailFeed' && <DetailFeedModalPage />}
+      {isDetailFeedUrl && <DetailFeedModalPage />}
       {background === 'newFeed' && <NewFeedModalPage />}
     </Wrapper>
   );

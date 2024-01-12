@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react';
+import { useToast } from 'recoil/toast/useToast';
 
 const DEFAULT_MENU_ITEM = {
   id: self.crypto.randomUUID(),
-  imageUrl: '1', // 여기 바꾸기
+  image: {
+    id: '',
+    url: '',
+  },
   menu: {
     name: '',
     rating: 0,
   },
 };
 
-// export const useMenuItem = (initialMenuItems: FeedImage[]) => {
 export const useMenuItem = (initialMenuItems?: FeedImage[]) => {
-  // const [menuItems, setMenuItems] = useState(initialMenuItems);
+  const toast = useToast();
   const [menuItems, setMenuItems] = useState(
     initialMenuItems || [DEFAULT_MENU_ITEM]
   );
@@ -22,7 +25,7 @@ export const useMenuItem = (initialMenuItems?: FeedImage[]) => {
 
   const handleAddMenuItem = () => {
     if (menuItems.length >= 3) {
-      console.log(`3개이상 등록불가`);
+      toast.noti('3개 이상 등록할 수 없어요.');
       return;
     }
     const newItem = { ...DEFAULT_MENU_ITEM, id: self.crypto.randomUUID() };
@@ -32,6 +35,7 @@ export const useMenuItem = (initialMenuItems?: FeedImage[]) => {
   const handleRemoveMenuItem = (id: string) => {
     if (menuItems.length === 1) {
       console.log('1개 이상 필수');
+      toast.noti('1개 이상 등록해주세요.');
       return;
     }
     const newItems = menuItems.filter((item) => item.id !== id);
@@ -49,6 +53,17 @@ export const useMenuItem = (initialMenuItems?: FeedImage[]) => {
     setMenuItems(newItems);
   };
 
+  const updateImage = (id: string, updates: Partial<ImageType>) => {
+    const newItems = menuItems.map((item) =>
+      item.id === id ? { ...item, image: { ...item.image, ...updates } } : item
+    );
+    setMenuItems(newItems);
+  };
+
+  const handleEditMenuImage = (id: string, image: ImageType) => {
+    updateImage(id, image);
+  };
+
   const handleEditMenuName = (id: string, name: string) => {
     updateMenu(id, { name });
   };
@@ -61,6 +76,7 @@ export const useMenuItem = (initialMenuItems?: FeedImage[]) => {
     menuItems,
     handleAddMenuItem,
     handleRemoveMenuItem,
+    handleEditMenuImage,
     handleEditMenuName,
     handleEditStarRating,
   };

@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { Badge } from 'components/common/badge/Badge';
+import { StoreMoodBadge } from 'components/common/badge/StoreMoodBadge';
 import { Carousel } from 'components/common/carousel/Carousel';
 import { FeedAction } from 'components/common/feedAction/FeedAction';
 import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
@@ -25,7 +25,7 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
       });
     };
 
-    const isUpdated = feed.createdAt === feed.updatedAt;
+    const isUpdated = feed.createdAt !== feed.updatedAt;
 
     return (
       <Wrapper ref={ref}>
@@ -33,9 +33,10 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
           <FeedUserInfo
             feedId={feed.id}
             member={feed.member}
-            createdAt={isUpdated ? feed.createdAt : feed.updatedAt}
+            createdAt={isUpdated ? feed.updatedAt : feed.createdAt}
             isUpdated={isUpdated}
             location={feed.location}
+            thumbnail={feed.images[0]?.image.url}
           />
         </Info>
 
@@ -50,7 +51,7 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
           </Review>
           <StoreMoodList>
             {feed.storeMood.map((storeMood) => (
-              <Badge variant="store" badge={storeMood} key={storeMood.id} />
+              <StoreMoodBadge name={storeMood.name} key={storeMood.id} />
             ))}
           </StoreMoodList>
         </Content>
@@ -60,6 +61,7 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
         <FeedAction
           feedId={feed.id}
           likeCount={feed.likeCount}
+          isLiked={feed.liked}
           commentCount={feed.commentCount}
           onClickCommentIcon={handleOpenDetailFeed}
         />

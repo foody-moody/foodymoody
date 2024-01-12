@@ -2,35 +2,45 @@ import { useNavigate } from 'react-router-dom';
 import { useDeleteFeed } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
-import { usePageNavigator } from 'hooks/usePageNavigator';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
-import { Badge } from '../badge/Badge';
+import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
+import { TasteMoodBadge } from '../badge/TasteMoodBadge';
 import { Dropdown } from '../dropdown/Dropdown';
 import { DropdownRow } from '../dropdown/DropdownRow';
 import { DotGhostIcon, MapPinSmallIcon } from '../icon/icons';
 import { UserImage } from '../userImage/UserImage';
+import { Share } from './Share';
 import { PATH } from 'constants/path';
 
 type Props = {
+  feedId?: string;
   member: FeedMemberInfo;
   createdAt: string;
   isUpdated: boolean;
   location: string;
-  feedId?: string;
+  thumbnail?: string;
 };
 
 export const FeedUserInfo: React.FC<Props> = ({
+  feedId,
   member,
   createdAt,
   isUpdated,
   location,
-  feedId,
+  thumbnail,
 }) => {
-  const { navigateToProfile } = usePageNavigator();
   const navigate = useNavigate();
   const { mutate: deleteMutate } = useDeleteFeed();
   const { isLogin, userInfo } = useAuthState();
   const formattedTimeStamp = formatTimeStamp(createdAt);
+  // const { share } = useKakaoShare();
+  const handleNavigateProfile = () => {
+    navigate(PATH.PROFILE + '/' + member.id);
+  };
+
+  const hadleNavigateStore = () => {
+    navigate(PATH.STORE + '/' + '1'); // 가게 id로 변경해야함
+  };
 
   const publicMenu = [
     {
@@ -46,13 +56,10 @@ export const FeedUserInfo: React.FC<Props> = ({
     {
       id: 3,
       content: '팔로우',
-      onClick: () => {},
-    },
-    {
-      id: 4,
-      content: '공유하기',
-      onClick: () => {},
-    },
+      onClick: () => {
+        navigate(`${PATH.PROFILE}/${member.id}`);
+      },
+    }, // 일단 프로필로 이동
   ];
 
   const privateMenu = [
@@ -84,7 +91,12 @@ export const FeedUserInfo: React.FC<Props> = ({
   return (
     <Wrapper>
       <ContentLeft>
-        <UserImage imageUrl={member.imageUrl} onClick={navigateToProfile} />
+        <UserImage
+          imageUrl={
+            member.profileImageUrl || generateDefaultUserImage(member.id)
+          }
+          onClick={handleNavigateProfile}
+        />
         <FlexColumnBox>
           <ContentHeader>
             <p>{member.nickname}</p>
@@ -92,7 +104,7 @@ export const FeedUserInfo: React.FC<Props> = ({
             {isUpdated && <span>수정됨</span>}
           </ContentHeader>
 
-          <ContentBody>
+          <ContentBody onClick={hadleNavigateStore}>
             <MapPinSmallIcon />
             <p>{location}</p>
           </ContentBody>
@@ -100,9 +112,12 @@ export const FeedUserInfo: React.FC<Props> = ({
       </ContentLeft>
 
       <ContentRight>
-        <Badge variant="taste" badge={member.tasteMood} />
+        <TasteMoodBadge name={member.tasteMood.name} />
 
         <Dropdown align="right" opener={<DotGhostIcon />}>
+          <DropdownRow>
+            <Share imageUrl={thumbnail} targetId={feedId} />
+          </DropdownRow>
           {menu.map((item) => (
             <DropdownRow key={item.id} onClick={item.onClick}>
               {item.content}
