@@ -1,109 +1,79 @@
-import React from 'react';
+import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { media } from 'styles/mediaQuery';
 import { HeartSmallFill } from 'components/common/icon/icons';
 import { UserImage } from 'components/common/userImage/UserImage';
-import { useIntersectionObserver } from 'hooks/useObserver';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { PATH } from 'constants/path';
 
 type Props = {
-  collections: CollectionItem[];
-  hasNextPage?: boolean;
-  fetchNextPage(): void;
+  collection: CollectionItem;
 };
 
-export const GridItem: React.FC<Props> = ({
-  collections,
-  hasNextPage,
-  fetchNextPage,
-}) => {
-  const navigate = useNavigate();
-  const { observeTarget } = useIntersectionObserver({
-    callbackFn: () => {
-      hasNextPage && fetchNextPage();
-    },
-  });
+export const GridItem = forwardRef<HTMLLIElement, Props>(
+  ({ collection }, ref) => {
+    const navigate = useNavigate();
 
-  const handleNavigateToDetail = (id: string) => {
-    navigate(PATH.COLLECTION + '/' + id);
-  };
+    const handleNavigateToDetail = (id: string) => {
+      navigate(PATH.COLLECTION + '/' + id);
+    };
 
-  const handleNavigateToProfile = (id: string) => {
-    navigate(PATH.PROFILE + '/' + id);
-  };
+    const handleNavigateToProfile = (id: string) => {
+      navigate(PATH.PROFILE + '/' + id);
+    };
 
-  return (
-    <Wrapper>
-      {collections.map((collection: CollectionItem, index: number) => {
-        const isLastItem = index === collections.length - 2;
-
-        return (
-          <Grid
-            key={collection.id}
-            ref={isLastItem ? observeTarget : null}
-            onClick={() => {
-              handleNavigateToDetail(collection.id);
-            }}
-          >
-            <ImageContainer>
-              <img
-                src={
-                  !collection.thumbnailUrl || collection.feedCount === 0
-                    ? generateDefaultUserImage(collection.id)
-                    : collection.thumbnailUrl
-                }
-                alt="thumbnail"
-              />
-              <GridFilter className="grid-filter" />
-            </ImageContainer>
-            <GridContent>
-              <GridHeader>
-                <FeedCounter>{collection.feedCount}</FeedCounter>
-              </GridHeader>
-              <GridInfo>
-                <Title>{collection.title}</Title>
-                <InfoBottom>
-                  <InfoLeft
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleNavigateToProfile(collection.author.id);
-                    }}
-                  >
-                    <UserImage
-                      imageUrl={
-                        collection.author.profileImageUrl ||
-                        generateDefaultUserImage('얌')
-                      }
-                    />
-                    <UserName>{collection.author.name}</UserName>
-                  </InfoLeft>
-                  <InfoRight>
-                    <HeartSmallFill />
-                    <LikeCount>{collection.likeCount}</LikeCount>
-                  </InfoRight>
-                </InfoBottom>
-              </GridInfo>
-            </GridContent>
-          </Grid>
-        );
-      })}
-    </Wrapper>
-  );
-};
-
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-
-  ${media.xs} {
-    grid-template-columns: repeat(2, 1fr);
+    return (
+      <Wrapper
+        ref={ref}
+        onClick={() => {
+          handleNavigateToDetail(collection.id);
+        }}
+      >
+        <ImageContainer>
+          <img
+            src={
+              !collection.thumbnailUrl || collection.feedCount === 0
+                ? generateDefaultUserImage(collection.id)
+                : collection.thumbnailUrl
+            }
+            alt="thumbnail"
+          />
+          <GridFilter className="grid-filter" />
+        </ImageContainer>
+        <GridContent>
+          <GridHeader>
+            <FeedCounter>{collection.feedCount}</FeedCounter>
+          </GridHeader>
+          <GridInfo>
+            <Title>{collection.title}</Title>
+            <InfoBottom>
+              <InfoLeft
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNavigateToProfile(collection.author.id);
+                }}
+              >
+                <UserImage
+                  imageUrl={
+                    collection.author.profileImageUrl ||
+                    generateDefaultUserImage('얌')
+                  }
+                />
+                <UserName>{collection.author.name}</UserName>
+              </InfoLeft>
+              <InfoRight>
+                <HeartSmallFill />
+                <LikeCount>{collection.likeCount}</LikeCount>
+              </InfoRight>
+            </InfoBottom>
+          </GridInfo>
+        </GridContent>
+      </Wrapper>
+    );
   }
-`;
+);
 
-const Grid = styled.div`
+const Wrapper = styled.li`
   position: relative;
   display: flex;
   flex-direction: column;

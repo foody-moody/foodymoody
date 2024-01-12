@@ -1,148 +1,173 @@
+import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { StoreMoodBadge } from 'components/common/badge/StoreMoodBadge';
-import { TextButton } from 'components/common/button/TextButton';
+import { Dropdown } from 'components/common/dropdown/Dropdown';
+import { DropdownRow } from 'components/common/dropdown/DropdownRow';
 import {
   ChatDotsIcon,
   DotGhostIcon,
   HeartFillIcon,
 } from 'components/common/icon/icons';
 import { UserImage } from 'components/common/userImage/UserImage';
-import { useIntersectionObserver } from 'hooks/useObserver';
+import { useAuthState } from 'hooks/auth/useAuth';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { PATH } from 'constants/path';
 
 type Props = {
-  collections: CollectionItem[];
-  hasNextPage?: boolean;
-  fetchNextPage(): void;
+  collection: CollectionItem;
 };
 
-export const ListItem: React.FC<Props> = ({
-  collections,
-  hasNextPage,
-  fetchNextPage,
-}) => {
-  const navigate = useNavigate();
-  const { observeTarget } = useIntersectionObserver({
-    callbackFn: () => {
-      hasNextPage && fetchNextPage();
-    },
-  });
+export const ListItem = forwardRef<HTMLLIElement, Props>(
+  ({ collection }, ref) => {
+    const { author } = collection;
+    const { isLogin, userInfo } = useAuthState();
+    const navigate = useNavigate();
 
-  const handleNavigateToDetail = (id: string) => {
-    navigate(PATH.COLLECTION + '/' + id);
-  };
+    const handleNavigateToDetail = (id: string) => {
+      navigate(PATH.COLLECTION + '/' + id);
+    };
 
-  const handleNavigateToProfile = (id: string) => {
-    navigate(PATH.PROFILE + '/' + id);
-  };
+    const handleNavigateToProfile = (id: string) => {
+      navigate(PATH.PROFILE + '/' + id);
+    };
 
-  const timeStamp = (createdAt: string, updatedAt: string) => {
-    if (createdAt === updatedAt) {
-      return formatTimeStamp(createdAt);
-    } else {
-      return `${formatTimeStamp(updatedAt)} 업데이트`;
-    }
-  };
+    const timeStamp = (createdAt: string, updatedAt: string) => {
+      if (createdAt === updatedAt) {
+        return formatTimeStamp(createdAt);
+      } else {
+        return `${formatTimeStamp(updatedAt)} 업데이트`;
+      }
+    };
 
-  return (
-    <Wrapper>
-      {collections.map((collection: CollectionItem, index: number) => {
-        const isLastItem = index === collections.length - 2;
+    const publicMenu = [
+      {
+        id: 1,
+        content: '신고하기',
+        onClick: () => {},
+      },
 
-        return (
-          <List key={collection.id} ref={isLastItem ? observeTarget : null}>
-            <Thumbnail
+      {
+        id: 2,
+        content: '팔로우',
+        onClick: () => {
+          navigate(`${PATH.PROFILE}/${author.id}`);
+        },
+      },
+    ];
+
+    const privateMenu = [
+      {
+        id: 1,
+        content: '수정하기',
+        onClick: () => {},
+      },
+      {
+        id: 2,
+        content: '삭제하기',
+        onClick: () => {
+          // feedId && deleteMutate(feedId);
+        },
+      },
+    ];
+
+    const menu =
+      isLogin && userInfo.id === author.id ? privateMenu : publicMenu;
+
+    return (
+      <Wrapper key={collection.id} ref={ref}>
+        <Thumbnail
+          onClick={() => {
+            handleNavigateToDetail(collection.id);
+          }}
+        >
+          <FeedCounter>{collection.feedCount}</FeedCounter>
+          <img
+            src={
+              !collection.thumbnailUrl || collection.feedCount === 0
+                ? generateDefaultUserImage(collection.id)
+                : collection.thumbnailUrl
+            }
+            alt="thumbnail"
+            onClick={() => {}}
+          />
+        </Thumbnail>
+        <ListContent>
+          <ContentHeader>
+            <TitleContainer
               onClick={() => {
                 handleNavigateToDetail(collection.id);
               }}
             >
-              <FeedCounter>{collection.feedCount}</FeedCounter>
-              <img
-                src={
-                  !collection.thumbnailUrl || collection.feedCount === 0
-                    ? generateDefaultUserImage(collection.id)
-                    : collection.thumbnailUrl
+              <Title>{collection.title}</Title>
+              <TimeStamp>
+                {timeStamp(collection.createdAt, collection.updatedAt)}
+              </TimeStamp>
+            </TitleContainer>
+            {/* <TextButton color="black">
+                  <DotGhostIcon />
+                </TextButton> */}
+            <Dropdown align="right" opener={<DotGhostIcon />}>
+              {/* <DropdownRow>
+                    <Share imageUrl={thumbnail} targetId={feedId} />
+                  </DropdownRow> */}
+              {menu.map((item) => (
+                <DropdownRow key={item.id} onClick={item.onClick}>
+                  {item.content}
+                </DropdownRow>
+              ))}
+            </Dropdown>
+          </ContentHeader>
+          <ContentBody
+            onClick={() => {
+              handleNavigateToDetail(collection.id);
+            }}
+          >
+            <ContentText>{collection.title}</ContentText>
+            {/* <BadgeWrapper>배지 영역입니다 </BadgeWrapper> */}
+            <BadgeWrapper>
+              {collection.storeMood.map((storeMood) => (
+                <StoreMoodBadge name={storeMood.name} key={storeMood.id} />
+              ))}
+            </BadgeWrapper>
+          </ContentBody>
+          <ContentBottom>
+            <InfoLeft
+              onClick={() => {
+                handleNavigateToProfile(collection.author.id);
+              }}
+            >
+              <UserImage
+                imageUrl={
+                  collection.author.profileImageUrl ||
+                  generateDefaultUserImage('얌')
                 }
-                alt="thumbnail"
-                onClick={() => {}}
               />
-            </Thumbnail>
-            <ListContent>
-              <ContentHeader>
-                <TitleContainer
+              <ListUserName>{collection.author.name}</ListUserName>
+            </InfoLeft>
+            <InfoRight>
+              <IconBox>
+                <HeartFillIcon />
+                <ListLikeCount>{collection.likeCount}</ListLikeCount>
+              </IconBox>
+              <IconBox>
+                <ChatDotsIcon
                   onClick={() => {
                     handleNavigateToDetail(collection.id);
                   }}
-                >
-                  <Title>{collection.title}</Title>
-                  <TimeStamp>
-                    {timeStamp(collection.createdAt, collection.updatedAt)}
-                  </TimeStamp>
-                </TitleContainer>
-                <TextButton color="black">
-                  <DotGhostIcon />
-                </TextButton>
-              </ContentHeader>
-              <ContentBody
-                onClick={() => {
-                  handleNavigateToDetail(collection.id);
-                }}
-              >
-                <ContentText>{collection.title}</ContentText>
-                {/* <BadgeWrapper>배지 영역입니다 </BadgeWrapper> */}
-                <BadgeWrapper>
-                  {collection.storeMood.map((storeMood) => (
-                    <StoreMoodBadge name={storeMood.name} key={storeMood.id} />
-                  ))}
-                </BadgeWrapper>
-              </ContentBody>
-              <ContentBottom>
-                <InfoLeft
-                  onClick={() => {
-                    handleNavigateToProfile(collection.author.id);
-                  }}
-                >
-                  <UserImage
-                    imageUrl={
-                      collection.author.profileImageUrl ||
-                      generateDefaultUserImage('얌')
-                    }
-                  />
-                  <ListUserName>{collection.author.name}</ListUserName>
-                </InfoLeft>
-                <InfoRight>
-                  <IconBox>
-                    <HeartFillIcon />
-                    <ListLikeCount>{collection.likeCount}</ListLikeCount>
-                  </IconBox>
-                  <IconBox>
-                    <ChatDotsIcon
-                      onClick={() => {
-                        handleNavigateToDetail(collection.id);
-                      }}
-                    />
-                    <ListLikeCount>{collection.commentCount}</ListLikeCount>
-                  </IconBox>
-                </InfoRight>
-              </ContentBottom>
-            </ListContent>
-          </List>
-        );
-      })}
-    </Wrapper>
-  );
-};
+                />
+                <ListLikeCount>{collection.commentCount}</ListLikeCount>
+              </IconBox>
+            </InfoRight>
+          </ContentBottom>
+        </ListContent>
+      </Wrapper>
+    );
+  }
+);
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const List = styled.div`
+const Wrapper = styled.li`
   display: flex;
   width: 100%;
   height: 135px;

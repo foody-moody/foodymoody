@@ -1,8 +1,8 @@
 import { useToggle } from 'recoil/booleanState/useToggle';
 import { useGetCollection } from 'service/queries/collection';
 import { styled } from 'styled-components';
-import { GridItem } from './GridItem';
-import { ListItem } from './ListItem';
+import { GridLayout } from './GridLayout';
+import { ListLayout } from './ListLayout';
 
 export const CollectionContainer = () => {
   const { collections, hasNextPage, fetchNextPage } = useGetCollection();
@@ -12,13 +12,13 @@ export const CollectionContainer = () => {
   return (
     <Wrapper>
       {grid.isTrue ? (
-        <GridItem
+        <GridLayout
           collections={collections}
           hasNextPage={hasNextPage}
           fetchNextPage={fetchNextPage}
         />
       ) : (
-        <ListItem
+        <ListLayout
           collections={collections}
           hasNextPage={hasNextPage}
           fetchNextPage={fetchNextPage}
