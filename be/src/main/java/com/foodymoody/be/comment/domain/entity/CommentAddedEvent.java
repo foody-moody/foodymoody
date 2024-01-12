@@ -2,6 +2,7 @@ package com.foodymoody.be.comment.domain.entity;
 
 import com.foodymoody.be.common.event.Event;
 import com.foodymoody.be.common.event.NotificationType;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -12,7 +13,7 @@ import lombok.Getter;
 public class CommentAddedEvent implements Event {
 
     private final FeedId feedId;
-    private final String content;
+    private final Content content;
     private final NotificationType notificationType;
     private final CommentId commentId;
     private final MemberId memberId;
@@ -20,7 +21,7 @@ public class CommentAddedEvent implements Event {
 
     private CommentAddedEvent(
             FeedId feedId,
-            String content,
+            Content content,
             NotificationType notificationType,
             CommentId commentId,
             MemberId memberId,
@@ -36,7 +37,7 @@ public class CommentAddedEvent implements Event {
 
     public static CommentAddedEvent of(
             FeedId feedId,
-            String content,
+            Content content,
             CommentId commentId,
             MemberId memberId,
             LocalDateTime createdAt

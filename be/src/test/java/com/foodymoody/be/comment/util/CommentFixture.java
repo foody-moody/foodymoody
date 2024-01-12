@@ -1,14 +1,16 @@
 package com.foodymoody.be.comment.util;
 
-import com.foodymoody.be.comment.application.dto.request.RegisterCommentRequest;
+import com.foodymoody.be.comment.application.dto.data.RegisterCommentData;
 import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.comment.domain.entity.Reply;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.ReplyId;
 import java.time.LocalDateTime;
+import java.util.Random;
 import javax.validation.constraints.NotNull;
 
 public class CommentFixture {
@@ -28,42 +30,13 @@ public class CommentFixture {
     public static final boolean DELETED = false;
     public static final String NOT_EXISTS_MEMBER_ID = "not member id";
 
-    public static RegisterCommentRequest registerCommentRequestWithoutContent() {
-        RegisterCommentRequest registerCommentRequest = new RegisterCommentRequest();
-        registerCommentRequest.setFeedId(FEED_ID);
-        return registerCommentRequest;
-    }
 
-    public static RegisterCommentRequest registerCommentRequestWithEmptyContent() {
-        RegisterCommentRequest registerCommentRequest = new RegisterCommentRequest();
-        registerCommentRequest.setFeedId(FEED_ID);
-        registerCommentRequest.setContent(EMPTY_CONTENT);
-        return registerCommentRequest;
-    }
-
-    public static RegisterCommentRequest registerCommentRequestWithSpace() {
-        RegisterCommentRequest registerCommentRequest = new RegisterCommentRequest();
-        registerCommentRequest.setFeedId(FEED_ID);
-        registerCommentRequest.setContent(SPACE);
-        return registerCommentRequest;
-    }
-
-    public static RegisterCommentRequest registerCommentRequestWithContentOver200() {
-        RegisterCommentRequest registerCommentRequest = new RegisterCommentRequest();
-        registerCommentRequest.setFeedId(FEED_ID);
-        registerCommentRequest.setContent(CONTENT_OVER_200);
-        return registerCommentRequest;
-    }
-
-    public static RegisterCommentRequest registerCommentRequest() {
-        RegisterCommentRequest registerCommentRequest = new RegisterCommentRequest();
-        registerCommentRequest.setFeedId(FEED_ID);
-        registerCommentRequest.setContent(CONTENT);
-        return registerCommentRequest;
+    public static Content space() {
+        return new Content(SPACE);
     }
 
     public static Comment comment() {
-        return new Comment(new CommentId(COMMENT_ID), CONTENT, feedId(), DELETED, memberId(), CREATED_AT);
+        return new Comment(new CommentId(COMMENT_ID), content(), feedId(), DELETED, memberId(), CREATED_AT);
     }
 
     @NotNull
@@ -80,7 +53,7 @@ public class CommentFixture {
     }
 
     public static Comment deletedComment() {
-        return new Comment(commentId(), CONTENT, feedId(), true, memberId(), CREATED_AT);
+        return new Comment(commentId(), content(), feedId(), true, memberId(), CREATED_AT);
     }
 
     @NotNull
@@ -110,7 +83,7 @@ public class CommentFixture {
 
     @NotNull
     public static ReplyId replyId() {
-        return IdFactory.createReplyId("reply id");
+        return IdFactory.createReplyId();
     }
 
     public static MemberId replyMemberId() {
@@ -118,11 +91,44 @@ public class CommentFixture {
     }
 
     @NotNull
-    public static String content() {
-        return "reply content";
+    public static Content content() {
+        return new Content(CONTENT);
     }
 
-    static FeedId feedId() {
+    public static LocalDateTime newLocalTime() {
+        return CREATED_AT;
+    }
+
+    public static RegisterCommentData registerCommentData() {
+        return new RegisterCommentData(feedId(), content(), memberId());
+    }
+
+    public static Content newContent() {
+        return new Content(NEW_CONTENT);
+    }
+
+    public static FeedId feedId() {
         return IdFactory.createFeedId(FEED_ID);
+    }
+
+    public static MemberId newMemberId() {
+        return IdFactory.createMemberId();
+    }
+
+    public static CommentId newCommentId() {
+        return IdFactory.createCommentId();
+    }
+
+    public static FeedId newFeedId() {
+        return IdFactory.createFeedId();
+    }
+
+    public static LocalDateTime newCreatedAt() {
+        Random random = new Random();
+        int day = random.nextInt(31);
+        int hour = random.nextInt(24);
+        int minute = random.nextInt(60);
+        int second = random.nextInt(60);
+        return LocalDateTime.of(2021, 1, day, hour, minute, second);
     }
 }

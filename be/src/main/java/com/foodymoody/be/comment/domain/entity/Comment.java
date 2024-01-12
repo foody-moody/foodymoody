@@ -1,8 +1,11 @@
 package com.foodymoody.be.comment.domain.entity;
 
+import static com.foodymoody.be.comment.domain.entity.CommentValidator.validate;
+
 import com.foodymoody.be.common.event.Event;
 import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.CommentDeletedException;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -30,7 +33,7 @@ public class Comment {
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
     @Getter
-    private String content;
+    private Content content;
     @Getter
     private boolean deleted;
     @Getter
@@ -44,10 +47,10 @@ public class Comment {
     private ReplyComments replyComments;
 
     public Comment(
-            CommentId id, String content, FeedId feedId, boolean deleted, MemberId memberId,
+            CommentId id, Content content, FeedId feedId, boolean deleted, MemberId memberId,
             LocalDateTime createdAt
     ) {
-        CommentValidator.validate(id, content, feedId, createdAt);
+        validate(id, content, feedId, memberId, createdAt);
         this.id = id;
         this.content = content;
         this.feedId = feedId;
@@ -59,14 +62,13 @@ public class Comment {
         Events.raise(toCommentAddedEvent());
     }
 
-    public void edit(MemberId memberId, String content, LocalDateTime updatedAt) {
+    public void edit(MemberId memberId, Content content, LocalDateTime updatedAt) {
         if (!this.memberId.equals(memberId)) {
             throw new IllegalArgumentException();
         }
         if (this.deleted) {
             throw new CommentDeletedException();
         }
-        CommentValidator.validateContent(content);
         this.content = content;
         this.updatedAt = updatedAt;
     }

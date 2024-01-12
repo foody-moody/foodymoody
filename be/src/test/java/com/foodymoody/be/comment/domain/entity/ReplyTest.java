@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.comment.util.CommentFixture;
 import com.foodymoody.be.common.util.ids.IdFactory;
-import com.foodymoody.be.common.util.ids.ReplyId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,9 +13,17 @@ class ReplyTest {
     @Test
     void if_id_is_same_then_reply_is_same() {
         // given
-        ReplyId replyId = IdFactory.createReplyId();
-        Reply reply = new Reply(replyId, CommentFixture.CONTENT, false, null, null, null);
-        Reply sameIdReply = new Reply(replyId, CommentFixture.NEW_CONTENT, false, null, null, null);
+        var replyId = IdFactory.createReplyId();
+        var memberId = CommentFixture.memberId();
+        var createdAt = CommentFixture.newLocalTime();
+        var updatedAt = CommentFixture.newLocalTime();
+        var reply = new Reply(replyId, CommentFixture.content(), false, memberId, createdAt, updatedAt);
+
+        var otherMemberId = CommentFixture.newMemberId();
+        var otherCreatedAt = CommentFixture.newLocalTime();
+        var otherUpdatedAt = CommentFixture.newLocalTime();
+        var sameIdReply = new Reply(
+                replyId, CommentFixture.content(), false, otherMemberId, otherCreatedAt, otherUpdatedAt);
 
         // when ,then
         assertThat(reply).isEqualTo(sameIdReply);

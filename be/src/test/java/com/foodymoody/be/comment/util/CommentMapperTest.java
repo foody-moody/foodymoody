@@ -16,32 +16,28 @@ class CommentMapperTest {
     @Test
     void toEntity() {
         // given
-        var request = CommentFixture.registerCommentRequest();
         var commentMapper = new CommentMapper();
-        var feedId = CommentFixture.comment().getFeedId();
         var createdAt = CommentFixture.CREATED_AT;
         var commentId = new CommentId(CommentFixture.COMMENT_ID);
-        var memberId = CommentFixture.memberId();
+        var data = CommentFixture.registerCommentData();
 
         // when
         Comment comment = commentMapper.toEntity(
-                request,
-                feedId,
-                createdAt,
+                data,
                 commentId,
-                memberId
+                createdAt
         );
 
         // then
+        assertThat(comment).isNotNull();
         Assertions.assertAll(
-                () -> assertThat(comment).isNotNull(),
-                () -> assertThat(comment.getId()).usingRecursiveComparison().isEqualTo(CommentFixture.commentId()),
-                () -> assertThat(comment.getContent()).isEqualTo(CommentFixture.CONTENT),
-                () -> assertThat(comment.getFeedId().getValue()).isEqualTo(CommentFixture.FEED_ID),
+                () -> assertThat(comment.getId()).usingRecursiveComparison().isEqualTo(commentId),
+                () -> assertThat(comment.getContent()).usingRecursiveComparison().isEqualTo(data.getContent()),
+                () -> assertThat(comment.getFeedId()).usingRecursiveComparison().isEqualTo(data.getFeedId()),
                 () -> assertThat(comment.getCreatedAt()).isEqualTo(createdAt),
                 () -> assertThat(comment.getUpdatedAt()).isEqualTo(createdAt),
                 () -> assertThat(comment.isDeleted()).isEqualTo(CommentFixture.DELETED),
-                () -> assertThat(comment.getMemberId().getValue()).isEqualTo(CommentFixture.COMMENT_MEMBER_ID)
+                () -> assertThat(comment.getMemberId()).usingRecursiveComparison().isEqualTo(data.getMemberId())
         );
     }
 }
