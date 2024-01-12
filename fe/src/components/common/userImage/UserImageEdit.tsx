@@ -25,7 +25,8 @@ export const UserImageEdit: React.FC<Props> = ({
     url: imageUrl,
   });
   const { userInfo } = useAuthState();
-  const { mutate: imageMutate } = usePostImage('user');
+  const { mutate: imageMutate, isLoading: isUploadLoading } =
+    usePostImage('user');
   const { mutate: profileImageMutate } = useEditProfileImage(userInfo.id);
 
   const toast = useToast();
@@ -35,7 +36,7 @@ export const UserImageEdit: React.FC<Props> = ({
   const userImage = imageData.url || defaultImage;
 
   const handleImageClick = () => {
-    if (!isAuthor) {
+    if (!isAuthor || isUploadLoading) {
       return;
     }
 
@@ -83,7 +84,7 @@ export const UserImageEdit: React.FC<Props> = ({
 
   return (
     <Wrapper onClick={handleImageClick}>
-      <UserImage size="l" imageUrl={userImage} />
+      <UserImage size="l" imageUrl={userImage} isLoading={isUploadLoading} />
       <input
         ref={inputRef}
         type="file"

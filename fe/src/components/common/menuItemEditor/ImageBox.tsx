@@ -4,6 +4,7 @@ import { usePostImage } from 'service/queries/imageUpload';
 import { styled } from 'styled-components';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { PlusGhostIcon } from '../icon/icons';
+import { Spinner } from '../loading/spinner';
 
 type Props = {
   menuId: string;
@@ -17,7 +18,7 @@ export const ImageBox: React.FC<Props> = ({
   onEditMenuImage,
 }) => {
   const toast = useToast();
-  const { mutate: imageMutate } = usePostImage('feed');
+  const { mutate: imageMutate, isLoading } = usePostImage('feed');
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -27,6 +28,8 @@ export const ImageBox: React.FC<Props> = ({
   });
 
   const handleImageClick = () => {
+    if (isLoading) return;
+
     if (inputRef.current) {
       inputRef.current.click();
     }
@@ -77,7 +80,12 @@ export const ImageBox: React.FC<Props> = ({
         src={imageData.url || generateDefaultUserImage(menuId)}
         alt="menu item image"
       />
-      <PlusGhostIcon />
+      {isLoading && (
+        <SpinnerContainer>
+          <Spinner isLoading={isLoading} />
+        </SpinnerContainer>
+      )}
+      {!isLoading && <PlusGhostIcon />}
     </ImageWrapper>
   );
 };
@@ -123,4 +131,15 @@ const ImageWrapper = styled.div<{ $isImageUrl: boolean }>`
     transform: translate(-50%, -50%);
     z-index: 10;
   }
+`;
+
+const SpinnerContainer = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 `;
