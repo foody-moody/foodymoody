@@ -21,6 +21,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -31,6 +32,7 @@ public class CollectionUseCase {
     private final ImageService imageService;
     private final FeedCommentCountReadService feedCommentCountReadService;
 
+    @Transactional
     public Slice<CollectionReadFeedDetailsResponse> readCollectionFeedDetails(
             CollectionReadFeedDetailsServiceRequest request) {
         FeedCollectionId feedCollectionId = request.getFeedCollectionId();
