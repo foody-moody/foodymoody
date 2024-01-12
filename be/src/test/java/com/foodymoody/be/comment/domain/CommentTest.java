@@ -4,18 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.comment.domain.entity.CommentAddedEvent;
 import com.foodymoody.be.comment.domain.entity.CommentRepliedAddedEvent;
-import com.foodymoody.be.comment.domain.entity.Reply;
 import com.foodymoody.be.comment.util.CommentFixture;
-import com.foodymoody.be.common.event.Event;
 import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import com.foodymoody.be.common.exception.ErrorMessage;
-import com.foodymoody.be.common.util.ids.MemberId;
-import java.time.LocalDateTime;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -26,8 +20,8 @@ class CommentTest {
     @Test
     void edit_success() {
         // given
-        Comment comment = CommentFixture.comment();
-        LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
+        var comment = CommentFixture.comment();
+        var updatedAt = CommentFixture.newUpdatedAt();
 
         // when
         comment.edit(CommentFixture.memberId(), CommentFixture.newContent(), updatedAt);
@@ -45,9 +39,9 @@ class CommentTest {
     @Test
     void edit_fail_if_comment_is_deleted() {
         // given
-        Comment comment = CommentFixture.deletedComment();
-        LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
-        MemberId memberId = CommentFixture.memberId();
+        var comment = CommentFixture.deletedComment();
+        var updatedAt = CommentFixture.newUpdatedAt();
+        var memberId = CommentFixture.memberId();
         var content = CommentFixture.newContent();
 
         // when
@@ -61,9 +55,9 @@ class CommentTest {
     @Test
     void edit_fail_if_not_comment_writer() {
         // given
-        Comment comment = CommentFixture.comment();
-        LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
-        MemberId memberId = CommentFixture.notExistsMemberId();
+        var comment = CommentFixture.comment();
+        var updatedAt = CommentFixture.newUpdatedAt();
+        var memberId = CommentFixture.notExistsMemberId();
         var content = CommentFixture.newContent();
 
         // when
@@ -76,8 +70,8 @@ class CommentTest {
     @Test
     void delete_success() {
         // given
-        Comment comment = CommentFixture.comment();
-        LocalDateTime localDateTime = CommentFixture.newUpdatedAt();
+        var comment = CommentFixture.comment();
+        var localDateTime = CommentFixture.newUpdatedAt();
 
         // when
         comment.delete(CommentFixture.memberId(), localDateTime);
@@ -94,9 +88,9 @@ class CommentTest {
     @Test
     void delete_fail_if_comment_is_deleted() {
         // given
-        Comment comment = CommentFixture.deletedComment();
-        LocalDateTime localDateTime = CommentFixture.newUpdatedAt();
-        MemberId memberId = CommentFixture.memberId();
+        var comment = CommentFixture.deletedComment();
+        var localDateTime = CommentFixture.newUpdatedAt();
+        var memberId = CommentFixture.memberId();
 
         // when
         assertThatThrownBy(() -> comment.delete(memberId, localDateTime))
@@ -108,9 +102,9 @@ class CommentTest {
     @Test
     void delete_fail_if_not_comment_writer() {
         // given
-        Comment comment = CommentFixture.comment();
-        LocalDateTime localDateTime = CommentFixture.newUpdatedAt();
-        MemberId memberId = CommentFixture.notExistsMemberId();
+        var comment = CommentFixture.comment();
+        var localDateTime = CommentFixture.newUpdatedAt();
+        var memberId = CommentFixture.notExistsMemberId();
 
         // when
         assertThatThrownBy(() -> comment.delete(memberId, localDateTime))
@@ -121,19 +115,19 @@ class CommentTest {
     @Test
     void add_reply_success() {
         // given
-        Comment comment = CommentFixture.comment();
-        LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
+        var comment = CommentFixture.comment();
+        var updatedAt = CommentFixture.newUpdatedAt();
         Events.clear();
 
         // when
-        Reply reply = CommentFixture.reply();
+        var reply = CommentFixture.reply();
         comment.addReply(reply, updatedAt);
 
         // then
-        List<Reply> commentList = comment.getReplyComments().getCommentList();
-        Event event = Events.getEvents().get(0);
+        var commentList = comment.getReplyComments().getCommentList();
+        var event = Events.getEvents().get(0);
         assertThat(event).isInstanceOf(CommentRepliedAddedEvent.class);
-        CommentRepliedAddedEvent commentRepliedAddedEvent = (CommentRepliedAddedEvent) event;
+        var commentRepliedAddedEvent = (CommentRepliedAddedEvent) event;
         assertAll(
                 () -> assertThat(comment.isHasReply()).isTrue(),
                 () -> assertThat(comment.getUpdatedAt()).isEqualTo(updatedAt),
@@ -155,12 +149,12 @@ class CommentTest {
         Events.clear();
 
         // when
-        Comment comment = CommentFixture.comment();
+        var comment = CommentFixture.comment();
 
         // then
-        Event event = Events.getEvents().get(0);
+        var event = Events.getEvents().get(0);
         assertThat(event).isInstanceOf(CommentAddedEvent.class);
-        CommentAddedEvent commentAddedEvent = (CommentAddedEvent) event;
+        var commentAddedEvent = (CommentAddedEvent) event;
         assertAll(
                 () -> assertThat(commentAddedEvent.getCommentId()).isEqualTo(comment.getId()),
                 () -> assertThat(commentAddedEvent.getContent()).isEqualTo(comment.getContent()),
@@ -174,16 +168,16 @@ class CommentTest {
     @Test
     void delete_reply_success() {
         // given
-        Comment comment = CommentFixture.comment();
-        LocalDateTime updatedAt = CommentFixture.newUpdatedAt();
-        Reply reply = CommentFixture.reply();
+        var comment = CommentFixture.comment();
+        var updatedAt = CommentFixture.newUpdatedAt();
+        var reply = CommentFixture.reply();
         comment.addReply(reply, updatedAt);
 
         // when
         comment.deleteReply(reply, updatedAt);
 
         // then
-        List<Reply> commentList = comment.getReplyComments().getCommentList();
+        var commentList = comment.getReplyComments().getCommentList();
         assertAll(
                 () -> assertThat(commentList).isEmpty(),
                 () -> assertThat(comment.getUpdatedAt()).isEqualTo(updatedAt)

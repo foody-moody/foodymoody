@@ -5,7 +5,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.foodymoody.be.comment.domain.entity.CommentValidator;
 import com.foodymoody.be.common.exception.ContentNotExistsException;
 import com.foodymoody.be.common.exception.CreateTimeIsNullException;
-import com.foodymoody.be.common.exception.InvalidIdException;
+import com.foodymoody.be.common.exception.InvalidCommentIdException;
+import com.foodymoody.be.common.exception.InvalidFeedIdException;
+import com.foodymoody.be.common.exception.InvalidMemberIdException;
 import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
@@ -29,7 +31,7 @@ class CommentValidatorTest {
         commentId = CommentFixture.commentId();
         content = CommentFixture.content();
         memberId = CommentFixture.memberId();
-        createdAt = CommentFixture.createdAt();
+        createdAt = CommentFixture.newLocalTime();
         feedId = CommentFixture.feedId();
     }
 
@@ -44,7 +46,7 @@ class CommentValidatorTest {
                 memberId,
                 createdAt
         ))
-                .isInstanceOf(InvalidIdException.class);
+                .isInstanceOf(InvalidFeedIdException.class);
     }
 
     @Test
@@ -72,7 +74,7 @@ class CommentValidatorTest {
                 null,
                 createdAt
         ))
-                .isInstanceOf(InvalidIdException.class);
+                .isInstanceOf(InvalidMemberIdException.class);
     }
 
     @Test
@@ -100,6 +102,6 @@ class CommentValidatorTest {
                 memberId,
                 createdAt
         ))
-                .isInstanceOf(InvalidIdException.class);
+                .isInstanceOf(InvalidCommentIdException.class);
     }
 }

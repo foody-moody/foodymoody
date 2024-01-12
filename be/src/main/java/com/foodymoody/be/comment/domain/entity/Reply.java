@@ -35,6 +35,7 @@ public class Reply {
             ReplyId replyId, Content content, boolean deleted, MemberId memberId,
             LocalDateTime createdAt, LocalDateTime updatedAt
     ) {
+        ReplyValidator.validate(replyId, content, memberId, createdAt);
         this.id = replyId;
         this.content = content;
         this.deleted = deleted;

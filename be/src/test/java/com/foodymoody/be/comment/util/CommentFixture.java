@@ -10,6 +10,7 @@ import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.ReplyId;
 import java.time.LocalDateTime;
+import java.util.Random;
 import javax.validation.constraints.NotNull;
 
 public class CommentFixture {
@@ -94,7 +95,7 @@ public class CommentFixture {
         return new Content(CONTENT);
     }
 
-    public static LocalDateTime createdAt() {
+    public static LocalDateTime newLocalTime() {
         return CREATED_AT;
     }
 
@@ -106,7 +107,28 @@ public class CommentFixture {
         return new Content(NEW_CONTENT);
     }
 
-    static FeedId feedId() {
+    public static FeedId feedId() {
         return IdFactory.createFeedId(FEED_ID);
+    }
+
+    public static MemberId newMemberId() {
+        return IdFactory.createMemberId();
+    }
+
+    public static CommentId newCommentId() {
+        return IdFactory.createCommentId();
+    }
+
+    public static FeedId newFeedId() {
+        return IdFactory.createFeedId();
+    }
+
+    public static LocalDateTime newCreatedAt() {
+        Random random = new Random();
+        int day = random.nextInt(31);
+        int hour = random.nextInt(24);
+        int minute = random.nextInt(60);
+        int second = random.nextInt(60);
+        return LocalDateTime.of(2021, 1, day, hour, minute, second);
     }
 }
