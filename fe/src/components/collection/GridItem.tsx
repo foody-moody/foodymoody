@@ -110,7 +110,6 @@ const Grid = styled.div`
   cursor: pointer;
   width: 100%;
   height: 100%;
-  /* border: 1px solid ${({ theme: { colors } }) => colors.black}; */
 
   img {
     aspect-ratio: 1/1;
@@ -128,9 +127,6 @@ const Grid = styled.div`
 const ImageContainer = styled.div`
   width: 100%;
   height: 100%;
-  border: 1px solid red;
-  min-width: fit-content;
-  min-height: fit-content;
 `;
 
 const GridFilter = styled.div`
