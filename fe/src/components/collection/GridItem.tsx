@@ -63,13 +63,7 @@ export const GridItem: React.FC<Props> = ({
                 <FeedCounter>{collection.feedCount}</FeedCounter>
               </GridHeader>
               <GridInfo>
-                <Title
-                  onClick={() => {
-                    handleNavigateToDetail(collection.id);
-                  }}
-                >
-                  {collection.title}
-                </Title>
+                <Title>{collection.title}</Title>
                 <InfoBottom>
                   <InfoLeft
                     onClick={(e) => {
