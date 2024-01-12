@@ -47,7 +47,9 @@ public enum ErrorMessage {
     MENU_NOT_FOUND("유효하지 않은 메뉴 id입니다.", "i010"),
     IS_LIKED_NOT_EXISTS("isLiked를 찾아올 수 없습니다.", "i012"),
     FEED_HEART_ALREADY_EXISTS("이미 좋아요 누른 피드입니다.", "i014"),
-    FEED_HEART_NOT_FOUND("좋아요 기록이 없어 취소할 수 없습니다.", "i016");
+    FEED_HEART_NOT_FOUND("좋아요 기록이 없어 취소할 수 없습니다.", "i016"),
+    // store
+    STORE_NOT_FOUND("해당 id의 식당이 존재하지 않습니다", "s001");
 
     private final String message;
     private final String code;
