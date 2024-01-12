@@ -115,6 +115,8 @@ const useCommonUpdateNotificationSettings = <T>(
       return { previousSettings };
     },
     onError: (error, _, context) => {
+      console.log(error);
+
       if (context?.previousSettings) {
         queryClient.setQueryData(
           [QUERY_KEY.notificationSetting],

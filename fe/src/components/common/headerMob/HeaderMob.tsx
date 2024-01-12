@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { NotiIcon } from '../icon/NotiIcon';
-import { GearIcon, LogoLarge, SantaHat } from '../icon/icons';
+import { GearIcon, LogoLarge } from '../icon/icons';
 import { PATH } from 'constants/path';
 
 export const HeaderMob: React.FC = () => {
@@ -16,7 +16,6 @@ export const HeaderMob: React.FC = () => {
   return (
     <Wrapper>
       <FlexRowBox>
-        <StyledHat />
         <LogoLarge onClick={navigateToHome} />
         <ContentRight>
           <NotiIcon />
@@ -54,11 +53,4 @@ const FlexRowBox = styled.div`
 
 const ContentRight = styled(FlexRowBox)`
   gap: 12px;
-`;
-
-const StyledHat = styled(SantaHat)`
-  display: block;
-  position: absolute;
-  top: 0px;
-  left: 100px;
 `;

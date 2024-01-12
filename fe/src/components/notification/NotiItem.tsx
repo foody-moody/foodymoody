@@ -5,7 +5,7 @@ import { Button } from 'components/common/button/Button';
 import { UserImage } from 'components/common/userImage/UserImage';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
-import { useModal } from './useModal';
+// import { useModal } from './useModal';
 import { PATH } from 'constants/path';
 
 type Props = {
@@ -40,10 +40,15 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
     const {
       feedId,
       imageUrl: targetImageUrl,
-      commentId,
+      // commentId,
       commentMessage = null,
     } = notification.target || {};
-    const { notificationId, type, createdAt, updatedAt, read } = notification;
+    const {
+      notificationId,
+      type,
+      //  createdAt, updatedAt,
+      read,
+    } = notification;
 
     const notiText = generateNotiText(type);
     const isFollowNoti = type === 'MEMBER_FOLLOWED_EVENT';
@@ -125,13 +130,13 @@ const NotiInfo = styled.div`
   width: 100%;
 `;
 
-const Thumbnail = styled.img`
-  cursor: pointer;
-  width: 60px;
-  height: 60px;
-  border: 0.5px solid ${({ theme: { colors } }) => colors.black};
-  border-radius: ${({ theme: { radius } }) => radius.half};
-`;
+// const Thumbnail = styled.img`
+//   cursor: pointer;
+//   width: 60px;
+//   height: 60px;
+//   border: 0.5px solid ${({ theme: { colors } }) => colors.black};
+//   border-radius: ${({ theme: { radius } }) => radius.half};
+// `;
 
 const Content = styled.div`
   display: flex;

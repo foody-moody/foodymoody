@@ -1,8 +1,7 @@
-import { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+//  TODO db데이터 확정시 제거
 import { useToggle } from 'recoil/booleanState/useToggle';
 import { styled } from 'styled-components';
-import { TextButton } from 'components/common/button/TextButton';
-import { SearchIcon } from 'components/common/icon/icons';
 import { Input } from 'components/common/input/Input';
 import { InputField } from 'components/common/input/InputField';
 
@@ -41,7 +40,7 @@ export const SearchPanelInput: React.FC<Props> = ({
           />
         </Input.CenterContent>
         <Input.BottomPanel isOpen={search.isTrue && value?.trim().length !== 0}>
-          {data.map((result) => (
+          {data.map((result: any) => (
             <ItemRow
               key={result.id}
               onClick={() => {

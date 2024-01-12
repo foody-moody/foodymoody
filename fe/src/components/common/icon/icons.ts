@@ -37,7 +37,6 @@ export { default as ToastNotiIcon } from 'assets/toastNoti.svg?react';
 export { default as ToastSuccessIcon } from 'assets/toastSuccess.svg?react';
 export { default as UserPlusIcon } from 'assets/userPlus.svg?react';
 export { default as UserCheckedIcon } from 'assets/userChecked.svg?react';
-export { default as SantaHat } from 'assets/santaHat.svg?react';
 export { default as HeartSmallEmpty } from 'assets/heartSmallEmpty.svg?react';
 export { default as HeartSmallFill } from 'assets/heartSmallFill.svg?react';
 export { default as EyeVisble } from 'assets/eyeVisble.svg?react';

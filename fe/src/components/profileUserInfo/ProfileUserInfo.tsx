@@ -3,7 +3,7 @@ import { useGetProfile } from 'service/queries/profile';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { TasteMoodBadge } from 'components/common/badge/TasteMoodBadge';
-import { useModal } from 'components/common/modal/useModal';
+// import { useModal } from 'components/common/modal/useModal';
 import { FollowProfileButton } from 'components/follow/followButton/FollowProfileButton';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
@@ -27,11 +27,11 @@ export const ProfileUserInfo = () => {
   const navigate = useNavigate();
   const { navigateToProfileSetting } = usePageNavigator();
   const isAuthor = member?.id === userInfo.id;
-  const { openModal } = useModal<'collection'>();
+  // const { openModal } = useModal<'collection'>();
 
   const handleAddCollection = () => {
     // 나중에 수정 예정
-    openModal('collection', {});
+    // openModal('collection', {});
   };
 
   const handleEditProfile = () => {
