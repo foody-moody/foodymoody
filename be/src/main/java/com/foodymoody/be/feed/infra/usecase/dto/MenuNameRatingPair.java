@@ -1,19 +1,20 @@
 package com.foodymoody.be.feed.infra.usecase.dto;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class MenuNameRatingPair {
 
-    private final String name;
-    private final int rating;
+    private String name;
+    private int rating;
 
-    public String getName() {
-        return name;
-    }
-
-    public int getRating() {
-        return rating;
+    public MenuNameRatingPair(String name, int rating) {
+        this.name = name;
+        this.rating = rating;
     }
 
 }

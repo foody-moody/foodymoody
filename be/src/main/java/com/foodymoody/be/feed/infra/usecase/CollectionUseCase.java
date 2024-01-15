@@ -37,7 +37,7 @@ public class CollectionUseCase {
     @Transactional
     public Slice<CollectionReadFeedDetailsResponse> readCollectionFeedDetails(
             CollectionReadFeedDetailsServiceRequest request) {
-        FeedCollectionId feedCollectionId = request.getFeedCollectionId();
+        FeedCollectionId feedCollectionId = request.getCollectionId();
         Pageable pageable = request.getPageable();
         MemberId memberId = request.getMemberId();
 

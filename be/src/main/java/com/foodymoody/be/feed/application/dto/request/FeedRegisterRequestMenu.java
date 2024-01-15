@@ -2,9 +2,13 @@ package com.foodymoody.be.feed.application.dto.request;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Setter
 public class FeedRegisterRequestMenu {
 
     private String name;
@@ -13,22 +17,6 @@ public class FeedRegisterRequestMenu {
     @Builder
     public FeedRegisterRequestMenu(String name, int rating) {
         this.name = name;
-        this.rating = rating;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setRating(int rating) {
         this.rating = rating;
     }
 
