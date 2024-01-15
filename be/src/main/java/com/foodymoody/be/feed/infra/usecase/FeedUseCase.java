@@ -39,6 +39,7 @@ import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.menu.domain.Menu;
 import com.foodymoody.be.menu.service.MenuService;
+import com.foodymoody.be.store.application.StoreReadService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,6 +65,7 @@ public class FeedUseCase {
     private final StoreMoodReadService storeMoodReadService;
     private final FeedHeartCountService feedHeartCountService;
     private final FeedCommentCountReadService feedCommentCountReadService;
+    private final StoreReadService storeReadService;
 
     @Transactional
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
@@ -108,7 +110,8 @@ public class FeedUseCase {
                         makeFeedStoreMoodResponses(feed.getStoreMoods()),
                         makeFeedImageMenuResponses(feed),
                         false,
-                        findCommentCount(feed.getId())))
+                        findCommentCount(feed.getId()),
+                        storeReadService.fetchDetails(feed.getStoreId()).getAddress()))
                 .collect(Collectors.toList());
     }
 
@@ -118,7 +121,8 @@ public class FeedUseCase {
                         makeFeedStoreMoodResponses(feed.getStoreMoods()),
                         makeFeedImageMenuResponses(feed),
                         feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()),
-                        findCommentCount(feed.getId())))
+                        findCommentCount(feed.getId()),
+                        storeReadService.fetchDetails(feed.getStoreId()).getAddress()))
                 .collect(Collectors.toList());
     }
 
@@ -133,18 +137,19 @@ public class FeedUseCase {
             return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
                     makeFeedStoreMoodResponses(storeMoods),
                     false,
-                    findCommentCount(feed.getId()));
+                    findCommentCount(feed.getId()),
+                    storeReadService.fetchDetails(feed.getStoreId()).getAddress());
         }
 
         return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
                 makeFeedStoreMoodResponses(storeMoods),
                 feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()),
-                findCommentCount(feed.getId()));
+                findCommentCount(feed.getId()), storeReadService.fetchDetails(feed.getStoreId()).getAddress());
     }
 
     @Transactional
-    public void update(FeedId id, FeedServiceUpdateRequest request) {
-        Feed feed = feedReadService.findFeed(id);
+    public void update(FeedServiceUpdateRequest request) {
+        Feed feed = feedReadService.findFeed(request.getId());
         Member member = memberQueryService.findById(request.getMemberId());
         MemberId memberId = member.getId();
         List<Image> newImages = toImage(request.getImages(), memberId);
@@ -152,7 +157,7 @@ public class FeedUseCase {
         List<StoreMood> newStoreMoods = storeMoodReadService.fetchAllByStoreMoodIds(request.getStoreMoodIds());
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
-        feed.update(memberId, request.getLocation(), request.getReview(), newStoreMoods, newImages, newMenus,
+        feed.update(memberId, request.getStoreId(), request.getReview(), newStoreMoods, newImages, newMenus,
                 profileImageUrl, feed.getCreatedAt(), LocalDateTime.now());
     }
 

@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.application.dto.request;
 
+import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.common.util.ids.StoreMoodId;
 import java.util.List;
 import lombok.AccessLevel;
@@ -9,26 +10,26 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedRegisterRequest {
 
-    private String location;
+    private StoreId storeId;
     private String review;
     private List<StoreMoodId> storeMoodIds;
     private List<ImageMenuPair> images;
 
     @Builder
-    public FeedRegisterRequest(String location, String review, List<StoreMoodId> storeMoodIds,
+    public FeedRegisterRequest(StoreId storeId, String review, List<StoreMoodId> storeMoodIds,
                                List<ImageMenuPair> images) {
-        this.location = location;
+        this.storeId = storeId;
         this.review = review;
         this.storeMoodIds = storeMoodIds;
         this.images = images;
     }
 
-    public String getLocation() {
-        return location;
+    public StoreId getStoreId() {
+        return storeId;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setStoreId(StoreId storeId) {
+        this.storeId = storeId;
     }
 
     public String getReview() {
