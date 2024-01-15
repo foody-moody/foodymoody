@@ -12,6 +12,7 @@ import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.image.application.ImageService;
+import com.foodymoody.be.store.application.StoreReadService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class CollectionUseCase {
     private final FeedReadService feedReadService;
     private final ImageService imageService;
     private final FeedCommentCountReadService feedCommentCountReadService;
+    private final StoreReadService storeReadService;
 
     @Transactional
     public Slice<CollectionReadFeedDetailsResponse> readCollectionFeedDetails(
@@ -61,7 +63,7 @@ public class CollectionUseCase {
                 .map(feed -> CollectionReadFeedDetailsResponse.builder()
                         .feedAllCount(feeds.getSize())
                         .feedThumbnailUrl(imageService.findById(FeedMapper.findFirstImageId(feed)).getUrl())
-                        .storeName(null) // TODO: 가게 API 구현 완료되면 가게 name 조회해오기
+                        .storeName(storeReadService.fetchDetails(feed.getStoreId()).getName())
                         .feedId(feed.getId())
                         .createdAt(feed.getCreatedAt())
                         .updatedAt(feed.getUpdatedAt())
@@ -79,7 +81,7 @@ public class CollectionUseCase {
                 .map(feed -> CollectionReadFeedDetailsResponse.builder()
                         .feedAllCount(feeds.getSize())
                         .feedThumbnailUrl(imageService.findById(FeedMapper.findFirstImageId(feed)).getUrl())
-                        .storeName(null) // TODO: 가게 API 구현 완료되면 가게 name 조회해오기
+                        .storeName(storeReadService.fetchDetails(feed.getStoreId()).getName())
                         .feedId(feed.getId())
                         .createdAt(feed.getCreatedAt())
                         .updatedAt(feed.getUpdatedAt())
