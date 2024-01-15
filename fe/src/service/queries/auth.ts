@@ -9,6 +9,7 @@ import {
   refreshTokenState,
   userInfoState,
 } from 'recoil/localStorage/atom';
+import { useClearLoginInfo } from 'recoil/localStorage/useLoginInfo';
 import { useToast } from 'recoil/toast/useToast';
 import {
   fetchLogin,
@@ -17,7 +18,6 @@ import {
   fetchRegister,
 } from 'service/axios/auth/login';
 import { usePageNavigator } from 'hooks/usePageNavigator';
-import { clearLoginInfo } from 'utils/localStorage';
 import { PATH } from 'constants/path';
 
 export const useLogin = () => {
@@ -58,6 +58,7 @@ export const useLogout = () => {
   const { navigateToPath } = usePageNavigator();
   const location = useLocation();
   const from = location.state?.redirectedFrom?.pathname || PATH.HOME;
+  const clearLoginInfo = useClearLoginInfo();
 
   return useMutation({
     mutationFn: () => fetchLogout(),
@@ -99,6 +100,7 @@ export const useRefreshToken = () => {
 
   const refreshToken = useRecoilValue(refreshTokenState);
   const userInfo = useRecoilValue(userInfoState);
+  const clearLoginInfo = useClearLoginInfo();
 
   const refreshTokenMutation = useMutation(
     () => {
@@ -130,8 +132,11 @@ export const useRefreshToken = () => {
   const INTERVAL_TIME = 10 * 1000;
   // TODO 30초마다 체크, 만료 시간 연장되면 더 늘리기
   useEffect(() => {
+    if (!userInfo) {
+      return;
+    }
+
     const checkInterval = setInterval(() => {
-      if (!userInfo) return;
       const isExpiring = checkTokenExpiry(JSON.parse(userInfo));
       if (isExpiring) {
         refreshTokenMutation.mutate();
@@ -145,7 +150,7 @@ export const useRefreshToken = () => {
 export const checkTokenExpiry = (userInfo: UserInfoType) => {
   const { exp } = userInfo;
   const now = Date.now() / 1000;
-  const BEFORE_EXPIRY = 100;
+  const BEFORE_EXPIRY = 60;
   // exp: 만료 시간
   // 만료 1분 전인지 체크
   // TODO 만료 시간 연장되면 더 늘리기
