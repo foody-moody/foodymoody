@@ -1,10 +1,12 @@
 import { useState, forwardRef } from 'react';
+import { useToast } from 'recoil/toast/useToast';
 import { useGetReplies, usePostReply } from 'service/queries/reply';
 import { styled } from 'styled-components';
 import { CommentInput } from 'components/commentInput/CommentInput';
 import { TextButton } from 'components/common/button/TextButton';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
+import { usePageNavigator } from 'hooks/usePageNavigator';
 import { ArrowDownIcon, ArrowUpIcon } from '../icon/icons';
 // import { CommentInput } from '../input/CommentInput';
 import { Spinner } from '../loading/spinner';
@@ -32,12 +34,19 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
       validator: (value) =>
         value.trim().length !== 0 && value.trim().length < 200,
     });
+    const toast = useToast();
     const { isLogin } = useAuthState();
+    const { navigateToLogin } = usePageNavigator();
     const [isReplying, setIsReplying] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
 
     const handleToggleReplyInput = () => {
-      isLogin && setIsReplying(!isReplying);
+      if (isLogin) {
+        setIsReplying(!isReplying);
+      } else {
+        toast.noti('로그인이 필요한 서비스입니다.');
+        navigateToLogin();
+      }
     };
 
     const handleSubmitReply = () => {

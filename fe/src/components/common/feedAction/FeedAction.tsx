@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { useToast } from 'recoil/toast/useToast';
 import { useDeleteFeedLike, usePostFeedLike } from 'service/queries/like';
 // import { usePostLike } from 'service/queries/like';
 import { styled } from 'styled-components';
@@ -26,13 +27,14 @@ export const FeedAction: React.FC<Props> = ({
   const { isLogin } = useAuthState();
   const { mutate: likeMutate } = usePostFeedLike(param);
   const { mutate: unLikeMutate } = useDeleteFeedLike(param);
-
+  const toast = useToast();
   const LikeIcon = isLiked ? HeartFillIcon : HeartBgIcon;
 
   const handleSubmitLike = () => {
     if (isLogin) {
       isLiked ? unLikeMutate(feedId) : likeMutate(feedId);
     } else {
+      toast.noti('로그인이 필요한 서비스입니다.');
       navigateToLogin();
     }
   };
