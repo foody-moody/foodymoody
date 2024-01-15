@@ -110,8 +110,6 @@ export const useRefreshToken = () => {
     },
     {
       onSuccess: (data) => {
-        console.log('refreshTokenMutation onSuccess', data);
-
         const { accessToken, refreshToken } = data;
         const payload = jwtDecode(accessToken);
         localStorage.setItem('accessToken', accessToken);
