@@ -7,6 +7,7 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequestMenu;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceRegisterRequest;
@@ -39,10 +40,10 @@ class FeedMapperTest {
         // given
         FeedId id = makeFeedId();
         MemberId memberId = makeMemberId();
-        String location = makeLocation();
+        StoreId storeId = makeStoreId();
         String review = makeReview();
         List<StoreMoodId> storeMoodIds = List.of(IdFactory.createStoreMoodId("1"), IdFactory.createStoreMoodId("2"));
-        FeedServiceRegisterRequest feedServiceRegisterRequest = new FeedServiceRegisterRequest(memberId, location,
+        FeedServiceRegisterRequest feedServiceRegisterRequest = new FeedServiceRegisterRequest(memberId, IdFactory.createStoreId("1"),
                 review, storeMoodIds,
                 List.of(
                         new ImageMenuPair(IdFactory.createImageId("1"),
@@ -62,7 +63,7 @@ class FeedMapperTest {
         assertAll(
                 () -> assertThat(feed.getId()).isEqualTo(id),
                 () -> assertThat(feed.getMemberId()).isEqualTo(memberId),
-                () -> assertThat(feed.getLocation()).isEqualTo(location),
+                () -> assertThat(feed.getStoreId()).isEqualTo(storeId),
                 () -> assertThat(feed.getReview()).isEqualTo(review),
                 () -> assertThat(feed.getStoreMoods()).isEqualTo(storeMoods),
                 () -> assertThat(feed.getProfileImageUrl()).isEqualTo(profileImageUrl)
@@ -96,13 +97,13 @@ class FeedMapperTest {
         List<FeedStoreMoodResponse> moodNames = makeFeedStoreMoodResponse();
 
         // when
-        FeedReadResponse feedReadResponse = FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images, moodNames, false, 0L);
+        FeedReadResponse feedReadResponse = FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images, moodNames, false, 0L, "역삼동");
 
         // then
         assertAll(() -> {
             assertThat(feedReadResponse.getId()).isEqualTo(feed.getId());
             assertThat(feedReadResponse.getMember()).isEqualTo(feedMemberResponse);
-            assertThat(feedReadResponse.getLocation()).isEqualTo(feed.getLocation());
+            assertThat(feedReadResponse.getAddress()).isEqualTo("역삼동");
             assertThat(feedReadResponse.getReview()).isEqualTo(feed.getReview());
             assertThat(feedReadResponse.getStoreMood()).isEqualTo(moodNames);
             assertThat(feedReadResponse.getImages()).isEqualTo(images);
@@ -126,13 +127,14 @@ class FeedMapperTest {
                 makeFeedStoreMoodResponses,
                 makeFeedImageMenuResponses,
                 false,
-                0L);
+                0L,
+                "역삼동");
 
         // then
         assertAll(() -> {
             assertThat(feedReadAllResponse.getId()).isEqualTo(feed.getId());
             assertThat(feedReadAllResponse.getMember()).isEqualTo(makeFeedMemberResponse);
-            assertThat(feedReadAllResponse.getLocation()).isEqualTo(feed.getLocation());
+            assertThat(feedReadAllResponse.getAddress()).isEqualTo("역삼동");
             assertThat(feedReadAllResponse.getReview()).isEqualTo(feed.getReview());
             assertThat(feedReadAllResponse.getStoreMood()).isEqualTo(makeFeedStoreMoodResponses);
             assertThat(feedReadAllResponse.getImages()).isEqualTo(makeFeedImageMenuResponses);
@@ -183,14 +185,14 @@ class FeedMapperTest {
     private Feed makeFeed() {
         FeedId feedId = makeFeedId();
         MemberId memberId = makeMemberId();
-        String location = makeLocation();
+        StoreId storeId = makeStoreId();
         String review = makeReview();
         List<StoreMood> storeMoods = makeStoreMoods();
         List<Image> images = makeImages(memberId);
         List<Menu> menus = makeMenus();
         String profileImageUrl = makeProfileImageUrl();
 
-        return new Feed(feedId, memberId, location, review, storeMoods, images, menus, profileImageUrl,
+        return new Feed(feedId, memberId, storeId, review, storeMoods, images, menus, profileImageUrl,
                 LocalDateTime.MIN);
     }
 
@@ -255,8 +257,8 @@ class FeedMapperTest {
     }
 
     @NotNull
-    private String makeLocation() {
-        return "중동";
+    private StoreId makeStoreId() {
+        return IdFactory.createStoreId("1");
     }
 
     @NotNull

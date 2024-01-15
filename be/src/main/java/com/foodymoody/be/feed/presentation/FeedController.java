@@ -66,7 +66,7 @@ public class FeedController {
     @PutMapping("/api/feeds/{id}")
     public ResponseEntity<Void> update(@PathVariable FeedId id, @RequestBody FeedUpdateRequest feedUpdateRequest,
                                        @CurrentMemberId MemberId memberId) {
-        feedUseCase.update(id, FeedMapper.toServiceUpdateRequest(feedUpdateRequest, memberId));
+        feedUseCase.update(FeedMapper.toServiceUpdateRequest(id, feedUpdateRequest, memberId));
         return ResponseEntity.noContent().build();
     }
 

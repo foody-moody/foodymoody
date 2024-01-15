@@ -44,7 +44,7 @@ public class FeedMapper {
     public static Feed toFeed(FeedId id, MemberId memberId, FeedServiceRegisterRequest request,
                               List<StoreMood> storeMoods,
                               List<Image> images, List<Menu> menus, String profileImageUrl) {
-        return new Feed(id, memberId, request.getLocation(), request.getReview(), storeMoods, images, menus,
+        return new Feed(id, memberId, request.getStoreId(), request.getReview(), storeMoods, images, menus,
                 profileImageUrl, LocalDateTime.now());
     }
 
@@ -56,11 +56,12 @@ public class FeedMapper {
                                                       List<FeedImageMenuResponse> images,
                                                       List<FeedStoreMoodResponse> moodNames,
                                                       boolean isLiked,
-                                                      Long commentCount) {
+                                                      Long commentCount,
+                                                      String address) {
         return FeedReadResponse.builder()
                 .id(feed.getId())
                 .member(feedMemberResponse)
-                .location(feed.getLocation())
+                .address(address)
                 .review(feed.getReview())
                 .storeMood(moodNames)
                 .images(images)
@@ -75,17 +76,18 @@ public class FeedMapper {
     public static FeedServiceRegisterRequest toServiceRegisterRequest(FeedRegisterRequest request, MemberId memberId) {
         return FeedServiceRegisterRequest.builder()
                 .memberId(memberId)
-                .location(request.getLocation())
+                .storeId(request.getStoreId())
                 .review(request.getReview())
                 .storeMoodIds(request.getStoreMoodIds())
                 .images(request.getImages())
                 .build();
     }
 
-    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedUpdateRequest request, MemberId memberId) {
+    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedId id, FeedUpdateRequest request, MemberId memberId) {
         return FeedServiceUpdateRequest.builder()
+                .id(id)
                 .memberId(memberId)
-                .location(request.getLocation())
+                .storeId(request.getStoreId())
                 .review(request.getReview())
                 .storeMoodIds(request.getStoreMoodIds())
                 .images(request.getImages())
@@ -127,11 +129,12 @@ public class FeedMapper {
                                                               List<FeedStoreMoodResponse> makeFeedStoreMoodResponses,
                                                               List<FeedImageMenuResponse> makeFeedImageMenuResponses,
                                                               boolean isLiked,
-                                                              Long commentCount) {
+                                                              Long commentCount,
+                                                              String address) {
         return FeedReadAllResponse.builder()
                 .id(feed.getId())
                 .member(makeFeedMemberResponse)
-                .location(feed.getLocation())
+                .address(address)
                 .review(feed.getReview())
                 .storeMood(makeFeedStoreMoodResponses)
                 .images(makeFeedImageMenuResponses)
