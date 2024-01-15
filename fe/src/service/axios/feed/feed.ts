@@ -8,6 +8,13 @@ export const getAllFeeds = async (page = 0, size = 10) => {
   return data;
 };
 
+export const getAllProfileFeeds = async (page = 0, size = 10, id: string) => {
+  const { data } = await privateApi.get(END_POINT.memberFeeds(id), {
+    params: { page, size },
+  });
+  return data;
+};
+
 export const getFeedDetail = async (id: string) => {
   const { data } = await publicApi.get(END_POINT.feed(id));
   return data;
