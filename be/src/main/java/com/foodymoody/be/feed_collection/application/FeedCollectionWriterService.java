@@ -78,9 +78,9 @@ public class FeedCollectionWriterService {
     }
 
     @Transactional
-    public void update(FeedCollectionId id, List<FeedId> feedIds, MemberId memberId) {
+    public void update(FeedCollectionId id, List<FeedId> feedIds, MemberId memberId, String thumbnailUrl) {
         FeedCollection feedCollection = fetchById(id);
-        feedCollection.update(feedIds, memberId, LocalDateTime.now());
+        feedCollection.update(feedIds, memberId, LocalDateTime.now(), thumbnailUrl);
     }
 
     @Transactional
