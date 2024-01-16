@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { CollectionContainer } from 'components/collection/CollectionContainer';
+import { CollectionCarousel } from 'components/common/carousel/CollectionCarousel';
 // import { GridItem } from 'components/collection/GridItem';
 import { LayoutButton } from 'components/layoutButton/LayoutButton';
 
@@ -11,9 +12,7 @@ export const CollectionPage = () => {
       <ContentWrapper>
         <HeaderContent>
           <SubTitle>오늘의 컬렉션🎉</SubTitle>
-          <CollectionSlick>
-            {/* <GridItem collections={MOCK_FEEDS} /> */}
-          </CollectionSlick>
+          <CollectionCarousel />
         </HeaderContent>
         <BodyContent>
           <Header>
@@ -86,11 +85,6 @@ const HeaderContent = styled.div`
 
 const SubTitle = styled.h2`
   font: ${({ theme: { fonts } }) => fonts.displayB20};
-`;
-
-const CollectionSlick = styled.div`
-  display: flex;
-  justify-content: center;
 `;
 
 const BodyContent = styled.div`
