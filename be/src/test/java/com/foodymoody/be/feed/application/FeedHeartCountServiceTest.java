@@ -11,7 +11,7 @@ import com.foodymoody.be.feed_heart_count.application.FeedHeartCountService;
 import com.foodymoody.be.feed_heart_count.domain.FeedHeartCountRepository;
 import com.foodymoody.be.feed_heart_count.domain.entity.FeedHeartCount;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.menu.domain.Menu;
+import com.foodymoody.be.menu.domain.entity.Menu;
 import com.foodymoody.be.utils.SpringBootIntegrationTest;
 import java.time.LocalDateTime;
 import java.util.List;

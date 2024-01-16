@@ -18,12 +18,13 @@ public class StoreMoodReadService {
 
     private final StoreMoodRepository storeMoodRepository;
 
-    public StoreMood findById(StoreMoodId id) {
-        return storeMoodRepository.findById(id).orElseThrow(MoodNotFoundException::new);
+    public StoreMood fetchById(StoreMoodId id) {
+        return storeMoodRepository.fetchById(id)
+                .orElseThrow(MoodNotFoundException::new);
     }
 
     public List<StoreMoodResponse> fetchAll() {
-        return storeMoodRepository.findAll().stream()
+        return storeMoodRepository.fetchAll().stream()
                 .map(s -> new StoreMoodResponse(s.getId(), s.getName()))
                 .collect(Collectors.toUnmodifiableList());
     }

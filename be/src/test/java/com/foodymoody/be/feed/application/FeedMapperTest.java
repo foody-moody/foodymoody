@@ -24,7 +24,7 @@ import com.foodymoody.be.feed.application.dto.response.FeedTasteMoodResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.menu.domain.Menu;
+import com.foodymoody.be.menu.domain.entity.Menu;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
