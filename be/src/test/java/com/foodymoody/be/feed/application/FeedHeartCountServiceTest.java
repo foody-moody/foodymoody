@@ -6,7 +6,7 @@ import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.domain.entity.Feed;
-import com.foodymoody.be.feed.domain.repository.FeedRepository;
+import com.foodymoody.be.feed.infra.persistence.FeedRepositoryImpl;
 import com.foodymoody.be.feed_heart_count.application.FeedHeartCountService;
 import com.foodymoody.be.feed_heart_count.domain.FeedHeartCountRepository;
 import com.foodymoody.be.feed_heart_count.domain.entity.FeedHeartCount;
@@ -35,7 +35,7 @@ class FeedHeartCountServiceTest {
     @Autowired
     private FeedHeartCountRepository feedHeartCountRepository;
     @Autowired
-    private FeedRepository feedRepository;
+    private FeedRepositoryImpl feedRepository;
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
 
