@@ -1,4 +1,5 @@
 import { useToggle } from 'recoil/booleanState/useToggle';
+import { useSort } from 'recoil/sortState/useSort';
 import { useGetCollection } from 'service/queries/collection';
 import { styled } from 'styled-components';
 import { GridLayout } from './GridLayout';
@@ -6,7 +7,8 @@ import { ListLayout } from './ListLayout';
 
 export const CollectionContainer = () => {
   // TODO 프로필에 쓰이는거는 위로 올려야함
-  const { collections, hasNextPage, fetchNextPage } = useGetCollection();
+  const { sortBy } = useSort('collection');
+  const { collections, hasNextPage, fetchNextPage } = useGetCollection(sortBy);
   console.log(collections);
   const grid = useToggle('grid');
 
