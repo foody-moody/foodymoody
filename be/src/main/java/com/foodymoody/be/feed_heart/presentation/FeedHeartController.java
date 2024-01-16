@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed_heart.presentation;
 
-import com.foodymoody.be.common.annotation.MemberId;
+import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_heart.application.FeedHeartService;
 import com.foodymoody.be.feed_heart.application.dto.response.FeedHeartResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +18,16 @@ public class FeedHeartController {
     private final FeedHeartService feedHeartService;
 
     @PostMapping("/api/feeds/{feedStringId}/likes")
-    public ResponseEntity<FeedHeartResponse> like(@PathVariable String feedStringId, @MemberId String memberStringId) {
-        FeedHeartResponse feedHeartResponse = feedHeartService.like(feedStringId, memberStringId);
+    public ResponseEntity<FeedHeartResponse> like(@PathVariable String feedStringId,
+                                                  @CurrentMemberId MemberId memberId) {
+        FeedHeartResponse feedHeartResponse = feedHeartService.like(feedStringId, memberId);
         return ResponseEntity.ok().body(feedHeartResponse);
     }
 
     @DeleteMapping("/api/feeds/{feedStringId}/likes")
-    public ResponseEntity<Void> unlike(@PathVariable String feedStringId, @MemberId String memberStringId) {
-        feedHeartService.unLike(feedStringId, memberStringId);
+    public ResponseEntity<Void> unlike(@PathVariable String feedStringId,
+                                       @CurrentMemberId MemberId memberId) {
+        feedHeartService.unLike(feedStringId, memberId);
         return ResponseEntity.noContent().build();
     }
 

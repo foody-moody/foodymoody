@@ -18,6 +18,14 @@ public class IdFactory {
         return createId(MemberId.class);
     }
 
+    public static StoreId createStoreId(String id) {
+        return createId(StoreId.class, id);
+    }
+
+    public static StoreId createStoreId() {
+        return createId(StoreId.class);
+    }
+
     public static FeedId createFeedId(String id) {
         return createId(FeedId.class, id);
     }

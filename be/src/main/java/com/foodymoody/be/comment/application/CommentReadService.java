@@ -4,6 +4,8 @@ import com.foodymoody.be.comment.domain.entity.Comment;
 import com.foodymoody.be.comment.domain.repository.CommentRepository;
 import com.foodymoody.be.common.exception.CommentNotExistsException;
 import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,14 +18,7 @@ public class CommentReadService {
 
     @Transactional(readOnly = true)
     public Comment fetchById(CommentId id) {
-        return commentRepository.findById(id).orElseThrow(CommentNotExistsException::new);
-    }
-
-    @Transactional(readOnly = true)
-    public void validate(CommentId commentId) {
-        if (commentRepository.existsById(commentId)) {
-            return;
-        }
-        throw new CommentNotExistsException();
+        return commentRepository.findById(id)
+                .orElseThrow(CommentNotExistsException::new);
     }
 }

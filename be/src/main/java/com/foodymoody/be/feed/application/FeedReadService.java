@@ -2,10 +2,8 @@ package com.foodymoody.be.feed.application;
 
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.exception.ImageNotFoundException;
-import com.foodymoody.be.common.exception.IsLikedNotExistsException;
 import com.foodymoody.be.common.exception.MenuNotFoundException;
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
@@ -28,7 +26,7 @@ public class FeedReadService {
     private final FeedRepository feedRepository;
     private final FeedJpaRepository feedJpaRepository;
 
-    public void validateId(String feedId) {
+    public void validateId(FeedId feedId) {
         if (!isExists(feedId)) {
             throw new FeedIdNotExistsException();
         }
@@ -44,8 +42,8 @@ public class FeedReadService {
         return feedRepository.existsAllByIdIn(feedIds);
     }
 
-    private boolean isExists(String feedId) {
-        return feedRepository.existsById(IdFactory.createFeedId(feedId));
+    private boolean isExists(FeedId feedId) {
+        return feedRepository.existsById(feedId);
     }
 
     public Feed findFeed(FeedId id) {

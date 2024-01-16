@@ -38,6 +38,13 @@ public class CommentSteps {
         );
     }
 
+    public static void 응답코드_201과_id를_반환한다(ExtractableResponse<Response> response) {
+        Assertions.assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(201),
+                () -> assertThat(response.body().jsonPath().getString("id")).isNotNull()
+        );
+    }
+
     public static void 응답코드_200을_반환한다(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(200);
     }

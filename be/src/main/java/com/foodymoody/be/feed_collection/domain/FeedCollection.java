@@ -48,6 +48,8 @@ public class FeedCollection {
     @Getter
     private int followerCount;
     @Getter
+    private String thumbnailUrl;
+    @Getter
     private boolean isPrivate;
     @Getter
     private boolean isDeleted;
@@ -70,6 +72,7 @@ public class FeedCollection {
             MemberId memberId,
             String title,
             String description,
+            String thumbnailUrl,
             int followerCount,
             boolean isPrivate,
             boolean isDeleted,
@@ -89,6 +92,7 @@ public class FeedCollection {
         this.commentIds = new CommentIds();
         this.moods = new FeedCollectionMoods(IdFactory.createFeedCollectionMoodsId(), moods, createdAt);
         Events.raise(FeedCollectionAddedEvent.of(id, createdAt));
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     public List<FeedId> getFeedIds() {
@@ -135,10 +139,11 @@ public class FeedCollection {
         this.updatedAt = updatedAt;
     }
 
-    public void update(List<FeedId> feedIds, MemberId memberId, LocalDateTime updatedAt) {
+    public void update(List<FeedId> feedIds, MemberId memberId, LocalDateTime updatedAt, String thumbnailUrl) {
         validateAuthor(memberId);
         this.feedIds.update(feedIds);
         this.updatedAt = updatedAt;
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     public void delete(MemberId memberId, LocalDateTime updatedAt) {

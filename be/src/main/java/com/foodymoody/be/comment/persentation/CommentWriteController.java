@@ -1,5 +1,6 @@
 package com.foodymoody.be.comment.persentation;
 
+import com.foodymoody.be.comment.application.CommentTranslator;
 import com.foodymoody.be.comment.application.CommentWriteService;
 import com.foodymoody.be.comment.application.dto.request.EditCommentRequest;
 import com.foodymoody.be.comment.application.dto.request.RegisterCommentRequest;
@@ -26,14 +27,16 @@ public class CommentWriteController {
 
     private final CommentWriteService commentWriteService;
     private final CommentUseCase commentUseCase;
+    private final CommentTranslator commentTranslator;
 
     @PostMapping("/api/comments")
     public ResponseEntity<IdResponse> register(
             @Valid @RequestBody RegisterCommentRequest request,
             @CurrentMemberId MemberId memberId
     ) {
-        var id = commentUseCase.registerComment(request, memberId);
-        return ResponseEntity.ok(IdResponse.of(id));
+        var data = commentTranslator.toRegisterCommentData(request, memberId);
+        var id = commentUseCase.registerComment(data);
+        return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
     @PutMapping("/api/comments/{id}")
@@ -42,7 +45,8 @@ public class CommentWriteController {
             @Valid @RequestBody EditCommentRequest request,
             @CurrentMemberId MemberId memberId
     ) {
-        commentWriteService.edit(id, request, memberId);
+        var data = commentTranslator.toEditCommentData(request, id, memberId);
+        commentWriteService.edit(data);
         return ResponseEntity.ok().build();
     }
 
@@ -56,12 +60,13 @@ public class CommentWriteController {
     }
 
     @PostMapping("/api/comments/{id}")
-    public ResponseEntity<Void> reply(
+    public ResponseEntity<IdResponse> reply(
             @PathVariable CommentId id,
             @Valid @RequestBody RegisterReplyRequest request,
             @CurrentMemberId MemberId memberId
     ) {
-        commentWriteService.reply(id, request, memberId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        var data = commentTranslator.toRegisterReplyData(request, memberId, id);
+        var replyId = commentWriteService.reply(data);
+        return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(replyId));
     }
 }

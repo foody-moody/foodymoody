@@ -2,6 +2,7 @@ package com.foodymoody.be.feed.domain.entity;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.Menu;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,29 +23,48 @@ import lombok.NoArgsConstructor;
 public class Feed {
 
     @Id
+    @Getter
     private FeedId id;
+
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
+    @Getter
     private MemberId memberId;
+
+    @Getter
     private String profileImageUrl;
-    private String location;
+
+    @AttributeOverride(name = "value", column = @Column(name = "store_id"))
+    @Getter
+    private StoreId storeId;
+
+    @Getter
     private LocalDateTime createdAt;
+
+    @Getter
     private LocalDateTime updatedAt;
+
+    @Getter
     private String review;
+
+    @Getter
     private int likeCount;
+
+    @Getter
     private int commentCount;
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @Getter
     private List<StoreMood> storeMoods;
 
     @Embedded
     private ImageMenus imageMenus;
 
-    public Feed(FeedId id, MemberId memberId, String location, String review, List<StoreMood> storeMoods,
+    public Feed(FeedId id, MemberId memberId, StoreId storeId, String review, List<StoreMood> storeMoods,
                 List<Image> images, List<Menu> menus, String profileImageUrl,
                 LocalDateTime createdAt) {
         this.id = id;
         this.memberId = memberId;
-        this.location = location;
+        this.storeId = storeId;
         this.review = review;
         this.storeMoods = storeMoods;
         this.imageMenus = new ImageMenus(images, menus);
@@ -51,55 +72,11 @@ public class Feed {
         this.createdAt = createdAt;
     }
 
-    public FeedId getId() {
-        return id;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public String getReview() {
-        return review;
-    }
-
-    public List<StoreMood> getStoreMoods() {
-        return storeMoods;
-    }
-
-    public List<ImageMenu> getImageMenus() {
-        return imageMenus.getNewUnmodifiedImageMenus();
-    }
-
-    public int getLikeCount() {
-        return likeCount;
-    }
-
-    public int getCommentCount() {
-        return commentCount;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public MemberId getMemberId() {
-        return memberId;
-    }
-
-    public String getProfileImageUrl() {
-        return profileImageUrl;
-    }
-
-    public void update(MemberId memberId, String newLocation, String newReview, List<StoreMood> newStoreMoods,
+    public void update(MemberId memberId, StoreId newStoreId, String newReview, List<StoreMood> newStoreMoods,
                        List<Image> newImages, List<Menu> newMenus, String profileImageUrl,
                        LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.memberId = memberId;
-        this.location = newLocation;
+        this.storeId = newStoreId;
         this.review = newReview;
         this.storeMoods = newStoreMoods;
         this.imageMenus.replaceWith(newImages, newMenus);
@@ -110,6 +87,10 @@ public class Feed {
 
     public void updateLikeCountBy(int heartCount) {
         this.likeCount = heartCount;
+    }
+
+    public List<ImageMenu> getImageMenus() {
+        return imageMenus.getNewUnmodifiedImageMenus();
     }
 
 }

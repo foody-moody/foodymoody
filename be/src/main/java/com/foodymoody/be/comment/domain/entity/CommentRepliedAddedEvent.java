@@ -1,6 +1,7 @@
 package com.foodymoody.be.comment.domain.entity;
 
 import com.foodymoody.be.common.event.Event;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -16,11 +17,11 @@ public class CommentRepliedAddedEvent implements Event {
     private MemberId toMemberId;
     private MemberId fromMemberId;
     private FeedId feedId;
-    private String content;
+    private Content content;
     private LocalDateTime createdAt;
 
     private CommentRepliedAddedEvent(CommentId id, ReplyId replyId, MemberId toMemberId, MemberId fromMemberId,
-            FeedId feedId, String content,
+                                     FeedId feedId, Content content,
             LocalDateTime createdAt) {
         this.replyId = replyId;
         this.commentId = id;
@@ -32,7 +33,8 @@ public class CommentRepliedAddedEvent implements Event {
     }
 
     public static CommentRepliedAddedEvent of(CommentId id, ReplyId replyId, MemberId toMemberId, MemberId fromMemberId,
-            String content, FeedId feedId, LocalDateTime createdAt) {
+                                              Content content, FeedId feedId, LocalDateTime createdAt
+    ) {
         return new CommentRepliedAddedEvent(id, replyId, toMemberId, fromMemberId, feedId, content, createdAt);
     }
 }

@@ -1,57 +1,39 @@
 package com.foodymoody.be.feed.application.dto.request;
 
+import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.common.util.ids.StoreMoodId;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedUpdateRequest {
 
-    private String location;
+    @Getter
+    @Setter
+    private StoreId storeId;
+
+    @Getter
+    @Setter
     private String review;
+
+    @Getter
+    @Setter
     private List<StoreMoodId> storeMoodIds;
+
+    @Getter
+    @Setter
     private List<ImageMenuPair> images;
 
     @Builder
-    public FeedUpdateRequest(String location, String review, List<StoreMoodId> storeMoodIds,
+    public FeedUpdateRequest(StoreId storeId, String review, List<StoreMoodId> storeMoodIds,
                              List<ImageMenuPair> images) {
-        this.location = location;
+        this.storeId = storeId;
         this.review = review;
         this.storeMoodIds = storeMoodIds;
-        this.images = images;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public String getReview() {
-        return review;
-    }
-
-    public List<StoreMoodId> getStoreMoodIds() {
-        return storeMoodIds;
-    }
-
-    public List<ImageMenuPair> getImages() {
-        return images;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public void setReview(String review) {
-        this.review = review;
-    }
-
-    public void setStoreMoodIds(List<StoreMoodId> storeMoodIds) {
-        this.storeMoodIds = storeMoodIds;
-    }
-
-    public void setImages(List<ImageMenuPair> images) {
         this.images = images;
     }
 

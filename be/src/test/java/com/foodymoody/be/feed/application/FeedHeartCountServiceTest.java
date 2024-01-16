@@ -44,7 +44,7 @@ class FeedHeartCountServiceTest {
         feedHeartCountRepository.deleteAll();
         FeedId id = new FeedId(IdGenerator.generate());
         feedRepository.save(
-                new Feed(id, IdFactory.createMemberId("1"), "위치", "리뷰",
+                new Feed(id, IdFactory.createMemberId("1"), IdFactory.createStoreId("1"), "리뷰",
                         List.of(),
                         List.of(new Image(IdFactory.createImageId("1"), "https://www.naver.com",
                                 IdFactory.createMemberId("2"))),

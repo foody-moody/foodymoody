@@ -19,12 +19,12 @@ public class FeedCommentReadUseCase {
     private final FeedReadService feedReadService;
 
     public Slice<MemberCommentSummaryResponse> fetchComments(FeedId feedId, Pageable pageable) {
-        feedReadService.validateId(feedId.getValue());
+        feedReadService.validateId(feedId);
         return CommentMapper.mapToSummaryResponse(feedCommentReadService.fetchComments(feedId, pageable));
     }
 
     public Slice<MemberCommentSummaryResponse> fetchComments(FeedId feedId, Pageable pageable, MemberId memberId) {
-        feedReadService.validateId(feedId.getValue());
+        feedReadService.validateId(feedId);
         return CommentMapper.mapToSummaryResponse(feedCommentReadService.fetchComments(feedId, pageable, memberId));
     }
 }

@@ -6,7 +6,7 @@ import com.foodymoody.be.common.util.ids.CommentHeartCountId;
 public class CommentHeartCountIdFactory {
 
     private CommentHeartCountIdFactory() {
-        throw new IllegalStateException("Utility class");
+        throw new AssertionError();
     }
 
     public static CommentHeartCountId of(String value) {

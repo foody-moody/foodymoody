@@ -14,4 +14,8 @@ public class FeedHeartRequest {
         return feedId;
     }
 
+    public void setFeedId(String feedId) {
+        this.feedId = feedId;
+    }
+
 }

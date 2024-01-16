@@ -3,6 +3,7 @@ package com.foodymoody.be.acceptance.feed;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.foodymoody.be.common.util.ids.IdFactory;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
@@ -41,29 +42,33 @@ public class FeedSteps {
     }
 
 
-    public static ExtractableResponse<Response> 피드를_등록한다(String accessToken) {
-        return 피드를_등록한다(accessToken, new RequestSpecBuilder().build());
+    public static ExtractableResponse<Response> 피드를_등록한다(String accessToken, List<String> imageIds) {
+        return 피드를_등록한다(accessToken, new RequestSpecBuilder().build(), imageIds);
     }
 
-    public static String 피드를_등록하고_아이디를_받는다(String accessToken) {
-        return 피드를_등록한다(accessToken, new RequestSpecBuilder().build()).jsonPath().getString("id");
+    public static ExtractableResponse<Response> 피드를_또_등록한다(String accessToken, List<String> imageIds) {
+        return 피드를_또_등록한다(accessToken, new RequestSpecBuilder().build(), imageIds);
     }
 
-    public static ExtractableResponse<Response> 피드를_등록한다(String accessToken, RequestSpecification spec) {
+    public static String 피드를_등록하고_아이디를_받는다(String accessToken, List<String> imageIds) {
+        return 피드를_등록한다(accessToken, new RequestSpecBuilder().build(), imageIds).jsonPath().getString("id");
+    }
+
+    public static ExtractableResponse<Response> 피드를_등록한다(String accessToken, RequestSpecification spec, List<String> imageIds) {
         Map<String, Object> body = Map.of(
-                "location", "역삼동",
+                "storeId", IdFactory.createStoreId("1"),
                 "review", "맛있어요!",
                 "storeMoodIds", List.of("1", "3", "4"),
                 "images", List.of(
                         Map.of(
-                                "imageId", "1",
+                                "imageId", imageIds.get(0),
                                 "menu", Map.of(
                                         "name", "마라탕",
                                         "rating", 4
                                 )
                         ),
                         Map.of(
-                                "imageId", "2",
+                                "imageId", imageIds.get(1),
                                 "menu", Map.of(
                                         "name", "감자탕",
                                         "rating", 3
@@ -87,21 +92,21 @@ public class FeedSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 피드를_또_등록한다(String accessToken, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드를_또_등록한다(String accessToken, RequestSpecification spec, List<String> imageIds) {
         Map<String, Object> body = Map.of(
-                "location", "중동",
+                "storeId", IdFactory.createStoreId("1"),
                 "review", "맛없어요!",
                 "storeMoodIds", List.of("1", "2", "4"),
                 "images", List.of(
                         Map.of(
-                                "imageId", "3",
+                                "imageId", imageIds.get(0),
                                 "menu", Map.of(
                                         "name", "크림 파스타",
                                         "rating", 1
                                 )
                         ),
                         Map.of(
-                                "imageId", "4",
+                                "imageId", imageIds.get(1),
                                 "menu", Map.of(
                                         "name", "토마토 파스타",
                                         "rating", 2
@@ -157,7 +162,7 @@ public class FeedSteps {
 
     public static ExtractableResponse<Response> 피드를_수정한다(String accessToken, String id, RequestSpecification spec) {
         Map<String, Object> body = Map.of(
-                "location", "맛있게 매운 콩볼 범계점2",
+                "storeId", IdFactory.createStoreId("2"),
                 "review", "맛있게 먹었습니다.2",
                 "storeMoodIds", List.of("2", "5", "6"),
                 "images", List.of(

@@ -10,27 +10,27 @@ import org.springframework.data.domain.Pageable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CollectionReadFeedDetailsServiceRequest {
 
-    private FeedCollectionId feedCollectionId;
+    private FeedCollectionId collectionId;
     private Pageable pageable;
     private MemberId memberId;
 
-    public CollectionReadFeedDetailsServiceRequest(String feedCollectionId, Pageable pageable,
+    public CollectionReadFeedDetailsServiceRequest(FeedCollectionId collectionId, Pageable pageable,
                                                    MemberId memberId) {
-        this.feedCollectionId = IdFactory.createFeedCollectionId(feedCollectionId);
+        this.collectionId = collectionId;
         this.pageable = pageable;
         this.memberId = memberId;
     }
 
     public FeedCollectionId getFeedCollectionId() {
-        return feedCollectionId;
+        return collectionId;
+    }
+
+    public void setFeedCollectionId(FeedCollectionId feedCollectionId) {
+        this.collectionId = feedCollectionId;
     }
 
     public Pageable getPageable() {
         return pageable;
-    }
-
-    public void setFeedCollectionId(FeedCollectionId feedCollectionId) {
-        this.feedCollectionId = feedCollectionId;
     }
 
     public void setPageable(Pageable pageable) {

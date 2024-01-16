@@ -6,6 +6,7 @@ import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.�
 import static com.foodymoody.be.acceptance.feed_collection_comment.FeedCollectionCommentSteps.피드_컬렉션에_댓글을_등록하고_아이디를_받는다;
 import static com.foodymoody.be.acceptance.feed_collection_comment_like.FeedCollectionCommentLikeSteps.피드_컬렉션_댓글에_좋아요를_등록한다;
 import static com.foodymoody.be.acceptance.feed_collection_comment_like.FeedCollectionCommentLikeSteps.피드_컬렉션_댓글에_좋아요를_취소한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
@@ -23,8 +24,14 @@ class FeedCollectionCommentLikeAcceptanceTest extends AcceptanceTest {
     @DisplayName("피드 컬렉션 생성하고 댓글을 작성 한다")
     @BeforeEach
     void setUp() {
+        var imageResponse1 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec);
+        String id1 = imageResponse1.jsonPath().getString("id");
+        var imageResponse2 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec);
+        String id2 = imageResponse2.jsonPath().getString("id");
+        List<String> imageIds = List.of(id1, id2);
+
         List<String> feedIds = new ArrayList<>();
-        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰));
+        feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, imageIds));
         String feedCollectionId = 피드_컬렉션_등록하고_아이디를_가져온다(feedIds, 회원아티_액세스토큰);
         commentId = 피드_컬렉션에_댓글을_등록하고_아이디를_받는다(회원아티_액세스토큰, feedCollectionId);
     }

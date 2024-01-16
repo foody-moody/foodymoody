@@ -3,6 +3,7 @@ package com.foodymoody.be.feed.infra.usecase;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.feed.application.FeedCommentCountReadService;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedDetailsServiceRequest;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -28,7 +30,9 @@ public class CollectionUseCase {
     private final FeedCollectionReadService feedCollectionReadService;
     private final FeedReadService feedReadService;
     private final ImageService imageService;
+    private final FeedCommentCountReadService feedCommentCountReadService;
 
+    @Transactional
     public Slice<CollectionReadFeedDetailsResponse> readCollectionFeedDetails(
             CollectionReadFeedDetailsServiceRequest request) {
         FeedCollectionId feedCollectionId = request.getFeedCollectionId();
@@ -65,7 +69,7 @@ public class CollectionUseCase {
                         .moodNames(FeedMapper.toFeedStoreMoodNames(feed.getStoreMoods()))
                         .isLiked(false)
                         .likeCount(feed.getLikeCount())
-                        .feedCommentCount(feed.getCommentCount())
+                        .feedCommentCount(feedCommentCountReadService.fetchCountByFeedId(feed.getId()))
                         .build())
                 .collect(Collectors.toUnmodifiableList());
     }
@@ -83,7 +87,7 @@ public class CollectionUseCase {
                         .moodNames(FeedMapper.toFeedStoreMoodNames(feed.getStoreMoods()))
                         .isLiked(feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()))
                         .likeCount(feed.getLikeCount())
-                        .feedCommentCount(feed.getCommentCount())
+                        .feedCommentCount(feedCommentCountReadService.fetchCountByFeedId(feed.getId()))
                         .build())
                 .collect(Collectors.toUnmodifiableList());
     }
