@@ -20,6 +20,7 @@ public class Reply {
     @EmbeddedId
     private ReplyId id;
     @Getter
+    @AttributeOverride(name = "value", column = @Column(name = "content"))
     private Content content;
     @Getter
     private boolean deleted;

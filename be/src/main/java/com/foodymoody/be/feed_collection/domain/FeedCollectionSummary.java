@@ -2,22 +2,20 @@ package com.foodymoody.be.feed_collection.domain;
 
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionMoodResponse;
 import com.querydsl.core.annotations.QueryProjection;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.Getter;
 
 @Getter
 public class FeedCollectionSummary {
 
-    private List<FeedCollectionMoodResponse> moods;
     private FeedCollectionId id;
     private AuthorSummaryResponse author;
     private String title;
     private String description;
     private Long likeCount;
     private boolean isLiked;
+    private String thumbnailUrl;
     private int followerCount;
     private int commentCount;
     private int feedCount;
@@ -32,6 +30,7 @@ public class FeedCollectionSummary {
             String tasteMoodName,
             String profileImageUrl,
             String title,
+            String thumbnailUrl,
             String description,
             Long likeCount,
             int followerCount,
@@ -49,6 +48,7 @@ public class FeedCollectionSummary {
         this.isLiked = isLiked;
         this.followerCount = followerCount;
         this.commentCount = commentCount;
+        this.thumbnailUrl = thumbnailUrl;
         this.feedCount = feedCount;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;

@@ -69,6 +69,7 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
         QTasteMood tasteMood = QTasteMood.tasteMood;
         QFeedCollectionLikeCount likeCount = QFeedCollectionLikeCount.feedCollectionLikeCount;
 
+        // table join
         JPAQuery<?> query = queryFactory
                 .from(feedCollection)
                 .join(member).on(feedCollection.authorId.eq(member.id))
@@ -78,6 +79,7 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1L);
 
+        // sort
         for (Sort.Order order : pageable.getSort()) {
             SimplePath<Comparable<?>> compare = Expressions.path(
                     order.getProperty().getClass(), feedCollection, order.getProperty());
@@ -86,25 +88,30 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
             query.orderBy(orderSpecifier);
         }
 
+        // select
         List<FeedCollectionSummary> allCollectionSummaries = query.transform(
                 GroupBy.groupBy(feedCollection.id)
-                        .list(Projections.constructor(
-                                FeedCollectionSummary.class,
-                                feedCollection.id,
-                                member.id,
-                                member.nickname,
-                                tasteMood.name,
-                                image.url,
-                                feedCollection.title,
-                                feedCollection.description,
-                                likeCount.count,
-                                feedCollection.followerCount,
-                                feedCollection.feedIds.ids.size(),
-                                feedCollection.commentIds.ids.size(),
-                                liked,
-                                feedCollection.createdAt,
-                                feedCollection.updatedAt
-                        )));
+                        .list(
+                                Projections.constructor(
+                                        FeedCollectionSummary.class,
+                                        feedCollection.id,
+                                        member.id,
+                                        member.nickname,
+                                        tasteMood.name,
+                                        image.url,
+                                        feedCollection.title,
+                                        feedCollection.thumbnailUrl,
+                                        feedCollection.description,
+                                        likeCount.count,
+                                        feedCollection.followerCount,
+                                        feedCollection.feedIds.ids.size(),
+                                        feedCollection.commentIds.ids.size(),
+                                        liked,
+                                        feedCollection.createdAt,
+                                        feedCollection.updatedAt
+                                )
+                        )
+        );
         boolean hasNext = allCollectionSummaries.size() > pageable.getPageSize();
         if (hasNext) {
             allCollectionSummaries.remove(allCollectionSummaries.size() - 1);

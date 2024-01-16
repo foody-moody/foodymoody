@@ -31,6 +31,7 @@ public class FeedCollectionMapper {
                 summary.getAuthor(),
                 summary.getTitle(),
                 summary.getDescription(),
+                summary.getThumbnailUrl(),
                 summary.getLikeCount(),
                 summary.isLiked(),
                 summary.getFollowerCount(),

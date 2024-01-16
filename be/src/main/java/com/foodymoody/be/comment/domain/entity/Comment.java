@@ -33,6 +33,7 @@ public class Comment {
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
     @Getter
+    @AttributeOverride(name = "value", column = @Column(name = "content"))
     private Content content;
     @Getter
     private boolean deleted;
