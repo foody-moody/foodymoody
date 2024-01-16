@@ -1,9 +1,9 @@
 package com.foodymoody.be.comment.application;
 
-import com.foodymoody.be.comment.application.dto.response.MemberReplySummary;
 import com.foodymoody.be.comment.application.dto.response.MemberReplySummaryResponse;
 import com.foodymoody.be.comment.domain.entity.Reply;
 import com.foodymoody.be.comment.domain.repository.ReplyRepository;
+import com.foodymoody.be.common.exception.ReplyNotExistsException;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.ReplyId;
@@ -22,24 +22,31 @@ public class ReplyReadService {
 
     @Transactional(readOnly = true)
     public Slice<MemberReplySummaryResponse> fetchAllReply(CommentId commentId, Pageable pageable) {
-        Slice<MemberReplySummary> memberReplySummaries = replyRepository.findByCommentId(commentId, pageable);
+        var memberReplySummaries = replyRepository.findByCommentId(commentId, pageable);
         return commentMapper.toReplySummaryResponse(memberReplySummaries);
     }
 
     @Transactional(readOnly = true)
     public Slice<MemberReplySummaryResponse> fetchAllReplyByMemberId(CommentId commentId, MemberId memberId,
             Pageable pageable) {
-        Slice<MemberReplySummary> memberReplySummaries = replyRepository.findByCommentIdAndMemberId(commentId, memberId,
-                pageable);
+        var memberReplySummaries = replyRepository.findByCommentIdAndMemberId(
+                commentId,
+                memberId,
+                pageable
+        );
         return commentMapper.toReplySummaryResponse(memberReplySummaries);
     }
 
     public void validate(ReplyId replyId) {
-        replyRepository.existsById(replyId);
+        if (replyRepository.existsById(replyId)) {
+            return;
+        }
+        throw new ReplyNotExistsException();
     }
 
+    @Transactional(readOnly = true)
     public Reply fetchById(ReplyId replyId) {
         return replyRepository.findById(replyId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
+                .orElseThrow(ReplyNotExistsException::new);
     }
 }

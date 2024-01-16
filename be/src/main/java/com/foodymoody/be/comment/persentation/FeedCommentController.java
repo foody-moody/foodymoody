@@ -27,13 +27,11 @@ public class FeedCommentController {
             @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable,
             @CurrentMemberId MemberId memberId
     ) {
-
-        Slice<MemberCommentSummaryResponse> comments;
         if (memberId == null) {
-            comments = feedCommentReadUseCase.fetchComments(feedId, pageable);
-        } else {
-            comments = feedCommentReadUseCase.fetchComments(feedId, pageable, memberId);
+            var response = feedCommentReadUseCase.fetchComments(feedId, pageable);
+            return ResponseEntity.ok(response);
         }
-        return ResponseEntity.ok(comments);
+        var response = feedCommentReadUseCase.fetchComments(feedId, pageable, memberId);
+        return ResponseEntity.ok(response);
     }
 }

@@ -138,6 +138,26 @@ public class FeedCollectionSteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 피드_컬렉션_피드리스트_및_썸네일을_수정한다(
+            String collectionId,
+            String accessToken,
+            List<String> feedIds,
+            RequestSpecification spec
+    ) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("feedIds", feedIds);
+        body.put("thumbnail", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1");
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .body(body).contentType("application/json")
+                .when()
+                .put("/api/feed_collections/{collectionId}/feeds", collectionId)
+                .then().log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> 피드_컬렉션을_삭제한다(
             String collectionId,
             String accessToken,

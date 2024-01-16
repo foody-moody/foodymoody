@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.dto.response.CollectionReadFeedDetailsResponse;
@@ -25,7 +26,7 @@ public class CollectionController {
      */
     @GetMapping("/api/collections/{collectionId}/feeds")
     public ResponseEntity<Slice<CollectionReadFeedDetailsResponse>> readCollectionFeedDetails(
-            @PathVariable String collectionId, Pageable pageable,
+            @PathVariable FeedCollectionId collectionId, Pageable pageable,
             @CurrentMemberId MemberId memberId) {
         Slice<CollectionReadFeedDetailsResponse> collectionReadFeedDetailsResponses = collectionUseCase.readCollectionFeedDetails(
                 FeedMapper.toCollectionReadFeedDetailsServiceRequest(collectionId, pageable, memberId));

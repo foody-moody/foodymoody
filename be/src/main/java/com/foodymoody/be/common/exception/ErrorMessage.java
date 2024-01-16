@@ -3,7 +3,7 @@ package com.foodymoody.be.common.exception;
 public enum ErrorMessage {
     // global
     INVALID_INPUT_VALUE("입력값이 올바르지 않습니다.", "g001"),
-    INVALID_ID("유효하지 않은 아이디입니다.", "g002"),
+    INVALID_ID(" 유효하지 않은 아이디입니다.", "g002"),
     CREATE_TIME_IS_NULL("생성시간이 null이면 안된다", "g003"),
     REQUEST_HEADER_NOT_FOUND("요청을 처리하기 위해 필요한 헤더가 존재하지 않습니다", "g004"),
     // comment
@@ -15,6 +15,11 @@ public enum ErrorMessage {
     REGISTER_COMMENT_REQUEST_NOT_NULL("등록 요청이 없으면 안된다", "c006"),
     COMMENT_NOT_EXISTS("댓글이 존재하지 않는다", "c007"),
     COMMENT_DELETED("삭제된 댓글입니다.", "c008"),
+    INVALID_COMMENT_ID("유효하지 않은 댓글 id입니다", "c009"),
+
+    // reply
+    REPLY_NOT_EXISTS("답글이 존재하지 않습니다.", "r001"),
+    INVALID_REPLY_ID("유효하지 않은 답글 id입니다", "r002"),
     // member
     MEMBER_NOT_FOUND("존재하지 않는 회원입니다", "m001"),
     DUPLICATE_MEMBER_EMAIL("이미 가입된 이메일입니다", "m002"),
@@ -23,6 +28,7 @@ public enum ErrorMessage {
     PASSWORD_PATTERN_NOT_MATCH("비밀번호는 8글자 이상이어야 합니다", "m005"),
     NOT_FOLLOWING("해당 회원을 팔로우하고있지 않습니다", "m006"),
     ALREADY_FOLLOWING("해당 회원을 이미 팔로우하고 있습니다", "m007"),
+    INVALID_MEMBER_ID("유효하지 않은 회원 id입니다", "m008"),
     // auth
     UNAUTHORIZED("권한이 없습니다", "a001"),
     INVALID_TOKEN("토큰이 유효하지 않습니다", "a002"),
@@ -32,6 +38,10 @@ public enum ErrorMessage {
     // mood
     DUPLICATE_MOOD("이미 존재하는 무드입니다", "o001"),
     MOOD_NOT_FOUND("존재하지 않는 무드입니다", "o002"),
+
+    // feed
+    INVALID_FEED_ID("유효하지 않은 피드 id입니다", "f001"),
+
     // image
     IMAGE_NOT_FOUND("해당 id의 이미지가 존재하지 않습니다", "i001"),
     IMAGE_UPLOAD_FAILED("이미지 업로드에 실패했습니다", "i002"),
@@ -42,7 +52,11 @@ public enum ErrorMessage {
     MAX_UPLOAD_SIZE_EXEEDED("2.8MB 이하의 이미지만 업로드 가능합니다", "i007"),
     INVALID_IMAGE_ID("유효하지 않은 이미지 id입니다", "i008"),
     MENU_NOT_FOUND("유효하지 않은 메뉴 id입니다.", "i010"),
-    IS_LIKED_NOT_EXISTS("isLiked를 찾아올 수 없습니다.", "i012");
+    IS_LIKED_NOT_EXISTS("isLiked를 찾아올 수 없습니다.", "i012"),
+    FEED_HEART_ALREADY_EXISTS("이미 좋아요 누른 피드입니다.", "i014"),
+    FEED_HEART_NOT_FOUND("좋아요 기록이 없어 취소할 수 없습니다.", "i016"),
+    // store
+    STORE_NOT_FOUND("해당 id의 식당이 존재하지 않습니다", "s001");
 
     private final String message;
     private final String code;

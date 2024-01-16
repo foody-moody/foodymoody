@@ -447,7 +447,7 @@ operation::notification_delete_success[snippets='http-request,http-response']
 
 ==== 성공
 
-operation::notification_mark_all_read_success[snippets='http-request,http-response']
+operation::notification_delete_all_read[snippets='http-request,http-response']
 
 == 알림 설정
 
@@ -462,6 +462,12 @@ operation::notification_setting_request_success[snippets='http-request,http-resp
 ==== 성공
 
 operation::notification_setting_update_success[snippets='http-request,http-response']
+
+=== 모든 알림 설정 on/off
+
+==== 성공
+
+operation::notification_setting_update_all_success[snippets='http-request,http-response']
 
 == SSE
 
@@ -534,6 +540,12 @@ operation::feed_collection_request_update_success[snippets='http-request,http-re
 ==== 성공
 
 operation::feed_collection_request_update_feed_list_success[snippets='http-request,http-response']
+
+=== 컬렉션 피드 리스트 및 썸네일 수정
+
+==== 성공
+
+operation::feed_collection_request_update_feed_list_and_thumbnail_success[snippets='http-request,http-response']
 
 === 컬렉션 삭제
 
@@ -678,3 +690,17 @@ operation::feed_collection_mood_created_success[snippets='http-request,http-resp
 ==== 성공
 
 operation::feed_collection_mood_find_all_success[snippets='http-request,http-response']
+
+== 가게
+
+=== 가게 상세정보 조회
+
+==== 성공
+
+operation::fetch_store_details_success[snippets='http-request,http-response']
+
+=== 가게 검색
+
+==== 성공
+
+operation::search_store_success[snippets='http-request,http-response']

@@ -19,4 +19,12 @@ public class FeedHeartServiceRequest {
         return feedId;
     }
 
+    public void setFeedId(String feedId) {
+        this.feedId = feedId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
 }

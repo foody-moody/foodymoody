@@ -3,6 +3,7 @@ package com.foodymoody.be.acceptance.member;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.로그인한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_또_등록한다;
+import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.회원_이미지를_업로드한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.닉네임_중복_여부를_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.로그인시_팔로워_목록을_조회한다;
@@ -148,9 +149,15 @@ class MemberAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("fetch_member_profile_if_not_login_success", spec);
 
             // given
-            피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build());
-            피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build());
-            피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build());
+            var imageResponse1 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec);
+            String id1 = imageResponse1.jsonPath().getString("id");
+            var imageResponse2 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec);
+            String id2 = imageResponse2.jsonPath().getString("id");
+            List<String> imageIds = List.of(id1, id2);
+
+            피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build(), imageIds);
+            피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build(), imageIds);
+            피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build(), imageIds);
 
             팔로우한다(회원아티_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());
 
@@ -221,9 +228,15 @@ class MemberAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("fetchMemberFeeds_success", spec);
 
             // given
+            var imageResponse1 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec);
+            String id1 = imageResponse1.jsonPath().getString("id");
+            var imageResponse2 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec);
+            String id2 = imageResponse2.jsonPath().getString("id");
+            List<String> imageIds = List.of(id1, id2);
+
             String 푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
-            ExtractableResponse<Response> 첫번째_피드_등록_응답 = 피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build());
-            ExtractableResponse<Response> 두번째_피드_등록_응답 = 피드를_또_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build());
+            ExtractableResponse<Response> 첫번째_피드_등록_응답 = 피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build(), imageIds);
+            ExtractableResponse<Response> 두번째_피드_등록_응답 = 피드를_또_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build(), imageIds);
 
             // when
             var response = 피드목록을_조회한다(푸반_아이디, 0, 10, spec);
@@ -231,9 +244,9 @@ class MemberAcceptanceTest extends AcceptanceTest {
             // then
             List<Map<String, String>> expected = List.of(
                     Map.of("id", 두번째_피드_등록_응답.jsonPath().getString("id"),
-                            "imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png3"),
+                            "imageUrl", "https://s3Url/key"),
                     Map.of("id", 첫번째_피드_등록_응답.jsonPath().getString("id"),
-                            "imageUrl", "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1")
+                            "imageUrl", "https://s3Url/key")
             );
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),

@@ -49,7 +49,7 @@ public class FeedCollectionWriteController {
             @RequestBody FeedCollectionFeedsUpdateRequest request,
             @CurrentMemberId MemberId memberId
     ) {
-        useCase.update(id, request.getFeedIds(), memberId);
+        useCase.update(id, request, memberId);
         return ResponseEntity.noContent().build();
     }
 

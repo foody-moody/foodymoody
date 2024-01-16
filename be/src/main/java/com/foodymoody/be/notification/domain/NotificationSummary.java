@@ -1,6 +1,7 @@
 package com.foodymoody.be.notification.domain;
 
 import com.foodymoody.be.common.event.NotificationType;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.MemberId;
 import groovy.transform.Immutable;
 import java.time.LocalDateTime;
@@ -47,7 +48,8 @@ public class NotificationSummary {
     private String commentId;
     private String feedId;
     private String feedImageUrl;
-    private String message;
+    @AttributeOverride(name = "value", column = @Column(name = "message"))
+    private Content message;
     @Enumerated(value = EnumType.STRING)
     private NotificationType type;
     private boolean isRead;

@@ -21,6 +21,7 @@ public class FeedCollectionDetail {
     private int viewCount;
     private int feedCount;
     private int commentCount;
+    private String thumbnailUrl;
     private List<FeedSummaryResponse> feeds;
     private Slice<FeedCollectionCommentResponse> comments;
     private List<FeedCollectionMoodResponse> moods;
@@ -49,6 +50,7 @@ public class FeedCollectionDetail {
         this.feedCount = feeds.size();
         this.comments = comments;
         commentCount = comments.getContent().size();
+        this.thumbnailUrl = feedCollection.getThumbnailUrl();
         this.moods = moods;
     }
 }

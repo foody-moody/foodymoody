@@ -2,15 +2,18 @@ package com.foodymoody.be.comment.domain.entity;
 
 import com.foodymoody.be.common.event.Event;
 import com.foodymoody.be.common.event.NotificationType;
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.CommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
+import lombok.Getter;
 
+@Getter
 public class CommentAddedEvent implements Event {
 
     private final FeedId feedId;
-    private final String content;
+    private final Content content;
     private final NotificationType notificationType;
     private final CommentId commentId;
     private final MemberId memberId;
@@ -18,7 +21,7 @@ public class CommentAddedEvent implements Event {
 
     private CommentAddedEvent(
             FeedId feedId,
-            String content,
+            Content content,
             NotificationType notificationType,
             CommentId commentId,
             MemberId memberId,
@@ -34,7 +37,7 @@ public class CommentAddedEvent implements Event {
 
     public static CommentAddedEvent of(
             FeedId feedId,
-            String content,
+            Content content,
             CommentId commentId,
             MemberId memberId,
             LocalDateTime createdAt
@@ -48,30 +51,4 @@ public class CommentAddedEvent implements Event {
                 createdAt
         );
     }
-
-    public FeedId getFeedId() {
-        return feedId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public NotificationType getNotificationType() {
-        return notificationType;
-    }
-
-    public CommentId getCommentId() {
-        return commentId;
-    }
-
-    public MemberId getMemberId() {
-        return memberId;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-
 }
