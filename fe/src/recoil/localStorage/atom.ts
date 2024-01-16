@@ -11,15 +11,11 @@ export const localStorageEffect: <T>(key: string) => AtomEffect<T> =
     }
 
     onSet((newValue, _, isReset) => {
-      // if (newValue != null) {
-      //   // return localStorage.setItem(key, newValue as string);
-      //   localStorage.setItem(key, newValue as string);
-      // } else {
-      //   localStorage.removeItem(key);
-      // }
-      isReset
-        ? localStorage.removeItem(key)
-        : localStorage.setItem(key, newValue as string);
+      if (isReset) {
+        localStorage.removeItem(key);
+      } else {
+        localStorage.setItem(key, newValue as string);
+      }
     });
   };
 

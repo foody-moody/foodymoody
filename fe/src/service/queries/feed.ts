@@ -5,11 +5,13 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from 'recoil/toast/useToast';
 import {
   deleteFeed,
   getAllFeeds,
+  getAllProfileFeeds,
   getFeedDetail,
   postNewFeed,
   putEditFeed,
@@ -34,6 +36,26 @@ export const useAllFeeds = () => {
   return {
     ...query,
     feeds,
+  };
+};
+
+export const useAllProfileFeeds = (memberId: string) => {
+  const query = useInfiniteQuery({
+    queryKey: [QUERY_KEY.profileFeeds, memberId],
+    queryFn: ({ pageParam = 0 }) => getAllProfileFeeds(pageParam, 10, memberId),
+    getNextPageParam: (lastPage) => {
+      return lastPage.last ? undefined : lastPage.number + 1;
+    },
+    // suspense: true,
+  });
+
+  const profileFeeds = useMemo(() => {
+    return query.data?.pages.flatMap((page) => page.content) ?? [];
+  }, [query.data]);
+
+  return {
+    ...query,
+    profileFeeds,
   };
 };
 

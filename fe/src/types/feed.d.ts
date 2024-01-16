@@ -30,6 +30,11 @@ type MenuTag = {
   rating: number;
 };
 
+type ProfileFeed = {
+  id: string;
+  imageUrl: string;
+}
+
 type FeedMemberInfo = {
   id: string;
   nickname: string;
