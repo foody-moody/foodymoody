@@ -72,6 +72,7 @@ public class FeedCollection {
             MemberId memberId,
             String title,
             String description,
+            String thumbnailUrl,
             int followerCount,
             boolean isPrivate,
             boolean isDeleted,
@@ -91,6 +92,7 @@ public class FeedCollection {
         this.commentIds = new CommentIds();
         this.moods = new FeedCollectionMoods(IdFactory.createFeedCollectionMoodsId(), moods, createdAt);
         Events.raise(FeedCollectionAddedEvent.of(id, createdAt));
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     public List<FeedId> getFeedIds() {
