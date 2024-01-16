@@ -1,11 +1,13 @@
 export const END_POINT = {
   login: `/auth/login`,
   logout: `/auth/logout`,
-  refresh: `/auth/token`, // 수정가능성
+  refresh: `/auth/token`,
   tasteMood: `/members/taste-moods`,
   storeMood: `/feeds/store-moods`,
-  collection: (id?: string) =>
-    id ? `/feed_collections/${id}` : `/feed_collections`,
+  collection: (
+    id?: string,
+    sort?: string // TODO sort 타입 정의
+  ) => (id ? `/feed_collections/${id}` : `/feed_collections?sort=${sort}`),
   feedLike: (id: string) => `/feeds/${id}/likes`,
   commentLike: (id: string) => `/comments/${id}/likes`,
   replyLike: ({ commentId, replyId }: ReplyLike) =>
