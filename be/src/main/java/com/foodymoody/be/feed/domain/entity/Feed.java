@@ -4,7 +4,7 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.menu.domain.Menu;
+import com.foodymoody.be.menu.domain.entity.Menu;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.AttributeOverride;

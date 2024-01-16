@@ -1,7 +1,7 @@
 package com.foodymoody.be.feed.application;
 
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.menu.domain.Menu;
+import com.foodymoody.be.menu.domain.entity.Menu;
 import java.util.List;
 
 public class FeedValidator {

@@ -29,7 +29,7 @@ import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
-import com.foodymoody.be.menu.domain.Menu;
+import com.foodymoody.be.menu.domain.entity.Menu;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

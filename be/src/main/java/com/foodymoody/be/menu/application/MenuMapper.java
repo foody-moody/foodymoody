@@ -1,8 +1,8 @@
-package com.foodymoody.be.menu.util;
+package com.foodymoody.be.menu.application;
 
 import com.foodymoody.be.common.util.ids.MenuId;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequestMenu;
-import com.foodymoody.be.menu.domain.Menu;
+import com.foodymoody.be.menu.domain.entity.Menu;
 
 public class MenuMapper {
 
