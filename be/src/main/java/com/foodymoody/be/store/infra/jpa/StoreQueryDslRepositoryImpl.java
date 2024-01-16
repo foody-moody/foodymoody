@@ -39,8 +39,6 @@ public class StoreQueryDslRepositoryImpl implements StoreQueryDslRepository {
 
     @Override
     public List<StoreSearchResponse> searchByKeyword(String query) {
-        StringBuilder sb = new StringBuilder();
-        String pattern = sb.append("%").append(query).append("%").toString();
         return jpaQueryFactory
                 .select(Projections.constructor(
                         StoreSearchResponse.class,
@@ -49,10 +47,14 @@ public class StoreQueryDslRepositoryImpl implements StoreQueryDslRepository {
                         store.address,
                         store.roadAddress))
                 .from(store)
-                .where(store.name.like(pattern)
-                        .or(store.roadAddress.like(pattern))
-                        .or(store.address.like(pattern))
-                        .and(store.status.type.notIn(StatusType.CLOSED)))
+                .where(
+                        store.status.type.notIn(StatusType.CLOSED)
+                                .and(
+                                        store.name.contains(query)
+                                                .or(store.roadAddress.contains(query))
+                                                .or(store.address.contains(query))
+                                )
+                )
                 .limit(15)
                 .fetch();
     }
