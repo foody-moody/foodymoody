@@ -1,12 +1,10 @@
 package com.foodymoody.be.feed.application.dto.request;
 
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
-import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.domain.Pageable;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

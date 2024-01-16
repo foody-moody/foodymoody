@@ -58,7 +58,8 @@ public class CollectionUseCase {
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
     }
 
-    private List<CollectionReadFeedDetailsResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNull(Slice<Feed> feeds) {
+    private List<CollectionReadFeedDetailsResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNull(
+            Slice<Feed> feeds) {
         return feeds.stream()
                 .map(feed -> CollectionReadFeedDetailsResponse.builder()
                         .feedAllCount(feeds.getSize())
@@ -76,7 +77,8 @@ public class CollectionUseCase {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private List<CollectionReadFeedDetailsResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNotNull(Slice<Feed> feeds) {
+    private List<CollectionReadFeedDetailsResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNotNull(
+            Slice<Feed> feeds) {
         return feeds.stream()
                 .map(feed -> CollectionReadFeedDetailsResponse.builder()
                         .feedAllCount(feeds.getSize())

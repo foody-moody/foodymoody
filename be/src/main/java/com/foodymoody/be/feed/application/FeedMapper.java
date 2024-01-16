@@ -83,7 +83,8 @@ public class FeedMapper {
                 .build();
     }
 
-    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedId id, FeedUpdateRequest request, MemberId memberId) {
+    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedId id, FeedUpdateRequest request,
+                                                                  MemberId memberId) {
         return FeedServiceUpdateRequest.builder()
                 .id(id)
                 .memberId(memberId)
@@ -152,9 +153,10 @@ public class FeedMapper {
                 .collect(Collectors.toList());
     }
 
-    public static CollectionReadFeedDetailsServiceRequest toCollectionReadFeedDetailsServiceRequest(FeedCollectionId collectionId,
-                                                                                                    Pageable pageable,
-                                                                                                    MemberId memberId) {
+    public static CollectionReadFeedDetailsServiceRequest toCollectionReadFeedDetailsServiceRequest(
+            FeedCollectionId collectionId,
+            Pageable pageable,
+            MemberId memberId) {
         return new CollectionReadFeedDetailsServiceRequest(collectionId, pageable, memberId);
     }
 

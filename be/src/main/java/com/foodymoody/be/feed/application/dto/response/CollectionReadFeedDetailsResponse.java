@@ -38,7 +38,8 @@ public class CollectionReadFeedDetailsResponse {
     @Builder
     public CollectionReadFeedDetailsResponse(int feedAllCount, String feedThumbnailUrl, String storeName, FeedId feedId,
                                              LocalDateTime createdAt, LocalDateTime updatedAt, String description,
-                                             List<String> moodNames, boolean isLiked, int likeCount, Long feedCommentCount) {
+                                             List<String> moodNames, boolean isLiked, int likeCount,
+                                             Long feedCommentCount) {
         this.feedAllCount = feedAllCount;
         this.feedThumbnailUrl = feedThumbnailUrl;
         this.storeName = storeName;
