@@ -10,6 +10,7 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.common.util.ids.StoreMoodId;
 import com.foodymoody.be.feed.application.FeedCommentCountReadService;
 import com.foodymoody.be.feed.application.FeedMapper;
@@ -76,10 +77,12 @@ public class FeedUseCase {
         List<Image> images = toImage(imageMenuPairs, memberId);
         List<StoreMoodId> storeMoodIds = request.getStoreMoodIds();
         List<StoreMood> storeMoods = storeMoodReadService.fetchAllByStoreMoodIds(storeMoodIds);
+        StoreId storeId = request.getStoreId();
+        String review = request.getReview();
 
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
-        Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, request, storeMoods, images, menus,
+        Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, storeId, review, storeMoods, images, menus,
                 profileImageUrl);
         Feed savedFeed = feedWriteService.save(feed);
 

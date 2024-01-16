@@ -2,9 +2,11 @@ package com.foodymoody.be.feed.application.dto.response;
 
 import com.foodymoody.be.common.util.ids.MemberId;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class FeedTasteMoodResponse {
 
     private MemberId id;
@@ -13,14 +15,6 @@ public class FeedTasteMoodResponse {
     public FeedTasteMoodResponse(MemberId id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    public MemberId getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
     }
 
 }

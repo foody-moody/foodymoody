@@ -43,7 +43,8 @@ class FeedMapperTest {
         StoreId storeId = makeStoreId();
         String review = makeReview();
         List<StoreMoodId> storeMoodIds = List.of(IdFactory.createStoreMoodId("1"), IdFactory.createStoreMoodId("2"));
-        FeedServiceRegisterRequest feedServiceRegisterRequest = new FeedServiceRegisterRequest(memberId, IdFactory.createStoreId("1"),
+        FeedServiceRegisterRequest feedServiceRegisterRequest = new FeedServiceRegisterRequest(memberId,
+                IdFactory.createStoreId("1"),
                 review, storeMoodIds,
                 List.of(
                         new ImageMenuPair(IdFactory.createImageId("1"),
@@ -56,8 +57,7 @@ class FeedMapperTest {
         String profileImageUrl = makeProfileImageUrl();
 
         // when
-        Feed feed = FeedMapper.toFeed(id, memberId, feedServiceRegisterRequest, storeMoods,
-                images, menus, profileImageUrl);
+        Feed feed = FeedMapper.toFeed(id, memberId, storeId, review, storeMoods, images, menus, profileImageUrl);
 
         // then
         assertAll(
@@ -97,7 +97,8 @@ class FeedMapperTest {
         List<FeedStoreMoodResponse> moodNames = makeFeedStoreMoodResponse();
 
         // when
-        FeedReadResponse feedReadResponse = FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images, moodNames, false, 0L, "역삼동");
+        FeedReadResponse feedReadResponse = FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images, moodNames,
+                false, 0L, "역삼동");
 
         // then
         assertAll(() -> {

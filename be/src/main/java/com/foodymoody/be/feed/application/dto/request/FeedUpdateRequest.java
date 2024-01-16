@@ -10,22 +10,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Setter
 public class FeedUpdateRequest {
 
-    @Getter
-    @Setter
     private StoreId storeId;
-
-    @Getter
-    @Setter
     private String review;
-
-    @Getter
-    @Setter
     private List<StoreMoodId> storeMoodIds;
-
-    @Getter
-    @Setter
     private List<ImageMenuPair> images;
 
     @Builder

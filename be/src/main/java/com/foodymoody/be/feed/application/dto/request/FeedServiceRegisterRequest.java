@@ -8,29 +8,15 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class FeedServiceRegisterRequest {
 
-    @Getter
-    @Setter
     private MemberId memberId;
-
-    @Getter
-    @Setter
     private StoreId storeId;
-
-    @Getter
-    @Setter
     private String review;
-
-    @Getter
-    @Setter
     private List<StoreMoodId> storeMoodIds;
-
-    @Getter
-    @Setter
     private List<ImageMenuPair> images;
 
     @Builder

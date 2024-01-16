@@ -7,7 +7,7 @@ import static org.mockito.BDDMockito.given;
 import com.foodymoody.be.common.exception.ErrorMessage;
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.feed.domain.repository.FeedRepository;
+import com.foodymoody.be.feed.infra.persistence.FeedRepositoryImpl;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -24,14 +24,14 @@ class FeedReadServiceTest {
     @InjectMocks
     private FeedReadService feedReadService;
     @Mock
-    private FeedRepository feedRepository;
+    private FeedRepositoryImpl feedRepository;
 
     @DisplayName("validateId()로 feedId가 DB에 저장되어 있지 않으면 FeedIdNotExistsException 예외가 발생한다.")
     @Test
     void validateId() {
         // given
         FeedId notExistsId = new FeedId("not exists");
-        given(feedRepository.findById(notExistsId)).willReturn(Optional.empty());
+        given(feedRepository.fetchById(notExistsId)).willReturn(Optional.empty());
 
         // when
         // then
@@ -46,7 +46,7 @@ class FeedReadServiceTest {
     void validateIds() {
         // given
         List<FeedId> feedIds = List.of(new FeedId("not exists1"), new FeedId("not exists2"));
-        feedIds.forEach(feedId -> given(feedRepository.findById(feedId)).willReturn(Optional.empty()));
+        feedIds.forEach(feedId -> given(feedRepository.fetchById(feedId)).willReturn(Optional.empty()));
 
         // when
         // then

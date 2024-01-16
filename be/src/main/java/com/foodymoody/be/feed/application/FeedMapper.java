@@ -6,6 +6,7 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.feed.application.dto.request.CollectionReadFeedDetailsServiceRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedServiceDeleteRequest;
@@ -41,10 +42,10 @@ public class FeedMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Feed toFeed(FeedId id, MemberId memberId, FeedServiceRegisterRequest request,
+    public static Feed toFeed(FeedId id, MemberId memberId, StoreId storeId, String review,
                               List<StoreMood> storeMoods,
                               List<Image> images, List<Menu> menus, String profileImageUrl) {
-        return new Feed(id, memberId, request.getStoreId(), request.getReview(), storeMoods, images, menus,
+        return new Feed(id, memberId, storeId, review, storeMoods, images, menus,
                 profileImageUrl, LocalDateTime.now());
     }
 
@@ -83,7 +84,8 @@ public class FeedMapper {
                 .build();
     }
 
-    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedId id, FeedUpdateRequest request, MemberId memberId) {
+    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedId id, FeedUpdateRequest request,
+                                                                  MemberId memberId) {
         return FeedServiceUpdateRequest.builder()
                 .id(id)
                 .memberId(memberId)
@@ -152,9 +154,10 @@ public class FeedMapper {
                 .collect(Collectors.toList());
     }
 
-    public static CollectionReadFeedDetailsServiceRequest toCollectionReadFeedDetailsServiceRequest(FeedCollectionId collectionId,
-                                                                                                    Pageable pageable,
-                                                                                                    MemberId memberId) {
+    public static CollectionReadFeedDetailsServiceRequest toCollectionReadFeedDetailsServiceRequest(
+            FeedCollectionId collectionId,
+            Pageable pageable,
+            MemberId memberId) {
         return new CollectionReadFeedDetailsServiceRequest(collectionId, pageable, memberId);
     }
 

@@ -11,24 +11,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class FeedServiceUpdateRequest {
 
-    @Getter
     private FeedId id;
-
-    @Getter
     private MemberId memberId;
-
-    @Getter
     private StoreId storeId;
-
-    @Getter
     private String review;
-
-    @Getter
     private List<StoreMoodId> storeMoodIds;
-
-    @Getter
     private List<ImageMenuPair> images;
 
     @Builder

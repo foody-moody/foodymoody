@@ -3,7 +3,6 @@ package com.foodymoody.be.acceptance.feed;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.foodymoody.be.common.util.ids.IdFactory;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
@@ -54,9 +53,10 @@ public class FeedSteps {
         return 피드를_등록한다(accessToken, new RequestSpecBuilder().build(), imageIds).jsonPath().getString("id");
     }
 
-    public static ExtractableResponse<Response> 피드를_등록한다(String accessToken, RequestSpecification spec, List<String> imageIds) {
+    public static ExtractableResponse<Response> 피드를_등록한다(String accessToken, RequestSpecification spec,
+                                                         List<String> imageIds) {
         Map<String, Object> body = Map.of(
-                "storeId", IdFactory.createStoreId("1"),
+                "storeId", "1",
                 "review", "맛있어요!",
                 "storeMoodIds", List.of("1", "3", "4"),
                 "images", List.of(
@@ -92,9 +92,10 @@ public class FeedSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 피드를_또_등록한다(String accessToken, RequestSpecification spec, List<String> imageIds) {
+    public static ExtractableResponse<Response> 피드를_또_등록한다(String accessToken, RequestSpecification spec,
+                                                           List<String> imageIds) {
         Map<String, Object> body = Map.of(
-                "storeId", IdFactory.createStoreId("1"),
+                "storeId", "1",
                 "review", "맛없어요!",
                 "storeMoodIds", List.of("1", "2", "4"),
                 "images", List.of(
@@ -162,7 +163,7 @@ public class FeedSteps {
 
     public static ExtractableResponse<Response> 피드를_수정한다(String accessToken, String id, RequestSpecification spec) {
         Map<String, Object> body = Map.of(
-                "storeId", IdFactory.createStoreId("2"),
+                "storeId", "2",
                 "review", "맛있게 먹었습니다.2",
                 "storeMoodIds", List.of("2", "5", "6"),
                 "images", List.of(

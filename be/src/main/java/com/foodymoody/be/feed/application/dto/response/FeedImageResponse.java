@@ -2,9 +2,11 @@ package com.foodymoody.be.feed.application.dto.response;
 
 import com.foodymoody.be.common.util.ids.ImageId;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class FeedImageResponse {
 
     private ImageId id;
@@ -13,14 +15,6 @@ public class FeedImageResponse {
     public FeedImageResponse(ImageId id, String url) {
         this.id = id;
         this.url = url;
-    }
-
-    public ImageId getId() {
-        return id;
-    }
-
-    public String getUrl() {
-        return url;
     }
 
 }

@@ -1,29 +1,18 @@
 package com.foodymoody.be.feed_heart.application.dto.request;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@Getter
 public class FeedHeartServiceRequest {
 
     private String feedId;
     private String memberId;
 
-    public String getMemberId() {
-        return memberId;
-    }
-
-    public String getFeedId() {
-        return feedId;
-    }
-
-    public void setFeedId(String feedId) {
+    public FeedHeartServiceRequest(String feedId, String memberId) {
         this.feedId = feedId;
-    }
-
-    public void setMemberId(String memberId) {
         this.memberId = memberId;
     }
 
