@@ -541,6 +541,12 @@ operation::feed_collection_request_update_success[snippets='http-request,http-re
 
 operation::feed_collection_request_update_feed_list_success[snippets='http-request,http-response']
 
+=== 컬렉션 피드 리스트 및 썸네일 수정
+
+==== 성공
+
+operation::feed_collection_request_update_feed_list_and_thumbnail_success[snippets='http-request,http-response']
+
 === 컬렉션 삭제
 
 ==== 성공
