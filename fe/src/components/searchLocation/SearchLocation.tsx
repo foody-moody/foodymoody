@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useToggle } from 'recoil/booleanState/useToggle';
 import { useGetStores } from 'service/queries/store';
 import { styled } from 'styled-components';
@@ -14,24 +13,21 @@ import { SearchPanelInput } from 'components/searchPanelInput/SearchPanelInput';
 type Props = {
   value: string;
   keyword: string;
-  locationNameHelperText?: string;
-  handleLocationChange: (value: string) => void;
+  selectedStore: SelectedStore;
+  onStoreChange: (value: string) => void;
+  onSelectStore: (store: StoreItem) => void;
 };
 
 export const SearchLocation: React.FC<Props> = ({
   value,
   keyword,
-  locationNameHelperText,
-  handleLocationChange,
+  selectedStore,
+  onStoreChange,
+  onSelectStore,
 }) => {
   const search = useToggle('search');
   const tool = useToggle('tool');
   const { data: stores } = useGetStores(keyword);
-
-  const [selectedLocation, setSelectedLocation] = useState({
-    id: '',
-    name: '',
-  });
 
   const handleOpenTools = () => {
     !search.isTrue && tool.toggle();
@@ -49,27 +45,23 @@ export const SearchLocation: React.FC<Props> = ({
     search.toggleOff();
   };
 
-  const handleSelectLocation = (location: StoreList) => {
+  const handleSelectLocation = (location: StoreItem) => {
     console.log(location, 'location');
-
-    setSelectedLocation({
-      id: location.id,
-      name: location.name,
-    });
-    handleLocationChange(location.name);
+    onSelectStore(location);
+    onStoreChange(location.name);
   };
 
   const handleSearchLocation = (locationName: string) => {
-    handleLocationChange(locationName);
+    onStoreChange(locationName);
   };
 
   return (
     <Wrapper>
       <Location>
-        {selectedLocation.name && (
+        {selectedStore.name && (
           <SelectedLocation onClick={handleOpenTools}>
             <MapPinSmallIcon />
-            {selectedLocation.name}
+            {selectedStore.name}
           </SelectedLocation>
         )}
         {tool.isTrue && (
@@ -92,12 +84,11 @@ export const SearchLocation: React.FC<Props> = ({
           <SearchPanelInput
             variant="underline"
             value={value}
-            onChangeValue={handleSearchLocation}
-            helperText={locationNameHelperText}
             data={stores}
+            onChangeValue={handleSearchLocation}
             onSelectLocation={handleSelectLocation}
           />
-          {selectedLocation.name && (
+          {selectedStore.name && (
             <TextButton size="m" color="black" onClick={handleCloseSearch}>
               <CloseSmallIcon />
             </TextButton>

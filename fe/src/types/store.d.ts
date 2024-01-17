@@ -1,8 +1,11 @@
-type StoreList = {
-  id: string;
-  name: string;
+type StoreItem = {
   address: string;
   roadAddress: string;
+} & SelectedStore;
+
+type SelectedStore = {
+  id: string;
+  name: string;
 };
 
 type StoreDetail = {

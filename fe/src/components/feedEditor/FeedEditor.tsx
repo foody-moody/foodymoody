@@ -21,7 +21,10 @@ export const FeedEditor: React.FC = () => {
   const search = useToggle('search');
   const { navigateToHome } = usePageNavigator();
   const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
-
+  const [selectedStore, setSelectedStore] = useState({
+    id: '',
+    name: '',
+  });
   const { id: feedId } = useParams() as { id: string };
   const { mutate: feedMutate, status } = useFeedEditor(feedId);
   const { data: feedDetailData } = useFeedDetail(feedId);
@@ -34,18 +37,11 @@ export const FeedEditor: React.FC = () => {
     handleEditStarRating,
   } = useMenuItem(feedDetailData?.images);
 
-  const {
-    value: locationName,
-    handleChange: handleLocationChange,
-    isValid: isLocationNameVaild,
-    helperText: locationNameHelperText,
-  } = useInput({
+  const { value: storeName, handleChange: handleStoreChange } = useInput({
     initialValue: '',
-    validator: (value) => value.trim().length > 0,
-    helperText: '가게 이름을 입력해주세요',
   });
 
-  const debouncedValue = useDebounce(locationName);
+  const debouncedValue = useDebounce(storeName);
 
   const { value: reviewValue, handleChange: handleReviewChange } = useInput({
     initialValue: '',
@@ -54,22 +50,29 @@ export const FeedEditor: React.FC = () => {
   useEffect(() => {
     if (feedDetailData) {
       handleReviewChange(feedDetailData.review);
-      handleLocationChange(feedDetailData.location);
-      setSelectedBadgeList(feedDetailData.storeMood); // 확인필요
+      handleStoreChange(feedDetailData.location);
+      setSelectedBadgeList(feedDetailData.storeMood);
     }
   }, [feedDetailData]);
 
   const handleSubmit = () => {
     feedMutate({
-      storeId: locationName, // storeId로 변경
+      storeId: selectedStore.id,
       images: menuItems.map(({ image, menu }) => ({
         imageId: image.id,
         menu,
       })),
-      storeMood: selectedBadgeList.map((badge) => badge.id),
+      storeMoodIds: selectedBadgeList.map((badge) => badge.id),
       review: reviewValue,
     });
     status === 'success' && search.toggleOn();
+  };
+
+  const handleSelectStore = (store: StoreItem) => {
+    setSelectedStore({
+      id: store.id,
+      name: store.name,
+    });
   };
 
   const handleSelectBadgeList = (badges: Badge[]) => {
@@ -77,7 +80,7 @@ export const FeedEditor: React.FC = () => {
   };
 
   const isValid =
-    isLocationNameVaild &&
+    selectedStore.id !== '' &&
     reviewValue.trim().length > 0 &&
     menuItems
       .map((menuItem) => menuItem.image.id)
@@ -86,7 +89,6 @@ export const FeedEditor: React.FC = () => {
     menuItems
       .map((menuItem) => menuItem.menu.name)
       .every((name) => name.trim().length > 0);
-  console.log(locationName);
 
   return (
     <Wrapper>
@@ -103,10 +105,11 @@ export const FeedEditor: React.FC = () => {
           <InputBox>
             <Title>가게를 등록해주세요</Title>
             <SearchLocation
-              value={locationName}
+              value={storeName}
               keyword={debouncedValue}
-              locationNameHelperText={locationNameHelperText}
-              handleLocationChange={handleLocationChange}
+              selectedStore={selectedStore}
+              onStoreChange={handleStoreChange}
+              onSelectStore={handleSelectStore}
             />
           </InputBox>
           <MenuEditorWrapper>

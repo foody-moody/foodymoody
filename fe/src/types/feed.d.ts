@@ -45,7 +45,7 @@ type FeedMemberInfo = {
 type NewFeedBody = {
   storeId: string; //location이었음
   review: string;
-  storeMood: string[];
+  storeMoodIds: string[];
   images: {
     imageId: string;
     menu: MenuTag;

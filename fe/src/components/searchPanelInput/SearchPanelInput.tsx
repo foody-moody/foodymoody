@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-//  TODO db데이터 확정시 제거
 import { useToggle } from 'recoil/booleanState/useToggle';
 import { styled } from 'styled-components';
 import { Input } from 'components/common/input/Input';
@@ -8,30 +6,28 @@ import { InputField } from 'components/common/input/InputField';
 type Props = {
   variant: 'ghost' | 'underline' | 'default' | 'comment' | 'rectangle';
   value?: string;
-  helperText?: string;
-  data?: StoreList[];
+  data?: StoreItem[];
   onChangeValue?(value: string): void;
-  onSelectLocation(location: any): void;
+  onSelectLocation(location: SelectedStore): void;
 };
 
 export const SearchPanelInput: React.FC<Props> = ({
   variant,
   value,
-  helperText,
   data,
   onChangeValue,
   onSelectLocation,
 }) => {
-  // TODO panel 데이터 페치
   const search = useToggle('search');
-
-  // const handlePanelClose = () => {
-  //   onChangeValue?.('');
-  // };
+  const handleSelect = (result: StoreItem) => {
+    console.log(result, 'result');
+    onSelectLocation(result);
+    search.toggleOff();
+  };
 
   return (
     <Wrapper>
-      <Input variant={variant} helperText={helperText}>
+      <Input variant={variant}>
         <Input.CenterContent>
           <InputField
             value={value}
@@ -40,22 +36,34 @@ export const SearchPanelInput: React.FC<Props> = ({
           />
         </Input.CenterContent>
         <Input.BottomPanel isOpen={search.isTrue && value?.trim().length !== 0}>
-          {data?.map((result: StoreList) => (
+          {data?.length === 0 ? (
             <ItemRow
-              key={result.id}
+              key={crypto.randomUUID()}
               onClick={() => {
-                console.log(result, 'result');
-                onSelectLocation(result);
-                // handlePanelClose();
-                search.toggleOff();
+                onChangeValue?.('');
               }}
             >
-              <PlaceName>{result.name}</PlaceName>
-              {result.roadAddress && (
-                <AddressText>{result.roadAddress}</AddressText>
-              )}
+              <PlaceName>{'검색결과가 없어요'}</PlaceName>
             </ItemRow>
-          ))}
+          ) : (
+            <>
+              {data?.map((result: StoreItem) => (
+                <ItemRow
+                  key={result.id}
+                  onClick={() => {
+                    handleSelect(result);
+                  }}
+                >
+                  <PlaceName>{result.name}</PlaceName>
+                  {result && (
+                    <AddressText>
+                      {result.roadAddress || result.address}
+                    </AddressText>
+                  )}
+                </ItemRow>
+              ))}
+            </>
+          )}
         </Input.BottomPanel>
       </Input>
     </Wrapper>
