@@ -9,7 +9,7 @@ type Props = {
   variant: 'ghost' | 'underline' | 'default' | 'comment' | 'rectangle';
   value?: string;
   helperText?: string;
-  data: any;
+  data?: StoreList[];
   onChangeValue?(value: string): void;
   onSelectLocation(location: any): void;
 };
@@ -40,7 +40,7 @@ export const SearchPanelInput: React.FC<Props> = ({
           />
         </Input.CenterContent>
         <Input.BottomPanel isOpen={search.isTrue && value?.trim().length !== 0}>
-          {data.map((result: any) => (
+          {data?.map((result: StoreList) => (
             <ItemRow
               key={result.id}
               onClick={() => {
@@ -50,9 +50,9 @@ export const SearchPanelInput: React.FC<Props> = ({
                 search.toggleOff();
               }}
             >
-              <PlaceName>{result.place_name}</PlaceName>
-              {result.road_address_name && (
-                <AddressText>{result.road_address_name}</AddressText>
+              <PlaceName>{result.name}</PlaceName>
+              {result.roadAddress && (
+                <AddressText>{result.roadAddress}</AddressText>
               )}
             </ItemRow>
           ))}

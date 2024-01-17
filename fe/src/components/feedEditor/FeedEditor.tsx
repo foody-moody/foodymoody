@@ -12,6 +12,7 @@ import { PlusIcon } from 'components/common/icon/icons';
 import { MenuItemEditor } from 'components/common/menuItemEditor/MenuItemEditor';
 import { TextArea } from 'components/common/textarea/Textarea';
 import { SearchLocation } from 'components/searchLocation/SearchLocation';
+import { useDebounce } from 'hooks/useDebounce';
 import { useInput } from 'hooks/useInput';
 import { useMenuItem } from 'hooks/useMenuItem';
 import { usePageNavigator } from 'hooks/usePageNavigator';
@@ -44,6 +45,8 @@ export const FeedEditor: React.FC = () => {
     helperText: '가게 이름을 입력해주세요',
   });
 
+  const debouncedValue = useDebounce(locationName);
+
   const { value: reviewValue, handleChange: handleReviewChange } = useInput({
     initialValue: '',
   });
@@ -58,7 +61,7 @@ export const FeedEditor: React.FC = () => {
 
   const handleSubmit = () => {
     feedMutate({
-      location: locationName,
+      storeId: locationName, // storeId로 변경
       images: menuItems.map(({ image, menu }) => ({
         imageId: image.id,
         menu,
@@ -83,7 +86,7 @@ export const FeedEditor: React.FC = () => {
     menuItems
       .map((menuItem) => menuItem.menu.name)
       .every((name) => name.trim().length > 0);
-  console.log(locationName, 'isValid');
+  console.log(locationName);
 
   return (
     <Wrapper>
@@ -100,7 +103,8 @@ export const FeedEditor: React.FC = () => {
           <InputBox>
             <Title>가게를 등록해주세요</Title>
             <SearchLocation
-              locationName={locationName}
+              value={locationName}
+              keyword={debouncedValue}
               locationNameHelperText={locationNameHelperText}
               handleLocationChange={handleLocationChange}
             />

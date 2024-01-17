@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useToggle } from 'recoil/booleanState/useToggle';
+import { useGetStores } from 'service/queries/store';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
 import { TextButton } from 'components/common/button/TextButton';
@@ -11,34 +12,25 @@ import {
 import { SearchPanelInput } from 'components/searchPanelInput/SearchPanelInput';
 
 type Props = {
-  locationName: string;
+  value: string;
+  keyword: string;
   locationNameHelperText?: string;
   handleLocationChange: (value: string) => void;
 };
 
 export const SearchLocation: React.FC<Props> = ({
-  locationName,
+  value,
+  keyword,
   locationNameHelperText,
   handleLocationChange,
 }) => {
-  const [searchResult, setSearchResult] = useState([]);
   const search = useToggle('search');
   const tool = useToggle('tool');
-  console.log(search.isTrue, 'search istrue');
-  console.log(tool.isTrue, 'search istrue');
+  const { data: stores } = useGetStores(keyword);
 
   const [selectedLocation, setSelectedLocation] = useState({
     id: '',
-    placeName: '',
-    addressName: '',
-    roadAddressName: '',
-    x: '',
-    y: '',
-    url: '',
-    phone: '',
-    distance: '',
-    category_name: '',
-    category_group_code: '',
+    name: '',
   });
 
   const handleOpenTools = () => {
@@ -57,61 +49,27 @@ export const SearchLocation: React.FC<Props> = ({
     search.toggleOff();
   };
 
-  const handleSelectLocation = (location: any) => {
+  const handleSelectLocation = (location: StoreList) => {
     console.log(location, 'location');
 
     setSelectedLocation({
       id: location.id,
-      placeName: location.place_name,
-      addressName: location.address_name,
-      roadAddressName: location.road_address_name,
-      x: location.x,
-      y: location.y,
-      url: location.place_url,
-      phone: location.phone,
-      distance: location.distance,
-      category_name: location.category_name,
-      category_group_code: location.category_group_code,
+      name: location.name,
     });
-    handleLocationChange(location.place_name);
+    handleLocationChange(location.name);
   };
 
   const handleSearchLocation = (locationName: string) => {
     handleLocationChange(locationName);
-    handleSearch(locationName);
-  };
-
-  ///
-
-  const handleSearch = (keyword: string) => {
-    console.log(keyword, 'keyword');
-
-    window.kakao.maps.load(() => {
-      const ps = new window.kakao.maps.services.Places();
-      ps.keywordSearch(keyword, placesSearchCB);
-    });
-  };
-
-  const placesSearchCB = (data: any, status: any) => {
-    if (status === window.kakao.maps.services.Status.OK) {
-      console.log(data, 'kakao search data');
-      setSearchResult(data);
-    } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
-      console.log('검색 결과가 존재하지 않습니다.');
-      return;
-    } else if (status === window.kakao.maps.services.Status.ERROR) {
-      alert('검색 결과 중 오류가 발생했습니다.');
-      return;
-    }
   };
 
   return (
     <Wrapper>
       <Location>
-        {selectedLocation.placeName && (
+        {selectedLocation.name && (
           <SelectedLocation onClick={handleOpenTools}>
             <MapPinSmallIcon />
-            {selectedLocation.placeName}
+            {selectedLocation.name}
           </SelectedLocation>
         )}
         {tool.isTrue && (
@@ -133,14 +91,13 @@ export const SearchLocation: React.FC<Props> = ({
         <SearchContainer>
           <SearchPanelInput
             variant="underline"
-            value={locationName}
-            // onChangeValue={handleLocationChange}
+            value={value}
             onChangeValue={handleSearchLocation}
             helperText={locationNameHelperText}
-            data={searchResult}
+            data={stores}
             onSelectLocation={handleSelectLocation}
           />
-          {selectedLocation.placeName && (
+          {selectedLocation.name && (
             <TextButton size="m" color="black" onClick={handleCloseSearch}>
               <CloseSmallIcon />
             </TextButton>
