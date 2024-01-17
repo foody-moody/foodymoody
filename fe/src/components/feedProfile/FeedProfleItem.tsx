@@ -12,7 +12,7 @@ export const FeedProfileItem = forwardRef<HTMLLIElement, Props>(
     const navigate = useNavigate();
 
     const handleOpenDetailFeed = () => {
-      navigate(PATH.DETAIL_FEED + '/' + feed.id, {
+      navigate(PATH.PROFILE + PATH.DETAIL_FEED + '/' + feed.id, {
         state: { background: 'profileDetailFeed' },
       });
     };

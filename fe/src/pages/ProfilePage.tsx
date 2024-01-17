@@ -9,6 +9,7 @@ import { UserFeedTabs } from 'components/common/userFeedTabs/UserFeedTabs';
 import { FeedLikeList } from 'components/feedLike/FeedLikeList';
 import { FeedProfileList } from 'components/feedProfile/FeedPofileList';
 import { ProfileUserInfo } from 'components/profileUserInfo/ProfileUserInfo';
+import { DetailFeedModalPage } from './DetailFeedPage';
 import { FollowModalPage } from './FollowPage';
 
 export const ProfilePage = () => {
@@ -46,6 +47,7 @@ export const ProfilePage = () => {
         )}
       </ContentWrapper>
 
+      {background === 'profileDetailFeed' && <DetailFeedModalPage />}
       {background === 'followings' && <FollowModalPage />}
       {background === 'followers' && <FollowModalPage />}
     </Wrapper>
