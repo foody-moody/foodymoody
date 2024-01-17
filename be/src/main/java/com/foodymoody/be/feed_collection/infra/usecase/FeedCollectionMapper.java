@@ -49,8 +49,8 @@ public class FeedCollectionMapper {
         return new AuthorSummaryResponse(
                 author.getId(),
                 author.getNickname(),
-                authorProfileImage.getUrl(),
-                authorTasteMood.getName()
+                authorTasteMood.getName(),
+                authorProfileImage.getUrl()
         );
     }
 
