@@ -1,5 +1,6 @@
 package com.foodymoody.be.store.infra.jpa;
 
+import static com.foodymoody.be.feed.domain.entity.QFeed.*;
 import static com.foodymoody.be.store.domain.QStore.store;
 
 import com.foodymoody.be.common.util.ids.StoreId;
@@ -25,6 +26,7 @@ public class StoreQueryDslRepositoryImpl implements StoreQueryDslRepository {
                 .select(Projections.constructor(
                         StoreDetailsResponse.class,
                         store.name,
+                        feed.count(),
                         store.address,
                         store.roadAddress,
                         store.phone,
@@ -32,7 +34,9 @@ public class StoreQueryDslRepositoryImpl implements StoreQueryDslRepository {
                         store.y,
                         store.status.type.eq(StatusType.CLOSED)))
                 .from(store)
+                .leftJoin(feed).on(store.id.eq(feed.storeId))
                 .where(store.id.eq(id))
+                .groupBy(store.id)
                 .fetchOne();
         return Optional.ofNullable(findById);
     }

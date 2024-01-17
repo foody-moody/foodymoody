@@ -11,7 +11,7 @@ public class StoreDetailsResponse {
     // TODO
 //    private int rating;
 //    private boolean hearted;
-//    private int feedCount;
+    private long feedCount;
     private String address;
     private String roadAddress;
     private String phone;

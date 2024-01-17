@@ -10,6 +10,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -366,6 +367,36 @@ public class FeedSteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 특정_가게의_피드를_등록한다(String accessToken, String storeId, List<String> imageIds) {
+        Map<String, Object> body = Map.of(
+                "storeId", storeId,
+                "review", "맛있어요!",
+                "storeMoodIds", List.of("1", "3", "4"),
+                "images",
+                    imageIds.stream()
+                            .map(imageId ->
+                                    Map.of("imageId", imageId,
+                                            "menu", Map.of(
+                                                    "name", "마라탕",
+                                                    "rating", 4
+                                            )))
+                            .collect(Collectors.toUnmodifiableList())
+        );
+
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .log().all()
+                .auth()
+                .oauth2(accessToken)
+                .body(body)
+                .when()
+                .post("/api/feeds")
+                .then()
+                .log().all()
+                .extract();
+    }
+
     public static void 응답코드가_400이다(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
@@ -401,6 +432,7 @@ public class FeedSteps {
                 () -> assertThat(response.jsonPath().getBoolean("isLiked")).isTrue(),
                 assertThat(id)::isNotNull
         );
+
     }
 
     public static ExtractableResponse<Response> 피드를_수정한다(String accessToken, String id, RequestSpecification spec) {
