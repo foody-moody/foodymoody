@@ -17,6 +17,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+      - name: 설정파일을 추가한다
+        run: |
+          cd ./fe
+          echo "${{ secrets.FE_ENV }}" > .env
       - name: 어플리케이션을 빌드한다
         run: |
           npm install
