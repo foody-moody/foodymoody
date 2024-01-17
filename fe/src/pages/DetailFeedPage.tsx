@@ -42,7 +42,11 @@ export const DetailFeedModalPage = () => {
   });
 
   const handleNavigateToBack = () => {
-    if (background === 'detailFeed' || background === 'notiDetailFeed') {
+    if (
+      background === 'detailFeed' ||
+      background === 'notiDetailFeed' ||
+      background === 'profileDetailFeed'
+    ) {
       navigateToBack();
       closeModal('commentAlert');
     } else {

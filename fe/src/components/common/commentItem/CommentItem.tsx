@@ -101,6 +101,7 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
 
   const handleNavigateProfile = () => {
     navigate(PATH.PROFILE + '/' + comment.member.id);
+    sessionStorage.setItem('profileId', comment.member.id);
   };
 
   return (
