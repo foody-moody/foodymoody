@@ -33,7 +33,7 @@ type MenuTag = {
 type ProfileFeed = {
   id: string;
   imageUrl: string;
-}
+};
 
 type FeedMemberInfo = {
   id: string;
@@ -43,8 +43,7 @@ type FeedMemberInfo = {
 };
 
 type NewFeedBody = {
-  location: string; //location으로 바껴야함
-  // location: Location;
+  storeId: string; //location이었음
   review: string;
   storeMood: string[];
   images: {
