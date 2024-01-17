@@ -50,7 +50,11 @@ export const FeedEditor: React.FC = () => {
   useEffect(() => {
     if (feedDetailData) {
       handleReviewChange(feedDetailData.review);
-      handleStoreChange(feedDetailData.location);
+      // setSelectedStore({
+      //   id: feedDetailData.storeId,
+      //   name: feedDetailData.storeName,
+      // }); << TODO 이형식으로 변경
+      // handleStoreChange(feedDetailData.location);
       setSelectedBadgeList(feedDetailData.storeMood);
     }
   }, [feedDetailData]);
