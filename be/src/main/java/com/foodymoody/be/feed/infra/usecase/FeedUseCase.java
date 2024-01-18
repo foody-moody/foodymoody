@@ -35,7 +35,7 @@ import com.foodymoody.be.feed_heart_count.application.FeedHeartCountService;
 import com.foodymoody.be.feed_heart_count.domain.entity.FeedHeartCount;
 import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.member.application.MemberQueryService;
+import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.menu.application.MenuService;
@@ -61,7 +61,7 @@ public class FeedUseCase {
     private final FeedReadService feedReadService;
     private final FeedWriteService feedWriteService;
     private final ImageService imageService;
-    private final MemberQueryService memberQueryService;
+    private final MemberReadService memberReadService;
     private final MenuService menuService;
     private final StoreMoodReadService storeMoodReadService;
     private final FeedHeartCountService feedHeartCountService;
@@ -70,7 +70,7 @@ public class FeedUseCase {
 
     @Transactional
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
-        Member member = memberQueryService.findById(request.getMemberId());
+        Member member = memberReadService.findById(request.getMemberId());
         MemberId memberId = member.getId();
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = toMenu(imageMenuPairs);
@@ -153,7 +153,7 @@ public class FeedUseCase {
     @Transactional
     public void update(FeedServiceUpdateRequest request) {
         Feed feed = feedReadService.findFeed(request.getId());
-        Member member = memberQueryService.findById(request.getMemberId());
+        Member member = memberReadService.findById(request.getMemberId());
         MemberId memberId = member.getId();
         List<Image> newImages = toImage(request.getImages(), memberId);
         List<Menu> newMenus = toMenu(request.getImages());
@@ -167,7 +167,7 @@ public class FeedUseCase {
     @Transactional
     public void delete(FeedServiceDeleteRequest request) {
         FeedId feedId = request.getId();
-        MemberId memberId = memberQueryService.findById(request.getMemberId()).getId();
+        MemberId memberId = memberReadService.findById(request.getMemberId()).getId();
 
         validateFeedMember(feedId, memberId);
 
@@ -202,7 +202,7 @@ public class FeedUseCase {
     }
 
     private FeedMemberResponse makeFeedMemberResponse(Feed feed) {
-        FeedAuthorSummary memberData = memberQueryService.fetchFeedAuthorSummaryById(feed.getMemberId());
+        FeedAuthorSummary memberData = memberReadService.fetchFeedAuthorSummaryById(feed.getMemberId());
         return toFeedMemberResponse(memberData);
     }
 

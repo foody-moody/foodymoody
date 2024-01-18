@@ -1,5 +1,7 @@
 package com.foodymoody.be.member.util;
 
+import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.member.domain.Member;
 import java.util.Map;
 
 public enum MemberFixture {

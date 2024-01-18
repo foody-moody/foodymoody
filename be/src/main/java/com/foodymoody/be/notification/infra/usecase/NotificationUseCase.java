@@ -6,7 +6,7 @@ import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.application.ImageService;
-import com.foodymoody.be.member.application.MemberQueryService;
+import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.notification.application.FeedNotificationWriteService;
 import com.foodymoody.be.notification.application.NotificationSummaryReadService;
@@ -34,14 +34,14 @@ public class NotificationUseCase {
     private final FeedNotificationWriteService feedNotificationWriteService;
     private final NotificationSettingReadService notificationSettingReadService;
     private final ImageService imageService;
-    private final MemberQueryService memberQueryService;
+    private final MemberReadService memberReadService;
     private final FeedReadService feedReadService;
     private final NotificationSummaryReadService notificationSummaryReadService;
 
 
     public NotificationResponse request(MemberId memberId, NotificationId notificationId) {
         FeedNotification feedNotification = feedNotificationWriteService.read(notificationId);
-        Member member = memberQueryService.findById(memberId);
+        Member member = memberReadService.findById(memberId);
         Image memberProfileImage = imageService.findById(member.getProfileImageId());
         Feed feed = feedReadService.findFeed(feedNotification.getFeedId());
         return toResponse(memberId, feedNotification, member, memberProfileImage, feed, feed.getProfileImageUrl());
