@@ -9,7 +9,7 @@ public class StoreDetailsResponse {
 
     private String name;
     // TODO
-//    private int rating;
+    private double rating;
 //    private boolean hearted;
     private long feedCount;
     private String address;

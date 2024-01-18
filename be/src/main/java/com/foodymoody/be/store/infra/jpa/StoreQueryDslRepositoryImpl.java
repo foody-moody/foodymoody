@@ -1,6 +1,8 @@
 package com.foodymoody.be.store.infra.jpa;
 
 import static com.foodymoody.be.feed.domain.entity.QFeed.*;
+import static com.foodymoody.be.feed.domain.entity.QImageMenu.*;
+import static com.foodymoody.be.menu.domain.entity.QMenu.*;
 import static com.foodymoody.be.store.domain.QStore.store;
 
 import com.foodymoody.be.common.util.ids.StoreId;
@@ -22,11 +24,13 @@ public class StoreQueryDslRepositoryImpl implements StoreQueryDslRepository {
 
     @Override
     public Optional<StoreDetailsResponse> fetchDetailsById(StoreId id) {
+
         StoreDetailsResponse findById = jpaQueryFactory
                 .select(Projections.constructor(
                         StoreDetailsResponse.class,
                         store.name,
-                        feed.count(),
+                        menu.rating.avg(),
+                        feed.countDistinct(),
                         store.address,
                         store.roadAddress,
                         store.phone,
@@ -35,6 +39,8 @@ public class StoreQueryDslRepositoryImpl implements StoreQueryDslRepository {
                         store.status.type.eq(StatusType.CLOSED)))
                 .from(store)
                 .leftJoin(feed).on(store.id.eq(feed.storeId))
+                .leftJoin(imageMenu).on(feed.imageMenus.imageMenusList.contains(imageMenu))
+                .leftJoin(menu).on(imageMenu.menuId.eq(menu.id))
                 .where(store.id.eq(id))
                 .groupBy(store.id)
                 .fetchOne();

@@ -38,7 +38,28 @@ public class StoreAcceptanceTest extends AcceptanceTest {
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),
                     () -> assertThat(response.jsonPath().getString("name")).isEqualTo("폐업한 식당"),
                     () -> assertThat(response.jsonPath().getBoolean("closed")).isTrue(),
-                    () -> assertThat(response.jsonPath().getLong("feedCount")).isEqualTo(3L)
+                    () -> assertThat(response.jsonPath().getLong("feedCount")).isEqualTo(3L),
+                    () -> assertThat(response.jsonPath().getDouble("rating")).isEqualTo(2.5)
+            );
+        }
+
+        @Test
+        void when_fetch_details_if_success_and_no_feed_then_response_status_code_200_and_details() {
+            // docs
+            api_문서_타이틀("fetch_store_details_success", spec);
+            이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다(회원푸반_액세스토큰, "1");
+            이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다(회원푸반_액세스토큰, "3");
+
+            // when
+            var response = 식당_상세정보를_조회한다(spec, "2");
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath().getString("name")).isEqualTo("폐업한 식당"),
+                    () -> assertThat(response.jsonPath().getBoolean("closed")).isTrue(),
+                    () -> assertThat(response.jsonPath().getLong("feedCount")).isZero(),
+                    () -> assertThat(response.jsonPath().getDouble("rating")).isEqualTo(0.0)
             );
         }
     }
