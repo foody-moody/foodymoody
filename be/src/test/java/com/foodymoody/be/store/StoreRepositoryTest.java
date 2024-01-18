@@ -3,7 +3,6 @@ package com.foodymoody.be.store;
 import static org.assertj.core.api.Assertions.*;
 
 import com.foodymoody.be.acceptance.util.SqlFileExecutor;
-import com.foodymoody.be.common.config.AppConfig;
 import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.store.application.dto.response.StoreDetailsResponse;
 import com.foodymoody.be.store.domain.StoreRepository;
@@ -13,14 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@DataJpaTest
-@Import({AppConfig.class, SqlFileExecutor.class})
+@SpringBootTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@Transactional
 class StoreRepositoryTest {
 
     @Autowired

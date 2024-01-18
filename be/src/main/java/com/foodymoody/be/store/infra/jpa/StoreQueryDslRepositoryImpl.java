@@ -1,4 +1,4 @@
-package com.foodymoody.be.store.infra;
+package com.foodymoody.be.store.infra.jpa;
 
 import static com.foodymoody.be.store.domain.QStore.store;
 
