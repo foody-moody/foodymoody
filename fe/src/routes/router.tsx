@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { AccountSettingPage } from 'pages/AccountSettingPage';
+import { CollectionDetailPage } from 'pages/CollectionDetailPage';
 import { CollectionPage } from 'pages/CollectionPage';
 import { DetailFeedModalPage } from 'pages/DetailFeedPage';
 import { ErrorPage } from 'pages/ErrorPage';
@@ -111,6 +112,10 @@ const router = createBrowserRouter([
           {
             path: PATH.COLLECTION,
             element: <CollectionPage />,
+          },
+          {
+            path: PATH.COLLECTION + '/:id',
+            element: <CollectionDetailPage />,
           },
           {
             path: PATH.SEARCH,
