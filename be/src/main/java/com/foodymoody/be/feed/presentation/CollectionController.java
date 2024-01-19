@@ -21,8 +21,7 @@ public class CollectionController {
     private final CollectionUseCase collectionUseCase;
 
     /**
-     * 컬렉션 상세 페이지 피드 조회 API
-     * 컬렉션 상세 - "피드들 (n)" 파트
+     * 컬렉션 상세 페이지 피드 조회 API 컬렉션 상세 - "피드들 (n)" 파트
      */
     @GetMapping("/api/collections/{collectionId}/feeds")
     public ResponseEntity<Slice<CollectionReadFeedDetailsResponse>> readCollectionFeedDetails(

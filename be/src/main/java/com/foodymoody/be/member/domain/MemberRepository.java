@@ -24,7 +24,7 @@ public interface MemberRepository {
 
     boolean existsByNickname(String nickname);
 
-    Member save(Member entity);
+    Member save(Member member);
 
     void delete(Member member);
 

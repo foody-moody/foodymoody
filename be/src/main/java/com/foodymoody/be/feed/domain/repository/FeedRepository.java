@@ -1,15 +1,36 @@
 package com.foodymoody.be.feed.domain.repository;
 
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.Feed;
+import com.foodymoody.be.feed.domain.entity.ImageMenu;
+import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
+import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface FeedRepository extends JpaRepository<Feed, FeedId> {
+public interface FeedRepository {
+
+    Feed save(Feed feed);
+
+    void deleteById(FeedId feedId);
 
     boolean existsAllByIdIn(List<FeedId> feedIds);
 
-    Slice<Feed> findAllByIdIn(List<FeedId> feedIds, Pageable pageable);
+    Slice<Feed> fetchAllByIdIn(List<FeedId> feedIds, Pageable pageable);
+
+    boolean existsById(FeedId feedId);
+
+    Optional<Feed> fetchById(FeedId id);
+
+    Slice<Feed> fetchAll(Pageable pageable);
+
+    Optional<List<ImageIdNamePair>> fetchImageIdUrlList(List<ImageMenu> imageMenus);
+
+    Optional<List<MenuNameRatingPair>> fetchMenuNameRatingList(List<ImageMenu> imageMenus);
+
+    Optional<Boolean> fetchIsLikedByMemberId(FeedId feedId, MemberId memberId);
+
 }

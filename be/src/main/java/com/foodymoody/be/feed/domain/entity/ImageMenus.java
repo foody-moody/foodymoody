@@ -2,7 +2,7 @@ package com.foodymoody.be.feed.domain.entity;
 
 import com.foodymoody.be.feed.application.ImageMenuMapper;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.menu.domain.Menu;
+import com.foodymoody.be.menu.domain.entity.Menu;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

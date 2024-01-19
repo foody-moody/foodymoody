@@ -6,6 +6,7 @@ import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -42,18 +43,22 @@ public class Member {
     @Embedded
     private MyFollowers myFollowers;
 
-    private Member(MemberId id, String email, String nickname, String password, TasteMood tasteMood) {
+    public Member(MemberId id, String email, String nickname, String password, TasteMood tasteMood) {
         this.id = id;
         this.email = email;
         this.nickname = nickname;
         this.password = new Password(password);
         this.tasteMood = tasteMood;
         this.profileImage = new MemberProfileImage(ImageId.MEMBER_PROFILE_DEFAULT);
+        this.myFollowings = new MyFollowings();
+        this.myFollowers = new MyFollowers();
         Events.raise(toMemberCreatedEvent());
     }
 
-    public static Member of(String id, String email, String nickname, String password, String reconfirmPassword,
-            TasteMood tasteMood) {
+    public static Member of(
+            String id, String email, String nickname, String password, String reconfirmPassword,
+            TasteMood tasteMood
+    ) {
         if (!Objects.equals(reconfirmPassword, password)) {
             throw new InvalidReconfirmPasswordException();
         }
@@ -72,7 +77,9 @@ public class Member {
         return nickname;
     }
 
-    public ImageId getProfileImageId() { return profileImage.getId(); }
+    public ImageId getProfileImageId() {
+        return profileImage.getId();
+    }
 
     public TasteMoodId getTasteMoodId() {
         return tasteMood.getId();
@@ -104,6 +111,7 @@ public class Member {
             throw new IllegalArgumentException("팔로우할 수 없는 회원입니다");
         }
         this.myFollowings.add(this, target);
+        Events.raise(toMemberFollowedEvent(target));
     }
 
     public void unfollow(Member target) {
@@ -119,6 +127,18 @@ public class Member {
 
     public boolean isMyFollower(MemberId id) {
         return myFollowers.containsById(id);
+    }
+
+    public List<Member> getFollowers() {
+        return myFollowers.getAll();
+    }
+
+    private MemberFollowedEvent toMemberFollowedEvent(Member target) {
+        return MemberFollowedEvent.of(
+                target.id,
+                this.id,
+                LocalDateTime.now()
+        );
     }
 
     private MemberCreatedEvent toMemberCreatedEvent() {

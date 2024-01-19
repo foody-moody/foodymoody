@@ -21,10 +21,11 @@ import com.foodymoody.be.feed.application.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedStoreMoodResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedTasteMoodResponse;
+import com.foodymoody.be.feed.application.dto.response.StoreResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.menu.domain.Menu;
+import com.foodymoody.be.menu.domain.entity.Menu;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +44,8 @@ class FeedMapperTest {
         StoreId storeId = makeStoreId();
         String review = makeReview();
         List<StoreMoodId> storeMoodIds = List.of(IdFactory.createStoreMoodId("1"), IdFactory.createStoreMoodId("2"));
-        FeedServiceRegisterRequest feedServiceRegisterRequest = new FeedServiceRegisterRequest(memberId, IdFactory.createStoreId("1"),
+        FeedServiceRegisterRequest feedServiceRegisterRequest = new FeedServiceRegisterRequest(memberId,
+                IdFactory.createStoreId("1"),
                 review, storeMoodIds,
                 List.of(
                         new ImageMenuPair(IdFactory.createImageId("1"),
@@ -56,8 +58,7 @@ class FeedMapperTest {
         String profileImageUrl = makeProfileImageUrl();
 
         // when
-        Feed feed = FeedMapper.toFeed(id, memberId, feedServiceRegisterRequest, storeMoods,
-                images, menus, profileImageUrl);
+        Feed feed = FeedMapper.toFeed(id, memberId, storeId, review, storeMoods, images, menus, profileImageUrl);
 
         // then
         assertAll(
@@ -95,15 +96,17 @@ class FeedMapperTest {
         List<FeedImageMenuResponse> images = makeFeedImageMenuResponse(
                 feed);
         List<FeedStoreMoodResponse> moodNames = makeFeedStoreMoodResponse();
+        StoreResponse storeResponse = makeNewStoreResponse();
 
         // when
-        FeedReadResponse feedReadResponse = FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images, moodNames, false, 0L, "역삼동");
+        FeedReadResponse feedReadResponse = FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images, moodNames,
+                false, 0L, storeResponse);
 
         // then
         assertAll(() -> {
             assertThat(feedReadResponse.getId()).isEqualTo(feed.getId());
             assertThat(feedReadResponse.getMember()).isEqualTo(feedMemberResponse);
-            assertThat(feedReadResponse.getAddress()).isEqualTo("역삼동");
+            assertThat(feedReadResponse.getStore()).isEqualTo(storeResponse);
             assertThat(feedReadResponse.getReview()).isEqualTo(feed.getReview());
             assertThat(feedReadResponse.getStoreMood()).isEqualTo(moodNames);
             assertThat(feedReadResponse.getImages()).isEqualTo(images);
@@ -121,6 +124,7 @@ class FeedMapperTest {
         FeedMemberResponse makeFeedMemberResponse = makeFeedMemberResponse(memberId, profileImageUrl, nickname);
         List<FeedStoreMoodResponse> makeFeedStoreMoodResponses = makeFeedStoreMoodResponse();
         List<FeedImageMenuResponse> makeFeedImageMenuResponses = makeFeedImageMenuResponse(feed);
+        StoreResponse storeResponse = makeNewStoreResponse();
 
         // when
         FeedReadAllResponse feedReadAllResponse = FeedMapper.makeFeedReadAllResponse(feed, makeFeedMemberResponse,
@@ -128,17 +132,22 @@ class FeedMapperTest {
                 makeFeedImageMenuResponses,
                 false,
                 0L,
-                "역삼동");
+                storeResponse);
 
         // then
         assertAll(() -> {
             assertThat(feedReadAllResponse.getId()).isEqualTo(feed.getId());
             assertThat(feedReadAllResponse.getMember()).isEqualTo(makeFeedMemberResponse);
-            assertThat(feedReadAllResponse.getAddress()).isEqualTo("역삼동");
+            assertThat(feedReadAllResponse.getStore()).isEqualTo(storeResponse);
             assertThat(feedReadAllResponse.getReview()).isEqualTo(feed.getReview());
             assertThat(feedReadAllResponse.getStoreMood()).isEqualTo(makeFeedStoreMoodResponses);
             assertThat(feedReadAllResponse.getImages()).isEqualTo(makeFeedImageMenuResponses);
         });
+    }
+
+    @NotNull
+    private static StoreResponse makeNewStoreResponse() {
+        return FeedMapper.makeStoreResponse(IdFactory.createStoreId("1"), "영업중 식당");
     }
 
     @DisplayName("makeFeedStoreMoodResponses()로 StoreMood 형식 그대로의 Response를 만들 수 있다.")

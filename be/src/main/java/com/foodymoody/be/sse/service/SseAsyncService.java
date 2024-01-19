@@ -1,7 +1,7 @@
 package com.foodymoody.be.sse.service;
 
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.notification.infra.usecase.NotificationSseReadUseCase;
+import com.foodymoody.be.notification.application.NotificationReadService;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
@@ -21,7 +21,7 @@ public class SseAsyncService {
     public static final int MIN_COUNT = 0;
     public static final int DELAY_SECONDS = 1;
     public static final int INITIAL_DELAY_SECONDS = 0;
-    private final NotificationSseReadUseCase useCase;
+    private final NotificationReadService service;
     private final ScheduledExecutorService scheduledExecutorService;
 
     @Async
@@ -38,7 +38,7 @@ public class SseAsyncService {
             }
 
             try {
-                long count = useCase.fetchCountNotReadNotification(memberId);
+                long count = service.fetchCountNotReadNotification(memberId);
                 if (count > MIN_COUNT) {
                     SseResponse sseResponse = new SseResponse(count);
                     emitter.send(SseEmitter.event().name("notification").id(memberId.getValue()).data(sseResponse));

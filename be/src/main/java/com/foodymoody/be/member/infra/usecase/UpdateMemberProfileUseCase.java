@@ -6,7 +6,7 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.member.application.AuthorizationValidator;
-import com.foodymoody.be.member.application.MemberQueryService;
+import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.application.TasteMoodReadService;
 import com.foodymoody.be.member.application.dto.request.UpdateProfileRequest;
 import com.foodymoody.be.member.domain.Member;
@@ -21,13 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UpdateMemberProfileUseCase {
 
-    private final MemberQueryService memberQueryService;
+    private final MemberReadService memberReadService;
     private final ImageService imageService;
     private final TasteMoodReadService tasteMoodReadService;
 
     public void updateProfile(MemberId currentMemberId, MemberId id, UpdateProfileRequest request) {
         AuthorizationValidator.validateAuthorization(currentMemberId, id);
-        Member member = memberQueryService.findById(id);
+        Member member = memberReadService.findById(id);
         // FIXME 예외가 여러개 발생 시 응답에 전부 담아서 보내기
         if (Objects.nonNull(request.getProfileImageId())
                 && !Objects.equals(request.getProfileImageId(), member.getProfileImageId().getValue())) {
@@ -44,7 +44,7 @@ public class UpdateMemberProfileUseCase {
         }
         if (Objects.nonNull(request.getNickname())
                 && !Objects.equals(request.getNickname(), member.getNickname())) {
-            memberQueryService.validateNicknameDuplication(request.getNickname());
+            memberReadService.validateNicknameDuplication(request.getNickname());
             member.changeNickname(request.getNickname());
         }
     }

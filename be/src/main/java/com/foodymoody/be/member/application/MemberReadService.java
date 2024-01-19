@@ -1,10 +1,13 @@
 package com.foodymoody.be.member.application;
 
+import com.foodymoody.be.common.exception.DuplicateNicknameException;
 import com.foodymoody.be.common.exception.MemberNotFoundException;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
 import com.foodymoody.be.member.application.dto.response.FeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import com.foodymoody.be.member.application.dto.response.NicknameDuplicationCheckResponse;
+import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberMapper;
 import com.foodymoody.be.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,18 @@ public class MemberReadService {
 
     private final MemberRepository memberRepository;
 
+    public Member findById(MemberId id) {
+        return memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+    }
+
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+    }
+
+    public Member findByNickname(String nickname) {
+        return memberRepository.findByNickname(nickname).orElseThrow(MemberNotFoundException::new);
+    }
+
     public MemberProfileResponse fetchProfile(MemberId currentMemberId, MemberId id) {
         return memberRepository.fetchMemberProfileResponseById(id, currentMemberId)
                 .orElseThrow(MemberNotFoundException::new);
@@ -29,9 +44,25 @@ public class MemberReadService {
         return memberRepository.fetchFeedPreviewResponsesById(id, pageable);
     }
 
+    public FeedAuthorSummary fetchFeedAuthorSummaryById(MemberId id) {
+        return memberRepository.fetchFeedAuthorSummaryById(id).orElseThrow(MemberNotFoundException::new);
+    }
+
     public NicknameDuplicationCheckResponse checkNicknameDuplication(String nickname) {
         boolean isDuplicate = memberRepository.existsByNickname(nickname);
         return MemberMapper.toNicknameDuplicationCheckResponse(isDuplicate);
+    }
+
+    public void validateIdExists(MemberId id) {
+        if (!memberRepository.existsById(id)) {
+            throw new MemberNotFoundException();
+        }
+    }
+
+    public void validateNicknameDuplication(String nickname) {
+        if (memberRepository.existsByNickname(nickname)) {
+            throw new DuplicateNicknameException();
+        }
     }
 
 }

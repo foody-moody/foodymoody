@@ -22,10 +22,13 @@ public class FeedCollectionComment {
     @Getter
     @Id
     private FeedCollectionCommentId id;
+    @Getter
     @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
-    private FeedCollectionId feedId;
+    private FeedCollectionId feedCollectionId;
+    @Getter
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
+    @Getter
     @AttributeOverride(name = "value", column = @Column(name = "content"))
     private Content content;
     private boolean deleted;
@@ -34,16 +37,16 @@ public class FeedCollectionComment {
     private FeedCollectionReplyIds replyIds;
 
     public FeedCollectionComment(
-            FeedCollectionCommentId id, FeedCollectionId feedId, MemberId memberId, Content content,
+            FeedCollectionCommentId id, FeedCollectionId feedCollectionId, MemberId memberId, Content content,
             LocalDateTime createdAt
     ) {
         this.id = id;
-        this.feedId = feedId;
+        this.feedCollectionId = feedCollectionId;
         this.memberId = memberId;
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-        Events.raise(FeedCollectionCommentAddedEvent.of(id, createdAt));
+        Events.raise(toFeedCollectionCommentAddedEvent(id, feedCollectionId, memberId, content, createdAt));
     }
 
     public void delete(MemberId memberId, LocalDateTime updatedAt) {
@@ -66,5 +69,21 @@ public class FeedCollectionComment {
 
     public void addReplyIds(FeedCollectionReplyId id) {
         this.replyIds.add(id);
+    }
+
+    private static FeedCollectionCommentAddedEvent toFeedCollectionCommentAddedEvent(
+            FeedCollectionCommentId id,
+            FeedCollectionId feedCollectionId,
+            MemberId memberId,
+            Content content,
+            LocalDateTime createdAt
+    ) {
+        return FeedCollectionCommentAddedEvent.of(
+                feedCollectionId,
+                memberId,
+                id,
+                content,
+                createdAt
+        );
     }
 }

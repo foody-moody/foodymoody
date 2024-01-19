@@ -11,17 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FollowWriteService {
 
-    private final MemberQueryService memberQueryService;
+    private final MemberReadService memberReadService;
 
     public void follow(MemberId id, MemberId targetId) {
-        Member member = memberQueryService.findById(id);
-        Member target = memberQueryService.findById(targetId);
+        Member member = memberReadService.findById(id);
+        Member target = memberReadService.findById(targetId);
         member.follow(target);
     }
 
     public void unfollow(MemberId id, MemberId targetId) {
-        Member member = memberQueryService.findById(id);
-        Member target = memberQueryService.findById(targetId);
+        Member member = memberReadService.findById(id);
+        Member target = memberReadService.findById(targetId);
         member.unfollow(target);
     }
 

@@ -5,9 +5,13 @@ import com.foodymoody.be.common.util.ids.StoreMoodId;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Setter
 public class FeedRegisterRequest {
 
     private StoreId storeId;
@@ -21,38 +25,6 @@ public class FeedRegisterRequest {
         this.storeId = storeId;
         this.review = review;
         this.storeMoodIds = storeMoodIds;
-        this.images = images;
-    }
-
-    public StoreId getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(StoreId storeId) {
-        this.storeId = storeId;
-    }
-
-    public String getReview() {
-        return review;
-    }
-
-    public void setReview(String review) {
-        this.review = review;
-    }
-
-    public List<StoreMoodId> getStoreMoodIds() {
-        return storeMoodIds;
-    }
-
-    public void setStoreMoodIds(List<StoreMoodId> storeMoodIds) {
-        this.storeMoodIds = storeMoodIds;
-    }
-
-    public List<ImageMenuPair> getImages() {
-        return images;
-    }
-
-    public void setImages(List<ImageMenuPair> images) {
         this.images = images;
     }
 

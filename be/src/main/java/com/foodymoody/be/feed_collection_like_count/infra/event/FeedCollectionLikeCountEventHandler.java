@@ -7,6 +7,7 @@ import com.foodymoody.be.feed_collection_like_count.domain.FeedCollectionLikeCou
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ public class FeedCollectionLikeCountEventHandler {
 
     private final FeedCollectionLikeCountWriteService service;
 
+    @Async
     @EventListener(FeedCollectionAddedEvent.class)
     public void handle(FeedCollectionAddedEvent event) {
         var id = IdFactory.createFeedCollectionLikeCountId();
