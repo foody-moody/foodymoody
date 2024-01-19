@@ -5,7 +5,7 @@ import static com.foodymoody.be.notification.infra.event.util.NotificationMapper
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.FeedAddedEvent;
-import com.foodymoody.be.member.application.MemberQueryService;
+import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.application.dto.FollowMemberSummary;
 import com.foodymoody.be.member.domain.FollowRepository;
 import com.foodymoody.be.notification.application.NotificationWriteService;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FeedEventHandler {
 
-    private final MemberQueryService memberService;
+    private final MemberReadService memberService;
     private final FollowRepository followRepository;
     private final NotificationSettingReadService notificationSettingService;
     private final NotificationWriteService notificationService;
@@ -43,9 +43,9 @@ public class FeedEventHandler {
     }
 
     private void saveNotification(FeedAddedEvent event, MemberId toMemberId) {
-        var NotificationId = IdFactory.createNotificationId();
+        var notificationId = IdFactory.createNotificationId();
         var details = makeDetails(event);
-        var feedNotification = toNotification(event, NotificationId, details, toMemberId);
+        var feedNotification = toNotification(event, notificationId, details, toMemberId);
         notificationService.save(feedNotification);
     }
 

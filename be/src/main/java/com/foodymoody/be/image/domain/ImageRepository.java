@@ -3,7 +3,9 @@ package com.foodymoody.be.image.domain;
 import com.foodymoody.be.common.util.ids.ImageId;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface ImageRepository {
 
     Image save(Image image);

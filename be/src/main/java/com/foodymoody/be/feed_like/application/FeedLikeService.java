@@ -12,7 +12,7 @@ import com.foodymoody.be.feed_like.domain.FeedLikeRepository;
 import com.foodymoody.be.feed_like.domain.entity.FeedLike;
 import com.foodymoody.be.feed_like_count.application.FeedLikeCountService;
 import com.foodymoody.be.feed_like_count.domain.entity.FeedLikeCount;
-import com.foodymoody.be.member.application.MemberQueryService;
+import com.foodymoody.be.member.application.MemberReadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,12 +26,12 @@ public class FeedLikeService {
 
     private final FeedLikeRepository feedLikeRepository;
     private final FeedLikeCountService feedLikeCountService;
-    private final MemberQueryService memberQueryService;
+    private final MemberReadService memberReadService;
     private final FeedReadService feedReadService;
 
     @Transactional
     public FeedHeartResponse like(String feedStringId, MemberId memberId) {
-        memberQueryService.validateIdExists(memberId);
+        memberReadService.validateIdExists(memberId);
 
         if (existsHeart(memberId, feedStringId)) {
             throw new FeedHeartAlreadyExistsException();
@@ -55,7 +55,7 @@ public class FeedLikeService {
 
     @Transactional
     public void unLike(String feedStringId, MemberId memberId) {
-        memberQueryService.validateIdExists(memberId);
+        memberReadService.validateIdExists(memberId);
 
         if (!existsHeart(memberId, feedStringId)) {
             throw new NotFoundFeedHeartException();

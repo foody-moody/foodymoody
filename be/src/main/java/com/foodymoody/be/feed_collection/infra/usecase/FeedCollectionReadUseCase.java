@@ -28,7 +28,7 @@ import com.foodymoody.be.feed_collection_comment.application.FeedCollectionComme
 import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionCommentSummary;
 import com.foodymoody.be.feed_like.application.FeedLikeService;
 import com.foodymoody.be.image.application.ImageService;
-import com.foodymoody.be.member.application.MemberQueryService;
+import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.application.TasteMoodReadService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +46,7 @@ public class FeedCollectionReadUseCase {
 
     private final FeedCollectionReadService feedCollectionReadService;
     private final FeedReadService feedReadService;
-    private final MemberQueryService memberQueryService;
+    private final MemberReadService memberReadService;
     private final ImageService imageService;
     private final TasteMoodReadService tasteMoodReadService;
     private final FeedLikeService feedLikeService;
@@ -142,7 +142,7 @@ public class FeedCollectionReadUseCase {
     }
 
     private AuthorSummaryResponse getAuthorSummaryResponse(FeedCollection feedCollection) {
-        var author = memberQueryService.findById(feedCollection.getAuthorId());
+        var author = memberReadService.findById(feedCollection.getAuthorId());
         var authorProfileImage = imageService.findById(author.getProfileImageId());
         var authorTasteMood = tasteMoodReadService.findById(author.getTasteMoodId());
         return toAuthorSummaryResponse(author, authorProfileImage, authorTasteMood);

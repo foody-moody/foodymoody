@@ -1,11 +1,13 @@
-package com.foodymoody.be.store.infra;
+package com.foodymoody.be.store.infra.jpa;
 
 import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.store.application.dto.response.StoreDetailsResponse;
 import com.foodymoody.be.store.application.dto.response.StoreSearchResponse;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface StoreQueryDslRepository {
 
     Optional<StoreDetailsResponse> fetchDetailsById(StoreId id);

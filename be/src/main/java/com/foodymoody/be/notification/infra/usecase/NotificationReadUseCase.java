@@ -3,7 +3,7 @@ package com.foodymoody.be.notification.infra.usecase;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.NotificationId;
 import com.foodymoody.be.image.application.ImageService;
-import com.foodymoody.be.member.application.MemberQueryService;
+import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.notification.application.NotificationSummaryReadService;
 import com.foodymoody.be.notification.application.NotificationWriteService;
 import com.foodymoody.be.notification.infra.usecase.dto.NotificationResponse;
@@ -35,9 +35,9 @@ public class NotificationReadUseCase {
     /**
      * Represents the member query service for managing members.
      *
-     * @see MemberQueryService
+     * @see MemberReadService
      */
-    private final MemberQueryService memberQueryService;
+    private final MemberReadService memberReadService;
     /**
      * Represents the notification summary read service for managing notification summaries.
      *
@@ -56,7 +56,7 @@ public class NotificationReadUseCase {
     public NotificationResponse request(MemberId memberId, NotificationId notificationId) {
         var feedNotification = notificationWriteService.read(notificationId, memberId);
         var fromMemberId = feedNotification.getFromMemberId();
-        var fromMember = memberQueryService.findById(fromMemberId);
+        var fromMember = memberReadService.findById(fromMemberId);
         var fromMemberProfileImage = imageService.findById(fromMember.getProfileImageId());
         return NotificationResponseMapper.toNotificationResponse(feedNotification, fromMember, fromMemberProfileImage);
     }

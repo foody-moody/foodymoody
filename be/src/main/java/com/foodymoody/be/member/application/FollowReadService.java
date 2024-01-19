@@ -18,25 +18,25 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class FollowReadService {
 
-    private final MemberQueryService memberQueryService;
+    private final MemberReadService memberReadService;
     private final FollowRepository followRepository;
 
     public Slice<FollowMemberSummaryResponse> listFollowings(
             MemberId currentMemberId, MemberId id, Pageable pageable) {
-        Member member = memberQueryService.findById(id);
+        Member member = memberReadService.findById(id);
         Slice<FollowMemberSummary> followings = followRepository.fetchMyFollowingSummariesByMember(member, pageable);
         return toFollowSummaryResponsesWithCurrentMember(currentMemberId, followings);
     }
 
     public Slice<FollowMemberSummaryResponse> listFollowers(MemberId currentMemberId, MemberId id, Pageable pageable) {
-        Member member = memberQueryService.findById(id);
+        Member member = memberReadService.findById(id);
         Slice<FollowMemberSummary> followers = followRepository.fetchMyFollowerSummariesByMember(member, pageable);
         return toFollowSummaryResponsesWithCurrentMember(currentMemberId, followers);
     }
 
     private Slice<FollowMemberSummaryResponse> toFollowSummaryResponsesWithCurrentMember(MemberId currentMemberId, Slice<FollowMemberSummary> followers) {
         if(Objects.nonNull(currentMemberId)) {
-            Member currentMember = memberQueryService.findById(currentMemberId);
+            Member currentMember = memberReadService.findById(currentMemberId);
             return MemberMapper.toFollowMemberSummaryResponses(currentMember, followers);
         }
         return MemberMapper.toFollowMemberSummaryResponses(followers);

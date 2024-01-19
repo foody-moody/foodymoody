@@ -5,7 +5,7 @@ import static com.foodymoody.be.notification.infra.event.util.NotificationMapper
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionAddedEvent;
-import com.foodymoody.be.member.application.MemberQueryService;
+import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.application.dto.FollowMemberSummary;
 import com.foodymoody.be.member.domain.FollowRepository;
 import com.foodymoody.be.notification.application.NotificationWriteService;
@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class FeedCollectionEventHandler {
 
-    private final MemberQueryService memberService;
+    private final MemberReadService memberService;
     private final FollowRepository followRepository;
     private final NotificationSettingReadService notificationSettingService;
     private final NotificationWriteService notificationService;

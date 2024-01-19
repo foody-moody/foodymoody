@@ -1,7 +1,7 @@
 package com.foodymoody.be.notification.infra.event;
 
 import com.foodymoody.be.common.util.ids.IdFactory;
-import com.foodymoody.be.member.application.MemberQueryService;
+import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.domain.MemberFollowedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
 import com.foodymoody.be.notification.infra.event.util.NotificationMapper;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MemberFollowedEventHandler {
 
-    private final MemberQueryService memberQueryService;
+    private final MemberReadService memberQueryService;
     private final NotificationSettingReadService notificationSettingService;
     private final NotificationWriteService notificationService;
 
