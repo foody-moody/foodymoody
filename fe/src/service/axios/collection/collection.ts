@@ -11,3 +11,8 @@ export const getAllCollections = async (
   });
   return data;
 };
+
+export const getDetailCollection = async (id: string) => {
+  const { data } = await publicApi.get(END_POINT.collection(id));
+  return data;
+}
