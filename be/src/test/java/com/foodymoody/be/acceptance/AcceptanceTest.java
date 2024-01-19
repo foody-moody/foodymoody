@@ -41,7 +41,7 @@ public abstract class AcceptanceTest {
     public static final GenericContainer<?> REDIS = new GenericContainer<>(REDIS_IMAGE).withReuse(true);
 
     static {
-        MYSQL.setPortBindings(List.of("3307:3306"));
+        MYSQL.setPortBindings(List.of("3306:3306"));
         REDIS.setPortBindings(List.of("6379:6379"));
     }
 
