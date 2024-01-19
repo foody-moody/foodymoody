@@ -1,6 +1,7 @@
 package com.foodymoody.be.acceptance.comment_heart;
 
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -23,6 +24,10 @@ public class CommentHeartSteps {
                 .when().post("/api/comments/{commentId}/likes", commentId)
                 .then().log().all()
                 .extract();
+    }
+
+    public static ExtractableResponse<Response> 댓글에_좋아요를_누른다(String accessToken, String commentId) {
+        return 댓글에_좋아요를_누른다(accessToken, commentId, new RequestSpecBuilder().build());
     }
 
 }

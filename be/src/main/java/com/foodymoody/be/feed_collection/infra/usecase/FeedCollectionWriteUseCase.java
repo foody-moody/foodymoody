@@ -4,7 +4,7 @@ import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed_collection.application.FeedCollectionMoodWriteService;
-import com.foodymoody.be.feed_collection.application.FeedCollectionWriterService;
+import com.foodymoody.be.feed_collection.application.FeedCollectionWriteService;
 import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionCreateRequest;
 import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionEditRequest;
 import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionFeedsUpdateRequest;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class FeedCollectionWriteUseCase {
 
-    private final FeedCollectionWriterService service;
+    private final FeedCollectionWriteService service;
     private final FeedReadService feedReadService;
     private final FeedCollectionMoodWriteService moodService;
 

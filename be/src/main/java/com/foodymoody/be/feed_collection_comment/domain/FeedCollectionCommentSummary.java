@@ -10,7 +10,7 @@ public interface FeedCollectionCommentSummary {
 
     FeedCollectionCommentId getId();
 
-    FeedCollectionId getFeedId();
+    FeedCollectionId getFeedCollectionId();
 
     Content getContent();
 

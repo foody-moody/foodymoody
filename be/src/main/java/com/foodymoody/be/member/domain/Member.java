@@ -55,8 +55,10 @@ public class Member {
         Events.raise(toMemberCreatedEvent());
     }
 
-    public static Member of(String id, String email, String nickname, String password, String reconfirmPassword,
-            TasteMood tasteMood) {
+    public static Member of(
+            String id, String email, String nickname, String password, String reconfirmPassword,
+            TasteMood tasteMood
+    ) {
         if (!Objects.equals(reconfirmPassword, password)) {
             throw new InvalidReconfirmPasswordException();
         }
@@ -75,7 +77,9 @@ public class Member {
         return nickname;
     }
 
-    public ImageId getProfileImageId() { return profileImage.getId(); }
+    public ImageId getProfileImageId() {
+        return profileImage.getId();
+    }
 
     public TasteMoodId getTasteMoodId() {
         return tasteMood.getId();
@@ -107,6 +111,7 @@ public class Member {
             throw new IllegalArgumentException("팔로우할 수 없는 회원입니다");
         }
         this.myFollowings.add(this, target);
+        Events.raise(toMemberFollowedEvent(target));
     }
 
     public void unfollow(Member target) {
@@ -126,6 +131,14 @@ public class Member {
 
     public List<Member> getFollowers() {
         return myFollowers.getAll();
+    }
+
+    private MemberFollowedEvent toMemberFollowedEvent(Member target) {
+        return MemberFollowedEvent.of(
+                target.id,
+                this.id,
+                LocalDateTime.now()
+        );
     }
 
     private MemberCreatedEvent toMemberCreatedEvent() {

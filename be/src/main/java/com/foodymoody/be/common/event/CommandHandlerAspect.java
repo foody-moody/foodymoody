@@ -30,7 +30,7 @@ public class CommandHandlerAspect {
                 .anyMatch(EventTransactionSynchronization.class::isInstance);
     }
 
-    private static class EventTransactionSynchronization implements TransactionSynchronization {
+    private class EventTransactionSynchronization implements TransactionSynchronization {
 
         private final MessagePublisher messagePublisher;
 
@@ -38,11 +38,9 @@ public class CommandHandlerAspect {
             this.messagePublisher = messagePublisher;
         }
 
-
         @Override
-        public void beforeCommit(boolean readOnly) {
-            Events.getEvents()
-                    .forEach(messagePublisher::publish);
+        public void afterCommit() {
+            Events.getEvents().forEach(messagePublisher::publish);
         }
 
         @Override

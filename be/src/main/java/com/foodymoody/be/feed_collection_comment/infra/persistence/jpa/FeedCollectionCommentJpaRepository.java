@@ -15,7 +15,7 @@ public interface FeedCollectionCommentJpaRepository extends
 
     @Query(
             "SELECT _comment.id AS id " +
-                    ", _comment.feedId AS feedId " +
+                    ", _comment.feedCollectionId AS feedCollectionId " +
                     ", _comment.memberId AS memberId " +
                     ", _comment.content AS content " +
                     ", _comment.deleted AS deleted " +
@@ -46,7 +46,7 @@ public interface FeedCollectionCommentJpaRepository extends
 
     @Query(
             "SELECT _comment.id AS id " +
-                    ", _comment.feedId AS feedId " +
+                    ", _comment.feedCollectionId AS feedCollectionId " +
                     ", _comment.memberId AS memberId " +
                     ", _comment.content AS content " +
                     ", _comment.deleted AS deleted " +

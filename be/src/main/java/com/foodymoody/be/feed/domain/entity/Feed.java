@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.domain.entity;
 
+import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreId;
@@ -59,9 +60,17 @@ public class Feed {
     @Embedded
     private ImageMenus imageMenus;
 
-    public Feed(FeedId id, MemberId memberId, StoreId storeId, String review, List<StoreMood> storeMoods,
-                List<Image> images, List<Menu> menus, String profileImageUrl,
-                LocalDateTime createdAt) {
+    public Feed(
+            FeedId id,
+            MemberId memberId,
+            StoreId storeId,
+            String review,
+            List<StoreMood> storeMoods,
+            List<Image> images,
+            List<Menu> menus,
+            String profileImageUrl,
+            LocalDateTime createdAt
+    ) {
         this.id = id;
         this.memberId = memberId;
         this.storeId = storeId;
@@ -70,11 +79,20 @@ public class Feed {
         this.imageMenus = new ImageMenus(images, menus);
         this.profileImageUrl = profileImageUrl;
         this.createdAt = createdAt;
+        Events.raise(toEvent(id, memberId, profileImageUrl, createdAt));
     }
 
-    public void update(MemberId memberId, StoreId newStoreId, String newReview, List<StoreMood> newStoreMoods,
-                       List<Image> newImages, List<Menu> newMenus, String profileImageUrl,
-                       LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public void update(
+            MemberId memberId,
+            StoreId newStoreId,
+            String newReview,
+            List<StoreMood> newStoreMoods,
+            List<Image> newImages,
+            List<Menu> newMenus,
+            String profileImageUrl,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
+    ) {
         this.memberId = memberId;
         this.storeId = newStoreId;
         this.review = newReview;
@@ -91,6 +109,20 @@ public class Feed {
 
     public List<ImageMenu> getImageMenus() {
         return imageMenus.getNewUnmodifiedImageMenus();
+    }
+
+    private static FeedAddedEvent toEvent(
+            FeedId id,
+            MemberId memberId,
+            String profileImageUrl,
+            LocalDateTime createdAt
+    ) {
+        return FeedAddedEvent.of(
+                memberId,
+                id,
+                profileImageUrl,
+                createdAt
+        );
     }
 
 }

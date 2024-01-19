@@ -1,13 +1,10 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { styled } from 'styled-components';
-import { HomePage } from 'pages/HomePage';
-import { FeedAction } from 'components/common/feedAction/FeedAction';
-import { Input } from 'components/common/input/Input';
-import { InputCore } from 'components/common/input/InputCore';
-import { Logo } from 'components/common/logo/Logo';
-import { TextArea } from 'components/common/textarea/Textarea';
-import { useInput } from 'hooks/useInput';
+import {useNavigate} from 'react-router-dom';
+import {styled} from 'styled-components';
+import {HomePage} from 'pages/HomePage';
+import {FeedAction} from 'components/common/feedAction/FeedAction';
+import {Input} from 'components/common/input/Input';
+import {Logo} from 'components/common/logo/Logo';
+import {useInput} from 'hooks/useInput';
 
 
 export const TestPage = () => {
@@ -84,7 +81,7 @@ export const TestPage = () => {
             variant="default"
             helperText={passwordHelper}
           />
-          <Input variant="comment" />
+          <Input variant="feedComment"/>
         </FlexWrapper>
       </FlexWrapper>
 
