@@ -43,9 +43,9 @@ public class FeedEventHandler {
     }
 
     private void saveNotification(FeedAddedEvent event, MemberId toMemberId) {
-        var notificationId = IdFactory.createNotificationId();
+        var NotificationId = IdFactory.createNotificationId();
         var details = makeDetails(event);
-        var feedNotification = toNotification(event, notificationId, details, toMemberId);
+        var feedNotification = toNotification(event, NotificationId, details, toMemberId);
         notificationService.save(feedNotification);
     }
 
