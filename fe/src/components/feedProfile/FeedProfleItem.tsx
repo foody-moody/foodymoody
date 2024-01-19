@@ -12,7 +12,7 @@ export const FeedProfileItem = forwardRef<HTMLLIElement, Props>(
     const navigate = useNavigate();
 
     const handleOpenDetailFeed = () => {
-      navigate(PATH.DETAIL_FEED + '/' + feed.id, {
+      navigate(PATH.PROFILE + PATH.DETAIL_FEED + '/' + feed.id, {
         state: { background: 'profileDetailFeed' },
       });
     };
@@ -26,8 +26,6 @@ export const FeedProfileItem = forwardRef<HTMLLIElement, Props>(
 );
 
 const Wrapper = styled.li`
-  max-width: 566px;
-  min-width: 340px;
   background-color: ${({ theme: { colors } }) => colors.white};
   width: 100%;
   border: 1px solid ${({ theme: { colors } }) => colors.black};

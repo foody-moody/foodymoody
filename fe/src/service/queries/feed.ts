@@ -7,6 +7,7 @@ import {
 import { AxiosError } from 'axios';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useToggle } from 'recoil/booleanState/useToggle';
 import { useToast } from 'recoil/toast/useToast';
 import {
   deleteFeed,
@@ -68,6 +69,7 @@ export const useFeedDetail = (id: string) =>
 
 export const useFeedEditor = (id?: string) => {
   const queryClient = useQueryClient();
+  const search = useToggle('search');
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -91,6 +93,7 @@ export const useFeedEditor = (id?: string) => {
         toast.success('피드를 등록했습니다.');
         navigate(PATH.HOME, { replace: true });
       }
+      search.toggleOn();
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;

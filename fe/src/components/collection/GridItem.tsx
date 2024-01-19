@@ -20,6 +20,7 @@ export const GridItem = forwardRef<HTMLLIElement, Props>(
 
     const handleNavigateToProfile = (id: string) => {
       navigate(PATH.PROFILE + '/' + id);
+      sessionStorage.setItem('profileId', id);
     };
 
     return (

@@ -8,6 +8,7 @@ export const QUERY_KEY = {
   replies: 'replies',
   tasteMood: 'tasteMood',
   storeMood: 'storeMood',
+  stores: 'stores',
   notifications: 'notifications',
   followings: 'followings',
   followers: 'followers',

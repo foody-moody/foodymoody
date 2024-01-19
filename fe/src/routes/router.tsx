@@ -73,6 +73,10 @@ const router = createBrowserRouter([
                     path: PATH.PROFILE + ':id' + PATH.FOLLOWER,
                     element: <FollowModalPage />,
                   },
+                  {
+                    path: PATH.PROFILE + PATH.DETAIL_FEED + '/:id',
+                    element: <DetailFeedModalPage />,
+                  },
                 ],
               },
               {

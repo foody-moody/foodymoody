@@ -4,6 +4,8 @@ export const END_POINT = {
   refresh: `/auth/token`,
   tasteMood: `/members/taste-moods`,
   storeMood: `/feeds/store-moods`,
+  store: (id?: string, keyword?: string) =>
+    id ? `/stores/${id}` : `/stores/search?query=${keyword}`,
   collection: (
     id?: string,
     sort?: string // TODO sort 타입 정의
