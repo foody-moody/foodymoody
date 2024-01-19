@@ -26,7 +26,7 @@ import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionMoodRes
 import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionResponse;
 import com.foodymoody.be.feed_collection_comment.application.FeedCollectionCommentReadService;
 import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionCommentSummary;
-import com.foodymoody.be.feed_heart.application.FeedHeartService;
+import com.foodymoody.be.feed_like.application.FeedLikeService;
 import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.member.application.MemberQueryService;
 import com.foodymoody.be.member.application.TasteMoodReadService;
@@ -49,7 +49,7 @@ public class FeedCollectionReadUseCase {
     private final MemberQueryService memberQueryService;
     private final ImageService imageService;
     private final TasteMoodReadService tasteMoodReadService;
-    private final FeedHeartService feedHeartService;
+    private final FeedLikeService feedLikeService;
     private final FeedCollectionCommentReadService commentReadService;
     private final FeedCollectionMoodReadService feedCollectionMoodReadService;
 
@@ -67,7 +67,7 @@ public class FeedCollectionReadUseCase {
 
     @Transactional(readOnly = true)
     public FeedCollectionDetail fetchDetail(FeedCollectionId id) {
-        var feedCollection = feedCollectionReadService.fetch(id);
+        var feedCollection = feedCollectionReadService.fetchById(id);
         var authorSummaryResponse = getAuthorSummaryResponse(feedCollection);
         var feeds = getFeedSummaryResponse(feedCollection.getFeedIds());
         var comments = getComments(feedCollection.getCommentIds());
@@ -77,7 +77,7 @@ public class FeedCollectionReadUseCase {
 
     @Transactional(readOnly = true)
     public FeedCollectionDetail fetchDetail(FeedCollectionId id, MemberId memberId) {
-        var feedCollection = feedCollectionReadService.fetch(id);
+        var feedCollection = feedCollectionReadService.fetchById(id);
         var authorSummaryResponse = getAuthorSummaryResponse(feedCollection);
         var feeds = getFeedSummaryResponse(memberId, feedCollection);
         var comments = getComments(memberId, feedCollection.getCommentIds());
@@ -134,7 +134,7 @@ public class FeedCollectionReadUseCase {
     private List<FeedSummaryResponse> getFeedSummaryResponse(MemberId memberId, Slice<Feed> feeds) {
         return feeds.stream()
                 .map(feed -> {
-                    boolean isLiked = feedHeartService.existsHeart(memberId, feed.getId().getValue());
+                    boolean isLiked = feedLikeService.existsHeart(memberId, feed.getId().getValue());
                     List<StoreMoodResponse> moods = toStoreMoodResponse(feed.getStoreMoods());
                     return toFeedSummaryResponse(feed, moods, isLiked);
                 })

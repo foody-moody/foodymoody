@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_collection_reply_like.application;
 
+import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
 import com.foodymoody.be.common.util.ids.FeedCollectionReplyLikeId;
 import com.foodymoody.be.common.util.ids.IdFactory;
@@ -18,9 +19,13 @@ public class FeedCollectionReplyLikeWriteService {
     private final FeedCollectionReplyLikeRepository repository;
 
     @Transactional
-    public FeedCollectionReplyLikeId post(FeedCollectionReplyId replyId, MemberId memberId) {
+    public FeedCollectionReplyLikeId post(
+            FeedCollectionReplyId replyId,
+            FeedCollectionCommentId commentId,
+            MemberId memberId
+    ) {
         var id = IdFactory.createFeedCollectionReplyLikeId();
-        var like = new FeedCollectionReplyLike(id, memberId, replyId, LocalDateTime.now());
+        var like = new FeedCollectionReplyLike(id, memberId, replyId, commentId, LocalDateTime.now());
         return repository.save(like).getId();
     }
 

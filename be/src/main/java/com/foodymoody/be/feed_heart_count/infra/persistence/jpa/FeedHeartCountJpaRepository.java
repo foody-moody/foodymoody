@@ -1,23 +1,23 @@
 package com.foodymoody.be.feed_heart_count.infra.persistence.jpa;
 
-import com.foodymoody.be.common.util.ids.FeedHeartCountId;
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.feed_heart_count.domain.entity.FeedHeartCount;
+import com.foodymoody.be.common.util.ids.FeedLikeCountId;
+import com.foodymoody.be.feed_like_count.domain.entity.FeedLikeCount;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-public interface FeedHeartCountJpaRepository extends JpaRepository<FeedHeartCount, FeedHeartCountId> {
+public interface FeedHeartCountJpaRepository extends JpaRepository<FeedLikeCount, FeedLikeCountId> {
 
     @Modifying
-    @Query("UPDATE FeedHeartCount _heart SET _heart.count = _heart.count + 1 WHERE _heart.feedId = :feedId")
+    @Query("UPDATE FeedLikeCount _likeCount SET _likeCount.count = _likeCount.count + 1 WHERE _likeCount.feedId = :feedId")
     void incrementFeedHeartCount(FeedId feedId);
 
     @Modifying
-    @Query("UPDATE FeedHeartCount _heart SET _heart.count = _heart.count - 1 WHERE _heart.feedId = :feedId")
+    @Query("UPDATE FeedLikeCount _likeCount SET _likeCount.count = _likeCount.count - 1 WHERE _likeCount.feedId = :feedId")
     void decrementFeedHeartCount(FeedId feedId);
 
-    Optional<FeedHeartCount> findByFeedId(FeedId feedId);
+    Optional<FeedLikeCount> findByFeedId(FeedId feedId);
 
 }

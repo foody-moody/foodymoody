@@ -50,20 +50,28 @@ public class IdFactory {
         return createId(StoreMoodId.class);
     }
 
-    public static FeedHeartId createFeedHeartId(String id) {
-        return createId(FeedHeartId.class, id);
+    public static FeedLikeId createFeedHeartId(String id) {
+        return createId(FeedLikeId.class, id);
     }
 
-    public static FeedHeartId createFeedHeartId() {
-        return createId(FeedHeartId.class);
+    public static FeedLikeId createFeedHeartId() {
+        return createId(FeedLikeId.class);
     }
 
-    public static FeedHeartCountId createFeedHeartCountId(String id) {
-        return createId(FeedHeartCountId.class, id);
+    public static FeedLikeCountId createFeedLikeCountId(String id) {
+        return createId(FeedLikeCountId.class, id);
     }
 
-    public static FeedHeartCountId createFeedHeartCountId() {
-        return createId(FeedHeartCountId.class);
+    public static FeedLikeCountId createFeedLikeCountId() {
+        return createId(FeedLikeCountId.class);
+    }
+
+    public static FeedCommentLikeCountId createFeedCommentLikeCountId(String id) {
+        return createId(FeedCommentLikeCountId.class, id);
+    }
+
+    public static FeedCommentLikeCountId createFeedCommentLikeCountId() {
+        return createId(FeedCommentLikeCountId.class);
     }
 
     public static ImageId createImageId(String id) {
@@ -82,12 +90,12 @@ public class IdFactory {
         return createId(MenuId.class);
     }
 
-    public static CommentId createCommentId(String id) {
-        return createId(CommentId.class, id);
+    public static FeedCommentId createFeedCommentId(String id) {
+        return createId(FeedCommentId.class, id);
     }
 
-    public static CommentId createCommentId() {
-        return createId(CommentId.class);
+    public static FeedCommentId createFeedCommentId() {
+        return createId(FeedCommentId.class);
     }
 
     public static TasteMoodId createTasteMoodId(String id) {
@@ -114,12 +122,12 @@ public class IdFactory {
         return createId(FeedCollectionCommentId.class);
     }
 
-    public static ReplyId createReplyId(String id) {
-        return createId(ReplyId.class, id);
+    public static FeedReplyId createFeedReplyId(String id) {
+        return createId(FeedReplyId.class, id);
     }
 
-    public static ReplyId createReplyId() {
-        return createId(ReplyId.class);
+    public static FeedReplyId createFeedReplyId() {
+        return createId(FeedReplyId.class);
     }
 
     public static NotificationId createNotificationId(String notificationId) {
@@ -200,6 +208,22 @@ public class IdFactory {
 
     public static FeedCollectionMoodsId createFeedCollectionMoodsId(String id) {
         return createId(FeedCollectionMoodsId.class, id);
+    }
+
+    public static FeedReplyLikeId createFeedReplyLikeId() {
+        return createId(FeedReplyLikeId.class);
+    }
+
+    public static FeedReplyLikeId createFeedReplyLikeId(String id) {
+        return createId(FeedReplyLikeId.class, id);
+    }
+
+    public static FeedCommentLikeId createFeedCommentLikeId() {
+        return createId(FeedCommentLikeId.class);
+    }
+
+    public static FeedCommentLikeId createFeedCommentLikeId(String id) {
+        return createId(FeedCommentLikeId.class, id);
     }
 
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {

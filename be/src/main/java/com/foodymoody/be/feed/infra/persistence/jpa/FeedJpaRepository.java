@@ -33,7 +33,7 @@ public interface FeedJpaRepository extends JpaRepository<Feed, FeedId> {
     Optional<List<MenuNameRatingPair>> fetchMenuNameRatingList(@Param("imageMenus") List<ImageMenu> imageMenus);
 
     @Query("SELECT fh.isLiked "
-            + "FROM FeedHeart fh "
+            + "FROM FeedLike fh "
             + "WHERE fh.feedId = :feedId "
             + "AND fh.memberId = :memberId")
     Optional<Boolean> fetchIsLikedByMemberId(@Param("feedId") FeedId feedId, @Param("memberId") MemberId memberId);

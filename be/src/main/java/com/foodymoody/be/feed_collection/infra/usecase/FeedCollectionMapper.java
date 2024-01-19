@@ -49,8 +49,8 @@ public class FeedCollectionMapper {
         return new AuthorSummaryResponse(
                 author.getId(),
                 author.getNickname(),
-                authorProfileImage.getUrl(),
-                authorTasteMood.getName()
+                authorTasteMood.getName(),
+                authorProfileImage.getUrl()
         );
     }
 
@@ -93,7 +93,7 @@ public class FeedCollectionMapper {
     ) {
         return comments.map(comment -> new FeedCollectionCommentResponse(
                 comment.getId(),
-                comment.getFeedId(),
+                comment.getFeedCollectionId(),
                 comment.getContent(),
                 comment.isDeleted(),
                 comment.isHasReply(),

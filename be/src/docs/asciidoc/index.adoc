@@ -475,7 +475,152 @@ operation::notification_setting_update_all_success[snippets='http-request,http-r
 
 ==== 성공
 
-operation::sse_request_success[snippets='http-request,http-response']
+[source,http,options="nowrap"]
+----
+GET /api/sse HTTP/1.1
+Host: localhost:51316
+
+----
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS
+Access-Control-Allow-Headers: *
+Access-Control-Max-Age: 86400
+Content-Type: text/event-stream
+Transfer-Encoding: chunked
+Date: Fri, 19 Jan 2024 03:39:32 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+Content-Length: 1981
+
+event:connect
+data:connected!
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+event:notification
+id:1fcd6b1df405114492eae118
+data:{"count":5}
+
+
+----
 
 [[image]]
 == 이미지

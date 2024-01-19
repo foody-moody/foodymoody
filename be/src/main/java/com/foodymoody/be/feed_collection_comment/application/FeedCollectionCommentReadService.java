@@ -1,7 +1,9 @@
 package com.foodymoody.be.feed_collection_comment.application;
 
+import com.foodymoody.be.common.exception.FeedCollectionCommentNotFoundException;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionComment;
 import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionCommentRepository;
 import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionCommentSummary;
 import java.util.List;
@@ -36,5 +38,10 @@ public class FeedCollectionCommentReadService {
             Pageable pageable
     ) {
         return repository.findSummaryAllByIdIn(commentIds, pageable);
+    }
+
+    public FeedCollectionComment findById(FeedCollectionCommentId toFeedCollectionCommentId) {
+        return repository.findById(toFeedCollectionCommentId)
+                .orElseThrow(FeedCollectionCommentNotFoundException::new);
     }
 }

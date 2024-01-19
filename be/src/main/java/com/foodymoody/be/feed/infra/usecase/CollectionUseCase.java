@@ -44,7 +44,7 @@ public class CollectionUseCase {
         final String sortBy = "createdAt";
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sortBy).descending());
 
-        FeedCollection feedCollection = feedCollectionReadService.fetch(feedCollectionId);
+        FeedCollection feedCollection = feedCollectionReadService.fetchById(feedCollectionId);
         List<FeedId> feedIds = feedCollection.getFeedIds();
         Slice<Feed> feeds = feedReadService.findAllByIdIn(feedIds, pageable);
 
