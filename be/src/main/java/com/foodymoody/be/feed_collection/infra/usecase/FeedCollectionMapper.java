@@ -93,7 +93,7 @@ public class FeedCollectionMapper {
     ) {
         return comments.map(comment -> new FeedCollectionCommentResponse(
                 comment.getId(),
-                comment.getFeedId(),
+                comment.getFeedCollectionId(),
                 comment.getContent(),
                 comment.isDeleted(),
                 comment.isHasReply(),

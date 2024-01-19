@@ -12,7 +12,7 @@ import lombok.Getter;
 public class FeedCollectionCommentResponse {
 
     private FeedCollectionCommentId id;
-    private FeedCollectionId feedId;
+    private FeedCollectionId feedCollectionId;
     private Content content;
     private boolean deleted;
     private boolean hasReply;
@@ -24,7 +24,7 @@ public class FeedCollectionCommentResponse {
 
     public FeedCollectionCommentResponse(
             FeedCollectionCommentId id,
-            FeedCollectionId feedId,
+            FeedCollectionId feedCollectionId,
             Content content,
             boolean deleted,
             boolean hasReply,
@@ -38,7 +38,7 @@ public class FeedCollectionCommentResponse {
             String mood
     ) {
         this.id = id;
-        this.feedId = feedId;
+        this.feedCollectionId = feedCollectionId;
         this.content = content;
         this.deleted = deleted;
         this.hasReply = hasReply;

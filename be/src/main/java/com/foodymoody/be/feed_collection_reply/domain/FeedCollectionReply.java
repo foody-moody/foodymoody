@@ -25,6 +25,7 @@ public class FeedCollectionReply {
     private FeedCollectionCommentId commentId;
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
+    @Getter
     private Content content;
     private boolean deleted;
     private LocalDateTime createdAt;
@@ -44,7 +45,13 @@ public class FeedCollectionReply {
         this.deleted = false;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-        Events.raise(FeedCollectionReplyAddedEvent.of(id));
+        Events.raise(FeedCollectionReplyAddedEvent.of(
+                commentId,
+                memberId,
+                id,
+                content,
+                createdAt
+        ));
     }
 
     public void delete(MemberId memberId, LocalDateTime updatedAt) {

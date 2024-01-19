@@ -16,7 +16,7 @@ public enum ErrorMessage {
     COMMENT_NOT_EXISTS("댓글이 존재하지 않는다", "c007"),
     COMMENT_DELETED("삭제된 댓글입니다.", "c008"),
     INVALID_COMMENT_ID("유효하지 않은 댓글 id입니다", "c009"),
-
+    FEED_COMMENT_NOT_FOUND("존재하지 않는 피드 댓글입니다.", "c010"),
     // reply
     REPLY_NOT_EXISTS("답글이 존재하지 않습니다.", "r001"),
     INVALID_REPLY_ID("유효하지 않은 답글 id입니다", "r002"),
@@ -38,10 +38,14 @@ public enum ErrorMessage {
     // mood
     DUPLICATE_MOOD("이미 존재하는 무드입니다", "o001"),
     MOOD_NOT_FOUND("존재하지 않는 무드입니다", "o002"),
-
     // feed
     INVALID_FEED_ID("유효하지 않은 피드 id입니다", "f001"),
-
+    // feed notification
+    FEED_NOTIFICATION_NOT_FOUND("존재하지 않는 피드 알림입니다.", "fn001"),
+    JSON_CONVERT_ERROR("json 변환에 실패했습니다.", "fn002"),
+    FEED_COLLECTION_COMMENT_NOT_FOUND("존재하지 않는 피드 컬렉션 댓글입니다.", "fn003"),
+    NOTIFICATION_SETTING_NOT_FOUND("존재하지 않는 알림 설정입니다.", "fn004"),
+    FEED_COLLECTION_REPLY_NOT_FOUND("존재하지 않는 피드 컬렉션 답글입니다.", "fn005"),
     // image
     IMAGE_NOT_FOUND("해당 id의 이미지가 존재하지 않습니다", "i001"),
     IMAGE_UPLOAD_FAILED("이미지 업로드에 실패했습니다", "i002"),

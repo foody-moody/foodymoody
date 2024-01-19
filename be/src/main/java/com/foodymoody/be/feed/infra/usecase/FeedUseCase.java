@@ -31,8 +31,8 @@ import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
-import com.foodymoody.be.feed_heart_count.application.FeedHeartCountService;
-import com.foodymoody.be.feed_heart_count.domain.entity.FeedHeartCount;
+import com.foodymoody.be.feed_like_count.application.FeedLikeCountService;
+import com.foodymoody.be.feed_like_count.domain.entity.FeedLikeCount;
 import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.member.application.MemberQueryService;
@@ -64,7 +64,7 @@ public class FeedUseCase {
     private final MemberQueryService memberQueryService;
     private final MenuService menuService;
     private final StoreMoodReadService storeMoodReadService;
-    private final FeedHeartCountService feedHeartCountService;
+    private final FeedLikeCountService feedLikeCountService;
     private final FeedCommentCountReadService feedCommentCountReadService;
     private final StoreReadService storeReadService;
 
@@ -86,7 +86,7 @@ public class FeedUseCase {
                 profileImageUrl);
         Feed savedFeed = feedWriteService.save(feed);
 
-        feedHeartCountService.save(new FeedHeartCount(IdFactory.createFeedHeartCountId(), savedFeed.getId(), 0));
+        feedLikeCountService.save(new FeedLikeCount(IdFactory.createFeedLikeCountId(), savedFeed.getId(), 0));
 
         return FeedMapper.toFeedRegisterResponse(savedFeed);
     }

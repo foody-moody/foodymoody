@@ -6,6 +6,7 @@ import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection_comment_like.domain.FeedCollectionCommentLike;
 import com.foodymoody.be.feed_collection_comment_like.domain.FeedCollectionCommentLikeRepository;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,8 @@ public class FeedCollectionCommentLikeWriteService {
     @Transactional
     public FeedCollectionCommentLikeId like(FeedCollectionCommentId commentId, MemberId memberId) {
         var id = IdFactory.createFeedCollectionCommentLikeId();
-        var commentLike = new FeedCollectionCommentLike(id, commentId, memberId);
+        LocalDateTime now = LocalDateTime.now();
+        var commentLike = new FeedCollectionCommentLike(id, commentId, memberId, now);
         return repository.save(commentLike).getId();
     }
 

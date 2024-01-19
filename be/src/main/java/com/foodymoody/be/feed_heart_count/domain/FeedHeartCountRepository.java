@@ -1,12 +1,12 @@
 package com.foodymoody.be.feed_heart_count.domain;
 
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.feed_heart_count.domain.entity.FeedHeartCount;
+import com.foodymoody.be.feed_like_count.domain.entity.FeedLikeCount;
 import java.util.Optional;
 
 public interface FeedHeartCountRepository {
 
-    FeedHeartCount save(FeedHeartCount feedHeartCount);
+    FeedLikeCount save(FeedLikeCount feedHeartCount);
 
     void deleteAll();
 
@@ -14,5 +14,5 @@ public interface FeedHeartCountRepository {
 
     void decrementFeedHeartCount(FeedId feedId);
 
-    Optional<FeedHeartCount> findByFeedId(FeedId feedId);
+    Optional<FeedLikeCount> findByFeedId(FeedId feedId);
 }

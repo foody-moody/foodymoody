@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_collection_like.domain;
 
+import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedCollectionLikeId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -39,5 +40,14 @@ public class FeedCollectionLike {
         this.feedCollectionId = feedCollectionId;
         this.memberId = memberId;
         this.createdAt = createdAt;
+        Events.raise(toEvent(feedCollectionId, memberId, createdAt));
+    }
+
+    private static FeedCollectionLikeAddedEvent toEvent(
+            FeedCollectionId feedCollectionId,
+            MemberId memberId,
+            LocalDateTime createdAt
+    ) {
+        return FeedCollectionLikeAddedEvent.of(memberId, feedCollectionId, createdAt);
     }
 }
