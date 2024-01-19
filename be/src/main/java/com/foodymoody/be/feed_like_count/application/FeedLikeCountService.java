@@ -1,8 +1,8 @@
 package com.foodymoody.be.feed_like_count.application;
 
 import com.foodymoody.be.common.util.ids.IdFactory;
-import com.foodymoody.be.feed_like_count.domain.FeedLikeCountRepository;
 import com.foodymoody.be.feed_like_count.domain.entity.FeedLikeCount;
+import com.foodymoody.be.feed_like_count.infra.persistence.jpa.FeedLikeCountJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,25 +12,25 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class FeedLikeCountService {
 
-    private final FeedLikeCountRepository feedLikeCountRepository;
+    private final FeedLikeCountJpaRepository feedLikeCountJpaRepository;
 
     @Transactional
     public void save(FeedLikeCount feedLikeCount) {
-        feedLikeCountRepository.save(feedLikeCount);
+        feedLikeCountJpaRepository.save(feedLikeCount);
     }
 
     @Transactional
     public void incrementFeedHeartCount(String feedId) {
-        feedLikeCountRepository.incrementFeedHeartCount(IdFactory.createFeedId(feedId));
+        feedLikeCountJpaRepository.incrementFeedHeartCount(IdFactory.createFeedId(feedId));
     }
 
     @Transactional
     public void decrementFeedHeartCount(String feedId) {
-        feedLikeCountRepository.decrementFeedHeartCount(IdFactory.createFeedId(feedId));
+        feedLikeCountJpaRepository.decrementFeedHeartCount(IdFactory.createFeedId(feedId));
     }
 
     public FeedLikeCount findFeedHeartCountByFeedId(String feedId) {
-        return feedLikeCountRepository.findByFeedId(IdFactory.createFeedId(feedId))
+        return feedLikeCountJpaRepository.findByFeedId(IdFactory.createFeedId(feedId))
                 .orElseThrow(() -> new IllegalArgumentException("해당 피드 좋아요 수 없음. feedId: " + feedId));
     }
 

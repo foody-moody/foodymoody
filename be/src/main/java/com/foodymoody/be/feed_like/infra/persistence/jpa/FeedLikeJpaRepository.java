@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed_heart.infra.persistence.jpa;
+package com.foodymoody.be.feed_like.infra.persistence.jpa;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.FeedLikeId;

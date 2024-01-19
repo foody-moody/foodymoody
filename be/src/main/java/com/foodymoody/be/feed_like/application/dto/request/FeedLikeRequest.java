@@ -3,17 +3,17 @@ package com.foodymoody.be.feed_like.application.dto.request;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class FeedHeartServiceRequest {
+@Setter
+public class FeedLikeRequest {
 
     private String feedId;
-    private String memberId;
 
-    public FeedHeartServiceRequest(String feedId, String memberId) {
+    public FeedLikeRequest(String feedId) {
         this.feedId = feedId;
-        this.memberId = memberId;
     }
 
 }

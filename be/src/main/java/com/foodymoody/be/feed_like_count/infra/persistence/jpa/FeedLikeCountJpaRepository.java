@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed_heart_count.infra.persistence.jpa;
+package com.foodymoody.be.feed_like_count.infra.persistence.jpa;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.FeedLikeCountId;
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-public interface FeedHeartCountJpaRepository extends JpaRepository<FeedLikeCount, FeedLikeCountId> {
+public interface FeedLikeCountJpaRepository extends JpaRepository<FeedLikeCount, FeedLikeCountId> {
 
     @Modifying
     @Query("UPDATE FeedLikeCount _likeCount SET _likeCount.count = _likeCount.count + 1 WHERE _likeCount.feedId = :feedId")

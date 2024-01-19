@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FeedHeartResponse {
+public class FeedLikeResponse {
 
     @Getter
     private String id;
@@ -19,7 +19,7 @@ public class FeedHeartResponse {
     @Getter
     private int feedHeartCount;
 
-    public FeedHeartResponse(String id, String feedId, String memberId, boolean isLiked, int feedHeartCount) {
+    public FeedLikeResponse(String id, String feedId, String memberId, boolean isLiked, int feedHeartCount) {
         this.id = id;
         this.feedId = feedId;
         this.memberId = memberId;

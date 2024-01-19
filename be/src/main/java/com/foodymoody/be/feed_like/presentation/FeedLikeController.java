@@ -3,7 +3,7 @@ package com.foodymoody.be.feed_like.presentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_like.application.FeedLikeService;
-import com.foodymoody.be.feed_like.application.dto.response.FeedHeartResponse;
+import com.foodymoody.be.feed_like.application.dto.response.FeedLikeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,10 +18,10 @@ public class FeedLikeController {
     private final FeedLikeService feedLikeService;
 
     @PostMapping("/api/feeds/{feedStringId}/likes")
-    public ResponseEntity<FeedHeartResponse> like(@PathVariable String feedStringId,
-                                                  @CurrentMemberId MemberId memberId) {
-        FeedHeartResponse feedHeartResponse = feedLikeService.like(feedStringId, memberId);
-        return ResponseEntity.ok().body(feedHeartResponse);
+    public ResponseEntity<FeedLikeResponse> like(@PathVariable String feedStringId,
+                                                 @CurrentMemberId MemberId memberId) {
+        FeedLikeResponse feedLikeResponse = feedLikeService.like(feedStringId, memberId);
+        return ResponseEntity.ok().body(feedLikeResponse);
     }
 
     @DeleteMapping("/api/feeds/{feedStringId}/likes")

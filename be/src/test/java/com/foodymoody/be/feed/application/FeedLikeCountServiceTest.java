@@ -7,7 +7,7 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.infra.persistence.FeedRepositoryImpl;
-import com.foodymoody.be.feed_heart_count.domain.FeedHeartCountRepository;
+import com.foodymoody.be.feed_like_count.domain.FeedLikeCountRepository;
 import com.foodymoody.be.feed_like_count.application.FeedLikeCountService;
 import com.foodymoody.be.feed_like_count.domain.entity.FeedLikeCount;
 import com.foodymoody.be.image.domain.Image;
@@ -26,14 +26,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("피드 하트 카운트 서비스 테스트")
 @SpringBootIntegrationTest
-class FeedHeartCountServiceTest {
+class FeedLikeCountServiceTest {
 
     @Autowired
     private FeedLikeCountService feedHeartCountService;
     @Autowired
     private StoreMoodReadService storeMoodReadService;
     @Autowired
-    private FeedHeartCountRepository feedHeartCountRepository;
+    private FeedLikeCountRepository feedLikeCountRepository;
     @Autowired
     private FeedRepositoryImpl feedRepository;
     @Autowired
@@ -41,7 +41,7 @@ class FeedHeartCountServiceTest {
 
     @BeforeEach
     void setUp() {
-        feedHeartCountRepository.deleteAll();
+        feedLikeCountRepository.deleteAll();
         FeedId id = new FeedId(IdGenerator.generate());
         feedRepository.save(
                 new Feed(id, IdFactory.createMemberId("1"), IdFactory.createStoreId("1"), "리뷰",
@@ -56,7 +56,7 @@ class FeedHeartCountServiceTest {
 
     @AfterEach
     void tearDown() {
-        feedHeartCountRepository.deleteAll();
+        feedLikeCountRepository.deleteAll();
     }
 
     @DisplayName("피드 좋아요를 100번 비동기로 증가시키면 하트 카운트가 100번 증가한다.")
@@ -65,7 +65,7 @@ class FeedHeartCountServiceTest {
         // given
         FeedId feedId = IdFactory.createFeedId("1");
         FeedLikeCount feedHeartCount = new FeedLikeCount(IdFactory.createFeedLikeCountId(), feedId, 0);
-        feedHeartCountRepository.save(feedHeartCount);
+        feedLikeCountRepository.save(feedHeartCount);
         CountDownLatch latch = new CountDownLatch(100);
 
         // when
@@ -84,7 +84,7 @@ class FeedHeartCountServiceTest {
         }
 
         // then
-        Optional<FeedLikeCount> result = feedHeartCountRepository.findByFeedId(feedId);
+        Optional<FeedLikeCount> result = feedLikeCountRepository.findByFeedId(feedId);
         assertThat(result).isPresent();
         assertThat(result.get().getCount()).isEqualTo(100L);
     }
@@ -95,7 +95,7 @@ class FeedHeartCountServiceTest {
         // given
         FeedId feedId = IdFactory.createFeedId("1");
         FeedLikeCount feedHeartCount = new FeedLikeCount(IdFactory.createFeedLikeCountId(), feedId, 100);
-        feedHeartCountRepository.save(feedHeartCount);
+        feedLikeCountRepository.save(feedHeartCount);
         CountDownLatch latch = new CountDownLatch(100);
 
         // when
@@ -113,7 +113,7 @@ class FeedHeartCountServiceTest {
         }
 
         // then
-        Optional<FeedLikeCount> result = feedHeartCountRepository.findByFeedId(feedId);
+        Optional<FeedLikeCount> result = feedLikeCountRepository.findByFeedId(feedId);
         assertThat(result).isPresent();
         assertThat(result.get().getCount()).isZero();
     }

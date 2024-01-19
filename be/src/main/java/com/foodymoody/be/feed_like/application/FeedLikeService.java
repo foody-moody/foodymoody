@@ -7,7 +7,7 @@ import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.domain.entity.Feed;
-import com.foodymoody.be.feed_like.application.dto.response.FeedHeartResponse;
+import com.foodymoody.be.feed_like.application.dto.response.FeedLikeResponse;
 import com.foodymoody.be.feed_like.domain.FeedLikeRepository;
 import com.foodymoody.be.feed_like.domain.entity.FeedLike;
 import com.foodymoody.be.feed_like_count.application.FeedLikeCountService;
@@ -30,7 +30,7 @@ public class FeedLikeService {
     private final FeedReadService feedReadService;
 
     @Transactional
-    public FeedHeartResponse like(String feedStringId, MemberId memberId) {
+    public FeedLikeResponse like(String feedStringId, MemberId memberId) {
         memberReadService.validateIdExists(memberId);
 
         if (existsHeart(memberId, feedStringId)) {
