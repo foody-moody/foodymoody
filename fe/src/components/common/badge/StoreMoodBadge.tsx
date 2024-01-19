@@ -30,4 +30,5 @@ const Wrapper = styled.div<{
     $selected ? colors.blue500 : colors.blue100};
   border-radius: ${({ theme: { radius } }) => radius.small};
   padding: 3px 12px;
+  white-space: nowrap;
 `;
