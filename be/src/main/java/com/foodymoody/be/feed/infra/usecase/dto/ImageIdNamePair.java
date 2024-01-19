@@ -1,7 +1,9 @@
 package com.foodymoody.be.feed.infra.usecase.dto;
 
 import com.foodymoody.be.common.util.ids.ImageId;
+import lombok.Getter;
 
+@Getter
 public class ImageIdNamePair {
 
     private ImageId id;
@@ -10,14 +12,6 @@ public class ImageIdNamePair {
     public ImageIdNamePair(ImageId id, String url) {
         this.id = id;
         this.url = url;
-    }
-
-    public ImageId getId() {
-        return id;
-    }
-
-    public String getUrl() {
-        return url;
     }
 
 }

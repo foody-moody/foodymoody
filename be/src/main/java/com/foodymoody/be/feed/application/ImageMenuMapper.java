@@ -5,7 +5,7 @@ import static com.foodymoody.be.feed.application.FeedValidator.validateFeedOfIma
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.menu.domain.Menu;
+import com.foodymoody.be.menu.domain.entity.Menu;
 import java.util.ArrayList;
 import java.util.List;
 

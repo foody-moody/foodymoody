@@ -1,14 +1,14 @@
 package com.foodymoody.be.notification.util;
 
 import com.foodymoody.be.common.event.NotificationType;
-import com.foodymoody.be.common.util.Content;
-import com.foodymoody.be.common.util.ids.CommentId;
+import com.foodymoody.be.common.util.ids.FeedCommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.NotificationId;
-import com.foodymoody.be.notification.domain.FeedNotification;
+import com.foodymoody.be.notification.domain.Notification;
 import java.time.LocalDateTime;
+import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 public class NotificationFixture {
@@ -20,22 +20,34 @@ public class NotificationFixture {
     public static final String NOT_EXIST_MEMBER_ID = "not exist member id";
     public static final LocalDateTime UPDATE_AT = LocalDateTime.of(2021, 2, 3, 4, 5, 6);
     public static final String FEED_ID = "1";
-    public static final CommentId COMMENT_ID = new CommentId("1");
+    public static final FeedCommentId COMMENT_ID = new FeedCommentId("1");
     public static final String FROM_MEMBER_ID = "2";
 
     public static NotificationId notificationId() {
         return IdFactory.createNotificationId(NOTIFICATION_ID);
     }
 
-    public static FeedNotification notification() {
+    public static Notification notification() {
         return notification(notificationId());
     }
 
-    public static FeedNotification notification(NotificationId id) {
-        return new FeedNotification(id, getFromMemberId(), getToMemberId(), new Content(NOTIFICATION_MESSAGE),
-                                    getFeedId(),
-                                    COMMENT_ID, NotificationType.FEED_COMMENT_ADDED_EVENT, false, false,
-                                    CREATE_AT, UPDATE_AT
+    public static Notification notification(NotificationId id) {
+        return new Notification(id, getFromMemberId(), getToMemberId(), notificationDetails(),
+                                NotificationType.FEED_ADDED_EVENT,
+                                false, false,
+                                CREATE_AT, UPDATE_AT
+        );
+    }
+
+    public static Map<String, Object> notificationDetails() {
+        return Map.of(
+                "notificationId", NOTIFICATION_ID,
+                "fromMemberId", FROM_MEMBER_ID,
+                "toMemberId", TO_MEMBER_ID,
+                "notificationType", NotificationType.FEED_ADDED_EVENT,
+                "notificationMessage", NOTIFICATION_MESSAGE,
+                "feedId", FEED_ID,
+                "commentId", COMMENT_ID.getValue()
         );
     }
 

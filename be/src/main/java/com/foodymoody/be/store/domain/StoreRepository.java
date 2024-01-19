@@ -5,9 +5,7 @@ import com.foodymoody.be.store.application.dto.response.StoreDetailsResponse;
 import com.foodymoody.be.store.application.dto.response.StoreSearchResponse;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface StoreRepository {
 
     Optional<StoreDetailsResponse> fetchDetailsById(StoreId id);

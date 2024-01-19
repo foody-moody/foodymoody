@@ -19,31 +19,24 @@ public class FeedReadAllResponse {
     private FeedMemberResponse member;
 
     @Getter
-
     private LocalDateTime createdAt;
 
     @Getter
-
     private LocalDateTime updatedAt;
 
     @Getter
-
-    private String address;
+    private StoreResponse store;
 
     @Getter
-
     private String review;
 
     @Getter
-
     private List<FeedStoreMoodResponse> storeMood;
 
     @Getter
-
     private List<FeedImageMenuResponse> images;
 
     @Getter
-
     private int likeCount;
 
     @JsonProperty
@@ -54,13 +47,13 @@ public class FeedReadAllResponse {
 
     @Builder
     public FeedReadAllResponse(FeedId id, FeedMemberResponse member, LocalDateTime createdAt, LocalDateTime updatedAt,
-                               String address, String review, List<FeedStoreMoodResponse> storeMood,
+                               StoreResponse storeResponse, String review, List<FeedStoreMoodResponse> storeMood,
                                List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, Long commentCount) {
         this.id = id;
         this.member = member;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.address = address;
+        this.store = storeResponse;
         this.review = review;
         this.storeMood = storeMood;
         this.images = images;

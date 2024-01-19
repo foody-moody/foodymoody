@@ -12,6 +12,7 @@ import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.image.application.ImageService;
+import com.foodymoody.be.store.application.StoreReadService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -31,18 +32,19 @@ public class CollectionUseCase {
     private final FeedReadService feedReadService;
     private final ImageService imageService;
     private final FeedCommentCountReadService feedCommentCountReadService;
+    private final StoreReadService storeReadService;
 
     @Transactional
     public Slice<CollectionReadFeedDetailsResponse> readCollectionFeedDetails(
             CollectionReadFeedDetailsServiceRequest request) {
-        FeedCollectionId feedCollectionId = request.getFeedCollectionId();
+        FeedCollectionId feedCollectionId = request.getCollectionId();
         Pageable pageable = request.getPageable();
         MemberId memberId = request.getMemberId();
 
         final String sortBy = "createdAt";
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sortBy).descending());
 
-        FeedCollection feedCollection = feedCollectionReadService.fetch(feedCollectionId);
+        FeedCollection feedCollection = feedCollectionReadService.fetchById(feedCollectionId);
         List<FeedId> feedIds = feedCollection.getFeedIds();
         Slice<Feed> feeds = feedReadService.findAllByIdIn(feedIds, pageable);
 
@@ -56,12 +58,13 @@ public class CollectionUseCase {
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
     }
 
-    private List<CollectionReadFeedDetailsResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNull(Slice<Feed> feeds) {
+    private List<CollectionReadFeedDetailsResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNull(
+            Slice<Feed> feeds) {
         return feeds.stream()
                 .map(feed -> CollectionReadFeedDetailsResponse.builder()
                         .feedAllCount(feeds.getSize())
                         .feedThumbnailUrl(imageService.findById(FeedMapper.findFirstImageId(feed)).getUrl())
-                        .storeName(null) // TODO: 가게 API 구현 완료되면 가게 name 조회해오기
+                        .storeName(storeReadService.fetchDetails(feed.getStoreId()).getName())
                         .feedId(feed.getId())
                         .createdAt(feed.getCreatedAt())
                         .updatedAt(feed.getUpdatedAt())
@@ -74,12 +77,13 @@ public class CollectionUseCase {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private List<CollectionReadFeedDetailsResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNotNull(Slice<Feed> feeds) {
+    private List<CollectionReadFeedDetailsResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNotNull(
+            Slice<Feed> feeds) {
         return feeds.stream()
                 .map(feed -> CollectionReadFeedDetailsResponse.builder()
                         .feedAllCount(feeds.getSize())
                         .feedThumbnailUrl(imageService.findById(FeedMapper.findFirstImageId(feed)).getUrl())
-                        .storeName(null) // TODO: 가게 API 구현 완료되면 가게 name 조회해오기
+                        .storeName(storeReadService.fetchDetails(feed.getStoreId()).getName())
                         .feedId(feed.getId())
                         .createdAt(feed.getCreatedAt())
                         .updatedAt(feed.getUpdatedAt())

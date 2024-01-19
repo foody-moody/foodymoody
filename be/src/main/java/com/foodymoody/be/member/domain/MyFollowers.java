@@ -4,6 +4,7 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
@@ -18,5 +19,11 @@ public class MyFollowers {
     public boolean containsById(MemberId id) {
         return follows.stream()
                 .anyMatch(follow -> Objects.equals(follow.getFollower().getId(), id));
+    }
+
+    public List<Member> getAll() {
+        return follows.stream()
+                .map(Follow::getFollower)
+                .collect(Collectors.toUnmodifiableList());
     }
 }

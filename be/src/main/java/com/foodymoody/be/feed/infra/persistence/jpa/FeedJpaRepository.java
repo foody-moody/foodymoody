@@ -8,11 +8,17 @@ import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface FeedJpaRepository extends JpaRepository<Feed, FeedId> {
+
+    boolean existsAllByIdIn(List<FeedId> feedIds);
+
+    Slice<Feed> findAllByIdIn(List<FeedId> feedIds, Pageable pageable);
 
     @Query("SELECT NEW com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair(i.id, i.url) "
             + "FROM ImageMenu im "
@@ -27,7 +33,7 @@ public interface FeedJpaRepository extends JpaRepository<Feed, FeedId> {
     Optional<List<MenuNameRatingPair>> fetchMenuNameRatingList(@Param("imageMenus") List<ImageMenu> imageMenus);
 
     @Query("SELECT fh.isLiked "
-            + "FROM FeedHeart fh "
+            + "FROM FeedLike fh "
             + "WHERE fh.feedId = :feedId "
             + "AND fh.memberId = :memberId")
     Optional<Boolean> fetchIsLikedByMemberId(@Param("feedId") FeedId feedId, @Param("memberId") MemberId memberId);

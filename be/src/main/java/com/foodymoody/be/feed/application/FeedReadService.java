@@ -8,7 +8,6 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
-import com.foodymoody.be.feed.infra.persistence.jpa.FeedJpaRepository;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import java.util.List;
@@ -24,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedReadService {
 
     private final FeedRepository feedRepository;
-    private final FeedJpaRepository feedJpaRepository;
 
     public void validateId(FeedId feedId) {
         if (!isExists(feedId)) {
@@ -47,30 +45,30 @@ public class FeedReadService {
     }
 
     public Feed findFeed(FeedId id) {
-        return feedRepository.findById(id)
+        return feedRepository.fetchById(id)
                 .orElseThrow(FeedIdNotExistsException::new);
     }
 
     public Slice<Feed> findAll(Pageable pageable) {
-        return feedRepository.findAll(pageable);
+        return feedRepository.fetchAll(pageable);
     }
 
     public List<ImageIdNamePair> fetchImageIdUrlList(List<ImageMenu> imageMenus) {
-        return feedJpaRepository.fetchImageIdUrlList(imageMenus)
+        return feedRepository.fetchImageIdUrlList(imageMenus)
                 .orElseThrow(ImageNotFoundException::new);
     }
 
     public List<MenuNameRatingPair> fetchMenuNameRatingList(List<ImageMenu> imageMenus) {
-        return feedJpaRepository.fetchMenuNameRatingList(imageMenus)
+        return feedRepository.fetchMenuNameRatingList(imageMenus)
                 .orElseThrow(MenuNotFoundException::new);
     }
 
     public Slice<Feed> findAllByIdIn(List<FeedId> feedIds, Pageable pageable) {
-        return feedRepository.findAllByIdIn(feedIds, pageable);
+        return feedRepository.fetchAllByIdIn(feedIds, pageable);
     }
 
     public boolean fetchIsLikedByMemberId(FeedId feedId, MemberId memberId) {
-        return feedJpaRepository.fetchIsLikedByMemberId(feedId, memberId)
+        return feedRepository.fetchIsLikedByMemberId(feedId, memberId)
                 .orElse(false);
     }
 

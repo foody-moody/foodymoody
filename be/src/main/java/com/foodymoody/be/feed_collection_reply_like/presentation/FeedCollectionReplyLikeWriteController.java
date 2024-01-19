@@ -21,13 +21,13 @@ public class FeedCollectionReplyLikeWriteController {
 
     private final FeedCollectionReplyLikeWriteUseCase useCase;
 
-    @PostMapping("/api/feed_collections/comments/{ignoredCommentId}/replies/{replyId}/likes")
+    @PostMapping("/api/feed_collections/comments/{commentId}/replies/{replyId}/likes")
     public ResponseEntity<IdResponse> post(
-            @PathVariable FeedCollectionCommentId ignoredCommentId,
+            @PathVariable FeedCollectionCommentId commentId,
             @PathVariable FeedCollectionReplyId replyId,
             @CurrentMemberId MemberId memberId
     ) {
-        var id = useCase.post(replyId, memberId);
+        var id = useCase.post(replyId, commentId, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 

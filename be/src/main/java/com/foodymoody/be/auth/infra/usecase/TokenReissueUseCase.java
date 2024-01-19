@@ -7,7 +7,7 @@ import com.foodymoody.be.auth.application.dto.request.TokenIssueRequest;
 import com.foodymoody.be.auth.application.dto.response.TokenIssueResponse;
 import com.foodymoody.be.common.exception.InvalidTokenException;
 import com.foodymoody.be.common.util.ids.IdFactory;
-import com.foodymoody.be.member.application.MemberQueryService;
+import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.domain.Member;
 import java.util.Date;
 import java.util.Objects;
@@ -21,13 +21,13 @@ public class TokenReissueUseCase {
     private final JwtUtil jwtUtil;
     private final RefreshTokenStorage refreshTokenStorage;
     private final TokenService tokenService;
-    private final MemberQueryService memberQueryService;
+    private final MemberReadService memberReadService;
 
     public TokenIssueResponse reIssueToken(TokenIssueRequest request) {
         String refreshToken = request.getRefreshToken();
         String memberId = jwtUtil.parseRefreshToken(refreshToken);
         validateRefreshToken(refreshToken, memberId);
-        Member member = memberQueryService.findById(IdFactory.createMemberId(memberId));
+        Member member = memberReadService.findById(IdFactory.createMemberId(memberId));
         Date now = new Date();
         return tokenService.issue(now, member);
     }

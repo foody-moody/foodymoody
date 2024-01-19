@@ -28,7 +28,7 @@ public class FeedCollectionReadService {
     }
 
     @Transactional(readOnly = true)
-    public FeedCollection fetch(FeedCollectionId feedCollectionId) {
+    public FeedCollection fetchById(FeedCollectionId feedCollectionId) {
         return dao.fetchById(feedCollectionId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 피드 컬렉션입니다."));
     }
