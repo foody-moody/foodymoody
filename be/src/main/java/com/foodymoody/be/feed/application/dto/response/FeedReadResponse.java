@@ -19,7 +19,7 @@ public class FeedReadResponse {
     private FeedMemberResponse member;
 
     @Getter
-    private String address;
+    private StoreResponse store;
 
     @Getter
     private LocalDateTime createdAt;
@@ -46,12 +46,12 @@ public class FeedReadResponse {
     private Long commentCount;
 
     @Builder
-    public FeedReadResponse(FeedId id, FeedMemberResponse member, String address, LocalDateTime createdAt,
+    public FeedReadResponse(FeedId id, FeedMemberResponse member, StoreResponse storeResponse, LocalDateTime createdAt,
                             LocalDateTime updatedAt, String review, List<FeedStoreMoodResponse> storeMood,
                             List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, Long commentCount) {
         this.id = id;
         this.member = member;
-        this.address = address;
+        this.store = storeResponse;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.review = review;

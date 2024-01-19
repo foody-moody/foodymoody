@@ -24,9 +24,7 @@ public class StoreMoodReadService {
     }
 
     public List<StoreMoodResponse> fetchAll() {
-        return storeMoodRepository.fetchAll().stream()
-                .map(s -> new StoreMoodResponse(s.getId(), s.getName()))
-                .collect(Collectors.toUnmodifiableList());
+        return storeMoodRepository.fetchAll();
     }
 
     public List<StoreMood> fetchAllByStoreMoodIds(List<StoreMoodId> storeMoodIds) {

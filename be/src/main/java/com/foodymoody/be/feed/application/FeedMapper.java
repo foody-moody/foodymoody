@@ -22,6 +22,7 @@ import com.foodymoody.be.feed.application.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedStoreMoodResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedTasteMoodResponse;
+import com.foodymoody.be.feed.application.dto.response.StoreResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
@@ -58,11 +59,11 @@ public class FeedMapper {
                                                       List<FeedStoreMoodResponse> moodNames,
                                                       boolean isLiked,
                                                       Long commentCount,
-                                                      String address) {
+                                                      StoreResponse storeResponse) {
         return FeedReadResponse.builder()
                 .id(feed.getId())
                 .member(feedMemberResponse)
-                .address(address)
+                .storeResponse(storeResponse)
                 .review(feed.getReview())
                 .storeMood(moodNames)
                 .images(images)
@@ -132,11 +133,11 @@ public class FeedMapper {
                                                               List<FeedImageMenuResponse> makeFeedImageMenuResponses,
                                                               boolean isLiked,
                                                               Long commentCount,
-                                                              String address) {
+                                                              StoreResponse storeResponse) {
         return FeedReadAllResponse.builder()
                 .id(feed.getId())
                 .member(makeFeedMemberResponse)
-                .address(address)
+                .storeResponse(storeResponse)
                 .review(feed.getReview())
                 .storeMood(makeFeedStoreMoodResponses)
                 .images(makeFeedImageMenuResponses)
@@ -179,6 +180,10 @@ public class FeedMapper {
         return imageMenus.stream()
                 .map(ImageMenu::getImageId)
                 .collect(Collectors.toList());
+    }
+
+    public static StoreResponse makeStoreResponse(StoreId id, String name) {
+        return new StoreResponse(id, name);
     }
 
 }
