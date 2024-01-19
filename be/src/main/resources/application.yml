@@ -3,5 +3,4 @@ spring:
     group:
       common: filter, aws, jwt, servlet
       local: common, localdb
-      test: common, testdb
     active: local
