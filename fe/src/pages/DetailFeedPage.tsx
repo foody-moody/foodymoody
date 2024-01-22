@@ -1,5 +1,6 @@
 import { Suspense, useRef } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import { useToast } from 'recoil/toast/useToast';
 import { usePostComment } from 'service/queries/comment';
 import { useFeedDetail } from 'service/queries/feed';
 import { styled } from 'styled-components';
@@ -15,6 +16,7 @@ import { FeedUserInfo } from 'components/common/feedUserInfo/FeedUserInfo';
 import { useModal } from 'components/common/modal/useModal';
 import { CommentSkeleton } from 'components/common/skeleton/CommentSkeleton';
 import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
+import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
@@ -25,19 +27,27 @@ export const DetailFeedModalPage = () => {
 
   const { id: feedId } = useParams() as { id: string };
   const { data: feed } = useFeedDetail(feedId);
+  console.log(feed, 'feed');
 
   const { closeModal } = useModal<'commentAlert'>();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const { mutate: commentMutate } = usePostComment();
-  const { navigateToBack, navigateToHome } = usePageNavigator();
+  const toast = useToast();
+  const { isLogin } = useAuthState();
+  const { navigateToBack, navigateToHome, navigateToLogin } =
+    usePageNavigator();
   const { value, handleChange, isValid } = useInput({
     validator: (value) =>
       value.trim().length !== 0 && value.trim().length < 200,
   });
 
   const handleNavigateToBack = () => {
-    if (background === 'detailFeed' || background === 'notiDetailFeed') {
+    if (
+      background === 'detailFeed' ||
+      background === 'notiDetailFeed' ||
+      background === 'profileDetailFeed'
+    ) {
       navigateToBack();
       closeModal('commentAlert');
     } else {
@@ -46,20 +56,22 @@ export const DetailFeedModalPage = () => {
   };
 
   const handleSubmit = () => {
-    isValid &&
+    if (isLogin && isValid) {
       commentMutate({
-        feedId: feed.id,
+        feedId: feed?.id,
         content: value,
       });
-
-    handleChange('');
+      handleChange('');
+    } else {
+      toast.noti('로그인이 필요한 서비스입니다.');
+      navigateToLogin();
+    }
   };
 
   const isUpdated = feed?.createdAt !== feed?.updatedAt;
 
   return (
     <>
-      {/* 로딩, 에러 추가 */}
       <Dim
         onClick={() => {
           handleNavigateToBack();
@@ -77,7 +89,7 @@ export const DetailFeedModalPage = () => {
                     member={feed?.member}
                     createdAt={isUpdated ? feed.updatedAt : feed.createdAt}
                     isUpdated={isUpdated}
-                    location={feed?.location}
+                    store={feed?.store}
                     thumbnail={feed.images[0]?.image.url}
                   />
                 </Detail>

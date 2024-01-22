@@ -7,7 +7,7 @@ import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { PATH } from 'constants/path';
 
 type Props = {
-  collection: CollectionItem;
+  collection: CollectionItem | CarouselCollectionItem;
 };
 
 export const GridItem = forwardRef<HTMLLIElement, Props>(
@@ -20,6 +20,7 @@ export const GridItem = forwardRef<HTMLLIElement, Props>(
 
     const handleNavigateToProfile = (id: string) => {
       navigate(PATH.PROFILE + '/' + id);
+      sessionStorage.setItem('profileId', id);
     };
 
     return (

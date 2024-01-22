@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useToggle } from 'recoil/booleanState/useToggle';
 import { useFeedDetail, useFeedEditor } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { customScrollStyle, flexColumn, flexRow } from 'styles/customStyle';
@@ -12,17 +11,23 @@ import { PlusIcon } from 'components/common/icon/icons';
 import { MenuItemEditor } from 'components/common/menuItemEditor/MenuItemEditor';
 import { TextArea } from 'components/common/textarea/Textarea';
 import { SearchLocation } from 'components/searchLocation/SearchLocation';
+import { useDebounce } from 'hooks/useDebounce';
 import { useInput } from 'hooks/useInput';
 import { useMenuItem } from 'hooks/useMenuItem';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const FeedEditor: React.FC = () => {
-  const search = useToggle('search');
   const { navigateToHome } = usePageNavigator();
   const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
-
+  const [selectedStore, setSelectedStore] = useState<{
+    id: string;
+    name: string | null; // TODO 네임은 null 일 수 없음 수정 요구
+  }>({
+    id: '',
+    name: '',
+  });
   const { id: feedId } = useParams() as { id: string };
-  const { mutate: feedMutate, status } = useFeedEditor(feedId);
+  const { mutate: feedMutate } = useFeedEditor(feedId);
   const { data: feedDetailData } = useFeedDetail(feedId);
   const {
     menuItems,
@@ -33,16 +38,11 @@ export const FeedEditor: React.FC = () => {
     handleEditStarRating,
   } = useMenuItem(feedDetailData?.images);
 
-  const {
-    value: locationName,
-    handleChange: handleLocationChange,
-    isValid: isLocationNameVaild,
-    helperText: locationNameHelperText,
-  } = useInput({
+  const { value: storeName, handleChange: handleStoreChange } = useInput({
     initialValue: '',
-    validator: (value) => value.trim().length > 0,
-    helperText: '가게 이름을 입력해주세요',
   });
+
+  const debouncedValue = useDebounce(storeName);
 
   const { value: reviewValue, handleChange: handleReviewChange } = useInput({
     initialValue: '',
@@ -51,22 +51,31 @@ export const FeedEditor: React.FC = () => {
   useEffect(() => {
     if (feedDetailData) {
       handleReviewChange(feedDetailData.review);
-      handleLocationChange(feedDetailData.location);
-      setSelectedBadgeList(feedDetailData.storeMood); // 확인필요
+      setSelectedStore({
+        id: feedDetailData.store.id,
+        name: feedDetailData.store.name,
+      });
+      setSelectedBadgeList(feedDetailData.storeMood);
     }
   }, [feedDetailData]);
 
   const handleSubmit = () => {
     feedMutate({
-      location: locationName,
+      storeId: selectedStore.id,
       images: menuItems.map(({ image, menu }) => ({
         imageId: image.id,
         menu,
       })),
-      storeMood: selectedBadgeList.map((badge) => badge.id),
+      storeMoodIds: selectedBadgeList.map((badge) => badge.id),
       review: reviewValue,
     });
-    status === 'success' && search.toggleOn();
+  };
+
+  const handleSelectStore = (store: StoreItem) => {
+    setSelectedStore({
+      id: store.id,
+      name: store.name,
+    });
   };
 
   const handleSelectBadgeList = (badges: Badge[]) => {
@@ -74,7 +83,7 @@ export const FeedEditor: React.FC = () => {
   };
 
   const isValid =
-    isLocationNameVaild &&
+    selectedStore.id !== '' &&
     reviewValue.trim().length > 0 &&
     menuItems
       .map((menuItem) => menuItem.image.id)
@@ -83,7 +92,6 @@ export const FeedEditor: React.FC = () => {
     menuItems
       .map((menuItem) => menuItem.menu.name)
       .every((name) => name.trim().length > 0);
-  console.log(locationName, 'isValid');
 
   return (
     <Wrapper>
@@ -100,9 +108,11 @@ export const FeedEditor: React.FC = () => {
           <InputBox>
             <Title>가게를 등록해주세요</Title>
             <SearchLocation
-              locationName={locationName}
-              locationNameHelperText={locationNameHelperText}
-              handleLocationChange={handleLocationChange}
+              value={storeName}
+              keyword={debouncedValue}
+              selectedStore={selectedStore}
+              onStoreChange={handleStoreChange}
+              onSelectStore={handleSelectStore}
             />
           </InputBox>
           <MenuEditorWrapper>

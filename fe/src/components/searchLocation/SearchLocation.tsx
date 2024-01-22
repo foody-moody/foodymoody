@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { useToggle } from 'recoil/booleanState/useToggle';
+import { useGetStores } from 'service/queries/store';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
 import { TextButton } from 'components/common/button/TextButton';
@@ -11,35 +11,23 @@ import {
 import { SearchPanelInput } from 'components/searchPanelInput/SearchPanelInput';
 
 type Props = {
-  locationName: string;
-  locationNameHelperText?: string;
-  handleLocationChange: (value: string) => void;
+  value: string;
+  keyword: string;
+  selectedStore: SelectedStore;
+  onStoreChange: (value: string) => void;
+  onSelectStore: (store: StoreItem) => void;
 };
 
 export const SearchLocation: React.FC<Props> = ({
-  locationName,
-  locationNameHelperText,
-  handleLocationChange,
+  value,
+  keyword,
+  selectedStore,
+  onStoreChange,
+  onSelectStore,
 }) => {
-  const [searchResult, setSearchResult] = useState([]);
   const search = useToggle('search');
   const tool = useToggle('tool');
-  console.log(search.isTrue, 'search istrue');
-  console.log(tool.isTrue, 'search istrue');
-
-  const [selectedLocation, setSelectedLocation] = useState({
-    id: '',
-    placeName: '',
-    addressName: '',
-    roadAddressName: '',
-    x: '',
-    y: '',
-    url: '',
-    phone: '',
-    distance: '',
-    category_name: '',
-    category_group_code: '',
-  });
+  const { data: stores } = useGetStores(keyword);
 
   const handleOpenTools = () => {
     !search.isTrue && tool.toggle();
@@ -57,61 +45,22 @@ export const SearchLocation: React.FC<Props> = ({
     search.toggleOff();
   };
 
-  const handleSelectLocation = (location: any) => {
-    console.log(location, 'location');
-
-    setSelectedLocation({
-      id: location.id,
-      placeName: location.place_name,
-      addressName: location.address_name,
-      roadAddressName: location.road_address_name,
-      x: location.x,
-      y: location.y,
-      url: location.place_url,
-      phone: location.phone,
-      distance: location.distance,
-      category_name: location.category_name,
-      category_group_code: location.category_group_code,
-    });
-    handleLocationChange(location.place_name);
+  const handleSelectLocation = (location: StoreItem) => {
+    onSelectStore(location);
+    location.name && onStoreChange(location.name); // TODO null일수없음 서버 데이터 수정후 location.name&& 제거
   };
 
   const handleSearchLocation = (locationName: string) => {
-    handleLocationChange(locationName);
-    handleSearch(locationName);
-  };
-
-  ///
-
-  const handleSearch = (keyword: string) => {
-    console.log(keyword, 'keyword');
-
-    window.kakao.maps.load(() => {
-      const ps = new window.kakao.maps.services.Places();
-      ps.keywordSearch(keyword, placesSearchCB);
-    });
-  };
-
-  const placesSearchCB = (data: any, status: any) => {
-    if (status === window.kakao.maps.services.Status.OK) {
-      console.log(data, 'kakao search data');
-      setSearchResult(data);
-    } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
-      console.log('검색 결과가 존재하지 않습니다.');
-      return;
-    } else if (status === window.kakao.maps.services.Status.ERROR) {
-      alert('검색 결과 중 오류가 발생했습니다.');
-      return;
-    }
+    onStoreChange(locationName);
   };
 
   return (
     <Wrapper>
       <Location>
-        {selectedLocation.placeName && (
+        {selectedStore.name && (
           <SelectedLocation onClick={handleOpenTools}>
             <MapPinSmallIcon />
-            {selectedLocation.placeName}
+            {selectedStore.name}
           </SelectedLocation>
         )}
         {tool.isTrue && (
@@ -133,14 +82,12 @@ export const SearchLocation: React.FC<Props> = ({
         <SearchContainer>
           <SearchPanelInput
             variant="underline"
-            value={locationName}
-            // onChangeValue={handleLocationChange}
+            value={value}
+            data={stores}
             onChangeValue={handleSearchLocation}
-            helperText={locationNameHelperText}
-            data={searchResult}
             onSelectLocation={handleSelectLocation}
           />
-          {selectedLocation.placeName && (
+          {selectedStore.name && (
             <TextButton size="m" color="black" onClick={handleCloseSearch}>
               <CloseSmallIcon />
             </TextButton>
