@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const { MODE, VITE_API_URL, VITE_KAKAO_MAP } = import.meta.env;
+const { VITE_API_URL, VITE_KAKAO_MAP } = import.meta.env;
 
 type Props = {
   targetId?: string;
@@ -18,8 +18,7 @@ export const Share: React.FC<Props> = ({ targetId, imageUrl }) => {
   }, []);
 
   // 링크 상수화
-  const baseUrl =
-    MODE === 'development' ? 'http://localhost:5173' : VITE_API_URL;
+  const baseUrl = VITE_API_URL;
 
   const handleShare = () => {
     window.Kakao.Share.sendDefault({

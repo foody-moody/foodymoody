@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useGetProfile } from 'service/queries/profile';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
@@ -21,7 +21,16 @@ const MOCK_BADGE = {
 export const ProfileUserInfo = () => {
   const { id } = useParams();
   const { userInfo } = useAuthState();
-  const USER_ID = id || userInfo.id;
+  const location = useLocation();
+
+  const isDetailFeedUrl = location.pathname.includes('/detail/feed');
+  const profileId = sessionStorage.getItem('profileId');
+  const USER_ID = isDetailFeedUrl
+    ? profileId
+    : !isDetailFeedUrl && id
+    ? id
+    : userInfo.id;
+
   const { data: member } = useGetProfile(USER_ID);
 
   const navigate = useNavigate();

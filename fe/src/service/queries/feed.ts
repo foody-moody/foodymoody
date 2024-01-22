@@ -5,11 +5,14 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useToggle } from 'recoil/booleanState/useToggle';
 import { useToast } from 'recoil/toast/useToast';
 import {
   deleteFeed,
   getAllFeeds,
+  getAllProfileFeeds,
   getFeedDetail,
   postNewFeed,
   putEditFeed,
@@ -37,8 +40,28 @@ export const useAllFeeds = () => {
   };
 };
 
+export const useAllProfileFeeds = (memberId: string) => {
+  const query = useInfiniteQuery({
+    queryKey: [QUERY_KEY.profileFeeds, memberId],
+    queryFn: ({ pageParam = 0 }) => getAllProfileFeeds(pageParam, 10, memberId),
+    getNextPageParam: (lastPage) => {
+      return lastPage.last ? undefined : lastPage.number + 1;
+    },
+    // suspense: true,
+  });
+
+  const profileFeeds = useMemo(() => {
+    return query.data?.pages.flatMap((page) => page.content) ?? [];
+  }, [query.data]);
+
+  return {
+    ...query,
+    profileFeeds,
+  };
+};
+
 export const useFeedDetail = (id: string) =>
-  useQuery({
+  useQuery<MainFeed>({
     queryKey: [QUERY_KEY.feedDetail, id],
     queryFn: () => getFeedDetail(id),
     enabled: !!id,
@@ -46,6 +69,7 @@ export const useFeedDetail = (id: string) =>
 
 export const useFeedEditor = (id?: string) => {
   const queryClient = useQueryClient();
+  const search = useToggle('search');
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -69,6 +93,7 @@ export const useFeedEditor = (id?: string) => {
         toast.success('피드를 등록했습니다.');
         navigate(PATH.HOME, { replace: true });
       }
+      search.toggleOn();
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;

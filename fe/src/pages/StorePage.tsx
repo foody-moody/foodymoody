@@ -1,16 +1,23 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useToast } from 'recoil/toast/useToast';
+import { useGetStoreDetail } from 'service/queries/store';
 import { styled } from 'styled-components';
 import { flexColumn, flexRow } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
 import {
-  FaceIcon,
+  CopySmallIcon,
   HeartFillIcon,
   MapPinLargeIcon,
+  PhoneIcon,
   StarLargeFillIcon,
 } from 'components/common/icon/icons';
+import { NaverMap } from 'components/map/Map';
+import { formatPhoneNum } from 'utils/formatPhoneNum';
 
 export const StorePage = () => {
+  const { id } = useParams() as { id: string };
+  const { data } = useGetStoreDetail(id);
   const [activeTab, setActiveTab] = useState('home');
   const toast = useToast();
 
@@ -18,11 +25,9 @@ export const StorePage = () => {
     setActiveTab(tab);
   };
 
-  const address = '경기도 안양시 동안구 평촌대로223번길 16 (호계동) 2층 205호';
-
   const handleCopyToClipBoard = async () => {
     try {
-      await navigator.clipboard.writeText(address); //TODO실제 데이터의 가게주소로 변경 store.address
+      await navigator.clipboard.writeText(data?.roadAddress as string);
       toast.noti('복사되었습니다');
     } catch (e) {
       toast.noti('다시 시도해주세요');
@@ -35,17 +40,14 @@ export const StorePage = () => {
         <Header>
           <HeaderTitle>
             <FlexRow>
-              <StoreTitle>{'후타가와 짜장'}</StoreTitle>
+              <StoreTitle>{data?.name || '이름'}</StoreTitle>
+              {/* TODO 이름 null못하게 */}
               <Rating>
                 <StarLargeFillIcon />
                 <RatingCount>{4.5}</RatingCount>
               </Rating>
             </FlexRow>
-            <TitleText>
-              <SubText>{'범계동'}</SubText>
-              <SubText>{'·'}</SubText>
-              <SubText>{'피드 10'}</SubText>
-            </TitleText>
+            <TitleText>{/* <SubText>{'피드 10'}</SubText> */}</TitleText>
           </HeaderTitle>
           <HeartFillIcon />
         </Header>
@@ -65,25 +67,25 @@ export const StorePage = () => {
         </Tab>
         <MapContent>
           <MapContainer>
-            <SubTile>정보</SubTile>
-            <Map></Map>
+            <SubTitle>정보</SubTitle>
+            <Map>
+              <NaverMap data={data} />
+            </Map>
           </MapContainer>
           <InfoContainer>
             <Info>
               <MapPinLargeIcon />
               <AddressContainer>
-                <Address>
-                  {'경기도 안양시 동안구 평촌대로223번길 16 (호계동) 2층 205호'}
-                </Address>
+                <Address>{data?.roadAddress}</Address>
                 <CopyContainer onClick={handleCopyToClipBoard}>
-                  <FaceIcon />
+                  <CopySmallIcon />
                   <Copy>복사하기</Copy>
                 </CopyContainer>
               </AddressContainer>
             </Info>
             <Info>
-              <MapPinLargeIcon />
-              <Address>{'031-383-6333'}</Address>
+              <PhoneIcon />
+              <Address>{formatPhoneNum(data?.phone)}</Address>
             </Info>
           </InfoContainer>
         </MapContent>
@@ -153,7 +155,7 @@ const FlexRow = styled.div`
   gap: 8px;
 `;
 
-const StoreTitle = styled.div`
+const StoreTitle = styled.p`
   font: ${({ theme: { fonts } }) => fonts.displayB20};
 `;
 
@@ -173,9 +175,9 @@ const TitleText = styled.div`
   gap: 4px;
 `;
 
-const SubText = styled.p`
-  font: ${({ theme: { fonts } }) => fonts.displayM14};
-`;
+// const SubText = styled.p`
+//   font: ${({ theme: { fonts } }) => fonts.displayM14};
+// `;
 
 const Tab = styled.div`
   ${flexRow}
@@ -212,14 +214,14 @@ const MapContainer = styled.div`
   gap: 8px;
 `;
 
-const SubTile = styled.p`
+const SubTitle = styled.p`
   font: ${({ theme: { fonts } }) => fonts.displayB16};
 `;
 
 const Map = styled.div`
   width: 100%;
   height: 400px; // media
-  border: 1px solid ${({ theme: { colors } }) => colors.black};
+
   ${media.md} {
     height: 400px;
   }
@@ -239,11 +241,10 @@ const InfoContainer = styled.div`
 const Info = styled.div`
   ${flexRow}
   width: 100%;
-  /* height: 48px; */
   gap: 8px;
 `;
 
-const AddressContainer = styled.p`
+const AddressContainer = styled.div`
   ${flexRow}
   flex-wrap: wrap;
   width: 100%;

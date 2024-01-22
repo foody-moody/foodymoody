@@ -11,6 +11,7 @@ export const HomePage = () => {
   const location = useLocation();
   const background = location.state && location.state.background;
   const isDetailFeedUrl = location.pathname.includes('/detail/feed');
+  console.log(isDetailFeedUrl, 'isDetailFeedUrl, 배포버전확인(카카오공유때문)');
 
   return (
     <Wrapper>

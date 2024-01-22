@@ -10,7 +10,6 @@ import {
 
 export const LayoutButton = () => {
   const grid = useToggle('grid');
-  // const { isGrid, handleSetOn, handleSetOff } = useSetLayout();
 
   return (
     <Wrapper>
