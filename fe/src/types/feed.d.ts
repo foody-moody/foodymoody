@@ -3,19 +3,17 @@ type MainFeed = {
   member: FeedMemberInfo;
   createdAt: string;
   updatedAt: string;
-  location: string;
   review: string;
   storeMood: Badge[];
   images: FeedImage[];
   likeCount: number;
   liked: boolean;
   commentCount: number;
+  store: Store;
 };
 
 type FeedImage = {
   id: string;
-  // imageId?: string;
-  // imageUrl?: string;
   image: ImageType;
   menu: MenuTag;
 };
@@ -51,18 +49,8 @@ type NewFeedBody = {
     menu: MenuTag;
   }[];
 };
-/* TODO. 수정 예정 */
-type DetailFeedProps = {
-  feed: MainFeed;
-};
 
-type Location = {
-  address_name: string;
+type Store = {
   id: string;
-  phone: string;
-  place_name: string;
-  place_url: string;
-  road_address_name: string;
-  x: string;
-  y: string;
+  name: string | null; // TODO null은 들어갈 수 없음 수정요청
 };

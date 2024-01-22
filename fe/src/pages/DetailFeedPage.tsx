@@ -27,6 +27,7 @@ export const DetailFeedModalPage = () => {
 
   const { id: feedId } = useParams() as { id: string };
   const { data: feed } = useFeedDetail(feedId);
+  console.log(feed, 'feed');
 
   const { closeModal } = useModal<'commentAlert'>();
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -57,7 +58,7 @@ export const DetailFeedModalPage = () => {
   const handleSubmit = () => {
     if (isLogin && isValid) {
       commentMutate({
-        feedId: feed.id,
+        feedId: feed?.id,
         content: value,
       });
       handleChange('');
@@ -71,7 +72,6 @@ export const DetailFeedModalPage = () => {
 
   return (
     <>
-      {/* 로딩, 에러 추가 */}
       <Dim
         onClick={() => {
           handleNavigateToBack();
@@ -89,7 +89,7 @@ export const DetailFeedModalPage = () => {
                     member={feed?.member}
                     createdAt={isUpdated ? feed.updatedAt : feed.createdAt}
                     isUpdated={isUpdated}
-                    location={feed?.location}
+                    store={feed?.store}
                     thumbnail={feed.images[0]?.image.url}
                   />
                 </Detail>
