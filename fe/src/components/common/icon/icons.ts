@@ -47,5 +47,5 @@ export { default as ListOffIcon } from 'assets/listOff.svg?react';
 export { default as ListOnIcon } from 'assets/listOn.svg?react';
 export { default as ShareIcon } from 'assets/share.svg?react';
 export { default as StoreIcon } from 'assets/store.svg?react';
-export { default as CopySmall } from 'assets/copyS.svg?react';
-export { default as Phone } from 'assets/phone.svg?react';
+export { default as CopySmallIcon } from 'assets/copyS.svg?react';
+export { default as PhoneIcon } from 'assets/phone.svg?react';
