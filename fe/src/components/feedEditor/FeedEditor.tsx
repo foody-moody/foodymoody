@@ -55,7 +55,6 @@ export const FeedEditor: React.FC = () => {
         id: feedDetailData.store.id,
         name: feedDetailData.store.name,
       });
-      // handleStoreChange(feedDetailData.location);
       setSelectedBadgeList(feedDetailData.storeMood);
     }
   }, [feedDetailData]);
