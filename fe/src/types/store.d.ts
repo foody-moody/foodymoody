@@ -5,7 +5,7 @@ type StoreItem = {
 
 type SelectedStore = {
   id: string;
-  name: string;
+  name: string | null; // TODO null은 들어갈 수 없음 수정요청
 };
 
 type StoreDetail = {

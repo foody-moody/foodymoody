@@ -67,7 +67,7 @@ export const StorePage = () => {
         </Tab>
         <MapContent>
           <MapContainer>
-            <SubTile>정보</SubTile>
+            <SubTitle>정보</SubTitle>
             <Map>
               <NaverMap data={data} />
             </Map>
@@ -155,7 +155,7 @@ const FlexRow = styled.div`
   gap: 8px;
 `;
 
-const StoreTitle = styled.div`
+const StoreTitle = styled.p`
   font: ${({ theme: { fonts } }) => fonts.displayB20};
 `;
 
@@ -214,7 +214,7 @@ const MapContainer = styled.div`
   gap: 8px;
 `;
 
-const SubTile = styled.p`
+const SubTitle = styled.p`
   font: ${({ theme: { fonts } }) => fonts.displayB16};
 `;
 
@@ -244,7 +244,7 @@ const Info = styled.div`
   gap: 8px;
 `;
 
-const AddressContainer = styled.p`
+const AddressContainer = styled.div`
   ${flexRow}
   flex-wrap: wrap;
   width: 100%;

@@ -46,9 +46,8 @@ export const SearchLocation: React.FC<Props> = ({
   };
 
   const handleSelectLocation = (location: StoreItem) => {
-    console.log(location, 'location');
     onSelectStore(location);
-    onStoreChange(location.name);
+    location.name && onStoreChange(location.name); // TODO null일수없음 서버 데이터 수정후 location.name&& 제거
   };
 
   const handleSearchLocation = (locationName: string) => {

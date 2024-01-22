@@ -19,7 +19,10 @@ import { usePageNavigator } from 'hooks/usePageNavigator';
 export const FeedEditor: React.FC = () => {
   const { navigateToHome } = usePageNavigator();
   const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
-  const [selectedStore, setSelectedStore] = useState({
+  const [selectedStore, setSelectedStore] = useState<{
+    id: string;
+    name: string | null; // TODO 네임은 null 일 수 없음 수정 요구
+  }>({
     id: '',
     name: '',
   });
@@ -48,10 +51,10 @@ export const FeedEditor: React.FC = () => {
   useEffect(() => {
     if (feedDetailData) {
       handleReviewChange(feedDetailData.review);
-      // setSelectedStore({
-      //   id: feedDetailData.storeId,
-      //   name: feedDetailData.storeName,
-      // }); << TODO 이형식으로 변경
+      setSelectedStore({
+        id: feedDetailData.store.id,
+        name: feedDetailData.store.name,
+      });
       // handleStoreChange(feedDetailData.location);
       setSelectedBadgeList(feedDetailData.storeMood);
     }
