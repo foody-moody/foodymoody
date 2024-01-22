@@ -6,20 +6,20 @@ import { styled } from 'styled-components';
 import { flexColumn, flexRow } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
 import {
-  FaceIcon,
+  CopySmallIcon,
   HeartFillIcon,
   MapPinLargeIcon,
+  PhoneIcon,
   StarLargeFillIcon,
 } from 'components/common/icon/icons';
 import { NaverMap } from 'components/map/Map';
+import { formatPhoneNum } from 'utils/formatPhoneNum';
 
-const { VITE_NAVER_MAP_CLIENT_ID } = import.meta.env;
 export const StorePage = () => {
   const { id } = useParams() as { id: string };
   const { data } = useGetStoreDetail(id);
   const [activeTab, setActiveTab] = useState('home');
   const toast = useToast();
-  console.log(data, 'store data');
 
   const handleTabClick = (tab: 'home' | 'feed') => {
     setActiveTab(tab);
@@ -27,15 +27,12 @@ export const StorePage = () => {
 
   const handleCopyToClipBoard = async () => {
     try {
-      await navigator.clipboard.writeText(data?.roadAddress as string); //TODO실제 데이터의 가게주소로 변경 store.address
+      await navigator.clipboard.writeText(data?.roadAddress as string);
       toast.noti('복사되었습니다');
     } catch (e) {
       toast.noti('다시 시도해주세요');
     }
   };
-
-  const src = `https://naveropenapi.apigw.ntruss.com/map-static/v2/raster-cors?w=566&h=300&crs=EPSG:2097&markers=type:d|size:mid|pos:${data?.x} ${data?.y}|color:orange&scale=2&X-NCP-APIGW-API-KEY-ID=${VITE_NAVER_MAP_CLIENT_ID}`;
-  console.log(src);
 
   return (
     <Wrapper>
@@ -50,11 +47,7 @@ export const StorePage = () => {
                 <RatingCount>{4.5}</RatingCount>
               </Rating>
             </FlexRow>
-            <TitleText>
-              <SubText>{'범계동'}</SubText>
-              <SubText>{'·'}</SubText>
-              <SubText>{'피드 10'}</SubText>
-            </TitleText>
+            <TitleText>{/* <SubText>{'피드 10'}</SubText> */}</TitleText>
           </HeaderTitle>
           <HeartFillIcon />
         </Header>
@@ -76,8 +69,7 @@ export const StorePage = () => {
           <MapContainer>
             <SubTile>정보</SubTile>
             <Map>
-              <img src={src} />
-              <NaverMap data={data} name={data?.name} x={data?.x} y={data?.y} />
+              <NaverMap data={data} />
             </Map>
           </MapContainer>
           <InfoContainer>
@@ -86,14 +78,14 @@ export const StorePage = () => {
               <AddressContainer>
                 <Address>{data?.roadAddress}</Address>
                 <CopyContainer onClick={handleCopyToClipBoard}>
-                  <FaceIcon />
+                  <CopySmallIcon />
                   <Copy>복사하기</Copy>
                 </CopyContainer>
               </AddressContainer>
             </Info>
             <Info>
-              <MapPinLargeIcon />
-              <Address>{data?.phone}</Address>
+              <PhoneIcon />
+              <Address>{formatPhoneNum(data?.phone)}</Address>
             </Info>
           </InfoContainer>
         </MapContent>
@@ -183,9 +175,9 @@ const TitleText = styled.div`
   gap: 4px;
 `;
 
-const SubText = styled.p`
-  font: ${({ theme: { fonts } }) => fonts.displayM14};
-`;
+// const SubText = styled.p`
+//   font: ${({ theme: { fonts } }) => fonts.displayM14};
+// `;
 
 const Tab = styled.div`
   ${flexRow}
@@ -237,11 +229,6 @@ const Map = styled.div`
   ${media.xs} {
     height: 320px;
   }
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 `;
 
 const InfoContainer = styled.div`
@@ -254,7 +241,6 @@ const InfoContainer = styled.div`
 const Info = styled.div`
   ${flexRow}
   width: 100%;
-  /* height: 48px; */
   gap: 8px;
 `;
 
