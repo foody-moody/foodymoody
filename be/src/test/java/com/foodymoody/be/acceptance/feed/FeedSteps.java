@@ -11,6 +11,7 @@ import io.restassured.specification.RequestSpecification;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 public class FeedSteps {
@@ -51,6 +52,22 @@ public class FeedSteps {
 
     public static String 피드를_등록하고_아이디를_받는다(String accessToken, List<String> imageIds) {
         return 피드를_등록한다(accessToken, new RequestSpecBuilder().build(), imageIds).jsonPath().getString("id");
+    }
+
+    public static ExtractableResponse<Response> 바디_없는_피드를_등록한다(String accessToken, RequestSpecification spec,
+                                                         List<String> imageIds) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .auth()
+                .oauth2(accessToken)
+                .when()
+                .post("/api/feeds")
+                .then()
+                .log().all()
+                .extract();
     }
 
     public static ExtractableResponse<Response> 피드를_등록한다(String accessToken, RequestSpecification spec,
@@ -129,6 +146,10 @@ public class FeedSteps {
                 .then()
                 .log().all()
                 .extract();
+    }
+
+    public static void 응답코드가_400이다(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
     public static void 응답코드가_200이고_id가_존재하면_정상적으로_등록된_피드(ExtractableResponse<Response> response) {
