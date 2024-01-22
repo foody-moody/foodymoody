@@ -9,8 +9,9 @@ import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed_comment.domain.entity.FeedCommentAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
 import com.foodymoody.be.notification.domain.Notification;
+import com.foodymoody.be.notification.domain.NotificationDetails;
+import com.foodymoody.be.notification.infra.event.dto.FeedCommentNotificationDetails;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
-import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -53,12 +54,12 @@ public class FeedCommentEventHandler {
      * @param feed  The Feed object associated with the comment
      * @return A HashMap containing the details of the comment added event and feed
      */
-    private static HashMap<String, Object> mackDetails(FeedCommentAddedEvent event, Feed feed) {
-        var details = new HashMap<String, Object>();
-        details.put("feedId", feed.getId());
-        details.put("feedThumbnail", feed.getProfileImageUrl());
-        details.put("commentId", event.getFeedCommentId());
-        details.put("commentContent", event.getCommentContent());
-        return details;
+    private static NotificationDetails mackDetails(FeedCommentAddedEvent event, Feed feed) {
+        return new FeedCommentNotificationDetails(
+                feed.getId(),
+                feed.getProfileImageUrl(),
+                event.getFeedCommentId(),
+                event.getCommentContent()
+        );
     }
 }

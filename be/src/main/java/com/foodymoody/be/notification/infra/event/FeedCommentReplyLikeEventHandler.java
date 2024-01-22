@@ -12,10 +12,11 @@ import com.foodymoody.be.feed_comment.application.FeedCommentReadService;
 import com.foodymoody.be.feed_comment.application.ReplyReadService;
 import com.foodymoody.be.feed_comment.domain.entity.FeedComment;
 import com.foodymoody.be.feed_comment.domain.entity.FeedReply;
-import com.foodymoody.be.feed_reply_like.domain.FeedReplyLikedAddedEvent;
+import com.foodymoody.be.feed_reply_like.domain.FeedReplyLikeAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
+import com.foodymoody.be.notification.domain.NotificationDetails;
+import com.foodymoody.be.notification.infra.event.dto.FeedCommentReplyLikeNotificationDetails;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
-import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -23,7 +24,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class FeedCommentReplyLikedEventHandler {
+public class FeedCommentReplyLikeEventHandler {
 
     private final NotificationWriteService notificationWriteService;
     private final NotificationSettingReadService notificationSettingService;
@@ -32,8 +33,8 @@ public class FeedCommentReplyLikedEventHandler {
     private final ReplyReadService replyService;
 
     @Async
-    @EventListener(FeedReplyLikedAddedEvent.class)
-    public void saveNotification(FeedReplyLikedAddedEvent event) {
+    @EventListener(FeedReplyLikeAddedEvent.class)
+    public void saveNotification(FeedReplyLikeAddedEvent event) {
         var feedCommentId = event.getFeedCommentId();
         var feedComment = feedCommentService.findById(feedCommentId);
         var toMemberId = feedComment.getMemberId();
@@ -49,7 +50,7 @@ public class FeedCommentReplyLikedEventHandler {
         }
     }
 
-    private static HashMap<String, Object> makeDetails(
+    private static NotificationDetails makeDetails(
             FeedId feedId,
             Feed feed,
             FeedCommentId feedCommentId,
@@ -57,13 +58,13 @@ public class FeedCommentReplyLikedEventHandler {
             FeedReplyId feedReplyId,
             FeedReply feedReply
     ) {
-        var details = new HashMap<String, Object>();
-        details.put("feedId", feedId);
-        details.put("feedThumbnail", feed.getProfileImageUrl());
-        details.put("commentId", feedCommentId);
-        details.put("commentContent", feedComment.getContent());
-        details.put("replyId", feedReplyId);
-        details.put("replyContent", feedReply.getContent());
-        return details;
+        return new FeedCommentReplyLikeNotificationDetails(
+                feedId,
+                feed.getProfileImageUrl(),
+                feedCommentId,
+                feedComment.getContent(),
+                feedReplyId,
+                feedReply.getContent()
+        );
     }
 }

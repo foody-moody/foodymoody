@@ -8,8 +8,9 @@ import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed_like.domain.entity.FeedLikeAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
+import com.foodymoody.be.notification.domain.NotificationDetails;
+import com.foodymoody.be.notification.infra.event.dto.FeedLikeNotificationDetails;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
-import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -37,10 +38,10 @@ public class FeedLikeAddedEventHandler {
         }
     }
 
-    private static HashMap<String, Object> mackDetails(FeedId feedId, Feed feed) {
-        var details = new HashMap<String, Object>();
-        details.put("feedId", feedId);
-        details.put("feedImageUrl", feed.getProfileImageUrl());
-        return details;
+    private static NotificationDetails mackDetails(FeedId feedId, Feed feed) {
+        return new FeedLikeNotificationDetails(
+                feedId,
+                feed.getProfileImageUrl()
+        );
     }
 }

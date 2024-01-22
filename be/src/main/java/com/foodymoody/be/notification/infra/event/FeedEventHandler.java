@@ -9,8 +9,9 @@ import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.application.dto.FollowMemberSummary;
 import com.foodymoody.be.member.domain.FollowRepository;
 import com.foodymoody.be.notification.application.NotificationWriteService;
+import com.foodymoody.be.notification.domain.NotificationDetails;
+import com.foodymoody.be.notification.infra.event.dto.FeedNotificationDetails;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
-import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.PageRequest;
@@ -43,16 +44,16 @@ public class FeedEventHandler {
     }
 
     private void saveNotification(FeedAddedEvent event, MemberId toMemberId) {
-        var NotificationId = IdFactory.createNotificationId();
+        var notificationId = IdFactory.createNotificationId();
         var details = makeDetails(event);
-        var feedNotification = toNotification(event, NotificationId, details, toMemberId);
+        var feedNotification = toNotification(event, notificationId, details, toMemberId);
         notificationService.save(feedNotification);
     }
 
-    private static HashMap<String, Object> makeDetails(FeedAddedEvent event) {
-        var details = new HashMap<String, Object>();
-        details.put("feedId", event.getFeedId());
-        details.put("feedThumbnail", event.getProfileImageUrl());
-        return details;
+    private static NotificationDetails makeDetails(FeedAddedEvent event) {
+        return new FeedNotificationDetails(
+                event.getFeedId(),
+                event.getProfileImageUrl()
+        );
     }
 }

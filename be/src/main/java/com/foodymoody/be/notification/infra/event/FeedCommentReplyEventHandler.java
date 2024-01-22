@@ -5,10 +5,11 @@ import static com.foodymoody.be.notification.infra.event.util.NotificationMapper
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.domain.entity.Feed;
-import com.foodymoody.be.feed_comment.domain.entity.FeedCommentRepliedAddedEvent;
+import com.foodymoody.be.feed_comment.domain.entity.FeedCommentReplyAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
+import com.foodymoody.be.notification.domain.NotificationDetails;
+import com.foodymoody.be.notification.infra.event.dto.FeedCommentReplyNotificationDetails;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
-import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -16,15 +17,15 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class FeedCommentRepliedEventHandler {
+public class FeedCommentReplyEventHandler {
 
     private final NotificationWriteService notificationWriteService;
     private final NotificationSettingReadService notificationSettingService;
     private final FeedReadService feedReadService;
 
     @Async
-    @EventListener(FeedCommentRepliedAddedEvent.class)
-    public void saveNotification(FeedCommentRepliedAddedEvent event) {
+    @EventListener(FeedCommentReplyAddedEvent.class)
+    public void saveNotification(FeedCommentReplyAddedEvent event) {
         var toMemberId = event.getToMemberId();
         if (notificationSettingService.isCommentAllowed(toMemberId)) {
             var feedNotificationId = IdFactory.createNotificationId();
@@ -35,14 +36,14 @@ public class FeedCommentRepliedEventHandler {
         }
     }
 
-    private static HashMap<String, Object> makeDetails(FeedCommentRepliedAddedEvent event, Feed feed) {
-        var details = new HashMap<String, Object>();
-        details.put("commentId", event.getFeedCommentId());
-        details.put("commentContent", event.getReplyContent());
-        details.put("feedId", event.getFeedId());
-        details.put("feedThumbnail", feed.getProfileImageUrl());
-        details.put("replyId", event.getFeedReplyId());
-        details.put("replyContent", event.getReplyContent());
-        return details;
+    private static NotificationDetails makeDetails(FeedCommentReplyAddedEvent event, Feed feed) {
+        return new FeedCommentReplyNotificationDetails(
+                event.getFeedCommentId(),
+                event.getCommentContent(),
+                event.getFeedId(),
+                feed.getProfileImageUrl(),
+                event.getFeedReplyId(),
+                event.getReplyContent()
+        );
     }
 }
