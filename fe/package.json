@@ -13,6 +13,7 @@
     "@hookform/resolvers": "^3.3.2",
     "@tanstack/react-query": "^4.36.1",
     "@tanstack/react-query-devtools": "^4.36.1",
+    "@types/navermaps": "^3.7.4",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.28",
     "axios": "^1.5.1",
