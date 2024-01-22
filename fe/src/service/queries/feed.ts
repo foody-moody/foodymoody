@@ -61,7 +61,7 @@ export const useAllProfileFeeds = (memberId: string) => {
 };
 
 export const useFeedDetail = (id: string) =>
-  useQuery({
+  useQuery<MainFeed>({
     queryKey: [QUERY_KEY.feedDetail, id],
     queryFn: () => getFeedDetail(id),
     enabled: !!id,

@@ -10,7 +10,7 @@ export const useGetStores = (keyword: string) =>
   });
 
 export const useGetStoreDetail = (storeId: string) =>
-  useQuery({
+  useQuery<StoreDetail>({
     queryKey: [QUERY_KEY.stores, storeId],
     queryFn: () => getStoreDetail(storeId),
     enabled: !!storeId,

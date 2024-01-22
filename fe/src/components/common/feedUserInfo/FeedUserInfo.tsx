@@ -17,7 +17,7 @@ type Props = {
   member: FeedMemberInfo;
   createdAt: string;
   isUpdated: boolean;
-  location: string;
+  store: Store;
   thumbnail?: string;
 };
 
@@ -26,7 +26,7 @@ export const FeedUserInfo: React.FC<Props> = ({
   member,
   createdAt,
   isUpdated,
-  location,
+  store,
   thumbnail,
 }) => {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export const FeedUserInfo: React.FC<Props> = ({
   };
 
   const hadleNavigateStore = () => {
-    navigate(PATH.STORE + '/' + '1'); // 가게 id로 변경해야함
+    navigate(PATH.STORE + '/' + store.id);
   };
 
   const publicMenu = [
@@ -107,7 +107,7 @@ export const FeedUserInfo: React.FC<Props> = ({
 
           <ContentBody onClick={hadleNavigateStore}>
             <MapPinSmallIcon />
-            <p>{location}</p>
+            <p>{store.name || '이름'}</p> {/* TODO store.name null 수정 */}
           </ContentBody>
         </FlexColumnBox>
       </ContentLeft>
@@ -164,6 +164,7 @@ const ContentHeader = styled(ContentWrapper)`
 const ContentBody = styled(ContentWrapper)`
   align-items: center;
   gap: 4px;
+  cursor: pointer;
   p {
     font: ${({ theme }) => theme.fonts.displayM12};
     color: ${({ theme }) => theme.colors.textSecondary};

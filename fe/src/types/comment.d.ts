@@ -1,5 +1,5 @@
 type NewCommentBody = {
-  feedId: string;
+  feedId?: string;
   content: string;
 };
 

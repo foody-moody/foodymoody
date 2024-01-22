@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useToast } from 'recoil/toast/useToast';
+import { useGetStoreDetail } from 'service/queries/store';
 import { styled } from 'styled-components';
 import { flexColumn, flexRow } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
@@ -9,25 +11,31 @@ import {
   MapPinLargeIcon,
   StarLargeFillIcon,
 } from 'components/common/icon/icons';
+import { NaverMap } from 'components/map/Map';
 
+const { VITE_NAVER_MAP_CLIENT_ID } = import.meta.env;
 export const StorePage = () => {
+  const { id } = useParams() as { id: string };
+  const { data } = useGetStoreDetail(id);
   const [activeTab, setActiveTab] = useState('home');
   const toast = useToast();
+  console.log(data, 'store data');
 
   const handleTabClick = (tab: 'home' | 'feed') => {
     setActiveTab(tab);
   };
 
-  const address = '경기도 안양시 동안구 평촌대로223번길 16 (호계동) 2층 205호';
-
   const handleCopyToClipBoard = async () => {
     try {
-      await navigator.clipboard.writeText(address); //TODO실제 데이터의 가게주소로 변경 store.address
+      await navigator.clipboard.writeText(data?.roadAddress as string); //TODO실제 데이터의 가게주소로 변경 store.address
       toast.noti('복사되었습니다');
     } catch (e) {
       toast.noti('다시 시도해주세요');
     }
   };
+
+  const src = `https://naveropenapi.apigw.ntruss.com/map-static/v2/raster-cors?w=566&h=300&crs=EPSG:2097&markers=type:d|size:mid|pos:${data?.x} ${data?.y}|color:orange&scale=2&X-NCP-APIGW-API-KEY-ID=${VITE_NAVER_MAP_CLIENT_ID}`;
+  console.log(src);
 
   return (
     <Wrapper>
@@ -35,7 +43,8 @@ export const StorePage = () => {
         <Header>
           <HeaderTitle>
             <FlexRow>
-              <StoreTitle>{'후타가와 짜장'}</StoreTitle>
+              <StoreTitle>{data?.name || '이름'}</StoreTitle>
+              {/* TODO 이름 null못하게 */}
               <Rating>
                 <StarLargeFillIcon />
                 <RatingCount>{4.5}</RatingCount>
@@ -66,15 +75,16 @@ export const StorePage = () => {
         <MapContent>
           <MapContainer>
             <SubTile>정보</SubTile>
-            <Map></Map>
+            <Map>
+              <img src={src} />
+              <NaverMap data={data} name={data?.name} x={data?.x} y={data?.y} />
+            </Map>
           </MapContainer>
           <InfoContainer>
             <Info>
               <MapPinLargeIcon />
               <AddressContainer>
-                <Address>
-                  {'경기도 안양시 동안구 평촌대로223번길 16 (호계동) 2층 205호'}
-                </Address>
+                <Address>{data?.roadAddress}</Address>
                 <CopyContainer onClick={handleCopyToClipBoard}>
                   <FaceIcon />
                   <Copy>복사하기</Copy>
@@ -83,7 +93,7 @@ export const StorePage = () => {
             </Info>
             <Info>
               <MapPinLargeIcon />
-              <Address>{'031-383-6333'}</Address>
+              <Address>{data?.phone}</Address>
             </Info>
           </InfoContainer>
         </MapContent>
@@ -219,13 +229,18 @@ const SubTile = styled.p`
 const Map = styled.div`
   width: 100%;
   height: 400px; // media
-  border: 1px solid ${({ theme: { colors } }) => colors.black};
+
   ${media.md} {
     height: 400px;
   }
 
   ${media.xs} {
     height: 320px;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;
 
