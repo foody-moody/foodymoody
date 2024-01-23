@@ -4,10 +4,9 @@ import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.NotificationId;
 import java.time.LocalDateTime;
-import java.util.Map;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
+import javax.persistence.Convert;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -44,8 +43,9 @@ public class Notification {
     /**
      * The details variable represents the details of the notification.
      */
-    @Embedded
-    @AttributeOverride(name = "data", column = @Column(name = "details", columnDefinition = "json"))
+    @Getter
+    @Convert(converter = NotificationDetailsConverter.class)
+    @Column(columnDefinition = "json")
     private NotificationDetails details;
     /**
      * The type variable represents the type of the notification.
@@ -90,12 +90,12 @@ public class Notification {
      * @param updatedAt    The timestamp when the notification was last updated
      */
     public Notification(
-            NotificationId id, MemberId fromMemberId, MemberId toMemberId, Map<String, Object> details,
+            NotificationId id, MemberId fromMemberId, MemberId toMemberId, NotificationDetails details,
             NotificationType type, boolean isRead, boolean isDeleted, LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
         this.id = id;
-        this.details = new NotificationDetails(details);
+        this.details = details;
         this.fromMemberId = fromMemberId;
         this.toMemberId = toMemberId;
         this.type = type;
@@ -140,9 +140,5 @@ public class Notification {
         if (!this.toMemberId.equals(toMemberId)) {
             throw new IllegalArgumentException("해당 알림을 수정할 수 없습니다.");
         }
-    }
-
-    public Map<String, Object> getDetails() {
-        return details.getData();
     }
 }

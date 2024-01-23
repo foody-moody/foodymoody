@@ -1,12 +1,20 @@
 package com.foodymoody.be.acceptance.feed;
 
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글을_등록한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.storeId가_없는_피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.개별_피드를_조회한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.리뷰_글자_수가_0인_피드를_등록한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.리뷰_글자_수가_501인_피드를_등록한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.메뉴가_0개인_피드를_등록한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.무드가_0개인_피드를_등록한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.무드가_4개인_피드를_등록한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.바디_없는_피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_id가_존재하면_정상적으로_등록된_피드;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_개별_피드가_조회되면_정상적으로_등록된_피드;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_전체_스토어_무드가_조회되면_정상적으로_조회_가능한_전체_스토어_무드;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_전체_피드가_조회되면_정상적으로_조회_가능한_전체_페이지;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_204라면_정상적으로_수정_삭제된_피드;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_400이다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.전체_스토어_무드를_조회한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.전체_피드를_조회한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
@@ -43,6 +51,118 @@ class FeedAcceptanceTest extends AcceptanceTest {
 
         // then
         응답코드가_200이고_id가_존재하면_정상적으로_등록된_피드(response);
+    }
+
+    @DisplayName("피드 등록 요청 시, 요청 바디가 없으면 응답코드 400을 반환한다")
+    @Test
+    void when_register_feed_if_request_body_not_exist_then_return_code_400() {
+        // docs
+        api_문서_타이틀("feed_register_failed_by_request_body_not_exists", spec);
+
+        // given
+        List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
+
+        // when
+        var response = 바디_없는_피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
+
+        // then
+        응답코드가_400이다(response);
+    }
+
+    @DisplayName("피드 등록 요청 시, storeId가 없으면 응답코드 400을 반환한다")
+    @Test
+    void when_register_feed_if_store_id_not_exist_then_return_code_400() {
+        // docs
+        api_문서_타이틀("feed_register_failed_by_store_id_not_exists", spec);
+
+        // given
+        List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
+
+        // when
+        var response = storeId가_없는_피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
+
+        // then
+        응답코드가_400이다(response);
+    }
+
+    @DisplayName("피드 등록 요청 시, 리뷰 글자 수가 1 글자와 500 글자 사이가 아닌 0 글자라면 응답코드 400을 반환한다")
+    @Test
+    void when_register_feed_if_review_number_invalid_0_then_return_code_400() {
+        // docs
+        api_문서_타이틀("feed_register_failed_by_review_number_0_invalid", spec);
+
+        // given
+        List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
+
+        // when
+        var response = 리뷰_글자_수가_0인_피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
+
+        // then
+        응답코드가_400이다(response);
+    }
+
+    @DisplayName("피드 등록 요청 시, 리뷰 글자 수가 1 글자와 500 글자 사이가 아닌 501 글자라면 응답코드 400을 반환한다")
+    @Test
+    void when_register_feed_if_review_number_invalid_501_then_return_code_400() {
+        // docs
+        api_문서_타이틀("feed_register_failed_by_review_number_501_invalid", spec);
+
+        // given
+        List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
+
+        // when
+        var response = 리뷰_글자_수가_501인_피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
+
+        // then
+        응답코드가_400이다(response);
+    }
+
+    @DisplayName("피드 등록 요청 시, 무드가 1개부터 3개까지가 아닌 0개라면 응답코드 400을 반환한다")
+    @Test
+    void when_register_feed_if_mood_invalid_0_then_return_code_400() {
+        // docs
+        api_문서_타이틀("feed_register_failed_by_mood_invalid_0", spec);
+
+        // given
+        List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
+
+        // when
+        var response = 무드가_0개인_피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
+
+        // then
+        응답코드가_400이다(response);
+    }
+
+    @DisplayName("피드 등록 요청 시, 무드가 1개부터 3개까지가 아닌 4개라면 응답코드 400을 반환한다")
+    @Test
+    void when_register_feed_if_mood_invalid_4_then_return_code_400() {
+        // docs
+        api_문서_타이틀("feed_register_failed_by_mood_invalid_4", spec);
+
+        // given
+        List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
+
+        // when
+        var response = 무드가_4개인_피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
+
+        // then
+        응답코드가_400이다(response);
+    }
+
+    @DisplayName("피드 등록 요청 시, 메뉴가 1개 이상이 아니라면 즉 0개라면 응답코드 400을 반환한다")
+    @Test
+    void when_register_feed_if_menu_0_then_return_code_400() {
+        // docs
+        api_문서_타이틀("feed_register_failed_by_menu_0", spec);
+
+        // given
+        List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
+
+        // when
+        var response = 메뉴가_0개인_피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
+
+        // then
+        응답코드가_400이다(response);
     }
 
     @DisplayName("전체 피드 조회에 성공하면 응답코드 200을 반환한다")

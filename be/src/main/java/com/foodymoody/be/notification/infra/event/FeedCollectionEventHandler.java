@@ -9,8 +9,9 @@ import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.application.dto.FollowMemberSummary;
 import com.foodymoody.be.member.domain.FollowRepository;
 import com.foodymoody.be.notification.application.NotificationWriteService;
+import com.foodymoody.be.notification.domain.NotificationDetails;
+import com.foodymoody.be.notification.infra.event.dto.FeedCollectionNotificationDetails;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
-import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.PageRequest;
@@ -51,12 +52,12 @@ public class FeedCollectionEventHandler {
         notificationService.save(feedNotification);
     }
 
-    private static HashMap<String, Object> makeDetails(FeedCollectionAddedEvent event) {
-        var details = new HashMap<String, Object>();
-        details.put("feedCollectionId", event.getFeedCollectionId().getValue());
-        details.put("feedCollectionTitle", event.getFeedCollectionTitle());
-        details.put("feedCollectionDescription", event.getFeedCollectionDescription());
-        return details;
+    private static NotificationDetails makeDetails(FeedCollectionAddedEvent event) {
+        return new FeedCollectionNotificationDetails(
+                event.getFeedCollectionId(),
+                event.getFeedCollectionTitle(),
+                event.getFeedCollectionDescription()
+        );
     }
 
 }

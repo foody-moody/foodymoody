@@ -15,4 +15,5 @@ public interface FeedLikeCountRepository {
     void decrementFeedHeartCount(FeedId feedId);
 
     Optional<FeedLikeCount> findByFeedId(FeedId feedId);
+
 }

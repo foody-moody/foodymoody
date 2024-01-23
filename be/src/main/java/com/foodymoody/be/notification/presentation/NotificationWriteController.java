@@ -56,7 +56,7 @@ public class NotificationWriteController {
     /**
      * Deletes a notification for a specific member.
      *
-     * @param memberId       The ID of the member
+     * @param memberId The ID of the member
      * @param notificationId The ID of the notification to be deleted
      * @return A response entity with no content
      */

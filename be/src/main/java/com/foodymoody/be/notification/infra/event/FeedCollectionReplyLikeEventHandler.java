@@ -9,9 +9,10 @@ import com.foodymoody.be.feed_collection_reply.application.FeedCollectionReplyRe
 import com.foodymoody.be.feed_collection_reply.domain.FeedCollectionReply;
 import com.foodymoody.be.feed_collection_reply_like.domain.FeedCollectionReplyLikeAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
+import com.foodymoody.be.notification.domain.NotificationDetails;
+import com.foodymoody.be.notification.infra.event.dto.FeedCollectionReplyLikeNotificationDetails;
 import com.foodymoody.be.notification.infra.event.util.NotificationMapper;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
-import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -45,19 +46,19 @@ public class FeedCollectionReplyLikeEventHandler {
         }
     }
 
-    private static HashMap<String, Object> makeDetails(
+    private static NotificationDetails makeDetails(
             FeedCollection feedCollection,
             FeedCollectionComment comment,
             FeedCollectionReply reply
     ) {
-        var details = new HashMap<String, Object>();
-        details.put("feedCollectionId", feedCollection.getId());
-        details.put("feedCollectionTitle", feedCollection.getTitle());
-        details.put("feedCollectionDescription", feedCollection.getDescription());
-        details.put("feedCollectionCommentId", comment.getId());
-        details.put("feedCollectionCommentContent", comment.getContent());
-        details.put("feedCollectionCommentReplyId", reply.getId());
-        details.put("feedCollectionCommentReplyContent", reply.getContent());
-        return details;
+        return new FeedCollectionReplyLikeNotificationDetails(
+                feedCollection.getId(),
+                feedCollection.getTitle(),
+                feedCollection.getDescription(),
+                comment.getId(),
+                comment.getContent(),
+                reply.getId(),
+                reply.getContent()
+        );
     }
 }
