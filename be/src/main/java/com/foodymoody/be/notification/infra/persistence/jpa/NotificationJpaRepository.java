@@ -57,7 +57,7 @@ public interface NotificationJpaRepository extends JpaRepository<Notification, N
             ", _fromMember.id as fromMemberId " +
             ", _fromMember.nickname as fromNickname " +
             ", _memberImage.url as fromProfileImageUrl " +
-            ", _notification.details.data as details " +
+            ", _notification.details as details " +
             ", _notification.isRead as read " +
             ", _notification.type as type " +
             ", _notification.createdAt as createdAt " +

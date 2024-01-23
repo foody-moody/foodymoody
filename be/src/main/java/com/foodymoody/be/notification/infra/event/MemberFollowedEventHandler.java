@@ -4,9 +4,10 @@ import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.domain.MemberFollowedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
+import com.foodymoody.be.notification.domain.NotificationDetails;
+import com.foodymoody.be.notification.infra.event.dto.MemberFollowedNotificationDetails;
 import com.foodymoody.be.notification.infra.event.util.NotificationMapper;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
-import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -29,16 +30,14 @@ public class MemberFollowedEventHandler {
         if (notificationSettingService.isMemberFollowedEventEnabled(toMemberId)) {
             var notificationId = IdFactory.createNotificationId();
             var fromMember = memberQueryService.findById(event.getFromMemberId());
-            boolean myFollowing = fromMember.isMyFollowing(toMemberId);
-            var details = makeDetails(myFollowing);
+            boolean isFollowed = fromMember.isMyFollowing(toMemberId);
+            var details = makeDetails(isFollowed);
             var notification = NotificationMapper.toNotification(event, notificationId, details, toMemberId);
             notificationService.save(notification);
         }
     }
 
-    private static HashMap<String, Object> makeDetails(boolean myFollowing) {
-        var details = new HashMap<String, Object>();
-        details.put("myFollowing", myFollowing);
-        return details;
+    private static NotificationDetails makeDetails(boolean isFollowed) {
+        return new MemberFollowedNotificationDetails(isFollowed);
     }
 }

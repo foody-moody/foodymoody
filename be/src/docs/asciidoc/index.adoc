@@ -15,6 +15,34 @@
 
 operation::registerFeed[snippets='http-request,http-response']
 
+==== 바디가 없을 때
+
+operation::feed_register_failed_by_request_body_not_exists[snippets='http-request,http-response']
+
+==== storeId가 없을 때
+
+operation::feed_register_failed_by_store_id_not_exists[snippets='http-request,http-response']
+
+==== 리뷰 글자 수가 1 글자와 500 글자 사이가 아닌 0 글자일 때
+
+operation::feed_register_failed_by_review_number_0_invalid[snippets='http-request,http-response']
+
+==== 리뷰 글자 수가 1 글자와 500 글자 사이가 아닌 501 글자일 때
+
+operation::feed_register_failed_by_review_number_501_invalid[snippets='http-request,http-response']
+
+==== 무드가 1개부터 3개까지가 아닌 0개일 때
+
+operation::feed_register_failed_by_mood_invalid_0[snippets='http-request,http-response']
+
+==== 무드가 1개부터 3개까지가 아닌 4개일 때
+
+operation::feed_register_failed_by_mood_invalid_4[snippets='http-request,http-response']
+
+==== 메뉴가 1개 이상이 아닐 때 즉 0개일 때
+
+operation::feed_register_failed_by_menu_0[snippets='http-request,http-response']
+
 === 피드 전체 조회
 
 ==== 성공

@@ -11,6 +11,7 @@ import io.restassured.specification.RequestSpecification;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 public class FeedSteps {
@@ -53,6 +54,22 @@ public class FeedSteps {
         return 피드를_등록한다(accessToken, new RequestSpecBuilder().build(), imageIds).jsonPath().getString("id");
     }
 
+    public static ExtractableResponse<Response> 바디_없는_피드를_등록한다(String accessToken, RequestSpecification spec,
+                                                               List<String> imageIds) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .auth()
+                .oauth2(accessToken)
+                .when()
+                .post("/api/feeds")
+                .then()
+                .log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> 피드를_등록한다(String accessToken, RequestSpecification spec,
                                                          List<String> imageIds) {
         Map<String, Object> body = Map.of(
@@ -75,6 +92,224 @@ public class FeedSteps {
                                 )
                         )
                 )
+        );
+
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .auth()
+                .oauth2(accessToken)
+                .body(body)
+                .when()
+                .post("/api/feeds")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> storeId가_없는_피드를_등록한다(String accessToken, RequestSpecification spec,
+                                                                     List<String> imageIds) {
+        Map<String, Object> body = Map.of(
+                "review", "맛있어요!",
+                "storeMoodIds", List.of("1", "3", "4"),
+                "images", List.of(
+                        Map.of(
+                                "imageId", imageIds.get(0),
+                                "menu", Map.of(
+                                        "name", "마라탕",
+                                        "rating", 4
+                                )
+                        ),
+                        Map.of(
+                                "imageId", imageIds.get(1),
+                                "menu", Map.of(
+                                        "name", "감자탕",
+                                        "rating", 3
+                                )
+                        )
+                )
+        );
+
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .auth()
+                .oauth2(accessToken)
+                .body(body)
+                .when()
+                .post("/api/feeds")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 리뷰_글자_수가_0인_피드를_등록한다(String accessToken, RequestSpecification spec,
+                                                                     List<String> imageIds) {
+        Map<String, Object> body = Map.of(
+                "storeId", "1",
+                "review", "",
+                "storeMoodIds", List.of("1", "3", "4"),
+                "images", List.of(
+                        Map.of(
+                                "imageId", imageIds.get(0),
+                                "menu", Map.of(
+                                        "name", "마라탕",
+                                        "rating", 4
+                                )
+                        ),
+                        Map.of(
+                                "imageId", imageIds.get(1),
+                                "menu", Map.of(
+                                        "name", "감자탕",
+                                        "rating", 3
+                                )
+                        )
+                )
+        );
+
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .auth()
+                .oauth2(accessToken)
+                .body(body)
+                .when()
+                .post("/api/feeds")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 리뷰_글자_수가_501인_피드를_등록한다(String accessToken, RequestSpecification spec,
+                                                                       List<String> imageIds) {
+        Map<String, Object> body = Map.of(
+                "storeId", "1",
+                "review", "a".repeat(501),
+                "storeMoodIds", List.of("1", "3", "4"),
+                "images", List.of(
+                        Map.of(
+                                "imageId", imageIds.get(0),
+                                "menu", Map.of(
+                                        "name", "마라탕",
+                                        "rating", 4
+                                )
+                        ),
+                        Map.of(
+                                "imageId", imageIds.get(1),
+                                "menu", Map.of(
+                                        "name", "감자탕",
+                                        "rating", 3
+                                )
+                        )
+                )
+        );
+
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .auth()
+                .oauth2(accessToken)
+                .body(body)
+                .when()
+                .post("/api/feeds")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 무드가_0개인_피드를_등록한다(String accessToken, RequestSpecification spec,
+                                                                       List<String> imageIds) {
+        Map<String, Object> body = Map.of(
+                "storeId", "1",
+                "review", "맛있어요!",
+                "storeMoodIds", List.of(),
+                "images", List.of(
+                        Map.of(
+                                "imageId", imageIds.get(0),
+                                "menu", Map.of(
+                                        "name", "마라탕",
+                                        "rating", 4
+                                )
+                        ),
+                        Map.of(
+                                "imageId", imageIds.get(1),
+                                "menu", Map.of(
+                                        "name", "감자탕",
+                                        "rating", 3
+                                )
+                        )
+                )
+        );
+
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .auth()
+                .oauth2(accessToken)
+                .body(body)
+                .when()
+                .post("/api/feeds")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 무드가_4개인_피드를_등록한다(String accessToken, RequestSpecification spec,
+                                                                 List<String> imageIds) {
+        Map<String, Object> body = Map.of(
+                "storeId", "1",
+                "review", "맛있어요!",
+                "storeMoodIds", List.of("1", "2", "3", "4"),
+                "images", List.of(
+                        Map.of(
+                                "imageId", imageIds.get(0),
+                                "menu", Map.of(
+                                        "name", "마라탕",
+                                        "rating", 4
+                                )
+                        ),
+                        Map.of(
+                                "imageId", imageIds.get(1),
+                                "menu", Map.of(
+                                        "name", "감자탕",
+                                        "rating", 3
+                                )
+                        )
+                )
+        );
+
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .auth()
+                .oauth2(accessToken)
+                .body(body)
+                .when()
+                .post("/api/feeds")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 메뉴가_0개인_피드를_등록한다(String accessToken, RequestSpecification spec,
+                                                                 List<String> imageIds) {
+        Map<String, Object> body = Map.of(
+                "storeId", "1",
+                "review", "맛있어요!",
+                "storeMoodIds", List.of("1", "2", "3"),
+                "images", List.of()
         );
 
         return RestAssured
@@ -129,6 +364,10 @@ public class FeedSteps {
                 .then()
                 .log().all()
                 .extract();
+    }
+
+    public static void 응답코드가_400이다(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
     public static void 응답코드가_200이고_id가_존재하면_정상적으로_등록된_피드(ExtractableResponse<Response> response) {

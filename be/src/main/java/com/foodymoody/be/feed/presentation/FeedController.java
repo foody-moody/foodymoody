@@ -10,6 +10,7 @@ import com.foodymoody.be.feed.application.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
 import com.foodymoody.be.feed.infra.usecase.FeedUseCase;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -33,7 +34,7 @@ public class FeedController {
      */
     @PostMapping("/api/feeds")
     public ResponseEntity<FeedRegisterResponse> register(
-            @RequestBody FeedRegisterRequest feedRegisterRequest,
+            @RequestBody @Valid FeedRegisterRequest feedRegisterRequest,
             @CurrentMemberId MemberId memberId) {
         FeedRegisterResponse feedRegisterResponse = feedUseCase.register(
                 FeedMapper.toServiceRegisterRequest(feedRegisterRequest, memberId));
@@ -64,7 +65,7 @@ public class FeedController {
      * Feed 수정
      */
     @PutMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> update(@PathVariable FeedId id, @RequestBody FeedUpdateRequest feedUpdateRequest,
+    public ResponseEntity<Void> update(@PathVariable FeedId id, @RequestBody @Valid FeedUpdateRequest feedUpdateRequest,
                                        @CurrentMemberId MemberId memberId) {
         feedUseCase.update(FeedMapper.toServiceUpdateRequest(id, feedUpdateRequest, memberId));
         return ResponseEntity.noContent().build();

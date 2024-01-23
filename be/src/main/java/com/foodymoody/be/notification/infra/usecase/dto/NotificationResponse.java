@@ -2,8 +2,8 @@ package com.foodymoody.be.notification.infra.usecase.dto;
 
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.NotificationId;
+import com.foodymoody.be.notification.domain.NotificationDetails;
 import java.time.LocalDateTime;
-import java.util.Map;
 import lombok.Getter;
 
 /**
@@ -23,7 +23,7 @@ public class NotificationResponse {
     /**
      * The target of the notification.
      */
-    private final Map<String, Object> target;
+    private final NotificationDetails target;
     /**
      * The type of the notification.
      */
@@ -42,7 +42,7 @@ public class NotificationResponse {
     private final LocalDateTime updatedAt;
 
     private NotificationResponse(
-            NotificationId notificationId, SenderResponse sender, Map<String, Object> target, NotificationType type,
+            NotificationId notificationId, SenderResponse sender, NotificationDetails target, NotificationType type,
             boolean isRead, LocalDateTime createdAt, LocalDateTime updatedAt
     ) {
         this.notificationId = notificationId;
@@ -69,7 +69,7 @@ public class NotificationResponse {
     public static NotificationResponse of(
             NotificationId notificationId,
             SenderResponse sender,
-            Map<String, Object> target,
+            NotificationDetails target,
             NotificationType type,
             boolean isRead,
             LocalDateTime createdAt,

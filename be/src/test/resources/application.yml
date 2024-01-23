@@ -1,7 +1,0 @@
-spring:
-  profiles:
-    group:
-      common: filter, aws, jwt, servlet
-      local: common, localdb
-      test: common, testdb
-    active: test
