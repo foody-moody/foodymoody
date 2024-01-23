@@ -6,9 +6,9 @@ import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed.domain.entity.Feed;
-import com.foodymoody.be.feed.infra.persistence.FeedRepositoryImpl;
-import com.foodymoody.be.feed_like_count.domain.FeedLikeCountRepository;
+import com.foodymoody.be.feed.domain.repository.FeedRepository;
 import com.foodymoody.be.feed_like_count.application.FeedLikeCountService;
+import com.foodymoody.be.feed_like_count.domain.FeedLikeCountRepository;
 import com.foodymoody.be.feed_like_count.domain.entity.FeedLikeCount;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.menu.domain.entity.Menu;
@@ -29,13 +29,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 class FeedLikeCountServiceTest {
 
     @Autowired
-    private FeedLikeCountService feedHeartCountService;
+    private FeedLikeCountService feedLikeCountService;
     @Autowired
     private StoreMoodReadService storeMoodReadService;
     @Autowired
     private FeedLikeCountRepository feedLikeCountRepository;
     @Autowired
-    private FeedRepositoryImpl feedRepository;
+    private FeedRepository feedRepository;
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
 
@@ -64,14 +64,14 @@ class FeedLikeCountServiceTest {
     void increment_count() {
         // given
         FeedId feedId = IdFactory.createFeedId("1");
-        FeedLikeCount feedHeartCount = new FeedLikeCount(IdFactory.createFeedLikeCountId(), feedId, 0);
-        feedLikeCountRepository.save(feedHeartCount);
+        FeedLikeCount feedLikeCount = new FeedLikeCount(IdFactory.createFeedLikeCountId(), feedId, 0);
+        feedLikeCountRepository.save(feedLikeCount);
         CountDownLatch latch = new CountDownLatch(100);
 
         // when
         for (int i = 0; i < 100; i++) {
             threadPoolExecutor.execute(() -> {
-                feedHeartCountService.incrementFeedHeartCount(feedId.getValue());
+                feedLikeCountService.incrementFeedHeartCount(feedId.getValue());
                 // CountDownLatch로 스레드가 몇번 도는지 알 수 있음
                 latch.countDown();
             });
@@ -94,14 +94,14 @@ class FeedLikeCountServiceTest {
     void decrement_count() {
         // given
         FeedId feedId = IdFactory.createFeedId("1");
-        FeedLikeCount feedHeartCount = new FeedLikeCount(IdFactory.createFeedLikeCountId(), feedId, 100);
-        feedLikeCountRepository.save(feedHeartCount);
+        FeedLikeCount feedLikeCount = new FeedLikeCount(IdFactory.createFeedLikeCountId(), feedId, 100);
+        feedLikeCountRepository.save(feedLikeCount);
         CountDownLatch latch = new CountDownLatch(100);
 
         // when
         for (int i = 0; i < 100; i++) {
             threadPoolExecutor.execute(() -> {
-                feedHeartCountService.decrementFeedHeartCount(feedId.getValue());
+                feedLikeCountService.decrementFeedHeartCount(feedId.getValue());
                 latch.countDown();
             });
         }

@@ -98,7 +98,7 @@ public class FeedComment {
     }
 
     private Event toCommentRepliedAddedEvent(FeedReply feedReply) {
-        return FeedCommentRepliedAddedEvent.of(
+        return FeedCommentReplyAddedEvent.of(
                 id,
                 content,
                 memberId,
