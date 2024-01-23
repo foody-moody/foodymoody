@@ -1,6 +1,7 @@
 package com.foodymoody.be.acceptance.feed;
 
 import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글을_등록한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.storeId가_없는_피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.개별_피드를_조회한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.바디_없는_피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_id가_존재하면_정상적으로_등록된_피드;
@@ -58,6 +59,22 @@ class FeedAcceptanceTest extends AcceptanceTest {
 
         // when
         var response = 바디_없는_피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
+
+        // then
+        응답코드가_400이다(response);
+    }
+
+    @DisplayName("피드 등록 요청 시, storeId가 없으면 응답코드 400을 반환한다")
+    @Test
+    void when_register_feed_if_store_id_not_exist_then_return_code_400() {
+        // docs
+        api_문서_타이틀("feed_register_failed_by_store_id_not_exists", spec);
+
+        // given
+        List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
+
+        // when
+        var response = storeId가_없는_피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
 
         // then
         응답코드가_400이다(response);
