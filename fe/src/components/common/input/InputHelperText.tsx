@@ -6,6 +6,7 @@ type Props = {
   isFocused?: boolean;
   align?: 'left' | 'right';
   alignValue?: string;
+  helperType?: 'success' | 'error';
   children?: React.ReactNode;
 };
 
@@ -14,12 +15,17 @@ export const HelperText: React.FC<Props> = ({
   isFocused = false,
   align = 'left',
   alignValue = '5%',
+  helperType,
   children,
 }) => {
   return (
     <>
       {isFocused && isError && (
-        <HelperTextWrapper $align={align} $alignValue={alignValue}>
+        <HelperTextWrapper
+          $align={align}
+          $alignValue={alignValue}
+          $helperType={helperType}
+        >
           {children}
         </HelperTextWrapper>
       )}
@@ -30,13 +36,15 @@ export const HelperText: React.FC<Props> = ({
 const HelperTextWrapper = styled.div<{
   $align: 'left' | 'right';
   $alignValue: string;
+  $helperType?: 'success' | 'error';
 }>`
   position: absolute;
   top: 100%;
   ${({ $align, $alignValue }) =>
     $align === 'left' ? `left: ${$alignValue};` : `right: ${$alignValue};`}
   font: ${({ theme: { fonts } }) => fonts.displayM10};
-  color: ${({ theme: { colors } }) => colors.pink};
+  color: ${({ theme: { colors }, $helperType }) =>
+    $helperType === 'success' ? colors.green : colors.pink};
 `;
 
 const HelperTextType = (<HelperText />).type;
