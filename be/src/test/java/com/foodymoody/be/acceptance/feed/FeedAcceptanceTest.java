@@ -5,6 +5,7 @@ import static com.foodymoody.be.acceptance.feed.FeedSteps.storeId가_없는_피�
 import static com.foodymoody.be.acceptance.feed.FeedSteps.개별_피드를_조회한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.리뷰_글자_수가_0인_피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.리뷰_글자_수가_501인_피드를_등록한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.메뉴가_0개인_피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.무드가_0개인_피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.무드가_4개인_피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.바디_없는_피드를_등록한다;
@@ -143,6 +144,22 @@ class FeedAcceptanceTest extends AcceptanceTest {
 
         // when
         var response = 무드가_4개인_피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
+
+        // then
+        응답코드가_400이다(response);
+    }
+
+    @DisplayName("피드 등록 요청 시, 메뉴가 1개 이상이 아니라면 즉 0개라면 응답코드 400을 반환한다")
+    @Test
+    void when_register_feed_if_menu_0_then_return_code_400() {
+        // docs
+        api_문서_타이틀("feed_register_failed_by_menu_0", spec);
+
+        // given
+        List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
+
+        // when
+        var response = 메뉴가_0개인_피드를_등록한다(회원아티_액세스토큰, spec, imageIds);
 
         // then
         응답코드가_400이다(response);
