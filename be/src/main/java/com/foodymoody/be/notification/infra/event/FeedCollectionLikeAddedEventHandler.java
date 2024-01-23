@@ -7,9 +7,10 @@ import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection_like.domain.FeedCollectionLikeAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
+import com.foodymoody.be.notification.domain.NotificationDetails;
+import com.foodymoody.be.notification.infra.event.dto.FeedCollectionLikeNotificationDetails;
 import com.foodymoody.be.notification.infra.event.util.NotificationMapper;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
-import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -46,14 +47,15 @@ public class FeedCollectionLikeAddedEventHandler {
         notificationService.save(notification);
     }
 
-    private static HashMap<String, Object> makeDetails(
-            FeedCollectionId feedCollectionId, FeedCollection feedCollection
+    private static NotificationDetails makeDetails(
+            FeedCollectionId feedCollectionId,
+            FeedCollection feedCollection
     ) {
-        var details = new HashMap<String, Object>();
-        details.put("feedCollectionId", feedCollectionId);
-        details.put("feedCollectionThumbnailUrl", feedCollection.getThumbnailUrl());
-        details.put("feedCollectionTitle", feedCollection.getTitle());
-        details.put("feedCollectionDescription", feedCollection.getDescription());
-        return details;
+        return new FeedCollectionLikeNotificationDetails(
+                feedCollectionId,
+                feedCollection.getThumbnailUrl(),
+                feedCollection.getTitle(),
+                feedCollection.getDescription()
+        );
     }
 }

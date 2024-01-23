@@ -4,7 +4,7 @@ import com.foodymoody.be.common.event.NotificationEvent;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.NotificationId;
 import com.foodymoody.be.notification.domain.Notification;
-import java.util.Map;
+import com.foodymoody.be.notification.domain.NotificationDetails;
 
 public class NotificationMapper {
 
@@ -15,7 +15,7 @@ public class NotificationMapper {
     public static Notification toNotification(
             NotificationEvent event,
             NotificationId notificationId,
-            Map<String, Object> details,
+            NotificationDetails details,
             MemberId toMemberId
     ) {
         return new Notification(

@@ -4,7 +4,6 @@ import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.NotificationId;
 import java.time.LocalDateTime;
-import java.util.Map;
 import javax.persistence.Convert;
 
 /**
@@ -46,7 +45,7 @@ public interface NotificationSummary {
      * @return A map containing the details of the notification.
      */
     @Convert(converter = NotificationDetailsConverter.class)
-    Map<String, Object> getDetails();
+    NotificationDetails getDetails();
 
     /**
      * Check if the notification has been read.

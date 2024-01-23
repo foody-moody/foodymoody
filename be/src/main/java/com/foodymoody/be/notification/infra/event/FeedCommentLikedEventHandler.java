@@ -7,8 +7,9 @@ import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed_comment_like.infra.usecase.FeedCommentLikeAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
+import com.foodymoody.be.notification.domain.NotificationDetails;
+import com.foodymoody.be.notification.infra.event.dto.FeedCommentLikeNotificationDetails;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
-import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -67,12 +68,12 @@ public class FeedCommentLikedEventHandler {
      * @param feed  The Feed instance related to the comment.
      * @return A HashMap containing the details for the notification event.
      */
-    private static HashMap<String, Object> makeDetails(FeedCommentLikeAddedEvent event, Feed feed) {
-        var details = new HashMap<String, Object>();
-        details.put("commentId", event.getFeedCommentId());
-        details.put("commentContent", event.getCommentContent());
-        details.put("feedId", event.getFeedId());
-        details.put("feedThumbnail", feed.getProfileImageUrl());
-        return details;
+    private static NotificationDetails makeDetails(FeedCommentLikeAddedEvent event, Feed feed) {
+        return new FeedCommentLikeNotificationDetails(
+                event.getFeedCommentId(),
+                event.getCommentContent(),
+                feed.getId(),
+                feed.getProfileImageUrl()
+        );
     }
 }

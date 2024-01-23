@@ -6,7 +6,7 @@ import com.foodymoody.be.feed_like.domain.entity.FeedLike;
 
 public interface FeedLikeRepository {
 
-    FeedLike save(FeedLike feedHeart);
+    FeedLike save(FeedLike feedLike);
 
     boolean existsByMemberIdAndFeedId(MemberId memberId, FeedId feedId);
 

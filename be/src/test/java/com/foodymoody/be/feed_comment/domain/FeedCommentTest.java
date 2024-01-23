@@ -8,7 +8,7 @@ import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import com.foodymoody.be.common.exception.ErrorMessage;
 import com.foodymoody.be.feed_comment.domain.entity.FeedCommentAddedEvent;
-import com.foodymoody.be.feed_comment.domain.entity.FeedCommentRepliedAddedEvent;
+import com.foodymoody.be.feed_comment.domain.entity.FeedCommentReplyAddedEvent;
 import com.foodymoody.be.feed_comment.util.CommentFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -126,8 +126,8 @@ class FeedCommentTest {
         // then
         var commentList = comment.getFeedReplyComments().getCommentList();
         var event = Events.getEvents().get(0);
-        assertThat(event).isInstanceOf(FeedCommentRepliedAddedEvent.class);
-        var commentRepliedAddedEvent = (FeedCommentRepliedAddedEvent) event;
+        assertThat(event).isInstanceOf(FeedCommentReplyAddedEvent.class);
+        var commentRepliedAddedEvent = (FeedCommentReplyAddedEvent) event;
         assertAll(
                 () -> assertThat(comment.isHasReply()).isTrue(),
                 () -> assertThat(comment.getUpdatedAt()).isEqualTo(updatedAt),

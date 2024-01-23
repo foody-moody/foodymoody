@@ -44,13 +44,13 @@ public class FeedReplyLike {
         Events.raise(toEvent(feedCommentId, feedReplyId, memberId, createdAt));
     }
 
-    private static FeedReplyLikedAddedEvent toEvent(
+    private static FeedReplyLikeAddedEvent toEvent(
             FeedCommentId feedCommentId,
             FeedReplyId feedReplyId,
             MemberId memberId,
             LocalDateTime createdAt
     ) {
-        return FeedReplyLikedAddedEvent.of(
+        return FeedReplyLikeAddedEvent.of(
                 feedCommentId,
                 feedReplyId,
                 memberId,
