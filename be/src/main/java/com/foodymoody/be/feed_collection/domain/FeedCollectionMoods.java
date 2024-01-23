@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,6 +22,11 @@ public class FeedCollectionMoods {
     @Id
     private FeedCollectionMoodsId id;
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "feed_collection_mood_list",
+            joinColumns = @JoinColumn(name = "feed_collection_moods_id"),
+            inverseJoinColumns = @JoinColumn(name = "feed_collection_mood_id")
+    )
     private List<FeedCollectionMood> moodList = new ArrayList<>();
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
