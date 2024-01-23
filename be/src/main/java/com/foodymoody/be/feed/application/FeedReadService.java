@@ -67,8 +67,8 @@ public class FeedReadService {
         return feedRepository.fetchAllByIdIn(feedIds, pageable);
     }
 
-    public boolean fetchIsLikedByMemberId(FeedId feedId, MemberId memberId) {
-        return feedRepository.fetchIsLikedByMemberId(feedId, memberId)
+    public boolean fetchIsLiked(FeedId feedId, MemberId memberId) {
+        return feedRepository.fetchIsLiked(feedId, memberId)
                 .orElse(false);
     }
 

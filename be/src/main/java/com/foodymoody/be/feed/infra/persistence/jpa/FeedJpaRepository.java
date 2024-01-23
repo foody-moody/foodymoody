@@ -37,6 +37,6 @@ public interface FeedJpaRepository extends JpaRepository<Feed, FeedId> {
             + "FROM FeedLike fh "
             + "WHERE fh.feedId = :feedId "
             + "AND fh.memberId = :memberId")
-    Optional<Boolean> fetchIsLikedByMemberId(@Param("feedId") FeedId feedId, @Param("memberId") MemberId memberId);
+    Optional<Boolean> fetchIsLiked(@Param("feedId") FeedId feedId, @Param("memberId") MemberId memberId);
 
 }

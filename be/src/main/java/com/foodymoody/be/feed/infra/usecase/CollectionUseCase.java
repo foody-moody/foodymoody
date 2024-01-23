@@ -89,7 +89,7 @@ public class CollectionUseCase {
                         .updatedAt(feed.getUpdatedAt())
                         .description(feed.getReview())
                         .moodNames(FeedMapper.toFeedStoreMoodNames(feed.getStoreMoods()))
-                        .isLiked(feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()))
+                        .isLiked(feedReadService.fetchIsLiked(feed.getId(), feed.getMemberId()))
                         .likeCount(feed.getLikeCount())
                         .feedCommentCount(feedCommentCountReadService.fetchCountByFeedId(feed.getId()))
                         .build())

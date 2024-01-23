@@ -123,7 +123,7 @@ public class FeedUseCase {
                 .map(feed -> makeFeedReadAllResponse(feed, makeFeedMemberResponse(feed),
                         makeFeedStoreMoodResponses(feed.getStoreMoods()),
                         makeFeedImageMenuResponses(feed),
-                        feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()),
+                        feedReadService.fetchIsLiked(feed.getId(), feed.getMemberId()),
                         findCommentCount(feed.getId()),
                         FeedMapper.makeStoreResponse(feed.getStoreId(), storeReadService.fetchDetails(feed.getStoreId()).getName())))
                 .collect(Collectors.toList());
@@ -147,7 +147,7 @@ public class FeedUseCase {
 
         return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
                 makeFeedStoreMoodResponses(storeMoods),
-                feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()),
+                feedReadService.fetchIsLiked(feed.getId(), feed.getMemberId()),
                 findCommentCount(feed.getId()), FeedMapper.makeStoreResponse(feed.getStoreId(),
                         storeReadService.fetchDetails(feed.getStoreId()).getName()));
     }

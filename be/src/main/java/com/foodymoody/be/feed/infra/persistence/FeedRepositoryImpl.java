@@ -67,8 +67,8 @@ public class FeedRepositoryImpl implements FeedRepository {
     }
 
     @Override
-    public Optional<Boolean> fetchIsLikedByMemberId(FeedId feedId, MemberId memberId) {
-        return feedJpaRepository.fetchIsLikedByMemberId(feedId, memberId);
+    public Optional<Boolean> fetchIsLiked(FeedId feedId, MemberId memberId) {
+        return feedJpaRepository.fetchIsLiked(feedId, memberId);
     }
 
 }
