@@ -32,6 +32,7 @@ public interface FeedJpaRepository extends JpaRepository<Feed, FeedId> {
             "WHERE im IN :imageMenus")
     Optional<List<MenuNameRatingPair>> fetchMenuNameRatingList(@Param("imageMenus") List<ImageMenu> imageMenus);
 
+    // TODO: 아마 여기서 isLiked가 계속 false로 들어오는 거임
     @Query("SELECT fh.isLiked "
             + "FROM FeedLike fh "
             + "WHERE fh.feedId = :feedId "

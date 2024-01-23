@@ -395,9 +395,19 @@ public class FeedSteps {
         Object id = response.jsonPath().getString("id");
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
+                () -> assertThat(response.jsonPath().getInt("commentCount")).isEqualTo(1),
                 assertThat(id)::isNotNull
         );
+    }
 
+    public static void 응답코드가_200이고_피드_좋아요가_정상적으로_조회되면_정상적으로_등록된_피드(ExtractableResponse<Response> response) {
+        Object id = response.jsonPath().getString("id");
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(200),
+                () -> assertThat(response.jsonPath().getInt("likeCount")).isEqualTo(1),
+                () -> assertThat(response.jsonPath().getBoolean("isLiked")).isTrue(),
+                assertThat(id)::isNotNull
+        );
     }
 
     public static ExtractableResponse<Response> 피드를_수정한다(String accessToken, String id, RequestSpecification spec) {

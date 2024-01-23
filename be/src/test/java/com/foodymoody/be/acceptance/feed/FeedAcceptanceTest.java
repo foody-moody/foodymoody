@@ -13,6 +13,7 @@ import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_개별_피드가_조회되면_정상적으로_등록된_피드;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_전체_스토어_무드가_조회되면_정상적으로_조회_가능한_전체_스토어_무드;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_전체_피드가_조회되면_정상적으로_조회_가능한_전체_페이지;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_200이고_피드_좋아요가_정상적으로_조회되면_정상적으로_등록된_피드;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_204라면_정상적으로_수정_삭제된_피드;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_400이다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.전체_스토어_무드를_조회한다;
@@ -21,6 +22,7 @@ import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_또_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_삭제한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_수정한다;
+import static com.foodymoody.be.acceptance.feed_like.FeedLikeSteps.좋아요를_한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
@@ -206,6 +208,26 @@ class FeedAcceptanceTest extends AcceptanceTest {
 
         // then
         응답코드가_200이고_개별_피드가_조회되면_정상적으로_등록된_피드(readFeedResponse);
+    }
+
+    @DisplayName("피드 좋아요 후 isLiked가 성공적으로 true로 반환이 되면 응답코드 200을 반환한다")
+    @Test
+    void when_read_feed_if_isLiked_true_after_like_then_response200() {
+        // docs
+        api_문서_타이틀("feed_read_isLiked_true_after_like", spec);
+
+        // given
+        List<String> imageIds = 피드_이미지_업로드_후_id_리스트를_반환한다();
+        var response = 피드를_등록한다(회원아티_액세스토큰, imageIds);
+        String feedId = response.jsonPath().getString("id");
+        피드에_댓글을_등록한다(feedId, 회원푸반_액세스토큰);
+        좋아요를_한다(feedId, 회원아티_액세스토큰);
+
+        // when
+        var readFeedResponse = 개별_피드를_조회한다(feedId, spec);
+
+        // then
+        응답코드가_200이고_피드_좋아요가_정상적으로_조회되면_정상적으로_등록된_피드(readFeedResponse);
     }
 
     @DisplayName("피드 수정에 성공하면 응답코드 204를 반환한다.")
