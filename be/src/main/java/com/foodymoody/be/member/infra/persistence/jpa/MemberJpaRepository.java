@@ -11,7 +11,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface MemberJpaRepository extends JpaRepository<Member, MemberId> {
+public interface MemberJpaRepository extends JpaRepository<Member, MemberId>, MemberQueryDslRepository {
 
     // TODO 비즈니스 로직 어플리케이션 레이어로 이동
     @Query("SELECT new com.foodymoody.be.member.application.dto.response.MemberProfileResponse (m.id, i.id, i.url, m.nickname, m.email, t.id, "
@@ -51,4 +51,10 @@ public interface MemberJpaRepository extends JpaRepository<Member, MemberId> {
     boolean existsByEmail(String email);
 
     boolean existsByNickname(String nickname);
+
+    @Query("SELECT count(*) "
+            + "FROM Member m "
+            + "LEFT JOIN FeedCollection fc ON fc.authorId = m.id "
+            + "WHERE m.id = :id")
+    long countMyCollectionsById(MemberId id);
 }
