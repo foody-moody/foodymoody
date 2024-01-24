@@ -2,6 +2,7 @@ package com.foodymoody.be.member.infra.persistence;
 
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
+import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
 import com.foodymoody.be.member.application.dto.response.FeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import com.foodymoody.be.member.domain.Member;
@@ -32,6 +33,11 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public Slice<FeedPreviewResponse> fetchFeedPreviewResponsesById(MemberId id, Pageable pageable) {
         return jpaRepository.fetchFeedPreviewResponsesById(id, pageable);
+    }
+
+    @Override
+    public MyFeedCollectionsResponse fetchMyCollectionSummaries(MemberId id, MemberId currentMemberId, Pageable pageable) {
+        return jpaRepository.fetchMyCollectionResponse(id, currentMemberId, pageable);
     }
 
     @Override
@@ -72,5 +78,10 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public Optional<Member> findById(MemberId id) {
         return jpaRepository.findById(id);
+    }
+
+    @Override
+    public long countMyCollectionsById(MemberId id) {
+        return jpaRepository.countMyCollectionsById(id);
     }
 }

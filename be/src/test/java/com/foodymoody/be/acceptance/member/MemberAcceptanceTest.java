@@ -1,8 +1,12 @@
 package com.foodymoody.be.acceptance.member;
 
 import static com.foodymoody.be.acceptance.auth.AuthSteps.로그인한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고_아이디를_받는다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_또_등록한다;
+import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_등록하고_피드_리스트도_추가한다;
+import static com.foodymoody.be.acceptance.feed_collection_like.FeedCollectionLikeSteps.피드_컬렉션에_좋아요를_등록한다;
+import static com.foodymoody.be.acceptance.feed_collection_mood.FeedCollectionMoodSteps.피드_컬렉션_무드를_등록하고_아이디를_가져온다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.회원_이미지를_업로드한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.닉네임_중복_여부를_조회한다;
@@ -32,20 +36,23 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.팔로워_목록�
 import static com.foodymoody.be.acceptance.member.MemberSteps.팔로잉_목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.피드목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원가입한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.회원이_작성한_피드_컬렉션_목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원탈퇴한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_수정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_조회한다;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
-import com.foodymoody.be.auth.util.AuthFixture;
 import com.foodymoody.be.auth.infra.JwtUtil;
+import com.foodymoody.be.auth.util.AuthFixture;
 import com.foodymoody.be.member.util.MemberFixture;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -235,8 +242,10 @@ class MemberAcceptanceTest extends AcceptanceTest {
             List<String> imageIds = List.of(id1, id2);
 
             String 푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
-            ExtractableResponse<Response> 첫번째_피드_등록_응답 = 피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build(), imageIds);
-            ExtractableResponse<Response> 두번째_피드_등록_응답 = 피드를_또_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build(), imageIds);
+            ExtractableResponse<Response> 첫번째_피드_등록_응답 = 피드를_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build(),
+                    imageIds);
+            ExtractableResponse<Response> 두번째_피드_등록_응답 = 피드를_또_등록한다(회원푸반_액세스토큰, new RequestSpecBuilder().build(),
+                    imageIds);
 
             // when
             var response = 피드목록을_조회한다(푸반_아이디, 0, 10, spec);
@@ -267,10 +276,104 @@ class MemberAcceptanceTest extends AcceptanceTest {
             String 아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
 
             // when
-            var response = 피드목록을_조회한다(아티_아이디,0, 10, spec);
+            var response = 피드목록을_조회한다(아티_아이디, 0, 10, spec);
 
             // then
             상태코드가_200이고_빈_리스트를_응답하는지_검증한다(response);
+        }
+
+    }
+
+    @Nested
+    @DisplayName("회원이 작성한 컬렉션 목록 조회 인수테스트")
+    class FetchMemberCollections {
+
+        @DisplayName("회원이 작성한 컬렉션 목록 조회시 성공하면, 상태코드 200과 회원이 작성한 컬렉션 목록을 응답한다")
+        @Test
+        void when_fetch_member_collections_if_success_then_response_status_code_200_and_collections() {
+            // docs
+            api_문서_타이틀("fetch_member_collections_if_success", spec);
+
+            // given
+            String 아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
+            String 피드이미지1_아이디 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec).jsonPath().getString("id");
+            String 피드이미지2_아이디 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec).jsonPath().getString("id");
+            String 피드1_아이디 = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, List.of(피드이미지1_아이디, 피드이미지2_아이디));
+            String 피드2_아이디 = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, List.of(피드이미지1_아이디, 피드이미지2_아이디));
+            String 피드3_아이디 = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, List.of(피드이미지1_아이디, 피드이미지2_아이디));
+            String 무드1_아이디 = 피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰);
+            String 무드2_아이디 = 피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰);
+            String 무드3_아이디 = 피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰);
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디, 무드2_아이디), 회원아티_액세스토큰, List.of(피드1_아이디, 피드2_아이디));
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디, 무드2_아이디, 무드3_아이디), 회원아티_액세스토큰, List.of(피드1_아이디, 피드2_아이디, 피드3_아이디));
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+            String 컬렉션1_아이디 = 피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+            피드_컬렉션에_좋아요를_등록한다(회원아티_액세스토큰, 컬렉션1_아이디, new RequestSpecBuilder().build());
+
+            // when
+            ExtractableResponse<Response> response = 회원이_작성한_피드_컬렉션_목록을_조회한다(회원아티_액세스토큰, 아티_아이디, 0, 5, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath().getLong("count"))
+                            .isEqualTo(7),
+                    () -> assertThat(response.jsonPath().getList("collections.content"))
+                            .hasSize(5)
+            );
+
+        }
+
+        @DisplayName("회원이 작성한 컬렉션이 없으면, 상태코드 200과 빈 리스트를 응답한다")
+        @Test
+        void when_fetch_member_collections_if_empty_then_response_status_code_200_and_empty_list() {
+            // docs
+            api_문서_타이틀("fetch_member_collections_if_empty", spec);
+
+            // given
+            String 아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
+
+            // when
+            var response = 회원이_작성한_피드_컬렉션_목록을_조회한다(회원아티_액세스토큰, 아티_아이디, 0, 10, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath()
+                            .getList("collections.content"))
+                            .isEmpty()
+            );
+        }
+
+        @DisplayName("회원이 작성한 컬렉션 목록 조회시 로그인한 사용자가 좋아요를 누른 컬렉션이면, liked가 true이다")
+        @Test
+        void when_fetch_member_collections_if_liked_by_current_member_then_response_status_code_200_and_liked_true() {
+            // docs
+            api_문서_타이틀("fetch_member_collections_if_liked_by_current_member", spec);
+
+            // given
+            String 아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
+            String 피드이미지1_아이디 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec).jsonPath().getString("id");
+            String 피드이미지2_아이디 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec).jsonPath().getString("id");
+            String 피드1_아이디 = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, List.of(피드이미지1_아이디, 피드이미지2_아이디));
+            String 무드1_아이디 = 피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰);
+            String 컬렉션1_아이디 = 피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+            피드_컬렉션에_좋아요를_등록한다(회원푸반_액세스토큰, 컬렉션1_아이디, new RequestSpecBuilder().build());
+
+            // when
+            ExtractableResponse<Response> response = 회원이_작성한_피드_컬렉션_목록을_조회한다(회원푸반_액세스토큰, 아티_아이디, 0, 5, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath().getList("collections.content"))
+                            .filteredOn("id", 컬렉션1_아이디)
+                            .extracting("likeCount", "liked")
+                            .containsExactly(Tuple.tuple(1, Boolean.TRUE))
+            );
         }
 
     }
@@ -558,7 +661,8 @@ class MemberAcceptanceTest extends AcceptanceTest {
             var response = 회원탈퇴한다(회원푸반_액세스토큰, 푸반_아이디, spec);
 
             // then
-            ExtractableResponse<Response> 탈퇴한_푸반_로그인_응답 = 로그인한다(AuthFixture.푸반_로그인_요청(), new RequestSpecBuilder().build());
+            ExtractableResponse<Response> 탈퇴한_푸반_로그인_응답 = 로그인한다(AuthFixture.푸반_로그인_요청(),
+                    new RequestSpecBuilder().build());
             ExtractableResponse<Response> 아티_팔로잉목록조회_응답 = 팔로잉_목록을_조회한다(아티_아이디, new RequestSpecBuilder().build());
             ExtractableResponse<Response> 아티_팔로워목록조회_응답 = 팔로워_목록을_조회한다(아티_아이디, new RequestSpecBuilder().build());
             Assertions.assertAll(
