@@ -56,7 +56,7 @@ public class FeedCollectionEventHandler {
         return new FeedCollectionNotificationDetails(
                 event.getFeedCollectionId(),
                 event.getFeedCollectionTitle(),
-                event.getFeedCollectionDescription()
+                event.getFeedCollectionThumbnailUrl()
         );
     }
 

@@ -10,7 +10,6 @@ import com.foodymoody.be.feed.application.FeedReadService;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed_comment.application.FeedCommentReadService;
 import com.foodymoody.be.feed_comment.application.ReplyReadService;
-import com.foodymoody.be.feed_comment.domain.entity.FeedComment;
 import com.foodymoody.be.feed_comment.domain.entity.FeedReply;
 import com.foodymoody.be.feed_reply_like.domain.FeedReplyLikeAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
@@ -44,7 +43,7 @@ public class FeedCommentReplyLikeEventHandler {
             var feed = feedReadService.findFeed(feedId);
             var feedReplyId = event.getFeedReplyId();
             var feedReply = replyService.fetchById(feedReplyId);
-            var details = makeDetails(feedId, feed, feedCommentId, feedComment, feedReplyId, feedReply);
+            var details = makeDetails(feedId, feed, feedCommentId, feedReplyId, feedReply);
             var feedNotification = toNotification(event, feedNotificationId, details, toMemberId);
             notificationWriteService.save(feedNotification);
         }
@@ -54,7 +53,6 @@ public class FeedCommentReplyLikeEventHandler {
             FeedId feedId,
             Feed feed,
             FeedCommentId feedCommentId,
-            FeedComment feedComment,
             FeedReplyId feedReplyId,
             FeedReply feedReply
     ) {
@@ -62,7 +60,6 @@ public class FeedCommentReplyLikeEventHandler {
                 feedId,
                 feed.getProfileImageUrl(),
                 feedCommentId,
-                feedComment.getContent(),
                 feedReplyId,
                 feedReply.getContent()
         );

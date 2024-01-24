@@ -1,12 +1,11 @@
 package com.foodymoody.be.notification.infra.event;
 
+import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection_comment.application.FeedCollectionCommentReadService;
-import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionComment;
 import com.foodymoody.be.feed_collection_reply.application.FeedCollectionReplyReadService;
-import com.foodymoody.be.feed_collection_reply.domain.FeedCollectionReply;
 import com.foodymoody.be.feed_collection_reply_like.domain.FeedCollectionReplyLikeAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
 import com.foodymoody.be.notification.domain.NotificationDetails;
@@ -40,25 +39,24 @@ public class FeedCollectionReplyLikeEventHandler {
             var feedCollection = feedCollectionService.fetchById(feedCollectionId);
             var feedCollectionReplyId = event.getFeedCollectionReplyId();
             var reply = replyReadService.fetchById(feedCollectionReplyId);
-            var details = makeDetails(feedCollection, comment, reply);
+            var feedCollectionReplyContent = reply.getContent();
+            var details = makeDetails(event, feedCollectionReplyContent, feedCollection);
             var notification = NotificationMapper.toNotification(event, notificationId, details, toMemberId);
             notificationService.save(notification);
         }
     }
 
     private static NotificationDetails makeDetails(
-            FeedCollection feedCollection,
-            FeedCollectionComment comment,
-            FeedCollectionReply reply
+            FeedCollectionReplyLikeAddedEvent event,
+            Content feedCollectionReplyContent,
+            FeedCollection feedCollection
     ) {
         return new FeedCollectionReplyLikeNotificationDetails(
                 feedCollection.getId(),
-                feedCollection.getTitle(),
-                feedCollection.getDescription(),
-                comment.getId(),
-                comment.getContent(),
-                reply.getId(),
-                reply.getContent()
+                feedCollection.getThumbnailUrl(),
+                event.getFeedCollectionCommentId(),
+                event.getFeedCollectionReplyId(),
+                feedCollectionReplyContent
         );
     }
 }

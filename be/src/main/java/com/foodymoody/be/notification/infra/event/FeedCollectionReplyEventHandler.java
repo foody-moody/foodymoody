@@ -7,7 +7,6 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.application.FeedCollectionWriteService;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection_comment.application.FeedCollectionCommentReadService;
-import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionComment;
 import com.foodymoody.be.feed_collection_reply.domain.FeedCollectionReplyAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
 import com.foodymoody.be.notification.domain.NotificationDetails;
@@ -34,8 +33,9 @@ public class FeedCollectionReplyEventHandler {
         MemberId toMemberId = comment.getMemberId();
         if (notificationSettingService.isFeedCollectionCommentRepliedAllowed(toMemberId)) {
             var feedNotificationId = IdFactory.createNotificationId();
-            var feed = feedCollectionService.fetchById(comment.getFeedCollectionId());
-            var details = makeDetails(event, comment, feed);
+            var feedCollectionId = comment.getFeedCollectionId();
+            var feed = feedCollectionService.fetchById(feedCollectionId);
+            var details = makeDetails(event, feed);
             var feedNotification = toNotification(event, feedNotificationId, details, toMemberId);
             notificationService.save(feedNotification);
         }
@@ -43,15 +43,12 @@ public class FeedCollectionReplyEventHandler {
 
     private static NotificationDetails makeDetails(
             FeedCollectionReplyAddedEvent event,
-            FeedCollectionComment comment,
             FeedCollection feed
     ) {
         return new FeedCollectionReplyNotificationDetails(
                 feed.getId(),
-                feed.getTitle(),
                 feed.getThumbnailUrl(),
-                comment.getId(),
-                comment.getContent(),
+                event.getToFeedCollectionCommentId(),
                 event.getFeedCollectionReplyId(),
                 event.getFeedCollectionReplyContent()
         );
