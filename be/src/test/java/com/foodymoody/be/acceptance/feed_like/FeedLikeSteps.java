@@ -12,7 +12,7 @@ import io.restassured.specification.RequestSpecification;
 import java.util.Map;
 import org.springframework.http.MediaType;
 
-public class FeedHeartSteps {
+public class FeedLikeSteps {
 
     public static ExtractableResponse<Response> 좋아요를_한다(String feedId, String accessToken, RequestSpecification spec) {
         Map<String, Object> body = Map.of(

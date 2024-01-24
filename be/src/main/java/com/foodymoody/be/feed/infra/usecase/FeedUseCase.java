@@ -31,6 +31,7 @@ import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
+import com.foodymoody.be.feed_like.application.FeedLikeService;
 import com.foodymoody.be.feed_like_count.application.FeedLikeCountService;
 import com.foodymoody.be.feed_like_count.domain.entity.FeedLikeCount;
 import com.foodymoody.be.image.application.ImageService;
@@ -65,6 +66,7 @@ public class FeedUseCase {
     private final MenuService menuService;
     private final StoreMoodReadService storeMoodReadService;
     private final FeedLikeCountService feedLikeCountService;
+    private final FeedLikeService feedLikeService;
     private final FeedCommentCountReadService feedCommentCountReadService;
     private final StoreReadService storeReadService;
 
@@ -101,7 +103,7 @@ public class FeedUseCase {
         if (memberId == null) {
             responses = makeFeedReadAllResponseListWhenMemberIdIsNull(feeds);
         } else {
-            responses = makeFeedReadAllResponseListWhenMemberIdIsNotNull(feeds);
+            responses = makeFeedReadAllResponseListWhenMemberIdIsNotNull(feeds, memberId);
         }
 
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
@@ -114,18 +116,21 @@ public class FeedUseCase {
                         makeFeedImageMenuResponses(feed),
                         false,
                         findCommentCount(feed.getId()),
-                        FeedMapper.makeStoreResponse(feed.getStoreId(), storeReadService.fetchDetails(feed.getStoreId()).getName())))
+                        FeedMapper.makeStoreResponse(feed.getStoreId(),
+                                storeReadService.fetchDetails(feed.getStoreId()).getName())))
                 .collect(Collectors.toList());
     }
 
-    private List<FeedReadAllResponse> makeFeedReadAllResponseListWhenMemberIdIsNotNull(Slice<Feed> feeds) {
+    private List<FeedReadAllResponse> makeFeedReadAllResponseListWhenMemberIdIsNotNull(Slice<Feed> feeds,
+                                                                                       MemberId memberId) {
         return feeds.stream()
                 .map(feed -> makeFeedReadAllResponse(feed, makeFeedMemberResponse(feed),
                         makeFeedStoreMoodResponses(feed.getStoreMoods()),
                         makeFeedImageMenuResponses(feed),
-                        feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()),
+                        feedLikeService.fetchIsLiked(feed.getId(), memberId),
                         findCommentCount(feed.getId()),
-                        FeedMapper.makeStoreResponse(feed.getStoreId(), storeReadService.fetchDetails(feed.getStoreId()).getName())))
+                        FeedMapper.makeStoreResponse(feed.getStoreId(),
+                                storeReadService.fetchDetails(feed.getStoreId()).getName())))
                 .collect(Collectors.toList());
     }
 
@@ -133,8 +138,9 @@ public class FeedUseCase {
         Feed feed = feedReadService.findFeed(id);
         List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feed);
         List<StoreMood> storeMoods = feed.getStoreMoods();
-
         FeedMemberResponse feedMemberResponse = makeFeedMemberResponse(feed);
+        // isLiked는 feed의 memberId가 아니라 현재의 memberId를 가지고 했어야 해
+        boolean isLiked = feedLikeService.fetchIsLiked(feed.getId(), memberId);
 
         if (memberId == null) {
             return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
@@ -147,7 +153,7 @@ public class FeedUseCase {
 
         return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
                 makeFeedStoreMoodResponses(storeMoods),
-                feedReadService.fetchIsLikedByMemberId(feed.getId(), feed.getMemberId()),
+                isLiked,
                 findCommentCount(feed.getId()), FeedMapper.makeStoreResponse(feed.getStoreId(),
                         storeReadService.fetchDetails(feed.getStoreId()).getName()));
     }

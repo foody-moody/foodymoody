@@ -226,7 +226,7 @@ public class FeedSteps {
     }
 
     public static ExtractableResponse<Response> 무드가_0개인_피드를_등록한다(String accessToken, RequestSpecification spec,
-                                                                       List<String> imageIds) {
+                                                                 List<String> imageIds) {
         Map<String, Object> body = Map.of(
                 "storeId", "1",
                 "review", "맛있어요!",
@@ -378,12 +378,14 @@ public class FeedSteps {
         );
     }
 
-    public static ExtractableResponse<Response> 개별_피드를_조회한다(String id, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 개별_피드를_조회한다(String id, RequestSpecification spec, String accessToken) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
                 .log().all()
+                .auth()
+                .oauth2(accessToken)
                 .when()
                 .get("/api/feeds/" + id)
                 .then()
@@ -395,9 +397,10 @@ public class FeedSteps {
         Object id = response.jsonPath().getString("id");
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
+                () -> assertThat(response.jsonPath().getInt("likeCount")).isEqualTo(1),
+                () -> assertThat(response.jsonPath().getBoolean("isLiked")).isTrue(),
                 assertThat(id)::isNotNull
         );
-
     }
 
     public static ExtractableResponse<Response> 피드를_수정한다(String accessToken, String id, RequestSpecification spec) {

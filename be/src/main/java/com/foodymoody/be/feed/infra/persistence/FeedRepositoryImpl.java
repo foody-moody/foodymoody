@@ -1,7 +1,6 @@
 package com.foodymoody.be.feed.infra.persistence;
 
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
@@ -64,11 +63,6 @@ public class FeedRepositoryImpl implements FeedRepository {
     @Override
     public Optional<List<MenuNameRatingPair>> fetchMenuNameRatingList(List<ImageMenu> imageMenus) {
         return feedJpaRepository.fetchMenuNameRatingList(imageMenus);
-    }
-
-    @Override
-    public Optional<Boolean> fetchIsLikedByMemberId(FeedId feedId, MemberId memberId) {
-        return feedJpaRepository.fetchIsLikedByMemberId(feedId, memberId);
     }
 
 }
