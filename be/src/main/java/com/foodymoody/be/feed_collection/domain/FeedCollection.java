@@ -95,7 +95,7 @@ public class FeedCollection {
                 memberId,
                 id,
                 title,
-                description,
+                thumbnailUrl,
                 createdAt
         ));
         this.thumbnailUrl = thumbnailUrl;

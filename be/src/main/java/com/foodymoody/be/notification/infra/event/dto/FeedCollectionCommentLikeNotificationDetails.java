@@ -14,15 +14,17 @@ public class FeedCollectionCommentLikeNotificationDetails extends NotificationDe
     private FeedCollectionCommentId feedCollectionCommentId;
     private Content feedCollectionCommentContent;
     private FeedCollectionId feedCollectionId;
-    private String feedCollectionTitle;
+    private String feedCollectionThumbnailUrl;
 
     public FeedCollectionCommentLikeNotificationDetails(
-            FeedCollectionCommentId feedCollectionCommentId, Content feedCollectionCommentContent,
-            FeedCollectionId feedCollectionId, String feedCollectionTitle
+            FeedCollectionCommentId feedCollectionCommentId,
+            Content feedCollectionCommentContent,
+            FeedCollectionId feedCollectionId,
+            String feedCollectionThumbnailUrl
     ) {
         this.feedCollectionCommentId = feedCollectionCommentId;
         this.feedCollectionCommentContent = feedCollectionCommentContent;
         this.feedCollectionId = feedCollectionId;
-        this.feedCollectionTitle = feedCollectionTitle;
+        this.feedCollectionThumbnailUrl = feedCollectionThumbnailUrl;
     }
 }

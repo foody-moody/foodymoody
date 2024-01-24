@@ -100,7 +100,6 @@ public class FeedComment {
     private Event toCommentRepliedAddedEvent(FeedReply feedReply) {
         return FeedCommentReplyAddedEvent.of(
                 id,
-                content,
                 memberId,
                 feedId,
                 feedReply.getId(),

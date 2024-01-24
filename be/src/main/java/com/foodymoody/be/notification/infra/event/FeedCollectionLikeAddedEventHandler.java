@@ -1,10 +1,8 @@
 package com.foodymoody.be.notification.infra.event;
 
-import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
-import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection_like.domain.FeedCollectionLikeAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
 import com.foodymoody.be.notification.domain.NotificationDetails;
@@ -30,32 +28,30 @@ public class FeedCollectionLikeAddedEventHandler {
         var feedCollectionId = event.getFeedCollectionId();
         var feedCollection = feedCollectionService.fetchById(feedCollectionId);
         var toMemberId = feedCollection.getAuthorId();
+        var feedCollectionThumbnailUrl = feedCollection.getThumbnailUrl();
         if (notificationSettingService.isFeedCollectionLikeAllowed(toMemberId)) {
-            saveNotification(event, feedCollectionId, feedCollection, toMemberId);
+            saveNotification(event, toMemberId, feedCollectionThumbnailUrl);
         }
     }
 
     private void saveNotification(
             FeedCollectionLikeAddedEvent event,
-            FeedCollectionId feedCollectionId,
-            FeedCollection feedCollection,
-            MemberId toMemberId
+            MemberId toMemberId,
+            String thumbnailUrl
     ) {
         var notificationId = IdFactory.createNotificationId();
-        var details = makeDetails(feedCollectionId, feedCollection);
+        var details = makeDetails(event, thumbnailUrl);
         var notification = NotificationMapper.toNotification(event, notificationId, details, toMemberId);
         notificationService.save(notification);
     }
 
     private static NotificationDetails makeDetails(
-            FeedCollectionId feedCollectionId,
-            FeedCollection feedCollection
+            FeedCollectionLikeAddedEvent event,
+            String thumbnailUrl
     ) {
         return new FeedCollectionLikeNotificationDetails(
-                feedCollectionId,
-                feedCollection.getThumbnailUrl(),
-                feedCollection.getTitle(),
-                feedCollection.getDescription()
+                event.getFeedCollectionId(),
+                thumbnailUrl
         );
     }
 }

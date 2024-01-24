@@ -39,7 +39,6 @@ public class FeedCommentReplyEventHandler {
     private static NotificationDetails makeDetails(FeedCommentReplyAddedEvent event, Feed feed) {
         return new FeedCommentReplyNotificationDetails(
                 event.getFeedCommentId(),
-                event.getCommentContent(),
                 event.getFeedId(),
                 feed.getProfileImageUrl(),
                 event.getFeedReplyId(),

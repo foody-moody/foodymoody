@@ -43,7 +43,6 @@ public class FeedCollectionCommentEventHandler {
     ) {
         return new FeedCollectionCommentNotificationDetails(
                 feedCollectionId,
-                feedCollection.getTitle(),
                 feedCollection.getThumbnailUrl(),
                 event.getFeedCollectionCommentId(),
                 event.getFeedCollectionCommentContent()

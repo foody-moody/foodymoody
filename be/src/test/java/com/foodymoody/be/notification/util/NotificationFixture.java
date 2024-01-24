@@ -41,7 +41,6 @@ public class NotificationFixture {
     public static NotificationDetails notificationDetails() {
         return new FeedCollectionCommentNotificationDetails(
                 IdFactory.createFeedCollectionId(),
-                "title",
                 "thumbnailUrl",
                 IdFactory.createFeedCollectionCommentId(),
                 content()

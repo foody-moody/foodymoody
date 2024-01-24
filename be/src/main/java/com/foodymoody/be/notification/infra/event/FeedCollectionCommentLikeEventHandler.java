@@ -2,10 +2,9 @@ package com.foodymoody.be.notification.infra.event;
 
 import static com.foodymoody.be.notification.infra.event.util.NotificationMapper.toNotification;
 
-import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
+import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
-import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection_comment.application.FeedCollectionCommentReadService;
 import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionComment;
 import com.foodymoody.be.feed_collection_comment_like.domain.FeedCollectionCommentLikeAddedEvent;
@@ -37,22 +36,24 @@ public class FeedCollectionCommentLikeEventHandler {
             var notificationId = IdFactory.createNotificationId();
             var feedCollectionId = feedCollectionComment.getFeedCollectionId();
             var feedCollection = feedCollectionService.fetchById(feedCollectionId);
-            var details = makeDetails(feedCollectionCommentId, feedCollectionComment, feedCollection);
+            var feedCollectionThumbnailUrl = feedCollection.getThumbnailUrl();
+            var details = makeDetails(event, feedCollectionComment, feedCollectionId, feedCollectionThumbnailUrl);
             var notification = toNotification(event, notificationId, details, toMemberId);
             notificationService.save(notification);
         }
     }
 
     private static NotificationDetails makeDetails(
-            FeedCollectionCommentId feedCollectionCommentId,
+            FeedCollectionCommentLikeAddedEvent event,
             FeedCollectionComment feedCollectionComment,
-            FeedCollection feedCollection
+            FeedCollectionId feedCollectionId,
+            String feedCollectionThumbnailUrl
     ) {
         return new FeedCollectionCommentLikeNotificationDetails(
-                feedCollectionCommentId,
+                event.getFeedCollectionCommentId(),
                 feedCollectionComment.getContent(),
-                feedCollection.getId(),
-                feedCollection.getTitle()
+                feedCollectionId,
+                feedCollectionThumbnailUrl
         );
     }
 }
