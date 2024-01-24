@@ -6,6 +6,7 @@ import com.foodymoody.be.member.application.FollowReadService;
 import com.foodymoody.be.member.application.FollowWriteService;
 import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.application.MemberWriteService;
+import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
 import com.foodymoody.be.member.application.dto.response.FeedPreviewResponse;
 import com.foodymoody.be.member.application.TasteMoodReadService;
 import com.foodymoody.be.member.application.dto.request.ChangePasswordRequest;
@@ -68,6 +69,15 @@ public class MemberController {
             @PageableDefault Pageable pageable) {
         Slice<FeedPreviewResponse> responses = memberReadService.fetchFeedPreviews(id, pageable);
         return ResponseEntity.ok().body(responses);
+    }
+
+    @GetMapping("/{id}/collections")
+    public ResponseEntity<MyFeedCollectionsResponse> fetchMyCollections(
+            @PathVariable MemberId id,
+            @CurrentMemberId MemberId currentMemberId,
+            @PageableDefault Pageable pageable) {
+        MyFeedCollectionsResponse response = memberReadService.fetchMyCollections(id, currentMemberId, pageable);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/taste-moods")

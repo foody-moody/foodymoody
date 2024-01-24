@@ -380,6 +380,21 @@ public class MemberSteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션_목록을_조회한다(String accessToken, String id, int page, int size, RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .auth().oauth2(accessToken)
+                .log().all()
+                .params("page", page, "size", size)
+                .when()
+                .get("/api/members/{memberId}/collections", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
     public static AbstractIntegerAssert<?> 상태코드를_검증한다(ExtractableResponse<Response> response,
             HttpStatus expectedHttpStatus) {
         return assertThat(response.statusCode()).isEqualTo(expectedHttpStatus.value());

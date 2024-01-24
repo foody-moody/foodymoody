@@ -4,6 +4,7 @@ import com.foodymoody.be.common.exception.DuplicateNicknameException;
 import com.foodymoody.be.common.exception.MemberNotFoundException;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
+import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
 import com.foodymoody.be.member.application.dto.response.FeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import com.foodymoody.be.member.application.dto.response.NicknameDuplicationCheckResponse;
@@ -42,6 +43,11 @@ public class MemberReadService {
 
     public Slice<FeedPreviewResponse> fetchFeedPreviews(MemberId id, Pageable pageable) {
         return memberRepository.fetchFeedPreviewResponsesById(id, pageable);
+    }
+
+    public MyFeedCollectionsResponse fetchMyCollections(MemberId id, MemberId currentMemberId, Pageable pageable) {
+        return memberRepository.fetchMyCollectionSummaries(id, currentMemberId, pageable);
+
     }
 
     public FeedAuthorSummary fetchFeedAuthorSummaryById(MemberId id) {

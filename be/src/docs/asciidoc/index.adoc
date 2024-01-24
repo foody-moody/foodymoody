@@ -316,6 +316,12 @@ operation::fetchMemberFeeds_success[snippets='http-request,http-response']
 
 operation::fetchMemberFeedsEmpty_success[snippets='http-response']
 
+=== 회원별 컬렉션 조회
+
+==== 성공
+
+operation::fetch_member_collections_if_success[snippets='http-request,http-response']
+
 === 테이스트 무드 조회
 
 ==== 성공
