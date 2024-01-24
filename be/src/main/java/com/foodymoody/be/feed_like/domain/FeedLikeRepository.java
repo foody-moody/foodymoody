@@ -12,4 +12,6 @@ public interface FeedLikeRepository {
 
     void deleteByFeedIdAndMemberId(FeedId feedId, MemberId memberId);
 
+    boolean fetchIsLiked(FeedId feedId, MemberId memberId);
+
 }

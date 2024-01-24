@@ -48,8 +48,8 @@ public class FeedLikeService {
         updateFeed(feedStringId, feedLikeCount.getCount());
 
         return FeedLikeMapper.toHeartResponse(savedFeedLike.getId().getValue(), savedFeedLike.getFeedId().getValue(),
-                                              savedFeedLike.getMemberId().getValue(), savedFeedLike.isLiked(),
-                                              feedLikeCount.getCount()
+                savedFeedLike.getMemberId().getValue(), savedFeedLike.isLiked(),
+                feedLikeCount.getCount()
         );
     }
 
@@ -78,6 +78,10 @@ public class FeedLikeService {
 
     public boolean existsHeart(MemberId memberId, String feedId) {
         return feedLikeRepository.existsByMemberIdAndFeedId(memberId, IdFactory.createFeedId(feedId));
+    }
+
+    public boolean fetchIsLiked(FeedId feedId, MemberId memberId) {
+        return feedLikeRepository.fetchIsLiked(feedId, memberId);
     }
 
 }

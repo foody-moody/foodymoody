@@ -1,7 +1,6 @@
 package com.foodymoody.be.feed.infra.persistence.jpa;
 
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
@@ -31,11 +30,5 @@ public interface FeedJpaRepository extends JpaRepository<Feed, FeedId> {
             "JOIN Menu m ON im.menuId = m.id " +
             "WHERE im IN :imageMenus")
     Optional<List<MenuNameRatingPair>> fetchMenuNameRatingList(@Param("imageMenus") List<ImageMenu> imageMenus);
-
-    @Query("SELECT fh.isLiked "
-            + "FROM FeedLike fh "
-            + "WHERE fh.feedId = :feedId "
-            + "AND fh.memberId = :memberId")
-    Optional<Boolean> fetchIsLikedByMemberId(@Param("feedId") FeedId feedId, @Param("memberId") MemberId memberId);
 
 }

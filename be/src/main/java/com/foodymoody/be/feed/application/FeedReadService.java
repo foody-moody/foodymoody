@@ -4,7 +4,6 @@ import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.exception.ImageNotFoundException;
 import com.foodymoody.be.common.exception.MenuNotFoundException;
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
@@ -65,11 +64,6 @@ public class FeedReadService {
 
     public Slice<Feed> findAllByIdIn(List<FeedId> feedIds, Pageable pageable) {
         return feedRepository.fetchAllByIdIn(feedIds, pageable);
-    }
-
-    public boolean fetchIsLikedByMemberId(FeedId feedId, MemberId memberId) {
-        return feedRepository.fetchIsLikedByMemberId(feedId, memberId)
-                .orElse(false);
     }
 
 }
