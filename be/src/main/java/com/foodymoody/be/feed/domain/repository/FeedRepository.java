@@ -31,6 +31,4 @@ public interface FeedRepository {
 
     Optional<List<MenuNameRatingPair>> fetchMenuNameRatingList(List<ImageMenu> imageMenus);
 
-    Optional<Boolean> fetchIsLiked(FeedId feedId, MemberId memberId);
-
 }

@@ -11,6 +11,7 @@ import com.foodymoody.be.feed.application.dto.response.CollectionReadFeedDetails
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
+import com.foodymoody.be.feed_like.application.FeedLikeService;
 import com.foodymoody.be.image.application.ImageService;
 import com.foodymoody.be.store.application.StoreReadService;
 import java.util.List;
@@ -30,6 +31,7 @@ public class CollectionUseCase {
 
     private final FeedCollectionReadService feedCollectionReadService;
     private final FeedReadService feedReadService;
+    private final FeedLikeService feedLikeService;
     private final ImageService imageService;
     private final FeedCommentCountReadService feedCommentCountReadService;
     private final StoreReadService storeReadService;
@@ -89,7 +91,7 @@ public class CollectionUseCase {
                         .updatedAt(feed.getUpdatedAt())
                         .description(feed.getReview())
                         .moodNames(FeedMapper.toFeedStoreMoodNames(feed.getStoreMoods()))
-                        .isLiked(feedReadService.fetchIsLiked(feed.getId(), feed.getMemberId()))
+                        .isLiked(feedLikeService.fetchIsLiked(feed.getId(), feed.getMemberId()))
                         .likeCount(feed.getLikeCount())
                         .feedCommentCount(feedCommentCountReadService.fetchCountByFeedId(feed.getId()))
                         .build())

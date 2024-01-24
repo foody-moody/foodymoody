@@ -204,7 +204,7 @@ class FeedAcceptanceTest extends AcceptanceTest {
         피드에_댓글을_등록한다(registeredId, 회원푸반_액세스토큰);
 
         // when
-        var readFeedResponse = 개별_피드를_조회한다(registeredId, spec);
+        var readFeedResponse = 개별_피드를_조회한다(registeredId, spec, 회원푸반_액세스토큰);
 
         // then
         응답코드가_200이고_개별_피드가_조회되면_정상적으로_등록된_피드(readFeedResponse);
@@ -221,10 +221,10 @@ class FeedAcceptanceTest extends AcceptanceTest {
         var response = 피드를_등록한다(회원아티_액세스토큰, imageIds);
         String feedId = response.jsonPath().getString("id");
         피드에_댓글을_등록한다(feedId, 회원푸반_액세스토큰);
-        좋아요를_한다(feedId, 회원아티_액세스토큰);
+        좋아요를_한다(feedId, 회원푸반_액세스토큰);
 
         // when
-        var readFeedResponse = 개별_피드를_조회한다(feedId, spec);
+        var readFeedResponse = 개별_피드를_조회한다(feedId, spec, 회원푸반_액세스토큰);
 
         // then
         응답코드가_200이고_피드_좋아요가_정상적으로_조회되면_정상적으로_등록된_피드(readFeedResponse);

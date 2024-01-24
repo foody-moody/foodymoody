@@ -3,6 +3,8 @@ package com.foodymoody.be.feed_like.domain;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_like.domain.entity.FeedLike;
+import java.util.Optional;
+import org.springframework.data.repository.query.Param;
 
 public interface FeedLikeRepository {
 
@@ -11,5 +13,7 @@ public interface FeedLikeRepository {
     boolean existsByMemberIdAndFeedId(MemberId memberId, FeedId feedId);
 
     void deleteByFeedIdAndMemberId(FeedId feedId, MemberId memberId);
+
+    boolean fetchIsLiked(FeedId feedId, MemberId memberId);
 
 }

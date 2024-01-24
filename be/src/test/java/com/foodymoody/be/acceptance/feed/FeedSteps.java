@@ -378,12 +378,14 @@ public class FeedSteps {
         );
     }
 
-    public static ExtractableResponse<Response> 개별_피드를_조회한다(String id, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 개별_피드를_조회한다(String id, RequestSpecification spec, String accessToken) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
                 .log().all()
+                .auth()
+                .oauth2(accessToken)
                 .when()
                 .get("/api/feeds/" + id)
                 .then()

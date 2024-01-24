@@ -66,9 +66,4 @@ public class FeedRepositoryImpl implements FeedRepository {
         return feedJpaRepository.fetchMenuNameRatingList(imageMenus);
     }
 
-    @Override
-    public Optional<Boolean> fetchIsLiked(FeedId feedId, MemberId memberId) {
-        return feedJpaRepository.fetchIsLiked(feedId, memberId);
-    }
-
 }

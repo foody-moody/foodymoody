@@ -80,4 +80,8 @@ public class FeedLikeService {
         return feedLikeRepository.existsByMemberIdAndFeedId(memberId, IdFactory.createFeedId(feedId));
     }
 
+    public boolean fetchIsLiked(FeedId feedId, MemberId memberId) {
+        return feedLikeRepository.fetchIsLiked(feedId, memberId);
+    }
+
 }
