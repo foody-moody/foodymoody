@@ -65,6 +65,7 @@ export const useFeedDetail = (id: string) =>
     queryKey: [QUERY_KEY.feedDetail, id],
     queryFn: () => getFeedDetail(id),
     enabled: !!id,
+    // suspense: true,
   });
 
 export const useFeedEditor = (id?: string) => {

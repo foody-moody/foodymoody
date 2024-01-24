@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useDeleteComment, usePutComment } from 'service/queries/comment';
 import { useDeleteReplyLike, usePostReplyLike } from 'service/queries/like';
+import { useGetReplies } from 'service/queries/reply';
 import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
@@ -20,19 +21,19 @@ type Props = {
 };
 
 export const ReplyItem: React.FC<Props> = ({ commentId, reply, createdAt }) => {
-  console.log(reply, ' now ReplyItems');
   const [isEdit, setIsEdit] = useState(false);
   const { openModal, closeModal } = useModal<'commentAlert'>();
   const { isLogin, userInfo } = useAuthState();
   const { navigateToLogin } = usePageNavigator();
+  const { refetch: getReplies } = useGetReplies(commentId);
   const { mutate: editMutate } = usePutComment();
   const { mutate: deleteMutate } = useDeleteComment();
-  const { mutate: likeMutate } = usePostReplyLike();
-  const { mutate: unLikeMutate } = useDeleteReplyLike();
+  const { mutate: likeMutate } = usePostReplyLike(getReplies);
+  const { mutate: unLikeMutate } = useDeleteReplyLike(getReplies);
 
   const { value, handleChange, isValid } = useInput({
     initialValue: reply.content,
-    validator: (value) =>
+    validator: (value: string) =>
       value.trim().length !== 0 && value.trim().length < 200,
   });
 
@@ -43,8 +44,7 @@ export const ReplyItem: React.FC<Props> = ({ commentId, reply, createdAt }) => {
 
   const handleEdit = () => {
     setIsEdit(true);
-    console.log(inputRef, ' now inputRef');
-    //이거 왜안됨
+    console.log(inputRef?.current, ' now inputRef');
     inputRef?.current?.focus();
   };
 
@@ -59,8 +59,6 @@ export const ReplyItem: React.FC<Props> = ({ commentId, reply, createdAt }) => {
   };
 
   const handleDelete = () => {
-    console.log(reply.id, ' now reply ID');
-
     deleteMutate(reply.id);
   };
 
@@ -131,7 +129,7 @@ export const ReplyItem: React.FC<Props> = ({ commentId, reply, createdAt }) => {
                 </Input.CenterContent>
               </Input>
             ) : (
-              reply.content
+              <ReplyText>{reply.content}</ReplyText>
             )}
           </FlexColumnBox>
         </ContentLeft>
@@ -149,11 +147,7 @@ export const ReplyItem: React.FC<Props> = ({ commentId, reply, createdAt }) => {
   );
 };
 
-const Wrapper = styled.div`
-  /* display: flex;
-  justify-content: space-between;
-  width: 100%;
-  font: ${({ theme: { fonts } }) => fonts.displayM14}; */
+const Wrapper = styled.li`
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -190,6 +184,11 @@ const FlexColumnBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+`;
+
+const ReplyText = styled.p`
+  word-break: break-all;
+  overflow-wrap: break-word;
 `;
 
 const ContentHeader = styled.div`

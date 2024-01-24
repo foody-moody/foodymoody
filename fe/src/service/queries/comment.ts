@@ -19,7 +19,6 @@ export const useGetComments = (id: string) => {
   const { data, hasNextPage, status, isLoading, fetchNextPage, refetch } =
     useInfiniteQuery({
       queryKey: [QUERY_KEY.comments],
-      // queryKey: [QUERY_KEY.comments, id],
       queryFn: ({ pageParam = 0 }) => getAllComments(pageParam, 10, id),
       getNextPageParam: (lastPage) => {
         return lastPage.last ? undefined : lastPage.number + 1;
@@ -48,7 +47,6 @@ export const usePostComment = () => {
   return useMutation({
     mutationFn: (body: NewCommentBody) => postNewComment(body),
     onSuccess: () => {
-      // queryClient.invalidateQueries([QUERY_KEY.comments, id]);
       queryClient.invalidateQueries([QUERY_KEY.comments]);
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
@@ -71,7 +69,6 @@ export const usePutComment = () => {
   return useMutation({
     mutationFn: (args: EditCommentArgs) => putEditComment(args.id, args.body),
     onSuccess: () => {
-      // queryClient.invalidateQueries([QUERY_KEY.comments, id]);
       queryClient.invalidateQueries([QUERY_KEY.comments]);
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
