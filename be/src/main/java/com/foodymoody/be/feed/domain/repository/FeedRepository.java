@@ -1,7 +1,6 @@
 package com.foodymoody.be.feed.domain.repository;
 
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
@@ -30,7 +29,5 @@ public interface FeedRepository {
     Optional<List<ImageIdNamePair>> fetchImageIdUrlList(List<ImageMenu> imageMenus);
 
     Optional<List<MenuNameRatingPair>> fetchMenuNameRatingList(List<ImageMenu> imageMenus);
-
-    Optional<Boolean> fetchIsLikedByMemberId(FeedId feedId, MemberId memberId);
 
 }
