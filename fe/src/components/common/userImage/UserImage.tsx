@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { Spinner } from '../loading/spinner';
 
 type UserImageProps = {
@@ -14,13 +15,12 @@ export const UserImage: React.FC<UserImageProps> = ({
   isLoading = false,
   onClick,
 }) => {
-  //이미지 경로는 유효함, 그러나 그 이미지 경로가 요청이 안되는 것일때는?
-
-  // const onErrorImage = (
-  //   event: React.SyntheticEvent<HTMLImageElement, Event>
-  // ) => {
-  //   return (event.currentTarget.src = imageUrl); // 에러이미지로 변경
-  // };
+  const handleErrorImage = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    const errorImage = generateDefaultUserImage('error');
+    return (event.currentTarget.src = errorImage); // 에러이미지로 변경
+  };
 
   return (
     <>
@@ -29,7 +29,7 @@ export const UserImage: React.FC<UserImageProps> = ({
         $size={size}
         src={imageUrl}
         alt="유저이미지"
-        // onError={onErrorImage}
+        onError={handleErrorImage}
       />
       {isLoading && (
         <SpinnerContainer>

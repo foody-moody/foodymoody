@@ -11,6 +11,7 @@ import { TopPanel, getInputTopPanel } from './InputTopPanel';
 type BaseInputProps = {
   variant: 'ghost' | 'underline' | 'default' | 'comment' | 'rectangle';
   helperText?: string;
+  helperType?: 'error' | 'success';
   isFocused?: boolean;
   children?: React.ReactNode;
 };
@@ -18,6 +19,7 @@ type BaseInputProps = {
 export const BaseInput = ({
   variant,
   helperText,
+  helperType,
   isFocused = false,
   children,
 }: BaseInputProps) => {
@@ -34,7 +36,12 @@ export const BaseInput = ({
   return (
     <Wrapper>
       {inputTopPanel && <>{inputTopPanel}</>}
-      <Shape $variant={variant} $isError={!!helperText} $isFocused={isFocused}>
+      <Shape
+        $variant={variant}
+        $isError={!!helperText}
+        $helperType={helperType}
+        $isFocused={isFocused}
+      >
         {inputLeftContent && <>{inputLeftContent}</>}
         {inputInnerLabel && <>{inputInnerLabel}</>}
         {inputCenterContent && <>{inputCenterContent}</>}
@@ -95,6 +102,7 @@ const BaseWrapper = styled.div<{
   $variant: 'ghost' | 'underline' | 'default' | 'comment' | 'rectangle';
   $isFocused: boolean;
   $isError: boolean;
+  $helperType?: 'error' | 'success';
 }>`
   width: 100%;
   display: flex;
@@ -140,14 +148,16 @@ const DefaultWrapper = styled(BaseWrapper)`
 
 const RectangleWrapper = styled(BaseWrapper)`
   border: 1px solid
-    ${({ $isFocused, $isError, theme: { colors } }) =>
-      $isFocused && $isError ? colors.pink : colors.black};
+    ${({ $isFocused, $isError, $helperType, theme: { colors } }) =>
+      $isFocused && $isError && $helperType === 'error'
+        ? colors.pink
+        : colors.black};
   border-radius: 4px;
   padding: 12px 10px;
 
   &:focus-within {
-    border-color: ${({ $isError, theme: { colors } }) =>
-      $isError ? colors.pink : colors.textTertiary};
+    border-color: ${({ $isError, $helperType, theme: { colors } }) =>
+      $isError && $helperType === 'error' ? colors.pink : colors.textTertiary};
   }
 `;
 

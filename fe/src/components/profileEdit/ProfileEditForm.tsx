@@ -18,7 +18,6 @@ import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 
 export const ProfileEditForm = () => {
   // 변경사항이 생겻는데 어디가려고할때 alert 할지? (변경사항이 저장되지 않았습니다. 나가시겠습니까?)
-  // 새로고침시 profile데이터가 전해지지 않음 => id전해주는 방식을 변경, useGetProfile에서 판단하지 않도록 함
 
   const { userInfo } = useAuthState();
   const { data: profile } = useGetProfile(userInfo.id);
@@ -43,12 +42,16 @@ export const ProfileEditForm = () => {
     const nickname = getValues('nickname');
     const res = await getNicknameDuplicate(nickname);
 
-    if (res.isDuplicate) {
+    if (res.duplicate) {
       errorItem.setError('nickname', {
         message: '이미 존재하는 닉네임입니다.',
       });
     } else {
-      errorItem.clearErrors('nickname');
+      errorItem.setError('nickname', {
+        message: '사용할 수 있는 닉네임입니다.',
+        type: 'available',
+      });
+      // errorItem.clearErrors('nickname');
     }
   };
 
@@ -85,6 +88,11 @@ export const ProfileEditForm = () => {
               {...register('nickname')}
               variant="rectangle"
               helperText={errorItem.errors.nickname?.message}
+              helperType={
+                errorItem.errors.nickname?.type === 'available'
+                  ? 'success'
+                  : 'error'
+              }
             />
             <Button
               type="button"
