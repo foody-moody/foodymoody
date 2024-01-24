@@ -102,7 +102,7 @@ export const DetailFeedModalPage = () => {
               </Info>
               <FeedAction
                 feedId={feed?.id}
-                isLiked={feed?.liked}
+                isLiked={feed?.isLiked}
                 likeCount={feed?.likeCount}
                 commentCount={feed?.commentCount}
               />
