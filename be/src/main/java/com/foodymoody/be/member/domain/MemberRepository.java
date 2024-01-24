@@ -2,6 +2,7 @@ package com.foodymoody.be.member.domain;
 
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
+import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
 import com.foodymoody.be.member.application.dto.response.FeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import java.util.Optional;
@@ -15,6 +16,8 @@ public interface MemberRepository {
     Optional<FeedAuthorSummary> fetchFeedAuthorSummaryById(MemberId id);
 
     Slice<FeedPreviewResponse> fetchFeedPreviewResponsesById(MemberId id, Pageable pageable);
+
+    MyFeedCollectionsResponse fetchMyCollectionSummaries(MemberId id, MemberId currentMemberId, Pageable pageable);
 
     Optional<Member> findByEmail(String email);
 
@@ -31,4 +34,6 @@ public interface MemberRepository {
     boolean existsById(MemberId id);
 
     Optional<Member> findById(MemberId id);
+
+    long countMyCollectionsById(MemberId id);
 }
