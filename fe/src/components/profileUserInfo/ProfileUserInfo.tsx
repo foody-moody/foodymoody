@@ -25,13 +25,15 @@ export const ProfileUserInfo = () => {
 
   const isDetailFeedUrl = location.pathname.includes('/detail/feed');
   const profileId = sessionStorage.getItem('profileId');
-  const USER_ID = isDetailFeedUrl
-    ? profileId
-    : !isDetailFeedUrl && id
-    ? id
-    : userInfo.id;
+  const USER_ID =
+    isDetailFeedUrl && profileId
+      ? profileId
+      : !isDetailFeedUrl && id
+      ? id
+      : userInfo.id;
 
   const { data: member } = useGetProfile(USER_ID);
+  console.log(member, 'member');
 
   const navigate = useNavigate();
   const { navigateToProfileSetting } = usePageNavigator();
