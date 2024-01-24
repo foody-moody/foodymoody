@@ -48,8 +48,8 @@ public class FeedLikeService {
         updateFeed(feedStringId, feedLikeCount.getCount());
 
         return FeedLikeMapper.toHeartResponse(savedFeedLike.getId().getValue(), savedFeedLike.getFeedId().getValue(),
-                                              savedFeedLike.getMemberId().getValue(), savedFeedLike.isLiked(),
-                                              feedLikeCount.getCount()
+                savedFeedLike.getMemberId().getValue(), savedFeedLike.isLiked(),
+                feedLikeCount.getCount()
         );
     }
 

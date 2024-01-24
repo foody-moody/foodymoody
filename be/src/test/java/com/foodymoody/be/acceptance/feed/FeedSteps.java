@@ -226,7 +226,7 @@ public class FeedSteps {
     }
 
     public static ExtractableResponse<Response> 무드가_0개인_피드를_등록한다(String accessToken, RequestSpecification spec,
-                                                                       List<String> imageIds) {
+                                                                 List<String> imageIds) {
         Map<String, Object> body = Map.of(
                 "storeId", "1",
                 "review", "맛있어요!",
@@ -394,15 +394,6 @@ public class FeedSteps {
     }
 
     public static void 응답코드가_200이고_개별_피드가_조회되면_정상적으로_등록된_피드(ExtractableResponse<Response> response) {
-        Object id = response.jsonPath().getString("id");
-        assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(200),
-                () -> assertThat(response.jsonPath().getInt("commentCount")).isEqualTo(1),
-                assertThat(id)::isNotNull
-        );
-    }
-
-    public static void 응답코드가_200이고_피드_좋아요가_정상적으로_조회되면_정상적으로_등록된_피드(ExtractableResponse<Response> response) {
         Object id = response.jsonPath().getString("id");
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),

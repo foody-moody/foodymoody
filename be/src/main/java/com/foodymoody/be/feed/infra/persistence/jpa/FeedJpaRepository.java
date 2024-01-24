@@ -1,7 +1,6 @@
 package com.foodymoody.be.feed.infra.persistence.jpa;
 
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
