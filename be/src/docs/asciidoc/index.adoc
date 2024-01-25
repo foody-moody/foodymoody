@@ -126,10 +126,10 @@ operation::issueTokenWithInvalidRefreshToken_fail[snippets='http-response']
 
 operation::logout_success[snippets='http-request,http-response']
 
-[[comment]]
-== 댓글
+[[feedComment]]
+== 피드 댓글
 
-=== 댓글 등록
+=== 피드 댓글 등록
 
 ==== 성공
 
@@ -163,7 +163,7 @@ operation::comment_register_failed_by_feed_not_exists[snippets='http-response']
 
 operation::comment_register_failed_by_feed_id_not_exists[snippets='http-response']
 
-=== 댓글 수정
+=== 피드 댓글 수정
 
 ==== 성공
 
@@ -193,7 +193,7 @@ operation::comment_edit_failed_by_comment_not_exists[snippets='http-response']
 
 operation::comment_edit_failed_by_comment_is_deleted[snippets='http-response']
 
-=== 댓글 삭제
+=== 피드 댓글 삭제
 
 ==== 성공
 
@@ -229,7 +229,7 @@ operation::comments_fetch_with_page_success[snippets='http-request,http-response
 
 operation::comments_fetch_failed_by_feed_id_not_exists[snippets='http-response']
 
-=== 댓글 하트
+=== 피드 댓글 하트
 
 ==== 댓글 하트 등록
 
@@ -239,28 +239,28 @@ operation::comment_heart_register_success[snippets='http-request,http-response']
 
 operation::comment_heart_cancel_success[snippets='http-request,http-response']
 
-[[reply]]
-== 대댓글
+[[feedReply]]
+== 피드 대댓글
 
-=== 대댓글 달기
+=== 피드 대댓글 달기
 
 ==== 성공
 
 operation::comment_reply_success[snippets='http-request,http-response']
 
-=== 대댓글 조회
+=== 피드 대댓글 조회
 
 ==== 성공
 
 operation::comment_reply_fetch_success[snippets='http-request,http-response']
 
-=== 대댓글에 좋아요 누른다
+=== 피드 대댓글에 좋아요 누른다
 
 ==== 성공
 
 operation::reply_heart_register_success[snippets='http-request,http-response']
 
-=== 대댓글에 좋아요 취소
+=== 피드 대댓글에 좋아요 취소
 
 ==== 성공
 

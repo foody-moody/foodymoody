@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_collection_reply.domain;
 
-import com.foodymoody.be.common.event.Events;
+import com.foodymoody.be.common.event.EventManager;
 import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
@@ -45,7 +45,7 @@ public class FeedCollectionReply {
         this.deleted = false;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-        Events.raise(FeedCollectionReplyAddedEvent.of(
+        EventManager.raise(FeedCollectionReplyAddedEvent.of(
                 commentId,
                 memberId,
                 id,

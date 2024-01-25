@@ -1,9 +1,9 @@
 package com.foodymoody.be.acceptance.reply;
 
-import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_200을_반환한다;
-import static com.foodymoody.be.acceptance.comment.CommentSteps.응답코드_201을_반환한다;
-import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글을_등록하고_아이디를_받는다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고_아이디를_받는다;
+import static com.foodymoody.be.acceptance.feed_comment.FeedCommentSteps.응답코드_200을_반환한다;
+import static com.foodymoody.be.acceptance.feed_comment.FeedCommentSteps.응답코드_201을_반환한다;
+import static com.foodymoody.be.acceptance.feed_comment.FeedCommentSteps.피드에_댓글을_등록하고_아이디를_받는다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
 import static com.foodymoody.be.acceptance.reply.ReplySteps.댓글에_댓글을_등록하고_아이디를_가져온다;
 import static com.foodymoody.be.acceptance.reply.ReplySteps.댓글에_댓글을_등록한다;

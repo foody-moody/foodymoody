@@ -1,6 +1,5 @@
 package com.foodymoody.be.acceptance.notification;
 
-import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글을_등록하고_아이디를_받는다;
 import static com.foodymoody.be.acceptance.comment_heart.CommentHeartSteps.댓글에_좋아요를_누른다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고_아이디를_받는다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_등록하고_아이디를_가져온다;
@@ -11,6 +10,7 @@ import static com.foodymoody.be.acceptance.feed_collection_like.FeedCollectionLi
 import static com.foodymoody.be.acceptance.feed_collection_reply.FeedCollectionReplySteps.피드_컬렉션_댓글에_대댓글을_등록하고_아이디를_반환한다;
 import static com.foodymoody.be.acceptance.feed_collection_reply.FeedCollectionReplySteps.피드_컬렉션_댓글에_대댓글을_등록한다;
 import static com.foodymoody.be.acceptance.feed_collection_reply_like.FeedCollectionReplyLikeSteps.피드_컬렉션_대댓글에_좋아요를_등록한다;
+import static com.foodymoody.be.acceptance.feed_comment.FeedCommentSteps.피드에_댓글을_등록하고_아이디를_받는다;
 import static com.foodymoody.be.acceptance.feed_like.FeedLikeSteps.좋아요를_한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.팔로우한다;

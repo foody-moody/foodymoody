@@ -1,6 +1,6 @@
 package com.foodymoody.be.member.domain;
 
-import com.foodymoody.be.common.event.Events;
+import com.foodymoody.be.common.event.EventManager;
 import com.foodymoody.be.common.exception.InvalidReconfirmPasswordException;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -52,7 +52,7 @@ public class Member {
         this.profileImage = new MemberProfileImage(ImageId.MEMBER_PROFILE_DEFAULT);
         this.myFollowings = new MyFollowings();
         this.myFollowers = new MyFollowers();
-        Events.raise(toMemberCreatedEvent());
+        EventManager.raise(toMemberCreatedEvent());
     }
 
     public static Member of(
@@ -111,7 +111,7 @@ public class Member {
             throw new IllegalArgumentException("팔로우할 수 없는 회원입니다");
         }
         this.myFollowings.add(this, target);
-        Events.raise(toMemberFollowedEvent(target));
+        EventManager.raise(toMemberFollowedEvent(target));
     }
 
     public void unfollow(Member target) {
