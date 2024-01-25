@@ -6,9 +6,7 @@ import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationSummary;
 import com.foodymoody.be.notification.infra.usecase.dto.NotificationResponse;
 import com.foodymoody.be.notification.infra.usecase.dto.SenderResponse;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 
 /**
  * The NotificationResponseMapper class provides utility methods for mapping NotificationSummary objects to
@@ -30,7 +28,7 @@ public class NotificationResponseMapper {
      * @return The converted NotificationResponse object.
      */
     public static NotificationResponse toNotificationResponse(NotificationSummary notificationSummary) {
-        SenderResponse sender = SenderResponse.of(
+        var sender = SenderResponse.of(
                 notificationSummary.getFromMemberId(),
                 notificationSummary.getFromNickname(),
                 notificationSummary.getFromProfileImageUrl()
@@ -55,10 +53,15 @@ public class NotificationResponseMapper {
      * @return The converted {@link NotificationResponse} object.
      */
     public static NotificationResponse toNotificationResponse(
-            Notification notification, Member fromMember, Image fromMemberProfileImage
+            Notification notification,
+            Member fromMember,
+            Image fromMemberProfileImage
     ) {
-        SenderResponse sender = SenderResponse.of(
-                fromMember.getId(), fromMember.getNickname(), fromMemberProfileImage.getUrl());
+        var sender = SenderResponse.of(
+                fromMember.getId(),
+                fromMember.getNickname(),
+                fromMemberProfileImage.getUrl()
+        );
         return NotificationResponse.of(
                 notification.getId(),
                 sender,
@@ -79,13 +82,6 @@ public class NotificationResponseMapper {
     public static Slice<NotificationResponse> toNotificationResponseList(
             Slice<NotificationSummary> notificationSummaries
     ) {
-        var notificationResponses = notificationSummaries.stream()
-                .map(NotificationResponseMapper::toNotificationResponse)
-                .collect(Collectors.toList());
-        return new SliceImpl<>(
-                notificationResponses,
-                notificationSummaries.getPageable(),
-                notificationSummaries.hasNext()
-        );
+        return notificationSummaries.map(NotificationResponseMapper::toNotificationResponse);
     }
 }

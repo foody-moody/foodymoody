@@ -46,18 +46,6 @@ public class NotificationWriteService {
     }
 
     /**
-     * Retrieves a single notification by its ID.
-     *
-     * @param notificationId The ID of the notification
-     * @return The retrieved notification
-     * @throws IllegalArgumentException If the notification does not exist
-     */
-    public Notification getNotification(NotificationId notificationId) {
-        return notificationRepository.findById(notificationId)
-                .orElseThrow(FeedNotificationNotFoundException::new);
-    }
-
-    /**
      * Reads a feed notification and updates its status to "read".
      *
      * @param notificationId The ID of the notification
@@ -107,5 +95,17 @@ public class NotificationWriteService {
         var feedNotification = this.getNotification(notificationID);
         LocalDateTime updatedAt = LocalDateTime.now();
         feedNotification.changeStatus(true, memberId, updatedAt);
+    }
+
+    /**
+     * Retrieves a single notification by its ID.
+     *
+     * @param notificationId The ID of the notification
+     * @return The retrieved notification
+     * @throws IllegalArgumentException If the notification does not exist
+     */
+    private Notification getNotification(NotificationId notificationId) {
+        return notificationRepository.findById(notificationId)
+                .orElseThrow(FeedNotificationNotFoundException::new);
     }
 }

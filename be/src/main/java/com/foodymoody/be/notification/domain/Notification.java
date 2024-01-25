@@ -1,6 +1,7 @@
 package com.foodymoody.be.notification.domain;
 
 import com.foodymoody.be.common.event.NotificationType;
+import com.foodymoody.be.common.exception.PermissionDeniedAccessNotificationException;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.NotificationId;
 import java.time.LocalDateTime;
@@ -90,8 +91,14 @@ public class Notification {
      * @param updatedAt    The timestamp when the notification was last updated
      */
     public Notification(
-            NotificationId id, MemberId fromMemberId, MemberId toMemberId, NotificationDetails details,
-            NotificationType type, boolean isRead, boolean isDeleted, LocalDateTime createdAt,
+            NotificationId id,
+            MemberId fromMemberId,
+            MemberId toMemberId,
+            NotificationDetails details,
+            NotificationType type,
+            boolean isRead,
+            boolean isDeleted,
+            LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
         this.id = id;
@@ -138,7 +145,7 @@ public class Notification {
      */
     public void checkMemberId(MemberId toMemberId) {
         if (!this.toMemberId.equals(toMemberId)) {
-            throw new IllegalArgumentException("해당 알림을 수정할 수 없습니다.");
+            throw new PermissionDeniedAccessNotificationException();
         }
     }
 }

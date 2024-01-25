@@ -1,20 +1,16 @@
 package com.foodymoody.be.notification.infra.event;
 
+import static com.foodymoody.be.notification.infra.event.util.NotificationDetailsFactory.makeDetails;
 import static com.foodymoody.be.notification.infra.event.util.NotificationMapper.toNotification;
 
-import com.foodymoody.be.common.util.ids.FeedCommentId;
-import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.FeedReplyId;
 import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedReadService;
-import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed_comment.application.FeedCommentReadService;
 import com.foodymoody.be.feed_comment.application.ReplyReadService;
-import com.foodymoody.be.feed_comment.domain.entity.FeedReply;
+import com.foodymoody.be.feed_comment.domain.entity.FeedComment;
 import com.foodymoody.be.feed_reply_like.domain.FeedReplyLikeAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
-import com.foodymoody.be.notification.domain.NotificationDetails;
-import com.foodymoody.be.notification.infra.event.dto.FeedCommentReplyLikeNotificationDetails;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -38,30 +34,18 @@ public class FeedCommentReplyLikeEventHandler {
         var feedComment = feedCommentService.findById(feedCommentId);
         var toMemberId = feedComment.getMemberId();
         if (notificationSettingService.isCommentLikedAllowed(toMemberId)) {
-            var feedNotificationId = IdFactory.createNotificationId();
-            var feedId = feedComment.getFeedId();
-            var feed = feedReadService.findFeed(feedId);
-            var feedReplyId = event.getFeedReplyId();
-            var feedReply = replyService.fetchById(feedReplyId);
-            var details = makeDetails(feedId, feed, feedCommentId, feedReplyId, feedReply);
-            var feedNotification = toNotification(event, feedNotificationId, details, toMemberId);
-            notificationWriteService.save(feedNotification);
+            saveNotification(event, feedComment, toMemberId);
         }
     }
 
-    private static NotificationDetails makeDetails(
-            FeedId feedId,
-            Feed feed,
-            FeedCommentId feedCommentId,
-            FeedReplyId feedReplyId,
-            FeedReply feedReply
+    private void saveNotification(
+            FeedReplyLikeAddedEvent event, FeedComment feedComment, MemberId toMemberId
     ) {
-        return new FeedCommentReplyLikeNotificationDetails(
-                feedId,
-                feed.getProfileImageUrl(),
-                feedCommentId,
-                feedReplyId,
-                feedReply.getContent()
-        );
+        var feedNotificationId = IdFactory.createNotificationId();
+        var feed = feedReadService.findFeed(feedComment.getFeedId());
+        var feedReply = replyService.fetchById(event.getFeedReplyId());
+        var details = makeDetails(event, feed.getId(), feed.getProfileImageUrl(), feedReply.getContent());
+        var feedNotification = toNotification(event, feedNotificationId, details, toMemberId);
+        notificationWriteService.save(feedNotification);
     }
 }

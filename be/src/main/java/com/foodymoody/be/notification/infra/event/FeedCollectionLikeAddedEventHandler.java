@@ -1,12 +1,12 @@
 package com.foodymoody.be.notification.infra.event;
 
+import static com.foodymoody.be.notification.infra.event.util.NotificationDetailsFactory.makeDetails;
+
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection_like.domain.FeedCollectionLikeAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
-import com.foodymoody.be.notification.domain.NotificationDetails;
-import com.foodymoody.be.notification.infra.event.dto.FeedCollectionLikeNotificationDetails;
 import com.foodymoody.be.notification.infra.event.util.NotificationMapper;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
 import lombok.RequiredArgsConstructor;
@@ -43,15 +43,5 @@ public class FeedCollectionLikeAddedEventHandler {
         var details = makeDetails(event, thumbnailUrl);
         var notification = NotificationMapper.toNotification(event, notificationId, details, toMemberId);
         notificationService.save(notification);
-    }
-
-    private static NotificationDetails makeDetails(
-            FeedCollectionLikeAddedEvent event,
-            String thumbnailUrl
-    ) {
-        return new FeedCollectionLikeNotificationDetails(
-                event.getFeedCollectionId(),
-                thumbnailUrl
-        );
     }
 }

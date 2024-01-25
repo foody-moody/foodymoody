@@ -42,8 +42,13 @@ public class NotificationResponse {
     private final LocalDateTime updatedAt;
 
     private NotificationResponse(
-            NotificationId notificationId, SenderResponse sender, NotificationDetails target, NotificationType type,
-            boolean isRead, LocalDateTime createdAt, LocalDateTime updatedAt
+            NotificationId notificationId,
+            SenderResponse sender,
+            NotificationDetails target,
+            NotificationType type,
+            boolean isRead,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
     ) {
         this.notificationId = notificationId;
         this.sender = sender;
@@ -75,6 +80,14 @@ public class NotificationResponse {
             LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
-        return new NotificationResponse(notificationId, sender, target, type, isRead, createdAt, updatedAt);
+        return new NotificationResponse(
+                notificationId,
+                sender,
+                target,
+                type,
+                isRead,
+                createdAt,
+                updatedAt
+        );
     }
 }

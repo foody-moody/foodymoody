@@ -1,5 +1,6 @@
 package com.foodymoody.be.notification.infra.event;
 
+import static com.foodymoody.be.notification.infra.event.util.NotificationDetailsFactory.makeDetails;
 import static com.foodymoody.be.notification.infra.event.util.NotificationMapper.toNotification;
 
 import com.foodymoody.be.common.util.ids.IdFactory;
@@ -9,8 +10,6 @@ import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.application.dto.FollowMemberSummary;
 import com.foodymoody.be.member.domain.FollowRepository;
 import com.foodymoody.be.notification.application.NotificationWriteService;
-import com.foodymoody.be.notification.domain.NotificationDetails;
-import com.foodymoody.be.notification.infra.event.dto.FeedNotificationDetails;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -48,12 +47,5 @@ public class FeedEventHandler {
         var details = makeDetails(event);
         var feedNotification = toNotification(event, notificationId, details, toMemberId);
         notificationService.save(feedNotification);
-    }
-
-    private static NotificationDetails makeDetails(FeedAddedEvent event) {
-        return new FeedNotificationDetails(
-                event.getFeedId(),
-                event.getProfileImageUrl()
-        );
     }
 }

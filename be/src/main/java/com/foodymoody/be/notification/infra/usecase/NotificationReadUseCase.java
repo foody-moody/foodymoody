@@ -70,10 +70,7 @@ public class NotificationReadUseCase {
      */
     @Transactional(readOnly = true)
     public Slice<NotificationResponse> requestAll(MemberId memberId, Pageable pageable) {
-        var notificationSummaries = notificationSummaryReadService.requestAll(
-                memberId,
-                pageable
-        );
+        var notificationSummaries = notificationSummaryReadService.requestAll(memberId, pageable);
         return NotificationResponseMapper.toNotificationResponseList(notificationSummaries);
     }
 }
