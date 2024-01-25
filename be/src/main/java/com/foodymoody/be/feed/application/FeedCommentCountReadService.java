@@ -1,7 +1,7 @@
 package com.foodymoody.be.feed.application;
 
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.feed_comment.infra.persistence.jpa.CommentJpaRepository;
+import com.foodymoody.be.feed_comment.infra.persistence.jpa.FeedCommentJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class FeedCommentCountReadService {
 
-    private final CommentJpaRepository commentJpaRepository;
+    private final FeedCommentJpaRepository feedCommentJpaRepository;
 
     public Long fetchCountByFeedId(FeedId feedId) {
-        return commentJpaRepository.fetchCountByFeedId(feedId)
+        return feedCommentJpaRepository.fetchCountByFeedId(feedId)
                 .orElse(0L);
     }
 

@@ -3,7 +3,7 @@ package com.foodymoody.be.feed_reply_like.infra.usecase;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
 import com.foodymoody.be.common.util.ids.FeedReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_comment.application.ReplyReadService;
+import com.foodymoody.be.feed_comment.application.service.FeedReplyReadService;
 import com.foodymoody.be.feed_reply_like.application.FeedReplyLikeWriteService;
 import com.foodymoody.be.feed_reply_like_count.application.ReplyHeartCountWriteService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReplyHeartWriteUseCase {
 
     private final FeedReplyLikeWriteService feedReplyLikeWriteService;
-    private final ReplyReadService replyReadService;
+    private final FeedReplyReadService feedReplyReadService;
     private final ReplyHeartCountWriteService replyHeartCountWriteService;
 
     @Transactional
@@ -29,7 +29,7 @@ public class ReplyHeartWriteUseCase {
 
     @Transactional
     public void deleteReplyHeart(FeedReplyId feedReplyId, MemberId memberId) {
-        replyReadService.validate(feedReplyId);
+        feedReplyReadService.validate(feedReplyId);
         if (!feedReplyLikeWriteService.existsByReplyIdAndMemberId(feedReplyId, memberId)) {
             return;
         }

@@ -15,9 +15,24 @@ public class CommandHandlerAspect {
 
     private final MessagePublisher messagePublisher;
 
+    /**
+     * application 하위패키지 service 클래스의 Transactional 어노테이션이 붙어있는 메서드에 대해 Aspect 를 적용한다.
+     */
     @Before("execution(* com.foodymoody.be.*.application.*Service.*(..))"
             + "&& @annotation(org.springframework.transaction.annotation.Transactional)")
     public void beforeTransactionalCommandExecution() {
+        if (!isEventTransactionSynchronizationRegistered()) {
+            var eventTransactionSynchronization = new EventTransactionSynchronization(messagePublisher);
+            TransactionSynchronizationManager.registerSynchronization(eventTransactionSynchronization);
+        }
+    }
+
+    /**
+     * application 하위패키지 service 하위패키지의 WriteService 클래스의 Transactional 어노테이션이 붙어있는 메서드에 대해 Aspect 를 적용한다.
+     */
+    @Before("execution(* com.foodymoody.be.*.application.service.*WriteService.*(..))"
+            + "&& @annotation(org.springframework.transaction.annotation.Transactional)")
+    public void beforeTransactionalCommandExecutionNew() {
         if (!isEventTransactionSynchronizationRegistered()) {
             var eventTransactionSynchronization = new EventTransactionSynchronization(messagePublisher);
             TransactionSynchronizationManager.registerSynchronization(eventTransactionSynchronization);
@@ -40,12 +55,13 @@ public class CommandHandlerAspect {
 
         @Override
         public void afterCommit() {
-            Events.getEvents().forEach(messagePublisher::publish);
+            EventManager.getEvents()
+                    .forEach(messagePublisher::publish);
         }
 
         @Override
         public void afterCompletion(int status) {
-            Events.clear();
+            EventManager.clear();
         }
     }
 }

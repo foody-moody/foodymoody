@@ -3,8 +3,8 @@ package com.foodymoody.be.feed_comment.persentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_comment.application.dto.response.MemberCommentSummaryResponse;
-import com.foodymoody.be.feed_comment.infra.usecase.FeedCommentReadUseCase;
+import com.foodymoody.be.feed_comment.application.dto.response.MemberFeedCommentSummaryResponse;
+import com.foodymoody.be.feed_comment.application.usecase.FeedCommentReadUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -19,19 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class FeedCommentController {
 
-    private final FeedCommentReadUseCase feedCommentReadUseCase;
+    private final FeedCommentReadUseCase useCase;
 
     @GetMapping("/api/comments")
-    public ResponseEntity<Slice<MemberCommentSummaryResponse>> fetchComments(
+    public ResponseEntity<Slice<MemberFeedCommentSummaryResponse>> fetchComments(
             @RequestParam FeedId feedId,
             @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable,
             @CurrentMemberId MemberId memberId
     ) {
         if (memberId == null) {
-            var response = feedCommentReadUseCase.fetchComments(feedId, pageable);
+            var response = useCase.fetchComments(feedId, pageable);
             return ResponseEntity.ok(response);
         }
-        var response = feedCommentReadUseCase.fetchComments(feedId, pageable, memberId);
+        var response = useCase.fetchComments(feedId, pageable, memberId);
         return ResponseEntity.ok(response);
     }
 }

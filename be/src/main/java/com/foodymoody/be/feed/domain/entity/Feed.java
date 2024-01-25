@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed.domain.entity;
 
-import com.foodymoody.be.common.event.Events;
+import com.foodymoody.be.common.event.EventManager;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreId;
@@ -79,7 +79,7 @@ public class Feed {
         this.imageMenus = new ImageMenus(images, menus);
         this.profileImageUrl = profileImageUrl;
         this.createdAt = createdAt;
-        Events.raise(toEvent(id, memberId, profileImageUrl, createdAt));
+        EventManager.raise(toEvent(id, memberId, profileImageUrl, createdAt));
     }
 
     public void update(

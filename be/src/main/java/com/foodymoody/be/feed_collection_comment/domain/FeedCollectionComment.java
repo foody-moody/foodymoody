@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_collection_comment.domain;
 
-import com.foodymoody.be.common.event.Events;
+import com.foodymoody.be.common.event.EventManager;
 import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
@@ -46,7 +46,7 @@ public class FeedCollectionComment {
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-        Events.raise(toFeedCollectionCommentAddedEvent(id, feedCollectionId, memberId, content, createdAt));
+        EventManager.raise(toFeedCollectionCommentAddedEvent(id, feedCollectionId, memberId, content, createdAt));
     }
 
     public void delete(MemberId memberId, LocalDateTime updatedAt) {

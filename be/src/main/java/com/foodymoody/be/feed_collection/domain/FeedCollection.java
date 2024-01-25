@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_collection.domain;
 
-import com.foodymoody.be.common.event.Events;
+import com.foodymoody.be.common.event.EventManager;
 import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
@@ -91,7 +91,7 @@ public class FeedCollection {
         this.updatedAt = createdAt;
         this.commentIds = new CommentIds();
         this.moods = new FeedCollectionMoods(IdFactory.createFeedCollectionMoodsId(), moods, createdAt);
-        Events.raise(FeedCollectionAddedEvent.of(
+        EventManager.raise(FeedCollectionAddedEvent.of(
                 memberId,
                 id,
                 title,

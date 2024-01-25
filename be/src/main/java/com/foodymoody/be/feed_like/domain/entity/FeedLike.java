@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_like.domain.entity;
 
-import com.foodymoody.be.common.event.Events;
+import com.foodymoody.be.common.event.EventManager;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.FeedLikeId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -29,7 +29,7 @@ public class FeedLike {
         this.feedId = feedId;
         this.memberId = memberId;
         this.isLiked = isLiked;
-        Events.raise(toEvent(feedId, memberId));
+        EventManager.raise(toEvent(feedId, memberId));
     }
 
     public FeedLikeId getId() {
