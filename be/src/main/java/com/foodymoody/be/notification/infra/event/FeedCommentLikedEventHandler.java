@@ -1,14 +1,13 @@
 package com.foodymoody.be.notification.infra.event;
 
+import static com.foodymoody.be.notification.infra.event.util.NotificationDetailsFactory.makeDetails;
 import static com.foodymoody.be.notification.infra.event.util.NotificationMapper.toNotification;
 
 import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedReadService;
-import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed_comment_like.infra.usecase.FeedCommentLikeAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
-import com.foodymoody.be.notification.domain.NotificationDetails;
-import com.foodymoody.be.notification.infra.event.dto.FeedCommentLikeNotificationDetails;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -53,27 +52,15 @@ public class FeedCommentLikedEventHandler {
     public void saveNotification(FeedCommentLikeAddedEvent event) {
         var toMemberId = event.getToMemberId();
         if (notificationSettingService.isCommentLikedAllowed(toMemberId)) {
-            var feedNotificationId = IdFactory.createNotificationId();
-            var feed = feedReadService.findFeed(event.getFeedId());
-            var details = makeDetails(event, feed);
-            var feedNotification = toNotification(event, feedNotificationId, details, toMemberId);
-            notificationWriteService.save(feedNotification);
+            saveNotification(event, toMemberId);
         }
     }
 
-    /**
-     * Creates details for a comment like notification event.
-     *
-     * @param event The CommentLikeAddedEvent instance.
-     * @param feed  The Feed instance related to the comment.
-     * @return A HashMap containing the details for the notification event.
-     */
-    private static NotificationDetails makeDetails(FeedCommentLikeAddedEvent event, Feed feed) {
-        return new FeedCommentLikeNotificationDetails(
-                event.getFeedCommentId(),
-                event.getCommentContent(),
-                feed.getId(),
-                feed.getProfileImageUrl()
-        );
+    private void saveNotification(FeedCommentLikeAddedEvent event, MemberId toMemberId) {
+        var feedNotificationId = IdFactory.createNotificationId();
+        var feed = feedReadService.findFeed(event.getFeedId());
+        var details = makeDetails(event, feed.getId(), feed.getProfileImageUrl());
+        var feedNotification = toNotification(event, feedNotificationId, details, toMemberId);
+        notificationWriteService.save(feedNotification);
     }
 }

@@ -1,15 +1,17 @@
 package com.foodymoody.be.notification.infra.event;
 
+import static com.foodymoody.be.notification.infra.event.util.NotificationDetailsFactory.makeDetails;
+
 import com.foodymoody.be.common.util.Content;
+import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection_comment.application.FeedCollectionCommentReadService;
 import com.foodymoody.be.feed_collection_reply.application.FeedCollectionReplyReadService;
 import com.foodymoody.be.feed_collection_reply_like.domain.FeedCollectionReplyLikeAddedEvent;
 import com.foodymoody.be.notification.application.NotificationWriteService;
-import com.foodymoody.be.notification.domain.NotificationDetails;
-import com.foodymoody.be.notification.infra.event.dto.FeedCollectionReplyLikeNotificationDetails;
 import com.foodymoody.be.notification.infra.event.util.NotificationMapper;
 import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
 import lombok.RequiredArgsConstructor;
@@ -34,29 +36,35 @@ public class FeedCollectionReplyLikeEventHandler {
         var comment = commentReadService.findById(commentId);
         var toMemberId = comment.getMemberId();
         if (notificationSettingService.isFeedCollectionReplyLikeAllowed(toMemberId)) {
-            var notificationId = IdFactory.createNotificationId();
-            var feedCollectionId = comment.getFeedCollectionId();
-            var feedCollection = feedCollectionService.fetchById(feedCollectionId);
-            var feedCollectionReplyId = event.getFeedCollectionReplyId();
-            var reply = replyReadService.fetchById(feedCollectionReplyId);
-            var feedCollectionReplyContent = reply.getContent();
-            var details = makeDetails(event, feedCollectionReplyContent, feedCollection);
-            var notification = NotificationMapper.toNotification(event, notificationId, details, toMemberId);
-            notificationService.save(notification);
+            saveNotification(event, toMemberId, comment.getFeedCollectionId());
         }
     }
 
-    private static NotificationDetails makeDetails(
+    private void saveNotification(
             FeedCollectionReplyLikeAddedEvent event,
-            Content feedCollectionReplyContent,
-            FeedCollection feedCollection
+            MemberId toMemberId,
+            FeedCollectionId feedCollectionId
     ) {
-        return new FeedCollectionReplyLikeNotificationDetails(
+        var notificationId = IdFactory.createNotificationId();
+        var feedCollection = getFeedCollection(feedCollectionId);
+        var feedCollectionReplyContent = getFeedCollectionReplyContent(event);
+        var details = makeDetails(
+                event,
                 feedCollection.getId(),
                 feedCollection.getThumbnailUrl(),
-                event.getFeedCollectionCommentId(),
-                event.getFeedCollectionReplyId(),
                 feedCollectionReplyContent
         );
+        var notification = NotificationMapper.toNotification(event, notificationId, details, toMemberId);
+        notificationService.save(notification);
+    }
+
+    private FeedCollection getFeedCollection(FeedCollectionId feedCollectionId) {
+        return feedCollectionService.fetchById(feedCollectionId);
+    }
+
+    private Content getFeedCollectionReplyContent(FeedCollectionReplyLikeAddedEvent event) {
+        var feedCollectionReplyId = event.getFeedCollectionReplyId();
+        var reply = replyReadService.fetchById(feedCollectionReplyId);
+        return reply.getContent();
     }
 }
