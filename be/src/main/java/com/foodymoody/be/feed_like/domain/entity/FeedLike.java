@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,35 +18,31 @@ import lombok.NoArgsConstructor;
 public class FeedLike {
 
     @Id
+    @Getter
     private FeedLikeId id;
+
     @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
+    @Getter
     private FeedId feedId;
+
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
+    @Getter
     private MemberId memberId;
+
+    @Getter
     private boolean isLiked;
 
-    public FeedLike(FeedLikeId id, FeedId feedId, MemberId memberId, boolean isLiked) {
+    public FeedLike(
+            FeedLikeId id,
+            FeedId feedId,
+            MemberId memberId,
+            boolean isLiked
+    ) {
         this.id = id;
         this.feedId = feedId;
         this.memberId = memberId;
         this.isLiked = isLiked;
         EventManager.raise(toEvent(feedId, memberId));
-    }
-
-    public FeedLikeId getId() {
-        return id;
-    }
-
-    public FeedId getFeedId() {
-        return feedId;
-    }
-
-    public MemberId getMemberId() {
-        return memberId;
-    }
-
-    public boolean isLiked() {
-        return isLiked;
     }
 
     private static FeedLikeAddedEvent toEvent(FeedId feedId, MemberId memberId) {

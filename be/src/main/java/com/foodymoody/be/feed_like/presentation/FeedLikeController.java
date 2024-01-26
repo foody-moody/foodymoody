@@ -18,15 +18,19 @@ public class FeedLikeController {
     private final FeedLikeService feedLikeService;
 
     @PostMapping("/api/feeds/{feedStringId}/likes")
-    public ResponseEntity<FeedLikeResponse> like(@PathVariable String feedStringId,
-                                                 @CurrentMemberId MemberId memberId) {
+    public ResponseEntity<FeedLikeResponse> like(
+            @PathVariable String feedStringId,
+            @CurrentMemberId MemberId memberId
+    ) {
         FeedLikeResponse feedLikeResponse = feedLikeService.like(feedStringId, memberId);
         return ResponseEntity.ok().body(feedLikeResponse);
     }
 
     @DeleteMapping("/api/feeds/{feedStringId}/likes")
-    public ResponseEntity<Void> unlike(@PathVariable String feedStringId,
-                                       @CurrentMemberId MemberId memberId) {
+    public ResponseEntity<Void> unlike(
+            @PathVariable String feedStringId,
+            @CurrentMemberId MemberId memberId
+    ) {
         feedLikeService.unLike(feedStringId, memberId);
         return ResponseEntity.noContent().build();
     }
