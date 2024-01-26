@@ -19,16 +19,16 @@ public interface FeedJpaRepository extends JpaRepository<Feed, FeedId> {
 
     Slice<Feed> findAllByIdIn(List<FeedId> feedIds, Pageable pageable);
 
-    @Query("SELECT NEW com.foodymoody.be.feed.application.usecase.dto.ImageIdNamePair(i.id, i.url) "
-            + "FROM ImageMenu im "
-            + "JOIN Image i ON im.imageId = i.id "
-            + "WHERE im IN :imageMenus")
+    @Query("SELECT NEW com.foodymoody.be.feed.application.usecase.dto.ImageIdNamePair(i.id, i.url)"
+            + " FROM ImageMenu im"
+            + " JOIN Image i ON im.imageId = i.id"
+            + " WHERE im IN :imageMenus")
     Optional<List<ImageIdNamePair>> fetchImageIdUrlList(@Param("imageMenus") List<ImageMenu> imageMenus);
 
-    @Query("SELECT NEW com.foodymoody.be.feed.application.usecase.dto.MenuNameRatingPair(m.name, m.rating) " +
-            "FROM ImageMenu im " +
-            "JOIN Menu m ON im.menuId = m.id " +
-            "WHERE im IN :imageMenus")
+    @Query("SELECT NEW com.foodymoody.be.feed.application.usecase.dto.MenuNameRatingPair(m.name, m.rating)" +
+            " FROM ImageMenu im" +
+            " JOIN Menu m ON im.menuId = m.id" +
+            " WHERE im IN :imageMenus")
     Optional<List<MenuNameRatingPair>> fetchMenuNameRatingList(@Param("imageMenus") List<ImageMenu> imageMenus);
 
 }

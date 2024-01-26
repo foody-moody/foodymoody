@@ -25,8 +25,10 @@ public class CollectionController {
      */
     @GetMapping("/api/collections/{collectionId}/feeds")
     public ResponseEntity<Slice<CollectionReadFeedDetailsResponse>> readCollectionFeedDetails(
-            @PathVariable FeedCollectionId collectionId, Pageable pageable,
-            @CurrentMemberId MemberId memberId) {
+            @PathVariable FeedCollectionId collectionId,
+            Pageable pageable,
+            @CurrentMemberId MemberId memberId
+    ) {
         Slice<CollectionReadFeedDetailsResponse> collectionReadFeedDetailsResponses = collectionUseCase.readCollectionFeedDetails(
                 FeedMapper.toCollectionReadFeedDetailsServiceRequest(collectionId, pageable, memberId));
         return ResponseEntity.ok().body(collectionReadFeedDetailsResponses);

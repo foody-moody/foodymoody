@@ -46,9 +46,19 @@ public class FeedReadAllResponse {
     private Long commentCount;
 
     @Builder
-    public FeedReadAllResponse(FeedId id, FeedMemberResponse member, LocalDateTime createdAt, LocalDateTime updatedAt,
-                               StoreResponse storeResponse, String review, List<FeedStoreMoodResponse> storeMood,
-                               List<FeedImageMenuResponse> images, int likeCount, boolean isLiked, Long commentCount) {
+    public FeedReadAllResponse(
+            FeedId id,
+            FeedMemberResponse member,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            StoreResponse storeResponse,
+            String review,
+            List<FeedStoreMoodResponse> storeMood,
+            List<FeedImageMenuResponse> images,
+            int likeCount,
+            boolean isLiked,
+            Long commentCount
+    ) {
         this.id = id;
         this.member = member;
         this.createdAt = createdAt;

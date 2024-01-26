@@ -35,7 +35,8 @@ public class FeedController {
     @PostMapping("/api/feeds")
     public ResponseEntity<FeedRegisterResponse> register(
             @RequestBody @Valid FeedRegisterRequest feedRegisterRequest,
-            @CurrentMemberId MemberId memberId) {
+            @CurrentMemberId MemberId memberId
+    ) {
         FeedRegisterResponse feedRegisterResponse = feedUseCase.register(
                 FeedMapper.toServiceRegisterRequest(feedRegisterRequest, memberId));
         return ResponseEntity.ok().body(feedRegisterResponse);
@@ -45,8 +46,10 @@ public class FeedController {
      * 전체 Feed 조회
      */
     @GetMapping("/api/feeds")
-    public ResponseEntity<Slice<FeedReadAllResponse>> readAll(Pageable pageable,
-                                                              @CurrentMemberId MemberId memberId) {
+    public ResponseEntity<Slice<FeedReadAllResponse>> readAll(
+            Pageable pageable,
+            @CurrentMemberId MemberId memberId
+    ) {
         Slice<FeedReadAllResponse> feedReadAllResponses = feedUseCase.readAll(pageable, memberId);
         return ResponseEntity.ok().body(feedReadAllResponses);
     }
@@ -55,8 +58,10 @@ public class FeedController {
      * 개별 Feed 조회
      */
     @GetMapping("/api/feeds/{id}")
-    public ResponseEntity<FeedReadResponse> read(@PathVariable FeedId id,
-                                                 @CurrentMemberId MemberId memberId) {
+    public ResponseEntity<FeedReadResponse> read(
+            @PathVariable FeedId id,
+            @CurrentMemberId MemberId memberId
+    ) {
         FeedReadResponse feedReadResponse = feedUseCase.read(id, memberId);
         return ResponseEntity.ok().body(feedReadResponse);
     }
@@ -65,8 +70,11 @@ public class FeedController {
      * Feed 수정
      */
     @PutMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> update(@PathVariable FeedId id, @RequestBody @Valid FeedUpdateRequest feedUpdateRequest,
-                                       @CurrentMemberId MemberId memberId) {
+    public ResponseEntity<Void> update(
+            @PathVariable FeedId id,
+            @RequestBody @Valid FeedUpdateRequest feedUpdateRequest,
+            @CurrentMemberId MemberId memberId
+    ) {
         feedUseCase.update(FeedMapper.toServiceUpdateRequest(id, feedUpdateRequest, memberId));
         return ResponseEntity.noContent().build();
     }
@@ -75,8 +83,10 @@ public class FeedController {
      * Feed 삭제
      */
     @DeleteMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> delete(@PathVariable FeedId id,
-                                       @CurrentMemberId MemberId memberId) {
+    public ResponseEntity<Void> delete(
+            @PathVariable FeedId id,
+            @CurrentMemberId MemberId memberId
+    ) {
         feedUseCase.delete(FeedMapper.toServiceDeleteRequest(id, memberId));
         return ResponseEntity.noContent().build();
     }

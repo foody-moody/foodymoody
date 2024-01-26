@@ -43,23 +43,42 @@ public class FeedMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Feed toFeed(FeedId id, MemberId memberId, StoreId storeId, String review,
-                              List<StoreMood> storeMoods,
-                              List<Image> images, List<Menu> menus, String profileImageUrl) {
-        return new Feed(id, memberId, storeId, review, storeMoods, images, menus,
-                profileImageUrl, LocalDateTime.now());
+    public static Feed toFeed(
+            FeedId id,
+            MemberId memberId,
+            StoreId storeId,
+            String review,
+            List<StoreMood> storeMoods,
+            List<Image> images,
+            List<Menu> menus,
+            String profileImageUrl
+    ) {
+        return new Feed(
+                id,
+                memberId,
+                storeId,
+                review,
+                storeMoods,
+                images,
+                menus,
+                profileImageUrl,
+                LocalDateTime.now()
+        );
     }
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {
         return new FeedRegisterResponse(savedFeed.getId());
     }
 
-    public static FeedReadResponse toFeedReadResponse(FeedMemberResponse feedMemberResponse, Feed feed,
-                                                      List<FeedImageMenuResponse> images,
-                                                      List<FeedStoreMoodResponse> moodNames,
-                                                      boolean isLiked,
-                                                      Long commentCount,
-                                                      StoreResponse storeResponse) {
+    public static FeedReadResponse toFeedReadResponse(
+            FeedMemberResponse feedMemberResponse,
+            Feed feed,
+            List<FeedImageMenuResponse> images,
+            List<FeedStoreMoodResponse> moodNames,
+            boolean isLiked,
+            Long commentCount,
+            StoreResponse storeResponse
+    ) {
         return FeedReadResponse.builder()
                 .id(feed.getId())
                 .member(feedMemberResponse)
@@ -85,8 +104,11 @@ public class FeedMapper {
                 .build();
     }
 
-    public static FeedServiceUpdateRequest toServiceUpdateRequest(FeedId id, FeedUpdateRequest request,
-                                                                  MemberId memberId) {
+    public static FeedServiceUpdateRequest toServiceUpdateRequest(
+            FeedId id,
+            FeedUpdateRequest request,
+            MemberId memberId
+    ) {
         return FeedServiceUpdateRequest.builder()
                 .id(id)
                 .memberId(memberId)
@@ -97,8 +119,10 @@ public class FeedMapper {
                 .build();
     }
 
-    public static List<FeedImageMenuResponse> toFeedImageMenuResponses(List<ImageIdNamePair> imageIdUrlList,
-                                                                       List<MenuNameRatingPair> menuNameRatingList) {
+    public static List<FeedImageMenuResponse> toFeedImageMenuResponses(
+            List<ImageIdNamePair> imageIdUrlList,
+            List<MenuNameRatingPair> menuNameRatingList
+    ) {
         List<FeedImageMenuResponse> feedImageMenuResponses = new ArrayList<>();
         for (int i = 0; i < imageIdUrlList.size(); i++) {
             feedImageMenuResponses.add(
@@ -128,12 +152,15 @@ public class FeedMapper {
                 .build();
     }
 
-    public static FeedReadAllResponse makeFeedReadAllResponse(Feed feed, FeedMemberResponse makeFeedMemberResponse,
-                                                              List<FeedStoreMoodResponse> makeFeedStoreMoodResponses,
-                                                              List<FeedImageMenuResponse> makeFeedImageMenuResponses,
-                                                              boolean isLiked,
-                                                              Long commentCount,
-                                                              StoreResponse storeResponse) {
+    public static FeedReadAllResponse makeFeedReadAllResponse(
+            Feed feed,
+            FeedMemberResponse makeFeedMemberResponse,
+            List<FeedStoreMoodResponse> makeFeedStoreMoodResponses,
+            List<FeedImageMenuResponse> makeFeedImageMenuResponses,
+            boolean isLiked,
+            Long commentCount,
+            StoreResponse storeResponse
+    ) {
         return FeedReadAllResponse.builder()
                 .id(feed.getId())
                 .member(makeFeedMemberResponse)
@@ -158,7 +185,8 @@ public class FeedMapper {
     public static CollectionReadFeedDetailsServiceRequest toCollectionReadFeedDetailsServiceRequest(
             FeedCollectionId collectionId,
             Pageable pageable,
-            MemberId memberId) {
+            MemberId memberId
+    ) {
         return new CollectionReadFeedDetailsServiceRequest(collectionId, pageable, memberId);
     }
 
