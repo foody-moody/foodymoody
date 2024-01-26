@@ -90,7 +90,7 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
 
     openModal('commentAlert', modalProps);
   };
-  console.log(comment.id, ' now comment ID');
+
   const handleSubmitLike = () => {
     if (isLogin) {
       comment.liked ? unLikeMutate(comment.id) : likeMutate(comment.id);
@@ -135,7 +135,7 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
               </Input.CenterContent>
             </Input>
           ) : (
-            comment.content
+            <CommentText>{comment.content}</CommentText>
           )}
         </FlexColumnBox>
       </ContentLeft>
@@ -168,6 +168,11 @@ const FlexColumnBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+`;
+
+const CommentText = styled.p`
+  word-break: break-all;
+  overflow-wrap: break-word;
 `;
 
 const ContentHeader = styled.div`

@@ -10,6 +10,7 @@ type Props = {
   value?: string;
   placeholder?: string;
   helperText?: string;
+  helperType?: 'success' | 'error';
   nextRef?: React.RefObject<HTMLInputElement | HTMLButtonElement>;
   onChangeValue?(value: string): void;
 };
@@ -22,6 +23,7 @@ export const ValidatedInput = forwardRef<HTMLInputElement, Props>(
       value,
       placeholder,
       helperText,
+      helperType,
       onChangeValue,
       nextRef,
       ...props
@@ -43,7 +45,12 @@ export const ValidatedInput = forwardRef<HTMLInputElement, Props>(
 
     return (
       <Wrapper>
-        <Input variant={variant} isFocused={isFocused} helperText={helperText}>
+        <Input
+          variant={variant}
+          isFocused={isFocused}
+          helperText={helperText}
+          helperType={helperType}
+        >
           {placeholder && (
             <Input.InnerLabel isFocused={isFocused}>
               {placeholder}
@@ -70,7 +77,12 @@ export const ValidatedInput = forwardRef<HTMLInputElement, Props>(
               {...props}
             />
           </Input.CenterContent>
-          <Input.HelperText isFocused={isFocused} isError={!!helperText}>
+          <Input.HelperText
+            isFocused={isFocused}
+            isError={!!helperText}
+            alignValue="3%"
+            helperType={helperType}
+          >
             {helperText}
           </Input.HelperText>
           {type === 'password' && (

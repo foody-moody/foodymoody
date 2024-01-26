@@ -27,6 +27,21 @@ export const multiFormApi = axios.create({
   },
 });
 
+publicApi.interceptors.request.use(
+  (config) => {
+    const token = getAccessToken();
+
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 privateApi.interceptors.request.use(
   (config) => {
     const token = getAccessToken();
