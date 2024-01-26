@@ -17,10 +17,11 @@ import { PATH } from 'constants/path';
 
 type Props = {
   collection: CollectionItem;
+  profileAuthor?: Author;
 };
 
 export const ListItem = forwardRef<HTMLLIElement, Props>(
-  ({ collection }, ref) => {
+  ({ collection, profileAuthor }, ref) => {
     const { author } = collection;
     const { isLogin, userInfo } = useAuthState();
     const navigate = useNavigate();
@@ -126,7 +127,7 @@ export const ListItem = forwardRef<HTMLLIElement, Props>(
             }}
           >
             <ContentText>{collection.title}</ContentText>
-            {/* <BadgeWrapper>배지 영역입니다 </BadgeWrapper> */}
+
             <BadgeWrapper>
               {collection.storeMood.map((storeMood) => (
                 <StoreMoodBadge name={storeMood.name} key={storeMood.id} />
@@ -136,16 +137,21 @@ export const ListItem = forwardRef<HTMLLIElement, Props>(
           <ContentBottom>
             <InfoLeft
               onClick={() => {
-                handleNavigateToProfile(collection.author.id);
+                handleNavigateToProfile(
+                  collection.author.id || (profileAuthor?.id as string)
+                );
               }}
             >
               <UserImage
                 imageUrl={
                   collection.author.profileImageUrl ||
+                  profileAuthor?.profileImageUrl ||
                   generateDefaultUserImage('얌')
                 }
               />
-              <ListUserName>{collection.author.name}</ListUserName>
+              <ListUserName>
+                {collection.author.name || profileAuthor?.name}
+              </ListUserName>
             </InfoLeft>
             <InfoRight>
               <IconBox>

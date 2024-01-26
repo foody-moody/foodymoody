@@ -6,12 +6,14 @@ import { GridItem } from './GridItem';
 
 type Props = {
   collections: CollectionItem[];
+  author?: Author;
   hasNextPage?: boolean;
   fetchNextPage(): void;
 };
 
 export const GridLayout: React.FC<Props> = ({
   collections,
+  author,
   hasNextPage,
   fetchNextPage,
 }) => {
@@ -30,6 +32,7 @@ export const GridLayout: React.FC<Props> = ({
           <GridItem
             key={collection.id}
             collection={collection}
+            author={author}
             ref={isLastItem ? observeTarget : null}
           />
         );

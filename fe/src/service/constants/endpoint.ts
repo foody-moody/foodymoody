@@ -10,6 +10,10 @@ export const END_POINT = {
     id?: string,
     sort?: string // TODO sort 타입 정의
   ) => (id ? `/feed_collections/${id}` : `/feed_collections?sort=${sort}`),
+  memberCollections: (id: string, sort?: string) =>
+    sort
+      ? `/members/${id}/collections?sort=${sort}`
+      : `/members/${id}/collections`,
   feedLike: (id: string) => `/feeds/${id}/likes`,
   commentLike: (id: string) => `/comments/${id}/likes`,
   replyLike: ({ commentId, replyId }: ReplyLike) =>

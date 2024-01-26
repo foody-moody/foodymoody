@@ -8,10 +8,11 @@ import { PATH } from 'constants/path';
 
 type Props = {
   collection: CollectionItem | CarouselCollectionItem;
+  author?: Author;
 };
 
 export const GridItem = forwardRef<HTMLLIElement, Props>(
-  ({ collection }, ref) => {
+  ({ collection, author }, ref) => {
     const navigate = useNavigate();
 
     const handleNavigateToDetail = (id: string) => {
@@ -51,16 +52,19 @@ export const GridItem = forwardRef<HTMLLIElement, Props>(
               <InfoLeft
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleNavigateToProfile(collection.author.id);
+                  handleNavigateToProfile(
+                    collection.author.id || (author?.id as string)
+                  );
                 }}
               >
                 <UserImage
                   imageUrl={
                     collection.author.profileImageUrl ||
+                    author?.profileImageUrl ||
                     generateDefaultUserImage('얌')
                   }
                 />
-                <UserName>{collection.author.name}</UserName>
+                <UserName>{collection.author.name || author?.name}</UserName>
               </InfoLeft>
               <InfoRight>
                 <HeartSmallFill />
