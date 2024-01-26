@@ -5,7 +5,7 @@ import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.dto.response.CollectionReadFeedDetailsResponse;
-import com.foodymoody.be.feed.infra.usecase.CollectionUseCase;
+import com.foodymoody.be.feed.application.usecase.CollectionUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

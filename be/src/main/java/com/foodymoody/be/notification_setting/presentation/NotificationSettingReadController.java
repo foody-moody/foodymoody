@@ -2,8 +2,8 @@ package com.foodymoody.be.notification_setting.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.notification_setting.infra.usecase.NotificationSettingReadUseCase;
-import com.foodymoody.be.notification_setting.infra.usecase.NotificationSettingResponse;
+import com.foodymoody.be.notification_setting.application.usecase.NotificationSettingReadUseCase;
+import com.foodymoody.be.notification_setting.application.usecase.NotificationSettingResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

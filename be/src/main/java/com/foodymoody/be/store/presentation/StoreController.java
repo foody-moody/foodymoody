@@ -1,9 +1,9 @@
 package com.foodymoody.be.store.presentation;
 
 import com.foodymoody.be.common.util.ids.StoreId;
-import com.foodymoody.be.store.application.StoreReadService;
-import com.foodymoody.be.store.application.dto.response.StoreDetailsResponse;
-import com.foodymoody.be.store.application.dto.response.StoreSearchResponse;
+import com.foodymoody.be.store.application.service.StoreReadService;
+import com.foodymoody.be.store.application.service.dto.response.StoreDetailsResponse;
+import com.foodymoody.be.store.application.service.dto.response.StoreSearchResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

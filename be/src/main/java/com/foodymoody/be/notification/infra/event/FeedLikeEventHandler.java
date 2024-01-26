@@ -4,10 +4,10 @@ import static com.foodymoody.be.notification.infra.event.util.NotificationDetail
 import static com.foodymoody.be.notification.infra.event.util.NotificationMapper.toNotification;
 
 import com.foodymoody.be.common.util.ids.IdFactory;
-import com.foodymoody.be.feed.application.FeedReadService;
+import com.foodymoody.be.feed.application.service.FeedReadService;
 import com.foodymoody.be.feed_like.domain.entity.FeedLikeAddedEvent;
-import com.foodymoody.be.notification.application.NotificationWriteService;
-import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
+import com.foodymoody.be.notification.application.service.NotificationWriteService;
+import com.foodymoody.be.notification_setting.application.service.NotificationSettingReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;

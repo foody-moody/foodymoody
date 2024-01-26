@@ -6,7 +6,7 @@ import com.foodymoody.be.common.util.IdResponse;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_collection_reply.infra.usecase.FeedCollectionReplyWriteUseCase;
+import com.foodymoody.be.feed_collection_reply.application.usecase.FeedCollectionReplyWriteUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

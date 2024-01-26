@@ -1,14 +1,13 @@
 package com.foodymoody.be.store;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.acceptance.util.SqlFileExecutor;
 import com.foodymoody.be.common.config.AppConfig;
 import com.foodymoody.be.common.util.ids.StoreId;
-import com.foodymoody.be.store.application.dto.response.StoreDetailsResponse;
+import com.foodymoody.be.store.application.service.dto.response.StoreDetailsResponse;
 import com.foodymoody.be.store.domain.StoreRepository;
 import com.foodymoody.be.store.infra.StoreRepositoryImpl;
-import com.foodymoody.be.store.infra.jpa.StoreJpaRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

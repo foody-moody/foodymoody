@@ -1,7 +1,7 @@
 package com.foodymoody.be.feed.presentation;
 
-import com.foodymoody.be.feed.application.StoreMoodReadService;
 import com.foodymoody.be.feed.application.dto.response.StoreMoodResponse;
+import com.foodymoody.be.feed.application.service.StoreMoodReadService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

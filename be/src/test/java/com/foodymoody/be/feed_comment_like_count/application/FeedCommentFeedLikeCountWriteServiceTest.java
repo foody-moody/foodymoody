@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
 import com.foodymoody.be.common.util.ids.FeedCommentLikeCountId;
 import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.feed_comment_like_count.application.service.CommentHeartCountWriteService;
 import com.foodymoody.be.feed_comment_like_count.domain.FeedCommentLikeCount;
 import com.foodymoody.be.feed_comment_like_count.infra.persistence.jpa.CommentHeartCountJpaRepository;
 import com.foodymoody.be.utils.SpringBootIntegrationTest;

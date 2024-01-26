@@ -2,7 +2,7 @@ package com.foodymoody.be.feed_reply_like_count.infra.event;
 
 import com.foodymoody.be.common.util.ids.ReplyHeartCountId;
 import com.foodymoody.be.feed_comment.domain.entity.FeedCommentReplyAddedEvent;
-import com.foodymoody.be.feed_reply_like_count.application.ReplyHeartCountWriteService;
+import com.foodymoody.be.feed_reply_like_count.application.service.ReplyHeartCountWriteService;
 import com.foodymoody.be.feed_reply_like_count.domain.ReplyHeartCount;
 import com.foodymoody.be.feed_reply_like_count.domain.ReplyHeartCountIdFactory;
 import lombok.RequiredArgsConstructor;

@@ -2,8 +2,8 @@ package com.foodymoody.be.feed_like.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_like.application.FeedLikeService;
 import com.foodymoody.be.feed_like.application.dto.response.FeedLikeResponse;
+import com.foodymoody.be.feed_like.application.service.FeedLikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

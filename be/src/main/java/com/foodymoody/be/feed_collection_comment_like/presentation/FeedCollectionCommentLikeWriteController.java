@@ -4,7 +4,7 @@ import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.IdResponse;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_collection_comment_like.infra.usecase.FeedCollectionCommentLikeUseCase;
+import com.foodymoody.be.feed_collection_comment_like.application.usecase.FeedCollectionCommentLikeUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
