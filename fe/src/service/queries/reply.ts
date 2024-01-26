@@ -10,12 +10,13 @@ import { getAllReplies, postNewReply } from 'service/axios/auth/comment/reply';
 import 'service/axios/feed/feed';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
-export const useGetReplies = (id: string) => {
+export const useGetReplies = (commentId: string) => {
+  console.log('replies commentId', commentId);
+
   const { data, hasNextPage, isFetching, fetchNextPage, refetch } =
     useInfiniteQuery({
-      // queryKey: [QUERY_KEY.replies], // 대댓글 전체가 렌더링됨
-      queryKey: [QUERY_KEY.replies, id],
-      queryFn: ({ pageParam = 0 }) => getAllReplies(pageParam, 10, id),
+      queryKey: [QUERY_KEY.replies, commentId],
+      queryFn: ({ pageParam = 0 }) => getAllReplies(pageParam, 10, commentId),
       getNextPageParam: (lastPage) => {
         return lastPage.last ? undefined : lastPage.number + 1;
       },
@@ -35,7 +36,7 @@ export const useGetReplies = (id: string) => {
   };
 };
 
-export const usePostReply = (id: string, callbackFn: () => void) => {
+export const usePostReply = (id: string, callbackFn?: () => void) => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
@@ -43,10 +44,8 @@ export const usePostReply = (id: string, callbackFn: () => void) => {
     mutationFn: (body: Omit<NewCommentBody, 'feedId'>) =>
       postNewReply(body, id),
     onSuccess: () => {
-      callbackFn();
-      // queryClient.invalidateQueries([QUERY_KEY.replies]);
-      queryClient.invalidateQueries([QUERY_KEY.replies, id]);
-      queryClient.invalidateQueries([QUERY_KEY.comments]); // 특정 페이지 인덱스만 불러와야하는지?
+      callbackFn?.();
+      queryClient.invalidateQueries([QUERY_KEY.comments]);
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;

@@ -7,7 +7,7 @@ type MainFeed = {
   storeMood: Badge[];
   images: FeedImage[];
   likeCount: number;
-  liked: boolean;
+  isLiked: boolean;
   commentCount: number;
   store: Store;
 };

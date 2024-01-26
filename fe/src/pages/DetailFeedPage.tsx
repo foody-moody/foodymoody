@@ -84,7 +84,7 @@ export const DetailFeedModalPage = () => {
             <Content>
               <Info>
                 <Detail>
-                  <FeedUserInfo // TODO 수정됨 요소 추가
+                  <FeedUserInfo
                     feedId={feed?.id}
                     member={feed?.member}
                     createdAt={isUpdated ? feed.updatedAt : feed.createdAt}
@@ -102,7 +102,7 @@ export const DetailFeedModalPage = () => {
               </Info>
               <FeedAction
                 feedId={feed?.id}
-                isLiked={feed?.liked}
+                isLiked={feed?.isLiked}
                 likeCount={feed?.likeCount}
                 commentCount={feed?.commentCount}
               />
