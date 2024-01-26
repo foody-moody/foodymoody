@@ -2,7 +2,7 @@ package com.foodymoody.be.feed_collection_reply_like_count.infra.event;
 
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed_collection_reply.domain.FeedCollectionReplyAddedEvent;
-import com.foodymoody.be.feed_collection_reply_like_count.application.FeedCollectionReplyLikeCountWriteService;
+import com.foodymoody.be.feed_collection_reply_like_count.application.service.FeedCollectionReplyLikeCountWriteService;
 import com.foodymoody.be.feed_collection_reply_like_count.domain.FeedCollectionReplyLikeCount;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;

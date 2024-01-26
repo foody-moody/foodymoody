@@ -3,7 +3,7 @@ package com.foodymoody.be.feed_comment_like.presentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_comment_like.infra.usecase.CommentLikeWriteUseCase;
+import com.foodymoody.be.feed_comment_like.application.usecase.CommentLikeWriteUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

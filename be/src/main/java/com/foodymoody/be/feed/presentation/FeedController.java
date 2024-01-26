@@ -9,7 +9,7 @@ import com.foodymoody.be.feed.application.dto.request.FeedUpdateRequest;
 import com.foodymoody.be.feed.application.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
-import com.foodymoody.be.feed.infra.usecase.FeedUseCase;
+import com.foodymoody.be.feed.application.usecase.FeedUseCase;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

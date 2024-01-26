@@ -1,7 +1,7 @@
 package com.foodymoody.be.feed_collection.presentation;
 
-import com.foodymoody.be.feed_collection.infra.usecase.FeedCollectionMoodReadUseCase;
-import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionMoodResponse;
+import com.foodymoody.be.feed_collection.application.usecase.FeedCollectionMoodReadUseCase;
+import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionMoodResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

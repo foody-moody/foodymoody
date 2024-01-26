@@ -6,11 +6,11 @@ import static com.foodymoody.be.notification.infra.event.util.NotificationMapper
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.domain.entity.FeedAddedEvent;
-import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.application.dto.FollowMemberSummary;
+import com.foodymoody.be.member.application.service.MemberReadService;
 import com.foodymoody.be.member.domain.FollowRepository;
-import com.foodymoody.be.notification.application.NotificationWriteService;
-import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
+import com.foodymoody.be.notification.application.service.NotificationWriteService;
+import com.foodymoody.be.notification_setting.application.service.NotificationSettingReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.PageRequest;

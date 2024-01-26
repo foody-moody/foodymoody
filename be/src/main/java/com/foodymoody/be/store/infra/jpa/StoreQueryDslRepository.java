@@ -1,8 +1,8 @@
 package com.foodymoody.be.store.infra.jpa;
 
 import com.foodymoody.be.common.util.ids.StoreId;
-import com.foodymoody.be.store.application.dto.response.StoreDetailsResponse;
-import com.foodymoody.be.store.application.dto.response.StoreSearchResponse;
+import com.foodymoody.be.store.application.service.dto.response.StoreDetailsResponse;
+import com.foodymoody.be.store.application.service.dto.response.StoreSearchResponse;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Component;

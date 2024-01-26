@@ -3,7 +3,7 @@ package com.foodymoody.be.feed_comment_like_count.infra.event;
 import com.foodymoody.be.common.util.ids.FeedCommentLikeCountId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed_comment.domain.entity.FeedCommentAddedEvent;
-import com.foodymoody.be.feed_comment_like_count.application.CommentHeartCountWriteService;
+import com.foodymoody.be.feed_comment_like_count.application.service.CommentHeartCountWriteService;
 import com.foodymoody.be.feed_comment_like_count.domain.FeedCommentLikeCount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;

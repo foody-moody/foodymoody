@@ -1,10 +1,10 @@
 package com.foodymoody.be.feed.infra.persistence.jpa;
 
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.feed.application.usecase.dto.ImageIdNamePair;
+import com.foodymoody.be.feed.application.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
-import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
-import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
@@ -19,13 +19,13 @@ public interface FeedJpaRepository extends JpaRepository<Feed, FeedId> {
 
     Slice<Feed> findAllByIdIn(List<FeedId> feedIds, Pageable pageable);
 
-    @Query("SELECT NEW com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair(i.id, i.url) "
+    @Query("SELECT NEW com.foodymoody.be.feed.application.usecase.dto.ImageIdNamePair(i.id, i.url) "
             + "FROM ImageMenu im "
             + "JOIN Image i ON im.imageId = i.id "
             + "WHERE im IN :imageMenus")
     Optional<List<ImageIdNamePair>> fetchImageIdUrlList(@Param("imageMenus") List<ImageMenu> imageMenus);
 
-    @Query("SELECT NEW com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair(m.name, m.rating) " +
+    @Query("SELECT NEW com.foodymoody.be.feed.application.usecase.dto.MenuNameRatingPair(m.name, m.rating) " +
             "FROM ImageMenu im " +
             "JOIN Menu m ON im.menuId = m.id " +
             "WHERE im IN :imageMenus")

@@ -3,8 +3,8 @@ package com.foodymoody.be.store.infra.jpa;
 import static com.foodymoody.be.store.domain.QStore.store;
 
 import com.foodymoody.be.common.util.ids.StoreId;
-import com.foodymoody.be.store.application.dto.response.StoreDetailsResponse;
-import com.foodymoody.be.store.application.dto.response.StoreSearchResponse;
+import com.foodymoody.be.store.application.service.dto.response.StoreDetailsResponse;
+import com.foodymoody.be.store.application.service.dto.response.StoreSearchResponse;
 import com.foodymoody.be.store.domain.StoreStatus.StatusType;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;

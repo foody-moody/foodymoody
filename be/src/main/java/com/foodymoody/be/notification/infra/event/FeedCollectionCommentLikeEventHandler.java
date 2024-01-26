@@ -5,12 +5,12 @@ import static com.foodymoody.be.notification.infra.event.util.NotificationMapper
 
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
-import com.foodymoody.be.feed_collection_comment.application.FeedCollectionCommentReadService;
+import com.foodymoody.be.feed_collection.application.service.FeedCollectionReadService;
+import com.foodymoody.be.feed_collection_comment.application.service.FeedCollectionCommentReadService;
 import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionComment;
 import com.foodymoody.be.feed_collection_comment_like.domain.FeedCollectionCommentLikeAddedEvent;
-import com.foodymoody.be.notification.application.NotificationWriteService;
-import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
+import com.foodymoody.be.notification.application.service.NotificationWriteService;
+import com.foodymoody.be.notification_setting.application.service.NotificationSettingReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
