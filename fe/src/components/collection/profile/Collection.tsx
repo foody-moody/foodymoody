@@ -1,19 +1,39 @@
+import { useParams } from 'react-router-dom';
+import { useSort } from 'recoil/sortState/useSort';
+import { useGetProfileCollection } from 'service/queries/collection';
 import { styled } from 'styled-components';
 import { LayoutButton } from 'components/layoutButton/LayoutButton';
-import { CollectionContainer } from '../CollectionContainer';
+import { SelectSort } from 'components/sort/SelectSort';
+import { useAuthState } from 'hooks/auth/useAuth';
+import { CollectionContainer } from './CollectionContainer';
 
 export const Collection = () => {
+  const { id } = useParams();
+  const { userInfo } = useAuthState();
+  const USER_ID = id || userInfo.id;
+  const { sortBy } = useSort('profileCollection');
+  const { collections, count, author, hasNextPage, fetchNextPage } =
+    useGetProfileCollection(USER_ID, sortBy);
+
   return (
     <Wrapper>
       <Header>
         <HeaderLeft>
           <Title>콜렉션</Title>
-          <CollectionCounter>{12}</CollectionCounter>
+          <CollectionCounter>{count}</CollectionCounter>
         </HeaderLeft>
-        <LayoutButton />
+        <SortContainer>
+          <SelectSort sortId="profileCollection" />
+          <LayoutButton />
+        </SortContainer>
       </Header>
       <Contents>
-        <CollectionContainer />
+        <CollectionContainer
+          collections={collections}
+          hasNextPage={hasNextPage}
+          fetchNextPage={fetchNextPage}
+          author={author}
+        />
       </Contents>
     </Wrapper>
   );
@@ -23,7 +43,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  /* height: 100dvh; */
 `;
 
 const Header = styled.div`
@@ -38,6 +58,12 @@ const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+`;
+
+const SortContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
 `;
 
 const Title = styled.h2`

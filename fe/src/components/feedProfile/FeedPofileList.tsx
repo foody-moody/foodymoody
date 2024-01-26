@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useAllProfileFeeds } from 'service/queries/feed';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
-import { EmptyProfileFeeds } from 'components/common/help/EmptyProfileFeeds';
+import { EmptyProfileContents } from 'components/common/help/EmptyProfileContents';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useIntersectionObserver } from 'hooks/useObserver';
 import { FeedProfileItem } from './FeedProfleItem';
@@ -25,7 +25,7 @@ export const FeedProfileList = () => {
   return (
     <>
       {profileFeeds.length === 0 ? (
-        <EmptyProfileFeeds />
+        <EmptyProfileContents text="피드가" />
       ) : (
         <FeedsWrapper>
           {profileFeeds?.map((feed: ProfileFeed, index: number) => {
