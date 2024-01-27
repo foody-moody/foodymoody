@@ -10,11 +10,12 @@ import static com.foodymoody.be.member.domain.QMember.*;
 
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection_like.domain.QFeedCollectionLike;
+import com.foodymoody.be.member.application.dto.response.FeedCollectionMoodResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileImageResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionAuthorResponse;
-import com.foodymoody.be.member.application.dto.response.MyFeedCollectionMoodResponse;
+import com.foodymoody.be.member.application.dto.response.MyFeedCollectionMoodSummary;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionResponse;
 import com.foodymoody.be.member.application.dto.response.TasteMoodResponse;
 import com.querydsl.core.Tuple;
@@ -103,6 +104,7 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
                                 MyFeedCollectionResponse.class,
                                 feedCollection.id,
                                 feedCollection.title,
+                                feedCollection.thumbnailUrl,
                                 feedCollection.feedIds.ids.size(),
                                 feedCollectionLike.count(),
                                 feedCollection.commentIds.ids.size(),
@@ -124,10 +126,10 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
                 .fetch();
 
         // 컬렉션 목록 슬라이스의 무드 조회
-        List<MyFeedCollectionMoodResponse> collectionMoodSummariesQueryResult = jpaQueryFactory
+        List<MyFeedCollectionMoodSummary> collectionMoodSummariesQueryResult = jpaQueryFactory
                 .select(
                         Projections.constructor(
-                                MyFeedCollectionMoodResponse.class,
+                                MyFeedCollectionMoodSummary.class,
                                 feedCollectionMood.id,
                                 feedCollectionMood.name,
                                 feedCollection.id
@@ -141,9 +143,10 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
 
         collectionSummariesQueryResult.forEach(
                 queryResult -> queryResult.setMoods(
-                        collectionMoodSummariesQueryResult.stream().filter(
-                                moodQueryResult -> moodQueryResult.getFeedCollectionId().equals(queryResult.getId())
-                        ).collect(Collectors.toUnmodifiableList())
+                        collectionMoodSummariesQueryResult.stream()
+                                .filter(moodQueryResult -> moodQueryResult.getFeedCollectionId().equals(queryResult.getId()))
+                                .map(moodSummary -> new FeedCollectionMoodResponse(moodSummary.getId(), moodSummary.getName()))
+                                .collect(Collectors.toUnmodifiableList())
                 )
         );
 
