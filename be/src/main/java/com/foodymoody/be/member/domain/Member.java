@@ -49,7 +49,7 @@ public class Member {
         this.nickname = nickname;
         this.password = new Password(password);
         this.tasteMood = tasteMood;
-        this.profileImage = new MemberProfileImage(ImageId.MEMBER_PROFILE_DEFAULT);
+        this.profileImage = MemberProfileImage.DEFAULT;
         this.myFollowings = new MyFollowings();
         this.myFollowers = new MyFollowers();
         EventManager.raise(toMemberCreatedEvent());
@@ -81,6 +81,10 @@ public class Member {
         return profileImage.getId();
     }
 
+    public String getProfileImageUrl() {
+        return profileImage.getUrl();
+    }
+
     public TasteMoodId getTasteMoodId() {
         return tasteMood.getId();
     }
@@ -94,8 +98,9 @@ public class Member {
         this.password = new Password(newPassword);
     }
 
-    public void updateProfileImage(ImageId imageId) {
-        this.profileImage = new MemberProfileImage(imageId);
+    public void updateProfileImage(MemberProfileImage newProfileImage) {
+        this.profileImage = newProfileImage;
+        // TODO 프로필 이미지 변경 이벤트 발행
     }
 
     public void changeTasteMood(TasteMood tasteMood) {
