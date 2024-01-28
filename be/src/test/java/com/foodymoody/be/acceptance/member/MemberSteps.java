@@ -297,7 +297,7 @@ public class MemberSteps {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .log().all()
                 .when()
-                .get("/api/members/{memberId}", memberId)
+                .get("/api/members/{id}", memberId)
                 .then()
                 .log().all()
                 .extract();
@@ -310,7 +310,7 @@ public class MemberSteps {
                 .auth().oauth2(accessToken)
                 .log().all()
                 .when()
-                .get("/api/members/{memberId}", memberId)
+                .get("/api/members/{id}", memberId)
                 .then()
                 .log().all()
                 .extract();
@@ -325,7 +325,7 @@ public class MemberSteps {
                 .auth().oauth2(accessToken)
                 .params("id", tasteMoodId)
                 .when()
-                .put("/api/members/{memberId}/taste-mood", memberId)
+                .put("/api/members/{id}/taste-mood", memberId)
                 .then()
                 .log().all()
                 .extract();
@@ -340,7 +340,7 @@ public class MemberSteps {
                 .auth().oauth2(accessToken)
                 .log().all()
                 .when()
-                .delete("/api/members/{memberId}", memberId)
+                .delete("/api/members/{id}", memberId)
                 .then()
                 .log().all()
                 .extract();
@@ -360,7 +360,7 @@ public class MemberSteps {
                 .body(updateProfileRequest)
                 .log().all()
                 .when()
-                .patch("/api/members/{memberId}", memberId)
+                .patch("/api/members/{id}", memberId)
                 .then()
                 .log().all()
                 .extract();
@@ -374,7 +374,7 @@ public class MemberSteps {
                 .log().all()
                 .params("page", page, "size", size)
                 .when()
-                .get("/api/members/{memberId}/feeds", memberId)
+                .get("/api/members/{id}/feeds", memberId)
                 .then()
                 .log().all()
                 .extract();
@@ -389,7 +389,22 @@ public class MemberSteps {
                 .log().all()
                 .params("page", page, "size", size)
                 .when()
-                .get("/api/members/{memberId}/collections", id)
+                .get("/api/members/{id}/collections", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션_제목_목록을_조회한다(String accessToken, String id,
+            RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .auth().oauth2(accessToken)
+                .log().all()
+                .when()
+                .get("/api/members/{id}/collections/titles", id)
                 .then()
                 .log().all()
                 .extract();

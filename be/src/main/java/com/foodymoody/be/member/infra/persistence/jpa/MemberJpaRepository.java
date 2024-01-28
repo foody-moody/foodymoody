@@ -3,7 +3,9 @@ package com.foodymoody.be.member.infra.persistence.jpa;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.response.FeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
+import com.foodymoody.be.member.application.dto.response.MyCollectionTitleResponse;
 import com.foodymoody.be.member.domain.Member;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -41,4 +43,10 @@ public interface MemberJpaRepository extends JpaRepository<Member, MemberId>, Me
             + "LEFT JOIN FeedCollection fc ON fc.authorId = m.id "
             + "WHERE m.id = :id")
     long countMyCollectionsById(MemberId id);
+
+    @Query("SELECT new com.foodymoody.be.member.application.dto.response.MyCollectionTitleResponse (fc.id, fc.title) "
+            + "FROM Member m "
+            + "LEFT JOIN FeedCollection fc ON fc.authorId = m.id "
+            + "WHERE m.id = :id")
+    List<MyCollectionTitleResponse> fetchMyCollectionTitles(MemberId id);
 }
