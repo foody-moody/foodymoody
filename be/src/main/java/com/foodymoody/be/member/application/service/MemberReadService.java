@@ -75,10 +75,7 @@ public class MemberReadService {
         }
     }
 
-    public List<MyCollectionTitleResponse> fetchMyCollectionTitles(MemberId id, MemberId currentMemberId) {
-        if (!Objects.equals(id, currentMemberId)) {
-            throw new UnauthorizedException();
-        }
+    public List<MyCollectionTitleResponse> fetchMyCollectionTitles(MemberId id) {
         return memberRepository.fetchMyCollectionTitles(id);
     }
 }

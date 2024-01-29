@@ -408,7 +408,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             피드_컬렉션에_좋아요를_등록한다(회원아티_액세스토큰, 컬렉션1_아이디, new RequestSpecBuilder().build());
 
             // when
-            ExtractableResponse<Response> response = 회원이_작성한_피드_컬렉션_제목_목록을_조회한다(회원아티_액세스토큰, 아티_아이디, spec);
+            ExtractableResponse<Response> response = 회원이_작성한_피드_컬렉션_제목_목록을_조회한다(회원아티_액세스토큰, spec);
 
             // then
             Assertions.assertAll(
@@ -475,7 +475,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
             // when
             var response = 비밀번호를_수정한다(
-                    회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_비밀번호_수정_요청(), spec);
+                    회원푸반_액세스토큰, MemberFixture.푸반_비밀번호_수정_요청(), spec);
 
             // then
             String 새로운_비밀번호 = String.valueOf(MemberFixture.푸반_비밀번호_수정_요청().get("newPassword"));
@@ -494,7 +494,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("changeMemberPasswordWithIncorrectPassword_fail", spec);
 
             // when
-            var response = 비밀번호를_수정한다(회원푸반_액세스토큰, 푸반_아이디,
+            var response = 비밀번호를_수정한다(회원푸반_액세스토큰,
                     MemberFixture.푸반_비밀번호_수정_요청_인증_실패(), spec);
 
             // then
@@ -507,7 +507,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("changeMemberPasswordWithNotMatchPattern_fail", spec);
 
             // when
-            var response = 비밀번호를_수정한다(회원푸반_액세스토큰, 푸반_아이디,
+            var response = 비밀번호를_수정한다(회원푸반_액세스토큰,
                     MemberFixture.푸반_비밀번호_수정_요청_틀린_형식(), spec);
 
             // then
@@ -541,7 +541,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             String 보노_프로필이미지_아이디 = 회원_이미지를_업로드한다(보노_액세스토큰).jsonPath().getString("id");
 
             // when
-            var response = 회원프로필을_수정한다(보노_액세스토큰, 보노_아이디, MemberFixture.보노_프로필_수정_요청(보노_프로필이미지_아이디), spec);
+            var response = 회원프로필을_수정한다(보노_액세스토큰, MemberFixture.보노_프로필_수정_요청(보노_프로필이미지_아이디), spec);
 
             // then
             ExtractableResponse<Response> 보노_프로필조회_응답 = 회원프로필을_조회한다(보노_아이디, new RequestSpecBuilder().build());
@@ -564,7 +564,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             String 보노_프로필이미지_아이디 = 회원_이미지를_업로드한다(보노_액세스토큰).jsonPath().getString("id");
 
             // when
-            var response = 회원프로필을_수정한다(보노_액세스토큰, 보노_아이디, MemberFixture.보노_프로필_이미지만_수정_요청(보노_프로필이미지_아이디), spec);
+            var response = 회원프로필을_수정한다(보노_액세스토큰, MemberFixture.보노_프로필_이미지만_수정_요청(보노_프로필이미지_아이디), spec);
 
             // then
             ExtractableResponse<Response> 보노_프로필조회_응답 = 회원프로필을_조회한다(보노_아이디, new RequestSpecBuilder().build());
@@ -584,7 +584,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("updateOnlyTasteMood_success", spec);
 
             // when
-            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_테이스트_무드만_수정_요청(), spec);
+            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, MemberFixture.푸반_테이스트_무드만_수정_요청(), spec);
 
             // then
             ExtractableResponse<Response> 푸반_프로필조회_응답 = 회원프로필을_조회한다(푸반_아이디, new RequestSpecBuilder().build());
@@ -604,7 +604,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("updateOnlyTasteMood_success", spec);
 
             // when
-            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_닉네임만_수정_요청(), spec);
+            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, MemberFixture.푸반_닉네임만_수정_요청(), spec);
 
             // then
             ExtractableResponse<Response> 푸반_프로필조회_응답 = 회원프로필을_조회한다(푸반_아이디, new RequestSpecBuilder().build());
@@ -619,24 +619,12 @@ class MemberAcceptanceTest extends AcceptanceTest {
         }
 
         @Test
-        void when_updateMemberProfileUnauthorized_then_fail() {
-            // docs
-            api_문서_타이틀("updateMemberProfileUnauthorized_fail", spec);
-
-            // when
-            var response = 회원프로필을_수정한다(회원아티_액세스토큰, 푸반_아이디, MemberFixture.푸반_존재하지_않는_프로필_이미지_수정_요청(), spec);
-
-            // then
-            상태코드를_검증한다(response, HttpStatus.UNAUTHORIZED);
-        }
-
-        @Test
         void when_updateMemberProfileImageNotExist_then_fail() {
             // docs
             api_문서_타이틀("updateMemberProfileImageNotExist_fail", spec);
 
             // when
-            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_존재하지_않는_프로필_이미지_수정_요청(), spec);
+            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, MemberFixture.푸반_존재하지_않는_프로필_이미지_수정_요청(), spec);
 
             // then
             Assertions.assertAll(
@@ -651,7 +639,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("updateTasteMoodNotExist_fail", spec);
 
             // when
-            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_존재하지_않는_테이스트_무드_수정_요청(), spec);
+            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, MemberFixture.푸반_존재하지_않는_테이스트_무드_수정_요청(), spec);
 
             // then
             Assertions.assertAll(
@@ -666,7 +654,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("change_nickname_if_nickname_duplicate_fail", spec);
 
             // when
-            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, 푸반_아이디, MemberFixture.푸반_중복된_닉네임_수정_요청(), spec);
+            var response = 회원프로필을_수정한다(회원푸반_액세스토큰, MemberFixture.푸반_중복된_닉네임_수정_요청(), spec);
 
             // then
             Assertions.assertAll(
@@ -699,7 +687,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             팔로우한다(회원푸반_액세스토큰, 아티_아이디, new RequestSpecBuilder().build());
 
             // when
-            var response = 회원탈퇴한다(회원푸반_액세스토큰, 푸반_아이디, spec);
+            var response = 회원탈퇴한다(회원푸반_액세스토큰, spec);
 
             // then
             ExtractableResponse<Response> 탈퇴한_푸반_로그인_응답 = 로그인한다(AuthFixture.푸반_로그인_요청(),
@@ -716,18 +704,6 @@ class MemberAcceptanceTest extends AcceptanceTest {
                             .extracting("id")
                             .doesNotContain(푸반_아이디)
             );
-        }
-
-        @Test
-        void when_deleteMemberUnauthorized_then_fail() {
-            // docs
-            api_문서_타이틀("deleteMemberUnauthorized_fail", spec);
-
-            // when
-            var response = 회원탈퇴한다(회원아티_액세스토큰, 푸반_아이디, spec);
-
-            // then
-            상태코드를_검증한다(response, HttpStatus.UNAUTHORIZED);
         }
 
     }

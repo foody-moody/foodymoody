@@ -36,8 +36,7 @@ public class MemberWriteService {
         return MemberMapper.toSignupResponse(savedMemberId);
     }
 
-    public void changePassword(MemberId currentMemberId, MemberId id, ChangePasswordRequest request) {
-        AuthorizationValidator.validateAuthorization(currentMemberId, id);
+    public void changePassword(MemberId id, ChangePasswordRequest request) {
         Member member = findById(id);
         member.changePassword(request.getOldPassword(), request.getNewPassword());
     }
@@ -46,8 +45,7 @@ public class MemberWriteService {
         return memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
     }
 
-    public void delete(MemberId currentMemberId, MemberId id) {
-        AuthorizationValidator.validateAuthorization(currentMemberId, id);
+    public void delete(MemberId id) {
         Member member = findById(id);
         memberRepository.delete(member);
     }

@@ -366,10 +366,6 @@ operation::updateAllMemberProfile_success[snippets='http-request,http-response']
 
 operation::updateOnlyMemberProfileImage_success[snippets='http-request,http-response']
 
-==== 요청의 회원 id가 로그인한 회원이 아닐 때
-
-operation::updateMemberProfileUnauthorized_fail[snippets='http-response']
-
 ==== 중복된 닉네임일 때
 
 operation::change_nickname_if_nickname_duplicate_fail[snippets='http-response']
@@ -387,10 +383,6 @@ operation::updateTasteMoodNotExist_fail[snippets='http-response']
 ==== 성공
 
 operation::deleteMember_success[snippets='http-request,http-response']
-
-==== 요청의 회원 id가 로그인한 회원이 아닐 때
-
-operation::deleteMemberUnauthorized_fail[snippets='http-response']
 
 === 팔로우
 

@@ -37,33 +37,30 @@ public class MemberWriteController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PutMapping("/{id}/password")
+    @PutMapping("/me/password")
     public ResponseEntity<Void> changePassword(
             @CurrentMemberId MemberId currentMemberId,
-            @PathVariable MemberId id,
             @RequestBody ChangePasswordRequest request) {
-        memberWriteService.changePassword(currentMemberId, id, request);
+        memberWriteService.changePassword(currentMemberId, request);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/me")
     public ResponseEntity<Void> updateProfile(
             @CurrentMemberId MemberId currentMemberId,
-            @PathVariable MemberId id,
             @RequestBody UpdateProfileRequest request) {
-        updateMemberProfileUseCase.updateProfile(currentMemberId, id, request);
+        updateMemberProfileUseCase.updateProfile(currentMemberId, request);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/me")
     public ResponseEntity<Void> delete(
-            @CurrentMemberId MemberId currentMemberId,
-            @PathVariable MemberId id) {
-        memberWriteService.delete(currentMemberId, id);
+            @CurrentMemberId MemberId currentMemberId) {
+        memberWriteService.delete(currentMemberId);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{id}/followings")
+    @PostMapping("/{id}/followers")
     public ResponseEntity<Void> follow(
             @CurrentMemberId MemberId currentMemberId,
             @PathVariable MemberId id) {
@@ -71,7 +68,7 @@ public class MemberWriteController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}/followings")
+    @DeleteMapping("/{id}/followers")
     public ResponseEntity<Void> unfollow(
             @CurrentMemberId MemberId currentMemberId,
             @PathVariable MemberId id) {

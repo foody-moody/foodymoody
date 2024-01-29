@@ -58,11 +58,10 @@ public class MemberReadController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/{id}/collections/titles")
+    @GetMapping("/me/collections/titles")
     public ResponseEntity<List<MyCollectionTitleResponse>> fetchMyCollectionTitles(
-            @PathVariable MemberId id,
             @CurrentMemberId MemberId currentMemberId) {
-        List<MyCollectionTitleResponse> response = memberReadService.fetchMyCollectionTitles(id, currentMemberId);
+        List<MyCollectionTitleResponse> response = memberReadService.fetchMyCollectionTitles(currentMemberId);
         return ResponseEntity.ok().body(response);
     }
 

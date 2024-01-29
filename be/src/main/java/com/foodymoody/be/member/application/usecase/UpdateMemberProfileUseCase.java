@@ -26,9 +26,8 @@ public class UpdateMemberProfileUseCase {
     private final ImageService imageService;
     private final TasteMoodReadService tasteMoodReadService;
 
-    public void updateProfile(MemberId currentMemberId, MemberId id, UpdateProfileRequest request) {
+    public void updateProfile(MemberId id, UpdateProfileRequest request) {
 
-        AuthorizationValidator.validateAuthorization(currentMemberId, id);
         Member member = memberReadService.findById(id);
         ImageId requestedImageId = request.getProfileImageId();
         TasteMoodId requestedTasteMoodId = request.getTasteMoodId();
@@ -36,7 +35,7 @@ public class UpdateMemberProfileUseCase {
 
         if (isRequestedProfileImageValid(requestedImageId, member)) {
             Image image = imageService.findById(requestedImageId);
-            updateProfileImage(currentMemberId, member, image);
+            updateProfileImage(id, member, image);
         }
         if (isRequestedTasteMoodValid(requestedTasteMoodId, member)) {
             TasteMood tasteMood = tasteMoodReadService.findById(requestedTasteMoodId);
