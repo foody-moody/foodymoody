@@ -22,7 +22,7 @@ public class FeedLikeController {
             @PathVariable String feedStringId,
             @CurrentMemberId MemberId memberId
     ) {
-        FeedLikeResponse feedLikeResponse = feedLikeService.like(feedStringId, memberId);
+        var feedLikeResponse = feedLikeService.like(feedStringId, memberId);
         return ResponseEntity.ok().body(feedLikeResponse);
     }
 

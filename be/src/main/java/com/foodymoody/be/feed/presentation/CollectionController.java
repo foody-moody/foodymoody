@@ -29,9 +29,15 @@ public class CollectionController {
             Pageable pageable,
             @CurrentMemberId MemberId memberId
     ) {
-        Slice<CollectionReadFeedDetailsResponse> collectionReadFeedDetailsResponses = collectionUseCase.readCollectionFeedDetails(
-                FeedMapper.toCollectionReadFeedDetailsServiceRequest(collectionId, pageable, memberId));
-        return ResponseEntity.ok().body(collectionReadFeedDetailsResponses);
+        var collectionReadFeedDetailsServiceRequest = FeedMapper.toCollectionReadFeedDetailsServiceRequest(
+                collectionId,
+                pageable,
+                memberId
+        );
+        var collectionReadFeedDetailsResponseSlice = collectionUseCase.readCollectionFeedDetails(
+                collectionReadFeedDetailsServiceRequest
+        );
+        return ResponseEntity.ok().body(collectionReadFeedDetailsResponseSlice);
     }
 
 }

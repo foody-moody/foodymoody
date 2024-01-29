@@ -19,8 +19,8 @@ public class StoreMoodController {
      */
     @GetMapping("/api/feeds/store-moods")
     public ResponseEntity<List<StoreMoodResponse>> readAllStoreMood() {
-        List<StoreMoodResponse> storeMoodResponses = storeMoodReadService.fetchAll();
-        return ResponseEntity.ok().body(storeMoodResponses);
+        var storeMoodResponseList = storeMoodReadService.fetchAll();
+        return ResponseEntity.ok().body(storeMoodResponseList);
     }
 
 }
