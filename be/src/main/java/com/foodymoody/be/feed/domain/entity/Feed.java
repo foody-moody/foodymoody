@@ -16,6 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -60,6 +61,7 @@ public class Feed {
     @Embedded
     private ImageMenus imageMenus;
 
+    @Builder
     public Feed(
             FeedId id,
             MemberId memberId,

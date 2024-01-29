@@ -3,6 +3,7 @@ package com.foodymoody.be.feed.application;
 import com.foodymoody.be.common.exception.ImageNotFoundException;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.FeedLikeCountId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -28,6 +29,7 @@ import com.foodymoody.be.feed.application.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
+import com.foodymoody.be.feed_like_count.domain.entity.FeedLikeCount;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
 import com.foodymoody.be.menu.domain.entity.Menu;
@@ -41,29 +43,6 @@ public class FeedMapper {
 
     private FeedMapper() {
         throw new IllegalStateException("Utility class");
-    }
-
-    public static Feed toFeed(
-            FeedId id,
-            MemberId memberId,
-            StoreId storeId,
-            String review,
-            List<StoreMood> storeMoods,
-            List<Image> images,
-            List<Menu> menus,
-            String profileImageUrl
-    ) {
-        return new Feed(
-                id,
-                memberId,
-                storeId,
-                review,
-                storeMoods,
-                images,
-                menus,
-                profileImageUrl,
-                LocalDateTime.now()
-        );
     }
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {
@@ -212,6 +191,10 @@ public class FeedMapper {
 
     public static StoreResponse makeStoreResponse(StoreId id, String name) {
         return new StoreResponse(id, name);
+    }
+
+    public static FeedLikeCount makeFeedLikeCount(FeedLikeCountId id, FeedId feedId, int count) {
+        return new FeedLikeCount(id, feedId, count);
     }
 
 }
