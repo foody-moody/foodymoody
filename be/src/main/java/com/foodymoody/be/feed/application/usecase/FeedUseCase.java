@@ -33,6 +33,7 @@ import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed_like.application.service.FeedLikeService;
 import com.foodymoody.be.feed_like_count.application.service.FeedLikeCountService;
+import com.foodymoody.be.feed_like_count.domain.entity.FeedLikeCount;
 import com.foodymoody.be.image.application.service.ImageService;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
@@ -80,7 +81,6 @@ public class FeedUseCase {
         List<StoreMood> storeMoods = storeMoodReadService.fetchAllByStoreMoodIds(storeMoodIds);
         StoreId storeId = request.getStoreId();
         String review = request.getReview();
-
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
         Feed feed = Feed.builder()
@@ -95,8 +95,13 @@ public class FeedUseCase {
                 .build();
 
         Feed savedFeed = feedWriteService.save(feed);
+        FeedLikeCount feedLikeCount = FeedMapper.makeFeedLikeCount(
+                IdFactory.createFeedLikeCountId(),
+                savedFeed.getId(),
+                0
+        );
 
-        feedLikeCountService.save(FeedMapper.makeFeedLikeCount(IdFactory.createFeedLikeCountId(), savedFeed.getId(), 0));
+        feedLikeCountService.save(feedLikeCount);
 
         return FeedMapper.toFeedRegisterResponse(savedFeed);
     }
@@ -126,8 +131,10 @@ public class FeedUseCase {
                         makeFeedImageMenuResponses(feed),
                         false,
                         findCommentCount(feed.getId()),
-                        FeedMapper.makeStoreResponse(feed.getStoreId(),
-                                storeReadService.fetchDetails(feed.getStoreId()).getName()))
+                        FeedMapper.makeStoreResponse(
+                                feed.getStoreId(),
+                                storeReadService.fetchDetails(feed.getStoreId()).getName())
+                        )
                 )
                 .collect(Collectors.toList());
     }
