@@ -38,7 +38,8 @@ public class CollectionUseCase {
 
     @Transactional
     public Slice<CollectionReadFeedDetailsResponse> readCollectionFeedDetails(
-            CollectionReadFeedDetailsServiceRequest request) {
+            CollectionReadFeedDetailsServiceRequest request
+    ) {
         FeedCollectionId feedCollectionId = request.getCollectionId();
         Pageable pageable = request.getPageable();
         MemberId memberId = request.getMemberId();
@@ -61,7 +62,8 @@ public class CollectionUseCase {
     }
 
     private List<CollectionReadFeedDetailsResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNull(
-            Slice<Feed> feeds) {
+            Slice<Feed> feeds
+    ) {
         return feeds.stream()
                 .map(feed -> CollectionReadFeedDetailsResponse.builder()
                         .feedAllCount(feeds.getSize())
@@ -80,7 +82,8 @@ public class CollectionUseCase {
     }
 
     private List<CollectionReadFeedDetailsResponse> makeCollectionReadAllFeedResponsesWhenMemberIdIsNotNull(
-            Slice<Feed> feeds) {
+            Slice<Feed> feeds
+    ) {
         return feeds.stream()
                 .map(feed -> CollectionReadFeedDetailsResponse.builder()
                         .feedAllCount(feeds.getSize())

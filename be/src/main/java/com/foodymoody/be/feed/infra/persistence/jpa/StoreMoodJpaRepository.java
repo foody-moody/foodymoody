@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface StoreMoodJpaRepository extends JpaRepository<StoreMood, StoreMoodId> {
 
-    @Query("SELECT NEW com.foodymoody.be.feed.application.dto.response.StoreMoodResponse(sm.id, sm.name) "
-            + "FROM StoreMood sm")
+    @Query("SELECT NEW com.foodymoody.be.feed.application.dto.response.StoreMoodResponse(sm.id, sm.name)"
+            + " FROM StoreMood sm")
     Optional<List<StoreMoodResponse>> fetchAll();
 
 }

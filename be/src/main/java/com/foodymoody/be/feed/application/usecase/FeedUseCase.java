@@ -81,14 +81,27 @@ public class FeedUseCase {
         List<StoreMood> storeMoods = storeMoodReadService.fetchAllByStoreMoodIds(storeMoodIds);
         StoreId storeId = request.getStoreId();
         String review = request.getReview();
-
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
-        Feed feed = FeedMapper.toFeed(IdFactory.createFeedId(), memberId, storeId, review, storeMoods, images, menus,
-                profileImageUrl);
-        Feed savedFeed = feedWriteService.save(feed);
+        Feed feed = Feed.builder()
+                .id(IdFactory.createFeedId())
+                .memberId(memberId)
+                .storeId(storeId)
+                .review(review)
+                .storeMoods(storeMoods)
+                .images(images)
+                .menus(menus)
+                .profileImageUrl(profileImageUrl)
+                .build();
 
-        feedLikeCountService.save(new FeedLikeCount(IdFactory.createFeedLikeCountId(), savedFeed.getId(), 0));
+        Feed savedFeed = feedWriteService.save(feed);
+        FeedLikeCount feedLikeCount = FeedMapper.makeFeedLikeCount(
+                IdFactory.createFeedLikeCountId(),
+                savedFeed.getId(),
+                0
+        );
+
+        feedLikeCountService.save(feedLikeCount);
 
         return FeedMapper.toFeedRegisterResponse(savedFeed);
     }
@@ -111,26 +124,38 @@ public class FeedUseCase {
 
     private List<FeedReadAllResponse> makeFeedReadAllResponseListWhenMemberIdIsNull(Slice<Feed> feeds) {
         return feeds.stream()
-                .map(feed -> makeFeedReadAllResponse(feed, makeFeedMemberResponse(feed),
+                .map(feed -> makeFeedReadAllResponse(
+                        feed,
+                        makeFeedMemberResponse(feed),
                         makeFeedStoreMoodResponses(feed.getStoreMoods()),
                         makeFeedImageMenuResponses(feed),
                         false,
                         findCommentCount(feed.getId()),
-                        FeedMapper.makeStoreResponse(feed.getStoreId(),
-                                storeReadService.fetchDetails(feed.getStoreId()).getName())))
+                        FeedMapper.makeStoreResponse(
+                                feed.getStoreId(),
+                                storeReadService.fetchDetails(feed.getStoreId()).getName())
+                        )
+                )
                 .collect(Collectors.toList());
     }
 
-    private List<FeedReadAllResponse> makeFeedReadAllResponseListWhenMemberIdIsNotNull(Slice<Feed> feeds,
-                                                                                       MemberId memberId) {
+    private List<FeedReadAllResponse> makeFeedReadAllResponseListWhenMemberIdIsNotNull(
+            Slice<Feed> feeds,
+            MemberId memberId
+    ) {
         return feeds.stream()
-                .map(feed -> makeFeedReadAllResponse(feed, makeFeedMemberResponse(feed),
+                .map(feed -> makeFeedReadAllResponse(
+                        feed,
+                        makeFeedMemberResponse(feed),
                         makeFeedStoreMoodResponses(feed.getStoreMoods()),
                         makeFeedImageMenuResponses(feed),
                         feedLikeService.fetchIsLiked(feed.getId(), memberId),
                         findCommentCount(feed.getId()),
-                        FeedMapper.makeStoreResponse(feed.getStoreId(),
-                                storeReadService.fetchDetails(feed.getStoreId()).getName())))
+                        FeedMapper.makeStoreResponse(
+                                feed.getStoreId(),
+                                storeReadService.fetchDetails(feed.getStoreId()).getName())
+                        )
+                )
                 .collect(Collectors.toList());
     }
 
@@ -139,23 +164,35 @@ public class FeedUseCase {
         List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feed);
         List<StoreMood> storeMoods = feed.getStoreMoods();
         FeedMemberResponse feedMemberResponse = makeFeedMemberResponse(feed);
-        // isLiked는 feed의 memberId가 아니라 현재의 memberId를 가지고 했어야 해
         boolean isLiked = feedLikeService.fetchIsLiked(feed.getId(), memberId);
 
         if (memberId == null) {
-            return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
+            return FeedMapper.toFeedReadResponse(
+                    feedMemberResponse,
+                    feed,
+                    images,
                     makeFeedStoreMoodResponses(storeMoods),
                     false,
                     findCommentCount(feed.getId()),
-                    FeedMapper.makeStoreResponse(feed.getStoreId(),
-                            storeReadService.fetchDetails(feed.getStoreId()).getName()));
+                    FeedMapper.makeStoreResponse(
+                            feed.getStoreId(),
+                            storeReadService.fetchDetails(feed.getStoreId()).getName()
+                    )
+            );
         }
 
-        return FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images,
+        return FeedMapper.toFeedReadResponse(
+                feedMemberResponse,
+                feed,
+                images,
                 makeFeedStoreMoodResponses(storeMoods),
                 isLiked,
-                findCommentCount(feed.getId()), FeedMapper.makeStoreResponse(feed.getStoreId(),
-                        storeReadService.fetchDetails(feed.getStoreId()).getName()));
+                findCommentCount(feed.getId()),
+                FeedMapper.makeStoreResponse(
+                        feed.getStoreId(),
+                        storeReadService.fetchDetails(feed.getStoreId()).getName()
+                )
+        );
     }
 
     @Transactional
@@ -168,8 +205,17 @@ public class FeedUseCase {
         List<StoreMood> newStoreMoods = storeMoodReadService.fetchAllByStoreMoodIds(request.getStoreMoodIds());
         String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
 
-        feed.update(memberId, request.getStoreId(), request.getReview(), newStoreMoods, newImages, newMenus,
-                profileImageUrl, feed.getCreatedAt(), LocalDateTime.now());
+        feed.update(
+                memberId,
+                request.getStoreId(),
+                request.getReview(),
+                newStoreMoods,
+                newImages,
+                newMenus,
+                profileImageUrl,
+                feed.getCreatedAt(),
+                LocalDateTime.now()
+        );
     }
 
     @Transactional
@@ -196,16 +242,21 @@ public class FeedUseCase {
     private List<Menu> toMenu(List<ImageMenuPair> imageMenuPairs) {
         return imageMenuPairs.stream()
                 .map(imageMenuPair -> menuService.save(
-                        new Menu(IdFactory.createMenuId(), imageMenuPair.getMenu().getName(),
-                                imageMenuPair.getMenu().getRating())))
+                        new Menu(
+                                IdFactory.createMenuId(),
+                                imageMenuPair.getMenu().getName(),
+                                imageMenuPair.getMenu().getRating()))
+                )
                 .collect(Collectors.toUnmodifiableList());
     }
 
     private List<Image> toImage(List<ImageMenuPair> imageMenuPairs, MemberId memberId) {
         return imageMenuPairs.stream()
-                .map(imageMenuPair -> new Image(imageMenuPair.getImageId(),
+                .map(imageMenuPair -> new Image(
+                        imageMenuPair.getImageId(),
                         imageService.findById(imageMenuPair.getImageId()).getUrl(),
-                        memberId))
+                        memberId)
+                )
                 .collect(Collectors.toUnmodifiableList());
     }
 

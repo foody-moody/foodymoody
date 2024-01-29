@@ -27,7 +27,16 @@ public class FeedLikeAddedEvent implements NotificationEvent {
         this.createdAt = createdAt;
     }
 
-    public static FeedLikeAddedEvent of(FeedId feedId, MemberId fromMemberId, LocalDateTime createdAt) {
-        return new FeedLikeAddedEvent(feedId, fromMemberId, NotificationType.FEED_LIKED_ADDED_EVENT, createdAt);
+    public static FeedLikeAddedEvent of(
+            FeedId feedId,
+            MemberId fromMemberId,
+            LocalDateTime createdAt
+    ) {
+        return new FeedLikeAddedEvent(
+                feedId,
+                fromMemberId,
+                NotificationType.FEED_LIKED_ADDED_EVENT,
+                createdAt
+        );
     }
 }

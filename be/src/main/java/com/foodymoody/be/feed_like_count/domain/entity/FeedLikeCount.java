@@ -8,6 +8,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Version;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,33 +16,28 @@ import lombok.NoArgsConstructor;
 public class FeedLikeCount {
 
     @EmbeddedId
+    @Getter
     private FeedLikeCountId id;
+
     @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
+    @Getter
     private FeedId feedId;
+
+    @Getter
     private int count;
+
     @Version
+    @Getter
     private Long version;
 
-    public FeedLikeCount(FeedLikeCountId id, FeedId feedId, int count) {
+    public FeedLikeCount(
+            FeedLikeCountId id,
+            FeedId feedId,
+            int count
+    ) {
         this.id = id;
         this.feedId = feedId;
         this.count = count;
-    }
-
-    public FeedLikeCountId getId() {
-        return id;
-    }
-
-    public FeedId getFeedId() {
-        return feedId;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public Long getVersion() {
-        return version;
     }
 
 }

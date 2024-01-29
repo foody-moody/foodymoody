@@ -39,8 +39,12 @@ public class FeedLikeService {
         }
 
         FeedLike feedLike = FeedLikeMapper
-                .makeFeedHeartWithFeedIdAndMemberId(IdFactory.createFeedHeartId(), IdFactory.createFeedId(feedStringId),
-                        memberId, true);
+                .makeFeedHeartWithFeedIdAndMemberId(
+                        IdFactory.createFeedHeartId(),
+                        IdFactory.createFeedId(feedStringId),
+                        memberId,
+                        true
+                );
         FeedLike savedFeedLike = feedLikeRepository.save(feedLike);
 
         feedLikeCountService.incrementFeedHeartCount(feedStringId);
@@ -48,8 +52,11 @@ public class FeedLikeService {
         FeedLikeCount feedLikeCount = feedLikeCountService.findFeedHeartCountByFeedId(feedStringId);
         updateFeed(feedStringId, feedLikeCount.getCount());
 
-        return FeedLikeMapper.toHeartResponse(savedFeedLike.getId().getValue(), savedFeedLike.getFeedId().getValue(),
-                savedFeedLike.getMemberId().getValue(), savedFeedLike.isLiked(),
+        return FeedLikeMapper.toHeartResponse(
+                savedFeedLike.getId().getValue(),
+                savedFeedLike.getFeedId().getValue(),
+                savedFeedLike.getMemberId().getValue(),
+                savedFeedLike.isLiked(),
                 feedLikeCount.getCount()
         );
     }
