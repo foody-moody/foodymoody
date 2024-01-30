@@ -85,6 +85,31 @@ public class FeedCollectionReadUseCase {
         return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods);
     }
 
+    @Transactional(readOnly = true)
+    public Slice<FeedCollectionCommentResponse> fetchComments(FeedCollectionId id, Pageable pageable) {
+        var feedCollection = feedCollectionReadService.fetchById(id);
+        var commentIds = feedCollection.getCommentIds();
+        var comments = commentReadService.findSummaryAllByIdIn(
+                commentIds,
+                pageable
+        );
+        return toCommentResponse(comments);
+    }
+
+    @Transactional(readOnly = true)
+    public Slice<FeedCollectionCommentResponse> fetchComments(
+            FeedCollectionId id, MemberId memberId, Pageable pageable
+    ) {
+        var feedCollection = feedCollectionReadService.fetchById(id);
+        var commentIds = feedCollection.getCommentIds();
+        var comments = commentReadService.findSummaryAllByIdIn(
+                memberId,
+                commentIds,
+                pageable
+        );
+        return toCommentResponse(comments);
+    }
+
     private FeedCollectionResponse getFeedCollectionResponse(FeedCollectionSummary summary) {
         List<FeedCollectionMoodResponse> moodResponses = getMoodResponses(summary.getId());
         return toFeedCollectionResponse(summary, moodResponses);
