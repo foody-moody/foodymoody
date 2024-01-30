@@ -3,10 +3,13 @@ package com.foodymoody.be.notification.infra.event;
 import static com.foodymoody.be.notification.infra.event.util.NotificationDetailsFactory.makeDetails;
 import static com.foodymoody.be.notification.infra.event.util.NotificationMapper.toNotification;
 
+import com.foodymoody.be.common.util.Content;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.service.FeedReadService;
-import com.foodymoody.be.feed_comment_like.application.usecase.FeedCommentLikeAddedEvent;
+import com.foodymoody.be.feed_comment.application.service.FeedCommentReadService;
+import com.foodymoody.be.feed_comment_like.domain.FeedCommentLikeAddedEvent;
 import com.foodymoody.be.notification.application.service.NotificationWriteService;
 import com.foodymoody.be.notification_setting.application.service.NotificationSettingReadService;
 import lombok.RequiredArgsConstructor;
@@ -22,45 +25,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class FeedCommentLikedEventHandler {
 
-    /**
-     * The feedNotificationWriteService variable represents an instance of the FeedNotificationWriteService class, which
-     * provides methods to manage feed notifications.
-     *
-     * @see NotificationWriteService
-     */
-    private final NotificationWriteService notificationWriteService;
-    /**
-     * The NotificationSettingService class provides methods to manage notification settings.
-     *
-     * @see NotificationSettingReadService
-     */
+    private final NotificationWriteService notificationService;
     private final NotificationSettingReadService notificationSettingService;
-    /**
-     * The FeedReadService class provides methods for reading feed data from the database.
-     *
-     * @see FeedReadService
-     */
-    private final FeedReadService feedReadService;
+    private final FeedReadService feedService;
+    private final FeedCommentReadService feedCommentService;
 
-    /**
-     * Saves a notification if comment likes are allowed for the recipient member.
-     *
-     * @param event The CommentLikeAddedEvent instance.
-     */
     @Async
     @EventListener(FeedCommentLikeAddedEvent.class)
     public void saveNotification(FeedCommentLikeAddedEvent event) {
-        var toMemberId = event.getToMemberId();
+        var feedCommentId = event.getFeedCommentId();
+        var feedComment = feedCommentService.findById(feedCommentId);
+        var toMemberId = feedComment.getMemberId();
         if (notificationSettingService.isCommentLikedAllowed(toMemberId)) {
-            saveNotification(event, toMemberId);
+            var feed = feedService.findFeed(feedComment.getFeedId());
+            saveNotification(event, feed.getId(), feed.getProfileImageUrl(), feedComment.getContent(), toMemberId);
         }
     }
 
-    private void saveNotification(FeedCommentLikeAddedEvent event, MemberId toMemberId) {
+    private void saveNotification(
+            FeedCommentLikeAddedEvent event,
+            FeedId feedId,
+            String thumbnailUrl,
+            Content feedCommentContent,
+            MemberId toMemberId
+    ) {
         var feedNotificationId = IdFactory.createNotificationId();
-        var feed = feedReadService.findFeed(event.getFeedId());
-        var details = makeDetails(event, feed.getId(), feed.getProfileImageUrl());
+        var details = makeDetails(event, feedId, feedCommentContent, thumbnailUrl);
         var feedNotification = toNotification(event, feedNotificationId, details, toMemberId);
-        notificationWriteService.save(feedNotification);
+        notificationService.save(feedNotification);
     }
 }

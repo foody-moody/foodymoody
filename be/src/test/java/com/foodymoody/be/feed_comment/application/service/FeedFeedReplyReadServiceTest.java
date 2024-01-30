@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed_comment.application;
+package com.foodymoody.be.feed_comment.application.service;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.given;
 
 import com.foodymoody.be.common.exception.ErrorMessage;
 import com.foodymoody.be.common.exception.ReplyNotExistsException;
-import com.foodymoody.be.feed_comment.application.service.FeedReplyReadService;
 import com.foodymoody.be.feed_comment.domain.repository.FeedReplyRepository;
 import com.foodymoody.be.feed_comment.util.FeedCommentFixture;
 import java.util.Optional;

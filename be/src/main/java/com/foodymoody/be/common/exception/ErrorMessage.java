@@ -17,6 +17,8 @@ public enum ErrorMessage {
     COMMENT_DELETED("삭제된 댓글입니다.", "c008"),
     INVALID_COMMENT_ID("유효하지 않은 댓글 id입니다", "c009"),
     FEED_COMMENT_NOT_FOUND("존재하지 않는 피드 댓글입니다.", "c010"),
+    FEED_COMMENT_IS_ALREADY_LIKED("이미 좋아요 누른 피드 댓글입니다.", "c011"),
+    FEED_COMMENT_IS_NOT_LIKED("좋아요 기록이 없어 취소할 수 없습니다.", "c012"),
     // reply
     REPLY_NOT_EXISTS("답글이 존재하지 않습니다.", "r001"),
     INVALID_REPLY_ID("유효하지 않은 답글 id입니다", "r002"),

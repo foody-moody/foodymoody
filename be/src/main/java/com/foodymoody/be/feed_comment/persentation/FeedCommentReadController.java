@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-public class FeedCommentController {
+public class FeedCommentReadController {
 
     private final FeedCommentReadUseCase useCase;
 
