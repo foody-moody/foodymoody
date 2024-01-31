@@ -4,7 +4,7 @@ import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
 import com.foodymoody.be.common.util.ids.FeedReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_reply_like.application.usecase.ReplyHeartWriteUseCase;
+import com.foodymoody.be.feed_reply_like.application.usecase.FeedReplyLikeWriteUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-public class ReplyHeartWriteController {
+public class FeedReplyLikeWriteController {
 
-    private final ReplyHeartWriteUseCase useCase;
+    private final FeedReplyLikeWriteUseCase useCase;
 
     @PostMapping("/api/comments/{feedCommentId}/replies/{feedReplyId}/likes")
     public ResponseEntity<Void> create(
@@ -25,7 +25,7 @@ public class ReplyHeartWriteController {
             @PathVariable FeedReplyId feedReplyId,
             @CurrentMemberId MemberId memberId
     ) {
-        useCase.registerReplyHeart(feedCommentId, feedReplyId, memberId);
+        useCase.register(feedCommentId, feedReplyId, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -35,7 +35,7 @@ public class ReplyHeartWriteController {
             @PathVariable FeedReplyId feedReplyId,
             @CurrentMemberId MemberId memberId
     ) {
-        useCase.deleteReplyHeart(feedReplyId, memberId);
+        useCase.delete(feedReplyId, memberId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
