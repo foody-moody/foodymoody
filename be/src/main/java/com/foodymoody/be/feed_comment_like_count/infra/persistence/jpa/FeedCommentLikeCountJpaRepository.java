@@ -8,15 +8,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-public interface CommentHeartCountJpaRepository extends JpaRepository<FeedCommentLikeCount, FeedCommentLikeCountId> {
+public interface FeedCommentLikeCountJpaRepository extends JpaRepository<FeedCommentLikeCount, FeedCommentLikeCountId> {
 
     Optional<FeedCommentLikeCount> findByFeedCommentId(FeedCommentId feedCommentId);
 
     @Modifying
-    @Query("update FeedCommentLikeCount c set c.count = c.count + 1 where c.feedCommentId = :feedCommentId")
+    @Query("update FeedCommentLikeCount as _likeCount " +
+            "set _likeCount.count = _likeCount.count + 1 " +
+            "where _likeCount.feedCommentId = :feedCommentId")
     void incrementCount(FeedCommentId feedCommentId);
 
     @Modifying
-    @Query("update FeedCommentLikeCount c set c.count = c.count - 1 where c.feedCommentId = :feedCommentId")
+    @Query("update FeedCommentLikeCount as _likeCount " +
+            "set _likeCount.count = _likeCount.count - 1 " +
+            "where _likeCount.feedCommentId = :feedCommentId")
     void decrementCount(FeedCommentId feedCommentId);
 }
