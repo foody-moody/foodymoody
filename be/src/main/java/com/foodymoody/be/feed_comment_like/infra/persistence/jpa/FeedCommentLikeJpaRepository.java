@@ -6,7 +6,7 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_comment_like.domain.FeedCommentLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CommentHeartJpaRepository extends JpaRepository<FeedCommentLike, FeedCommentLikeId> {
+public interface FeedCommentLikeJpaRepository extends JpaRepository<FeedCommentLike, FeedCommentLikeId> {
 
     void deleteByFeedCommentIdAndMemberId(FeedCommentId feedCommentId, MemberId memberId);
 

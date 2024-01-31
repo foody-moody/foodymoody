@@ -12,7 +12,7 @@ import com.foodymoody.be.feed_collection_reply.domain.FeedCollectionReplyAddedEv
 import com.foodymoody.be.feed_collection_reply_like.domain.FeedCollectionReplyLikeAddedEvent;
 import com.foodymoody.be.feed_comment.domain.entity.FeedCommentAddedEvent;
 import com.foodymoody.be.feed_comment.domain.entity.FeedCommentReplyAddedEvent;
-import com.foodymoody.be.feed_comment_like.application.usecase.FeedCommentLikeAddedEvent;
+import com.foodymoody.be.feed_comment_like.domain.FeedCommentLikeAddedEvent;
 import com.foodymoody.be.feed_like.domain.entity.FeedLikeAddedEvent;
 import com.foodymoody.be.feed_reply_like.domain.FeedReplyLikeAddedEvent;
 import com.foodymoody.be.notification.domain.NotificationDetails;
@@ -126,11 +126,12 @@ public class NotificationDetailsFactory {
     public static NotificationDetails makeDetails(
             FeedCommentLikeAddedEvent event,
             FeedId feedId,
+            Content feedCommentContent,
             String feedThumbnailUrl
     ) {
         return new FeedCommentLikeNotificationDetails(
                 event.getFeedCommentId(),
-                event.getCommentContent(),
+                feedCommentContent,
                 feedId,
                 feedThumbnailUrl
         );

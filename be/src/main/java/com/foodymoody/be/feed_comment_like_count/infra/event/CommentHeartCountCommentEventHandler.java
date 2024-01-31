@@ -3,7 +3,7 @@ package com.foodymoody.be.feed_comment_like_count.infra.event;
 import com.foodymoody.be.common.util.ids.FeedCommentLikeCountId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed_comment.domain.entity.FeedCommentAddedEvent;
-import com.foodymoody.be.feed_comment_like_count.application.service.CommentHeartCountWriteService;
+import com.foodymoody.be.feed_comment_like_count.application.service.FeedCommentLikeCountWriteService;
 import com.foodymoody.be.feed_comment_like_count.domain.FeedCommentLikeCount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 class CommentHeartCountCommentEventHandler {
 
-    private final CommentHeartCountWriteService commentHeartCountWriteService;
+    private final FeedCommentLikeCountWriteService feedCommentLikeCountWriteService;
 
     @Async
     @EventListener(FeedCommentAddedEvent.class)
@@ -22,6 +22,6 @@ class CommentHeartCountCommentEventHandler {
         FeedCommentLikeCountId feedCommentLikeCountId = IdFactory.createFeedCommentLikeCountId();
         FeedCommentLikeCount feedCommentLikeCount = new FeedCommentLikeCount(
                 feedCommentLikeCountId, event.getFeedCommentId(), 0L);
-        commentHeartCountWriteService.save(feedCommentLikeCount);
+        feedCommentLikeCountWriteService.save(feedCommentLikeCount);
     }
 }

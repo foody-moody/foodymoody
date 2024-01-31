@@ -3,7 +3,7 @@ package com.foodymoody.be.feed_comment_like.presentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_comment_like.application.usecase.CommentLikeWriteUseCase;
+import com.foodymoody.be.feed_comment_like.application.usecase.FeedCommentLikeWriteUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-public class CommentLikeWriteController {
+public class FeedCommentLikeWriteController {
 
-    private final CommentLikeWriteUseCase useCase;
+    private final FeedCommentLikeWriteUseCase useCase;
 
     @PostMapping("/api/comments/{feedCommentId}/likes")
     public ResponseEntity<Void> create(@PathVariable FeedCommentId feedCommentId, @CurrentMemberId MemberId memberId) {

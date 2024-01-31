@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
 import com.foodymoody.be.common.util.ids.FeedCommentLikeCountId;
 import com.foodymoody.be.common.util.ids.IdFactory;
-import com.foodymoody.be.feed_comment_like_count.application.service.CommentHeartCountWriteService;
+import com.foodymoody.be.feed_comment_like_count.application.service.FeedCommentLikeCountWriteService;
 import com.foodymoody.be.feed_comment_like_count.domain.FeedCommentLikeCount;
 import com.foodymoody.be.feed_comment_like_count.infra.persistence.jpa.CommentHeartCountJpaRepository;
 import com.foodymoody.be.utils.SpringBootIntegrationTest;
@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 class FeedCommentFeedLikeCountWriteServiceTest {
 
     @Autowired
-    private CommentHeartCountWriteService commentHeartCountWriteService;
+    private FeedCommentLikeCountWriteService feedCommentLikeCountWriteService;
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
     @Autowired
@@ -51,7 +51,7 @@ class FeedCommentFeedLikeCountWriteServiceTest {
         // when
         for (int i = 0; i < 100; i++) {
             threadPoolExecutor.execute(() -> {
-                commentHeartCountWriteService.increment(feedCommentId);
+                feedCommentLikeCountWriteService.increment(feedCommentId);
                 latch.countDown();
             });
         }
@@ -79,7 +79,7 @@ class FeedCommentFeedLikeCountWriteServiceTest {
         // when
         for (int i = 0; i < 100; i++) {
             threadPoolExecutor.execute(() -> {
-                commentHeartCountWriteService.decrement(feedCommentId);
+                feedCommentLikeCountWriteService.decrement(feedCommentId);
                 latch.countDown();
             });
         }
