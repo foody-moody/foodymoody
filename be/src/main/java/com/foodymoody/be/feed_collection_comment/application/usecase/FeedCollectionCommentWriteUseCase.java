@@ -31,6 +31,7 @@ public class FeedCollectionCommentWriteUseCase {
         feedCollectionWriteService.removeCommentId(feedCollectionId, id);
     }
 
+    @Transactional
     public void edit(FeedCollectionCommentId id, Content content, MemberId memberId) {
         feedCollectionCommentWriteService.edit(id, content, memberId);
     }

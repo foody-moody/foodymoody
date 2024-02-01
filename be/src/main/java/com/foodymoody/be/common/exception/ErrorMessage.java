@@ -6,6 +6,8 @@ public enum ErrorMessage {
     INVALID_ID(" 유효하지 않은 아이디입니다.", "g002"),
     CREATE_TIME_IS_NULL("생성시간이 null이면 안된다", "g003"),
     REQUEST_HEADER_NOT_FOUND("요청을 처리하기 위해 필요한 헤더가 존재하지 않습니다", "g004"),
+    PERMISSION_DENIED_ACCESS("권한이 없습니다.", "g005"),
+
     COUNT_OUT_OF_BOUNDS("카운트가 더 이상 감소할 수 없습니다", null),
     // comment
     CONTENT_NOT_EXISTS("댓글이 존재하지 않습니다.", "c001"),
@@ -49,7 +51,6 @@ public enum ErrorMessage {
     FEED_COLLECTION_COMMENT_NOT_FOUND("존재하지 않는 피드 컬렉션 댓글입니다.", "fn003"),
     NOTIFICATION_SETTING_NOT_FOUND("존재하지 않는 알림 설정입니다.", "fn004"),
     FEED_COLLECTION_REPLY_NOT_FOUND("존재하지 않는 피드 컬렉션 답글입니다.", "fn005"),
-    PERMISSION_DENIED_ACCESS_NOTIFICATION("알림에 접근할 권한이 없습니다.", "fn006"),
     // image
     IMAGE_NOT_FOUND("해당 id의 이미지가 존재하지 않습니다", "i001"),
     IMAGE_UPLOAD_FAILED("이미지 업로드에 실패했습니다", "i002"),
