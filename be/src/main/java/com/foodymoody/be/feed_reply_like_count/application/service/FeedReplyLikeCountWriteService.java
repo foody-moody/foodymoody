@@ -1,19 +1,17 @@
 package com.foodymoody.be.feed_reply_like_count.application.service;
 
 import com.foodymoody.be.common.util.ids.FeedReplyId;
-import com.foodymoody.be.feed_reply_like_count.domain.ReplyHeartCount;
-import com.foodymoody.be.feed_reply_like_count.domain.ReplyHeartCountRepository;
+import com.foodymoody.be.feed_reply_like_count.domain.FeedReplyLikeCount;
+import com.foodymoody.be.feed_reply_like_count.domain.FeedReplyLikeCountRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
-public class ReplyHeartCountWriteService {
+public class FeedReplyLikeCountWriteService {
 
-    private final ReplyHeartCountRepository repository;
+    private final FeedReplyLikeCountRepository repository;
 
     @Transactional
     public void increment(FeedReplyId feedReplyId) {
@@ -26,7 +24,7 @@ public class ReplyHeartCountWriteService {
     }
 
     @Transactional
-    public void save(ReplyHeartCount replyHeartCount) {
-        repository.save(replyHeartCount);
+    public void save(FeedReplyLikeCount feedReplyLikeCount) {
+        repository.save(feedReplyLikeCount);
     }
 }

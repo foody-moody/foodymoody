@@ -4,7 +4,7 @@ import com.foodymoody.be.common.util.ids.FeedCommentId;
 import com.foodymoody.be.common.util.ids.FeedReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_reply_like.application.service.FeedReplyLikeWriteService;
-import com.foodymoody.be.feed_reply_like_count.application.service.ReplyHeartCountWriteService;
+import com.foodymoody.be.feed_reply_like_count.application.service.FeedReplyLikeCountWriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedReplyLikeWriteUseCase {
 
     private final FeedReplyLikeWriteService feedReplyLikeService;
-    private final ReplyHeartCountWriteService replyHeartCountService;
+    private final FeedReplyLikeCountWriteService replyHeartCountService;
 
     @Transactional
     public void register(FeedCommentId feedCommentId, FeedReplyId feedReplyId, MemberId memberId) {

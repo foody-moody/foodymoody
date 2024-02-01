@@ -5,9 +5,9 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Embeddable
-public class ReplyHeartCountId extends BaseId {
+public class FeedReplyLikeCountId extends BaseId {
 
-    public ReplyHeartCountId(String value) {
+    public FeedReplyLikeCountId(String value) {
         super(value);
     }
 }

@@ -3,9 +3,9 @@ package com.foodymoody.be.feed_reply_like_count.domain;
 
 import com.foodymoody.be.common.util.ids.FeedReplyId;
 
-public interface ReplyHeartCountRepository {
+public interface FeedReplyLikeCountRepository {
 
-    ReplyHeartCount save(ReplyHeartCount replyHeartCount);
+    FeedReplyLikeCount save(FeedReplyLikeCount feedReplyLikeCount);
 
     void incrementCount(FeedReplyId feedReplyId);
 
