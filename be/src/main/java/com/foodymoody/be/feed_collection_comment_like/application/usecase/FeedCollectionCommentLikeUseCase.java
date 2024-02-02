@@ -19,13 +19,13 @@ public class FeedCollectionCommentLikeUseCase {
     @Transactional
     public FeedCollectionCommentLikeId like(FeedCollectionCommentId commentId, MemberId memberId) {
         var likeId = likeService.like(commentId, memberId);
-        likeCountService.increaseLikeCount(commentId);
+        likeCountService.increase(commentId);
         return likeId;
     }
 
     @Transactional
     public void cancel(FeedCollectionCommentId commentId, MemberId memberId) {
         likeService.cancel(commentId, memberId);
-        likeCountService.decreaseLikeCount(commentId);
+        likeCountService.decrease(commentId);
     }
 }

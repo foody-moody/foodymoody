@@ -4,7 +4,6 @@ import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.feed_collection_comment_like_count.domain.FeedCollectionCommentLikeCount;
 import com.foodymoody.be.feed_collection_comment_like_count.domain.FeedCollectionCommentLikeCountRepository;
 import com.foodymoody.be.feed_collection_comment_like_count.infra.persistence.jpa.FeedCollectionCommentLikeCountJpaRepository;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -15,20 +14,13 @@ public class FeedCollectionCommentLikeCountRepositoryImpl implements FeedCollect
     private final FeedCollectionCommentLikeCountJpaRepository repository;
 
     @Override
-    public Optional<FeedCollectionCommentLikeCount> findByFeedCollectionCommentId(
-            FeedCollectionCommentId feedCollectionCommentId
-    ) {
-        return repository.findByFeedCollectionCommentId(feedCollectionCommentId);
+    public void increase(FeedCollectionCommentId feedCollectionCommentId) {
+        repository.increase(feedCollectionCommentId);
     }
 
     @Override
-    public void increaseCount(FeedCollectionCommentId feedCollectionCommentId) {
-        repository.increaseCount(feedCollectionCommentId);
-    }
-
-    @Override
-    public void decreaseCount(FeedCollectionCommentId feedCollectionCommentId) {
-        repository.decreaseCount(feedCollectionCommentId);
+    public void decrease(FeedCollectionCommentId feedCollectionCommentId) {
+        repository.decrease(feedCollectionCommentId);
     }
 
     @Override

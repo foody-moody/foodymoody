@@ -29,7 +29,7 @@ public class FeedCollectionCommentLikeWriteController {
     }
 
     @DeleteMapping("/api/feed_collections/comments/{commentId}/likes")
-    public ResponseEntity<Void> cancelLike(
+    public ResponseEntity<Void> cancel(
             @PathVariable FeedCollectionCommentId commentId,
             @CurrentMemberId MemberId memberId
     ) {
