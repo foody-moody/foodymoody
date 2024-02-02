@@ -5,7 +5,7 @@ import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import java.time.LocalDateTime;
 
-public interface FeedCollectionReplaySummary {
+public interface FeedCollectionReplySummary {
 
     FeedCollectionReplyId getId();
 
