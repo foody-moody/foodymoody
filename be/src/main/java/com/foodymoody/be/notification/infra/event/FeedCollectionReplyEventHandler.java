@@ -10,7 +10,7 @@ import com.foodymoody.be.feed_collection_comment.application.service.FeedCollect
 import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionComment;
 import com.foodymoody.be.feed_collection_reply.domain.FeedCollectionReplyAddedEvent;
 import com.foodymoody.be.notification.application.service.NotificationWriteService;
-import com.foodymoody.be.notification_setting.application.service.NotificationSettingReadService;
+import com.foodymoody.be.notification_setting.application.usecase.NotificationSettingReadUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -22,7 +22,7 @@ public class FeedCollectionReplyEventHandler {
 
     private final FeedCollectionWriteService feedCollectionService;
     private final FeedCollectionCommentReadService feedCollectionCommentService;
-    private final NotificationSettingReadService notificationSettingService;
+    private final NotificationSettingReadUseCase settingReadUseCase;
     private final NotificationWriteService notificationService;
 
     @Async
@@ -30,7 +30,7 @@ public class FeedCollectionReplyEventHandler {
     public void handle(FeedCollectionReplyAddedEvent event) {
         var comment = feedCollectionCommentService.findById(event.getToFeedCollectionCommentId());
         var toMemberId = comment.getMemberId();
-        if (notificationSettingService.isFeedCollectionCommentRepliedAllowed(toMemberId)) {
+        if (settingReadUseCase.isFeedCollectionCommentRepliedAllowed(toMemberId)) {
             saveNotification(event, comment, toMemberId);
         }
     }

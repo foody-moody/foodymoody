@@ -146,6 +146,14 @@ public class IdFactory {
         return createId(NotificationId.class);
     }
 
+    public static NotificationSettingId createNotificationSettingId(String id) {
+        return createId(NotificationSettingId.class, id);
+    }
+
+    public static NotificationSettingId createNotificationSettingId() {
+        return createId(NotificationSettingId.class);
+    }
+
     public static FeedCollectionReplyId createFeedCollectionReplyId() {
         return createId(FeedCollectionReplyId.class);
     }

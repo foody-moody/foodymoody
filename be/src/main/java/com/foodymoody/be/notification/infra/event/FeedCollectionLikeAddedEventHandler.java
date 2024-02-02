@@ -8,7 +8,7 @@ import com.foodymoody.be.feed_collection.application.service.FeedCollectionReadS
 import com.foodymoody.be.feed_collection_like.domain.FeedCollectionLikeAddedEvent;
 import com.foodymoody.be.notification.application.service.NotificationWriteService;
 import com.foodymoody.be.notification.infra.event.util.NotificationMapper;
-import com.foodymoody.be.notification_setting.application.service.NotificationSettingReadService;
+import com.foodymoody.be.notification_setting.application.usecase.NotificationSettingReadUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class FeedCollectionLikeAddedEventHandler {
 
     private final FeedCollectionReadService feedCollectionService;
-    private final NotificationSettingReadService notificationSettingService;
+    private final NotificationSettingReadUseCase settingReadUseCase;
     private final NotificationWriteService notificationService;
 
     @Async
@@ -29,7 +29,7 @@ public class FeedCollectionLikeAddedEventHandler {
         var feedCollection = feedCollectionService.fetchById(feedCollectionId);
         var toMemberId = feedCollection.getAuthorId();
         var feedCollectionThumbnailUrl = feedCollection.getThumbnailUrl();
-        if (notificationSettingService.isFeedCollectionLikeAllowed(toMemberId)) {
+        if (settingReadUseCase.isFeedCollectionLikeAllowed(toMemberId)) {
             saveNotification(event, toMemberId, feedCollectionThumbnailUrl);
         }
     }
