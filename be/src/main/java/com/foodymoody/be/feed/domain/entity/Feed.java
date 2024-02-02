@@ -51,9 +51,6 @@ public class Feed {
     @Getter
     private int likeCount;
 
-    @Getter
-    private int commentCount;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @Getter
     private List<StoreMood> storeMoods;

@@ -72,8 +72,8 @@ public class FeedUseCase {
 
     @Transactional
     public FeedRegisterResponse register(FeedServiceRegisterRequest request) {
-        Member member = memberReadService.findById(request.getMemberId());
-        MemberId memberId = member.getId();
+        MemberId memberId = request.getMemberId();
+        Member member = memberReadService.findById(memberId);
         List<ImageMenuPair> imageMenuPairs = request.getImages();
         List<Menu> menus = toMenu(imageMenuPairs);
         List<Image> images = toImage(imageMenuPairs, memberId);
@@ -81,7 +81,8 @@ public class FeedUseCase {
         List<StoreMood> storeMoods = storeMoodReadService.fetchAllByStoreMoodIds(storeMoodIds);
         StoreId storeId = request.getStoreId();
         String review = request.getReview();
-        String profileImageUrl = imageService.findById(member.getProfileImageId()).getUrl();
+        ImageId profileImageId = member.getProfileImageId();
+        String profileImageUrl = imageService.findById(profileImageId).getUrl();
 
         Feed feed = Feed.builder()
                 .id(IdFactory.createFeedId())
@@ -125,15 +126,15 @@ public class FeedUseCase {
     private List<FeedReadAllResponse> makeFeedReadAllResponseListWhenMemberIdIsNull(Slice<Feed> feeds) {
         return feeds.stream()
                 .map(feed -> makeFeedReadAllResponse(
-                        feed,
-                        makeFeedMemberResponse(feed),
-                        makeFeedStoreMoodResponses(feed.getStoreMoods()),
-                        makeFeedImageMenuResponses(feed),
-                        false,
-                        findCommentCount(feed.getId()),
-                        FeedMapper.makeStoreResponse(
-                                feed.getStoreId(),
-                                storeReadService.fetchDetails(feed.getStoreId()).getName())
+                                feed,
+                                makeFeedMemberResponse(feed),
+                                makeFeedStoreMoodResponses(feed.getStoreMoods()),
+                                makeFeedImageMenuResponses(feed),
+                                false,
+                                findCommentCount(feed.getId()),
+                                FeedMapper.makeStoreResponse(
+                                        feed.getStoreId(),
+                                        storeReadService.fetchDetails(feed.getStoreId()).getName())
                         )
                 )
                 .collect(Collectors.toList());
@@ -145,15 +146,15 @@ public class FeedUseCase {
     ) {
         return feeds.stream()
                 .map(feed -> makeFeedReadAllResponse(
-                        feed,
-                        makeFeedMemberResponse(feed),
-                        makeFeedStoreMoodResponses(feed.getStoreMoods()),
-                        makeFeedImageMenuResponses(feed),
-                        feedLikeService.fetchIsLiked(feed.getId(), memberId),
-                        findCommentCount(feed.getId()),
-                        FeedMapper.makeStoreResponse(
-                                feed.getStoreId(),
-                                storeReadService.fetchDetails(feed.getStoreId()).getName())
+                                feed,
+                                makeFeedMemberResponse(feed),
+                                makeFeedStoreMoodResponses(feed.getStoreMoods()),
+                                makeFeedImageMenuResponses(feed),
+                                feedLikeService.fetchIsLiked(feed.getId(), memberId),
+                                findCommentCount(feed.getId()),
+                                FeedMapper.makeStoreResponse(
+                                        feed.getStoreId(),
+                                        storeReadService.fetchDetails(feed.getStoreId()).getName())
                         )
                 )
                 .collect(Collectors.toList());
@@ -275,7 +276,6 @@ public class FeedUseCase {
     }
 
     public Long findCommentCount(FeedId feedId) {
-        // TODO: comment쪽에서 댓글이 등록되면 feed에 저장되도록 리팩토링
         return feedCommentCountReadService.fetchCountByFeedId(feedId);
     }
 

@@ -11,6 +11,7 @@ import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.dto.response.StoreMoodResponse;
+import com.foodymoody.be.feed.application.service.FeedCommentCountReadService;
 import com.foodymoody.be.feed.application.service.FeedReadService;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed_collection.application.service.FeedCollectionMoodReadService;
@@ -52,6 +53,7 @@ public class FeedCollectionReadUseCase {
     private final FeedLikeService feedLikeService;
     private final FeedCollectionCommentReadService commentReadService;
     private final FeedCollectionMoodReadService feedCollectionMoodReadService;
+    private final FeedCommentCountReadService feedCommentCountReadService;
 
     @Transactional(readOnly = true)
     public Slice<FeedCollectionResponse> fetchAll(Pageable pageable) {
@@ -153,7 +155,17 @@ public class FeedCollectionReadUseCase {
                 feedIds,
                 Pageable.ofSize(10).withPage(0)
         );
-        return toFeedSummaryResponse(feeds);
+        return toFeedSummaryResponseForCommentCount(feeds);
+    }
+
+    private List<FeedSummaryResponse> toFeedSummaryResponseForCommentCount(Slice<Feed> feeds) {
+        return feeds.stream()
+                .map(feed -> {
+                    List<StoreMoodResponse> moods = toStoreMoodResponse(feed.getStoreMoods());
+                    int commentCount = feedCommentCountReadService.fetchCountByFeedId(feed.getId()).intValue();
+                    return toFeedSummaryResponse(feed, moods, false, commentCount);
+                })
+                .collect(Collectors.toList());
     }
 
     private List<FeedSummaryResponse> getFeedSummaryResponse(MemberId memberId, Slice<Feed> feeds) {
@@ -161,7 +173,8 @@ public class FeedCollectionReadUseCase {
                 .map(feed -> {
                     boolean isLiked = feedLikeService.existsHeart(memberId, feed.getId().getValue());
                     List<StoreMoodResponse> moods = toStoreMoodResponse(feed.getStoreMoods());
-                    return toFeedSummaryResponse(feed, moods, isLiked);
+                    int commentCount = feedCommentCountReadService.fetchCountByFeedId(feed.getId()).intValue();
+                    return toFeedSummaryResponse(feed, moods, isLiked, commentCount);
                 })
                 .collect(Collectors.toList());
     }
