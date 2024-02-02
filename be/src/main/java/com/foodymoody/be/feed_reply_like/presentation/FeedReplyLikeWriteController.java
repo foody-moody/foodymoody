@@ -2,6 +2,7 @@ package com.foodymoody.be.feed_reply_like.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.FeedReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_reply_like.application.usecase.FeedReplyLikeWriteUseCase;
@@ -19,8 +20,9 @@ public class FeedReplyLikeWriteController {
 
     private final FeedReplyLikeWriteUseCase useCase;
 
-    @PostMapping("/api/comments/{feedCommentId}/replies/{feedReplyId}/likes")
+    @PostMapping("/api/feed/{ignoreFeedId}/comments/{feedCommentId}/replies/{feedReplyId}/likes")
     public ResponseEntity<Void> create(
+            @PathVariable FeedId ignoreFeedId,
             @PathVariable FeedCommentId feedCommentId,
             @PathVariable FeedReplyId feedReplyId,
             @CurrentMemberId MemberId memberId
@@ -29,8 +31,9 @@ public class FeedReplyLikeWriteController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/api/comments/{ignoredFeedCommentId}/replies/{feedReplyId}/likes")
+    @DeleteMapping("/api/feed/{ignoreFeedId}/comments/{ignoredFeedCommentId}/replies/{feedReplyId}/likes")
     public ResponseEntity<Void> delete(
+            @PathVariable FeedId ignoreFeedId,
             @PathVariable FeedCommentId ignoredFeedCommentId,
             @PathVariable FeedReplyId feedReplyId,
             @CurrentMemberId MemberId memberId

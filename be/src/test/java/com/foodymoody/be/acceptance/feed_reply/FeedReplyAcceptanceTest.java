@@ -1,14 +1,14 @@
-package com.foodymoody.be.acceptance.reply;
+package com.foodymoody.be.acceptance.feed_reply;
 
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고_아이디를_받는다;
 import static com.foodymoody.be.acceptance.feed_comment.FeedCommentSteps.응답코드_200을_반환한다;
 import static com.foodymoody.be.acceptance.feed_comment.FeedCommentSteps.응답코드_201을_반환한다;
 import static com.foodymoody.be.acceptance.feed_comment.FeedCommentSteps.피드에_댓글을_등록하고_아이디를_받는다;
+import static com.foodymoody.be.acceptance.feed_reply.FeedReplySteps.댓글에_댓글을_등록하고_아이디를_가져온다;
+import static com.foodymoody.be.acceptance.feed_reply.FeedReplySteps.댓글에_댓글을_등록한다;
+import static com.foodymoody.be.acceptance.feed_reply.FeedReplySteps.댓글의_댓글을_조회한다;
+import static com.foodymoody.be.acceptance.feed_reply_like.FeedReplyLikeSteps.대댓글에_좋아요를_추가한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
-import static com.foodymoody.be.acceptance.reply.ReplySteps.댓글에_댓글을_등록하고_아이디를_가져온다;
-import static com.foodymoody.be.acceptance.reply.ReplySteps.댓글에_댓글을_등록한다;
-import static com.foodymoody.be.acceptance.reply.ReplySteps.댓글의_댓글을_조회한다;
-import static com.foodymoody.be.acceptance.reply_heart.ReplyHeartSteps.대댓글에_좋아요를_추가한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
@@ -61,7 +61,7 @@ class FeedReplyAcceptanceTest extends AcceptanceTest {
         댓글에_댓글을_등록한다(feedId, commentId, 회원아티_액세스토큰);
 
         // when
-        var response = 댓글의_댓글을_조회한다(commentId, spec);
+        var response = 댓글의_댓글을_조회한다(commentId, feedId, spec);
 
         // then
         응답코드_200을_반환한다(response);
@@ -77,10 +77,10 @@ class FeedReplyAcceptanceTest extends AcceptanceTest {
         댓글에_댓글을_등록한다(feedId, commentId, 회원아티_액세스토큰);
         댓글에_댓글을_등록한다(feedId, commentId, 회원푸반_액세스토큰);
         String replyId = 댓글에_댓글을_등록하고_아이디를_가져온다(feedId, commentId, 회원아티_액세스토큰);
-        대댓글에_좋아요를_추가한다(회원아티_액세스토큰, commentId, replyId);
+        대댓글에_좋아요를_추가한다(feedId, commentId, replyId, 회원아티_액세스토큰);
 
         // when
-        var response = 댓글의_댓글을_조회한다(commentId, 회원아티_액세스토큰, spec);
+        var response = 댓글의_댓글을_조회한다(commentId, feedId, 회원아티_액세스토큰, spec);
 
         // then
         응답코드_200을_반환한다(response);

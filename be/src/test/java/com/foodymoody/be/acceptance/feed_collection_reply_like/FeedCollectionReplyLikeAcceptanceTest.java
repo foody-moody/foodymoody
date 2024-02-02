@@ -18,8 +18,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("피드 컬렉션 대댓글 좋아요 관련 기능")
-class FeedCollectionFeedReplyLikeAcceptanceTest extends AcceptanceTest {
+class FeedCollectionReplyLikeAcceptanceTest extends AcceptanceTest {
 
+    String feedCollectionId;
     String commentId;
     String replyId;
 
@@ -34,9 +35,9 @@ class FeedCollectionFeedReplyLikeAcceptanceTest extends AcceptanceTest {
 
         List<String> feedIds = new ArrayList<>();
         feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, imageIds));
-        String feedCollectionId = 피드_컬렉션_등록하고_아이디를_가져온다(feedIds, 회원아티_액세스토큰);
+        feedCollectionId = 피드_컬렉션_등록하고_아이디를_가져온다(feedIds, 회원아티_액세스토큰);
         commentId = 피드_컬렉션에_댓글을_등록하고_아이디를_받는다(회원아티_액세스토큰, feedCollectionId);
-        replyId = 피드_컬렉션_댓글에_대댓글을_등록하고_아이디를_반환한다(회원아티_액세스토큰, commentId);
+        replyId = 피드_컬렉션_댓글에_대댓글을_등록하고_아이디를_반환한다(commentId, feedCollectionId, 회원아티_액세스토큰);
     }
 
     @DisplayName("피드 컬렉션 대댓글에 좋아요를 등록 요청 성공하면 응답 코드 201를 반환한다.")
@@ -46,7 +47,7 @@ class FeedCollectionFeedReplyLikeAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_reply_like_post_success", spec);
 
         // when
-        var response = 피드_컬렉션_대댓글에_좋아요를_등록한다(회원아티_액세스토큰, commentId, replyId, spec);
+        var response = 피드_컬렉션_대댓글에_좋아요를_등록한다(feedCollectionId, commentId, replyId, 회원아티_액세스토큰, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(201);
@@ -59,10 +60,10 @@ class FeedCollectionFeedReplyLikeAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_reply_like_cancel_success", spec);
 
         // given
-        String id = 피드_컬렉션_대댓글에_좋아요를_등록하고_아이디를_반환한다(회원아티_액세스토큰, commentId, replyId);
+        String replyLikeId = 피드_컬렉션_대댓글에_좋아요를_등록하고_아이디를_반환한다(feedCollectionId, commentId, replyId, 회원아티_액세스토큰);
 
         // when
-        var response = 피드_컬렉션_대댓글에_좋아요를_취소한다(회원아티_액세스토큰, commentId, replyId, id, spec);
+        var response = 피드_컬렉션_대댓글에_좋아요를_취소한다(feedCollectionId, commentId, replyId, replyLikeId, 회원아티_액세스토큰, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(204);

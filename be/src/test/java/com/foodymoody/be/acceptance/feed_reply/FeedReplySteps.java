@@ -1,4 +1,4 @@
-package com.foodymoody.be.acceptance.reply;
+package com.foodymoody.be.acceptance.feed_reply;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -9,39 +9,49 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.MediaType;
 
-public class ReplySteps {
+public class FeedReplySteps {
 
-    public static ExtractableResponse<Response> 댓글에_댓글을_등록한다(String feedId, String commentId, String accessToken,
-            RequestSpecification spec) {
+    public static ExtractableResponse<Response> 댓글에_댓글을_등록한다(
+            String feedId,
+            String commentId,
+            String accessToken,
+            RequestSpecification spec
+    ) {
         Map<String, Object> body = new HashMap<>();
         body.put("content", "댓글 내용");
-        body.put("feedId", feedId);
         return RestAssured.given().spec(spec).log().all().auth().oauth2(accessToken)
                 .body(body).contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE)
-                .when().post("/api/comments/{commentId}", commentId)
+                .when().post("/api/feed/{feedId}/comments/{commentId}", feedId, commentId)
                 .then().log().all()
                 .extract();
     }
 
 
-    public static ExtractableResponse<Response> 댓글의_댓글을_조회한다(String commentId) {
-        return 댓글의_댓글을_조회한다(commentId, new RequestSpecBuilder().build());
+    public static ExtractableResponse<Response> 댓글의_댓글을_조회한다(String commentId, String feedId) {
+        return 댓글의_댓글을_조회한다(commentId, feedId, new RequestSpecBuilder().build());
     }
 
-    public static ExtractableResponse<Response> 댓글의_댓글을_조회한다(String commentId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 댓글의_댓글을_조회한다(
+            String commentId,
+            String feedId,
+            RequestSpecification spec
+    ) {
         return RestAssured.given().spec(spec).log().all()
                 .params(Map.of("page", "0", "size", "10"))
-                .when().get("/api/comments/{commentId}/replies", commentId)
+                .when().get("/api/feed/{feedId}/comments/{commentId}/replies", feedId, commentId)
                 .then().log().all()
                 .extract();
     }
 
     public static ExtractableResponse<Response> 댓글의_댓글을_조회한다(
-            String commentId, String accessToken, RequestSpecification spec
+            String commentId,
+            String feedId,
+            String accessToken,
+            RequestSpecification spec
     ) {
         return RestAssured.given().spec(spec).log().all().auth().oauth2(accessToken)
                 .params(Map.of("page", "0", "size", "10"))
-                .when().get("/api/comments/{commentId}/replies", commentId)
+                .when().get("/api/feed/{feedId}/comments/{commentId}/replies", feedId, commentId)
                 .then().log().all()
                 .extract();
     }

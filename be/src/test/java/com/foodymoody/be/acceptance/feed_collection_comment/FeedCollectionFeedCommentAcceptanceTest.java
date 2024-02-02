@@ -94,7 +94,7 @@ class FeedCollectionFeedCommentAcceptanceTest extends AcceptanceTest {
         String id = 피드_컬렉션에_댓글을_등록하고_아이디를_받는다(회원아티_액세스토큰, feedCollectionId);
         피드_컬렉션에_댓글을_등록하고_아이디를_받는다(회원아티_액세스토큰, feedCollectionId);
         피드_컬렉션에_댓글을_등록하고_아이디를_받는다(회원아티_액세스토큰, feedCollectionId);
-        피드_컬렉션_댓글에_좋아요를_등록한다(회원아티_액세스토큰, id, spec);
+        피드_컬렉션_댓글에_좋아요를_등록한다(feedCollectionId, id, 회원아티_액세스토큰, spec);
 
         // when
         var response = 로그인_상태에서_피드_컬렉션의_댓글을_조회한다(회원아티_액세스토큰, feedCollectionId, spec);

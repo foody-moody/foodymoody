@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-public class FeedCollectionMoodReadeController {
+public class FeedCollectionMoodReadController {
 
     private final FeedCollectionMoodReadUseCase useCase;
 

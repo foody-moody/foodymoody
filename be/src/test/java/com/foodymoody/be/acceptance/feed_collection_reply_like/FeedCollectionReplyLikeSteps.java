@@ -9,17 +9,20 @@ import io.restassured.specification.RequestSpecification;
 public class FeedCollectionReplyLikeSteps {
 
     public static ExtractableResponse<Response> 피드_컬렉션_대댓글에_좋아요를_등록한다(
-            String accessToken,
+            String feedCollectionId,
             String commentId,
-            String replyId
+            String replyId,
+            String accessToken
     ) {
-        return 피드_컬렉션_대댓글에_좋아요를_등록한다(accessToken, commentId, replyId, new RequestSpecBuilder().build());
+        return 피드_컬렉션_대댓글에_좋아요를_등록한다(
+                feedCollectionId, commentId, replyId, accessToken, new RequestSpecBuilder().build());
     }
 
     public static ExtractableResponse<Response> 피드_컬렉션_대댓글에_좋아요를_등록한다(
-            String accessToken,
+            String feedCollectionId,
             String commentId,
             String replyId,
+            String accessToken,
             RequestSpecification spec
     ) {
         return RestAssured.given()
@@ -27,30 +30,35 @@ public class FeedCollectionReplyLikeSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .post("/api/feed_collections/comments/{commentId}/replies/{replyId}/likes", commentId, replyId)
+                .post("/api/feed_collections/{feedCollectionId}/comments/{commentId}/replies/{replyId}/likes",
+                      feedCollectionId, commentId, replyId
+                )
                 .then().log().all()
                 .extract();
     }
 
     public static String 피드_컬렉션_대댓글에_좋아요를_등록하고_아이디를_반환한다(
-            String accessToken,
+            String feedCollectionId,
             String commentId,
-            String replyId
+            String replyId,
+            String accessToken
     ) {
         return 피드_컬렉션_대댓글에_좋아요를_등록한다(
-                accessToken,
+                feedCollectionId,
                 commentId,
                 replyId,
+                accessToken,
                 new RequestSpecBuilder().build()
         )
                 .jsonPath().getString("id");
     }
 
     public static ExtractableResponse<Response> 피드_컬렉션_대댓글에_좋아요를_취소한다(
-            String accessToken,
+            String feedCollectionId,
             String commentId,
             String replyId,
-            String id,
+            String replyLikeId,
+            String accessToken,
             RequestSpecification spec
     ) {
         return RestAssured.given()
@@ -59,8 +67,8 @@ public class FeedCollectionReplyLikeSteps {
                 .auth().oauth2(accessToken)
                 .when()
                 .delete(
-                        "/api/feed_collections/comments/{commentId}/replies/{replyId}/likes/{id}",
-                        commentId, replyId, id
+                        "/api/feed_collections/{feedCollectionId}/comments/{commentId}/replies/{replyId}/likes/{id}",
+                        feedCollectionId, commentId, replyId, replyLikeId
                 )
                 .then().log().all()
                 .extract();

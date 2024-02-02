@@ -4,7 +4,7 @@ import static com.foodymoody.be.common.util.Constants.UTILITY_CLASS;
 
 import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
-import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_comment.application.dto.data.EditFeedCommentData;
 import com.foodymoody.be.feed_comment.application.dto.data.RegisterFeedCommentData;
@@ -19,9 +19,11 @@ public class FeedCommentTranslator {
         throw new AssertionError(UTILITY_CLASS);
     }
 
-    public static RegisterFeedCommentData toRegisterCommentData(RegisterFeedCommentRequest request, MemberId memberId) {
+    public static RegisterFeedCommentData toRegisterCommentData(
+            RegisterFeedCommentRequest request, MemberId memberId,
+            FeedId feedId
+    ) {
         var content = new Content(request.getContent());
-        var feedId = IdFactory.createFeedId(request.getFeedId());
         return new RegisterFeedCommentData(feedId, content, memberId);
     }
 

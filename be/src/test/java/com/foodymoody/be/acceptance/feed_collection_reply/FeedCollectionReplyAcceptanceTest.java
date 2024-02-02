@@ -22,8 +22,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @DisplayName("피드 컬렉션 댓글에 대댓글 관련 기능")
-class FeedCollectionFeedReplyAcceptanceTest extends AcceptanceTest {
+class FeedCollectionReplyAcceptanceTest extends AcceptanceTest {
 
+    String feedCollectionId;
     String commentId;
 
     @Autowired
@@ -40,7 +41,7 @@ class FeedCollectionFeedReplyAcceptanceTest extends AcceptanceTest {
 
         List<String> feedIds = new ArrayList<>();
         feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, imageIds));
-        String feedCollectionId = 피드_컬렉션_등록하고_아이디를_가져온다(feedIds, 회원아티_액세스토큰);
+        feedCollectionId = 피드_컬렉션_등록하고_아이디를_가져온다(feedIds, 회원아티_액세스토큰);
         commentId = 피드_컬렉션에_댓글을_등록하고_아이디를_받는다(회원아티_액세스토큰, feedCollectionId);
     }
 
@@ -51,7 +52,7 @@ class FeedCollectionFeedReplyAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_reply_post_success", spec);
 
         // when
-        var response = 피드_컬렉션_댓글에_대댓글을_등록한다(회원아티_액세스토큰, commentId, spec);
+        var response = 피드_컬렉션_댓글에_대댓글을_등록한다(commentId, feedCollectionId, 회원아티_액세스토큰, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(201);
@@ -64,10 +65,10 @@ class FeedCollectionFeedReplyAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_reply_delete_success", spec);
 
         // given
-        var replyId = 피드_컬렉션_댓글에_대댓글을_등록하고_아이디를_반환한다(회원아티_액세스토큰, commentId);
+        var replyId = 피드_컬렉션_댓글에_대댓글을_등록하고_아이디를_반환한다(commentId, feedCollectionId, 회원아티_액세스토큰);
 
         // when
-        var response = 피드_컬렉션_댓글의_대댓글을_삭제한다(회원아티_액세스토큰, replyId, commentId, spec);
+        var response = 피드_컬렉션_댓글의_대댓글을_삭제한다(feedCollectionId, commentId, replyId, 회원아티_액세스토큰, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(204);
@@ -80,10 +81,10 @@ class FeedCollectionFeedReplyAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_reply_edit_success", spec);
 
         // given
-        var replyId = 피드_컬렉션_댓글에_대댓글을_등록하고_아이디를_반환한다(회원아티_액세스토큰, commentId);
+        var replyId = 피드_컬렉션_댓글에_대댓글을_등록하고_아이디를_반환한다(commentId, feedCollectionId, 회원아티_액세스토큰);
 
         // when
-        var response = 피드_컬렉션_댓글의_대댓글을_수정한다(회원아티_액세스토큰, replyId, commentId, spec);
+        var response = 피드_컬렉션_댓글의_대댓글을_수정한다(feedCollectionId, commentId, replyId, 회원아티_액세스토큰, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(204);
@@ -96,13 +97,13 @@ class FeedCollectionFeedReplyAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_reply_fetch_success", spec);
 
         // given
-        피드_컬렉션_댓글에_대댓글을_등록한다(회원아티_액세스토큰, commentId);
-        피드_컬렉션_댓글에_대댓글을_등록한다(회원아티_액세스토큰, commentId);
-        String id = 피드_컬렉션_댓글에_대댓글을_등록하고_아이디를_반환한다(회원아티_액세스토큰, commentId);
-        피드_컬렉션_대댓글에_좋아요를_등록한다(회원푸반_액세스토큰, commentId, id);
+        피드_컬렉션_댓글에_대댓글을_등록한다(commentId, feedCollectionId, 회원아티_액세스토큰);
+        피드_컬렉션_댓글에_대댓글을_등록한다(commentId, feedCollectionId, 회원아티_액세스토큰);
+        String id = 피드_컬렉션_댓글에_대댓글을_등록하고_아이디를_반환한다(commentId, feedCollectionId, 회원아티_액세스토큰);
+        피드_컬렉션_대댓글에_좋아요를_등록한다(feedCollectionId, commentId, id, 회원푸반_액세스토큰);
 
         // when
-        var response = 피드_컬렉션_댓글의_대댓글을_조회한다(회원푸반_액세스토큰, commentId, spec);
+        var response = 피드_컬렉션_댓글의_대댓글을_조회한다(feedCollectionId, commentId, 회원푸반_액세스토큰, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(200);
