@@ -17,8 +17,8 @@ public class FeedCollectionCommentLikeUseCase {
     private final FeedCollectionCommentLikeCountWriteService likeCountService;
 
     @Transactional
-    public FeedCollectionCommentLikeId like(FeedCollectionCommentId commentId, MemberId memberId) {
-        var likeId = likeService.like(commentId, memberId);
+    public FeedCollectionCommentLikeId post(FeedCollectionCommentId commentId, MemberId memberId) {
+        var likeId = likeService.post(commentId, memberId);
         likeCountService.increase(commentId);
         return likeId;
     }

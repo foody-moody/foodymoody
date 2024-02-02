@@ -25,7 +25,8 @@ public class FeedCollectionReplyLikeWriteService {
             MemberId memberId
     ) {
         var id = IdFactory.createFeedCollectionReplyLikeId();
-        var like = new FeedCollectionReplyLike(id, memberId, replyId, commentId, LocalDateTime.now());
+        var createdAt = LocalDateTime.now();
+        var like = new FeedCollectionReplyLike(id, memberId, replyId, commentId, createdAt);
         return repository.save(like).getId();
     }
 

@@ -20,11 +20,11 @@ public class FeedCollectionCommentLikeWriteController {
     private final FeedCollectionCommentLikeUseCase useCase;
 
     @PostMapping("/api/feed_collections/comments/{commentId}/likes")
-    public ResponseEntity<IdResponse> like(
+    public ResponseEntity<IdResponse> post(
             @PathVariable FeedCollectionCommentId commentId,
             @CurrentMemberId MemberId memberId
     ) {
-        var likeId = useCase.like(commentId, memberId);
+        var likeId = useCase.post(commentId, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(likeId));
     }
 

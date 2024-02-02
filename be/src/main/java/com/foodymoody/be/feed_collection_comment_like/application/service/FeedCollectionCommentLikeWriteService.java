@@ -18,7 +18,7 @@ public class FeedCollectionCommentLikeWriteService {
     private final FeedCollectionCommentLikeRepository repository;
 
     @Transactional
-    public FeedCollectionCommentLikeId like(FeedCollectionCommentId commentId, MemberId memberId) {
+    public FeedCollectionCommentLikeId post(FeedCollectionCommentId commentId, MemberId memberId) {
         var id = IdFactory.createFeedCollectionCommentLikeId();
         var createdAt = LocalDateTime.now();
         var commentLike = new FeedCollectionCommentLike(id, commentId, memberId, createdAt);
