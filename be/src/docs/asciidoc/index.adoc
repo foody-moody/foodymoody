@@ -3,8 +3,15 @@
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 3
+:toclevels: 2
 :sectlinks:
+
+[[introduction]]
+== 소개
+
+=== ❤️ 로그인 시 좋아요 여부도 함께 조회 가능한 API
+
+=== 🔐 로그인 필요 API
 
 [[feed]]
 == 피드
@@ -129,140 +136,85 @@ operation::logout_success[snippets='http-request,http-response']
 [[feedComment]]
 == 피드 댓글
 
-=== 피드 댓글 등록
-
-==== 성공
+=== 피드 댓글 등록 🔐
 
 operation::comment_register_success[snippets='http-request,http-response']
 
-==== 바디가 없을 때
+==== 예외 케이스
 
-operation::comment_register_failed_by_request_body_not_exists[snippets='http-response']
+|===
+| *케이스* | *응답코드* | *응답메시지* | *에러 코드* | *설명*
+| 바디가 없을 때 | 400 | 입력값이 올바르지 않습니다.| g001 | 요청 바디가 존재하지 않습니다.
+| 댓글이 없을 때 | 400 | 입력값이 올바르지 않습니다.| g001 | 댓글이 공백일 수 없습니다;널이어서는 안됩니다.
+| 댓글이 비여 있을 때 | 400 | 입력값이 올바르지 않습니다.| g001 | 댓글이 공백일 수 없습니다;널이어서는 안됩니다.
+| 댓글이 공백 일 때 | 400 | 입력값이 올바르지 않습니다.| g001 | 댓글이 공백일 수 없습니다;널이어서는 안됩니다.
+| 댓글이 200자를 넘을 때 | 400 | 댓글은 200자 이하여야 합니다.| g001 | 댓글은 200자를 넘을 수 없습니다.
+| 피드가 존재하지 않을 때 | 400 | 피드가 존재하지 않습니다. | g001 | 유호한 피드 아이디이여야 합니다.
+|===
 
-==== 댓글이 없을 때
-
-operation::comment_register_failed_by_content_not_exists[snippets='http-response']
-
-==== 댓글이 비여 있으면
-
-operation::comment_register_failed_by_content_is_empty[snippets='http-response']
-
-==== 댓글이 공백 일때
-
-operation::comment_register_failed_by_content_is_blank[snippets='http-response']
-
-==== 댓글이 200자를 넘을 때
-
-operation::comment_register_failed_by_content_is_larger_than_200[snippets='http-response']
-
-==== 피드가 존재하지 않을 때
-
-operation::comment_register_failed_by_feed_not_exists[snippets='http-response']
-
-==== 피드 아이디가 없을 때
-
-operation::comment_register_failed_by_feed_id_not_exists[snippets='http-response']
-
-=== 피드 댓글 수정
-
-==== 성공
+=== 피드 댓글 수정 🔐
 
 operation::comment_edit_success[snippets='http-request,http-response']
 
-==== 바디가 없을 때
+==== 예외 케이스
 
-operation::comment_edit_failed_by_request_body_not_exists[snippets='http-response']
+|===
+| *케이스* | *응답코드* | *응답메시지* | *에러 코드* | *설명*
+| 바디가 없을 때 | 400 | 입력값이 올바르지 않습니다.| g001 | 요청 바디가 유효해야 합니다.
+| 댓글이 비여 있을 때 | 400 | 입력값이 올바르지 않습니다.| g001 | 댓글이 공백일 수 없습니다.
+| 댓글이 공백 일 때 | 400 | 입력값이 올바르지 않습니다.| g001 | 댓글이 공백일 수 없습니다.
+| 댓글이 200자를 넘을 때 | 400 | 댓글은 200자 이하여야 합니다. | g001 | 댓글은 200자를 넘을 수 없습니다.
+| 댓글이 존재하지 않을 때 | 400 | 댓글이 존재하지 않습니다. | c007 | 유효한 댓글 아이디이여야 합니다.
+| 댓글이 이미 삭제되었을 때 | 400 | 삭제된 댓글입니다. | c008 | 댓글이 이미 삭제되었습니다.
+|===
 
-==== 댓글이 비여 있으면
-
-operation::editComment_failed_by_content_is_empty[snippets='http-response']
-
-==== 댓글이 공백 일때
-
-operation::comment_edit_failed_by_content_is_blank[snippets='http-response']
-
-==== 댓글이 200자를 넘을 때
-
-operation::comment_edit_failed_by_content_is_larger_than_200[snippets='http-response']
-
-==== 댓글이 존재하지 않을 때
-
-operation::comment_edit_failed_by_comment_not_exists[snippets='http-response']
-
-==== 댓글이 이미 삭제되었을 때
-
-operation::comment_edit_failed_by_comment_is_deleted[snippets='http-response']
-
-=== 피드 댓글 삭제
-
-==== 성공
+=== 피드 댓글 삭제 🔐
 
 operation::comment_delete_success[snippets='http-request,http-response']
 
-==== 댓글이 존재하지 않을 때
+==== 예외 케이스
 
-operation::comment_delete_failed_by_comment_not_exists[snippets='http-response']
+|===
+| *케이스* | *응답코드* | *응답메시지* | *에러 코드* | *설명*
+| 댓글이 존재하지 않을 때 | 400 | 댓글이 존재하지 않는다. | c007 | 유효한 댓글 아이디이여야 합니다.
+| 댓글이 이미 삭제되었을 때 | 400 | 삭제된 댓글입니다. | c008 | 댓글이 이미 삭제되었습니다.
+|===
 
-==== 댓글이 이미 삭제되었을 때
-
-operation::comment_delete_failed_by_comment_is_deleted[snippets='http-response']
-
-=== 피드별 댓글 조회
-
-==== 성공
+=== 피드별 댓글 조회 ❤️
 
 operation::comments_fetch_success[snippets='http-request,http-response']
 
-==== 성공 - 로그인
+==== 예외 케이스
 
-operation::comments_fetch_with_with_access_token_success[snippets='http-request,http-response']
+|===
+| *케이스* | *응답코드* | *응답메시지* | *에러 코드* | *설명*
+| 피드가 존재하지 않을 때 | 400 | 피드가 존재하지 않습니다. | c004 | 유효한 피드 아이디이여야 합니다.
+|===
 
-==== 성공 - 로그인(좋아요)
-
-operation::comments_fetch_with_liked_success[snippets='http-request,http-response']
-
-==== 성공 - 페이징
-
-operation::comments_fetch_with_page_success[snippets='http-request,http-response']
-
-==== 피드가 존재하지 않을 때
-
-operation::comments_fetch_failed_by_feed_id_not_exists[snippets='http-response']
-
-=== 피드 댓글 하트
-
-==== 댓글 하트 등록
+=== 피드 댓글 좋아요 등록 🔐
 
 operation::comment_heart_register_success[snippets='http-request,http-response']
 
-==== 댓글 하트 취소
+=== 피드 댓글 좋아요 취소 🔐
 
 operation::comment_heart_cancel_success[snippets='http-request,http-response']
 
 [[feedReply]]
 == 피드 대댓글
 
-=== 피드 대댓글 달기
-
-==== 성공
+=== 피드 대댓글 달기 🔐
 
 operation::comment_reply_success[snippets='http-request,http-response']
 
-=== 피드 대댓글 조회
-
-==== 성공
+=== 피드 대댓글 조회 ❤️
 
 operation::comment_reply_fetch_success[snippets='http-request,http-response']
 
-=== 피드 대댓글에 좋아요 누른다
-
-==== 성공
+=== 피드 대댓글에 좋아요 등록 🔐
 
 operation::reply_heart_register_success[snippets='http-request,http-response']
 
-=== 피드 대댓글에 좋아요 취소
-
-==== 성공
+=== 피드 대댓글에 좋아요 취소 🔐
 
 operation::reply_heart_cancel_success[snippets='http-request,http-response']
 
@@ -451,61 +403,45 @@ operation::list_following_if_login_and_other_success[snippets='http-response']
 [[notification]]
 == 알림
 
-=== 알림 전체 조회
-
-==== 성공 - 페이징
+=== 알림 전체 조회 🔐
 
 operation::notification_request_all_success[snippets='http-request,http-response']
 
-=== 개별 알림 조회
-
-==== 성공 (예시: 읽음으로 변경 )
+=== 개별 알림 조회 🔐
 
 operation::notification_request_single_success[snippets='http-request,http-response']
 
-=== 모든 알림을 읽음으로 변경
-
-==== 성공 - 읽음
+=== 모든 알림을 읽음으로 변경 🔐
 
 operation::notification_mark_all_read_success[snippets='http-request,http-response']
 
-=== 알림 개별 삭제
-
-==== 성공
+=== 알림 개별 삭제 🔐
 
 operation::notification_delete_success[snippets='http-request,http-response']
 
-=== 모든 읽은 알림 삭제
-
-==== 성공
+=== 모든 읽은 알림 삭제 🔐
 
 operation::notification_delete_all_read[snippets='http-request,http-response']
 
+[[notification-setting]]
 == 알림 설정
 
-=== 알림 설정 조회
-
-==== 성공
+=== 알림 설정 조회 🔐
 
 operation::notification_setting_request_success[snippets='http-request,http-response']
 
-=== 알림 설정 변경
-
-==== 성공
+=== 알림 설정 변경 🔐
 
 operation::notification_setting_update_success[snippets='http-request,http-response']
 
-=== 모든 알림 설정 on/off
-
-==== 성공
+=== 모든 알림 설정 on/off 변경 🔐
 
 operation::notification_setting_update_all_success[snippets='http-request,http-response']
 
+[[notification-sse]]
 == SSE
 
-=== 알림 실시간 전송
-
-==== 성공
+=== 알림 실시간 전송 🔐
 
 [source,http,options="nowrap"]
 ----
@@ -700,177 +636,125 @@ operation::deleteFeedImage_failedByUnAuthorized[snippets='http-response']
 [[feed-collection]]
 == 컬렉션
 
-=== 컬렉션 등록
-
-==== 성공
+=== 컬렉션 등록 🔐
 
 operation::feed_collection_request_create_success[snippets='http-request,http-response']
 
-=== 컬렉션 수정
-
-==== 성공
+=== 컬렉션 수정 🔐
 
 operation::feed_collection_request_update_success[snippets='http-request,http-response']
 
-=== 컬렉션 피드 리스트 수정
-
-==== 성공
+=== 컬렉션 피드 리스트 수정 🔐
 
 operation::feed_collection_request_update_feed_list_success[snippets='http-request,http-response']
 
-=== 컬렉션 피드 리스트 및 썸네일 수정
-
-==== 성공
+=== 컬렉션 피드 리스트 및 썸네일 수정 🔐
 
 operation::feed_collection_request_update_feed_list_and_thumbnail_success[snippets='http-request,http-response']
 
-=== 컬렉션 삭제
-
-==== 성공
+=== 컬렉션 삭제 🔐
 
 operation::feed_collection_request_delete_success[snippets='http-request,http-response']
 
-=== 컬렉션 전체 조회
-
-==== 성공
+=== 컬렉션 전체 조회 ❤️
 
 operation::feed_collection_request_fetch_all_success[snippets='http-request,http-response']
 
-=== 컬렉션 개별 조회
-
-==== 성공
+=== 컬렉션 개별 조회 ❤️
 
 operation::feed_collection_request_fetch_single_success[snippets='http-request,http-response']
 
-=== 컬렉션 커멘트 조회
-
-==== 성공
+=== 컬렉션 커멘트 조회 ❤️
 
 operation::feed_collection_request_fetch_comments_success[snippets='http-request,http-response']
 
-=== 컬렉션 피드 리스트 조회
-
-==== 성공
+=== 컬렉션 피드 리스트 조회 ❤️
 
 operation::feed_collection_request_read_feed_list_success[snippets='http-request,http-response']
 
-=== 컬렉션 무드 추가
-
-==== 성공
+=== 컬렉션 무드 추가 🔐
 
 operation::feed_collection_add_mood_success[snippets='http-request,http-response']
 
-=== 컬렉션 무드 삭제
-
-==== 성공
+=== 컬렉션 무드 삭제 🔐
 
 operation::feed_collection_remove_mood_success[snippets='http-request,http-response']
 
 [[feed-collection-comment]]
 == 컬렉션 댓글
 
-=== 컬렉션 댓글 등록
-
-==== 성공
+=== 컬렉션 댓글 등록 🔐
 
 operation::feed_collection_comment_post_success[snippets='http-request,http-response']
 
-=== 컬렉션 댓글 삭제
-
-==== 성공
+=== 컬렉션 댓글 삭제 🔐
 
 operation::feed_collection_comment_delete_success[snippets='http-request,http-response']
 
-=== 컬렉션 댓글 수정
-
-==== 성공
+=== 컬렉션 댓글 수정 🔐
 
 operation::feed_collection_comment_edit_success[snippets='http-request,http-response']
 
 [[feed-collection-reply]]
 == 컬렉션 대댓글
 
-=== 컬렉션 대댓글 등록
-
-==== 성공
+=== 컬렉션 대댓글 등록 🔐
 
 operation::feed_collection_reply_post_success[snippets='http-request,http-response']
 
-=== 컬렉션 대댓글 삭제
-
-==== 성공
+=== 컬렉션 대댓글 삭제 🔐
 
 operation::feed_collection_reply_delete_success[snippets='http-request,http-response']
 
-=== 컬렉션 대댓글 수정
-
-==== 성공
+=== 컬렉션 대댓글 수정 🔐
 
 operation::feed_collection_reply_edit_success[snippets='http-request,http-response']
 
-=== 컬렉션 대댓글 조회
-
-==== 성공
+=== 컬렉션 대댓글 조회 ❤️
 
 operation::feed_collection_reply_fetch_success[snippets='http-request,http-response']
 
 [[feed-collection-comment-like]]
 == 컬렉션 댓글 좋아요
 
-=== 컬렉션 댓글 좋아요 등록
-
-==== 성공
+=== 컬렉션 댓글 좋아요 등록 🔐
 
 operation::feed_collection_comment_like_post_success[snippets='http-request,http-response']
 
-=== 컬렉션 댓글 좋아요 취소
-
-==== 성공
+=== 컬렉션 댓글 좋아요 취소 🔐
 
 operation::feed_collection_comment_like_cancel_success[snippets='http-request,http-response']
 
 [[feed-collection-reply-like]]
 == 컬렉션 대댓글 좋아요
 
-=== 컬렉션 대댓글 좋아요 등록
-
-==== 성공
+=== 컬렉션 대댓글 좋아요 등록 🔐
 
 operation::feed_collection_reply_like_post_success[snippets='http-request,http-response']
 
-=== 컬렉션 대댓글 좋아요 취소
-
-==== 성공
+=== 컬렉션 대댓글 좋아요 취소 🔐
 
 operation::feed_collection_reply_like_cancel_success[snippets='http-request,http-response']
 
 [[feed-collection-like]]
 == 컬렉션 좋아요
 
-=== 컬렉션 좋아요 등록
-
-==== 성공
+=== 컬렉션 좋아요 등록 🔐
 
 operation::feed_collection_like_post_success[snippets='http-request,http-response']
 
-=== 컬렉션 좋아요 취소
-
-==== 성공
+=== 컬렉션 좋아요 취소 🔐
 
 operation::feed_collection_like_cancel_success[snippets='http-request,http-response']
 
 [[feed-collection-mood]]
 == 컬렉션 무드
 
-=== 컬렉션 무드 등록
-
-==== 성공
+=== 컬렉션 무드 등록 🔐
 
 operation::feed_collection_mood_created_success[snippets='http-request,http-response']
 
 === 컬렉션 무드 조회
-
-==== 성공
 
 operation::feed_collection_mood_find_all_success[snippets='http-request,http-response']
 
