@@ -1,18 +1,16 @@
 package com.foodymoody.be.notification.infra.event;
 
+import static com.foodymoody.be.notification.infra.event.util.NotificationDetailsFactory.makeDetails;
 import static com.foodymoody.be.notification.infra.event.util.NotificationMapper.toNotification;
 
-import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.IdFactory;
-import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
-import com.foodymoody.be.feed_collection.domain.FeedCollection;
-import com.foodymoody.be.feed_collection_comment.application.FeedCollectionCommentReadService;
+import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.feed_collection.application.service.FeedCollectionReadService;
+import com.foodymoody.be.feed_collection_comment.application.service.FeedCollectionCommentReadService;
 import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionComment;
 import com.foodymoody.be.feed_collection_comment_like.domain.FeedCollectionCommentLikeAddedEvent;
-import com.foodymoody.be.notification.application.NotificationWriteService;
-import com.foodymoody.be.notification.domain.NotificationDetails;
-import com.foodymoody.be.notification.infra.event.dto.FeedCollectionCommentLikeNotificationDetails;
-import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
+import com.foodymoody.be.notification.application.service.NotificationWriteService;
+import com.foodymoody.be.notification_setting.application.usecase.NotificationSettingReadUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -23,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class FeedCollectionCommentLikeEventHandler {
 
     private final FeedCollectionCommentReadService feedCollectionCommentService;
-    private final NotificationSettingReadService notificationSettingService;
+    private final NotificationSettingReadUseCase settingReadUseCase;
     private final NotificationWriteService notificationService;
     private final FeedCollectionReadService feedCollectionService;
 
@@ -33,26 +31,27 @@ public class FeedCollectionCommentLikeEventHandler {
         var feedCollectionCommentId = event.getFeedCollectionCommentId();
         var feedCollectionComment = feedCollectionCommentService.findById(feedCollectionCommentId);
         var toMemberId = feedCollectionComment.getMemberId();
-        if (notificationSettingService.isFeedCollectionCommentLikeAddedAllowed(toMemberId)) {
-            var notificationId = IdFactory.createNotificationId();
-            var feedCollectionId = feedCollectionComment.getFeedCollectionId();
-            var feedCollection = feedCollectionService.fetchById(feedCollectionId);
-            var details = makeDetails(feedCollectionCommentId, feedCollectionComment, feedCollection);
-            var notification = toNotification(event, notificationId, details, toMemberId);
-            notificationService.save(notification);
+        if (settingReadUseCase.isFeedCollectionCommentLikeAddedAllowed(toMemberId)) {
+            saveNotification(event, feedCollectionComment, toMemberId);
         }
     }
 
-    private static NotificationDetails makeDetails(
-            FeedCollectionCommentId feedCollectionCommentId,
+    private void saveNotification(
+            FeedCollectionCommentLikeAddedEvent event,
             FeedCollectionComment feedCollectionComment,
-            FeedCollection feedCollection
+            MemberId toMemberId
     ) {
-        return new FeedCollectionCommentLikeNotificationDetails(
-                feedCollectionCommentId,
+        var notificationId = IdFactory.createNotificationId();
+        var feedCollectionId = feedCollectionComment.getFeedCollectionId();
+        var feedCollection = feedCollectionService.fetchById(feedCollectionId);
+        var feedCollectionThumbnailUrl = feedCollection.getThumbnailUrl();
+        var details = makeDetails(
+                event,
                 feedCollectionComment.getContent(),
-                feedCollection.getId(),
-                feedCollection.getTitle()
+                feedCollectionId,
+                feedCollectionThumbnailUrl
         );
+        var notification = toNotification(event, notificationId, details, toMemberId);
+        notificationService.save(notification);
     }
 }

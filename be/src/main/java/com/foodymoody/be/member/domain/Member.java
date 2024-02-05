@@ -1,6 +1,6 @@
 package com.foodymoody.be.member.domain;
 
-import com.foodymoody.be.common.event.Events;
+import com.foodymoody.be.common.event.EventManager;
 import com.foodymoody.be.common.exception.InvalidReconfirmPasswordException;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -49,10 +49,10 @@ public class Member {
         this.nickname = nickname;
         this.password = new Password(password);
         this.tasteMood = tasteMood;
-        this.profileImage = new MemberProfileImage(ImageId.MEMBER_PROFILE_DEFAULT);
+        this.profileImage = MemberProfileImage.DEFAULT;
         this.myFollowings = new MyFollowings();
         this.myFollowers = new MyFollowers();
-        Events.raise(toMemberCreatedEvent());
+        EventManager.raise(toMemberCreatedEvent());
     }
 
     public static Member of(
@@ -81,6 +81,10 @@ public class Member {
         return profileImage.getId();
     }
 
+    public String getProfileImageUrl() {
+        return profileImage.getUrl();
+    }
+
     public TasteMoodId getTasteMoodId() {
         return tasteMood.getId();
     }
@@ -94,8 +98,9 @@ public class Member {
         this.password = new Password(newPassword);
     }
 
-    public void updateProfileImage(ImageId imageId) {
-        this.profileImage = new MemberProfileImage(imageId);
+    public void updateProfileImage(MemberProfileImage newProfileImage) {
+        this.profileImage = newProfileImage;
+        // TODO 프로필 이미지 변경 이벤트 발행
     }
 
     public void changeTasteMood(TasteMood tasteMood) {
@@ -111,7 +116,7 @@ public class Member {
             throw new IllegalArgumentException("팔로우할 수 없는 회원입니다");
         }
         this.myFollowings.add(this, target);
-        Events.raise(toMemberFollowedEvent(target));
+        EventManager.raise(toMemberFollowedEvent(target));
     }
 
     public void unfollow(Member target) {

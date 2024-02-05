@@ -1,22 +1,17 @@
 package com.foodymoody.be.notification.infra.event;
 
+import static com.foodymoody.be.notification.infra.event.util.NotificationDetailsFactory.makeDetails;
 import static com.foodymoody.be.notification.infra.event.util.NotificationMapper.toNotification;
 
-import com.foodymoody.be.common.util.ids.FeedCommentId;
-import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.FeedReplyId;
 import com.foodymoody.be.common.util.ids.IdFactory;
-import com.foodymoody.be.feed.application.FeedReadService;
-import com.foodymoody.be.feed.domain.entity.Feed;
-import com.foodymoody.be.feed_comment.application.FeedCommentReadService;
-import com.foodymoody.be.feed_comment.application.ReplyReadService;
+import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.feed.application.service.FeedReadService;
+import com.foodymoody.be.feed_comment.application.service.FeedCommentReadService;
+import com.foodymoody.be.feed_comment.application.service.FeedReplyReadService;
 import com.foodymoody.be.feed_comment.domain.entity.FeedComment;
-import com.foodymoody.be.feed_comment.domain.entity.FeedReply;
 import com.foodymoody.be.feed_reply_like.domain.FeedReplyLikeAddedEvent;
-import com.foodymoody.be.notification.application.NotificationWriteService;
-import com.foodymoody.be.notification.domain.NotificationDetails;
-import com.foodymoody.be.notification.infra.event.dto.FeedCommentReplyLikeNotificationDetails;
-import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
+import com.foodymoody.be.notification.application.service.NotificationWriteService;
+import com.foodymoody.be.notification_setting.application.usecase.NotificationSettingReadUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -27,10 +22,10 @@ import org.springframework.stereotype.Service;
 public class FeedCommentReplyLikeEventHandler {
 
     private final NotificationWriteService notificationWriteService;
-    private final NotificationSettingReadService notificationSettingService;
+    private final NotificationSettingReadUseCase settingReadUseCase;
     private final FeedReadService feedReadService;
     private final FeedCommentReadService feedCommentService;
-    private final ReplyReadService replyService;
+    private final FeedReplyReadService replyService;
 
     @Async
     @EventListener(FeedReplyLikeAddedEvent.class)
@@ -38,33 +33,19 @@ public class FeedCommentReplyLikeEventHandler {
         var feedCommentId = event.getFeedCommentId();
         var feedComment = feedCommentService.findById(feedCommentId);
         var toMemberId = feedComment.getMemberId();
-        if (notificationSettingService.isCommentLikedAllowed(toMemberId)) {
-            var feedNotificationId = IdFactory.createNotificationId();
-            var feedId = feedComment.getFeedId();
-            var feed = feedReadService.findFeed(feedId);
-            var feedReplyId = event.getFeedReplyId();
-            var feedReply = replyService.fetchById(feedReplyId);
-            var details = makeDetails(feedId, feed, feedCommentId, feedComment, feedReplyId, feedReply);
-            var feedNotification = toNotification(event, feedNotificationId, details, toMemberId);
-            notificationWriteService.save(feedNotification);
+        if (settingReadUseCase.isCommentLikedAllowed(toMemberId)) {
+            saveNotification(event, feedComment, toMemberId);
         }
     }
 
-    private static NotificationDetails makeDetails(
-            FeedId feedId,
-            Feed feed,
-            FeedCommentId feedCommentId,
-            FeedComment feedComment,
-            FeedReplyId feedReplyId,
-            FeedReply feedReply
+    private void saveNotification(
+            FeedReplyLikeAddedEvent event, FeedComment feedComment, MemberId toMemberId
     ) {
-        return new FeedCommentReplyLikeNotificationDetails(
-                feedId,
-                feed.getProfileImageUrl(),
-                feedCommentId,
-                feedComment.getContent(),
-                feedReplyId,
-                feedReply.getContent()
-        );
+        var feedNotificationId = IdFactory.createNotificationId();
+        var feed = feedReadService.findFeed(feedComment.getFeedId());
+        var feedReply = replyService.fetchById(event.getFeedReplyId());
+        var details = makeDetails(event, feed.getId(), feed.getProfileImageUrl(), feedReply.getContent());
+        var feedNotification = toNotification(event, feedNotificationId, details, toMemberId);
+        notificationWriteService.save(feedNotification);
     }
 }

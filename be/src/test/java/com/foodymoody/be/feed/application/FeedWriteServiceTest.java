@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed.application;
 
+import com.foodymoody.be.feed.application.service.FeedWriteService;
 import com.foodymoody.be.feed.infra.persistence.FeedRepositoryImpl;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

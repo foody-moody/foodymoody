@@ -1,7 +1,7 @@
 package com.foodymoody.be.feed.presentation;
 
-import com.foodymoody.be.feed.application.StoreMoodReadService;
 import com.foodymoody.be.feed.application.dto.response.StoreMoodResponse;
+import com.foodymoody.be.feed.application.service.StoreMoodReadService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class StoreMoodController {
      */
     @GetMapping("/api/feeds/store-moods")
     public ResponseEntity<List<StoreMoodResponse>> readAllStoreMood() {
-        List<StoreMoodResponse> storeMoodResponses = storeMoodReadService.fetchAll();
-        return ResponseEntity.ok().body(storeMoodResponses);
+        var storeMoodResponseList = storeMoodReadService.fetchAll();
+        return ResponseEntity.ok().body(storeMoodResponseList);
     }
 
 }

@@ -2,6 +2,7 @@ package com.foodymoody.be.notification.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.foodymoody.be.common.exception.PermissionDeniedAccessException;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.notification.util.NotificationFixture;
 import org.assertj.core.api.Assertions;
@@ -22,7 +23,8 @@ class NotificationTest {
 
         // when
         notification.changeStatus(isRead, NotificationFixture.notification().getToMemberId(),
-                NotificationFixture.UPDATE_AT);
+                                  NotificationFixture.UPDATE_AT
+        );
 
         // then
         assertThat(notification.isRead()).isEqualTo(isRead);
@@ -38,9 +40,9 @@ class NotificationTest {
         // when,then
         Assertions.assertThatThrownBy(
                         () -> notification.changeStatus(true, notExistMemberId,
-                                NotificationFixture.UPDATE_AT))
-                .isInstanceOf(IllegalArgumentException.class)
-                .message().isEqualTo("해당 알림을 수정할 수 없습니다.");
+                                                        NotificationFixture.UPDATE_AT
+                        ))
+                .isInstanceOf(PermissionDeniedAccessException.class);
     }
 
 
@@ -67,7 +69,6 @@ class NotificationTest {
         // when,then
         Assertions.assertThatThrownBy(
                         () -> notification.delete(notExistMemberId, NotificationFixture.UPDATE_AT))
-                .isInstanceOf(IllegalArgumentException.class)
-                .message().isEqualTo("해당 알림을 수정할 수 없습니다.");
+                .isInstanceOf(PermissionDeniedAccessException.class);
     }
 }

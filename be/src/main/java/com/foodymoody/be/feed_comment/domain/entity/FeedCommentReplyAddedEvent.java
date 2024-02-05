@@ -15,7 +15,6 @@ public class FeedCommentReplyAddedEvent implements NotificationEvent {
 
     private final MemberId fromMemberId;
     private final FeedCommentId feedCommentId;
-    private final Content commentContent;
     private final FeedReplyId feedReplyId;
     private final FeedId feedId;
     private final MemberId toMemberId;
@@ -25,7 +24,6 @@ public class FeedCommentReplyAddedEvent implements NotificationEvent {
 
     private FeedCommentReplyAddedEvent(
             FeedCommentId feedCommentId,
-            Content commentContent,
             MemberId toMemberId,
             FeedId feedId,
             FeedReplyId feedReplyId,
@@ -35,7 +33,6 @@ public class FeedCommentReplyAddedEvent implements NotificationEvent {
             LocalDateTime createdAt
     ) {
         this.feedCommentId = feedCommentId;
-        this.commentContent = commentContent;
         this.feedReplyId = feedReplyId;
         this.toMemberId = toMemberId;
         this.feedId = feedId;
@@ -47,7 +44,6 @@ public class FeedCommentReplyAddedEvent implements NotificationEvent {
 
     public static FeedCommentReplyAddedEvent of(
             FeedCommentId feedCommentId,
-            Content commentContent,
             MemberId toMemberId,
             FeedId feedId,
             FeedReplyId feedReplyId,
@@ -57,7 +53,6 @@ public class FeedCommentReplyAddedEvent implements NotificationEvent {
     ) {
         return new FeedCommentReplyAddedEvent(
                 feedCommentId,
-                commentContent,
                 toMemberId,
                 feedId,
                 feedReplyId,

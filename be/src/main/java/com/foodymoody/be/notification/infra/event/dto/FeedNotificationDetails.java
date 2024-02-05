@@ -10,13 +10,10 @@ import lombok.NoArgsConstructor;
 public class FeedNotificationDetails extends NotificationDetails {
 
     private FeedId feedId;
-    private String feedThumbnail;
+    private String feedThumbnailUrl;
 
-    public FeedNotificationDetails(
-            FeedId feedId,
-            String feedThumbnail
-    ) {
+    public FeedNotificationDetails(FeedId feedId, String feedThumbnailUrl) {
         this.feedId = feedId;
-        this.feedThumbnail = feedThumbnail;
+        this.feedThumbnailUrl = feedThumbnailUrl;
     }
 }
