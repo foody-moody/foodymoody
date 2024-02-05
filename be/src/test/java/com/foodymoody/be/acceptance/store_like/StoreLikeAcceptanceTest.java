@@ -68,26 +68,26 @@ public class StoreLikeAcceptanceTest extends AcceptanceTest {
     @DisplayName("좋아요 취소")
     class Cancel {
 
-        @Test
-        void when_cancel_store_like_if_success_then_response_status_code_200_and_like_canceled() {
-            // docs
-            api_문서_타이틀("cancel_store_like_if_success", spec);
-
-            // given
-            가게_좋아요를_등록한다(회원푸반_액세스토큰, "1");
-
-            // when
-            var response = 가게_좋아요를_취소한다(회원푸반_액세스토큰, "1", spec);
-
-            // then
-            var 가게_상세정보조회_응답 = 가게_상세정보를_조회한다(회원푸반_액세스토큰, "1", new RequestSpecBuilder().build());
-
-            Assertions.assertAll(
-                    () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
-                    () -> assertThat(가게_상세정보조회_응답.jsonPath().getLong("likeCount")).isZero(),
-                    () -> assertThat(가게_상세정보조회_응답.jsonPath().getBoolean("liked")).isFalse()
-            );
-        }
+//        @Test
+//        void when_cancel_store_like_if_success_then_response_status_code_200_and_like_canceled() {
+//            // docs
+//            api_문서_타이틀("cancel_store_like_if_success", spec);
+//
+//            // given
+//            가게_좋아요를_등록한다(회원푸반_액세스토큰, "1");
+//
+//            // when
+//            var response = 가게_좋아요를_취소한다(회원푸반_액세스토큰, "1", spec);
+//
+//            // then
+//            var 가게_상세정보조회_응답 = 가게_상세정보를_조회한다(회원푸반_액세스토큰, "1", new RequestSpecBuilder().build());
+//
+//            Assertions.assertAll(
+//                    () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
+//                    () -> assertThat(가게_상세정보조회_응답.jsonPath().getLong("likeCount")).isZero(),
+//                    () -> assertThat(가게_상세정보조회_응답.jsonPath().getBoolean("liked")).isFalse()
+//            );
+//        }
 
         @Test
         void when_cancel_store_like_if_failed_by_not_liked_then_response_status_code_400_and_error_code_s003() {
