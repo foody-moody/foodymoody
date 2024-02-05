@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 import com.foodymoody.be.common.exception.ErrorMessage;
 import com.foodymoody.be.common.exception.FeedIdNotExistsException;
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.feed.application.service.FeedReadService;
 import com.foodymoody.be.feed.infra.persistence.FeedRepositoryImpl;
 import java.util.List;
 import java.util.Optional;

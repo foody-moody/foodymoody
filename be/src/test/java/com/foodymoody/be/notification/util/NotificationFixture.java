@@ -1,6 +1,6 @@
 package com.foodymoody.be.notification.util;
 
-import static com.foodymoody.be.feed_comment.util.CommentFixture.content;
+import static com.foodymoody.be.feed_comment.util.FeedCommentFixture.content;
 
 import com.foodymoody.be.common.event.NotificationType;
 import com.foodymoody.be.common.util.ids.IdFactory;
@@ -41,7 +41,6 @@ public class NotificationFixture {
     public static NotificationDetails notificationDetails() {
         return new FeedCollectionCommentNotificationDetails(
                 IdFactory.createFeedCollectionId(),
-                "title",
                 "thumbnailUrl",
                 IdFactory.createFeedCollectionCommentId(),
                 content()

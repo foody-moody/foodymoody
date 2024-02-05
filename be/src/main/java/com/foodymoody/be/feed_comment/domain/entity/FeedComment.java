@@ -3,7 +3,7 @@ package com.foodymoody.be.feed_comment.domain.entity;
 import static com.foodymoody.be.feed_comment.domain.entity.FeedCommentValidator.validate;
 
 import com.foodymoody.be.common.event.Event;
-import com.foodymoody.be.common.event.Events;
+import com.foodymoody.be.common.event.EventManager;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
@@ -60,7 +60,7 @@ public class FeedComment {
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
         this.feedReplyComments = new FeedReplyComments();
-        Events.raise(toCommentAddedEvent());
+        EventManager.raise(toCommentAddedEvent());
     }
 
     public void edit(MemberId memberId, Content content, LocalDateTime updatedAt) {
@@ -89,7 +89,7 @@ public class FeedComment {
         this.feedReplyComments.add(feedReply);
         this.hasReply = true;
         this.updatedAt = updatedAt;
-        Events.raise(toCommentRepliedAddedEvent(feedReply));
+        EventManager.raise(toCommentRepliedAddedEvent(feedReply));
     }
 
     public void deleteReply(FeedReply feedReply, LocalDateTime updatedAt) {
@@ -100,7 +100,6 @@ public class FeedComment {
     private Event toCommentRepliedAddedEvent(FeedReply feedReply) {
         return FeedCommentReplyAddedEvent.of(
                 id,
-                content,
                 memberId,
                 feedId,
                 feedReply.getId(),

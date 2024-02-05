@@ -3,8 +3,8 @@ filter:
     POST /api/auth/login, POST /api/auth/token,
     POST /api/members, GET /api/members/.*, GET /api/members/duplication-check,
     GET /api/feeds, GET /api/feeds/.*,
-    GET /api/comments, GET /api/collections/.*/feeds,
+    GET /api/feed/.*/comments, GET /api/collections/.*/feeds,
     GET /api/moods/random, GET /api/moods, GET /api/moods/.*, POST /api/moods,
-    POST /api/images,GET /api/comments/.*/replies,GET /api/comments/.*/replies/.*,
+    POST /api/images,GET /api/feed/.*/comments/.*/replies,GET /api/feed/.*/comments/.*/replies/.*,
     GET /api/feed_collections, GET /api/feed_collections/.*,
-    GET /api/stores/.*, GET /api/stores/search
+    GET /api/stores/.*, GET /api/stores/search, GET /api/feed_collections/.*/comments

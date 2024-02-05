@@ -3,7 +3,7 @@ package com.foodymoody.be.image.presentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.image.application.ImageService;
+import com.foodymoody.be.image.application.service.ImageService;
 import com.foodymoody.be.image.presentation.dto.response.ImageUploadResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

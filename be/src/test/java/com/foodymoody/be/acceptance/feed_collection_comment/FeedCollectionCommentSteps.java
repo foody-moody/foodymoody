@@ -30,6 +30,38 @@ public class FeedCollectionCommentSteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 로그인_상태에서_피드_컬렉션의_댓글을_조회한다(
+            String accessToken,
+            String feedCollectionId,
+            RequestSpecification spec
+    ) {
+        return RestAssured
+                .given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .when()
+                .get("/api/feed_collections/{id}/comments?size={size}&page={page}", feedCollectionId, 20, 0)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 로그인_하지_않은_상태에서_피드_컬렉션의_댓글을_조회한다(
+            String feedCollectionId,
+            RequestSpecification spec
+    ) {
+        return RestAssured
+                .given()
+                .spec(spec)
+                .log().all()
+                .when()
+                .get("/api/feed_collections/{id}/comments?size={size}&page={page}", feedCollectionId, 20, 0)
+                .then()
+                .log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> 피드_컬렉션에_댓글을_삭제한다(
             String accessToken,
             String feedCollectionId,

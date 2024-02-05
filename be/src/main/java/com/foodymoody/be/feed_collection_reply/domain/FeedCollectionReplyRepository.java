@@ -13,11 +13,14 @@ public interface FeedCollectionReplyRepository {
 
     Optional<FeedCollectionReply> findById(FeedCollectionReplyId replyId);
 
-    Slice<FeedCollectionReplaySummary> findByCommentId(
-            FeedCollectionCommentId commentId, MemberId memberId, Pageable pageable
+    Slice<FeedCollectionReplySummary> findByCommentId(
+            FeedCollectionCommentId commentId,
+            MemberId memberId,
+            Pageable pageable
     );
 
-    Slice<FeedCollectionReplaySummary> findByCommentId(
-            FeedCollectionCommentId commentId, Pageable pageable
+    Slice<FeedCollectionReplySummary> findByCommentId(
+            FeedCollectionCommentId commentId,
+            Pageable pageable
     );
 }

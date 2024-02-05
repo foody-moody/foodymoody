@@ -2,12 +2,14 @@ package com.foodymoody.be.member.infra.persistence;
 
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
+import com.foodymoody.be.member.application.dto.response.MyCollectionTitleResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
 import com.foodymoody.be.member.application.dto.response.FeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberRepository;
 import com.foodymoody.be.member.infra.persistence.jpa.MemberJpaRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -83,5 +85,10 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public long countMyCollectionsById(MemberId id) {
         return jpaRepository.countMyCollectionsById(id);
+    }
+
+    @Override
+    public List<MyCollectionTitleResponse> fetchMyCollectionTitles(MemberId id) {
+        return jpaRepository.fetchMyCollectionTitles(id);
     }
 }

@@ -13,7 +13,11 @@ public class FeedImageMenuResponse {
     private FeedImageResponse image;
     private FeedMenuResponse menu;
 
-    public FeedImageMenuResponse(FeedId id, FeedImageResponse image, FeedMenuResponse menu) {
+    public FeedImageMenuResponse(
+            FeedId id,
+            FeedImageResponse image,
+            FeedMenuResponse menu
+    ) {
         this.id = id;
         this.image = image;
         this.menu = menu;
