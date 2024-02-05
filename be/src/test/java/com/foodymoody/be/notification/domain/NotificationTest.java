@@ -2,7 +2,7 @@ package com.foodymoody.be.notification.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.foodymoody.be.common.exception.PermissionDeniedAccessNotificationException;
+import com.foodymoody.be.common.exception.PermissionDeniedAccessException;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.notification.util.NotificationFixture;
 import org.assertj.core.api.Assertions;
@@ -42,7 +42,7 @@ class NotificationTest {
                         () -> notification.changeStatus(true, notExistMemberId,
                                                         NotificationFixture.UPDATE_AT
                         ))
-                .isInstanceOf(PermissionDeniedAccessNotificationException.class);
+                .isInstanceOf(PermissionDeniedAccessException.class);
     }
 
 
@@ -69,6 +69,6 @@ class NotificationTest {
         // when,then
         Assertions.assertThatThrownBy(
                         () -> notification.delete(notExistMemberId, NotificationFixture.UPDATE_AT))
-                .isInstanceOf(PermissionDeniedAccessNotificationException.class);
+                .isInstanceOf(PermissionDeniedAccessException.class);
     }
 }

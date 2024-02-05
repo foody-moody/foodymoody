@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -16,7 +15,6 @@ public class MemberEventHandler {
 
     @Async
     @EventListener(MemberCreatedEvent.class)
-    @Transactional
     public void saveNotification(MemberCreatedEvent event) {
         notificationSettingWriteService.save(event.getMemberid());
     }

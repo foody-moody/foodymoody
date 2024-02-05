@@ -1,7 +1,7 @@
 package com.foodymoody.be.notification.domain;
 
 import com.foodymoody.be.common.event.NotificationType;
-import com.foodymoody.be.common.exception.PermissionDeniedAccessNotificationException;
+import com.foodymoody.be.common.exception.PermissionDeniedAccessException;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.NotificationId;
 import java.time.LocalDateTime;
@@ -145,7 +145,7 @@ public class Notification {
      */
     public void checkMemberId(MemberId toMemberId) {
         if (!this.toMemberId.equals(toMemberId)) {
-            throw new PermissionDeniedAccessNotificationException();
+            throw new PermissionDeniedAccessException();
         }
     }
 }

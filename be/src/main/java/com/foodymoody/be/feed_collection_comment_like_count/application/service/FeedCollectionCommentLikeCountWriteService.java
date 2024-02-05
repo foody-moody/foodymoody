@@ -14,13 +14,13 @@ public class FeedCollectionCommentLikeCountWriteService {
     private final FeedCollectionCommentLikeCountRepository repository;
 
     @Transactional
-    public void increaseLikeCount(FeedCollectionCommentId feedCollectionCommentId) {
-        repository.increaseCount(feedCollectionCommentId);
+    public void increase(FeedCollectionCommentId feedCollectionCommentId) {
+        repository.increase(feedCollectionCommentId);
     }
 
     @Transactional
-    public void decreaseLikeCount(FeedCollectionCommentId feedCollectionCommentId) {
-        repository.decreaseCount(feedCollectionCommentId);
+    public void decrease(FeedCollectionCommentId feedCollectionCommentId) {
+        repository.decrease(feedCollectionCommentId);
     }
 
     @Transactional

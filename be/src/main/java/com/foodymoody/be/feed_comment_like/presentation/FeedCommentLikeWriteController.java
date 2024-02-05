@@ -2,6 +2,7 @@ package com.foodymoody.be.feed_comment_like.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_comment_like.application.usecase.FeedCommentLikeWriteUseCase;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +19,22 @@ public class FeedCommentLikeWriteController {
 
     private final FeedCommentLikeWriteUseCase useCase;
 
-    @PostMapping("/api/comments/{feedCommentId}/likes")
-    public ResponseEntity<Void> create(@PathVariable FeedCommentId feedCommentId, @CurrentMemberId MemberId memberId) {
+    @PostMapping("/api/feed/{ignoreFeedId}/comments/{feedCommentId}/likes")
+    public ResponseEntity<Void> create(
+            @PathVariable FeedId ignoreFeedId,
+            @PathVariable FeedCommentId feedCommentId,
+            @CurrentMemberId MemberId memberId
+    ) {
         useCase.registerCommentLike(feedCommentId, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/api/comments/{feedCommentId}/likes")
-    public ResponseEntity<Void> delete(@PathVariable FeedCommentId feedCommentId, @CurrentMemberId MemberId memberId) {
+    @DeleteMapping("/api/feed/{ignoreFeedId}/comments/{feedCommentId}/likes")
+    public ResponseEntity<Void> delete(
+            @PathVariable FeedId ignoreFeedId,
+            @PathVariable FeedCommentId feedCommentId,
+            @CurrentMemberId MemberId memberId
+    ) {
         useCase.deleteCommentLike(feedCommentId, memberId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

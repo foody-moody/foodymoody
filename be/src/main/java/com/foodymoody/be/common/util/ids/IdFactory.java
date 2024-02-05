@@ -130,12 +130,28 @@ public class IdFactory {
         return createId(FeedReplyId.class);
     }
 
+    public static FeedReplyLikeCountId createFeedReplyLikeCountId(String id) {
+        return createId(FeedReplyLikeCountId.class, id);
+    }
+
+    public static FeedReplyLikeCountId createFeedReplyLikeCountId() {
+        return createId(FeedReplyLikeCountId.class);
+    }
+
     public static NotificationId createNotificationId(String notificationId) {
         return createId(NotificationId.class, notificationId);
     }
 
     public static NotificationId createNotificationId() {
         return createId(NotificationId.class);
+    }
+
+    public static NotificationSettingId createNotificationSettingId(String id) {
+        return createId(NotificationSettingId.class, id);
+    }
+
+    public static NotificationSettingId createNotificationSettingId() {
+        return createId(NotificationSettingId.class);
     }
 
     public static FeedCollectionReplyId createFeedCollectionReplyId() {

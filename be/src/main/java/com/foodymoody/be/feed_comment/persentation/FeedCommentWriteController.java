@@ -3,6 +3,7 @@ package com.foodymoody.be.feed_comment.persentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.IdResponse;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_comment.application.dto.request.EditFeedCommentRequest;
 import com.foodymoody.be.feed_comment.application.dto.request.RegisterFeedCommentRequest;
@@ -27,18 +28,20 @@ public class FeedCommentWriteController {
     private final FeedCommentWriteService service;
     private final FeedCommentWriteUseCase useCase;
 
-    @PostMapping("/api/comments")
+    @PostMapping("/api/feed/{feedId}/comments")
     public ResponseEntity<IdResponse> register(
             @Valid @RequestBody RegisterFeedCommentRequest request,
+            @PathVariable FeedId feedId,
             @CurrentMemberId MemberId memberId
     ) {
-        var data = FeedCommentTranslator.toRegisterCommentData(request, memberId);
+        var data = FeedCommentTranslator.toRegisterCommentData(request, memberId, feedId);
         var id = useCase.registerComment(data);
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
-    @PutMapping("/api/comments/{id}")
+    @PutMapping("/api/feed/{ignoreFeedId}/comments/{id}")
     public ResponseEntity<Void> edit(
+            @PathVariable FeedId ignoreFeedId,
             @PathVariable FeedCommentId id,
             @Valid @RequestBody EditFeedCommentRequest request,
             @CurrentMemberId MemberId memberId
@@ -48,8 +51,9 @@ public class FeedCommentWriteController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/api/comments/{id}")
+    @DeleteMapping("/api/feed/{ignoreFeedId}/comments/{id}")
     public ResponseEntity<Void> delete(
+            @PathVariable FeedId ignoreFeedId,
             @PathVariable FeedCommentId id,
             @CurrentMemberId MemberId memberId
     ) {
@@ -57,8 +61,9 @@ public class FeedCommentWriteController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/api/comments/{id}")
+    @PostMapping("/api/feed/{ignoreFeedId}/comments/{id}")
     public ResponseEntity<IdResponse> reply(
+            @PathVariable FeedId ignoreFeedId,
             @PathVariable FeedCommentId id,
             @Valid @RequestBody RegisterFeedReplyRequest request,
             @CurrentMemberId MemberId memberId

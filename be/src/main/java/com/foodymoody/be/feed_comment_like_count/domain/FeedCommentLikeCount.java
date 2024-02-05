@@ -6,7 +6,6 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Version;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -19,8 +18,6 @@ public class FeedCommentLikeCount {
     @AttributeOverride(name = "value", column = @Column(name = "comment_id"))
     private FeedCommentId feedCommentId;
     private long count;
-    @Version
-    private Long version;
 
     public FeedCommentLikeCount(FeedCommentLikeCountId id, FeedCommentId feedCommentId, long count) {
         this.id = id;

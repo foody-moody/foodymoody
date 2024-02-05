@@ -13,7 +13,7 @@ import com.foodymoody.be.feed_collection_reply.application.service.FeedCollectio
 import com.foodymoody.be.feed_collection_reply_like.domain.FeedCollectionReplyLikeAddedEvent;
 import com.foodymoody.be.notification.application.service.NotificationWriteService;
 import com.foodymoody.be.notification.infra.event.util.NotificationMapper;
-import com.foodymoody.be.notification_setting.application.service.NotificationSettingReadService;
+import com.foodymoody.be.notification_setting.application.usecase.NotificationSettingReadUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 public class FeedCollectionReplyLikeEventHandler {
 
     private final FeedCollectionCommentReadService commentReadService;
-    private final NotificationSettingReadService notificationSettingService;
+    private final NotificationSettingReadUseCase settingReadUseCase;
     private final FeedCollectionReadService feedCollectionService;
     private final FeedCollectionReplyReadService replyReadService;
     private final NotificationWriteService notificationService;
@@ -35,7 +35,7 @@ public class FeedCollectionReplyLikeEventHandler {
         var commentId = event.getFeedCollectionCommentId();
         var comment = commentReadService.findById(commentId);
         var toMemberId = comment.getMemberId();
-        if (notificationSettingService.isFeedCollectionReplyLikeAllowed(toMemberId)) {
+        if (settingReadUseCase.isFeedCollectionReplyLikeAllowed(toMemberId)) {
             saveNotification(event, toMemberId, comment.getFeedCollectionId());
         }
     }

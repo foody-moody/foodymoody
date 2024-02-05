@@ -18,15 +18,15 @@ public class FeedReplyLikeWriteService {
     private final FeedReplyLikeRepository feedReplyLikeRepository;
 
     @Transactional
-    public void registerReplyLike(FeedCommentId feedCommentId, FeedReplyId feedReplyId, MemberId memberId) {
+    public void register(FeedCommentId feedCommentId, FeedReplyId feedReplyId, MemberId memberId) {
         var feedReplyLikeId = IdFactory.createFeedReplyLikeId();
-        var now = LocalDateTime.now();
-        var feedReplyLike = new FeedReplyLike(feedReplyLikeId, feedCommentId, feedReplyId, memberId, now);
+        var createdAt = LocalDateTime.now();
+        var feedReplyLike = new FeedReplyLike(feedReplyLikeId, feedCommentId, feedReplyId, memberId, createdAt);
         feedReplyLikeRepository.save(feedReplyLike);
     }
 
     @Transactional
-    public void deleteReplyLike(FeedReplyId feedReplyId, MemberId memberId) {
+    public void delete(FeedReplyId feedReplyId, MemberId memberId) {
         feedReplyLikeRepository.deleteByReplyIdAndMemberId(feedReplyId, memberId);
     }
 

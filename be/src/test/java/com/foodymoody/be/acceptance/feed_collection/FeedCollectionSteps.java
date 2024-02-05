@@ -131,7 +131,7 @@ public class FeedCollectionSteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .get("/api/collections/{collectionId}/feeds", collectionId)
+                .get("/api/feed_collections/{collectionId}/feeds", collectionId)
                 .then().log().all()
                 .extract();
     }
