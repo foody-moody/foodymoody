@@ -347,6 +347,27 @@ class MemberAcceptanceTest extends AcceptanceTest {
             );
         }
 
+        @DisplayName("비로그인 상태로 조회시, 상태코드 200과 컬렉션을 응답한다")
+        @Test
+        void when_fetch_member_collections_if_not_sign_in_then_response_status_code_200_and_collections() {
+            // docs
+            api_문서_타이틀("fetch_member_collections_if_not_sign_in", spec);
+
+            // given
+            String 아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
+
+            // when
+            var response = 회원이_작성한_피드_컬렉션_목록을_조회한다(아티_아이디, 0, 10, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath()
+                            .getList("collections.content"))
+                            .isEmpty()
+            );
+        }
+
         @DisplayName("회원이 작성한 컬렉션 목록 조회시 로그인한 사용자가 좋아요를 누른 컬렉션이면, liked가 true이다")
         @Test
         void when_fetch_member_collections_if_liked_by_current_member_then_response_status_code_200_and_liked_true() {

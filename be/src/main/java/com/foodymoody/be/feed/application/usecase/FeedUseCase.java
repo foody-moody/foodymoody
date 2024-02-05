@@ -133,7 +133,7 @@ public class FeedUseCase {
                         findCommentCount(feed.getId()),
                         FeedMapper.makeStoreResponse(
                                 feed.getStoreId(),
-                                storeReadService.fetchDetails(feed.getStoreId()).getName())
+                                storeReadService.findById(feed.getStoreId()).getName())
                         )
                 )
                 .collect(Collectors.toList());
@@ -153,7 +153,7 @@ public class FeedUseCase {
                         findCommentCount(feed.getId()),
                         FeedMapper.makeStoreResponse(
                                 feed.getStoreId(),
-                                storeReadService.fetchDetails(feed.getStoreId()).getName())
+                                storeReadService.findById(feed.getStoreId()).getName())
                         )
                 )
                 .collect(Collectors.toList());
@@ -176,7 +176,7 @@ public class FeedUseCase {
                     findCommentCount(feed.getId()),
                     FeedMapper.makeStoreResponse(
                             feed.getStoreId(),
-                            storeReadService.fetchDetails(feed.getStoreId()).getName()
+                            storeReadService.findById(feed.getStoreId()).getName()
                     )
             );
         }
@@ -190,7 +190,7 @@ public class FeedUseCase {
                 findCommentCount(feed.getId()),
                 FeedMapper.makeStoreResponse(
                         feed.getStoreId(),
-                        storeReadService.fetchDetails(feed.getStoreId()).getName()
+                        storeReadService.findById(feed.getStoreId()).getName()
                 )
         );
     }
