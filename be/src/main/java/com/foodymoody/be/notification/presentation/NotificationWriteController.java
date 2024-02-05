@@ -3,7 +3,7 @@ package com.foodymoody.be.notification.presentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.NotificationId;
-import com.foodymoody.be.notification.application.service.NotificationWriteService;
+import com.foodymoody.be.notification.application.NotificationWriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

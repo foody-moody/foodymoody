@@ -14,18 +14,12 @@ public class Menu {
     @Id
     @Getter
     private MenuId id;
-
     @Getter
     private String name;
-
     @Getter
     private int rating;
 
-    public Menu(
-            MenuId id,
-            String name,
-            int rating
-    ) {
+    public Menu(MenuId id, String name, int rating) {
         this.id = id;
         this.name = name;
         this.rating = rating;

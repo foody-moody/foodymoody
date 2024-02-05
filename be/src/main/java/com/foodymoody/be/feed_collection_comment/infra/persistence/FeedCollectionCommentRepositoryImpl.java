@@ -45,8 +45,7 @@ public class FeedCollectionCommentRepositoryImpl implements FeedCollectionCommen
 
     @Override
     public Slice<FeedCollectionCommentSummary> findSummaryAllByIdIn(
-            List<FeedCollectionCommentId> commentIds,
-            Pageable pageable
+            List<FeedCollectionCommentId> commentIds, Pageable pageable
     ) {
         return repository.findSummaryAllByIdIn(commentIds, pageable);
     }

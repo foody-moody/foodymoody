@@ -22,14 +22,8 @@ public class FeedServiceUpdateRequest {
     private List<ImageMenuPair> images;
 
     @Builder
-    public FeedServiceUpdateRequest(
-            FeedId id,
-            MemberId memberId,
-            StoreId storeId,
-            String review,
-            List<StoreMoodId> storeMoodIds,
-            List<ImageMenuPair> images
-    ) {
+    public FeedServiceUpdateRequest(FeedId id, MemberId memberId, StoreId storeId, String review,
+                                    List<StoreMoodId> storeMoodIds, List<ImageMenuPair> images) {
         this.id = id;
         this.memberId = memberId;
         this.storeId = storeId;

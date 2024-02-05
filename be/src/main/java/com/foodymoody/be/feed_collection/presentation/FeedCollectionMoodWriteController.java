@@ -5,7 +5,7 @@ import com.foodymoody.be.common.util.IdResponse;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedCollectionMoodId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_collection.application.service.FeedCollectionMoodWriteService;
+import com.foodymoody.be.feed_collection.application.FeedCollectionMoodWriteService;
 import com.foodymoody.be.feed_collection.presentation.dto.FeedCollectionMoodAddRequest;
 import com.foodymoody.be.feed_collection.presentation.dto.FeedCollectionMoodCreateRequest;
 import lombok.RequiredArgsConstructor;

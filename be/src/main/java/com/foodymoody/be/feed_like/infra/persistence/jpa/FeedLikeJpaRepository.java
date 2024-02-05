@@ -15,10 +15,10 @@ public interface FeedLikeJpaRepository extends JpaRepository<FeedLike, FeedLikeI
 
     void deleteByFeedIdAndMemberId(FeedId feedId, MemberId memberId);
 
-    @Query("SELECT fh.isLiked"
-            + " FROM FeedLike fh"
-            + " WHERE fh.feedId = :feedId"
-            + " AND fh.memberId = :memberId")
+    @Query("SELECT fh.isLiked "
+            + "FROM FeedLike fh "
+            + "WHERE fh.feedId = :feedId "
+            + "AND fh.memberId = :memberId")
     Optional<Boolean> fetchIsLiked(@Param("feedId") FeedId feedId, @Param("memberId") MemberId memberId);
 
 }

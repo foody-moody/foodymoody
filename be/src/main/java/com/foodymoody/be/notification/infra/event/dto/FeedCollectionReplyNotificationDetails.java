@@ -13,22 +13,28 @@ import lombok.NoArgsConstructor;
 public class FeedCollectionReplyNotificationDetails extends NotificationDetails {
 
     private FeedCollectionId feedCollectionId;
+    private String feedCollectionTitle;
     private String feedCollectionThumbnailUrl;
-    private FeedCollectionCommentId feedCollectionCommentId;
-    private FeedCollectionReplyId feedCollectionReplyId;
-    private Content feedCollectionReplyContent;
+    private FeedCollectionCommentId commentId;
+    private Content commentContent;
+    private FeedCollectionReplyId replyId;
+    private Content replyContent;
 
     public FeedCollectionReplyNotificationDetails(
             FeedCollectionId feedCollectionId,
+            String feedCollectionTitle,
             String feedCollectionThumbnailUrl,
-            FeedCollectionCommentId feedCollectionCommentId,
-            FeedCollectionReplyId feedCollectionReplyId,
-            Content feedCollectionReplyContent
+            FeedCollectionCommentId commentId,
+            Content commentContent,
+            FeedCollectionReplyId replyId,
+            Content replyContent
     ) {
         this.feedCollectionId = feedCollectionId;
+        this.feedCollectionTitle = feedCollectionTitle;
         this.feedCollectionThumbnailUrl = feedCollectionThumbnailUrl;
-        this.feedCollectionCommentId = feedCollectionCommentId;
-        this.feedCollectionReplyId = feedCollectionReplyId;
-        this.feedCollectionReplyContent = feedCollectionReplyContent;
+        this.commentId = commentId;
+        this.commentContent = commentContent;
+        this.replyId = replyId;
+        this.replyContent = replyContent;
     }
 }

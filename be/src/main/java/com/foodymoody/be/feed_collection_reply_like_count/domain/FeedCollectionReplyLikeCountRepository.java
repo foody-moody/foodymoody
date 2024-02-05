@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed_collection_reply_like_count.domain;
 
 import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
+import java.util.Optional;
 
 public interface FeedCollectionReplyLikeCountRepository {
 
@@ -9,4 +10,6 @@ public interface FeedCollectionReplyLikeCountRepository {
     void decreaseCount(FeedCollectionReplyId feedCollectionReplyId);
 
     FeedCollectionReplyLikeCount save(FeedCollectionReplyLikeCount likeCount);
+
+    Optional<FeedCollectionReplyLikeCount> findByFeedCollectionReplyId(FeedCollectionReplyId feedCollectionReplyId);
 }

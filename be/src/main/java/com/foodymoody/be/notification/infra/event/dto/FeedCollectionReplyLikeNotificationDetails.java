@@ -13,22 +13,28 @@ import lombok.NoArgsConstructor;
 public class FeedCollectionReplyLikeNotificationDetails extends NotificationDetails {
 
     private FeedCollectionId feedCollectionId;
-    private String feedCollectionThumbnailUrl;
-    private FeedCollectionCommentId feedCollectionCommentId;
-    private FeedCollectionReplyId feedCollectionReplyId;
-    private Content feedCollectionReplyContent;
+    private String feedCollectionTitle;
+    private String feedCollectionDescription;
+    private FeedCollectionCommentId commentId;
+    private Content commentContent;
+    private FeedCollectionReplyId replyId;
+    private Content replyContent;
 
     public FeedCollectionReplyLikeNotificationDetails(
             FeedCollectionId feedCollectionId,
-            String feedCollectionThumbnailUrl,
-            FeedCollectionCommentId feedCollectionCommentId,
-            FeedCollectionReplyId feedCollectionReplyId,
-            Content feedCollectionReplyContent
+            String feedCollectionTitle,
+            String feedCollectionDescription,
+            FeedCollectionCommentId commentId,
+            Content commentContent,
+            FeedCollectionReplyId replyId,
+            Content replyContent
     ) {
         this.feedCollectionId = feedCollectionId;
-        this.feedCollectionThumbnailUrl = feedCollectionThumbnailUrl;
-        this.feedCollectionCommentId = feedCollectionCommentId;
-        this.feedCollectionReplyId = feedCollectionReplyId;
-        this.feedCollectionReplyContent = feedCollectionReplyContent;
+        this.feedCollectionTitle = feedCollectionTitle;
+        this.feedCollectionDescription = feedCollectionDescription;
+        this.commentId = commentId;
+        this.commentContent = commentContent;
+        this.replyId = replyId;
+        this.replyContent = replyContent;
     }
 }

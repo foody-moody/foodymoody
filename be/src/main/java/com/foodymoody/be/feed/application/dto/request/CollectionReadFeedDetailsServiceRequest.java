@@ -15,11 +15,8 @@ public class CollectionReadFeedDetailsServiceRequest {
     private Pageable pageable;
     private MemberId memberId;
 
-    public CollectionReadFeedDetailsServiceRequest(
-            FeedCollectionId collectionId,
-            Pageable pageable,
-            MemberId memberId
-    ) {
+    public CollectionReadFeedDetailsServiceRequest(FeedCollectionId collectionId, Pageable pageable,
+                                                   MemberId memberId) {
         this.collectionId = collectionId;
         this.pageable = pageable;
         this.memberId = memberId;

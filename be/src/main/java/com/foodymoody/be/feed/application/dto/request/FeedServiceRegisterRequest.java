@@ -20,13 +20,8 @@ public class FeedServiceRegisterRequest {
     private List<ImageMenuPair> images;
 
     @Builder
-    public FeedServiceRegisterRequest(
-            MemberId memberId,
-            StoreId storeId,
-            String review,
-            List<StoreMoodId> storeMoodIds,
-            List<ImageMenuPair> images
-    ) {
+    public FeedServiceRegisterRequest(MemberId memberId, StoreId storeId, String review, List<StoreMoodId> storeMoodIds,
+                                      List<ImageMenuPair> images) {
         this.memberId = memberId;
         this.storeId = storeId;
         this.review = review;

@@ -1,13 +1,13 @@
 package com.foodymoody.be.notification.infra.event;
 
-import static com.foodymoody.be.notification.infra.event.util.NotificationDetailsFactory.makeDetails;
-
 import com.foodymoody.be.common.util.ids.IdFactory;
-import com.foodymoody.be.member.application.service.MemberReadService;
+import com.foodymoody.be.member.application.MemberReadService;
 import com.foodymoody.be.member.domain.MemberFollowedEvent;
-import com.foodymoody.be.notification.application.service.NotificationWriteService;
+import com.foodymoody.be.notification.application.NotificationWriteService;
+import com.foodymoody.be.notification.domain.NotificationDetails;
+import com.foodymoody.be.notification.infra.event.dto.MemberFollowedNotificationDetails;
 import com.foodymoody.be.notification.infra.event.util.NotificationMapper;
-import com.foodymoody.be.notification_setting.application.usecase.NotificationSettingReadUseCase;
+import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberFollowedEventHandler {
 
     private final MemberReadService memberQueryService;
-    private final NotificationSettingReadUseCase settingReadUseCase;
+    private final NotificationSettingReadService notificationSettingService;
     private final NotificationWriteService notificationService;
 
     @Async
@@ -27,7 +27,7 @@ public class MemberFollowedEventHandler {
     @EventListener(MemberFollowedEvent.class)
     public void handle(MemberFollowedEvent event) {
         var toMemberId = event.getToMemberId();
-        if (settingReadUseCase.isMemberFollowedEventEnabled(toMemberId)) {
+        if (notificationSettingService.isMemberFollowedEventEnabled(toMemberId)) {
             var notificationId = IdFactory.createNotificationId();
             var fromMember = memberQueryService.findById(event.getFromMemberId());
             boolean isFollowed = fromMember.isMyFollowing(toMemberId);
@@ -35,5 +35,9 @@ public class MemberFollowedEventHandler {
             var notification = NotificationMapper.toNotification(event, notificationId, details, toMemberId);
             notificationService.save(notification);
         }
+    }
+
+    private static NotificationDetails makeDetails(boolean isFollowed) {
+        return new MemberFollowedNotificationDetails(isFollowed);
     }
 }

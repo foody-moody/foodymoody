@@ -4,7 +4,7 @@ import com.foodymoody.be.common.util.ids.FeedCommentId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_comment_like.domain.FeedCommentLike;
 import com.foodymoody.be.feed_comment_like.domain.FeedCommentLikeRepository;
-import com.foodymoody.be.feed_comment_like.infra.persistence.jpa.FeedCommentLikeJpaRepository;
+import com.foodymoody.be.feed_comment_like.infra.persistence.jpa.CommentHeartJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -12,20 +12,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FeedCommentLikeRepositoryImpl implements FeedCommentLikeRepository {
 
-    private final FeedCommentLikeJpaRepository feedCommentLikeJpaRepository;
+    private final CommentHeartJpaRepository commentHeartJpaRepository;
 
     @Override
     public FeedCommentLike save(FeedCommentLike feedCommentLike) {
-        return feedCommentLikeJpaRepository.save(feedCommentLike);
+        return commentHeartJpaRepository.save(feedCommentLike);
     }
 
     @Override
     public void deleteByCommentIdAndMemberId(FeedCommentId feedCommentId, MemberId memberId) {
-        feedCommentLikeJpaRepository.deleteByFeedCommentIdAndMemberId(feedCommentId, memberId);
+        commentHeartJpaRepository.deleteByFeedCommentIdAndMemberId(feedCommentId, memberId);
     }
 
     @Override
-    public boolean existsByFeedCommentIdAndMemberId(FeedCommentId feedCommentId, MemberId memberId) {
-        return feedCommentLikeJpaRepository.existsByFeedCommentIdAndMemberId(feedCommentId, memberId);
+    public boolean existsByCommentIdAndMemberId(FeedCommentId feedCommentId, MemberId memberId) {
+        return commentHeartJpaRepository.existsByFeedCommentIdAndMemberId(feedCommentId, memberId);
     }
 }

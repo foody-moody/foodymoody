@@ -6,9 +6,6 @@ public enum ErrorMessage {
     INVALID_ID(" 유효하지 않은 아이디입니다.", "g002"),
     CREATE_TIME_IS_NULL("생성시간이 null이면 안된다", "g003"),
     REQUEST_HEADER_NOT_FOUND("요청을 처리하기 위해 필요한 헤더가 존재하지 않습니다", "g004"),
-    PERMISSION_DENIED_ACCESS("권한이 없습니다.", "g005"),
-
-    COUNT_OUT_OF_BOUNDS("카운트가 더 이상 감소할 수 없습니다", null),
     // comment
     CONTENT_NOT_EXISTS("댓글이 존재하지 않습니다.", "c001"),
     CONTENT_IS_EMPTY("댓글 내용이 공백입니다.", "c002"),
@@ -20,8 +17,6 @@ public enum ErrorMessage {
     COMMENT_DELETED("삭제된 댓글입니다.", "c008"),
     INVALID_COMMENT_ID("유효하지 않은 댓글 id입니다", "c009"),
     FEED_COMMENT_NOT_FOUND("존재하지 않는 피드 댓글입니다.", "c010"),
-    FEED_COMMENT_IS_ALREADY_LIKED("이미 좋아요 누른 피드 댓글입니다.", "c011"),
-    FEED_COMMENT_IS_NOT_LIKED("좋아요 기록이 없어 취소할 수 없습니다.", "c012"),
     // reply
     REPLY_NOT_EXISTS("답글이 존재하지 않습니다.", "r001"),
     INVALID_REPLY_ID("유효하지 않은 답글 id입니다", "r002"),
@@ -65,9 +60,7 @@ public enum ErrorMessage {
     FEED_HEART_ALREADY_EXISTS("이미 좋아요 누른 피드입니다.", "i014"),
     FEED_HEART_NOT_FOUND("좋아요 기록이 없어 취소할 수 없습니다.", "i016"),
     // store
-    STORE_NOT_FOUND("해당 id의 식당이 존재하지 않습니다", "s001"),
-    ALREADY_LIKED_STORE("이미 좋아요를 누른 식당입니다", "s002"),
-    NOT_LIKED_STORE("좋아요를 누르지 않은 식당입니다", "s003");
+    STORE_NOT_FOUND("해당 id의 식당이 존재하지 않습니다", "s001");
 
     private final String message;
     private final String code;

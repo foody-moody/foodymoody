@@ -13,22 +13,25 @@ import lombok.NoArgsConstructor;
 public class FeedCommentReplyLikeNotificationDetails extends NotificationDetails {
 
     private FeedId feedId;
-    private String feedThumbnailUrl;
-    private FeedCommentId feedCommentId;
-    private FeedReplyId feedReplyId;
-    private Content feedReplyContent;
+    private String feedThumbnail;
+    private FeedCommentId commentId;
+    private Content commentContent;
+    private FeedReplyId replyId;
+    private Content replyContent;
 
     public FeedCommentReplyLikeNotificationDetails(
             FeedId feedId,
-            String feedThumbnailUrl,
-            FeedCommentId feedCommentId,
-            FeedReplyId feedReplyId,
-            Content feedReplyContent
+            String feedThumbnail,
+            FeedCommentId commentId,
+            Content commentContent,
+            FeedReplyId replyId,
+            Content replyContent
     ) {
         this.feedId = feedId;
-        this.feedThumbnailUrl = feedThumbnailUrl;
-        this.feedCommentId = feedCommentId;
-        this.feedReplyId = feedReplyId;
-        this.feedReplyContent = feedReplyContent;
+        this.feedThumbnail = feedThumbnail;
+        this.commentId = commentId;
+        this.commentContent = commentContent;
+        this.replyId = replyId;
+        this.replyContent = replyContent;
     }
 }

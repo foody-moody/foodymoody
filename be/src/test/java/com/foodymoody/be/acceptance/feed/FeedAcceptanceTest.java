@@ -1,5 +1,6 @@
 package com.foodymoody.be.acceptance.feed;
 
+import static com.foodymoody.be.acceptance.comment.CommentSteps.피드에_댓글을_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.storeId가_없는_피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.개별_피드를_조회한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.리뷰_글자_수가_0인_피드를_등록한다;
@@ -20,7 +21,6 @@ import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_또_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_삭제한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_수정한다;
-import static com.foodymoody.be.acceptance.feed_comment.FeedCommentSteps.피드에_댓글을_등록한다;
 import static com.foodymoody.be.acceptance.feed_like.FeedLikeSteps.좋아요를_한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
 

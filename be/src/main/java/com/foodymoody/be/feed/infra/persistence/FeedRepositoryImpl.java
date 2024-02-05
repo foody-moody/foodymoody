@@ -1,12 +1,12 @@
 package com.foodymoody.be.feed.infra.persistence;
 
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.feed.application.usecase.dto.ImageIdNamePair;
-import com.foodymoody.be.feed.application.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
 import com.foodymoody.be.feed.infra.persistence.jpa.FeedJpaRepository;
+import com.foodymoody.be.feed.infra.usecase.dto.ImageIdNamePair;
+import com.foodymoody.be.feed.infra.usecase.dto.MenuNameRatingPair;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

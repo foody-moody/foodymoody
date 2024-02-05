@@ -4,12 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.foodymoody.be.common.event.EventManager;
+import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.exception.CommentDeletedException;
 import com.foodymoody.be.common.exception.ErrorMessage;
 import com.foodymoody.be.feed_comment.domain.entity.FeedCommentAddedEvent;
 import com.foodymoody.be.feed_comment.domain.entity.FeedCommentReplyAddedEvent;
-import com.foodymoody.be.feed_comment.util.FeedCommentFixture;
+import com.foodymoody.be.feed_comment.util.CommentFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,16 +20,16 @@ class FeedCommentTest {
     @Test
     void edit_success() {
         // given
-        var comment = FeedCommentFixture.comment();
-        var updatedAt = FeedCommentFixture.newUpdatedAt();
+        var comment = CommentFixture.comment();
+        var updatedAt = CommentFixture.newUpdatedAt();
 
         // when
-        comment.edit(FeedCommentFixture.memberId(), FeedCommentFixture.newContent(), updatedAt);
+        comment.edit(CommentFixture.memberId(), CommentFixture.newContent(), updatedAt);
 
         // then
         assertAll(
                 () -> assertThat(comment.getContent()).usingRecursiveComparison()
-                        .isEqualTo(FeedCommentFixture.newContent()),
+                        .isEqualTo(CommentFixture.newContent()),
                 () -> assertThat(comment.getUpdatedAt()).isEqualTo(updatedAt),
                 () -> assertThat(comment.getUpdatedAt()).isNotEqualTo(comment.getCreatedAt())
         );
@@ -39,10 +39,10 @@ class FeedCommentTest {
     @Test
     void edit_fail_if_comment_is_deleted() {
         // given
-        var comment = FeedCommentFixture.deletedComment();
-        var updatedAt = FeedCommentFixture.newUpdatedAt();
-        var memberId = FeedCommentFixture.memberId();
-        var content = FeedCommentFixture.newContent();
+        var comment = CommentFixture.deletedComment();
+        var updatedAt = CommentFixture.newUpdatedAt();
+        var memberId = CommentFixture.memberId();
+        var content = CommentFixture.newContent();
 
         // when
         assertThatThrownBy(
@@ -55,10 +55,10 @@ class FeedCommentTest {
     @Test
     void edit_fail_if_not_comment_writer() {
         // given
-        var comment = FeedCommentFixture.comment();
-        var updatedAt = FeedCommentFixture.newUpdatedAt();
-        var memberId = FeedCommentFixture.notExistsMemberId();
-        var content = FeedCommentFixture.newContent();
+        var comment = CommentFixture.comment();
+        var updatedAt = CommentFixture.newUpdatedAt();
+        var memberId = CommentFixture.notExistsMemberId();
+        var content = CommentFixture.newContent();
 
         // when
         assertThatThrownBy(
@@ -70,11 +70,11 @@ class FeedCommentTest {
     @Test
     void delete_success() {
         // given
-        var comment = FeedCommentFixture.comment();
-        var localDateTime = FeedCommentFixture.newUpdatedAt();
+        var comment = CommentFixture.comment();
+        var localDateTime = CommentFixture.newUpdatedAt();
 
         // when
-        comment.delete(FeedCommentFixture.memberId(), localDateTime);
+        comment.delete(CommentFixture.memberId(), localDateTime);
 
         // then
         assertAll(
@@ -88,9 +88,9 @@ class FeedCommentTest {
     @Test
     void delete_fail_if_comment_is_deleted() {
         // given
-        var comment = FeedCommentFixture.deletedComment();
-        var localDateTime = FeedCommentFixture.newUpdatedAt();
-        var memberId = FeedCommentFixture.memberId();
+        var comment = CommentFixture.deletedComment();
+        var localDateTime = CommentFixture.newUpdatedAt();
+        var memberId = CommentFixture.memberId();
 
         // when
         assertThatThrownBy(() -> comment.delete(memberId, localDateTime))
@@ -102,9 +102,9 @@ class FeedCommentTest {
     @Test
     void delete_fail_if_not_comment_writer() {
         // given
-        var comment = FeedCommentFixture.comment();
-        var localDateTime = FeedCommentFixture.newUpdatedAt();
-        var memberId = FeedCommentFixture.notExistsMemberId();
+        var comment = CommentFixture.comment();
+        var localDateTime = CommentFixture.newUpdatedAt();
+        var memberId = CommentFixture.notExistsMemberId();
 
         // when
         assertThatThrownBy(() -> comment.delete(memberId, localDateTime))
@@ -115,17 +115,17 @@ class FeedCommentTest {
     @Test
     void add_reply_success() {
         // given
-        var comment = FeedCommentFixture.comment();
-        var updatedAt = FeedCommentFixture.newUpdatedAt();
-        EventManager.clear();
+        var comment = CommentFixture.comment();
+        var updatedAt = CommentFixture.newUpdatedAt();
+        Events.clear();
 
         // when
-        var reply = FeedCommentFixture.reply();
+        var reply = CommentFixture.reply();
         comment.addReply(reply, updatedAt);
 
         // then
         var commentList = comment.getFeedReplyComments().getCommentList();
-        var event = EventManager.getEvents().get(0);
+        var event = Events.getEvents().get(0);
         assertThat(event).isInstanceOf(FeedCommentReplyAddedEvent.class);
         var commentRepliedAddedEvent = (FeedCommentReplyAddedEvent) event;
         assertAll(
@@ -146,13 +146,13 @@ class FeedCommentTest {
     @Test
     void raise_comment_added_event() {
         // given
-        EventManager.clear();
+        Events.clear();
 
         // when
-        var comment = FeedCommentFixture.comment();
+        var comment = CommentFixture.comment();
 
         // then
-        var event = EventManager.getEvents().get(0);
+        var event = Events.getEvents().get(0);
         assertThat(event).isInstanceOf(FeedCommentAddedEvent.class);
         var commentAddedEvent = (FeedCommentAddedEvent) event;
         assertAll(
@@ -168,9 +168,9 @@ class FeedCommentTest {
     @Test
     void delete_reply_success() {
         // given
-        var comment = FeedCommentFixture.comment();
-        var updatedAt = FeedCommentFixture.newUpdatedAt();
-        var reply = FeedCommentFixture.reply();
+        var comment = CommentFixture.comment();
+        var updatedAt = CommentFixture.newUpdatedAt();
+        var reply = CommentFixture.reply();
         comment.addReply(reply, updatedAt);
 
         // when

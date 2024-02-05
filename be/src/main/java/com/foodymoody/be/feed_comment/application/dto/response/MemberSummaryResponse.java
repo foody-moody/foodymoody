@@ -1,18 +1,26 @@
 package com.foodymoody.be.feed_comment.application.dto.response;
 
-import com.foodymoody.be.common.util.ids.MemberId;
-import lombok.Getter;
-
-@Getter
 public class MemberSummaryResponse {
 
-    private final MemberId id;
-    private final String nickname;
-    private final String imageUrl;
+    private String id;
+    private String nickname;
+    private String imageUrl;
 
-    public MemberSummaryResponse(MemberId id, String nickname, String imageUrl) {
+    public MemberSummaryResponse(String id, String nickname, String imageUrl) {
         this.id = id;
         this.nickname = nickname;
         this.imageUrl = imageUrl;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }

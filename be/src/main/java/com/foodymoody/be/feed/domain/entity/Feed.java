@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed.domain.entity;
 
-import com.foodymoody.be.common.event.EventManager;
+import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreId;
@@ -16,7 +16,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -61,7 +60,6 @@ public class Feed {
     @Embedded
     private ImageMenus imageMenus;
 
-    @Builder
     public Feed(
             FeedId id,
             MemberId memberId,
@@ -81,7 +79,7 @@ public class Feed {
         this.imageMenus = new ImageMenus(images, menus);
         this.profileImageUrl = profileImageUrl;
         this.createdAt = createdAt;
-        EventManager.raise(toEvent(id, memberId, profileImageUrl, createdAt));
+        Events.raise(toEvent(id, memberId, profileImageUrl, createdAt));
     }
 
     public void update(
