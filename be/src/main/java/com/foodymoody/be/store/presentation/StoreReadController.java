@@ -1,5 +1,7 @@
 package com.foodymoody.be.store.presentation;
 
+import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.store.application.service.StoreReadService;
 import com.foodymoody.be.store.application.service.dto.response.StoreDetailsResponse;
@@ -16,15 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/stores")
 @RequiredArgsConstructor
-public class StoreController {
+public class StoreReadController {
 
     private final StoreReadService storeReadService;
 
     @GetMapping("/{id}")
     public ResponseEntity<StoreDetailsResponse> fetchDetails(
-            @PathVariable StoreId id
+            @PathVariable StoreId id,
+            @CurrentMemberId MemberId currentMemberId
     ) {
-        StoreDetailsResponse response = storeReadService.fetchDetails(id);
+        StoreDetailsResponse response = storeReadService.fetchDetails(id, currentMemberId);
         return ResponseEntity.ok(response);
     }
 

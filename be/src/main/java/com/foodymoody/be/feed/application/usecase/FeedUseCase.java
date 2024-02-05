@@ -126,15 +126,15 @@ public class FeedUseCase {
     private List<FeedReadAllResponse> makeFeedReadAllResponseListWhenMemberIdIsNull(Slice<Feed> feeds) {
         return feeds.stream()
                 .map(feed -> makeFeedReadAllResponse(
-                                feed,
-                                makeFeedMemberResponse(feed),
-                                makeFeedStoreMoodResponses(feed.getStoreMoods()),
-                                makeFeedImageMenuResponses(feed),
-                                false,
-                                findCommentCount(feed.getId()),
-                                FeedMapper.makeStoreResponse(
-                                        feed.getStoreId(),
-                                        storeReadService.fetchDetails(feed.getStoreId()).getName())
+                        feed,
+                        makeFeedMemberResponse(feed),
+                        makeFeedStoreMoodResponses(feed.getStoreMoods()),
+                        makeFeedImageMenuResponses(feed),
+                        false,
+                        findCommentCount(feed.getId()),
+                        FeedMapper.makeStoreResponse(
+                                feed.getStoreId(),
+                                storeReadService.findById(feed.getStoreId()).getName())
                         )
                 )
                 .collect(Collectors.toList());
@@ -146,15 +146,15 @@ public class FeedUseCase {
     ) {
         return feeds.stream()
                 .map(feed -> makeFeedReadAllResponse(
-                                feed,
-                                makeFeedMemberResponse(feed),
-                                makeFeedStoreMoodResponses(feed.getStoreMoods()),
-                                makeFeedImageMenuResponses(feed),
-                                feedLikeService.fetchIsLiked(feed.getId(), memberId),
-                                findCommentCount(feed.getId()),
-                                FeedMapper.makeStoreResponse(
-                                        feed.getStoreId(),
-                                        storeReadService.fetchDetails(feed.getStoreId()).getName())
+                        feed,
+                        makeFeedMemberResponse(feed),
+                        makeFeedStoreMoodResponses(feed.getStoreMoods()),
+                        makeFeedImageMenuResponses(feed),
+                        feedLikeService.fetchIsLiked(feed.getId(), memberId),
+                        findCommentCount(feed.getId()),
+                        FeedMapper.makeStoreResponse(
+                                feed.getStoreId(),
+                                storeReadService.findById(feed.getStoreId()).getName())
                         )
                 )
                 .collect(Collectors.toList());
@@ -177,7 +177,7 @@ public class FeedUseCase {
                     findCommentCount(feed.getId()),
                     FeedMapper.makeStoreResponse(
                             feed.getStoreId(),
-                            storeReadService.fetchDetails(feed.getStoreId()).getName()
+                            storeReadService.findById(feed.getStoreId()).getName()
                     )
             );
         }
@@ -191,7 +191,7 @@ public class FeedUseCase {
                 findCommentCount(feed.getId()),
                 FeedMapper.makeStoreResponse(
                         feed.getStoreId(),
-                        storeReadService.fetchDetails(feed.getStoreId()).getName()
+                        storeReadService.findById(feed.getStoreId()).getName()
                 )
         );
     }

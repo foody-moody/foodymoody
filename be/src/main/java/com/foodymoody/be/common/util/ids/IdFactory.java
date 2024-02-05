@@ -222,8 +222,12 @@ public class IdFactory {
         return createId(FeedCommentLikeId.class);
     }
 
-    public static FeedCommentLikeId createFeedCommentLikeId(String id) {
-        return createId(FeedCommentLikeId.class, id);
+    public static FeedCommentLikeId createFeedCommentLikeId(String id) { return createId(FeedCommentLikeId.class, id); }
+
+    public static StoreLikeId createStoreLikeId() { return createId(StoreLikeId.class); }
+
+    public static StoreLikeCountId createStoreLikeCountId() {
+        return createId(StoreLikeCountId.class);
     }
 
     private static <T extends BaseId> T createId(Class<T> idClass, String id) {
