@@ -18,7 +18,18 @@ import org.springframework.http.MediaType;
 
 public class StoreSteps {
 
-    public static ExtractableResponse<Response> 식당_상세정보를_조회한다(RequestSpecification spec, String id) {
+    public static ExtractableResponse<Response> 가게_상세정보를_조회한다(String accessToken, String id, RequestSpecification spec) {
+        return RestAssured.given().log().all().spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(accessToken)
+                .when()
+                .get("/api/stores/{id}", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 가게_상세정보를_조회한다(String id, RequestSpecification spec) {
         return RestAssured.given().log().all().spec(spec)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()
@@ -28,7 +39,7 @@ public class StoreSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 식당을_검색한다(RequestSpecification spec, String query) {
+    public static ExtractableResponse<Response> 가게를_검색한다(String query, RequestSpecification spec) {
         return RestAssured.given().log().all().spec(spec)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when()

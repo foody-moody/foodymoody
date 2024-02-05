@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface StoreRepository {
 
-    Optional<StoreDetailsResponse> fetchDetailsById(StoreId id);
+    Optional<StoreDetailsResponse> fetchDetailsById(StoreId id, MemberId currentMemberId);
 
     List<StoreSearchResponse> searchByKeyword(String query);
 

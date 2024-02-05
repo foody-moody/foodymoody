@@ -19,7 +19,8 @@ public class CommandHandlerAspect {
      * application 하위패키지 service 하위패키지의 Service 클래스의 Transactional 어노테이션이 붙어있는 메서드에 대해 Aspect 를 적용한다.
      */
     @Before("execution(* com.foodymoody.be.*.application.service.*Service.*(..))"
-            + "&& @annotation(org.springframework.transaction.annotation.Transactional)")
+            + "&& (@annotation(org.springframework.transaction.annotation.Transactional)"
+            + "|| @within(org.springframework.transaction.annotation.Transactional))")
     public void beforeTransactionalCommandExecutionNew() {
         if (!isEventTransactionSynchronizationRegistered()) {
             var eventTransactionSynchronization = new EventTransactionSynchronization(messagePublisher);

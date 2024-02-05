@@ -38,7 +38,7 @@ class StoreRepositoryTest {
 
         StoreId storeId = new StoreId("1");
 
-        Optional<StoreDetailsResponse> findById = repository.fetchDetailsById(storeId);
+        Optional<StoreDetailsResponse> findById = repository.fetchDetailsById(storeId, null);
 
         assertThat(findById.get().getName()).isEqualTo("영업중 식당");
 
@@ -49,7 +49,7 @@ class StoreRepositoryTest {
 
         StoreId storeId = new StoreId("-1");
 
-        Optional<StoreDetailsResponse> findById = repository.fetchDetailsById(storeId);
+        Optional<StoreDetailsResponse> findById = repository.fetchDetailsById(storeId, null);
 
         assertThat(findById).isEmpty();
 

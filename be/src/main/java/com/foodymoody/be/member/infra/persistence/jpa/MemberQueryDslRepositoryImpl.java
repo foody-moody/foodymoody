@@ -7,6 +7,7 @@ import static com.foodymoody.be.feed_collection_like.domain.QFeedCollectionLike.
 import static com.foodymoody.be.image.domain.QImage.*;
 import static com.foodymoody.be.member.domain.QFollow.follow;
 import static com.foodymoody.be.member.domain.QMember.*;
+import static javax.management.Query.eq;
 
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection_like.domain.QFeedCollectionLike;
@@ -24,11 +25,15 @@ import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import javax.management.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.SliceImpl;
@@ -114,7 +119,7 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
                                 ))
                 .from(feedCollection)
                 .leftJoin(feedCollectionLike).on(feedCollectionLike.feedCollectionId.eq(feedCollection.id))
-                .leftJoin(liked).on(feedCollectionLike.feedCollectionId.eq(feedCollection.id).and(feedCollectionLike.memberId.eq(currentMemberId)))
+                .leftJoin(liked).on(feedCollectionLike.feedCollectionId.eq(feedCollection.id).and(eqMemberIdIfNotNull(currentMemberId)))
                 .innerJoin(feedCollectionMood).on(feedCollection.moods.moodList.contains(feedCollectionMood))
                 .leftJoin(feedCollection.feedIds.ids)
                 .leftJoin(feedCollection.commentIds.ids)
@@ -189,5 +194,12 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
             );
         }
         return Expressions.constant(false);
+    }
+
+    private BooleanExpression eqMemberIdIfNotNull(MemberId currentMemberId) {
+        if (Objects.nonNull(currentMemberId)) {
+            return feedCollectionLike.memberId.eq(currentMemberId);
+        }
+        return Expressions.asBoolean(true).isFalse();
     }
 }

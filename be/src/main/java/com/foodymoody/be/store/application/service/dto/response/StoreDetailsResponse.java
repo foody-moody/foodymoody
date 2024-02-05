@@ -8,9 +8,9 @@ import lombok.Getter;
 public class StoreDetailsResponse {
 
     private String name;
-    // TODO
     private double rating;
-//    private boolean hearted;
+    private boolean liked;
+    private long likeCount;
     private long feedCount;
     private String address;
     private String roadAddress;

@@ -1,6 +1,7 @@
 package com.foodymoody.be.store.application.service;
 
 import com.foodymoody.be.common.exception.StoreNotFoundException;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.store.application.service.dto.response.StoreDetailsResponse;
 import com.foodymoody.be.store.application.service.dto.response.StoreSearchResponse;
@@ -18,8 +19,8 @@ public class StoreReadService {
 
     private final StoreRepository storeRepository;
 
-    public StoreDetailsResponse fetchDetails(StoreId id) {
-        return storeRepository.fetchDetailsById(id)
+    public StoreDetailsResponse fetchDetails(StoreId id, MemberId currentMemberId) {
+        return storeRepository.fetchDetailsById(id, currentMemberId)
                 .orElseThrow(StoreNotFoundException::new);
     }
 

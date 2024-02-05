@@ -1,5 +1,6 @@
 package com.foodymoody.be.store.infra;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.store.application.service.dto.response.StoreDetailsResponse;
 import com.foodymoody.be.store.application.service.dto.response.StoreSearchResponse;
@@ -18,8 +19,8 @@ public class StoreRepositoryImpl implements StoreRepository {
     private final StoreJpaRepository jpaRepository;
 
     @Override
-    public Optional<StoreDetailsResponse> fetchDetailsById(StoreId id) {
-        return jpaRepository.fetchDetailsById(id);
+    public Optional<StoreDetailsResponse> fetchDetailsById(StoreId id, MemberId currentMemberId) {
+        return jpaRepository.fetchDetailsById(id, currentMemberId);
     }
 
     @Override

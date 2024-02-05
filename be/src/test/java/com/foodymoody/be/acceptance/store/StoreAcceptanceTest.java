@@ -1,8 +1,8 @@
 package com.foodymoody.be.acceptance.store;
 
 import static com.foodymoody.be.acceptance.store.StoreSteps.상태코드를_검증한다;
-import static com.foodymoody.be.acceptance.store.StoreSteps.식당_상세정보를_조회한다;
-import static com.foodymoody.be.acceptance.store.StoreSteps.식당을_검색한다;
+import static com.foodymoody.be.acceptance.store.StoreSteps.가게_상세정보를_조회한다;
+import static com.foodymoody.be.acceptance.store.StoreSteps.가게를_검색한다;
 import static com.foodymoody.be.acceptance.store.StoreSteps.이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,7 +31,7 @@ public class StoreAcceptanceTest extends AcceptanceTest {
             이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다(회원푸반_액세스토큰, "3");
 
             // when
-            var response = 식당_상세정보를_조회한다(spec, "2");
+            var response = 가게_상세정보를_조회한다("2", spec);
 
             // then
             Assertions.assertAll(
@@ -51,7 +51,7 @@ public class StoreAcceptanceTest extends AcceptanceTest {
             이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다(회원푸반_액세스토큰, "3");
 
             // when
-            var response = 식당_상세정보를_조회한다(spec, "2");
+            var response = 가게_상세정보를_조회한다("2", spec);
 
             // then
             Assertions.assertAll(
@@ -74,7 +74,7 @@ public class StoreAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("search_store_success", spec);
 
             // when
-            var response = 식당을_검색한다(spec, "송파구");
+            var response = 가게를_검색한다( "송파구", spec);
 
             // then
             Assertions.assertAll(
@@ -90,7 +90,7 @@ public class StoreAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("search_store_success_and_no_result", spec);
 
             // when
-            var response = 식당을_검색한다(spec, "폐업한 식당");
+            var response = 가게를_검색한다("폐업한 식당", spec);
 
             // then
             Assertions.assertAll(
@@ -99,6 +99,7 @@ public class StoreAcceptanceTest extends AcceptanceTest {
             );
 
         }
+
     }
 
 }
