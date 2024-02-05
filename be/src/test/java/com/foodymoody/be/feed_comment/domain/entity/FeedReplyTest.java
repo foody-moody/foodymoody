@@ -3,7 +3,7 @@ package com.foodymoody.be.feed_comment.domain.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.common.util.ids.IdFactory;
-import com.foodymoody.be.feed_comment.util.FeedCommentFixture;
+import com.foodymoody.be.feed_comment.util.CommentFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,16 +14,16 @@ class FeedReplyTest {
     void if_id_is_same_then_reply_is_same() {
         // given
         var replyId = IdFactory.createFeedReplyId();
-        var memberId = FeedCommentFixture.memberId();
-        var createdAt = FeedCommentFixture.newLocalTime();
-        var updatedAt = FeedCommentFixture.newLocalTime();
-        var reply = new FeedReply(replyId, FeedCommentFixture.content(), false, memberId, createdAt, updatedAt);
+        var memberId = CommentFixture.memberId();
+        var createdAt = CommentFixture.newLocalTime();
+        var updatedAt = CommentFixture.newLocalTime();
+        var reply = new FeedReply(replyId, CommentFixture.content(), false, memberId, createdAt, updatedAt);
 
-        var otherMemberId = FeedCommentFixture.newMemberId();
-        var otherCreatedAt = FeedCommentFixture.newLocalTime();
-        var otherUpdatedAt = FeedCommentFixture.newLocalTime();
+        var otherMemberId = CommentFixture.newMemberId();
+        var otherCreatedAt = CommentFixture.newLocalTime();
+        var otherUpdatedAt = CommentFixture.newLocalTime();
         var sameIdReply = new FeedReply(
-                replyId, FeedCommentFixture.content(), false, otherMemberId, otherCreatedAt, otherUpdatedAt);
+                replyId, CommentFixture.content(), false, otherMemberId, otherCreatedAt, otherUpdatedAt);
 
         // when ,then
         assertThat(reply).isEqualTo(sameIdReply);

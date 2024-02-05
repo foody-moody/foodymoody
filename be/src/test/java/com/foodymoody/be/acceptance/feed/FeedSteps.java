@@ -3,7 +3,6 @@ package com.foodymoody.be.acceptance.feed;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequestMenu;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.ExtractableResponse;
@@ -11,8 +10,6 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -369,32 +366,6 @@ public class FeedSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 특정_가게의_피드를_등록한다(String accessToken, String storeId, List<String> imageIds, List<FeedRegisterRequestMenu> menus) {
-        Map<String, Object> body = Map.of(
-                "storeId", storeId,
-                "review", "맛있어요!",
-                "storeMoodIds", List.of("1", "3", "4"),
-                "images", IntStream.range(0, imageIds.size())
-                        .mapToObj(i -> Map.of(
-                                "imageId", imageIds.get(i),
-                                "menu", menus.get(i)))
-                        .collect(Collectors.toUnmodifiableList()
-                        ));
-
-        return RestAssured
-                .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .log().all()
-                .auth()
-                .oauth2(accessToken)
-                .body(body)
-                .when()
-                .post("/api/feeds")
-                .then()
-                .log().all()
-                .extract();
-    }
-
     public static void 응답코드가_400이다(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
@@ -430,7 +401,6 @@ public class FeedSteps {
                 () -> assertThat(response.jsonPath().getBoolean("isLiked")).isTrue(),
                 assertThat(id)::isNotNull
         );
-
     }
 
     public static ExtractableResponse<Response> 피드를_수정한다(String accessToken, String id, RequestSpecification spec) {

@@ -7,26 +7,24 @@ import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionComment;
 import java.time.LocalDateTime;
+import org.springframework.stereotype.Component;
 
+@Component
 public class FeedCollectionCommentMapper {
 
-    private FeedCollectionCommentMapper() {
-        throw new AssertionError();
-    }
-
-    public static FeedCollectionComment toEntity(
+    public FeedCollectionComment toEntity(
             FeedCollectionId feedCollectionId,
             Content content,
             MemberId memberId,
             FeedCollectionCommentId feedCollectionCommentId,
-            LocalDateTime createdAt
+            LocalDateTime now
     ) {
         return new FeedCollectionComment(
                 feedCollectionCommentId,
                 feedCollectionId,
                 memberId,
                 content,
-                createdAt
+                now
         );
     }
 }

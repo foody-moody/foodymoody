@@ -1,9 +1,8 @@
 package com.foodymoody.be.acceptance.store;
 
 import static com.foodymoody.be.acceptance.store.StoreSteps.상태코드를_검증한다;
-import static com.foodymoody.be.acceptance.store.StoreSteps.가게_상세정보를_조회한다;
-import static com.foodymoody.be.acceptance.store.StoreSteps.가게를_검색한다;
-import static com.foodymoody.be.acceptance.store.StoreSteps.이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다;
+import static com.foodymoody.be.acceptance.store.StoreSteps.식당_상세정보를_조회한다;
+import static com.foodymoody.be.acceptance.store.StoreSteps.식당을_검색한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
@@ -24,42 +23,15 @@ public class StoreAcceptanceTest extends AcceptanceTest {
         void when_fetch_details_if_success_then_response_status_code_200_and_details() {
             // docs
             api_문서_타이틀("fetch_store_details_success", spec);
-            이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다(회원푸반_액세스토큰, "2");
-            이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다(회원푸반_액세스토큰, "2");
-            이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다(회원푸반_액세스토큰, "2");
-            이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다(회원푸반_액세스토큰, "1");
-            이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다(회원푸반_액세스토큰, "3");
 
             // when
-            var response = 가게_상세정보를_조회한다("2", spec);
+            var response = 식당_상세정보를_조회한다(spec, "2");
 
             // then
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),
                     () -> assertThat(response.jsonPath().getString("name")).isEqualTo("폐업한 식당"),
-                    () -> assertThat(response.jsonPath().getBoolean("closed")).isTrue(),
-                    () -> assertThat(response.jsonPath().getLong("feedCount")).isEqualTo(3L),
-                    () -> assertThat(response.jsonPath().getDouble("rating")).isEqualTo(2.5)
-            );
-        }
-
-        @Test
-        void when_fetch_details_if_success_and_no_feed_then_response_status_code_200_and_details() {
-            // docs
-            api_문서_타이틀("fetch_store_details_success", spec);
-            이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다(회원푸반_액세스토큰, "1");
-            이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다(회원푸반_액세스토큰, "3");
-
-            // when
-            var response = 가게_상세정보를_조회한다("2", spec);
-
-            // then
-            Assertions.assertAll(
-                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
-                    () -> assertThat(response.jsonPath().getString("name")).isEqualTo("폐업한 식당"),
-                    () -> assertThat(response.jsonPath().getBoolean("closed")).isTrue(),
-                    () -> assertThat(response.jsonPath().getLong("feedCount")).isZero(),
-                    () -> assertThat(response.jsonPath().getDouble("rating")).isEqualTo(0.0)
+                    () -> assertThat(response.jsonPath().getBoolean("closed")).isTrue()
             );
         }
     }
@@ -74,7 +46,7 @@ public class StoreAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("search_store_success", spec);
 
             // when
-            var response = 가게를_검색한다( "송파구", spec);
+            var response = 식당을_검색한다(spec, "송파구");
 
             // then
             Assertions.assertAll(
@@ -90,7 +62,7 @@ public class StoreAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("search_store_success_and_no_result", spec);
 
             // when
-            var response = 가게를_검색한다("폐업한 식당", spec);
+            var response = 식당을_검색한다(spec, "폐업한 식당");
 
             // then
             Assertions.assertAll(
@@ -99,7 +71,6 @@ public class StoreAcceptanceTest extends AcceptanceTest {
             );
 
         }
-
     }
 
 }

@@ -1,14 +1,16 @@
 package com.foodymoody.be.notification.infra.event;
 
-import static com.foodymoody.be.notification.infra.event.util.NotificationDetailsFactory.makeDetails;
-
+import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_collection.application.service.FeedCollectionReadService;
+import com.foodymoody.be.feed_collection.application.FeedCollectionReadService;
+import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection_like.domain.FeedCollectionLikeAddedEvent;
-import com.foodymoody.be.notification.application.service.NotificationWriteService;
+import com.foodymoody.be.notification.application.NotificationWriteService;
+import com.foodymoody.be.notification.domain.NotificationDetails;
+import com.foodymoody.be.notification.infra.event.dto.FeedCollectionLikeNotificationDetails;
 import com.foodymoody.be.notification.infra.event.util.NotificationMapper;
-import com.foodymoody.be.notification_setting.application.usecase.NotificationSettingReadUseCase;
+import com.foodymoody.be.notification_setting.application.NotificationSettingReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -19,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class FeedCollectionLikeAddedEventHandler {
 
     private final FeedCollectionReadService feedCollectionService;
-    private final NotificationSettingReadUseCase settingReadUseCase;
+    private final NotificationSettingReadService notificationSettingService;
     private final NotificationWriteService notificationService;
 
     @Async
@@ -28,20 +30,32 @@ public class FeedCollectionLikeAddedEventHandler {
         var feedCollectionId = event.getFeedCollectionId();
         var feedCollection = feedCollectionService.fetchById(feedCollectionId);
         var toMemberId = feedCollection.getAuthorId();
-        var feedCollectionThumbnailUrl = feedCollection.getThumbnailUrl();
-        if (settingReadUseCase.isFeedCollectionLikeAllowed(toMemberId)) {
-            saveNotification(event, toMemberId, feedCollectionThumbnailUrl);
+        if (notificationSettingService.isFeedCollectionLikeAllowed(toMemberId)) {
+            saveNotification(event, feedCollectionId, feedCollection, toMemberId);
         }
     }
 
     private void saveNotification(
             FeedCollectionLikeAddedEvent event,
-            MemberId toMemberId,
-            String thumbnailUrl
+            FeedCollectionId feedCollectionId,
+            FeedCollection feedCollection,
+            MemberId toMemberId
     ) {
         var notificationId = IdFactory.createNotificationId();
-        var details = makeDetails(event, thumbnailUrl);
+        var details = makeDetails(feedCollectionId, feedCollection);
         var notification = NotificationMapper.toNotification(event, notificationId, details, toMemberId);
         notificationService.save(notification);
+    }
+
+    private static NotificationDetails makeDetails(
+            FeedCollectionId feedCollectionId,
+            FeedCollection feedCollection
+    ) {
+        return new FeedCollectionLikeNotificationDetails(
+                feedCollectionId,
+                feedCollection.getThumbnailUrl(),
+                feedCollection.getTitle(),
+                feedCollection.getDescription()
+        );
     }
 }

@@ -31,6 +31,7 @@ public class NotificationDetailsConverter implements AttributeConverter<Notifica
 
             return objectMapper.readValue(dbData, new TypeReference<NotificationDetails>() {
             });
+
         } catch (JsonProcessingException e) {
             throw new JsonConvertException();
         }

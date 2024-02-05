@@ -5,12 +5,11 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequest;
-import com.foodymoody.be.feed.application.dto.request.FeedServiceDeleteRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedUpdateRequest;
 import com.foodymoody.be.feed.application.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedReadResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedRegisterResponse;
-import com.foodymoody.be.feed.application.usecase.FeedUseCase;
+import com.foodymoody.be.feed.infra.usecase.FeedUseCase;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -36,10 +35,9 @@ public class FeedController {
     @PostMapping("/api/feeds")
     public ResponseEntity<FeedRegisterResponse> register(
             @RequestBody @Valid FeedRegisterRequest feedRegisterRequest,
-            @CurrentMemberId MemberId memberId
-    ) {
-        var feedServiceRegisterRequest = FeedMapper.toServiceRegisterRequest(feedRegisterRequest, memberId);
-        FeedRegisterResponse feedRegisterResponse = feedUseCase.register(feedServiceRegisterRequest);
+            @CurrentMemberId MemberId memberId) {
+        FeedRegisterResponse feedRegisterResponse = feedUseCase.register(
+                FeedMapper.toServiceRegisterRequest(feedRegisterRequest, memberId));
         return ResponseEntity.ok().body(feedRegisterResponse);
     }
 
@@ -47,23 +45,19 @@ public class FeedController {
      * 전체 Feed 조회
      */
     @GetMapping("/api/feeds")
-    public ResponseEntity<Slice<FeedReadAllResponse>> readAll(
-            Pageable pageable,
-            @CurrentMemberId MemberId memberId
-    ) {
-        var feedReadAllResponseSlice = feedUseCase.readAll(pageable, memberId);
-        return ResponseEntity.ok().body(feedReadAllResponseSlice);
+    public ResponseEntity<Slice<FeedReadAllResponse>> readAll(Pageable pageable,
+                                                              @CurrentMemberId MemberId memberId) {
+        Slice<FeedReadAllResponse> feedReadAllResponses = feedUseCase.readAll(pageable, memberId);
+        return ResponseEntity.ok().body(feedReadAllResponses);
     }
 
     /**
      * 개별 Feed 조회
      */
     @GetMapping("/api/feeds/{id}")
-    public ResponseEntity<FeedReadResponse> read(
-            @PathVariable FeedId id,
-            @CurrentMemberId MemberId memberId
-    ) {
-        var feedReadResponse = feedUseCase.read(id, memberId);
+    public ResponseEntity<FeedReadResponse> read(@PathVariable FeedId id,
+                                                 @CurrentMemberId MemberId memberId) {
+        FeedReadResponse feedReadResponse = feedUseCase.read(id, memberId);
         return ResponseEntity.ok().body(feedReadResponse);
     }
 
@@ -71,17 +65,9 @@ public class FeedController {
      * Feed 수정
      */
     @PutMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> update(
-            @PathVariable FeedId id,
-            @RequestBody @Valid FeedUpdateRequest feedUpdateRequest,
-            @CurrentMemberId MemberId memberId
-    ) {
-        var feedServiceUpdateRequest = FeedMapper.toServiceUpdateRequest(
-                id,
-                feedUpdateRequest,
-                memberId
-        );
-        feedUseCase.update(feedServiceUpdateRequest);
+    public ResponseEntity<Void> update(@PathVariable FeedId id, @RequestBody @Valid FeedUpdateRequest feedUpdateRequest,
+                                       @CurrentMemberId MemberId memberId) {
+        feedUseCase.update(FeedMapper.toServiceUpdateRequest(id, feedUpdateRequest, memberId));
         return ResponseEntity.noContent().build();
     }
 
@@ -89,12 +75,9 @@ public class FeedController {
      * Feed 삭제
      */
     @DeleteMapping("/api/feeds/{id}")
-    public ResponseEntity<Void> delete(
-            @PathVariable FeedId id,
-            @CurrentMemberId MemberId memberId
-    ) {
-        var feedServiceDeleteRequest = FeedMapper.toServiceDeleteRequest(id, memberId);
-        feedUseCase.delete(feedServiceDeleteRequest);
+    public ResponseEntity<Void> delete(@PathVariable FeedId id,
+                                       @CurrentMemberId MemberId memberId) {
+        feedUseCase.delete(FeedMapper.toServiceDeleteRequest(id, memberId));
         return ResponseEntity.noContent().build();
     }
 

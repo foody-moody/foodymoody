@@ -3,7 +3,7 @@ package com.foodymoody.be.feed_comment_like_count.infra.persistence;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
 import com.foodymoody.be.feed_comment_like_count.domain.FeedCommentLikeCount;
 import com.foodymoody.be.feed_comment_like_count.domain.FeedCommentLikeCountRepository;
-import com.foodymoody.be.feed_comment_like_count.infra.persistence.jpa.FeedCommentLikeCountJpaRepository;
+import com.foodymoody.be.feed_comment_like_count.infra.persistence.jpa.CommentHeartCountJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -11,20 +11,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FeedCommentLikeCountRepositoryImpl implements FeedCommentLikeCountRepository {
 
-    private final FeedCommentLikeCountJpaRepository feedCommentLikeCountJpaRepository;
+    private final CommentHeartCountJpaRepository commentHeartCountJpaRepository;
 
     @Override
     public FeedCommentLikeCount save(FeedCommentLikeCount feedCommentLikeCount) {
-        return feedCommentLikeCountJpaRepository.save(feedCommentLikeCount);
+        return commentHeartCountJpaRepository.save(feedCommentLikeCount);
     }
 
     @Override
     public void incrementCount(FeedCommentId feedCommentId) {
-        feedCommentLikeCountJpaRepository.incrementCount(feedCommentId);
+        commentHeartCountJpaRepository.incrementCount(feedCommentId);
     }
 
     @Override
     public void decrementCount(FeedCommentId feedCommentId) {
-        feedCommentLikeCountJpaRepository.decrementCount(feedCommentId);
+        commentHeartCountJpaRepository.decrementCount(feedCommentId);
     }
 }

@@ -80,23 +80,6 @@ public class FeedCollectionSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 컬렉션_커멘트를_조회한다(
-            String collectionId,
-            RequestSpecification spec,
-            String accessToken,
-            int page,
-            int size
-    ) {
-        return RestAssured.given()
-                .spec(spec)
-                .log().all()
-                .auth().oauth2(accessToken)
-                .when()
-                .get("/api/feed_collections/{collectionId}/comments?page={page}&size={size}", collectionId, page, size)
-                .then().log().all()
-                .extract();
-    }
-
     public static ExtractableResponse<Response> 피드_컬렉션을_수정한다(
             String collectionId,
             String accessToken,
@@ -131,7 +114,7 @@ public class FeedCollectionSteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .get("/api/feed_collections/{collectionId}/feeds", collectionId)
+                .get("/api/collections/{collectionId}/feeds", collectionId)
                 .then().log().all()
                 .extract();
     }

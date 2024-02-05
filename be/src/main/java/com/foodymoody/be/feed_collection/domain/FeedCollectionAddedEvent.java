@@ -13,7 +13,7 @@ public class FeedCollectionAddedEvent implements NotificationEvent {
     private final MemberId fromMemberId;
     private final FeedCollectionId feedCollectionId;
     private final String feedCollectionTitle;
-    private final String feedCollectionThumbnailUrl;
+    private final String feedCollectionDescription;
     private final NotificationType notificationType;
     private final LocalDateTime createdAt;
 
@@ -21,14 +21,14 @@ public class FeedCollectionAddedEvent implements NotificationEvent {
             MemberId fromMemberId,
             FeedCollectionId feedCollectionId,
             String feedCollectionTitle,
-            String feedCollectionThumbnailUrl,
+            String feedCollectionDescription,
             NotificationType notificationType,
             LocalDateTime createdAt
     ) {
         this.fromMemberId = fromMemberId;
         this.feedCollectionId = feedCollectionId;
         this.feedCollectionTitle = feedCollectionTitle;
-        this.feedCollectionThumbnailUrl = feedCollectionThumbnailUrl;
+        this.feedCollectionDescription = feedCollectionDescription;
         this.notificationType = notificationType;
         this.createdAt = createdAt;
     }
@@ -37,14 +37,14 @@ public class FeedCollectionAddedEvent implements NotificationEvent {
             MemberId fromMemberId,
             FeedCollectionId feedCollectionId,
             String feedCollectionTitle,
-            String feedCollectionThumbnailUrl,
+            String feedCollectionDescription,
             LocalDateTime createdAt
     ) {
         return new FeedCollectionAddedEvent(
                 fromMemberId,
                 feedCollectionId,
                 feedCollectionTitle,
-                feedCollectionThumbnailUrl,
+                feedCollectionDescription,
                 NotificationType.FEED_COLLECTION_ADDED_EVENT,
                 createdAt
         );

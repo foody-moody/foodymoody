@@ -10,9 +10,8 @@ import java.util.Map;
 public class FeedCollectionReplySteps {
 
     public static ExtractableResponse<Response> 피드_컬렉션_댓글에_대댓글을_등록한다(
-            String commentId,
-            String feedCollectionId,
             String accessToken,
+            String commentId,
             RequestSpecification spec
     ) {
         Map<String, String> body = Map.of("content", "대댓글입니다.");
@@ -22,36 +21,30 @@ public class FeedCollectionReplySteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .post(
-                        "/api/feed_collections/{feedCollectionId}/comments/{commentId}/replies", feedCollectionId,
-                        commentId
-                )
+                .post("/api/feed_collections/comments/{commentId}/replies", commentId)
                 .then().log().all()
                 .extract();
     }
 
     public static ExtractableResponse<Response> 피드_컬렉션_댓글에_대댓글을_등록한다(
-            String commentId,
-            String feedCollectionId,
-            String accessToken
+            String accessToken,
+            String commentId
     ) {
-        return 피드_컬렉션_댓글에_대댓글을_등록한다(commentId, feedCollectionId, accessToken, new RequestSpecBuilder().build());
+        return 피드_컬렉션_댓글에_대댓글을_등록한다(accessToken, commentId, new RequestSpecBuilder().build());
     }
 
     public static String 피드_컬렉션_댓글에_대댓글을_등록하고_아이디를_반환한다(
-            String commentId,
-            String feedCollectionId,
-            String accessToken
+            String accessToken,
+            String commentId
     ) {
-        return 피드_컬렉션_댓글에_대댓글을_등록한다(commentId, feedCollectionId, accessToken, new RequestSpecBuilder().build())
+        return 피드_컬렉션_댓글에_대댓글을_등록한다(accessToken, commentId, new RequestSpecBuilder().build())
                 .jsonPath().getString("id");
     }
 
     public static ExtractableResponse<Response> 피드_컬렉션_댓글의_대댓글을_삭제한다(
-            String feedCollectionId,
-            String commentId,
-            String replyId,
             String accessToken,
+            String replyId,
+            String commentId,
             RequestSpecification spec
     ) {
         return RestAssured.given()
@@ -59,19 +52,15 @@ public class FeedCollectionReplySteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .delete(
-                        "/api/feed_collections/{feedCollectionId}/comments/{commentId}/replies/{replyId}",
-                        feedCollectionId, commentId, replyId
-                )
+                .delete("/api/feed_collections/comments/{commentId}/replies/{replyId}", commentId, replyId)
                 .then().log().all()
                 .extract();
     }
 
     public static ExtractableResponse<Response> 피드_컬렉션_댓글의_대댓글을_수정한다(
-            String feedCollectionId,
-            String commentId,
-            String replyId,
             String accessToken,
+            String replyId,
+            String commentId,
             RequestSpecification spec
     ) {
         Map<String, String> body = Map.of("content", "수정된 대댓글입니다.");
@@ -81,17 +70,14 @@ public class FeedCollectionReplySteps {
                 .auth().oauth2(accessToken)
                 .body(body).contentType("application/json")
                 .when()
-                .put("/api/feed_collections/{feedCollectionId}/comments/{commentId}/replies/{replyId}",
-                     feedCollectionId, commentId, replyId
-                )
+                .put("/api/feed_collections/comments/{commentId}/replies/{replyId}", commentId, replyId)
                 .then().log().all()
                 .extract();
     }
 
     public static ExtractableResponse<Response> 피드_컬렉션_댓글의_대댓글을_조회한다(
-            String feedCollectionId,
-            String commentId,
             String accessToken,
+            String commentId,
             RequestSpecification spec
     ) {
         return RestAssured.given()
@@ -99,10 +85,7 @@ public class FeedCollectionReplySteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .get(
-                        "/api/feed_collections/{feedCollectionId}/comments/{commentId}/replies", feedCollectionId,
-                        commentId
-                )
+                .get("/api/feed_collections/comments/{commentId}/replies", commentId)
                 .then().log().all()
                 .extract();
     }

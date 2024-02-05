@@ -34,4 +34,8 @@ public class FeedCollectionReplyLikeCount {
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
     }
+
+    public long getLikeCount() {
+        return count;
+    }
 }

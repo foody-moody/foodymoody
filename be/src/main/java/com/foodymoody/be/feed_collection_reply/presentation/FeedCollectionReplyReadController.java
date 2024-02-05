@@ -2,10 +2,9 @@ package com.foodymoody.be.feed_collection_reply.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
-import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.feed_collection_reply.application.usecase.FeedCollectionReplyReadUseCase;
-import com.foodymoody.be.feed_collection_reply.application.usecase.FeedCollectionReplyResponse;
+import com.foodymoody.be.feed_collection_reply.infra.usecase.FeedCollectionReplyReadUseCase;
+import com.foodymoody.be.feed_collection_reply.infra.usecase.FeedCollectionReplyResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -22,9 +21,8 @@ public class FeedCollectionReplyReadController {
 
     private final FeedCollectionReplyReadUseCase useCase;
 
-    @GetMapping("/api/feed_collections/{ignoreFeedCollectionId}/comments/{commentId}/replies")
+    @GetMapping("/api/feed_collections/comments/{commentId}/replies")
     public ResponseEntity<Slice<FeedCollectionReplyResponse>> fetch(
-            @PathVariable FeedCollectionId ignoreFeedCollectionId,
             @PathVariable FeedCollectionCommentId commentId,
             @CurrentMemberId MemberId memberId,
             @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable

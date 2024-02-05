@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_collection_comment_like.domain;
 
-import com.foodymoody.be.common.event.EventManager;
+import com.foodymoody.be.common.event.Events;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentLikeId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -37,7 +37,7 @@ public class FeedCollectionCommentLike {
         this.memberId = memberId;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-        EventManager.raise(toEvent(commentId, memberId, createdAt));
+        Events.raise(toEvent(commentId, memberId, createdAt));
     }
 
     private static FeedCollectionCommentLikeAddedEvent toEvent(

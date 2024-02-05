@@ -4,6 +4,7 @@ import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
 import com.foodymoody.be.feed_collection_reply_like_count.domain.FeedCollectionReplyLikeCount;
 import com.foodymoody.be.feed_collection_reply_like_count.domain.FeedCollectionReplyLikeCountRepository;
 import com.foodymoody.be.feed_collection_reply_like_count.infra.persistence.jpa.FeedCollectionReplyLikeCountJpaRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -26,5 +27,12 @@ public class FeedCollectionReplyLikeCountRepositoryImpl implements FeedCollectio
     @Override
     public FeedCollectionReplyLikeCount save(FeedCollectionReplyLikeCount likeCount) {
         return repository.save(likeCount);
+    }
+
+    @Override
+    public Optional<FeedCollectionReplyLikeCount> findByFeedCollectionReplyId(
+            FeedCollectionReplyId feedCollectionReplyId
+    ) {
+        return repository.findByFeedCollectionReplyId(feedCollectionReplyId);
     }
 }

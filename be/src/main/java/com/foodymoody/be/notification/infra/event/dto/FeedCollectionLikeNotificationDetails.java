@@ -11,12 +11,18 @@ public class FeedCollectionLikeNotificationDetails extends NotificationDetails {
 
     private FeedCollectionId feedCollectionId;
     private String feedCollectionThumbnailUrl;
+    private String feedCollectionTitle;
+    private String feedCollectionDescription;
 
     public FeedCollectionLikeNotificationDetails(
             FeedCollectionId feedCollectionId,
-            String feedCollectionThumbnailUrl
+            String feedCollectionThumbnailUrl,
+            String feedCollectionTitle,
+            String feedCollectionDescription
     ) {
         this.feedCollectionId = feedCollectionId;
         this.feedCollectionThumbnailUrl = feedCollectionThumbnailUrl;
+        this.feedCollectionTitle = feedCollectionTitle;
+        this.feedCollectionDescription = feedCollectionDescription;
     }
 }

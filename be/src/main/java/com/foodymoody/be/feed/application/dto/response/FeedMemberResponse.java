@@ -16,12 +16,7 @@ public class FeedMemberResponse {
     private FeedTasteMoodResponse tasteMood;
 
     @Builder
-    public FeedMemberResponse(
-            MemberId id,
-            String profileImageUrl,
-            String nickname,
-            FeedTasteMoodResponse tasteMood
-    ) {
+    public FeedMemberResponse(MemberId id, String profileImageUrl, String nickname, FeedTasteMoodResponse tasteMood) {
         this.id = id;
         this.profileImageUrl = profileImageUrl;
         this.nickname = nickname;

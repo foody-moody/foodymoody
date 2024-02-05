@@ -9,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -20,7 +19,6 @@ public class Store {
     private StoreId id;
     @Embedded
     private LocalDataKey localDataKey;
-    @Getter
     private String name;
     private String roadAddress;
     private String address;

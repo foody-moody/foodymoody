@@ -43,12 +43,6 @@
 
 ---
 
-## 🖇️ERD
-
-![foodymoody-erd](https://github.com/foody-moody/foodymoody/assets/99056666/c1677106-ae5c-4d5f-bcd1-6bcee86067f5)
-
----
-
 ## 🖥 사용 기술
 
 - **Backend**: Springboot, JPA, Docker

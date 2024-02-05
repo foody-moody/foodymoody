@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 @DisplayName("피드 컬렉션 댓글 좋아요")
 class FeedCollectionFeedCommentLikeAcceptanceTest extends AcceptanceTest {
 
-    String feedCollectionId;
     String commentId;
 
     @DisplayName("피드 컬렉션 생성하고 댓글을 작성 한다")
@@ -33,7 +32,7 @@ class FeedCollectionFeedCommentLikeAcceptanceTest extends AcceptanceTest {
 
         List<String> feedIds = new ArrayList<>();
         feedIds.add(피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, imageIds));
-        feedCollectionId = 피드_컬렉션_등록하고_아이디를_가져온다(feedIds, 회원아티_액세스토큰);
+        String feedCollectionId = 피드_컬렉션_등록하고_아이디를_가져온다(feedIds, 회원아티_액세스토큰);
         commentId = 피드_컬렉션에_댓글을_등록하고_아이디를_받는다(회원아티_액세스토큰, feedCollectionId);
     }
 
@@ -44,7 +43,7 @@ class FeedCollectionFeedCommentLikeAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_comment_like_post_success", spec);
 
         // when
-        var response = 피드_컬렉션_댓글에_좋아요를_등록한다(feedCollectionId, commentId, 회원아티_액세스토큰, spec);
+        var response = 피드_컬렉션_댓글에_좋아요를_등록한다(회원아티_액세스토큰, commentId, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(201);
@@ -57,10 +56,10 @@ class FeedCollectionFeedCommentLikeAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_comment_like_cancel_success", spec);
 
         // given
-        피드_컬렉션_댓글에_좋아요를_등록한다(feedCollectionId, commentId, 회원아티_액세스토큰, spec);
+        피드_컬렉션_댓글에_좋아요를_등록한다(회원아티_액세스토큰, commentId, spec);
 
         // when
-        var response = 피드_컬렉션_댓글에_좋아요를_취소한다(feedCollectionId, commentId, 회원아티_액세스토큰, spec);
+        var response = 피드_컬렉션_댓글에_좋아요를_취소한다(회원아티_액세스토큰, commentId, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(204);

@@ -11,15 +11,11 @@ import org.springframework.data.jpa.repository.Query;
 public interface FeedLikeCountJpaRepository extends JpaRepository<FeedLikeCount, FeedLikeCountId> {
 
     @Modifying
-    @Query("UPDATE FeedLikeCount _likeCount"
-            + " SET _likeCount.count = _likeCount.count + 1"
-            + " WHERE _likeCount.feedId = :feedId")
+    @Query("UPDATE FeedLikeCount _likeCount SET _likeCount.count = _likeCount.count + 1 WHERE _likeCount.feedId = :feedId")
     void incrementFeedHeartCount(FeedId feedId);
 
     @Modifying
-    @Query("UPDATE FeedLikeCount _likeCount"
-            + " SET _likeCount.count = _likeCount.count - 1"
-            + " WHERE _likeCount.feedId = :feedId")
+    @Query("UPDATE FeedLikeCount _likeCount SET _likeCount.count = _likeCount.count - 1 WHERE _likeCount.feedId = :feedId")
     void decrementFeedHeartCount(FeedId feedId);
 
     Optional<FeedLikeCount> findByFeedId(FeedId feedId);

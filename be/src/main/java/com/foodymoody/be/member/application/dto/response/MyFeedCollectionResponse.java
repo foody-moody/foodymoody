@@ -11,7 +11,6 @@ public class MyFeedCollectionResponse {
 
     private FeedCollectionId id;
     private String title;
-    private String thumbnailUrl;
     private int feedCount;
     private long likeCount;
     private int commentCount;
@@ -19,12 +18,11 @@ public class MyFeedCollectionResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     @Setter
-    private List<FeedCollectionMoodResponse> moods;
+    private List<MyFeedCollectionMoodResponse> moods;
 
     public MyFeedCollectionResponse(
             FeedCollectionId id,
             String title,
-            String thumbnailUrl,
             Integer feedCount,
             Long likeCount,
             Integer commentCount,
@@ -34,7 +32,6 @@ public class MyFeedCollectionResponse {
             ) {
         this.id = id;
         this.title = title;
-        this.thumbnailUrl = thumbnailUrl;
         this.feedCount = feedCount;
         this.likeCount = likeCount;
         this.commentCount = commentCount;

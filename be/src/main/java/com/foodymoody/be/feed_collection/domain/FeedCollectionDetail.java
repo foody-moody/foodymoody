@@ -1,7 +1,7 @@
 package com.foodymoody.be.feed_collection.domain;
 
-import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionCommentResponse;
-import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionMoodResponse;
+import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionCommentResponse;
+import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionMoodResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
