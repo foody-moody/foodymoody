@@ -3,9 +3,10 @@ package com.foodymoody.be.feed_collection.presentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.feed_collection.application.usecase.FeedCollectionReadUseCase;
+import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionCommentResponse;
+import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionResponse;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionDetail;
-import com.foodymoody.be.feed_collection.infra.usecase.FeedCollectionReadUseCase;
-import com.foodymoody.be.feed_collection.infra.usecase.dto.FeedCollectionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -46,5 +47,19 @@ public class FeedCollectionReadController {
         }
         var feedCollection = useCase.fetchDetail(id);
         return ResponseEntity.ok(feedCollection);
+    }
+
+    @GetMapping("/api/feed_collections/{id}/comments")
+    public ResponseEntity<Slice<FeedCollectionCommentResponse>> fetchComments(
+            @PathVariable FeedCollectionId id,
+            @CurrentMemberId MemberId memberId,
+            @PageableDefault(size = 20, sort = "createdAt", direction = Direction.DESC) Pageable pageable
+    ) {
+        if (memberId == null) {
+            var comments = useCase.fetchComments(id, pageable);
+            return ResponseEntity.ok(comments);
+        }
+        var comments = useCase.fetchComments(id, memberId, pageable);
+        return ResponseEntity.ok(comments);
     }
 }

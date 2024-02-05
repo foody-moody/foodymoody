@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_collection_reply_like.domain;
 
-import com.foodymoody.be.common.event.Events;
+import com.foodymoody.be.common.event.EventManager;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
 import com.foodymoody.be.common.util.ids.FeedCollectionReplyLikeId;
@@ -41,7 +41,7 @@ public class FeedCollectionReplyLike {
         this.feedCollectionReplyId = feedCollectionReplyId;
         this.feedCollectionCommentId = feedCollectionCommentId;
         this.createdAt = createdAt;
-        Events.raise(toEvent(id, memberId, feedCollectionReplyId, feedCollectionCommentId, createdAt));
+        EventManager.raise(toEvent(id, memberId, feedCollectionReplyId, feedCollectionCommentId, createdAt));
     }
 
     private static FeedCollectionReplyLikeAddedEvent toEvent(

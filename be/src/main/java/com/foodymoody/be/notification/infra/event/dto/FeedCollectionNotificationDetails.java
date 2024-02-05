@@ -11,15 +11,15 @@ public class FeedCollectionNotificationDetails extends NotificationDetails {
 
     private FeedCollectionId feedCollectionId;
     private String feedCollectionTitle;
-    private String feedCollectionDescription;
+    private String feedCollectionThumbnailUrl;
 
     public FeedCollectionNotificationDetails(
             FeedCollectionId feedCollectionId,
             String feedCollectionTitle,
-            String feedCollectionDescription
+            String feedCollectionThumbnailUrl
     ) {
         this.feedCollectionId = feedCollectionId;
         this.feedCollectionTitle = feedCollectionTitle;
-        this.feedCollectionDescription = feedCollectionDescription;
+        this.feedCollectionThumbnailUrl = feedCollectionThumbnailUrl;
     }
 }

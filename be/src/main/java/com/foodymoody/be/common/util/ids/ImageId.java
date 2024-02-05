@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class ImageId extends BaseId {
 
-    public static final ImageId MEMBER_PROFILE_DEFAULT = new ImageId("member-profile-default");
-
     public ImageId(String value) {
         super(value);
     }

@@ -188,7 +188,7 @@ public class MemberSteps {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessToken)
                 .when()
-                .post("/api/members/{id}/followings", id)
+                .post("/api/members/{id}/followers", id)
                 .then()
                 .log().all()
                 .extract();
@@ -199,7 +199,7 @@ public class MemberSteps {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessToken)
                 .when()
-                .delete("/api/members/{id}/followings", id)
+                .delete("/api/members/{id}/followers", id)
                 .then()
                 .log().all()
                 .extract();
@@ -261,7 +261,6 @@ public class MemberSteps {
     }
 
     public static ExtractableResponse<Response> 비밀번호를_수정한다(String accessToken,
-            String memberId,
             Map<String, Object> request,
             RequestSpecification spec) {
         return RestAssured.given().log().all()
@@ -270,7 +269,7 @@ public class MemberSteps {
                 .auth().oauth2(accessToken)
                 .body(request)
                 .when()
-                .put("/api/members/{id}/password", memberId)
+                .put("/api/members/me/password")
                 .then()
                 .log().all()
                 .extract();
@@ -297,7 +296,7 @@ public class MemberSteps {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .log().all()
                 .when()
-                .get("/api/members/{memberId}", memberId)
+                .get("/api/members/{id}", memberId)
                 .then()
                 .log().all()
                 .extract();
@@ -310,13 +309,13 @@ public class MemberSteps {
                 .auth().oauth2(accessToken)
                 .log().all()
                 .when()
-                .get("/api/members/{memberId}", memberId)
+                .get("/api/members/{id}", memberId)
                 .then()
                 .log().all()
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 테이스트무드를_설정한다(String accessToken, String memberId, String tasteMoodId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 테이스트무드를_설정한다(String accessToken, String tasteMoodId, RequestSpecification spec) {
         return RestAssured
                 .given()
                 .log().all()
@@ -325,14 +324,14 @@ public class MemberSteps {
                 .auth().oauth2(accessToken)
                 .params("id", tasteMoodId)
                 .when()
-                .put("/api/members/{memberId}/taste-mood", memberId)
+                .put("/api/members/me/taste-mood")
                 .then()
                 .log().all()
                 .extract();
     }
 
 
-    public static ExtractableResponse<Response> 회원탈퇴한다(String accessToken, String memberId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 회원탈퇴한다(String accessToken, RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -340,7 +339,7 @@ public class MemberSteps {
                 .auth().oauth2(accessToken)
                 .log().all()
                 .when()
-                .delete("/api/members/{memberId}", memberId)
+                .delete("/api/members/me")
                 .then()
                 .log().all()
                 .extract();
@@ -349,7 +348,6 @@ public class MemberSteps {
 
     public static ExtractableResponse<Response> 회원프로필을_수정한다(
             String accessToken,
-            String memberId,
             Map<String, Object> updateProfileRequest,
             RequestSpecification spec) {
         return RestAssured
@@ -360,7 +358,7 @@ public class MemberSteps {
                 .body(updateProfileRequest)
                 .log().all()
                 .when()
-                .patch("/api/members/{memberId}", memberId)
+                .patch("/api/members/me")
                 .then()
                 .log().all()
                 .extract();
@@ -374,7 +372,7 @@ public class MemberSteps {
                 .log().all()
                 .params("page", page, "size", size)
                 .when()
-                .get("/api/members/{memberId}/feeds", memberId)
+                .get("/api/members/{id}/feeds", memberId)
                 .then()
                 .log().all()
                 .extract();
@@ -386,6 +384,35 @@ public class MemberSteps {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
                 .auth().oauth2(accessToken)
+                .log().all()
+                .params("page", page, "size", size)
+                .when()
+                .get("/api/members/{id}/collections", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션_제목_목록을_조회한다(String accessToken,
+            RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .auth().oauth2(accessToken)
+                .log().all()
+                .when()
+                .get("/api/members/me/collections/titles")
+                .then()
+                .log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션_목록을_조회한다(String id, int page, int size, RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
                 .log().all()
                 .params("page", page, "size", size)
                 .when()

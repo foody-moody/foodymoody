@@ -1,14 +1,17 @@
 package com.foodymoody.be.store.domain;
 
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreId;
-import com.foodymoody.be.store.application.dto.response.StoreDetailsResponse;
-import com.foodymoody.be.store.application.dto.response.StoreSearchResponse;
+import com.foodymoody.be.store.application.service.dto.response.StoreDetailsResponse;
+import com.foodymoody.be.store.application.service.dto.response.StoreSearchResponse;
 import java.util.List;
 import java.util.Optional;
 
 public interface StoreRepository {
 
-    Optional<StoreDetailsResponse> fetchDetailsById(StoreId id);
+    Optional<StoreDetailsResponse> fetchDetailsById(StoreId id, MemberId currentMemberId);
 
     List<StoreSearchResponse> searchByKeyword(String query);
+
+    Optional<Store> findById(StoreId id);
 }

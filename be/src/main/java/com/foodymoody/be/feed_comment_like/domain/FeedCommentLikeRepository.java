@@ -9,5 +9,5 @@ public interface FeedCommentLikeRepository {
 
     void deleteByCommentIdAndMemberId(FeedCommentId feedCommentId, MemberId memberId);
 
-    boolean existsByCommentIdAndMemberId(FeedCommentId feedCommentId, MemberId memberId);
+    boolean existsByFeedCommentIdAndMemberId(FeedCommentId feedCommentId, MemberId memberId);
 }

@@ -58,7 +58,16 @@ class FeedMapperTest {
         String profileImageUrl = makeProfileImageUrl();
 
         // when
-        Feed feed = FeedMapper.toFeed(id, memberId, storeId, review, storeMoods, images, menus, profileImageUrl);
+        Feed feed = Feed.builder()
+                .id(id)
+                .memberId(memberId)
+                .storeId(storeId)
+                .review(review)
+                .storeMoods(storeMoods)
+                .images(images)
+                .menus(menus)
+                .profileImageUrl(profileImageUrl)
+                .build();
 
         // then
         assertAll(
