@@ -4,6 +4,7 @@ import com.foodymoody.be.common.exception.StoreNotFoundException;
 import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.store.application.service.dto.response.StoreDetailsResponse;
 import com.foodymoody.be.store.application.service.dto.response.StoreSearchResponse;
+import com.foodymoody.be.store.domain.Store;
 import com.foodymoody.be.store.domain.StoreRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,10 @@ public class StoreReadService {
 
     public List<StoreSearchResponse> search(String query) {
         return storeRepository.searchByKeyword(query);
+    }
+
+    public Store findById(StoreId id) {
+        return storeRepository.findById(id)
+                .orElseThrow(StoreNotFoundException::new);
     }
 }
