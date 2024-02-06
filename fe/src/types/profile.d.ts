@@ -1,10 +1,15 @@
 type ProfileMemberInfo = {
   id: string;
-  profileImageId: string;
-  profileImageUrl: string;
+  profileImage: {
+    id: string;
+    url: string;
+  };
   nickname: string;
   email: string;
-  tasteMoodId: string;
+  tasteMood: {
+    id: string;
+    name: string;
+  };
   followingCount: number;
   followerCount: number;
   following: boolean;
