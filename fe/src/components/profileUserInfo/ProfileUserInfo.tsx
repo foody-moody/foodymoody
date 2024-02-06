@@ -67,14 +67,14 @@ export const ProfileUserInfo = () => {
         <UserImageEdit
           isAuthor={isAuthor}
           imageUrl={
-            member?.profileImageUrl || generateDefaultUserImage(member?.id)
+            member?.profileImage.url || generateDefaultUserImage(member?.id)
           }
         />
         <Column>
           <ContentHeader>
             <p>{member?.nickname}</p>
             {/* TODO. Badge 적용 해야함..*/}
-            <TasteMoodBadge name={MOCK_BADGE.name} />
+            <TasteMoodBadge name={member?.tasteMood.name} />
           </ContentHeader>
 
           <ContentBody>

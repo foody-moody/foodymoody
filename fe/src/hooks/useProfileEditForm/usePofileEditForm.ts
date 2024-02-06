@@ -23,7 +23,7 @@ export const useProfileEditForm = (profile?: ProfileMemberInfo) => {
   } = useForm<ProfileEditSchemaType>({
     defaultValues: {
       nickname: profile?.nickname,
-      tasteMoodId: profile?.tasteMoodId,
+      tasteMoodId: profile?.tasteMood.id, //
     },
     mode: 'onChange',
     reValidateMode: 'onChange',
