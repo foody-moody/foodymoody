@@ -48,7 +48,9 @@ class NotificationAcceptanceTest extends AcceptanceTest {
         String id2 = imageResponse2.jsonPath().getString("id");
         List<String> imageIds = List.of(id1, id2);
         String 회원푸반_아이디 = jwtUtil.parseAccessToken(회원푸반_액세스토큰).get("id");
+        String 아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
 
+        팔로우한다(회원푸반_액세스토큰, 아티_아이디, spec);
         팔로우한다(회원아티_액세스토큰, 회원푸반_아이디, spec);
 
         피드를_등록하고_아이디를_받는다(회원푸반_액세스토큰, imageIds);
