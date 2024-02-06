@@ -15,4 +15,9 @@ export const getAllCollections = async (
 export const getDetailCollection = async (id: string) => {
   const { data } = await publicApi.get(END_POINT.collection(id));
   return data;
-}
+};
+
+export const getUserCollectionTitle = async () => {
+  const { data } = await privateApi.get('/members/me/collections/titles');
+  return data;
+};

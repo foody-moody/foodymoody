@@ -27,3 +27,9 @@ export const useGetCollection = (sortBy?: string) => {
     fetchNextPage,
   };
 };
+
+export const useUserCollectionTitle = () =>
+  useQuery({
+    queryKey: [QUERY_KEY.myCollections],
+    queryFn: () => getUserCollectionTitle(),
+  });

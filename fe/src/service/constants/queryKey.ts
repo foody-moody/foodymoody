@@ -13,6 +13,7 @@ export const QUERY_KEY = {
   followings: 'followings',
   followers: 'followers',
   collections: 'collections',
+  myCollections: 'myCollections',
   notificationSetting: 'notificationSettings',
   refresh: 'refresh',
 };
