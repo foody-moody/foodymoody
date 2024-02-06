@@ -55,7 +55,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Service
 public class FeedUseCase {
 
@@ -107,6 +106,7 @@ public class FeedUseCase {
         return FeedMapper.toFeedRegisterResponse(savedFeed);
     }
 
+    @Transactional(readOnly = true)
     public Slice<FeedReadAllResponse> readAll(Pageable pageable, MemberId memberId) {
         final String sortBy = "createdAt";
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sortBy).descending());
@@ -160,6 +160,7 @@ public class FeedUseCase {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public FeedReadResponse read(FeedId id, MemberId memberId) {
         Feed feed = feedReadService.findFeed(id);
         List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(feed);
@@ -275,6 +276,7 @@ public class FeedUseCase {
         return FeedMapper.toFeedImageMenuResponses(imageIdUrlList, menuNameRatingList);
     }
 
+    @Transactional(readOnly = true)
     public Long findCommentCount(FeedId feedId) {
         return feedCommentCountReadService.fetchCountByFeedId(feedId);
     }
