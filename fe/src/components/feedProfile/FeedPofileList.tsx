@@ -33,7 +33,7 @@ export const FeedProfileList = () => {
 
             return (
               <FeedProfileItem
-                key={feed.id}
+                key={feed?.id}
                 feed={feed}
                 ref={isLastItem ? observeTarget : null}
               />
