@@ -8,7 +8,7 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionAddedEvent;
 import com.foodymoody.be.member.application.service.MemberReadService;
 import com.foodymoody.be.notification.application.service.NotificationWriteService;
-import com.foodymoody.be.notification_setting.application.service.NotificationSettingReadService;
+import com.foodymoody.be.notification_setting.application.usecase.NotificationSettingReadUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedCollectionEventHandler {
 
     private final MemberReadService memberService;
-    private final NotificationSettingReadService notificationSettingService;
+    private final NotificationSettingReadUseCase settingReadUseCase;
     private final NotificationWriteService notificationService;
 
     @Async
@@ -32,7 +32,7 @@ public class FeedCollectionEventHandler {
         var followers = fromMember.getFollowers();
         followers.forEach(follower -> {
             var followerId = follower.getId();
-            if (notificationSettingService.isFollowedAllowed(followerId)) {
+            if (settingReadUseCase.isFollowedAllowed(followerId)) {
                 saveNotification(event, followerId);
             }
         });

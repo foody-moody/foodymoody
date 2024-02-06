@@ -7,14 +7,22 @@ import com.foodymoody.be.notification_setting.domain.NotificationSetting;
 public class NotificationMapper {
 
     private NotificationMapper() {
-        throw new IllegalStateException("Utility class");
+        throw new AssertionError();
     }
 
     public static NotificationSetting toNotificationSetting(
-            MemberId memberid, NotificationSettingId notificationSettingId
+            MemberId memberid,
+            NotificationSettingId notificationSettingId
     ) {
         return new NotificationSetting(
-                notificationSettingId, memberid, true, true, true, true, true, true
+                notificationSettingId,
+                memberid,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true
         );
     }
 }

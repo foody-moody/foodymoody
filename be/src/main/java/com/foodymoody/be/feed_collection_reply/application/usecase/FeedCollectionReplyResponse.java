@@ -18,8 +18,15 @@ public class FeedCollectionReplyResponse {
     private long likeCount;
 
     public FeedCollectionReplyResponse(
-            FeedCollectionReplyId id, Content content, LocalDateTime createdAt, LocalDateTime updatedAt,
-            MemberId memberId, String nickname, String profileUrl, boolean isLiked, long likeCount
+            FeedCollectionReplyId id,
+            Content content,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            MemberId memberId,
+            String nickname,
+            String profileUrl,
+            boolean isLiked,
+            long likeCount
     ) {
         this.id = id;
         this.content = content;

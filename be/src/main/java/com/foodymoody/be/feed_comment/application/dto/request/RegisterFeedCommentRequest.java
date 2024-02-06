@@ -11,9 +11,6 @@ public class RegisterFeedCommentRequest {
 
     @NotNull
     @NotBlank
-    private String feedId;
-    @NotNull
-    @NotBlank
     private String content;
 
 }

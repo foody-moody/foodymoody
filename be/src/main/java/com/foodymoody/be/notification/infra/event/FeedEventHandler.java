@@ -10,7 +10,7 @@ import com.foodymoody.be.member.application.dto.FollowMemberSummary;
 import com.foodymoody.be.member.application.service.MemberReadService;
 import com.foodymoody.be.member.domain.FollowRepository;
 import com.foodymoody.be.notification.application.service.NotificationWriteService;
-import com.foodymoody.be.notification_setting.application.service.NotificationSettingReadService;
+import com.foodymoody.be.notification_setting.application.usecase.NotificationSettingReadUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +24,7 @@ public class FeedEventHandler {
 
     private final MemberReadService memberService;
     private final FollowRepository followRepository;
-    private final NotificationSettingReadService notificationSettingService;
+    private final NotificationSettingReadUseCase settingReadUseCase;
     private final NotificationWriteService notificationService;
 
     @Async
@@ -36,7 +36,7 @@ public class FeedEventHandler {
                 fromMember, PageRequest.of(0, 100));
         followMemberSummaries.forEach(followMemberSummary -> {
             var toMemberId = followMemberSummary.getId();
-            if (notificationSettingService.isFollowedAllowed(toMemberId)) {
+            if (settingReadUseCase.isFollowedAllowed(toMemberId)) {
                 saveNotification(event, toMemberId);
             }
         });

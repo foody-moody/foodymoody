@@ -7,7 +7,7 @@ import com.foodymoody.be.member.application.service.MemberReadService;
 import com.foodymoody.be.member.domain.MemberFollowedEvent;
 import com.foodymoody.be.notification.application.service.NotificationWriteService;
 import com.foodymoody.be.notification.infra.event.util.NotificationMapper;
-import com.foodymoody.be.notification_setting.application.service.NotificationSettingReadService;
+import com.foodymoody.be.notification_setting.application.usecase.NotificationSettingReadUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberFollowedEventHandler {
 
     private final MemberReadService memberQueryService;
-    private final NotificationSettingReadService notificationSettingService;
+    private final NotificationSettingReadUseCase settingReadUseCase;
     private final NotificationWriteService notificationService;
 
     @Async
@@ -27,7 +27,7 @@ public class MemberFollowedEventHandler {
     @EventListener(MemberFollowedEvent.class)
     public void handle(MemberFollowedEvent event) {
         var toMemberId = event.getToMemberId();
-        if (notificationSettingService.isMemberFollowedEventEnabled(toMemberId)) {
+        if (settingReadUseCase.isMemberFollowedEventEnabled(toMemberId)) {
             var notificationId = IdFactory.createNotificationId();
             var fromMember = memberQueryService.findById(event.getFromMemberId());
             boolean isFollowed = fromMember.isMyFollowing(toMemberId);

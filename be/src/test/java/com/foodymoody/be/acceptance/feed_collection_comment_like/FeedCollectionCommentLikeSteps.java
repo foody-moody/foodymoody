@@ -9,8 +9,9 @@ import io.restassured.specification.RequestSpecification;
 public class FeedCollectionCommentLikeSteps {
 
     public static ExtractableResponse<Response> 피드_컬렉션_댓글에_좋아요를_등록한다(
-            String accessToken,
+            String feedCollectionId,
             String commentId,
+            String accessToken,
             RequestSpecification spec
     ) {
         return RestAssured.given()
@@ -18,21 +19,26 @@ public class FeedCollectionCommentLikeSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .post("/api/feed_collections/comments/{commentId}/likes", commentId)
+                .post(
+                        "/api/feed_collections/{feedCollectionId}/comments/{commentId}/likes", feedCollectionId,
+                        commentId
+                )
                 .then().log().all()
                 .extract();
     }
 
     public static ExtractableResponse<Response> 피드_컬렉션_댓글에_좋아요를_등록한다(
-            String accessToken,
-            String commentId
+            String feedCollectionId,
+            String commentId,
+            String accessToken
     ) {
-        return 피드_컬렉션_댓글에_좋아요를_등록한다(accessToken, commentId, new RequestSpecBuilder().build());
+        return 피드_컬렉션_댓글에_좋아요를_등록한다(feedCollectionId, commentId, accessToken, new RequestSpecBuilder().build());
     }
 
     public static ExtractableResponse<Response> 피드_컬렉션_댓글에_좋아요를_취소한다(
-            String accessToken,
+            String feedCollectionId,
             String commentId,
+            String accessToken,
             RequestSpecification spec
     ) {
         return RestAssured.given()
@@ -40,7 +46,10 @@ public class FeedCollectionCommentLikeSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .delete("/api/feed_collections/comments/{commentId}/likes", commentId)
+                .delete(
+                        "/api/feed_collections/{feedCollectionId}/comments/{commentId}/likes", feedCollectionId,
+                        commentId
+                )
                 .then().log().all()
                 .extract();
     }

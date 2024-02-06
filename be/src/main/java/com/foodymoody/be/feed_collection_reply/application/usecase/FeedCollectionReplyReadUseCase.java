@@ -13,17 +13,16 @@ import org.springframework.stereotype.Service;
 public class FeedCollectionReplyReadUseCase {
 
     private final FeedCollectionReplyReadService readService;
-    private final FeedCollectionReplyMapper mapper;
 
     public Slice<FeedCollectionReplyResponse> fetch(
             FeedCollectionCommentId commentId, MemberId memberId, Pageable pageable
     ) {
         var summaries = readService.fetch(commentId, memberId, pageable);
-        return summaries.map(mapper::toResponse);
+        return summaries.map(FeedCollectionReplyMapper::toResponse);
     }
 
     public Slice<FeedCollectionReplyResponse> fetch(FeedCollectionCommentId commentId, Pageable pageable) {
         var summaries = readService.fetch(commentId, pageable);
-        return summaries.map(mapper::toResponse);
+        return summaries.map(FeedCollectionReplyMapper::toResponse);
     }
 }

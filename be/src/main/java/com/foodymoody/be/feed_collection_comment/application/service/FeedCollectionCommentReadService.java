@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -18,13 +19,15 @@ public class FeedCollectionCommentReadService {
 
     private final FeedCollectionCommentRepository repository;
 
+    @Transactional(readOnly = true)
     public void validateExistence(FeedCollectionCommentId commentId) {
         if (repository.existsById(commentId)) {
             return;
         }
-        throw new IllegalArgumentException("존재하지 않는 댓글입니다.");
+        throw new FeedCollectionCommentNotFoundException();
     }
 
+    @Transactional(readOnly = true)
     public Slice<FeedCollectionCommentSummary> findSummaryAllByIdIn(
             MemberId memberId,
             List<FeedCollectionCommentId> commentIds,
@@ -33,6 +36,7 @@ public class FeedCollectionCommentReadService {
         return repository.findSummaryAllByIdIn(memberId, commentIds, pageable);
     }
 
+    @Transactional(readOnly = true)
     public Slice<FeedCollectionCommentSummary> findSummaryAllByIdIn(
             List<FeedCollectionCommentId> commentIds,
             Pageable pageable
@@ -40,6 +44,7 @@ public class FeedCollectionCommentReadService {
         return repository.findSummaryAllByIdIn(commentIds, pageable);
     }
 
+    @Transactional(readOnly = true)
     public FeedCollectionComment findById(FeedCollectionCommentId toFeedCollectionCommentId) {
         return repository.findById(toFeedCollectionCommentId)
                 .orElseThrow(FeedCollectionCommentNotFoundException::new);

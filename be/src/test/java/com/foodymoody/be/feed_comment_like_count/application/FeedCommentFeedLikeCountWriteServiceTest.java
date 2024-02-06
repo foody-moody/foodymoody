@@ -7,7 +7,7 @@ import com.foodymoody.be.common.util.ids.FeedCommentLikeCountId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.feed_comment_like_count.application.service.FeedCommentLikeCountWriteService;
 import com.foodymoody.be.feed_comment_like_count.domain.FeedCommentLikeCount;
-import com.foodymoody.be.feed_comment_like_count.infra.persistence.jpa.CommentHeartCountJpaRepository;
+import com.foodymoody.be.feed_comment_like_count.infra.persistence.jpa.FeedCommentLikeCountJpaRepository;
 import com.foodymoody.be.utils.SpringBootIntegrationTest;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
@@ -27,16 +27,16 @@ class FeedCommentFeedLikeCountWriteServiceTest {
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
     @Autowired
-    private CommentHeartCountJpaRepository commentHeartCountJpaRepository;
+    private FeedCommentLikeCountJpaRepository feedCommentLikeCountJpaRepository;
 
     @BeforeEach
     void setUp() {
-        commentHeartCountJpaRepository.deleteAll();
+        feedCommentLikeCountJpaRepository.deleteAll();
     }
 
     @AfterEach
     void tearDown() {
-        commentHeartCountJpaRepository.deleteAll();
+        feedCommentLikeCountJpaRepository.deleteAll();
     }
 
     @DisplayName("댓글 하트 카운트를 100번 비동기로 증가시키면 100번 증가한다.")
@@ -45,7 +45,7 @@ class FeedCommentFeedLikeCountWriteServiceTest {
         // given
         FeedCommentId feedCommentId = new FeedCommentId("1");
         FeedCommentLikeCountId feedCommentLikeCountId = IdFactory.createFeedCommentLikeCountId();
-        commentHeartCountJpaRepository.save(new FeedCommentLikeCount(feedCommentLikeCountId, feedCommentId, 1L));
+        feedCommentLikeCountJpaRepository.save(new FeedCommentLikeCount(feedCommentLikeCountId, feedCommentId, 1L));
         CountDownLatch latch = new CountDownLatch(100);
 
         // when
@@ -62,7 +62,8 @@ class FeedCommentFeedLikeCountWriteServiceTest {
         }
 
         // then
-        Optional<FeedCommentLikeCount> heartCount = commentHeartCountJpaRepository.findByFeedCommentId(feedCommentId);
+        Optional<FeedCommentLikeCount> heartCount = feedCommentLikeCountJpaRepository.findByFeedCommentId(
+                feedCommentId);
         assertThat(heartCount).isPresent();
         assertThat(heartCount.get()).hasFieldOrPropertyWithValue("count", 101L);
     }
@@ -73,7 +74,7 @@ class FeedCommentFeedLikeCountWriteServiceTest {
         // given
         FeedCommentId feedCommentId = new FeedCommentId("1");
         FeedCommentLikeCountId feedCommentLikeCountId = IdFactory.createFeedCommentLikeCountId();
-        commentHeartCountJpaRepository.save(new FeedCommentLikeCount(feedCommentLikeCountId, feedCommentId, 100L));
+        feedCommentLikeCountJpaRepository.save(new FeedCommentLikeCount(feedCommentLikeCountId, feedCommentId, 100L));
         CountDownLatch latch = new CountDownLatch(100);
 
         // when
@@ -90,7 +91,8 @@ class FeedCommentFeedLikeCountWriteServiceTest {
         }
 
         // then
-        Optional<FeedCommentLikeCount> heartCount = commentHeartCountJpaRepository.findByFeedCommentId(feedCommentId);
+        Optional<FeedCommentLikeCount> heartCount = feedCommentLikeCountJpaRepository.findByFeedCommentId(
+                feedCommentId);
         assertThat(heartCount).isPresent();
         assertThat(heartCount.get()).hasFieldOrPropertyWithValue("count", 0L);
     }
