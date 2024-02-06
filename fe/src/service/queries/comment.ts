@@ -15,11 +15,11 @@ import {
 import 'service/axios/feed/feed';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
-export const useGetComments = (id: string) => {
+export const useGetComments = (feedId: string) => {
   const { data, hasNextPage, status, isLoading, fetchNextPage, refetch } =
     useInfiniteQuery({
       queryKey: [QUERY_KEY.comments],
-      queryFn: ({ pageParam = 0 }) => getAllComments(pageParam, 10, id),
+      queryFn: ({ pageParam = 0 }) => getAllComments(pageParam, 10, feedId),
       getNextPageParam: (lastPage) => {
         return lastPage.last ? undefined : lastPage.number + 1;
       },
@@ -40,12 +40,12 @@ export const useGetComments = (id: string) => {
   };
 };
 
-export const usePostComment = () => {
+export const usePostComment = (feedId?: string) => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (body: NewCommentBody) => postNewComment(body),
+    mutationFn: (body: NewCommentBody) => postNewComment(body, feedId),
     onSuccess: () => {
       queryClient.invalidateQueries([QUERY_KEY.comments]);
     },
@@ -61,13 +61,13 @@ export const usePostComment = () => {
   });
 };
 
-export const usePutComment = () => {
-  // export const usePutComment = (id: string) => { 피드 id
+export const usePutComment = (feedId?: string) => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (args: EditCommentArgs) => putEditComment(args.id, args.body),
+    mutationFn: (args: EditCommentArgs) =>
+      putEditComment(args.id, args.body, feedId),
     onSuccess: () => {
       queryClient.invalidateQueries([QUERY_KEY.comments]);
     },
@@ -83,12 +83,12 @@ export const usePutComment = () => {
   });
 };
 
-export const useDeleteComment = () => {
+export const useDeleteComment = (feedId?: string) => {
   const toast = useToast();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => deleteComment(id),
+    mutationFn: (commentId: string) => deleteComment(commentId, feedId),
     onSuccess: () => {
       queryClient.invalidateQueries([QUERY_KEY.comments]);
     },
