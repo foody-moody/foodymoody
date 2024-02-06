@@ -106,18 +106,33 @@ class FeedMapperTest {
                 feed);
         List<FeedStoreMoodResponse> moodNames = makeFeedStoreMoodResponse();
         StoreResponse storeResponse = makeNewStoreResponse();
+        FeedId id = feed.getId();
+        LocalDateTime createdAt = feed.getCreatedAt();
+        LocalDateTime updatedAt = feed.getUpdatedAt();
+        String review = feed.getReview();
+        int likeCount = feed.getLikeCount();
 
         // when
-        FeedReadResponse feedReadResponse = FeedMapper.toFeedReadResponse(feedMemberResponse, images, moodNames,
-                false, 0L, storeResponse, feed.getId(), feed.getReview(), feed.getCreatedAt(), feed.getUpdatedAt(),
-                feed.getLikeCount());
+        var feedReadResponse = FeedReadResponse.builder()
+                .id(id)
+                .member(feedMemberResponse)
+                .storeResponse(storeResponse)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .review(review)
+                .storeMood(moodNames)
+                .images(images)
+                .likeCount(likeCount)
+                .isLiked(false)
+                .commentCount(0L)
+                .build();
 
         // then
         assertAll(() -> {
-            assertThat(feedReadResponse.getId()).isEqualTo(feed.getId());
+            assertThat(feedReadResponse.getId()).isEqualTo(id);
             assertThat(feedReadResponse.getMember()).isEqualTo(feedMemberResponse);
             assertThat(feedReadResponse.getStore()).isEqualTo(storeResponse);
-            assertThat(feedReadResponse.getReview()).isEqualTo(feed.getReview());
+            assertThat(feedReadResponse.getReview()).isEqualTo(review);
             assertThat(feedReadResponse.getStoreMood()).isEqualTo(moodNames);
             assertThat(feedReadResponse.getImages()).isEqualTo(images);
         });
@@ -131,28 +146,39 @@ class FeedMapperTest {
         MemberId memberId = makeMemberId();
         String profileImageUrl = makeProfileImageUrl();
         String nickname = makeNickname();
-        FeedMemberResponse makeFeedMemberResponse = makeFeedMemberResponse(memberId, profileImageUrl, nickname);
-        List<FeedStoreMoodResponse> makeFeedStoreMoodResponses = makeFeedStoreMoodResponse();
-        List<FeedImageMenuResponse> makeFeedImageMenuResponses = makeFeedImageMenuResponse(feed);
+        FeedMemberResponse feedMemberResponse = makeFeedMemberResponse(memberId, profileImageUrl, nickname);
+        List<FeedStoreMoodResponse> feedStoreMoodResponses = makeFeedStoreMoodResponse();
+        List<FeedImageMenuResponse> feedImageMenuResponses = makeFeedImageMenuResponse(feed);
         StoreResponse storeResponse = makeNewStoreResponse();
 
         // when
-        FeedReadAllResponse feedReadAllResponse = FeedMapper.makeFeedReadAllResponse(makeFeedMemberResponse,
-                makeFeedStoreMoodResponses,
-                makeFeedImageMenuResponses,
-                false,
-                0L,
-                storeResponse, feed.getId(), feed.getReview(), feed.getCreatedAt(), feed.getUpdatedAt(),
-                feed.getLikeCount());
+        FeedId id = feed.getId();
+        LocalDateTime createdAt = feed.getCreatedAt();
+        LocalDateTime updatedAt = feed.getUpdatedAt();
+        String review = feed.getReview();
+        int likeCount = feed.getLikeCount();
+        var feedReadAllResponse = FeedReadAllResponse.builder()
+                .id(id)
+                .member(feedMemberResponse)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .storeResponse(storeResponse)
+                .review(review)
+                .storeMood(feedStoreMoodResponses)
+                .images(feedImageMenuResponses)
+                .likeCount(likeCount)
+                .isLiked(false)
+                .commentCount(0L)
+                .build();
 
         // then
         assertAll(() -> {
-            assertThat(feedReadAllResponse.getId()).isEqualTo(feed.getId());
-            assertThat(feedReadAllResponse.getMember()).isEqualTo(makeFeedMemberResponse);
+            assertThat(feedReadAllResponse.getId()).isEqualTo(id);
+            assertThat(feedReadAllResponse.getMember()).isEqualTo(feedMemberResponse);
             assertThat(feedReadAllResponse.getStore()).isEqualTo(storeResponse);
-            assertThat(feedReadAllResponse.getReview()).isEqualTo(feed.getReview());
-            assertThat(feedReadAllResponse.getStoreMood()).isEqualTo(makeFeedStoreMoodResponses);
-            assertThat(feedReadAllResponse.getImages()).isEqualTo(makeFeedImageMenuResponses);
+            assertThat(feedReadAllResponse.getReview()).isEqualTo(review);
+            assertThat(feedReadAllResponse.getStoreMood()).isEqualTo(feedStoreMoodResponses);
+            assertThat(feedReadAllResponse.getImages()).isEqualTo(feedImageMenuResponses);
         });
     }
 

@@ -1,6 +1,5 @@
 package com.foodymoody.be.feed.application.usecase;
 
-import static com.foodymoody.be.feed.application.FeedMapper.makeFeedReadAllResponse;
 import static com.foodymoody.be.feed.application.FeedMapper.makeFeedStoreMoodResponses;
 import static com.foodymoody.be.feed.application.FeedMapper.makeImageIds;
 import static com.foodymoody.be.feed.application.FeedMapper.toFeedMemberResponse;
@@ -115,15 +114,15 @@ public class FeedUseCase {
 
         List<FeedReadAllResponse> responses;
         if (memberId == null) {
-            responses = makeFeedReadAllResponseListWhenMemberIdIsNull(feeds);
+            responses = makeFeedReadAllResponseList(feeds);
         } else {
-            responses = makeFeedReadAllResponseListWhenMemberIdIsNotNull(feeds, memberId);
+            responses = makeFeedReadAllResponseList(feeds, memberId);
         }
 
         return new SliceImpl<>(responses, pageable, feeds.hasNext());
     }
 
-    private List<FeedReadAllResponse> makeFeedReadAllResponseListWhenMemberIdIsNull(Slice<Feed> feeds) {
+    private List<FeedReadAllResponse> makeFeedReadAllResponseList(Slice<Feed> feeds) {
         return feeds.stream()
                 .map(feed -> {
                             final boolean isLiked = false;
@@ -139,33 +138,30 @@ public class FeedUseCase {
                             String storeName = storeReadService.findById(storeId).getName();
                             Long commentCount = findCommentCount(id);
 
-                            var storeResponse = FeedMapper.makeStoreResponse(
-                                    storeId,
-                                    storeName
-                            );
+                            var storeResponse = FeedMapper.makeStoreResponse(storeId, storeName);
                             var feedMemberResponse = makeFeedMemberResponse(memberId);
                             var feedStoreMoodResponses = makeFeedStoreMoodResponses(storeMoods);
                             var feedImageMenuResponses = makeFeedImageMenuResponses(imageMenus);
 
-                            return makeFeedReadAllResponse(
-                                    feedMemberResponse,
-                                    feedStoreMoodResponses,
-                                    feedImageMenuResponses,
-                                    isLiked,
-                                    commentCount,
-                                    storeResponse,
-                                    id,
-                                    review,
-                                    createdAt,
-                                    updatedAt,
-                                    likeCount
-                            );
+                            return FeedReadAllResponse.builder()
+                                    .id(id)
+                                    .member(feedMemberResponse)
+                                    .createdAt(createdAt)
+                                    .updatedAt(updatedAt)
+                                    .storeResponse(storeResponse)
+                                    .review(review)
+                                    .storeMood(feedStoreMoodResponses)
+                                    .images(feedImageMenuResponses)
+                                    .likeCount(likeCount)
+                                    .isLiked(isLiked)
+                                    .commentCount(commentCount)
+                                    .build();
                         }
                 )
                 .collect(Collectors.toList());
     }
 
-    private List<FeedReadAllResponse> makeFeedReadAllResponseListWhenMemberIdIsNotNull(
+    private List<FeedReadAllResponse> makeFeedReadAllResponseList(
             Slice<Feed> feeds,
             MemberId memberId
     ) {
@@ -185,26 +181,23 @@ public class FeedUseCase {
                             Long commentCount = findCommentCount(id);
 
                             var feedMemberResponse = makeFeedMemberResponse(feedMemberId);
-                            var storeMoodResponses = makeFeedStoreMoodResponses(storeMoods);
-                            var storeResponse = FeedMapper.makeStoreResponse(
-                                    storeId,
-                                    storeName
-                            );
+                            var feedStoreMoodResponses = makeFeedStoreMoodResponses(storeMoods);
+                            var storeResponse = FeedMapper.makeStoreResponse(storeId, storeName);
                             var feedImageMenuResponses = makeFeedImageMenuResponses(imageMenus);
 
-                            return makeFeedReadAllResponse(
-                                    feedMemberResponse,
-                                    storeMoodResponses,
-                                    feedImageMenuResponses,
-                                    isLiked,
-                                    commentCount,
-                                    storeResponse,
-                                    id,
-                                    review,
-                                    createdAt,
-                                    updatedAt,
-                                    likeCount
-                            );
+                            return FeedReadAllResponse.builder()
+                                    .id(id)
+                                    .member(feedMemberResponse)
+                                    .createdAt(createdAt)
+                                    .updatedAt(updatedAt)
+                                    .storeResponse(storeResponse)
+                                    .review(review)
+                                    .storeMood(feedStoreMoodResponses)
+                                    .images(feedImageMenuResponses)
+                                    .likeCount(likeCount)
+                                    .isLiked(isLiked)
+                                    .commentCount(commentCount)
+                                    .build();
                         }
                 )
                 .collect(Collectors.toList());
@@ -214,10 +207,8 @@ public class FeedUseCase {
     public FeedReadResponse read(FeedId id, MemberId memberId) {
         Feed feed = feedReadService.findFeed(id);
         List<ImageMenu> imageMenus = feed.getImageMenus();
-        List<FeedImageMenuResponse> images = makeFeedImageMenuResponses(imageMenus);
         List<StoreMood> storeMoods = feed.getStoreMoods();
         MemberId feedMemberId = feed.getMemberId();
-        FeedMemberResponse feedMemberResponse = makeFeedMemberResponse(feedMemberId);
         boolean isLiked = feedLikeService.fetchIsLiked(id, memberId);
         String review = feed.getReview();
         LocalDateTime createdAt = feed.getCreatedAt();
@@ -227,41 +218,40 @@ public class FeedUseCase {
         String storeName = storeReadService.findById(storeId).getName();
         Long commentCount = findCommentCount(id);
 
+        var feedImageMenuResponses = makeFeedImageMenuResponses(imageMenus);
+        var feedMemberResponse = makeFeedMemberResponse(feedMemberId);
         var feedStoreMoodResponses = makeFeedStoreMoodResponses(storeMoods);
-        var storeResponse = FeedMapper.makeStoreResponse(
-                storeId,
-                storeName
-        );
+        var storeResponse = FeedMapper.makeStoreResponse(storeId, storeName);
 
         if (memberId == null) {
-            return FeedMapper.toFeedReadResponse(
-                    feedMemberResponse,
-                    images,
-                    feedStoreMoodResponses,
-                    false,
-                    commentCount,
-                    storeResponse,
-                    id,
-                    review,
-                    createdAt,
-                    updatedAt,
-                    likeCount
-            );
+            return FeedReadResponse.builder()
+                    .id(id)
+                    .member(feedMemberResponse)
+                    .storeResponse(storeResponse)
+                    .createdAt(createdAt)
+                    .updatedAt(updatedAt)
+                    .review(review)
+                    .storeMood(feedStoreMoodResponses)
+                    .images(feedImageMenuResponses)
+                    .likeCount(likeCount)
+                    .isLiked(false)
+                    .commentCount(commentCount)
+                    .build();
         }
 
-        return FeedMapper.toFeedReadResponse(
-                feedMemberResponse,
-                images,
-                feedStoreMoodResponses,
-                isLiked,
-                commentCount,
-                storeResponse,
-                id,
-                review,
-                createdAt,
-                updatedAt,
-                likeCount
-        );
+        return FeedReadResponse.builder()
+                .id(id)
+                .member(feedMemberResponse)
+                .storeResponse(storeResponse)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .review(review)
+                .storeMood(feedStoreMoodResponses)
+                .images(feedImageMenuResponses)
+                .likeCount(likeCount)
+                .isLiked(isLiked)
+                .commentCount(commentCount)
+                .build();
     }
 
     @Transactional

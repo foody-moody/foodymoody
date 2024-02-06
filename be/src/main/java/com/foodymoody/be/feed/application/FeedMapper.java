@@ -47,30 +47,6 @@ public class FeedMapper {
         return FeedRegisterResponse.of(savedFeed.getId());
     }
 
-    public static FeedReadResponse toFeedReadResponse(
-            FeedMemberResponse feedMemberResponse,
-            List<FeedImageMenuResponse> images,
-            List<FeedStoreMoodResponse> moodNames,
-            boolean isLiked,
-            Long commentCount,
-            StoreResponse storeResponse, FeedId id, String review, LocalDateTime createdAt, LocalDateTime updatedAt,
-            int likeCount
-    ) {
-        return FeedReadResponse.builder()
-                .id(id)
-                .member(feedMemberResponse)
-                .storeResponse(storeResponse)
-                .review(review)
-                .storeMood(moodNames)
-                .images(images)
-                .createdAt(createdAt)
-                .updatedAt(updatedAt)
-                .isLiked(isLiked)
-                .likeCount(likeCount)
-                .commentCount(commentCount)
-                .build();
-    }
-
     public static FeedServiceRegisterRequest toServiceRegisterRequest(FeedRegisterRequest request, MemberId memberId) {
         return FeedServiceRegisterRequest.builder()
                 .memberId(memberId)
@@ -132,33 +108,6 @@ public class FeedMapper {
                 .build();
     }
 
-    public static FeedReadAllResponse makeFeedReadAllResponse(
-            FeedMemberResponse makeFeedMemberResponse,
-            List<FeedStoreMoodResponse> feedStoreMoodResponses,
-            List<FeedImageMenuResponse> feedImageMenuResponses,
-            boolean isLiked,
-            Long commentCount,
-            StoreResponse storeResponse,
-            FeedId id,
-            String review,
-            LocalDateTime createdAt,
-            LocalDateTime updatedAt,
-            int likeCount
-    ) {
-        return FeedReadAllResponse.builder()
-                .id(id)
-                .member(makeFeedMemberResponse)
-                .storeResponse(storeResponse)
-                .review(review)
-                .storeMood(feedStoreMoodResponses)
-                .images(feedImageMenuResponses)
-                .createdAt(createdAt)
-                .updatedAt(updatedAt)
-                .commentCount(commentCount)
-                .isLiked(isLiked)
-                .likeCount(likeCount)
-                .build();
-    }
 
     public static List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<StoreMood> storeMoods) {
         return storeMoods.stream()
