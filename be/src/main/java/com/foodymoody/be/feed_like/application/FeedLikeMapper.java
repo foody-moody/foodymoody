@@ -28,7 +28,13 @@ public class FeedLikeMapper {
             boolean isLiked,
             int feedHeartCount
     ) {
-        return new FeedLikeResponse(id, feedId, memberId, isLiked, feedHeartCount);
+        return FeedLikeResponse.builder()
+                .id(id)
+                .feedId(feedId)
+                .memberId(memberId)
+                .isLiked(isLiked)
+                .feedHeartCount(feedHeartCount)
+                .build();
     }
 
 }
