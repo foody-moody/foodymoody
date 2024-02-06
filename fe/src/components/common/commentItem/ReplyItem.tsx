@@ -16,20 +16,26 @@ import { UserImage } from '../userImage/UserImage';
 
 type Props = {
   commentId: string;
+  feedId?: string;
   reply: ReplyItemType;
   createdAt: string;
 };
 
-export const ReplyItem: React.FC<Props> = ({ commentId, reply, createdAt }) => {
+export const ReplyItem: React.FC<Props> = ({
+  commentId,
+  feedId,
+  reply,
+  createdAt,
+}) => {
   const [isEdit, setIsEdit] = useState(false);
   const { openModal, closeModal } = useModal<'commentAlert'>();
   const { isLogin, userInfo } = useAuthState();
   const { navigateToLogin } = usePageNavigator();
-  const { refetch: getReplies } = useGetReplies(commentId);
-  const { mutate: editMutate } = usePutComment();
-  const { mutate: deleteMutate } = useDeleteComment();
-  const { mutate: likeMutate } = usePostReplyLike(getReplies);
-  const { mutate: unLikeMutate } = useDeleteReplyLike(getReplies);
+  const { refetch: getReplies } = useGetReplies(commentId, feedId);
+  const { mutate: editMutate } = usePutComment(feedId);
+  const { mutate: deleteMutate } = useDeleteComment(feedId);
+  const { mutate: likeMutate } = usePostReplyLike(getReplies, feedId);
+  const { mutate: unLikeMutate } = useDeleteReplyLike(getReplies, feedId);
 
   const { value, handleChange, isValid } = useInput({
     initialValue: reply.content,
