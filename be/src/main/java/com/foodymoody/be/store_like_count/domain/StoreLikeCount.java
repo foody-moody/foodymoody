@@ -1,10 +1,9 @@
 package com.foodymoody.be.store_like_count.domain;
 
-import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.StoreId;
-import com.foodymoody.be.common.util.ids.StoreLikeCountId;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Version;
@@ -18,6 +17,7 @@ public class StoreLikeCount {
     @EmbeddedId
     @AttributeOverride(name = "value", column = @Column(name = "store_id"))
     private StoreId storeId;
+    @Embedded
     private Count count;
     @Version
     private Long version;
