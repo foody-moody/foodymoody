@@ -8,8 +8,6 @@ import com.foodymoody.be.feed_collection.infra.persistence.jpa.FeedCollectionMoo
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
@@ -29,8 +27,8 @@ public class FeedCollectionMoodRepositoryImpl implements FeedCollectionMoodRepos
     }
 
     @Override
-    public Slice<FeedCollectionMood> findAll(Pageable pageable) {
-        return repository.findAll(pageable);
+    public List<FeedCollectionMood> findAll() {
+        return repository.findAll();
     }
 
     @Override

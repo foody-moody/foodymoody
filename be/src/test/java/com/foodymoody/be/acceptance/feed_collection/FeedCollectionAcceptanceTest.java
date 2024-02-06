@@ -4,6 +4,8 @@ import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.개별_피드_컬렉션_조회한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.전체_피드_컬렉션_조회한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.컬렉션_커멘트를_조회한다;
+import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.타이틀_없이_피드_컬렉션_등록한다;
+import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.타이틀과_공개여부만으로_피드_컬렉션_등록한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_등록하고_아이디를_가져온다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_등록하고_피드_리스트도_추가한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_등록한다;
@@ -66,6 +68,32 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
 
         // then
         assertThat(response.statusCode()).isEqualTo(201);
+    }
+
+    @DisplayName("피드 컬렉션을 생성 요청시 타이틀이랑 공개여부만 있으면 성공하고 201을 반환한다.")
+    @Test
+    void when_request_create_collection_with_only_title_and_public_then_return_code_201() {
+        // docs
+        api_문서_타이틀("feed_collection_request_create_only_title_and_public_success", spec);
+
+        // when
+        var response = 타이틀과_공개여부만으로_피드_컬렉션_등록한다(회원아티_액세스토큰, spec);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(201);
+    }
+
+    @DisplayName("피드 컬렉션을 생성 요청시 타이틀이 없으면 실패하고 400을 반환한다.")
+    @Test
+    void when_request_create_collection_without_title_then_return_code_400() {
+        // docs
+        api_문서_타이틀("feed_collection_request_create_without_title_fail", spec);
+
+        // when
+        var response = 타이틀_없이_피드_컬렉션_등록한다(회원아티_액세스토큰, spec);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(400);
     }
 
     @DisplayName("피드 컬렉션을 전체 조회 성공하면 200을 반환한다.")

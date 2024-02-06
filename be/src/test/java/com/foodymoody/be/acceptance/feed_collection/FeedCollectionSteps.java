@@ -40,6 +40,40 @@ public class FeedCollectionSteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 타이틀과_공개여부만으로_피드_컬렉션_등록한다(
+            String accessToken,
+            RequestSpecification spec
+    ) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("title", "테스트 컬렉션");
+        body.put("private", false);
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .body(body).contentType("application/json")
+                .when()
+                .post("/api/feed_collections")
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 타이틀_없이_피드_컬렉션_등록한다(
+            String accessToken,
+            RequestSpecification spec
+    ) {
+        Map<String, Object> body = new HashMap<>();
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .body(body).contentType("application/json")
+                .when()
+                .post("/api/feed_collections")
+                .then().log().all()
+                .extract();
+    }
+
     public static String 피드_컬렉션_등록하고_아이디를_가져온다(String accessToken) {
         return 피드_컬렉션_등록한다(List.of(), accessToken).jsonPath().getString("id");
     }
