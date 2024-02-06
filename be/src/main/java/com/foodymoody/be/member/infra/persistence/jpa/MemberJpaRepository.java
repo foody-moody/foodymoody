@@ -1,7 +1,7 @@
 package com.foodymoody.be.member.infra.persistence.jpa;
 
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.member.application.dto.response.FeedPreviewResponse;
+import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
 import com.foodymoody.be.member.application.dto.response.MyCollectionTitleResponse;
 import com.foodymoody.be.member.domain.Member;
@@ -21,14 +21,14 @@ public interface MemberJpaRepository extends JpaRepository<Member, MemberId>, Me
             + "WHERE m.id = :id")
     Optional<FeedAuthorSummary> fetchFeedAuthorSummaryById(MemberId id);
 
-    @Query("SELECT new com.foodymoody.be.member.application.dto.response.FeedPreviewResponse (f.id, i.url) "
+    @Query("SELECT new com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse (f.id, i.url) "
                     + "FROM Member m "
                     + "LEFT JOIN Feed f ON f.memberId = m.id "
                     + "INNER JOIN f.imageMenus.imageMenusList im "
                     + "INNER JOIN FETCH Image i ON im.imageId = i.id "
                     + "WHERE m.id = :id AND im.displayOrder = 0 "
                     + "ORDER BY f.createdAt DESC")
-    Slice<FeedPreviewResponse> fetchFeedPreviewResponsesById(MemberId id, Pageable pageable);
+    Slice<MyFeedPreviewResponse> fetchFeedPreviewResponsesById(MemberId id, Pageable pageable);
 
     Optional<Member> findByEmail(String email);
 

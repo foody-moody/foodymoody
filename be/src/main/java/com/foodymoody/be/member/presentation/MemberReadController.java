@@ -2,7 +2,7 @@ package com.foodymoody.be.member.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.member.application.dto.response.FeedPreviewResponse;
+import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.FollowMemberSummaryResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import com.foodymoody.be.member.application.dto.response.MyCollectionTitleResponse;
@@ -42,10 +42,10 @@ public class MemberReadController {
     }
 
     @GetMapping("/{id}/feeds")
-    public ResponseEntity<Slice<FeedPreviewResponse>> fetchMemberFeeds(
+    public ResponseEntity<Slice<MyFeedPreviewResponse>> fetchMemberFeeds(
             @PathVariable MemberId id,
             @PageableDefault Pageable pageable) {
-        Slice<FeedPreviewResponse> responses = memberReadService.fetchFeedPreviews(id, pageable);
+        Slice<MyFeedPreviewResponse> responses = memberReadService.fetchFeedPreviews(id, pageable);
         return ResponseEntity.ok().body(responses);
     }
 

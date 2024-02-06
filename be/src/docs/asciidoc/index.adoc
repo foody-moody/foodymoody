@@ -792,3 +792,9 @@ operation::register_store_like_if_success[snippets='http-request,http-response']
 ==== 성공
 
 operation::cancel_store_like_if_success[snippets='http-request,http-response']
+
+==== 가게별 피드 조회
+
+==== 성공
+
+operation::fetch_store_feeds_success[snippets='http-request,http-response']
