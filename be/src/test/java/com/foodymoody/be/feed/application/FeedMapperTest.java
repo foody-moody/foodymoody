@@ -243,19 +243,21 @@ class FeedMapperTest {
     @NotNull
     private List<FeedStoreMoodResponse> makeFeedStoreMoodResponse() {
         return List.of(
-                new FeedStoreMoodResponse(IdFactory.createStoreMoodId("1"), "가족과 함께"),
-                new FeedStoreMoodResponse(IdFactory.createStoreMoodId("2"), "혼밥"));
+                FeedStoreMoodResponse.from(IdFactory.createStoreMoodId("1"), "가족과 함께"),
+                FeedStoreMoodResponse.from(IdFactory.createStoreMoodId("2"), "혼밥"));
     }
 
     @NotNull
     private List<FeedImageMenuResponse> makeFeedImageMenuResponse(Feed feed) {
-        return List.of(new FeedImageMenuResponse(feed.getId(),
-                        new FeedImageResponse(IdFactory.createImageId("1"),
+        return List.of(FeedImageMenuResponse.from(feed.getId(),
+                        FeedImageResponse.from(IdFactory.createImageId("1"),
                                 "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1"),
-                        new FeedMenuResponse("라면", 5)),
-                new FeedImageMenuResponse(feed.getId(), new FeedImageResponse(IdFactory.createImageId("2"),
-                        "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2"),
-                        new FeedMenuResponse("짬뽕", 4)));
+                        FeedMenuResponse.from("라면", 5)),
+                FeedImageMenuResponse.from(feed.getId(),
+                        FeedImageResponse.from(IdFactory.createImageId("2"),
+                                "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2"),
+                        FeedMenuResponse.from("짬뽕", 4))
+        );
     }
 
     @NotNull
@@ -265,10 +267,17 @@ class FeedMapperTest {
     }
 
     @NotNull
-    private FeedMemberResponse makeFeedMemberResponse(MemberId memberId, String profileImageUrl,
-                                                      String nickname) {
-        return new FeedMemberResponse(memberId, profileImageUrl, nickname,
-                new FeedTasteMoodResponse(memberId, nickname));
+    private FeedMemberResponse makeFeedMemberResponse(
+            MemberId memberId,
+            String profileImageUrl,
+            String nickname
+    ) {
+        return FeedMemberResponse.builder()
+                .id(memberId)
+                .profileImageUrl(profileImageUrl)
+                .nickname(nickname)
+                .tasteMood(FeedTasteMoodResponse.from(memberId, nickname))
+                .build();
     }
 
     @NotNull

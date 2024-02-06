@@ -2,10 +2,12 @@ package com.foodymoody.be.feed.application.dto.response;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class FeedImageMenuResponse {
 
@@ -13,14 +15,12 @@ public class FeedImageMenuResponse {
     private FeedImageResponse image;
     private FeedMenuResponse menu;
 
-    public FeedImageMenuResponse(
+    public static FeedImageMenuResponse from(
             FeedId id,
             FeedImageResponse image,
             FeedMenuResponse menu
     ) {
-        this.id = id;
-        this.image = image;
-        this.menu = menu;
+        return new FeedImageMenuResponse(id, image, menu);
     }
 
 }
