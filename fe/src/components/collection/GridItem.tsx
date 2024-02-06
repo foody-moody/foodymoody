@@ -9,10 +9,11 @@ import { PATH } from 'constants/path';
 type Props = {
   collection: CollectionItem | CarouselCollectionItem;
   author?: Author;
+  isDragging: boolean;
 };
 
 export const GridItem = forwardRef<HTMLLIElement, Props>(
-  ({ collection, author }, ref) => {
+  ({ collection, author, isDragging }, ref) => {
     const navigate = useNavigate();
 
     const handleNavigateToDetail = (id: string) => {
@@ -24,13 +25,16 @@ export const GridItem = forwardRef<HTMLLIElement, Props>(
       sessionStorage.setItem('profileId', id);
     };
 
+    const handleClickGrid = () => {
+      if (isDragging) {
+        return;
+      } else {
+        handleNavigateToDetail(collection.id);
+      }
+    };
+
     return (
-      <Wrapper
-        ref={ref}
-        onClick={() => {
-          handleNavigateToDetail(collection.id);
-        }}
-      >
+      <Wrapper ref={ref} onClick={handleClickGrid}>
         <ImageContainer>
           <img
             src={
