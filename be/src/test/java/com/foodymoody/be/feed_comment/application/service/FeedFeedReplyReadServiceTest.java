@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import com.foodymoody.be.common.exception.ErrorMessage;
-import com.foodymoody.be.common.exception.ReplyNotExistsException;
+import com.foodymoody.be.common.exception.FeedReplyNotFoundException;
 import com.foodymoody.be.feed_comment.domain.repository.FeedReplyRepository;
 import com.foodymoody.be.feed_comment.util.FeedCommentFixture;
 import java.util.Optional;
@@ -35,7 +35,7 @@ class FeedFeedReplyReadServiceTest {
 
         // when,then
         assertThatThrownBy(() -> feedReplyReadService.fetchById(id))
-                .isInstanceOf(ReplyNotExistsException.class)
+                .isInstanceOf(FeedReplyNotFoundException.class)
                 .message().isEqualTo(ErrorMessage.REPLY_NOT_EXISTS.getMessage());
     }
 
@@ -59,7 +59,7 @@ class FeedFeedReplyReadServiceTest {
 
         // when,then
         assertThatThrownBy(() -> feedReplyReadService.validate(id))
-                .isInstanceOf(ReplyNotExistsException.class)
+                .isInstanceOf(FeedReplyNotFoundException.class)
                 .message().isEqualTo(ErrorMessage.REPLY_NOT_EXISTS.getMessage());
     }
 
