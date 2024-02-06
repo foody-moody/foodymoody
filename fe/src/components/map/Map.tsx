@@ -53,12 +53,12 @@ export const NaverMap: React.FC<Props> = ({ data }) => {
     };
 
     const map = new naver.maps.Map(mapRef.current, mapOptions);
-    new naver.maps.Marker({
+    const marker = new naver.maps.Marker({
       position: location,
       map,
     });
 
-    naver.maps.Event.addListener(map, 'click', function () {
+    const handleClick = () => {
       const url =
         'http://map.naver.com/index.nhn?enc=utf8&lng=' +
         coord.x +
@@ -66,7 +66,10 @@ export const NaverMap: React.FC<Props> = ({ data }) => {
         coord.y +
         `&pinTitle=${data?.name}&pinType=SITE`;
       window.open(url);
-    });
+    };
+
+    naver.maps.Event.addListener(map, 'click', handleClick);
+    naver.maps.Event.addListener(marker, 'click', handleClick);
   }, [coord]);
 
   return <Wrapper ref={mapRef} />;

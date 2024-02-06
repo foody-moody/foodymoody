@@ -5,6 +5,7 @@ type ModalPropsMap = {
   test2: Test2ModalProps;
   commentAlert: CommentAlertProps;
   accountAlert: AccountAlertProps;
+  profileImageAlert: ProfileImageAlertProps;
   collection: CollectionModalProps;
 };
 
@@ -36,6 +37,12 @@ type CommentAlertProps = {
 };
 
 type AccountAlertProps = {
+  onDelete?(): void;
+  onClose?(): void;
+};
+
+type ProfileImageAlertProps = {
+  onEdit?(): void;
   onDelete?(): void;
   onClose?(): void;
 };

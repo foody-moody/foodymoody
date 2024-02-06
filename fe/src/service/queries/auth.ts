@@ -105,7 +105,8 @@ export const useRefreshToken = () => {
   const refreshTokenMutation = useMutation(
     () => {
       // 리프레쉬 토큰 만료될것같으면 clearInfo?
-      if (!refreshToken) throw new Error('No refresh token available');
+      // if (!refreshToken) throw new Error('No refresh token available');
+      // return fetchRefresh(refreshToken);
       return fetchRefresh(refreshToken);
     },
     {

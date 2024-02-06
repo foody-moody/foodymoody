@@ -5,6 +5,7 @@ import { modalSelector } from 'recoil/modal/selector';
 import { AccountAlert } from './AccountAlert';
 import { CollectionModal } from './CollectionModal';
 import { CommentAlert } from './CommentAlert';
+import { ProfileImageAlert } from './ProfileImageAlert';
 import { TestModal, Test2Modal } from './TestModal';
 
 const MODAL_COMPONENTS: {
@@ -13,6 +14,7 @@ const MODAL_COMPONENTS: {
   commentAlert: CommentAlert,
   accountAlert: AccountAlert,
   collection: CollectionModal,
+  profileImageAlert: ProfileImageAlert,
   test: TestModal,
   test2: Test2Modal,
 };
