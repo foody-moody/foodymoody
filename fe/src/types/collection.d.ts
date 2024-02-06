@@ -33,3 +33,10 @@ type CarouselCollectionItem = {
   feedCount: number;
   liked: boolean;
 };
+
+type CollectionForm = {
+  title: string;
+  description: string;
+  private: boolean;
+  moodIds: string[];
+};
