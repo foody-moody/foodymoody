@@ -108,8 +108,9 @@ class FeedMapperTest {
         StoreResponse storeResponse = makeNewStoreResponse();
 
         // when
-        FeedReadResponse feedReadResponse = FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images, moodNames,
-                false, 0L, storeResponse);
+        FeedReadResponse feedReadResponse = FeedMapper.toFeedReadResponse(feedMemberResponse, images, moodNames,
+                false, 0L, storeResponse, feed.getId(), feed.getReview(), feed.getCreatedAt(), feed.getUpdatedAt(),
+                feed.getLikeCount());
 
         // then
         assertAll(() -> {
@@ -136,12 +137,13 @@ class FeedMapperTest {
         StoreResponse storeResponse = makeNewStoreResponse();
 
         // when
-        FeedReadAllResponse feedReadAllResponse = FeedMapper.makeFeedReadAllResponse(feed, makeFeedMemberResponse,
+        FeedReadAllResponse feedReadAllResponse = FeedMapper.makeFeedReadAllResponse(makeFeedMemberResponse,
                 makeFeedStoreMoodResponses,
                 makeFeedImageMenuResponses,
                 false,
                 0L,
-                storeResponse);
+                storeResponse, feed.getId(), feed.getReview(), feed.getCreatedAt(), feed.getUpdatedAt(),
+                feed.getLikeCount());
 
         // then
         assertAll(() -> {

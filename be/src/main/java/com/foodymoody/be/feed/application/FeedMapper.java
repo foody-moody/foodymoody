@@ -30,9 +30,7 @@ import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed_like_count.domain.entity.FeedLikeCount;
-import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
-import com.foodymoody.be.menu.domain.entity.Menu;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,24 +49,24 @@ public class FeedMapper {
 
     public static FeedReadResponse toFeedReadResponse(
             FeedMemberResponse feedMemberResponse,
-            Feed feed,
             List<FeedImageMenuResponse> images,
             List<FeedStoreMoodResponse> moodNames,
             boolean isLiked,
             Long commentCount,
-            StoreResponse storeResponse
+            StoreResponse storeResponse, FeedId id, String review, LocalDateTime createdAt, LocalDateTime updatedAt,
+            int likeCount
     ) {
         return FeedReadResponse.builder()
-                .id(feed.getId())
+                .id(id)
                 .member(feedMemberResponse)
                 .storeResponse(storeResponse)
-                .review(feed.getReview())
+                .review(review)
                 .storeMood(moodNames)
                 .images(images)
-                .createdAt(feed.getCreatedAt())
-                .updatedAt(feed.getUpdatedAt())
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
                 .isLiked(isLiked)
-                .likeCount(feed.getLikeCount())
+                .likeCount(likeCount)
                 .commentCount(commentCount)
                 .build();
     }
@@ -132,26 +130,30 @@ public class FeedMapper {
     }
 
     public static FeedReadAllResponse makeFeedReadAllResponse(
-            Feed feed,
             FeedMemberResponse makeFeedMemberResponse,
             List<FeedStoreMoodResponse> makeFeedStoreMoodResponses,
             List<FeedImageMenuResponse> makeFeedImageMenuResponses,
             boolean isLiked,
             Long commentCount,
-            StoreResponse storeResponse
+            StoreResponse storeResponse,
+            FeedId id,
+            String review,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            int likeCount
     ) {
         return FeedReadAllResponse.builder()
-                .id(feed.getId())
+                .id(id)
                 .member(makeFeedMemberResponse)
                 .storeResponse(storeResponse)
-                .review(feed.getReview())
+                .review(review)
                 .storeMood(makeFeedStoreMoodResponses)
                 .images(makeFeedImageMenuResponses)
-                .createdAt(feed.getCreatedAt())
-                .updatedAt(feed.getUpdatedAt())
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
                 .commentCount(commentCount)
                 .isLiked(isLiked)
-                .likeCount(feed.getLikeCount())
+                .likeCount(likeCount)
                 .build();
     }
 
