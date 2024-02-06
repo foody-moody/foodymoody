@@ -23,7 +23,7 @@ export const useEditProfileImage = (memberId: string) => {
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (body: ProfileImageBody) => patchProfileImage(memberId, body),
+    mutationFn: (body: ProfileImageBody) => patchProfileImage(body),
     onSuccess: () => {
       toast.success('프로필 이미지를 수정했습니다.');
       queryClient.invalidateQueries([QUERY_KEY.profile, memberId]);
@@ -42,7 +42,7 @@ export const useEditProfile = (memberId: string) => {
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (body: ProfileEditBody) => patchEditProfile(memberId, body),
+    mutationFn: (body: ProfileEditBody) => patchEditProfile(body),
     onSuccess: () => {
       toast.success('프로필을 수정했습니다.');
       queryClient.invalidateQueries([QUERY_KEY.profile, memberId]);
