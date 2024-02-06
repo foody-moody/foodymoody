@@ -1,6 +1,12 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { useMemo } from 'react';
-import { getAllCollections } from 'service/axios/collection/collection';
+import { useToast } from 'recoil/toast/useToast';
+import {
+  addUserCollection,
+  getAllCollections,
+  getUserCollectionTitle,
+} from 'service/axios/collection/collection';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
 export const useGetCollection = (sortBy?: string) => {
@@ -33,3 +39,17 @@ export const useUserCollectionTitle = () =>
     queryKey: [QUERY_KEY.myCollections],
     queryFn: () => getUserCollectionTitle(),
   });
+
+export const useAddUserCollection = () => {
+  const toast = useToast();
+
+  return useMutation({
+    mutationFn: (collectionForm: CollectionForm) =>
+      addUserCollection(collectionForm),
+
+    onError: (error: AxiosError<CustomErrorResponse>) => {
+      const errorData = error?.response?.data;
+      errorData && toast.error(errorData.message);
+    },
+  });
+};
