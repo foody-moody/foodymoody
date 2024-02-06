@@ -1,6 +1,7 @@
 export const END_POINT = {
   login: `/auth/login`,
   logout: `/auth/logout`,
+  register: `/members`,
   refresh: `/auth/token`,
   tasteMood: `/members/taste-moods`,
   storeMood: `/feeds/store-moods`,
@@ -15,15 +16,20 @@ export const END_POINT = {
       ? `/members/${id}/collections?sort=${sort}`
       : `/members/${id}/collections`,
   feedLike: (id: string) => `/feeds/${id}/likes`,
-  commentLike: (id: string) => `/comments/${id}/likes`,
-  replyLike: ({ commentId, replyId }: ReplyLike) =>
-    `comments/${commentId}/replies/${replyId}/likes`,
-  member: (id?: string) => (id ? `/members/${id}` : `/members`),
+  commentLike: (commentId: string, feedId?: string) =>
+    `/feed/${feedId}/comments/${commentId}/likes`,
+  replyLike: ({ commentId, replyId }: ReplyLike, feedId?: string) =>
+    `/feed/${feedId}/comments/${commentId}/replies/${replyId}/likes`,
+  member: (id?: string) => (id ? `/members/${id}` : `/members/me`),
   memberFeeds: (id?: string) => `/members/${id}/feeds`,
   password: (id?: string) => `/members/${id}/password`,
   feed: (id?: string) => (id ? `/feeds/${id}` : `/feeds`),
-  comment: (id?: string) => (id ? `/comments/${id}` : `/comments`),
-  reply: (id: string) => `/comments/${id}/replies`,
+  comment: (feedId?: string, commentId?: string) =>
+    commentId
+      ? `/feed/${feedId}/comments/${commentId}`
+      : `/feed/${feedId}/comments`,
+  reply: (feedId?: string, commentId?: string) =>
+    `/feed/${feedId}/comments/${commentId}/replies`,
   imageUpload: (type: 'feed' | 'user') =>
     type === 'feed' ? `/images/feeds` : `/images/members`,
   nickName: (nickname: string) =>
@@ -31,6 +37,8 @@ export const END_POINT = {
   notifications: (id?: string) =>
     id ? `/notifications/${id}` : `/notifications`,
   notificationSettings: `/notification/settings`,
-  followings: (id?: string) => `/members/${id}/followings`,
-  followers: (id?: string) => `/members/${id}/followers`,
+  followings: (id?: string) =>
+    id ? `/members/${id}/followings` : `/members/me/followings`,
+  followers: (id?: string) =>
+    id ? `/members/${id}/followers` : `/members/me/followers`,
 };

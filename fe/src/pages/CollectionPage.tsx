@@ -8,7 +8,6 @@ import { SelectSort } from 'components/sort/SelectSort';
 export const CollectionPage = () => {
   return (
     <Wrapper>
-      {/* <BannerContent /> */}
       <ContentWrapper>
         <HeaderContent>
           <SubTitle>오늘의 컬렉션🎉</SubTitle>
