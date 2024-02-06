@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed_collection_reply.domain;
 
 import com.foodymoody.be.common.event.EventManager;
+import com.foodymoody.be.common.exception.PermissionDeniedAccessException;
 import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
@@ -45,13 +46,7 @@ public class FeedCollectionReply {
         this.deleted = false;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
-        EventManager.raise(FeedCollectionReplyAddedEvent.of(
-                commentId,
-                memberId,
-                id,
-                content,
-                createdAt
-        ));
+        EventManager.raise(toEvent(id, commentId, memberId, content, createdAt));
     }
 
     public void delete(MemberId memberId, LocalDateTime updatedAt) {
@@ -60,7 +55,7 @@ public class FeedCollectionReply {
             this.updatedAt = updatedAt;
             return;
         }
-        throw new IllegalArgumentException("삭제 권한이 없습니다.");
+        throw new PermissionDeniedAccessException();
     }
 
     public void edit(Content content, MemberId memberId, LocalDateTime updatedAt) {
@@ -69,6 +64,22 @@ public class FeedCollectionReply {
             this.updatedAt = updatedAt;
             return;
         }
-        throw new IllegalArgumentException("수정 권한이 없습니다.");
+        throw new PermissionDeniedAccessException();
+    }
+
+    private static FeedCollectionReplyAddedEvent toEvent(
+            FeedCollectionReplyId id,
+            FeedCollectionCommentId commentId,
+            MemberId memberId,
+            Content content,
+            LocalDateTime createdAt
+    ) {
+        return FeedCollectionReplyAddedEvent.of(
+                commentId,
+                memberId,
+                id,
+                content,
+                createdAt
+        );
     }
 }

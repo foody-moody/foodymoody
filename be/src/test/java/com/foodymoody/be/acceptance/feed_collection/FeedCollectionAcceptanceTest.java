@@ -93,15 +93,15 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_request_fetch_single_success", spec);
 
         // given
-        var collectionId = 피드_컬렉션_등록하고_피드_리스트도_추가한다(moodIds, 회원아티_액세스토큰, feedIds);
-        피드_컬렉션에_댓글을_등록한다(회원푸반_액세스토큰, collectionId);
-        피드_컬렉션에_댓글을_등록한다(회원푸반_액세스토큰, collectionId);
-        String commentId = 피드_컬렉션에_댓글을_등록하고_아이디를_받는다(회원푸반_액세스토큰, collectionId);
-        피드_컬렉션_댓글에_좋아요를_등록한다(회원아티_액세스토큰, commentId);
-        피드_컬렉션_댓글에_대댓글을_등록한다(회원푸반_액세스토큰, commentId);
+        var feedCollectionId = 피드_컬렉션_등록하고_피드_리스트도_추가한다(moodIds, 회원아티_액세스토큰, feedIds);
+        피드_컬렉션에_댓글을_등록한다(회원푸반_액세스토큰, feedCollectionId);
+        피드_컬렉션에_댓글을_등록한다(회원푸반_액세스토큰, feedCollectionId);
+        String commentId = 피드_컬렉션에_댓글을_등록하고_아이디를_받는다(회원푸반_액세스토큰, feedCollectionId);
+        피드_컬렉션_댓글에_좋아요를_등록한다(feedCollectionId, commentId, 회원아티_액세스토큰);
+        피드_컬렉션_댓글에_대댓글을_등록한다(commentId, feedCollectionId, 회원아티_액세스토큰);
 
         // when
-        var response = 개별_피드_컬렉션_조회한다(collectionId, spec, 회원아티_액세스토큰);
+        var response = 개별_피드_컬렉션_조회한다(feedCollectionId, spec, 회원아티_액세스토큰);
 
         // then
         assertThat(response.statusCode()).isEqualTo(200);

@@ -2,6 +2,7 @@ package com.foodymoody.be.feed_comment.persentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_comment.application.dto.response.MemberFeedReplySummaryResponse;
 import com.foodymoody.be.feed_comment.application.service.FeedReplyReadService;
@@ -21,8 +22,9 @@ public class FeedReplyController {
 
     private final FeedReplyReadService service;
 
-    @GetMapping("/api/comments/{feedCommentId}/replies")
+    @GetMapping("/api/feed/{ignoreFeedId}/comments/{feedCommentId}/replies")
     public ResponseEntity<Slice<MemberFeedReplySummaryResponse>> fetchAllReply(
+            @PathVariable FeedId ignoreFeedId,
             @PathVariable FeedCommentId feedCommentId,
             @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable,
             @CurrentMemberId MemberId memberId

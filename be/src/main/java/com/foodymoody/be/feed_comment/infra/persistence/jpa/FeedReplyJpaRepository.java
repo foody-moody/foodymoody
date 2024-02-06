@@ -41,7 +41,7 @@ public interface FeedReplyJpaRepository extends JpaRepository<FeedReply, FeedRep
             "left join _comment.feedReplyComments.commentList _reply " +
             "left join Member _member on _reply.memberId = _member.id " +
             "left join Image _image on _member.profileImage.id = _image.id " +
-            "left join ReplyHeartCount _replyLikeCount on _replyLikeCount.feedReplyId = _reply.id " +
+            "left join FeedReplyLikeCount _replyLikeCount on _replyLikeCount.feedReplyId = _reply.id " +
             "left join FeedReplyLike _feedRelyLike on _feedRelyLike.feedReplyId = _reply.id and _feedRelyLike.memberId = :memberId " +
             "where _comment.id = :feedCommentId")
     Slice<MemberFeedReplySummary> findReplyByCommentIdAndMemberId(

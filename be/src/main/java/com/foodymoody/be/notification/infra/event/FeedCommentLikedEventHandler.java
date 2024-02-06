@@ -11,7 +11,7 @@ import com.foodymoody.be.feed.application.service.FeedReadService;
 import com.foodymoody.be.feed_comment.application.service.FeedCommentReadService;
 import com.foodymoody.be.feed_comment_like.domain.FeedCommentLikeAddedEvent;
 import com.foodymoody.be.notification.application.service.NotificationWriteService;
-import com.foodymoody.be.notification_setting.application.service.NotificationSettingReadService;
+import com.foodymoody.be.notification_setting.application.usecase.NotificationSettingReadUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 public class FeedCommentLikedEventHandler {
 
     private final NotificationWriteService notificationService;
-    private final NotificationSettingReadService notificationSettingService;
+    private final NotificationSettingReadUseCase settingReadUseCase;
     private final FeedReadService feedService;
     private final FeedCommentReadService feedCommentService;
 
@@ -36,7 +36,7 @@ public class FeedCommentLikedEventHandler {
         var feedCommentId = event.getFeedCommentId();
         var feedComment = feedCommentService.findById(feedCommentId);
         var toMemberId = feedComment.getMemberId();
-        if (notificationSettingService.isCommentLikedAllowed(toMemberId)) {
+        if (settingReadUseCase.isCommentLikedAllowed(toMemberId)) {
             var feed = feedService.findFeed(feedComment.getFeedId());
             saveNotification(event, feed.getId(), feed.getProfileImageUrl(), feedComment.getContent(), toMemberId);
         }

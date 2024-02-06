@@ -1,12 +1,14 @@
 package com.foodymoody.be.feed_collection_reply.application.usecase;
 
-import com.foodymoody.be.feed_collection_reply.domain.FeedCollectionReplaySummary;
-import org.springframework.stereotype.Component;
+import com.foodymoody.be.feed_collection_reply.domain.FeedCollectionReplySummary;
 
-@Component
 public class FeedCollectionReplyMapper {
 
-    public FeedCollectionReplyResponse toResponse(FeedCollectionReplaySummary summary) {
+    private FeedCollectionReplyMapper() {
+        throw new AssertionError();
+    }
+
+    public static FeedCollectionReplyResponse toResponse(FeedCollectionReplySummary summary) {
         return new FeedCollectionReplyResponse(
                 summary.getId(),
                 summary.getContent(),

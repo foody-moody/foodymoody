@@ -4,7 +4,7 @@ import com.foodymoody.be.common.util.ids.FeedReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_reply_like.domain.FeedReplyLike;
 import com.foodymoody.be.feed_reply_like.domain.FeedReplyLikeRepository;
-import com.foodymoody.be.feed_reply_like.infra.persistence.jpa.ReplyHeartJpaRepository;
+import com.foodymoody.be.feed_reply_like.infra.persistence.jpa.FeedReplyLikeJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FeedReplyLikeRepositoryImpl implements FeedReplyLikeRepository {
 
-    private final ReplyHeartJpaRepository repository;
+    private final FeedReplyLikeJpaRepository repository;
 
     @Override
     public FeedReplyLike save(FeedReplyLike feedReplyLike) {

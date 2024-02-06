@@ -12,7 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -21,9 +21,9 @@ public class FeedCommentReadController {
 
     private final FeedCommentReadUseCase useCase;
 
-    @GetMapping("/api/comments")
+    @GetMapping("/api/feed/{feedId}/comments")
     public ResponseEntity<Slice<MemberFeedCommentSummaryResponse>> fetchComments(
-            @RequestParam FeedId feedId,
+            @PathVariable FeedId feedId,
             @PageableDefault(sort = "createdAt", direction = Direction.DESC) Pageable pageable,
             @CurrentMemberId MemberId memberId
     ) {

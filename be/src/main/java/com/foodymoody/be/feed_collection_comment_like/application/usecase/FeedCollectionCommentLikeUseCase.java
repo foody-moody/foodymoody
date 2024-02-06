@@ -17,15 +17,15 @@ public class FeedCollectionCommentLikeUseCase {
     private final FeedCollectionCommentLikeCountWriteService likeCountService;
 
     @Transactional
-    public FeedCollectionCommentLikeId like(FeedCollectionCommentId commentId, MemberId memberId) {
-        var likeId = likeService.like(commentId, memberId);
-        likeCountService.increaseLikeCount(commentId);
+    public FeedCollectionCommentLikeId post(FeedCollectionCommentId commentId, MemberId memberId) {
+        var likeId = likeService.post(commentId, memberId);
+        likeCountService.increase(commentId);
         return likeId;
     }
 
     @Transactional
     public void cancel(FeedCollectionCommentId commentId, MemberId memberId) {
         likeService.cancel(commentId, memberId);
-        likeCountService.decreaseLikeCount(commentId);
+        likeCountService.decrease(commentId);
     }
 }

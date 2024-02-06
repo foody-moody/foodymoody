@@ -23,8 +23,9 @@ public class FeedCollectionReplyWriteController {
 
     private final FeedCollectionReplyWriteUseCase useCase;
 
-    @PostMapping("/api/feed_collections/comments/{commentId}/replies")
+    @PostMapping("/api/feed_collections/{ignoreFeedCollectionId}/comments/{commentId}/replies")
     public ResponseEntity<IdResponse> post(
+            @PathVariable FeedCollectionCommentId ignoreFeedCollectionId,
             @PathVariable FeedCollectionCommentId commentId,
             @RequestBody Content content,
             @CurrentMemberId MemberId memberId
@@ -33,8 +34,9 @@ public class FeedCollectionReplyWriteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
-    @DeleteMapping("/api/feed_collections/comments/{ignoredCommentId}/replies/{replyId}")
+    @DeleteMapping("/api/feed_collections/{ignoreFeedCollectionId}/comments/{ignoredCommentId}/replies/{replyId}")
     public ResponseEntity<Void> delete(
+            @PathVariable FeedCollectionCommentId ignoreFeedCollectionId,
             @PathVariable FeedCollectionCommentId ignoredCommentId,
             @PathVariable FeedCollectionReplyId replyId,
             @CurrentMemberId MemberId memberId
@@ -43,8 +45,9 @@ public class FeedCollectionReplyWriteController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/api/feed_collections/comments/{ignoredCommentId}/replies/{replyId}")
+    @PutMapping("/api/feed_collections/{ignoreFeedCollectionId}/comments/{ignoredCommentId}/replies/{replyId}")
     public ResponseEntity<Void> edit(
+            @PathVariable FeedCollectionCommentId ignoreFeedCollectionId,
             @PathVariable FeedCollectionCommentId ignoredCommentId,
             @PathVariable FeedCollectionReplyId replyId,
             @RequestBody Content content,
