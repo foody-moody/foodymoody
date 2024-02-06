@@ -8,7 +8,6 @@ import { SelectSort } from 'components/sort/SelectSort';
 export const CollectionPage = () => {
   return (
     <Wrapper>
-      {/* <BannerContent /> */}
       <ContentWrapper>
         <HeaderContent>
           <SubTitle>오늘의 컬렉션🎉</SubTitle>
@@ -22,7 +21,7 @@ export const CollectionPage = () => {
             <HeaderRight>
               <Text>푸디무디들이 엄선한 맛집모음!</Text>
               <SortContainer>
-                <SelectSort />
+                <SelectSort sortId="collection" />
                 <LayoutButton />
               </SortContainer>
             </HeaderRight>

@@ -10,13 +10,14 @@ import { getAllReplies, postNewReply } from 'service/axios/auth/comment/reply';
 import 'service/axios/feed/feed';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
-export const useGetReplies = (commentId: string) => {
+export const useGetReplies = (commentId: string, feedId?: string) => {
   console.log('replies commentId', commentId);
 
   const { data, hasNextPage, isFetching, fetchNextPage, refetch } =
     useInfiniteQuery({
       queryKey: [QUERY_KEY.replies, commentId],
-      queryFn: ({ pageParam = 0 }) => getAllReplies(pageParam, 10, commentId),
+      queryFn: ({ pageParam = 0 }) =>
+        getAllReplies(pageParam, 10, commentId, feedId),
       getNextPageParam: (lastPage) => {
         return lastPage.last ? undefined : lastPage.number + 1;
       },
@@ -36,13 +37,17 @@ export const useGetReplies = (commentId: string) => {
   };
 };
 
-export const usePostReply = (id: string, callbackFn?: () => void) => {
+export const usePostReply = (
+  commentId: string,
+  feedId?: string,
+  callbackFn?: () => void
+) => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
   return useMutation({
     mutationFn: (body: Omit<NewCommentBody, 'feedId'>) =>
-      postNewReply(body, id),
+      postNewReply(body, feedId, commentId),
     onSuccess: () => {
       callbackFn?.();
       queryClient.invalidateQueries([QUERY_KEY.comments]);

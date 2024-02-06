@@ -6,7 +6,7 @@ export const putEditPassword = async (memberId: string, body: PasswordBody) => {
   return data;
 };
 
-export const deleteAccount = async (memberId?: string) => {
-  const { data } = await privateApi.delete(END_POINT.member(memberId));
+export const deleteAccount = async () => {
+  const { data } = await privateApi.delete(END_POINT.member());
   return data;
 };

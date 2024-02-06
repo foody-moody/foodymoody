@@ -2,6 +2,7 @@ export const QUERY_KEY = {
   profile: 'profile',
   nickname: 'nickname',
   profileFeeds: 'profileFeeds',
+  profileCollections: 'profileCollections',
   allFeeds: 'allFeeds',
   feedDetail: 'feedDetail',
   comments: 'comments',

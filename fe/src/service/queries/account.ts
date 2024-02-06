@@ -24,12 +24,12 @@ export const usePutPassword = (id: string) => {
   });
 };
 
-export const useDeleteAccount = (id: string) => {
+export const useDeleteAccount = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: () => deleteAccount(id),
+    mutationFn: () => deleteAccount(),
     onSuccess: () => {
       toast.success('성공적으로 탈퇴 되었습니다.');
       clearLoginInfo();

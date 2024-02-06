@@ -9,7 +9,7 @@ type AuthorWithMood = {
 } & Author;
 
 type CollectionItem = {
-  storeMood: Badge[];
+  moods: Badge[];
   id: string;
   thumbnailUrl: string;
   author: AuthorWithMood;
@@ -32,4 +32,22 @@ type CarouselCollectionItem = {
   likeCount: number;
   feedCount: number;
   liked: boolean;
+};
+
+type ProfileCollection = {
+  count: number;
+  author: Author;
+  collections: {
+    content: {
+      id: string;
+      title: string;
+      feedCount: number;
+      likeCount: number;
+      commentCount: number;
+      liked: boolean;
+      createdAt: string;
+      updatedAt: string;
+      moods: Badge[];
+    }[];
+  };
 };

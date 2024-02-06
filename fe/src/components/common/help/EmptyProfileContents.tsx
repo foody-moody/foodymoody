@@ -1,9 +1,13 @@
 import { styled } from 'styled-components';
 
-export const EmptyProfileFeeds = () => {
+type Props = {
+  text: string;
+};
+
+export const EmptyProfileContents = ({ text }: Props) => {
   return (
     <Wrapper>
-      <Text>아직 작성한 피드가 없어요.</Text>
+      <Text>아직 작성한 {text} 없어요.</Text>
     </Wrapper>
   );
 };
