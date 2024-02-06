@@ -129,7 +129,7 @@ export const ListItem = forwardRef<HTMLLIElement, Props>(
             <ContentText>{collection.title}</ContentText>
 
             <BadgeWrapper>
-              {collection.storeMood.map((storeMood) => (
+              {collection.moods.map((storeMood) => (
                 <StoreMoodBadge name={storeMood.name} key={storeMood.id} />
               ))}
             </BadgeWrapper>

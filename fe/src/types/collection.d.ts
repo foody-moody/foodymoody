@@ -9,7 +9,7 @@ type AuthorWithMood = {
 } & Author;
 
 type CollectionItem = {
-  storeMood: Badge[];
+  moods: Badge[];
   id: string;
   thumbnailUrl: string;
   author: AuthorWithMood;
