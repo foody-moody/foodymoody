@@ -81,6 +81,7 @@ public class FeedUseCase {
         String review = request.getReview();
         ImageId profileImageId = member.getProfileImageId();
         String profileImageUrl = imageService.findById(profileImageId).getUrl();
+        final LocalDateTime now = LocalDateTime.now();
 
         Feed feed = Feed.builder()
                 .id(IdFactory.createFeedId())
@@ -89,6 +90,7 @@ public class FeedUseCase {
                 .review(review)
                 .storeMoods(storeMoods)
                 .images(images)
+                .createdAt(now)
                 .menus(menus)
                 .profileImageUrl(profileImageUrl)
                 .build();
