@@ -46,7 +46,7 @@ public class FeedCollectionSteps {
     ) {
         Map<String, Object> body = new HashMap<>();
         body.put("title", "테스트 컬렉션");
-        body.put("private", false);
+//        body.put("private", false);
         return RestAssured.given()
                 .spec(spec)
                 .log().all()
