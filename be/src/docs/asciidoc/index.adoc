@@ -218,6 +218,15 @@ operation::reply_heart_register_success[snippets='http-request,http-response']
 
 operation::reply_heart_cancel_success[snippets='http-request,http-response']
 
+=== 피드 대댓글 수정 🔐
+
+operation::feed_comment_reply_update_success[snippets='http-request,http-response']
+
+=== 피드 대댓글 삭제 🔐
+
+operation::feed_comment_reply_delete_success[snippets='http-request,http-response']
+
+[[feedLike]]
 [[store]]
 [[member]]
 == 회원

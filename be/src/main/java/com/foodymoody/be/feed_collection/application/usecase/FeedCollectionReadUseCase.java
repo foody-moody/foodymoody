@@ -77,7 +77,7 @@ public class FeedCollectionReadUseCase {
 
     @Transactional(readOnly = true)
     public FeedCollectionDetail fetchDetail(FeedCollectionId id, MemberId memberId) {
-        var feedCollection = feedCollectionReadService.fetchById(id);
+        var feedCollection = feedCollectionReadService.fetchById(id, memberId);
         var authorSummaryResponse = getAuthorSummaryResponse(feedCollection);
         var feeds = getFeedSummaryResponse(memberId, feedCollection);
         var comments = getComments(memberId, feedCollection.getCommentIds());

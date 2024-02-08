@@ -3,9 +3,9 @@ package com.foodymoody.be.feed_collection.application.usecase;
 import com.foodymoody.be.feed_collection.application.service.FeedCollectionMoodReadService;
 import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionMoodResponse;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionMood;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -14,9 +14,11 @@ public class FeedCollectionMoodReadUseCase {
 
     private final FeedCollectionMoodReadService service;
 
-    public Slice<FeedCollectionMoodResponse> findAll(Pageable pageable) {
-        Slice<FeedCollectionMood> moods = service.findAll(pageable);
-        return moods.map(FeedCollectionMoodReadUseCase::toResponse);
+    public List<FeedCollectionMoodResponse> findAll() {
+        List<FeedCollectionMood> moods = service.findAll();
+        return moods.stream()
+                .map(FeedCollectionMoodReadUseCase::toResponse)
+                .collect(Collectors.toList());
     }
 
     private static FeedCollectionMoodResponse toResponse(FeedCollectionMood mood) {

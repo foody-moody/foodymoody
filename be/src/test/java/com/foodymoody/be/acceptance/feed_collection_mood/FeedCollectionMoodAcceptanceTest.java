@@ -41,6 +41,12 @@ class FeedCollectionMoodAcceptanceTest extends AcceptanceTest {
 
         // given
         피드_컬렉션_무드를_등록한다(회원아티_액세스토큰);
+        피드_컬렉션_무드를_등록한다(회원아티_액세스토큰);
+        피드_컬렉션_무드를_등록한다(회원아티_액세스토큰);
+        피드_컬렉션_무드를_등록한다(회원아티_액세스토큰);
+        피드_컬렉션_무드를_등록한다(회원아티_액세스토큰);
+        피드_컬렉션_무드를_등록한다(회원아티_액세스토큰);
+        피드_컬렉션_무드를_등록한다(회원아티_액세스토큰);
 
         // when
         var response = 전체_피드_컬렉션_무드를_조회한다(spec, 회원아티_액세스토큰);
@@ -49,9 +55,9 @@ class FeedCollectionMoodAcceptanceTest extends AcceptanceTest {
         int size = response.jsonPath().getList("content").size();
         Assertions.assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(200),
-                () -> assertThat(size).isEqualTo(1),
-                () -> assertThat(response.jsonPath().getString("content[0].id")).isNotBlank(),
-                () -> assertThat(response.jsonPath().getString("content[0].name")).isEqualTo("행복")
+                () -> assertThat(size).isEqualTo(7),
+                () -> assertThat(response.jsonPath().getString("[0].id")).isNotBlank(),
+                () -> assertThat(response.jsonPath().getString("[0].name")).isEqualTo("행복")
         );
     }
 

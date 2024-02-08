@@ -55,7 +55,7 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
 
     @Override
     public Optional<FeedCollection> fetchById(FeedCollectionId feedCollectionId) {
-        return repository.findById(feedCollectionId);
+        return repository.findByIdAndIsDeleted(feedCollectionId, false);
     }
 
 
@@ -76,6 +76,8 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
                 .join(image).on(member.profileImage.id.eq(image.id))
                 .join(tasteMood).on(member.tasteMood.eq(tasteMood))
                 .join(likeCount).on(feedCollection.id.eq(likeCount.feedCollectionId))
+                .where(feedCollection.isDeleted.isFalse())
+                .where(feedCollection.isPrivate.isFalse())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1L);
 
