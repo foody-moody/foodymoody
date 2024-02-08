@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_comment.domain.entity;
 
+import com.foodymoody.be.common.exception.PermissionDeniedAccessException;
 import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -45,6 +46,18 @@ public class FeedReply {
         this.updatedAt = updatedAt;
     }
 
+    public void update(MemberId memberId, Content content, LocalDateTime updatedAt) {
+        checkPermissionForMemberId(memberId);
+        this.content = content;
+        this.updatedAt = updatedAt;
+    }
+
+    public void delete(MemberId memberId, LocalDateTime updatedAt) {
+        checkPermissionForMemberId(memberId);
+        this.deleted = true;
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(getId());
@@ -60,5 +73,11 @@ public class FeedReply {
         }
         FeedReply feedReply = (FeedReply) o;
         return Objects.equals(getId(), feedReply.getId());
+    }
+
+    private void checkPermissionForMemberId(MemberId memberId) {
+        if (!memberId.equals(this.memberId)) {
+            throw new PermissionDeniedAccessException();
+        }
     }
 }

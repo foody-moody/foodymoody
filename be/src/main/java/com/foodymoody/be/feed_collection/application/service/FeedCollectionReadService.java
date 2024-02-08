@@ -1,5 +1,7 @@
 package com.foodymoody.be.feed_collection.application.service;
 
+import com.foodymoody.be.common.exception.FeedCollectionNotFoundException;
+import com.foodymoody.be.common.exception.PermissionDeniedAccessException;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
@@ -29,7 +31,21 @@ public class FeedCollectionReadService {
 
     @Transactional(readOnly = true)
     public FeedCollection fetchById(FeedCollectionId feedCollectionId) {
-        return dao.fetchById(feedCollectionId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 피드 컬렉션입니다."));
+        var feedCollection = dao.fetchById(feedCollectionId)
+                .orElseThrow(FeedCollectionNotFoundException::new);
+        if (feedCollection.isPrivate()) {
+            throw new PermissionDeniedAccessException();
+        }
+        return feedCollection;
+    }
+
+    @Transactional(readOnly = true)
+    public FeedCollection fetchById(FeedCollectionId id, MemberId memberId) {
+        var feedCollection = dao.fetchById(id)
+                .orElseThrow(FeedCollectionNotFoundException::new);
+        if (feedCollection.isPrivate()) {
+            feedCollection.validateAuthor(memberId);
+        }
+        return feedCollection;
     }
 }

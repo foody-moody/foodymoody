@@ -6,6 +6,8 @@ import static com.foodymoody.be.acceptance.feed_comment.FeedCommentSteps.응답�
 import static com.foodymoody.be.acceptance.feed_comment.FeedCommentSteps.피드에_댓글을_등록하고_아이디를_받는다;
 import static com.foodymoody.be.acceptance.feed_reply.FeedReplySteps.댓글에_댓글을_등록하고_아이디를_가져온다;
 import static com.foodymoody.be.acceptance.feed_reply.FeedReplySteps.댓글에_댓글을_등록한다;
+import static com.foodymoody.be.acceptance.feed_reply.FeedReplySteps.댓글에_댓글을_삭제한다;
+import static com.foodymoody.be.acceptance.feed_reply.FeedReplySteps.댓글에_댓글을_수정한다;
 import static com.foodymoody.be.acceptance.feed_reply.FeedReplySteps.댓글의_댓글을_조회한다;
 import static com.foodymoody.be.acceptance.feed_reply_like.FeedReplyLikeSteps.대댓글에_좋아요를_추가한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
@@ -88,5 +90,37 @@ class FeedReplyAcceptanceTest extends AcceptanceTest {
                 .jsonPath()
                 .getList("content.liked", Boolean.class);
         assertThat(list).contains(true);
+    }
+
+    @DisplayName("댓글의 댓글을 수정 요청하면 응답코드 200을 응답한다")
+    @Test
+    void when_update_comment_of_comment_if_success_then_return_code_200() {
+        // docs
+        api_문서_타이틀("feed_comment_reply_update_success", spec);
+
+        // given
+        String replyId = 댓글에_댓글을_등록하고_아이디를_가져온다(feedId, commentId, 회원아티_액세스토큰);
+
+        // when
+        var response = 댓글에_댓글을_수정한다(feedId, commentId, replyId, 회원아티_액세스토큰, spec);
+
+        // then
+        응답코드_200을_반환한다(response);
+    }
+
+    @DisplayName("댓글 삭제 요청하면 응답코드 200을 응답한다")
+    @Test
+    void when_delete_comment_of_comment_if_success_then_return_code_200() {
+        // docs
+        api_문서_타이틀("feed_comment_reply_delete_success", spec);
+
+        // given
+        String replyId = 댓글에_댓글을_등록하고_아이디를_가져온다(feedId, commentId, 회원아티_액세스토큰);
+
+        // when
+        var response = 댓글에_댓글을_삭제한다(feedId, commentId, replyId, 회원아티_액세스토큰, spec);
+
+        // then
+        응답코드_200을_반환한다(response);
     }
 }
