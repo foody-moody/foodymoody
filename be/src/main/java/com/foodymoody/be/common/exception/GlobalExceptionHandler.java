@@ -1,7 +1,7 @@
 package com.foodymoody.be.common.exception;
 
 import static com.foodymoody.be.common.exception.ErrorMessage.INVALID_INPUT_VALUE;
-import static com.foodymoody.be.common.exception.ErrorMessage.MAX_UPLOAD_SIZE_EXEEDED;
+import static com.foodymoody.be.common.exception.ErrorMessage.MAX_UPLOAD_SIZE_EXCEEDED;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(value = BAD_REQUEST)
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ErrorResponse handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-        return new ErrorResponse(MAX_UPLOAD_SIZE_EXEEDED.getMessage(), MAX_UPLOAD_SIZE_EXEEDED.getCode());
+        return new ErrorResponse(MAX_UPLOAD_SIZE_EXCEEDED.getMessage(), MAX_UPLOAD_SIZE_EXCEEDED.getCode());
     }
 
     @ResponseStatus(value = BAD_REQUEST)

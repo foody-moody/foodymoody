@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @Getter
 public class MemberFollowedNotificationDetails extends NotificationDetails {
 
-    private boolean isFollowed;
+    private boolean followed;
 
-    public MemberFollowedNotificationDetails(boolean isFollowed) {
-        this.isFollowed = isFollowed;
+    public MemberFollowedNotificationDetails(boolean followed) {
+        this.followed = followed;
     }
 }
