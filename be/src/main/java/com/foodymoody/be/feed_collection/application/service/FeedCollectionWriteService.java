@@ -1,5 +1,7 @@
 package com.foodymoody.be.feed_collection.application.service;
 
+import com.foodymoody.be.common.exception.FeedCollectionNotFoundException;
+import com.foodymoody.be.common.exception.PermissionDeniedAccessException;
 import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
@@ -54,18 +56,24 @@ public class FeedCollectionWriteService {
     }
 
     public FeedCollection fetchById(FeedCollectionId feedCollectionId) {
-        return repository.findById(feedCollectionId).orElseThrow();
+        return repository.findById(feedCollectionId).orElseThrow(FeedCollectionNotFoundException::new);
     }
 
     @Transactional
     public void addCommentId(FeedCollectionId feedCollectionId, FeedCollectionCommentId collectionCommentId) {
-        FeedCollection feedCollection = fetchById(feedCollectionId);
+        var feedCollection = fetchById(feedCollectionId);
+        if (feedCollection.isPrivate()) {
+            throw new PermissionDeniedAccessException();
+        }
         feedCollection.addCommentId(collectionCommentId);
     }
 
     @Transactional
     public void removeCommentId(FeedCollectionId feedCollectionId, FeedCollectionCommentId collectionCommentId) {
-        FeedCollection feedCollection = fetchById(feedCollectionId);
+        var feedCollection = fetchById(feedCollectionId);
+        if (feedCollection.isPrivate()) {
+            throw new PermissionDeniedAccessException();
+        }
         feedCollection.removeCommentId(collectionCommentId);
     }
 

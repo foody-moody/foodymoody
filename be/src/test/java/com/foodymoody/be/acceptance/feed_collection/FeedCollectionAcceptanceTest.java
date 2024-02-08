@@ -106,6 +106,7 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
         피드_컬렉션_등록하고_피드_리스트도_추가한다(moodIds, 회원아티_액세스토큰, feedIds);
         피드_컬렉션_등록하고_피드_리스트도_추가한다(moodIds, 회원아티_액세스토큰, feedIds);
         피드_컬렉션_등록하고_피드_리스트도_추가한다(moodIds, 회원아티_액세스토큰, feedIds);
+        타이틀과_공개여부만으로_피드_컬렉션_등록한다(회원아티_액세스토큰, spec);
 
         // when
         var response = 전체_피드_컬렉션_조회한다(spec, 회원아티_액세스토큰);
