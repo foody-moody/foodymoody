@@ -3,7 +3,7 @@ package com.foodymoody.be.member.presentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.member.application.dto.response.MyCollectionTitleResponse;
+import com.foodymoody.be.member.application.dto.response.MyFeedCollectionTitleResponse;
 import com.foodymoody.be.member.application.dto.response.MyCollectionWithFeedInclusionStatusResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.FollowMemberSummaryResponse;
@@ -61,9 +61,9 @@ public class MemberReadController {
     }
 
     @GetMapping("/me/collections/titles")
-    public ResponseEntity<List<MyCollectionTitleResponse>> fetchMyCollectionTitles(
+    public ResponseEntity<List<MyFeedCollectionTitleResponse>> fetchMyCollectionTitles(
             @CurrentMemberId MemberId currentMemberId) {
-        List<MyCollectionTitleResponse> response = memberReadService.fetchMyCollectionTitles(currentMemberId);
+        List<MyFeedCollectionTitleResponse> response = memberReadService.fetchMyCollectionTitles(currentMemberId);
         return ResponseEntity.ok().body(response);
     }
 

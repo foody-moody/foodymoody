@@ -3,7 +3,7 @@ package com.foodymoody.be.member.infra.persistence;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
 import com.foodymoody.be.member.application.dto.MyFeedCollectionWithFeedIdsSummary;
-import com.foodymoody.be.member.application.dto.response.MyCollectionTitleResponse;
+import com.foodymoody.be.member.application.dto.response.MyFeedCollectionTitleResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
@@ -89,7 +89,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public List<MyCollectionTitleResponse> fetchMyCollectionTitles(MemberId id) {
+    public List<MyFeedCollectionTitleResponse> fetchMyCollectionTitles(MemberId id) {
         return jpaRepository.fetchMyCollectionTitles(id);
     }
 

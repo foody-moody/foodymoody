@@ -5,7 +5,7 @@ import com.foodymoody.be.common.exception.MemberNotFoundException;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
-import com.foodymoody.be.member.application.dto.response.MyCollectionTitleResponse;
+import com.foodymoody.be.member.application.dto.response.MyFeedCollectionTitleResponse;
 import com.foodymoody.be.member.application.dto.response.MyCollectionWithFeedInclusionStatusResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
@@ -76,7 +76,7 @@ public class MemberReadService {
         }
     }
 
-    public List<MyCollectionTitleResponse> fetchMyCollectionTitles(MemberId id) {
+    public List<MyFeedCollectionTitleResponse> fetchMyCollectionTitles(MemberId id) {
         return memberRepository.fetchMyCollectionTitles(id);
     }
 
