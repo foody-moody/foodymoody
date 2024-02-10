@@ -38,6 +38,7 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.피드목록을_�
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원이_작성한_피드_컬렉션_목록을_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원이_작성한_피드_컬렉션_제목_목록을_조회한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.회원이_작성한_피드_컬렉션들의_특정_피드_포함_여부를_조회한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원탈퇴한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_수정한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을_조회한다;
@@ -52,6 +53,7 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,6 +62,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import software.amazon.awssdk.services.s3.endpoints.internal.Value.Bool;
 
 @DisplayName("회원 관련 기능 인수테스트")
 class MemberAcceptanceTest extends AcceptanceTest {
@@ -409,7 +412,6 @@ class MemberAcceptanceTest extends AcceptanceTest {
             api_문서_타이틀("fetch_member_collection_titles_if_success", spec);
 
             // given
-            String 아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
             String 피드이미지1_아이디 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec).jsonPath().getString("id");
             String 피드이미지2_아이디 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec).jsonPath().getString("id");
             String 피드1_아이디 = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, List.of(피드이미지1_아이디, 피드이미지2_아이디));
@@ -425,8 +427,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
-            String 컬렉션1_아이디 = 피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
-            피드_컬렉션에_좋아요를_등록한다(회원아티_액세스토큰, 컬렉션1_아이디, new RequestSpecBuilder().build());
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
 
             // when
             ExtractableResponse<Response> response = 회원이_작성한_피드_컬렉션_제목_목록을_조회한다(회원아티_액세스토큰, spec);
@@ -435,6 +436,48 @@ class MemberAcceptanceTest extends AcceptanceTest {
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),
                     () -> assertThat(response.jsonPath().getList("")).hasSize(7)
+            );
+
+        }
+    }
+
+    @Nested
+    @DisplayName("회원이 작성한 피드 컬렉션들의 특정 피드 포함 여부 조회 인수테스트")
+    class FetchMemberCollectionWithFeedInclusionStatus {
+
+        @DisplayName("회원이 작성한 피드 컬렉션들의 특정 피드 포함 여부 조회시 성공하면, 상태코드 200과 데이터를 응답한다")
+        @Test
+        void when_fetch_member_collection_with_feed_inclusion_status_if_success_then_response_status_code_200_and_data() {
+            // docs
+            api_문서_타이틀("fetch_member_collection_with_feed_inclusion_if_success", spec);
+
+            // given
+            String 피드이미지1_아이디 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec).jsonPath().getString("id");
+            String 피드이미지2_아이디 = 피드_이미지를_업로드한다(회원아티_액세스토큰, spec).jsonPath().getString("id");
+            String 피드1_아이디 = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, List.of(피드이미지1_아이디, 피드이미지2_아이디));
+            String 피드2_아이디 = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, List.of(피드이미지1_아이디, 피드이미지2_아이디));
+            String 피드3_아이디 = 피드를_등록하고_아이디를_받는다(회원아티_액세스토큰, List.of(피드이미지1_아이디, 피드이미지2_아이디));
+            String 무드1_아이디 = 피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰);
+            String 무드2_아이디 = 피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰);
+            String 무드3_아이디 = 피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰);
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디, 무드2_아이디), 회원아티_액세스토큰, List.of(피드1_아이디, 피드2_아이디));
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디, 무드2_아이디, 무드3_아이디), 회원아티_액세스토큰,
+                    List.of(피드1_아이디, 피드2_아이디, 피드3_아이디));
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+
+            // when
+            ExtractableResponse<Response> response = 회원이_작성한_피드_컬렉션들의_특정_피드_포함_여부를_조회한다(회원아티_액세스토큰, 피드2_아이디, spec);
+
+            // then
+            Assertions.assertAll(
+                    () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                    () -> assertThat(response.jsonPath().getList(""))
+                            .extracting("containsFeed")
+                            .containsExactly(Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE)
             );
 
         }

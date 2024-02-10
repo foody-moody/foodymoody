@@ -393,6 +393,20 @@ public class MemberSteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션_목록을_조회한다(String id, int page, int size, RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .log().all()
+                .params("page", page, "size", size)
+                .when()
+                .get("/api/members/{memberId}/collections", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션_제목_목록을_조회한다(String accessToken,
             RequestSpecification spec) {
         return RestAssured
@@ -408,15 +422,16 @@ public class MemberSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션_목록을_조회한다(String id, int page, int size, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션들의_특정_피드_포함_여부를_조회한다(String accessToken, String feedId,
+            RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .spec(spec)
+                .auth().oauth2(accessToken)
                 .log().all()
-                .params("page", page, "size", size)
                 .when()
-                .get("/api/members/{memberId}/collections", id)
+                .get("/api/members/me/collections/with-feed-inclusion-status/{feedId}", feedId)
                 .then()
                 .log().all()
                 .extract();

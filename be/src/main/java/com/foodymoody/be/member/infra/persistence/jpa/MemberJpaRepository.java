@@ -1,9 +1,9 @@
 package com.foodymoody.be.member.infra.persistence.jpa;
 
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.member.application.dto.response.MyCollectionTitleResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
-import com.foodymoody.be.member.application.dto.response.MyCollectionTitleResponse;
 import com.foodymoody.be.member.domain.Member;
 import java.util.List;
 import java.util.Optional;
@@ -40,13 +40,15 @@ public interface MemberJpaRepository extends JpaRepository<Member, MemberId>, Me
 
     @Query("SELECT count(*) "
             + "FROM Member m "
-            + "LEFT JOIN FeedCollection fc ON fc.authorId = m.id "
+            + "LEFT JOIN FETCH FeedCollection fc ON fc.authorId = m.id "
             + "WHERE m.id = :id")
     long countMyCollectionsById(MemberId id);
 
     @Query("SELECT new com.foodymoody.be.member.application.dto.response.MyCollectionTitleResponse (fc.id, fc.title) "
             + "FROM Member m "
-            + "LEFT JOIN FeedCollection fc ON fc.authorId = m.id "
-            + "WHERE m.id = :id")
+            + "LEFT JOIN FETCH FeedCollection fc ON fc.authorId = m.id "
+            + "WHERE m.id = :id "
+            + "ORDER BY fc.createdAt DESC")
     List<MyCollectionTitleResponse> fetchMyCollectionTitles(MemberId id);
+
 }

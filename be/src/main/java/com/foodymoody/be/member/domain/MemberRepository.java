@@ -2,6 +2,7 @@ package com.foodymoody.be.member.domain;
 
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
+import com.foodymoody.be.member.application.dto.MyFeedCollectionWithFeedIdsSummary;
 import com.foodymoody.be.member.application.dto.response.MyCollectionTitleResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
@@ -40,4 +41,6 @@ public interface MemberRepository {
     long countMyCollectionsById(MemberId id);
 
     List<MyCollectionTitleResponse> fetchMyCollectionTitles(MemberId id);
+
+    List<MyFeedCollectionWithFeedIdsSummary> fetchMyCollectionWithFeedIds(MemberId currentMemberId);
 }

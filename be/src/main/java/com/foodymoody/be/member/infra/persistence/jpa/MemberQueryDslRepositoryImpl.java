@@ -1,39 +1,37 @@
 package com.foodymoody.be.member.infra.persistence.jpa;
 
 import static com.foodymoody.be.feed.domain.entity.QFeed.feed;
-import static com.foodymoody.be.feed_collection.domain.QFeedCollection.*;
-import static com.foodymoody.be.feed_collection.domain.QFeedCollectionMood.*;
+import static com.foodymoody.be.feed_collection.domain.QFeedCollection.feedCollection;
+import static com.foodymoody.be.feed_collection.domain.QFeedCollectionMood.feedCollectionMood;
 import static com.foodymoody.be.feed_collection_like.domain.QFeedCollectionLike.feedCollectionLike;
-import static com.foodymoody.be.image.domain.QImage.*;
+import static com.foodymoody.be.image.domain.QImage.image;
 import static com.foodymoody.be.member.domain.QFollow.follow;
-import static com.foodymoody.be.member.domain.QMember.*;
-import static javax.management.Query.eq;
+import static com.foodymoody.be.member.domain.QMember.member;
 
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection_like.domain.QFeedCollectionLike;
+import com.foodymoody.be.member.application.dto.MyFeedCollectionWithFeedIdsSummary;
 import com.foodymoody.be.member.application.dto.response.FeedCollectionMoodResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileImageResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
-import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionAuthorResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionMoodSummary;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionResponse;
+import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
 import com.foodymoody.be.member.application.dto.response.TasteMoodResponse;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.management.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.SliceImpl;
@@ -82,7 +80,8 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
     }
 
     @Override
-    public MyFeedCollectionsResponse fetchMyCollectionResponse(MemberId id, MemberId currentMemberId, Pageable pageable) {
+    public MyFeedCollectionsResponse fetchMyCollectionResponse(MemberId id, MemberId currentMemberId,
+            Pageable pageable) {
         // 컬렉션 작성자, 컬렉션 전체 개수 조회
         Tuple findById = jpaQueryFactory
                 .select(
@@ -116,10 +115,11 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
                                 feedCollection.createdAt,
                                 feedCollection.updatedAt,
                                 liked.count().gt(0)
-                                ))
+                        ))
                 .from(feedCollection)
                 .leftJoin(feedCollectionLike).on(feedCollectionLike.feedCollectionId.eq(feedCollection.id))
-                .leftJoin(liked).on(feedCollectionLike.feedCollectionId.eq(feedCollection.id).and(eqMemberIdIfNotNull(currentMemberId)))
+                .leftJoin(liked)
+                .on(feedCollectionLike.feedCollectionId.eq(feedCollection.id).and(eqMemberIdIfNotNull(currentMemberId)))
                 .innerJoin(feedCollectionMood).on(feedCollection.moods.moodList.contains(feedCollectionMood))
                 .leftJoin(feedCollection.feedIds.ids)
                 .leftJoin(feedCollection.commentIds.ids)
@@ -149,8 +149,10 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
         collectionSummariesQueryResult.forEach(
                 queryResult -> queryResult.setMoods(
                         collectionMoodSummariesQueryResult.stream()
-                                .filter(moodQueryResult -> moodQueryResult.getFeedCollectionId().equals(queryResult.getId()))
-                                .map(moodSummary -> new FeedCollectionMoodResponse(moodSummary.getId(), moodSummary.getName()))
+                                .filter(moodQueryResult -> moodQueryResult.getFeedCollectionId()
+                                        .equals(queryResult.getId()))
+                                .map(moodSummary -> new FeedCollectionMoodResponse(moodSummary.getId(),
+                                        moodSummary.getName()))
                                 .collect(Collectors.toUnmodifiableList())
                 )
         );
@@ -168,6 +170,25 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
                 authorSummary,
                 collectionSummariesSlice
         );
+    }
+
+    @Override
+    public List<MyFeedCollectionWithFeedIdsSummary> fetchMyFeedCollectionWithFeedIds(MemberId currentMemberId) {
+        List<FeedCollection> myFeedCollections =
+                (List<FeedCollection>) jpaQueryFactory
+                        .from(feedCollection)
+                        .where(feedCollection.authorId.eq(currentMemberId))
+                        .orderBy(feedCollection.createdAt.desc())
+                        .fetch();
+
+        return myFeedCollections.stream()
+                .map(
+                        fc -> new MyFeedCollectionWithFeedIdsSummary(
+                                fc.getId(),
+                                fc.getTitle(),
+                                fc.getFeedIds()
+                        )
+                ).collect(Collectors.toUnmodifiableList());
     }
 
     private Expression<Boolean> isFollowed(MemberId currentMemberId) {

@@ -289,6 +289,12 @@ operation::fetch_member_collections_if_success[snippets='http-request,http-respo
 
 operation::fetch_member_collection_titles_if_success[snippets='http-request,http-response']
 
+=== 회원별 전체 컬렉션 + 피드 포함 여부 조회
+
+==== 성공
+
+operation::fetch_member_collection_with_feed_inclusion_if_success[snippets='http-request,http-response']
+
 === 테이스트 무드 조회
 
 ==== 성공

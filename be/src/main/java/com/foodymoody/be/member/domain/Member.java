@@ -100,7 +100,6 @@ public class Member {
 
     public void updateProfileImage(MemberProfileImage newProfileImage) {
         this.profileImage = newProfileImage;
-        // TODO 프로필 이미지 변경 이벤트 발행
     }
 
     public void changeTasteMood(TasteMood tasteMood) {
