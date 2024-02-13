@@ -251,9 +251,9 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
             // then
             List<Map<String, String>> expected = List.of(
-                    Map.of("id", 첫번째_피드_등록_응답.jsonPath().getString("id"),
-                            "imageUrl", "https://s3Url/key"),
                     Map.of("id", 두번째_피드_등록_응답.jsonPath().getString("id"),
+                            "imageUrl", "https://s3Url/key"),
+                    Map.of("id", 첫번째_피드_등록_응답.jsonPath().getString("id"),
                             "imageUrl", "https://s3Url/key")
             );
             Assertions.assertAll(

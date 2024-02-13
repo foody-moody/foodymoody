@@ -39,7 +39,7 @@ public class FeedController {
             @CurrentMemberId MemberId memberId
     ) {
         var feedServiceRegisterRequest = FeedMapper.toServiceRegisterRequest(feedRegisterRequest, memberId);
-        FeedRegisterResponse feedRegisterResponse = feedUseCase.register(feedServiceRegisterRequest);
+        var feedRegisterResponse = feedUseCase.register(feedServiceRegisterRequest);
         return ResponseEntity.ok().body(feedRegisterResponse);
     }
 
