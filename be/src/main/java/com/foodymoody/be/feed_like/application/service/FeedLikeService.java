@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Service
 public class FeedLikeService {
 
@@ -84,10 +83,12 @@ public class FeedLikeService {
         feed.updateLikeCountBy(heartCount);
     }
 
+    @Transactional(readOnly = true)
     public boolean existsHeart(MemberId memberId, String feedId) {
         return feedLikeRepository.existsByMemberIdAndFeedId(memberId, IdFactory.createFeedId(feedId));
     }
 
+    @Transactional(readOnly = true)
     public boolean fetchIsLiked(FeedId feedId, MemberId memberId) {
         return feedLikeRepository.fetchIsLiked(feedId, memberId);
     }

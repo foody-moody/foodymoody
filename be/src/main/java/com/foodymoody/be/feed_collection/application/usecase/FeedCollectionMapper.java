@@ -54,15 +54,6 @@ public class FeedCollectionMapper {
         );
     }
 
-    public static List<FeedSummaryResponse> toFeedSummaryResponse(Slice<Feed> feeds) {
-        return feeds.stream()
-                .map(feed -> {
-                    List<StoreMoodResponse> moods = toStoreMoodResponse(feed.getStoreMoods());
-                    return toFeedSummaryResponse(feed, moods, false);
-                })
-                .collect(Collectors.toList());
-    }
-
     public static List<StoreMoodResponse> toStoreMoodResponse(List<StoreMood> storeMoods) {
         return storeMoods.stream()
                 .map(storeMood -> new StoreMoodResponse(
@@ -73,7 +64,7 @@ public class FeedCollectionMapper {
     }
 
     public static FeedSummaryResponse toFeedSummaryResponse(
-            Feed feed, List<StoreMoodResponse> moods, boolean isLiked
+            Feed feed, List<StoreMoodResponse> moods, boolean isLiked, int commentCount
     ) {
         return new FeedSummaryResponse(
                 feed.getId().getValue(),
@@ -81,7 +72,7 @@ public class FeedCollectionMapper {
                 feed.getReview(),
                 moods,
                 feed.getLikeCount(),
-                feed.getCommentCount(),
+                commentCount,
                 isLiked,
                 feed.getCreatedAt(),
                 feed.getUpdatedAt()

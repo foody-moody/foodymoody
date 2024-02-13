@@ -106,17 +106,33 @@ class FeedMapperTest {
                 feed);
         List<FeedStoreMoodResponse> moodNames = makeFeedStoreMoodResponse();
         StoreResponse storeResponse = makeNewStoreResponse();
+        FeedId id = feed.getId();
+        LocalDateTime createdAt = feed.getCreatedAt();
+        LocalDateTime updatedAt = feed.getUpdatedAt();
+        String review = feed.getReview();
+        int likeCount = feed.getLikeCount();
 
         // when
-        FeedReadResponse feedReadResponse = FeedMapper.toFeedReadResponse(feedMemberResponse, feed, images, moodNames,
-                false, 0L, storeResponse);
+        var feedReadResponse = FeedReadResponse.builder()
+                .id(id)
+                .member(feedMemberResponse)
+                .storeResponse(storeResponse)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .review(review)
+                .storeMood(moodNames)
+                .images(images)
+                .likeCount(likeCount)
+                .isLiked(false)
+                .commentCount(0L)
+                .build();
 
         // then
         assertAll(() -> {
-            assertThat(feedReadResponse.getId()).isEqualTo(feed.getId());
+            assertThat(feedReadResponse.getId()).isEqualTo(id);
             assertThat(feedReadResponse.getMember()).isEqualTo(feedMemberResponse);
             assertThat(feedReadResponse.getStore()).isEqualTo(storeResponse);
-            assertThat(feedReadResponse.getReview()).isEqualTo(feed.getReview());
+            assertThat(feedReadResponse.getReview()).isEqualTo(review);
             assertThat(feedReadResponse.getStoreMood()).isEqualTo(moodNames);
             assertThat(feedReadResponse.getImages()).isEqualTo(images);
         });
@@ -130,27 +146,39 @@ class FeedMapperTest {
         MemberId memberId = makeMemberId();
         String profileImageUrl = makeProfileImageUrl();
         String nickname = makeNickname();
-        FeedMemberResponse makeFeedMemberResponse = makeFeedMemberResponse(memberId, profileImageUrl, nickname);
-        List<FeedStoreMoodResponse> makeFeedStoreMoodResponses = makeFeedStoreMoodResponse();
-        List<FeedImageMenuResponse> makeFeedImageMenuResponses = makeFeedImageMenuResponse(feed);
+        FeedMemberResponse feedMemberResponse = makeFeedMemberResponse(memberId, profileImageUrl, nickname);
+        List<FeedStoreMoodResponse> feedStoreMoodResponses = makeFeedStoreMoodResponse();
+        List<FeedImageMenuResponse> feedImageMenuResponses = makeFeedImageMenuResponse(feed);
         StoreResponse storeResponse = makeNewStoreResponse();
 
         // when
-        FeedReadAllResponse feedReadAllResponse = FeedMapper.makeFeedReadAllResponse(feed, makeFeedMemberResponse,
-                makeFeedStoreMoodResponses,
-                makeFeedImageMenuResponses,
-                false,
-                0L,
-                storeResponse);
+        FeedId id = feed.getId();
+        LocalDateTime createdAt = feed.getCreatedAt();
+        LocalDateTime updatedAt = feed.getUpdatedAt();
+        String review = feed.getReview();
+        int likeCount = feed.getLikeCount();
+        var feedReadAllResponse = FeedReadAllResponse.builder()
+                .id(id)
+                .member(feedMemberResponse)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .storeResponse(storeResponse)
+                .review(review)
+                .storeMood(feedStoreMoodResponses)
+                .images(feedImageMenuResponses)
+                .likeCount(likeCount)
+                .isLiked(false)
+                .commentCount(0L)
+                .build();
 
         // then
         assertAll(() -> {
-            assertThat(feedReadAllResponse.getId()).isEqualTo(feed.getId());
-            assertThat(feedReadAllResponse.getMember()).isEqualTo(makeFeedMemberResponse);
+            assertThat(feedReadAllResponse.getId()).isEqualTo(id);
+            assertThat(feedReadAllResponse.getMember()).isEqualTo(feedMemberResponse);
             assertThat(feedReadAllResponse.getStore()).isEqualTo(storeResponse);
-            assertThat(feedReadAllResponse.getReview()).isEqualTo(feed.getReview());
-            assertThat(feedReadAllResponse.getStoreMood()).isEqualTo(makeFeedStoreMoodResponses);
-            assertThat(feedReadAllResponse.getImages()).isEqualTo(makeFeedImageMenuResponses);
+            assertThat(feedReadAllResponse.getReview()).isEqualTo(review);
+            assertThat(feedReadAllResponse.getStoreMood()).isEqualTo(feedStoreMoodResponses);
+            assertThat(feedReadAllResponse.getImages()).isEqualTo(feedImageMenuResponses);
         });
     }
 
@@ -241,19 +269,21 @@ class FeedMapperTest {
     @NotNull
     private List<FeedStoreMoodResponse> makeFeedStoreMoodResponse() {
         return List.of(
-                new FeedStoreMoodResponse(IdFactory.createStoreMoodId("1"), "가족과 함께"),
-                new FeedStoreMoodResponse(IdFactory.createStoreMoodId("2"), "혼밥"));
+                FeedStoreMoodResponse.from(IdFactory.createStoreMoodId("1"), "가족과 함께"),
+                FeedStoreMoodResponse.from(IdFactory.createStoreMoodId("2"), "혼밥"));
     }
 
     @NotNull
     private List<FeedImageMenuResponse> makeFeedImageMenuResponse(Feed feed) {
-        return List.of(new FeedImageMenuResponse(feed.getId(),
-                        new FeedImageResponse(IdFactory.createImageId("1"),
+        return List.of(FeedImageMenuResponse.from(feed.getId(),
+                        FeedImageResponse.from(IdFactory.createImageId("1"),
                                 "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1"),
-                        new FeedMenuResponse("라면", 5)),
-                new FeedImageMenuResponse(feed.getId(), new FeedImageResponse(IdFactory.createImageId("2"),
-                        "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2"),
-                        new FeedMenuResponse("짬뽕", 4)));
+                        FeedMenuResponse.from("라면", 5)),
+                FeedImageMenuResponse.from(feed.getId(),
+                        FeedImageResponse.from(IdFactory.createImageId("2"),
+                                "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2"),
+                        FeedMenuResponse.from("짬뽕", 4))
+        );
     }
 
     @NotNull
@@ -263,10 +293,17 @@ class FeedMapperTest {
     }
 
     @NotNull
-    private FeedMemberResponse makeFeedMemberResponse(MemberId memberId, String profileImageUrl,
-                                                      String nickname) {
-        return new FeedMemberResponse(memberId, profileImageUrl, nickname,
-                new FeedTasteMoodResponse(memberId, nickname));
+    private FeedMemberResponse makeFeedMemberResponse(
+            MemberId memberId,
+            String profileImageUrl,
+            String nickname
+    ) {
+        return FeedMemberResponse.builder()
+                .id(memberId)
+                .profileImageUrl(profileImageUrl)
+                .nickname(nickname)
+                .tasteMood(FeedTasteMoodResponse.from(memberId, nickname))
+                .build();
     }
 
     @NotNull

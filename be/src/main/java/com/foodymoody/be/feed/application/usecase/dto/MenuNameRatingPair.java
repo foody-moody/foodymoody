@@ -11,6 +11,9 @@ public class MenuNameRatingPair {
     private String name;
     private int rating;
 
+    /**
+     * FeedJpaRepository에서 사용 중
+     */
     public MenuNameRatingPair(String name, int rating) {
         this.name = name;
         this.rating = rating;
