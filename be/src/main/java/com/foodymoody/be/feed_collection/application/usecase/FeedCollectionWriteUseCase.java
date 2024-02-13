@@ -8,6 +8,9 @@ import com.foodymoody.be.feed_collection.application.service.FeedCollectionWrite
 import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionCreateRequest;
 import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionEditRequest;
 import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionFeedsUpdateRequest;
+import com.foodymoody.be.feed_collection.domain.FeedCollectionMood;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,10 +24,13 @@ public class FeedCollectionWriteUseCase {
     private final FeedCollectionMoodWriteService moodService;
 
     public FeedCollectionId create(FeedCollectionCreateRequest request, MemberId memberId) {
-        var moods = moodService.findAllById(request.getMoodIds());
+        List<FeedCollectionMood> moods = new ArrayList<>();
+        if (request.getMoodIds() != null && !request.getMoodIds().isEmpty()) {
+            moods = moodService.findAllById(request.getMoodIds());
+        }
         return service.create(
                 request.getTitle(),
-                request.getDescription(),
+                request.getDescription() == null ? "" : request.getDescription(),
                 request.isPrivate(),
                 memberId,
                 moods

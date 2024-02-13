@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed_comment.application.dto.request;
+package com.foodymoody.be.feed_comment.persentation.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

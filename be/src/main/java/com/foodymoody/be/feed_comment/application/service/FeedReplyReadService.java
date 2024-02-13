@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_comment.application.service;
 
-import com.foodymoody.be.common.exception.ReplyNotExistsException;
+import com.foodymoody.be.common.exception.FeedReplyNotFoundException;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
 import com.foodymoody.be.common.util.ids.FeedReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -44,12 +44,12 @@ public class FeedReplyReadService {
         if (feedReplyRepository.existsById(feedReplyId)) {
             return;
         }
-        throw new ReplyNotExistsException();
+        throw new FeedReplyNotFoundException();
     }
 
     @Transactional(readOnly = true)
     public FeedReply fetchById(FeedReplyId feedReplyId) {
         return feedReplyRepository.findById(feedReplyId)
-                .orElseThrow(ReplyNotExistsException::new);
+                .orElseThrow(FeedReplyNotFoundException::new);
     }
 }

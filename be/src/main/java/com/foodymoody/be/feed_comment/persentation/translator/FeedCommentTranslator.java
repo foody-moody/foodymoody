@@ -1,4 +1,4 @@
-package com.foodymoody.be.feed_comment.persentation;
+package com.foodymoody.be.feed_comment.persentation.translator;
 
 import static com.foodymoody.be.common.util.Constants.UTILITY_CLASS;
 
@@ -9,9 +9,9 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_comment.application.dto.data.EditFeedCommentData;
 import com.foodymoody.be.feed_comment.application.dto.data.RegisterFeedCommentData;
 import com.foodymoody.be.feed_comment.application.dto.data.RegisterFeedReplyData;
-import com.foodymoody.be.feed_comment.application.dto.request.EditFeedCommentRequest;
-import com.foodymoody.be.feed_comment.application.dto.request.RegisterFeedCommentRequest;
-import com.foodymoody.be.feed_comment.application.dto.request.RegisterFeedReplyRequest;
+import com.foodymoody.be.feed_comment.persentation.dto.EditFeedCommentRequest;
+import com.foodymoody.be.feed_comment.persentation.dto.RegisterFeedCommentRequest;
+import com.foodymoody.be.feed_comment.persentation.dto.RegisterFeedReplyRequest;
 
 public class FeedCommentTranslator {
 

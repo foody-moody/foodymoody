@@ -60,6 +60,36 @@ public class FeedReplySteps {
         return 댓글에_댓글을_등록한다(feedId, commentId, accessToken, new RequestSpecBuilder().build());
     }
 
+    public static ExtractableResponse<Response> 댓글에_댓글을_수정한다(
+            String feedId,
+            String commentId,
+            String replyId,
+            String accessToken,
+            RequestSpecification spec
+    ) {
+        return RestAssured.given().spec(spec).log().all()
+                .auth().oauth2(accessToken)
+                .body(Map.of("content", "수정된 댓글 내용"))
+                .contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().put("/api/feed/{feedId}/comments/{commentId}/replies/{replyId}", feedId, commentId, replyId)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 댓글에_댓글을_삭제한다(
+            String feedId,
+            String commentId,
+            String replyId,
+            String accessToken,
+            RequestSpecification spec
+    ) {
+        return RestAssured.given().spec(spec).log().all()
+                .auth().oauth2(accessToken)
+                .when().delete("/api/feed/{feedId}/comments/{commentId}/replies/{replyId}", feedId, commentId, replyId)
+                .then().log().all()
+                .extract();
+    }
+
     public static String 댓글에_댓글을_등록하고_아이디를_가져온다(String feedId, String commentId, String accessToken) {
         return 댓글에_댓글을_등록한다(feedId, commentId, accessToken, new RequestSpecBuilder().build()).jsonPath()
                 .getString("id");

@@ -158,7 +158,7 @@ public class FeedCollection {
         this.updatedAt = updatedAt;
     }
 
-    private void validateAuthor(MemberId memberId) {
+    public void validateAuthor(MemberId memberId) {
         if (!memberId.equals(authorId)) {
             throw new IllegalArgumentException("피드 컬렉션 작성자가 아닙니다.");
         }

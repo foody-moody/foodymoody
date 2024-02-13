@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-public class FeedReplyController {
+public class FeedReplyReadController {
 
     private final FeedReplyReadService service;
 

@@ -50,7 +50,10 @@ public enum ErrorMessage {
     JSON_CONVERT_ERROR("json 변환에 실패했습니다.", "fn002"),
     FEED_COLLECTION_COMMENT_NOT_FOUND("존재하지 않는 피드 컬렉션 댓글입니다.", "fn003"),
     NOTIFICATION_SETTING_NOT_FOUND("존재하지 않는 알림 설정입니다.", "fn004"),
-    FEED_COLLECTION_REPLY_NOT_FOUND("존재하지 않는 피드 컬렉션 답글입니다.", "fn005"),
+
+    // feed collection
+    FEED_COLLECTION_NOT_FOUND("존재하지 않는 피드 컬렉션입니다.", "fc001"),
+    FEED_COLLECTION_REPLY_NOT_FOUND("존재하지 않는 피드 컬렉션 답글입니다.", "fc002"),
     // image
     IMAGE_NOT_FOUND("해당 id의 이미지가 존재하지 않습니다", "i001"),
     IMAGE_UPLOAD_FAILED("이미지 업로드에 실패했습니다", "i002"),
@@ -58,7 +61,7 @@ public enum ErrorMessage {
     INVALID_IMAGE_FILE("유효하지 않은 이미지 파일입니다", "i004"),
     UNSUPPORTED_IMAGE_FORMAT_EXCEPTION("지원되지 않는 이미지 형식입니다", "i005"),
     INVALID_IMAGE_URL("유효하지 않은 이미지 url입니다", "i006"),
-    MAX_UPLOAD_SIZE_EXEEDED("2.8MB 이하의 이미지만 업로드 가능합니다", "i007"),
+    MAX_UPLOAD_SIZE_EXCEEDED("2.8MB 이하의 이미지만 업로드 가능합니다", "i007"),
     INVALID_IMAGE_ID("유효하지 않은 이미지 id입니다", "i008"),
     MENU_NOT_FOUND("유효하지 않은 메뉴 id입니다.", "i010"),
     IS_LIKED_NOT_EXISTS("isLiked를 찾아올 수 없습니다.", "i012"),

@@ -8,6 +8,7 @@ import com.foodymoody.be.feed_collection.application.usecase.FeedCollectionWrite
 import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionCreateRequest;
 import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionEditRequest;
 import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionFeedsUpdateRequest;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class FeedCollectionWriteController {
 
     @PostMapping("/api/feed_collections")
     public ResponseEntity<IdResponse> create(
-            @RequestBody FeedCollectionCreateRequest request,
+            @Valid @RequestBody FeedCollectionCreateRequest request,
             @CurrentMemberId MemberId memberId
     ) {
         var id = useCase.create(request, memberId);
