@@ -9,6 +9,9 @@ public class ImageIdNamePair {
     private ImageId id;
     private String url;
 
+    /**
+     * FeedJpaRepository에서 사용 중
+     */
     public ImageIdNamePair(ImageId id, String url) {
         this.id = id;
         this.url = url;

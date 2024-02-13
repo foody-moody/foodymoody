@@ -46,7 +46,7 @@ public class FeedReadResponse {
     private Long commentCount;
 
     @Builder
-    public FeedReadResponse(
+    private FeedReadResponse(
             FeedId id,
             FeedMemberResponse member,
             StoreResponse storeResponse,

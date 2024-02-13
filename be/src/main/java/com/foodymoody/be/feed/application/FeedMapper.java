@@ -30,9 +30,7 @@ import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
 import com.foodymoody.be.feed_like_count.domain.entity.FeedLikeCount;
-import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
-import com.foodymoody.be.menu.domain.entity.Menu;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,31 +44,7 @@ public class FeedMapper {
     }
 
     public static FeedRegisterResponse toFeedRegisterResponse(Feed savedFeed) {
-        return new FeedRegisterResponse(savedFeed.getId());
-    }
-
-    public static FeedReadResponse toFeedReadResponse(
-            FeedMemberResponse feedMemberResponse,
-            Feed feed,
-            List<FeedImageMenuResponse> images,
-            List<FeedStoreMoodResponse> moodNames,
-            boolean isLiked,
-            Long commentCount,
-            StoreResponse storeResponse
-    ) {
-        return FeedReadResponse.builder()
-                .id(feed.getId())
-                .member(feedMemberResponse)
-                .storeResponse(storeResponse)
-                .review(feed.getReview())
-                .storeMood(moodNames)
-                .images(images)
-                .createdAt(feed.getCreatedAt())
-                .updatedAt(feed.getUpdatedAt())
-                .isLiked(isLiked)
-                .likeCount(feed.getLikeCount())
-                .commentCount(commentCount)
-                .build();
+        return FeedRegisterResponse.of(savedFeed.getId());
     }
 
     public static FeedServiceRegisterRequest toServiceRegisterRequest(FeedRegisterRequest request, MemberId memberId) {
@@ -104,13 +78,16 @@ public class FeedMapper {
     ) {
         List<FeedImageMenuResponse> feedImageMenuResponses = new ArrayList<>();
         for (int i = 0; i < imageIdUrlList.size(); i++) {
+            FeedId feedId = IdFactory.createFeedId();
+            ImageId id = imageIdUrlList.get(i).getId();
+            String url = imageIdUrlList.get(i).getUrl();
+            String name = menuNameRatingList.get(i).getName();
+            int rating = menuNameRatingList.get(i).getRating();
             feedImageMenuResponses.add(
-                    new FeedImageMenuResponse(
-                            IdFactory.createFeedId(),
-                            new FeedImageResponse(imageIdUrlList.get(i).getId(),
-                                    imageIdUrlList.get(i).getUrl()),
-                            new FeedMenuResponse(menuNameRatingList.get(i).getName(),
-                                    menuNameRatingList.get(i).getRating())
+                    FeedImageMenuResponse.from(
+                            feedId,
+                            FeedImageResponse.from(id, url),
+                            FeedMenuResponse.from(name, rating)
                     )
             );
         }
@@ -127,37 +104,14 @@ public class FeedMapper {
                 .id(member.getId())
                 .profileImageUrl(member.getProfileImageUrl())
                 .nickname(member.getNickname())
-                .tasteMood(new FeedTasteMoodResponse(member.getId(), member.getMoodName()))
+                .tasteMood(FeedTasteMoodResponse.from(member.getId(), member.getMoodName()))
                 .build();
     }
 
-    public static FeedReadAllResponse makeFeedReadAllResponse(
-            Feed feed,
-            FeedMemberResponse makeFeedMemberResponse,
-            List<FeedStoreMoodResponse> makeFeedStoreMoodResponses,
-            List<FeedImageMenuResponse> makeFeedImageMenuResponses,
-            boolean isLiked,
-            Long commentCount,
-            StoreResponse storeResponse
-    ) {
-        return FeedReadAllResponse.builder()
-                .id(feed.getId())
-                .member(makeFeedMemberResponse)
-                .storeResponse(storeResponse)
-                .review(feed.getReview())
-                .storeMood(makeFeedStoreMoodResponses)
-                .images(makeFeedImageMenuResponses)
-                .createdAt(feed.getCreatedAt())
-                .updatedAt(feed.getUpdatedAt())
-                .commentCount(commentCount)
-                .isLiked(isLiked)
-                .likeCount(feed.getLikeCount())
-                .build();
-    }
 
     public static List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<StoreMood> storeMoods) {
         return storeMoods.stream()
-                .map(storeMood -> new FeedStoreMoodResponse(storeMood.getId(), storeMood.getName()))
+                .map(storeMood -> FeedStoreMoodResponse.from(storeMood.getId(), storeMood.getName()))
                 .collect(Collectors.toList());
     }
 
@@ -190,7 +144,7 @@ public class FeedMapper {
     }
 
     public static StoreResponse makeStoreResponse(StoreId id, String name) {
-        return new StoreResponse(id, name);
+        return StoreResponse.from(id, name);
     }
 
     public static FeedLikeCount makeFeedLikeCount(FeedLikeCountId id, FeedId feedId, int count) {

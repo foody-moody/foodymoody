@@ -16,7 +16,7 @@ public class FeedMemberResponse {
     private FeedTasteMoodResponse tasteMood;
 
     @Builder
-    public FeedMemberResponse(
+    private FeedMemberResponse(
             MemberId id,
             String profileImageUrl,
             String nickname,

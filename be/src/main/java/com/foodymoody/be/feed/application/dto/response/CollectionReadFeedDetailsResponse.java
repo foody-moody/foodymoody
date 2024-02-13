@@ -46,7 +46,7 @@ public class CollectionReadFeedDetailsResponse {
     private Long feedCommentCount;
 
     @Builder
-    public CollectionReadFeedDetailsResponse(
+    private CollectionReadFeedDetailsResponse(
             int feedAllCount,
             String feedThumbnailUrl,
             String storeName,

@@ -16,7 +16,7 @@
 [[feed]]
 == 피드
 
-=== 피드 등록
+=== 피드 등록 🔐
 
 ==== 성공
 
@@ -50,31 +50,31 @@ operation::feed_register_failed_by_mood_invalid_4[snippets='http-request,http-re
 
 operation::feed_register_failed_by_menu_0[snippets='http-request,http-response']
 
-=== 피드 전체 조회
+=== 피드 전체 조회 ❤️
 
 ==== 성공
 
 operation::readAllFeed[snippets='http-request,http-response']
 
-=== 피드 개별 조회
+=== 피드 개별 조회 ❤️
 
 ==== 성공
 
 operation::readFeed[snippets='http-request,http-response']
 
-=== 피드 수정
+=== 피드 수정 🔐
 
 ==== 성공
 
 operation::updateFeed[snippets='http-request']
 
-=== 피드 삭제
+=== 피드 삭제 🔐
 
 ==== 성공
 
 operation::deleteFeed[snippets='http-request']
 
-=== 좋아요 등록
+=== 좋아요 등록 🔐
 
 ==== 성공
 
@@ -84,7 +84,7 @@ operation::like[snippets='http-request,http-response']
 
 operation::likeFailed[snippets='http-request,http-response']
 
-=== 좋아요 취소
+=== 좋아요 취소 🔐
 
 ==== 성공
 
