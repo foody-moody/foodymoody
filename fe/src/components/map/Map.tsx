@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useToast } from 'recoil/toast/useToast';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
@@ -31,7 +31,6 @@ export const NaverMap: React.FC<Props> = ({ data }) => {
       function (status: any, response: any) {
         const result = response.v2,
           items = result.addresses;
-        console.log('items', items[0].x);
 
         if (status !== naver.maps.Service.Status.OK || items.length === 0) {
           setIsError(true);
