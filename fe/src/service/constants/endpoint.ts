@@ -20,6 +20,7 @@ export const END_POINT = {
     `/feed/${feedId}/comments/${commentId}/likes`,
   replyLike: ({ commentId, replyId }: ReplyLike, feedId?: string) =>
     `/feed/${feedId}/comments/${commentId}/replies/${replyId}/likes`,
+  storeLike: (storeId?: string) => `/stores/${storeId}/likes`,
   member: (id?: string) => (id ? `/members/${id}` : `/members/me`),
   memberFeeds: (id?: string) => `/members/${id}/feeds`,
   password: (id?: string) => `/members/${id}/password`,
@@ -28,8 +29,10 @@ export const END_POINT = {
     commentId
       ? `/feed/${feedId}/comments/${commentId}`
       : `/feed/${feedId}/comments`,
-  reply: (feedId?: string, commentId?: string) =>
-    `/feed/${feedId}/comments/${commentId}/replies`,
+  reply: (feedId?: string, commentId?: string, replyId?: string) =>
+    replyId
+      ? `/feed/${feedId}/comments/${commentId}/replies/${replyId}`
+      : `/feed/${feedId}/comments/${commentId}/replies`,
   imageUpload: (type: 'feed' | 'user') =>
     type === 'feed' ? `/images/feeds` : `/images/members`,
   nickName: (nickname: string) =>

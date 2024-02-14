@@ -124,6 +124,7 @@ export const useRefreshToken = () => {
         const errorData = error?.response?.data;
         errorData && console.log(errorData.message);
         clearLoginInfo();
+        window.location.replace(PATH.HOME);
       },
     }
   );

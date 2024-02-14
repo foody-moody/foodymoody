@@ -10,6 +10,10 @@ type SelectedStore = {
 
 type StoreDetail = {
   name: string;
+  rating: number;
+  liked: boolean;
+  likeCount: number;
+  feedCount: number;
   address: string;
   roadAddress: string;
   phone: string;
