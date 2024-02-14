@@ -1,6 +1,6 @@
 # 🍴 **FoodyMoody**: 당신의 맛, 우리의 무드
 
-[![Coverage Status](https://coveralls.io/repos/github/foody-moody/foodymoody/badge.svg)](https://coveralls.io/github/foody-moody/foodymoody)
+[![Coverage Status](https://coveralls.io/repos/github/foody-moody/foodymoody/badge.svg?branch=dev-be)](https://coveralls.io/github/foody-moody/foodymoody)
 
 ---
 
