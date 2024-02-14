@@ -1,7 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { useDeleteComment, usePutComment } from 'service/queries/comment';
 import { useDeleteReplyLike, usePostReplyLike } from 'service/queries/like';
-import { useGetReplies } from 'service/queries/reply';
+import {
+  useDeleteReply,
+  useGetReplies,
+  usePutReply,
+} from 'service/queries/reply';
 import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
@@ -32,8 +36,22 @@ export const ReplyItem: React.FC<Props> = ({
   const { isLogin, userInfo } = useAuthState();
   const { navigateToLogin } = usePageNavigator();
   const { refetch: getReplies } = useGetReplies(commentId, feedId);
-  const { mutate: editMutate } = usePutComment(feedId);
-  const { mutate: deleteMutate } = useDeleteComment(feedId);
+  const { mutate: editMutate } = usePutReply(
+    {
+      feedId,
+      commentId,
+      replyId: reply.id,
+    },
+    getReplies
+  );
+  const { mutate: deleteMutate } = useDeleteReply(
+    {
+      feedId,
+      commentId,
+      replyId: reply.id,
+    },
+    getReplies
+  );
   const { mutate: likeMutate } = usePostReplyLike(getReplies, feedId);
   const { mutate: unLikeMutate } = useDeleteReplyLike(getReplies, feedId);
 
@@ -65,7 +83,7 @@ export const ReplyItem: React.FC<Props> = ({
   };
 
   const handleDelete = () => {
-    deleteMutate(reply.id);
+    deleteMutate();
   };
 
   const handleAlert = () => {

@@ -99,7 +99,7 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
 
         {showReplies && (
           <ReplyContainer>
-            {replies.map((reply) => (
+            {replies?.map((reply) => (
               <ReplyItem
                 key={reply.id}
                 feedId={feedId}
