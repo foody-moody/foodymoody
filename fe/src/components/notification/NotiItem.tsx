@@ -60,6 +60,7 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
 
     const handleNavigateProfile = () => {
       // api에서 지금 sender id를 제대로 안주고 있음
+      // 자기 자신 프로필이면 /id 없이 PATH.PROFILE 로만 이동
       navigate(PATH.PROFILE + '/' + id);
       sessionStorage.setItem('profileId', id);
     };

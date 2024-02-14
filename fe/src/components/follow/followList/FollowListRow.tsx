@@ -17,7 +17,9 @@ export const FollowListRow = forwardRef<HTMLLIElement, Props>(
 
     const handleNavigateProfile = () => {
       if (followListItem.id) {
-        navigate(PATH.PROFILE + '/' + followListItem.id);
+        isAuthor
+          ? navigate(PATH.PROFILE)
+          : navigate(PATH.PROFILE + '/' + followListItem.id);
         sessionStorage.setItem('profileId', followListItem.id);
       }
     };

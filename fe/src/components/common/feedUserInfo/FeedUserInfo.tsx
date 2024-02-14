@@ -33,9 +33,12 @@ export const FeedUserInfo: React.FC<Props> = ({
   const { mutate: deleteMutate } = useDeleteFeed();
   const { isLogin, userInfo } = useAuthState();
   const formattedTimeStamp = formatTimeStamp(createdAt);
+  const isAuthor = userInfo.id === member.id;
 
   const handleNavigateProfile = () => {
-    navigate(PATH.PROFILE + '/' + member.id);
+    isAuthor
+      ? navigate(PATH.PROFILE)
+      : navigate(PATH.PROFILE + '/' + member.id);
     sessionStorage.setItem('profileId', member.id);
   };
 
