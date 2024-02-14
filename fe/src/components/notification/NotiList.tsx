@@ -35,7 +35,7 @@ export const NotiList = () => {
         return (
           <NotiItem
             notification={notification}
-            // key={notification.notificationId}
+            key={notification.notificationId}
             ref={isLastItem ? observeTarget : null}
             onClick={handleNotificationClick}
           />
