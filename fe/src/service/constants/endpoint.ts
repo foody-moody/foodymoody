@@ -5,6 +5,7 @@ export const END_POINT = {
   refresh: `/auth/token`,
   tasteMood: `/members/taste-moods`,
   storeMood: `/feeds/store-moods`,
+  password: `/members/me/password`,
   store: (id?: string, keyword?: string) =>
     id ? `/stores/${id}` : `/stores/search?query=${keyword}`,
   collection: (
@@ -23,7 +24,6 @@ export const END_POINT = {
   storeLike: (storeId?: string) => `/stores/${storeId}/likes`,
   member: (id?: string) => (id ? `/members/${id}` : `/members/me`),
   memberFeeds: (id?: string) => `/members/${id}/feeds`,
-  password: (id?: string) => `/members/${id}/password`,
   feed: (id?: string) => (id ? `/feeds/${id}` : `/feeds`),
   comment: (feedId?: string, commentId?: string) =>
     commentId

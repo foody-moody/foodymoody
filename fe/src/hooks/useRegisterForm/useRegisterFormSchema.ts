@@ -42,10 +42,10 @@ export const registerSchema = z
     email: emailSchema(),
     nickname: nickNameSchema(),
     password: passwordSchema(),
-    reconfirmPassword: passwordLengthSchema(),
+    repeatPassword: passwordLengthSchema(),
     tasteMoodId: tasteMoodSchema(),
   })
-  .refine((value) => value.password === value.reconfirmPassword, {
-    path: ['reconfirmPassword'],
+  .refine((value) => value.password === value.repeatPassword, {
+    path: ['repeatPassword'],
     message: '비밀번호가 일치하지 않습니다.',
   });
