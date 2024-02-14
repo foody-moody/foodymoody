@@ -90,7 +90,7 @@ export const DetailFeedModalPage = () => {
                     createdAt={isUpdated ? feed.updatedAt : feed.createdAt}
                     isUpdated={isUpdated}
                     store={feed?.store}
-                    thumbnail={feed.images[0]?.image.url}
+                    thumbnail={feed?.images[0]?.image.url}
                   />
                 </Detail>
                 <Review>{feed?.review}</Review>
