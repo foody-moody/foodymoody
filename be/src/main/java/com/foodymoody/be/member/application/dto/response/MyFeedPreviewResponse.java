@@ -4,12 +4,12 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import lombok.Getter;
 
 @Getter
-public class FeedPreviewResponse {
+public class MyFeedPreviewResponse {
 
     private FeedId id;
     private String imageUrl;
 
-    public FeedPreviewResponse(FeedId id, String imageUrl) {
+    public MyFeedPreviewResponse(FeedId id, String imageUrl) {
         this.id = id;
         this.imageUrl = imageUrl;
     }

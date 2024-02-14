@@ -50,6 +50,16 @@ public class StoreSteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 가게별_피드를_조회한다(String id, RequestSpecification spec) {
+        return RestAssured.given().log().all().spec(spec)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get("/api/stores/{id}/feeds", id)
+                .then()
+                .log().all()
+                .extract();
+    }
+
     public static void 이미지를_업로드하고_특정_id의_가게에_대한_피드를_등록한다(String accessToken, String id) {
         ExtractableResponse<Response> 피드_이미지1_업로드_응답 =
                 피드_이미지를_업로드한다(accessToken, new RequestSpecBuilder().build());

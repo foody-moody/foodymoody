@@ -117,7 +117,7 @@ operation::login_failedByUnregisteredEmail[snippets='http-response']
 
 operation::login_failedByWrongPassword[snippets='http-response']
 
-=== 토큰 재발급
+=== 토큰 재발급 🔐
 
 ==== 성공
 
@@ -127,7 +127,7 @@ operation::issueToken_success[snippets='http-request,http-response']
 
 operation::issueTokenWithInvalidRefreshToken_fail[snippets='http-response']
 
-=== 로그아웃
+=== 로그아웃 🔐
 
 ==== 성공
 
@@ -277,17 +277,23 @@ operation::fetchMemberFeeds_success[snippets='http-request,http-response']
 
 operation::fetchMemberFeedsEmpty_success[snippets='http-response']
 
-=== 회원별 컬렉션 조회
+=== 회원별 컬렉션 조회 ❤️
 
 ==== 성공
 
 operation::fetch_member_collections_if_success[snippets='http-request,http-response']
 
-=== 회원별 전체 컬렉션 제목 조회
+=== 회원별 전체 컬렉션 제목 조회 🔐
 
 ==== 성공
 
 operation::fetch_member_collection_titles_if_success[snippets='http-request,http-response']
+
+=== 회원별 전체 컬렉션 + 피드 포함 여부 조회 🔐
+
+==== 성공
+
+operation::fetch_member_collection_with_feed_inclusion_if_success[snippets='http-request,http-response']
 
 === 테이스트 무드 조회
 
@@ -301,7 +307,7 @@ operation::fetchAllTasteMoods_success[snippets='http-request,http-response']
 
 operation::checkNicknameDuplicate_success[snippets='http-request,http-response']
 
-=== 비밀번호 수정
+=== 비밀번호 수정 🔐
 
 ==== 성공
 
@@ -315,7 +321,7 @@ operation::changeMemberPasswordWithIncorrectPassword_fail[snippets='http-respons
 
 operation::changeMemberPasswordWithNotMatchPattern_fail[snippets='http-response']
 
-=== 회원 정보 수정
+=== 회원 정보 수정 🔐
 
 프로필 이미지, 닉네임, 테이스트 무드 수정 가능하고, 변경되지 않은 데이터는 null로 주셔도 됩니다
 
@@ -339,13 +345,13 @@ operation::updateMemberProfileImageNotExist_fail[snippets='http-response']
 
 operation::updateTasteMoodNotExist_fail[snippets='http-response']
 
-=== 회원 탈퇴
+=== 회원 탈퇴 🔐
 
 ==== 성공
 
 operation::deleteMember_success[snippets='http-request,http-response']
 
-=== 팔로우
+=== 팔로우 🔐
 
 ==== 성공
 
@@ -363,7 +369,7 @@ operation::follow_member_failed_by_member_not_exists[snippets='http-response']
 
 operation::follow_member_failed_by_follow_self[snippets='http-response']
 
-=== 언팔로우
+=== 언팔로우 🔐
 
 ==== 성공
 
@@ -769,7 +775,7 @@ operation::feed_collection_mood_find_all_success[snippets='http-request,http-res
 
 == 가게
 
-=== 가게 상세정보 조회
+=== 가게 상세정보 조회 ❤️
 
 ==== 성공
 
@@ -781,14 +787,20 @@ operation::fetch_store_details_success[snippets='http-request,http-response']
 
 operation::search_store_success[snippets='http-request,http-response']
 
-=== 가게 좋아요 등록
+=== 가게 좋아요 등록 🔐
 
 ==== 성공
 
 operation::register_store_like_if_success[snippets='http-request,http-response']
 
-=== 가게 좋아요 취소
+=== 가게 좋아요 취소 🔐
 
 ==== 성공
 
 operation::cancel_store_like_if_success[snippets='http-request,http-response']
+
+==== 가게별 피드 조회
+
+==== 성공
+
+operation::fetch_store_feeds_success[snippets='http-request,http-response']

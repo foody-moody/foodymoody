@@ -14,12 +14,4 @@ public class MemberId extends BaseId {
         super(value);
     }
 
-    /**
-     * @deprecated equals를 사용해주세요
-     * */
-    @Deprecated(forRemoval = true)
-    public boolean isSame(MemberId memberId) {
-        return value.equals(memberId.value);
-    }
-
 }

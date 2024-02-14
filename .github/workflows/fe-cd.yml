@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - release
+    paths:
+      - 'fe/**'
 
 env:
   ROOT_PATH: "./fe"

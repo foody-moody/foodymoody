@@ -26,19 +26,19 @@ public enum MemberFixture {
     public static Map<String, Object> 푸반_비밀번호_수정_요청() {
         return Map.of(
                 "oldPassword", 사용자_푸반.getPassword(),
-                "newPassword", "atiati123!");
+                "password", "atiati123!");
     }
 
     public static Map<String, Object> 푸반_비밀번호_수정_요청_틀린_형식() {
         return Map.of(
                 "oldPassword", 사용자_푸반.getPassword(),
-                "newPassword", "puban");
+                "password", "puban");
     }
 
     public static Map<String, Object> 푸반_비밀번호_수정_요청_인증_실패() {
         return Map.of(
                 "oldPassword", "incorrect123!",
-                "newPassword", "atiati123!");
+                "password", "atiati123!");
     }
 
     public static Map<String, Object> 보노_프로필_수정_요청(String imageId) {
@@ -77,7 +77,7 @@ public enum MemberFixture {
                 "nickname", 사용자_보노.getNickname(),
                 "email", 사용자_보노.getEmail(),
                 "password", 사용자_보노.getPassword(),
-                "reconfirmPassword", 사용자_보노.getPassword(),
+                "repeatPassword", 사용자_보노.getPassword(),
                 "tasteMoodId", 사용자_보노.getTasteMoodId());
     }
 
@@ -86,7 +86,7 @@ public enum MemberFixture {
                 "nickname", 사용자_알버트.getNickname(),
                 "email", 사용자_알버트.getEmail(),
                 "password", 사용자_알버트.getPassword(),
-                "reconfirmPassword", 사용자_알버트.getPassword(),
+                "repeatPassword", 사용자_알버트.getPassword(),
                 "tasteMoodId", 사용자_알버트.getTasteMoodId());
     }
 
@@ -95,7 +95,7 @@ public enum MemberFixture {
                 "nickname", 사용자_설리.getNickname(),
                 "email", 사용자_설리.getEmail(),
                 "password", 사용자_설리.getPassword(),
-                "reconfirmPassword", 사용자_설리.getPassword(),
+                "repeatPassword", 사용자_설리.getPassword(),
                 "tasteMoodId", 사용자_설리.getTasteMoodId());
     }
 
@@ -104,7 +104,7 @@ public enum MemberFixture {
                 "nickname", 사용자_아티.getNickname(),
                 "email", 사용자_아티.getEmail(),
                 "password", 사용자_아티.getPassword(),
-                "reconfirmPassword", 사용자_아티.getPassword(),
+                "repeatPassword", 사용자_아티.getPassword(),
                 "tasteMoodId", 사용자_아티.getTasteMoodId());
     }
 
@@ -113,7 +113,7 @@ public enum MemberFixture {
                 "nickname", 사용자_푸반.getNickname(),
                 "email", 사용자_푸반.getEmail(),
                 "password", 사용자_푸반.getPassword(),
-                "reconfirmPassword", 사용자_푸반.getPassword(),
+                "repeatPassword", 사용자_푸반.getPassword(),
                 "tasteMoodId", 사용자_푸반.getTasteMoodId());
     }
 

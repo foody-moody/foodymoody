@@ -5,7 +5,6 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
 import com.foodymoody.be.image.application.service.ImageService;
 import com.foodymoody.be.image.domain.Image;
-import com.foodymoody.be.member.application.AuthorizationValidator;
 import com.foodymoody.be.member.application.dto.request.UpdateProfileRequest;
 import com.foodymoody.be.member.application.service.MemberReadService;
 import com.foodymoody.be.member.application.service.TasteMoodReadService;

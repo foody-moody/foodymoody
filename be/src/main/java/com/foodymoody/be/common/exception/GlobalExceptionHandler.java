@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -91,11 +92,12 @@ public class GlobalExceptionHandler {
         return e.getBindingResult()
                 .getAllErrors()
                 .stream()
-                .filter(FieldError.class::isInstance)
+                .filter(ObjectError.class::isInstance)
                 .collect(Collectors.toMap(
-                        error -> ((FieldError) error).getField(),
+                        error -> error instanceof FieldError ? ((FieldError) error).getField() : error.getObjectName(),
                         ObjectError::getDefaultMessage,
                         (msg1, msg2) -> msg1 + ";" + msg2
                 ));
     }
+
 }
