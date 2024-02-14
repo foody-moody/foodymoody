@@ -49,14 +49,17 @@ export const useGetFollows = (
   };
 };
 
-export const usePostFollow = (memberId?: string) => {
+export const usePostFollow = (memberId?: string, queryKey?: string) => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
   return useMutation({
     mutationFn: () => postFollow(memberId),
     onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEY.profile, memberId]);
+      console.log('usePostFollow success', queryKey);
+      queryKey
+        ? queryClient.invalidateQueries([QUERY_KEY.profile, queryKey])
+        : queryClient.invalidateQueries([QUERY_KEY.profile, memberId]);
       queryClient.invalidateQueries([QUERY_KEY.followers]);
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
@@ -67,13 +70,16 @@ export const usePostFollow = (memberId?: string) => {
   });
 };
 
-export const useDeleteFollow = (memberId?: string) => {
+export const useDeleteFollow = (memberId?: string, queryKey?: string) => {
   const queryClient = useQueryClient();
   const toast = useToast();
   return useMutation({
     mutationFn: () => deleteFollow(memberId),
     onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEY.profile, memberId]);
+      console.log('deleteFollow success', queryKey);
+      queryKey
+        ? queryClient.invalidateQueries([QUERY_KEY.profile, queryKey])
+        : queryClient.invalidateQueries([QUERY_KEY.profile, memberId]);
       queryClient.invalidateQueries([QUERY_KEY.followings]);
       queryClient.invalidateQueries([QUERY_KEY.followers]);
     },

@@ -1,7 +1,7 @@
+import { useParams } from 'react-router-dom';
 import { useDeleteFollow, usePostFollow } from 'service/queries/follow';
 import { Button } from 'components/common/button/Button';
-
-// import { Spinner } from 'components/common/loading/spinner';
+import { useAuthState } from 'hooks/auth/useAuth';
 
 type Props = {
   size?: 's' | 'xs';
@@ -15,10 +15,17 @@ export const FollowListButton: React.FC<Props> = ({
   memberId,
   isFollowing,
 }) => {
-  const { mutate: followMutate, isLoading: isFollowLoading } =
-    usePostFollow(memberId);
+  const { id } = useParams();
+  const { userInfo } = useAuthState();
+  const isMyProfile = userInfo?.id === id;
+  const QUERY_KEY = isMyProfile ? userInfo?.id : memberId;
+
+  const { mutate: followMutate, isLoading: isFollowLoading } = usePostFollow(
+    memberId,
+    QUERY_KEY
+  );
   const { mutate: unfollowMutate, isLoading: isUnFlollowLoading } =
-    useDeleteFollow(memberId);
+    useDeleteFollow(memberId, QUERY_KEY);
 
   const handleToggleFollow = () => {
     isFollowing ? unfollowMutate() : followMutate();
