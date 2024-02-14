@@ -67,7 +67,7 @@ type MyCollection = {
   title: string;
 };
 
-type MyCollectionWithChecked = MyCollection & { checked: boolean };
+// type MyCollectionWithChecked = MyCollection & { checked: boolean };
 
 export const CollectionModal: React.FC<CollectionModalProps> = ({
   type = 'default', // default, addFeed
@@ -99,6 +99,7 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
         return prevId.filter((checkedId) => checkedId !== id);
       }
     });
+    console.log(checkedIds);
   };
 
   const handleOpenForm = () => {
