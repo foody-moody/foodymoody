@@ -3,7 +3,8 @@ on:
   push:
     branches:
       - release
-
+    paths:
+      - 'be/**'
 env:
   ROOT_PATH: ${{ github.workspace }}/be
   MAIN_RESOURCE_PATH: ${{ github.workspace }}/be/src/main/resources
