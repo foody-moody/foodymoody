@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
 type Props = {
-  name: string;
+  name?: string;
 };
 
 export const TasteMoodBadge: React.FC<Props> = ({ name }) => {

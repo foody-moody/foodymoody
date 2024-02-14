@@ -22,7 +22,7 @@ export const useRegisterForm = () => {
       email: '',
       nickname: '',
       password: '',
-      reconfirmPassword: '',
+      repeatPassword: '',
       tasteMoodId: '',
     },
     mode: 'onChange',

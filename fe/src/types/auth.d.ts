@@ -7,7 +7,7 @@ type RegisterBody = {
   email: string;
   password: string;
   nickname: string;
-  reconfirmPassword: string;
+  repeatPassword: string;
   tasteMoodId?: string;
 };
 

@@ -9,7 +9,7 @@ export const getSearchStores = async (keyword: string) => {
   return data;
 };
 
-export const getStoreDetail = async (storeId: string) => {
+export const getStoreDetail = async (storeId?: string) => {
   const { data } = await publicApi.get(END_POINT.store(storeId));
   return data;
 };

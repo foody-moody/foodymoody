@@ -8,18 +8,18 @@ import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { ArrowDownIcon, ArrowUpIcon } from '../icon/icons';
-// import { CommentInput } from '../input/CommentInput';
 import { Spinner } from '../loading/spinner';
 import { CommentItem } from './CommentItem';
 import { ReplyItem } from './ReplyItem';
 
 type Props = {
   createdAt: string;
+  feedId: string;
   comment: CommentItemType;
 };
-//TODO heartCount isHearted
+
 export const CommentBox = forwardRef<HTMLLIElement, Props>(
-  ({ createdAt, comment }, ref) => {
+  ({ createdAt, feedId, comment }, ref) => {
     const {
       replies,
       refetch: getReplies,
@@ -27,7 +27,7 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
       fetchNextPage: fetchNextReplies,
       hasNextPage,
     } = useGetReplies(comment.id);
-    const { mutate: replyMutate } = usePostReply(comment.id, () => {
+    const { mutate: replyMutate } = usePostReply(comment.id, feedId, () => {
       submitCallback();
     });
     const { value, handleChange, isValid } = useInput({
@@ -71,7 +71,7 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
 
     return (
       <Wrapper ref={ref}>
-        <CommentItem createdAt={createdAt} comment={comment} />
+        <CommentItem createdAt={createdAt} feedId={feedId} comment={comment} />
         <ReplyButtonBox>
           <p>좋아요 {comment.likeCount}개</p>
           {/* 좋아요 누른 사람의 목록을 보여줄 것인지? */}
@@ -99,9 +99,10 @@ export const CommentBox = forwardRef<HTMLLIElement, Props>(
 
         {showReplies && (
           <ReplyContainer>
-            {replies.map((reply) => (
+            {replies?.map((reply) => (
               <ReplyItem
                 key={reply.id}
+                feedId={feedId}
                 commentId={comment.id}
                 createdAt={
                   reply.createdAt === reply.updatedAt

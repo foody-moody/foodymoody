@@ -1,4 +1,5 @@
 type PasswordBody = {
   oldPassword: string;
-  newPassword: string;
+  password: string;
+  repeatPassword: string;
 };

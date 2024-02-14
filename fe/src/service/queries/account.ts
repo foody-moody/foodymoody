@@ -6,12 +6,12 @@ import { deleteAccount, putEditPassword } from 'service/axios/account/account';
 import { clearLoginInfo } from 'utils/localStorage';
 import { PATH } from 'constants/path';
 
-export const usePutPassword = (id: string) => {
+export const usePutPassword = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: (body: PasswordBody) => putEditPassword(id, body),
+    mutationFn: (body: PasswordBody) => putEditPassword(body),
     onSuccess: () => {
       toast.success('비밀번호를 변경했습니다.');
       navigate(PATH.SETTING);
@@ -24,12 +24,12 @@ export const usePutPassword = (id: string) => {
   });
 };
 
-export const useDeleteAccount = (id: string) => {
+export const useDeleteAccount = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: () => deleteAccount(id),
+    mutationFn: () => deleteAccount(),
     onSuccess: () => {
       toast.success('성공적으로 탈퇴 되었습니다.');
       clearLoginInfo();

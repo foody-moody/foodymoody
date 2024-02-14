@@ -32,7 +32,7 @@ export const DetailFeedModalPage = () => {
   const { closeModal } = useModal<'commentAlert'>();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const { mutate: commentMutate } = usePostComment();
+  const { mutate: commentMutate } = usePostComment(feed?.id);
   const toast = useToast();
   const { isLogin } = useAuthState();
   const { navigateToBack, navigateToHome, navigateToLogin } =
@@ -90,7 +90,7 @@ export const DetailFeedModalPage = () => {
                     createdAt={isUpdated ? feed.updatedAt : feed.createdAt}
                     isUpdated={isUpdated}
                     store={feed?.store}
-                    thumbnail={feed.images[0]?.image.url}
+                    thumbnail={feed?.images[0]?.image.url}
                   />
                 </Detail>
                 <Review>{feed?.review}</Review>

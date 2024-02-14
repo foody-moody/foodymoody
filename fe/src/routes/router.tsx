@@ -28,104 +28,100 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        errorElement: <ErrorPage />,
+        path: '/',
+        element: <HomePage />,
         children: [
           {
-            path: '/',
-            element: <HomePage />,
-            children: [
-              {
-                path: PATH.DETAIL_FEED + '/:id',
-                element: <DetailFeedModalPage />,
-              },
-              {
-                path: PATH.NEW_FEED,
-                element: <NewFeedModalPage />,
-              },
-              {
-                path: PATH.EDIT_FEED + '/:id',
-                element: <NewFeedModalPage />,
-              },
-            ],
+            path: PATH.DETAIL_FEED + '/:id',
+            element: <DetailFeedModalPage />,
           },
           {
-            element: <ProtectedRoute />,
-            children: [
-              {
-                path: PATH.NOTI,
-                element: <NotiPage />,
-                children: [
-                  {
-                    path: PATH.NOTI + PATH.DETAIL_FEED + '/:id',
-                    element: <DetailFeedModalPage />,
-                  },
-                  // 다른 페이지 모달들도 추가할 필요가 있을지?
-                ],
-              },
-              {
-                path: PATH.PROFILE,
-                element: <ProfilePage />,
-                children: [
-                  {
-                    path: PATH.PROFILE + ':id' + PATH.FOLLOWING,
-                    element: <FollowModalPage />,
-                  },
-                  {
-                    path: PATH.PROFILE + ':id' + PATH.FOLLOWER,
-                    element: <FollowModalPage />,
-                  },
-                  {
-                    path: PATH.PROFILE + PATH.DETAIL_FEED + '/:id',
-                    element: <DetailFeedModalPage />,
-                  },
-                ],
-              },
-              {
-                path: PATH.PROFILE + '/:id',
-                element: <ProfilePage />,
-              },
-              {
-                path: PATH.SETTING,
-                element: <SettingPage />,
-                children: [
-                  {
-                    path: PATH.SETTING_NOTI,
-                    element: <NotiSettingPage />,
-                  },
-                  {
-                    path: PATH.SETTING_PROFILE,
-                    element: <ProfileEditPage />,
-                  },
-                  {
-                    path: PATH.SETTING_ACCOUNT,
-                    element: <AccountSettingPage />,
-                  },
-                ],
-              },
-
-              {
-                path: PATH.PASSWORD,
-                element: <PasswordPage />,
-              },
-            ],
+            path: PATH.NEW_FEED,
+            element: <NewFeedModalPage />,
           },
           {
-            path: PATH.COLLECTION,
-            element: <CollectionPage />,
-          },
-          {
-            path: PATH.COLLECTION + '/:id',
-            element: <CollectionDetailPage />,
-          },
-          {
-            path: PATH.SEARCH,
-            element: <SearchPage />,
-          },
-          {
-            path: PATH.STORE + '/:id',
-            element: <StorePage />,
+            path: PATH.EDIT_FEED + '/:id',
+            element: <NewFeedModalPage />,
           },
         ],
+      },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: PATH.NOTI,
+            element: <NotiPage />,
+            children: [
+              {
+                path: PATH.NOTI + PATH.DETAIL_FEED + '/:id',
+                element: <DetailFeedModalPage />,
+              },
+              // 다른 페이지 모달들도 추가할 필요가 있을지?
+            ],
+          },
+          {
+            path: PATH.PROFILE,
+            element: <ProfilePage />,
+            children: [
+              {
+                path: PATH.PROFILE + ':id' + PATH.FOLLOWING,
+                element: <FollowModalPage />,
+              },
+              {
+                path: PATH.PROFILE + ':id' + PATH.FOLLOWER,
+                element: <FollowModalPage />,
+              },
+              {
+                path: PATH.PROFILE + PATH.DETAIL_FEED + '/:id',
+                element: <DetailFeedModalPage />,
+              },
+            ],
+          },
+          {
+            path: PATH.PROFILE + '/:id',
+            element: <ProfilePage />,
+          },
+          {
+            path: PATH.SETTING,
+            element: <SettingPage />,
+            children: [
+              {
+                path: PATH.SETTING_NOTI,
+                element: <NotiSettingPage />,
+              },
+              {
+                path: PATH.SETTING_PROFILE,
+                element: <ProfileEditPage />,
+              },
+              {
+                path: PATH.SETTING_ACCOUNT,
+                element: <AccountSettingPage />,
+              },
+            ],
+          },
+
+          {
+            path: PATH.PASSWORD,
+            element: <PasswordPage />,
+          },
+        ],
+      },
+      {
+        path: PATH.COLLECTION,
+        element: <CollectionPage />,
+      },
+      {
+        path: PATH.COLLECTION + '/:id',
+        element: <CollectionDetailPage />,
+      },
+      {
+        path: PATH.SEARCH,
+        element: <SearchPage />,
+      },
+      {
+        path: PATH.STORE + '/:id',
+        element: <StorePage />,
+        // loader,
       },
     ],
   },

@@ -7,20 +7,19 @@ import {
 } from 'components/common/feedUserInfo/FeedUserInfo';
 import { Spinner } from 'components/common/loading/spinner';
 import { ValidatedInput } from 'components/validatedInput/ValidatedInput';
-import { useAuthState } from 'hooks/auth/useAuth';
 import { usePasswordEditForm } from 'hooks/usePasswordEditForm/usePasswordEditForm';
 import { PasswordEditSchemaType } from 'hooks/usePasswordEditForm/usePasswordEditSchema';
 
 export const PasswordPage = () => {
-  const { userInfo } = useAuthState();
   const { register, handleSubmit, state, errorItem } = usePasswordEditForm();
 
-  const { mutate: passwordMutate } = usePutPassword(userInfo.id);
+  const { mutate: passwordMutate } = usePutPassword();
 
   const onSubmit = async (value: PasswordEditSchemaType) => {
     const registerData = {
       oldPassword: value.password,
-      newPassword: value.newPasswordCheck,
+      password: value.newPassword,
+      repeatPassword: value.newPasswordCheck,
     };
 
     passwordMutate(registerData, {
