@@ -16,11 +16,11 @@ export const getFollowers = async (id?: string, page = 0, size = 10) => {
 };
 
 export const postFollow = async (id?: string) => {
-  const { data } = await privateApi.post(END_POINT.followings(id));
+  const { data } = await privateApi.post(END_POINT.followers(id));
   return data;
 };
 
 export const deleteFollow = async (id?: string) => {
-  const { data } = await privateApi.delete(END_POINT.followings(id));
+  const { data } = await privateApi.delete(END_POINT.followers(id));
   return data;
 };
