@@ -26,17 +26,17 @@ public interface FeedCollectionCommentJpaRepository extends
                     ", _comment.createdAt AS createdAt " +
                     ", _comment.updatedAt AS updatedAt " +
                     ", _member.nickname AS nickname " +
-                    ", _image.url AS profileImageUrl " +
+                    ", COALESCE(_image.url, null ) as imageUrl" +
                     ", _member.tasteMood.name AS mood " +
                     ", (_like.id IS NOT NULL) AS liked " +
                     ", _likeCount.count AS likeCount " +
                     "FROM FeedCollectionComment _comment " +
                     "JOIN Member _member ON _comment.memberId = _member.id " +
-                    "JOIN Image _image ON _member.profileImage.id = _image.id " +
+                    "LEFT JOIN Image _image ON _member.profileImage.id = _image.id AND _image.deleted = false " +
                     "JOIN FeedCollectionCommentLikeCount _likeCount on _likeCount.feedCollectionCommentId = _comment.id " +
                     "LEFT JOIN FeedCollectionCommentLike _like " +
                     "ON _comment.id = _like.commentId AND _like.memberId = :memberId " +
-                    "WHERE _comment.id IN :commentIds "
+                    "WHERE _comment.id IN :commentIds AND _comment.deleted = false"
     )
     Slice<FeedCollectionCommentSummary> findSummaryAllByIdIn(
             MemberId memberId,
@@ -57,15 +57,15 @@ public interface FeedCollectionCommentJpaRepository extends
                     ", _comment.createdAt AS createdAt " +
                     ", _comment.updatedAt AS updatedAt " +
                     ", _member.nickname AS nickname " +
-                    ", _image.url AS profileImageUrl " +
+                    ", COALESCE(_image.url, null ) as imageUrl" +
                     ", _member.tasteMood.name AS mood " +
                     ", false AS liked " +
                     ", _likeCount.count AS likeCount " +
                     "FROM FeedCollectionComment _comment " +
                     "JOIN Member _member ON _comment.memberId = _member.id " +
-                    "JOIN Image _image ON _member.profileImage.id = _image.id " +
+                    "LEFT JOIN Image _image ON _member.profileImage.id = _image.id AND _image.deleted = false " +
                     "JOIN FeedCollectionCommentLikeCount _likeCount on _likeCount.feedCollectionCommentId = _comment.id " +
-                    "WHERE _comment.id IN :commentIds "
+                    "WHERE _comment.id IN :commentIds AND _comment.deleted = false"
     )
     Slice<FeedCollectionCommentSummary> findSummaryAllByIdIn(
             List<FeedCollectionCommentId> commentIds,

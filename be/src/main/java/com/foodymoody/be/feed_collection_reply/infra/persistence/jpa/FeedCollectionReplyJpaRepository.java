@@ -19,14 +19,14 @@ public interface FeedCollectionReplyJpaRepository extends JpaRepository<FeedColl
                     ",_reply.createdAt as createdAt" +
                     ",_member.id as memberId" +
                     ",_member.nickname as nickname" +
-                    ",_image.url as profileUrl " +
+                    ", COALESCE(_image.url, null ) as imageUrl" +
                     ", _like_count.count as likeCount " +
                     ", false as liked " +
                     "FROM FeedCollectionReply _reply " +
                     "JOIN Member _member ON _reply.memberId = _member.id " +
-                    "JOIN Image _image ON _member.profileImage.id = _image.id " +
+                    "LEFT JOIN Image _image ON _member.profileImage.id = _image.id AND _image.deleted = false " +
                     "LEFT JOIN FeedCollectionReplyLikeCount _like_count ON _like_count.feedCollectionReplyId = _reply.id " +
-                    "WHERE _reply.commentId = :commentId "
+                    "WHERE _reply.commentId = :commentId AND _reply.deleted = false "
     )
     Slice<FeedCollectionReplySummary> findSummaryByCommentId(FeedCollectionCommentId commentId, Pageable pageable);
 
@@ -37,15 +37,15 @@ public interface FeedCollectionReplyJpaRepository extends JpaRepository<FeedColl
                     ",_reply.createdAt as createdAt" +
                     ",_member.id as memberId" +
                     ",_member.nickname as nickname" +
-                    ",_image.url as profileUrl " +
+                    ", COALESCE(_image.url, null ) as imageUrl" +
                     ", _like_count.count as likeCount " +
                     ", (_like.id IS NOT NULL ) as liked " +
                     "FROM FeedCollectionReply _reply " +
                     "JOIN Member _member ON _reply.memberId = _member.id " +
-                    "JOIN Image _image ON _member.profileImage.id = _image.id " +
+                    "LEFT JOIN Image _image ON _member.profileImage.id = _image.id AND _image.deleted = false " +
                     "LEFT JOIN FeedCollectionReplyLikeCount _like_count ON _like_count.feedCollectionReplyId = _reply.id " +
                     "LEFT JOIN FeedCollectionReplyLike _like ON _like.feedCollectionReplyId = _reply.id AND _like.memberId = :memberId " +
-                    "WHERE _reply.commentId = :commentId "
+                    "WHERE _reply.commentId = :commentId AND _reply.deleted = false "
     )
     Slice<FeedCollectionReplySummary> findSummaryByCommentId(
             FeedCollectionCommentId commentId,

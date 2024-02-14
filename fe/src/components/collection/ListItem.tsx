@@ -24,6 +24,7 @@ export const ListItem = forwardRef<HTMLLIElement, Props>(
   ({ collection, profileAuthor }, ref) => {
     const { author } = collection;
     const { isLogin, userInfo } = useAuthState();
+    const isAuthor = author.id === userInfo.id;
     const navigate = useNavigate();
 
     const handleNavigateToDetail = (id: string) => {
@@ -31,7 +32,7 @@ export const ListItem = forwardRef<HTMLLIElement, Props>(
     };
 
     const handleNavigateToProfile = (id: string) => {
-      navigate(PATH.PROFILE + '/' + id);
+      isAuthor ? navigate(PATH.PROFILE) : navigate(PATH.PROFILE + '/' + id);
       sessionStorage.setItem('profileId', id);
     };
 

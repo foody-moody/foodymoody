@@ -10,6 +10,7 @@ import com.foodymoody.be.utils.SpringBootIntegrationTest;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +23,11 @@ class StoreLikeCountWriteFacadeTest {
     private ThreadPoolExecutor threadPoolExecutor;
     @Autowired
     private StoreLikeCountJpaRepository jpaRepository;
+
+    @BeforeEach
+    void setup() {
+        jpaRepository.deleteAll();
+    }
 
     @Test
     void when_concurrent_increment_100_times_if_success_then_increase_100() throws InterruptedException {

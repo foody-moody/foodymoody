@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { HeartSmallFill } from 'components/common/icon/icons';
 import { UserImage } from 'components/common/userImage/UserImage';
+import { useAuthState } from 'hooks/auth/useAuth';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { PATH } from 'constants/path';
 
@@ -15,13 +16,15 @@ type Props = {
 export const GridItem = forwardRef<HTMLLIElement, Props>(
   ({ collection, author, isDragging }, ref) => {
     const navigate = useNavigate();
+    const { userInfo } = useAuthState();
+    const isAuthor = userInfo?.id === (collection.author.id || author?.id);
 
     const handleNavigateToDetail = (id: string) => {
       navigate(PATH.COLLECTION + '/' + id);
     };
 
     const handleNavigateToProfile = (id: string) => {
-      navigate(PATH.PROFILE + '/' + id);
+      isAuthor ? navigate(PATH.PROFILE) : navigate(PATH.PROFILE + '/' + id);
       sessionStorage.setItem('profileId', id);
     };
 
