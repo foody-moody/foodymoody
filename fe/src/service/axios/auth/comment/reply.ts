@@ -24,3 +24,21 @@ export const postNewReply = async (
   );
   return data;
 };
+
+export const putEditReply = async (
+  body: EditCommentArgs['body'],
+  args: EditReplyArgs
+) => {
+  const { data } = await privateApi.put(
+    END_POINT.reply(args.feedId, args.commentId, args.replyId),
+    body
+  );
+  return data;
+};
+
+export const deleteReply = async (args: EditReplyArgs) => {
+  const { data } = await privateApi.delete(
+    END_POINT.reply(args.feedId, args.commentId, args.replyId)
+  );
+  return data;
+};

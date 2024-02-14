@@ -9,7 +9,7 @@ import { PATH } from 'constants/path';
 type Props = {
   collection: CollectionItem | CarouselCollectionItem;
   author?: Author;
-  isDragging: boolean;
+  isDragging?: boolean;
 };
 
 export const GridItem = forwardRef<HTMLLIElement, Props>(

@@ -70,7 +70,6 @@ export const usePostFollow = (memberId?: string) => {
 export const useDeleteFollow = (memberId?: string) => {
   const queryClient = useQueryClient();
   const toast = useToast();
-
   return useMutation({
     mutationFn: () => deleteFollow(memberId),
     onSuccess: () => {

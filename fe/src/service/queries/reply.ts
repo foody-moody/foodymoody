@@ -6,7 +6,12 @@ import {
 import { AxiosError } from 'axios';
 import { useMemo } from 'react';
 import { useToast } from 'recoil/toast/useToast';
-import { getAllReplies, postNewReply } from 'service/axios/auth/comment/reply';
+import {
+  deleteReply,
+  getAllReplies,
+  postNewReply,
+  putEditReply,
+} from 'service/axios/auth/comment/reply';
 import 'service/axios/feed/feed';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
@@ -60,6 +65,52 @@ export const usePostReply = (
       } else {
         errorData && toast.error(errorData.message);
       }
+    },
+  });
+};
+
+export const usePutReply = (
+  replyArgs: EditReplyArgs,
+  callbackFn?: () => void
+) => {
+  const queryClient = useQueryClient();
+  const toast = useToast();
+
+  return useMutation({
+    mutationFn: (args: EditCommentArgs) => putEditReply(args.body, replyArgs),
+    onSuccess: () => {
+      queryClient.invalidateQueries([QUERY_KEY.comments]);
+      callbackFn?.();
+    },
+    onError: (error: AxiosError<CustomErrorResponse>) => {
+      const errorData = error?.response?.data;
+
+      if (errorData && errorData.code === 'g001') {
+        toast.error('댓글을 입력해주세요');
+      } else {
+        errorData && toast.error(errorData.message);
+      }
+    },
+  });
+};
+
+export const useDeleteReply = (
+  replyArgs: EditReplyArgs,
+  callbackFn?: () => void
+) => {
+  const toast = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => deleteReply(replyArgs),
+    onSuccess: () => {
+      queryClient.invalidateQueries([QUERY_KEY.comments]);
+      callbackFn?.();
+    },
+    onError: (error: AxiosError<CustomErrorResponse>) => {
+      const errorData = error?.response?.data;
+
+      errorData && toast.error(errorData.message);
     },
   });
 };

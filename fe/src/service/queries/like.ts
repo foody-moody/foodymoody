@@ -9,6 +9,10 @@ import {
 } from 'service/axios/auth/comment/like';
 import 'service/axios/feed/feed';
 import { deleteLikeStatus, postLikeStatus } from 'service/axios/like/like';
+import {
+  deleteStoreLikeStatus,
+  postStoreLikeStatus,
+} from 'service/axios/store/like';
 import { QUERY_KEY } from 'service/constants/queryKey';
 
 export const usePostFeedLike = (feedId?: string) => {
@@ -124,6 +128,40 @@ export const useDeleteReplyLike = (
       ),
     onSuccess: () => {
       callbackFn?.();
+    },
+    onError: (error: AxiosError<CustomErrorResponse>) => {
+      const errorData = error?.response?.data;
+
+      errorData && toast.error(errorData.message);
+    },
+  });
+};
+
+export const usePostStoreLike = (storeId?: string) => {
+  const queryClient = useQueryClient();
+  const toast = useToast();
+
+  return useMutation({
+    mutationFn: () => postStoreLikeStatus(storeId),
+    onSuccess: () => {
+      queryClient.invalidateQueries([QUERY_KEY.stores, storeId]);
+    },
+    onError: (error: AxiosError<CustomErrorResponse>) => {
+      const errorData = error?.response?.data;
+
+      errorData && toast.error(errorData.message);
+    },
+  });
+};
+
+export const useDeleteStoreLike = (storeId?: string) => {
+  const queryClient = useQueryClient();
+  const toast = useToast();
+
+  return useMutation({
+    mutationFn: () => deleteStoreLikeStatus(storeId),
+    onSuccess: () => {
+      queryClient.invalidateQueries([QUERY_KEY.stores, storeId]);
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;

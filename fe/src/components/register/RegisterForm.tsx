@@ -28,7 +28,7 @@ export const RegisterForm: React.FC = () => {
       email: value.email,
       nickname: value.nickname,
       password: value.password,
-      reconfirmPassword: value.reconfirmPassword,
+      repeatPassword: value.repeatPassword,
       tasteMoodId: value.tasteMoodId,
     };
 
@@ -42,7 +42,7 @@ export const RegisterForm: React.FC = () => {
             setErrorAction('nickname', error.response?.data.message);
             break;
           case 'm004':
-            setErrorAction('reconfirmPassword', error.response?.data.message);
+            setErrorAction('repeatPassword', error.response?.data.message);
             break;
           default:
             // TODO 추가처리
@@ -72,10 +72,10 @@ export const RegisterForm: React.FC = () => {
           helperText={errorItem.errors.password?.message}
         />
         <ValidatedInput
-          {...register('reconfirmPassword')}
+          {...register('repeatPassword')}
           type="password"
           placeholder="비밀번호 확인"
-          helperText={errorItem.errors.reconfirmPassword?.message}
+          helperText={errorItem.errors.repeatPassword?.message}
         />
         <SelectLabel>
           <Select {...register('tasteMoodId')}>

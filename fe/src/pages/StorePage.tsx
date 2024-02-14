@@ -7,17 +7,18 @@ import { flexColumn, flexRow } from 'styles/customStyle';
 import { media } from 'styles/mediaQuery';
 import {
   CopySmallIcon,
-  HeartFillIcon,
   MapPinLargeIcon,
   PhoneIcon,
   StarLargeFillIcon,
 } from 'components/common/icon/icons';
 import { NaverMap } from 'components/map/Map';
+import { StoreLike } from 'components/storeLike/StoreLike';
 import { formatPhoneNum } from 'utils/formatPhoneNum';
 
 export const StorePage = () => {
   const { id } = useParams() as { id: string };
   const { data } = useGetStoreDetail(id);
+
   const [activeTab, setActiveTab] = useState('home');
   const toast = useToast();
 
@@ -40,16 +41,20 @@ export const StorePage = () => {
         <Header>
           <HeaderTitle>
             <FlexRow>
-              <StoreTitle>{data?.name || '이름'}</StoreTitle>
+              <StoreTitle>{data?.name}</StoreTitle>
               {/* TODO 이름 null못하게 */}
               <Rating>
                 <StarLargeFillIcon />
-                <RatingCount>{4.5}</RatingCount>
+                <RatingCount>{data?.rating}</RatingCount>
               </Rating>
             </FlexRow>
             <TitleText>{/* <SubText>{'피드 10'}</SubText> */}</TitleText>
           </HeaderTitle>
-          <HeartFillIcon />
+          <StoreLike
+            storeId={id}
+            liked={data?.liked}
+            likeCount={data?.likeCount}
+          />
         </Header>
         <Tab>
           <TabItem
@@ -68,9 +73,7 @@ export const StorePage = () => {
         <MapContent>
           <MapContainer>
             <SubTitle>정보</SubTitle>
-            <Map>
-              <NaverMap data={data} />
-            </Map>
+            <NaverMap data={data} />
           </MapContainer>
           <InfoContainer>
             <Info>
@@ -83,10 +86,12 @@ export const StorePage = () => {
                 </CopyContainer>
               </AddressContainer>
             </Info>
-            <Info>
-              <PhoneIcon />
-              <Address>{formatPhoneNum(data?.phone)}</Address>
-            </Info>
+            {data?.phone && (
+              <Info>
+                <PhoneIcon />
+                <Address>{formatPhoneNum(data?.phone)}</Address>
+              </Info>
+            )}
           </InfoContainer>
         </MapContent>
       </ContentWrapper>
@@ -142,6 +147,10 @@ const Header = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+
+  svg {
+    cursor: pointer;
+  }
 `;
 
 const HeaderTitle = styled.div`
@@ -216,19 +225,6 @@ const MapContainer = styled.div`
 
 const SubTitle = styled.p`
   font: ${({ theme: { fonts } }) => fonts.displayB16};
-`;
-
-const Map = styled.div`
-  width: 100%;
-  height: 400px; // media
-
-  ${media.md} {
-    height: 400px;
-  }
-
-  ${media.xs} {
-    height: 320px;
-  }
 `;
 
 const InfoContainer = styled.div`
