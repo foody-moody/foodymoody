@@ -1,7 +1,11 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { useMemo } from 'react';
+import { useToast } from 'recoil/toast/useToast';
 import {
+  addUserCollection,
   getAllCollections,
+  getUserCollectionTitle,
   getProfileCollections,
 } from 'service/axios/collection/collection';
 import { QUERY_KEY } from 'service/constants/queryKey';
@@ -31,6 +35,26 @@ export const useGetCollection = (sortBy?: string) => {
   };
 };
 
+export const useUserCollectionTitle = () =>
+  useQuery({
+    queryKey: [QUERY_KEY.myCollections],
+    queryFn: () => getUserCollectionTitle(),
+  });
+
+export const useAddUserCollection = () => {
+  const toast = useToast();
+
+  return useMutation({
+    mutationFn: (collectionForm: CollectionForm) =>
+      addUserCollection(collectionForm),
+
+    onError: (error: AxiosError<CustomErrorResponse>) => {
+      const errorData = error?.response?.data;
+      errorData && toast.error(errorData.message);
+    },
+  });
+};
+
 export const useGetProfileCollection = (memberId: string, sortBy?: string) => {
   const { data, hasNextPage, status, isLoading, fetchNextPage } =
     useInfiniteQuery({
@@ -58,4 +82,4 @@ export const useGetProfileCollection = (memberId: string, sortBy?: string) => {
     isLoading,
     fetchNextPage,
   };
-};
+}

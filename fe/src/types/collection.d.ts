@@ -34,6 +34,13 @@ type CarouselCollectionItem = {
   liked: boolean;
 };
 
+type CollectionForm = {
+  title: string;
+  description: string;
+  private: boolean;
+  moodIds: string[];
+};
+
 type ProfileCollection = {
   count: number;
   author: Author;
@@ -51,3 +58,4 @@ type ProfileCollection = {
     }[];
   };
 };
+
