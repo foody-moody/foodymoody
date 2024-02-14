@@ -10,7 +10,7 @@ import { GlobalStyles } from 'styles/globalStyles.ts';
 import { GlobalModals } from 'components/common/modal/Modal';
 import { GlobalToasts } from 'components/common/toast/Toast';
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,

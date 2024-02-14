@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useToast } from 'recoil/toast/useToast';
 import { styled } from 'styled-components';
+import { media } from 'styles/mediaQuery';
 
 type Props = {
   data?: StoreDetail;
@@ -14,10 +15,13 @@ export const NaverMap: React.FC<Props> = ({ data }) => {
     x: '',
     y: '',
   });
+  const [isError, setIsError] = useState(false);
 
   const mapRef = useRef(null);
 
-  useEffect(() => {
+  console.log('data in map', data);
+
+  useLayoutEffect(() => {
     // 좌표계 EPSG:5174(EPSG:2097) => WGS84 변환
     if (!naver || !data) return;
 
@@ -25,13 +29,13 @@ export const NaverMap: React.FC<Props> = ({ data }) => {
       { query: data?.roadAddress },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       function (status: any, response: any) {
-        if (status !== naver.maps.Service.Status.OK) {
-          // error throw
-          return toast.error('주소를 찾을 수 없습니다');
-        }
-
         const result = response.v2,
           items = result.addresses;
+
+        if (status !== naver.maps.Service.Status.OK || items.length === 0) {
+          setIsError(true);
+          return toast.error('주소를 찾을 수 없습니다');
+        }
 
         setCoord({
           x: items[0].x,
@@ -41,9 +45,11 @@ export const NaverMap: React.FC<Props> = ({ data }) => {
     );
   }, [data?.roadAddress]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // 좌표 변환 후 맵 렌더
-    if (!mapRef.current || !naver) return;
+    if (!mapRef.current || !naver || coord.x === '') {
+      return;
+    }
 
     const location = new naver.maps.LatLng(coord.y, coord.x);
 
@@ -53,12 +59,12 @@ export const NaverMap: React.FC<Props> = ({ data }) => {
     };
 
     const map = new naver.maps.Map(mapRef.current, mapOptions);
-    new naver.maps.Marker({
+    const marker = new naver.maps.Marker({
       position: location,
       map,
     });
 
-    naver.maps.Event.addListener(map, 'click', function () {
+    const handleClick = () => {
       const url =
         'http://map.naver.com/index.nhn?enc=utf8&lng=' +
         coord.x +
@@ -66,14 +72,51 @@ export const NaverMap: React.FC<Props> = ({ data }) => {
         coord.y +
         `&pinTitle=${data?.name}&pinType=SITE`;
       window.open(url);
-    });
+    };
+
+    naver.maps.Event.addListener(map, 'click', handleClick);
+    naver.maps.Event.addListener(marker, 'click', handleClick);
   }, [coord]);
 
-  return <Wrapper ref={mapRef} />;
+  return (
+    <>
+      {isError ? (
+        <ErrorHelper>지도를 불러올 수 없습니다.</ErrorHelper>
+      ) : (
+        <Wrapper ref={mapRef} />
+      )}
+    </>
+  );
 };
 
 const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
   object-fit: cover;
+  width: 100%;
+  height: 400px;
+
+  ${media.md} {
+    height: 400px;
+  }
+
+  ${media.xs} {
+    height: 320px;
+  }
+`;
+
+const ErrorHelper = styled.div`
+  width: 100%;
+  height: 400px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: ${({ theme: { colors } }) => colors.bgGray50};
+
+  ${media.md} {
+    height: 400px;
+  }
+
+  ${media.xs} {
+    height: 320px;
+  }
 `;

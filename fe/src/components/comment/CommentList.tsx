@@ -26,6 +26,7 @@ export const CommentList = ({ feedId, rootRef }: Props) => {
           <CommentBox
             key={comment.id}
             ref={isLastItem ? observeTarget : null}
+            feedId={feedId}
             comment={comment}
             createdAt={
               comment.createdAt === comment.updatedAt

@@ -2,8 +2,12 @@ import { useSort } from 'recoil/sortState/useSort';
 import { styled } from 'styled-components';
 import { ArrowDownIcon } from 'components/common/icon/icons';
 
-export const SelectSort = () => {
-  const { handleSort } = useSort('collection');
+type Props = {
+  sortId: 'collection' | 'profileCollection';
+};
+
+export const SelectSort = ({ sortId }: Props) => {
+  const { handleSort } = useSort(sortId);
 
   const OPTIONS = [
     { id: '1', name: '최신순', value: 'createdAt' },

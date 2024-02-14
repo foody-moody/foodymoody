@@ -3,7 +3,7 @@ import { useGetProfile } from 'service/queries/profile';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { TasteMoodBadge } from 'components/common/badge/TasteMoodBadge';
-// import { useModal } from 'components/common/modal/useModal';
+import { useModal } from 'components/common/modal/useModal';
 import { FollowProfileButton } from 'components/follow/followButton/FollowProfileButton';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { usePageNavigator } from 'hooks/usePageNavigator';
@@ -12,11 +12,6 @@ import { Button } from '../common/button/Button';
 import { CollectableAddIcon } from '../common/icon/icons';
 import { UserImageEdit } from '../common/userImage/UserImageEdit';
 import { PATH } from 'constants/path';
-
-const MOCK_BADGE = {
-  id: '0',
-  name: '도전적인',
-};
 
 export const ProfileUserInfo = () => {
   const { id } = useParams();
@@ -33,16 +28,14 @@ export const ProfileUserInfo = () => {
       : userInfo.id;
 
   const { data: member } = useGetProfile(USER_ID);
-  console.log(member, 'member');
 
   const navigate = useNavigate();
   const { navigateToProfileSetting } = usePageNavigator();
   const isAuthor = member?.id === userInfo.id;
-  // const { openModal } = useModal<'collection'>();
+  const { openModal } = useModal<'collection'>();
 
   const handleAddCollection = () => {
-    // 나중에 수정 예정
-    // openModal('collection', {});
+    openModal('collection', { type: 'default' });
   };
 
   const handleEditProfile = () => {
@@ -67,14 +60,14 @@ export const ProfileUserInfo = () => {
         <UserImageEdit
           isAuthor={isAuthor}
           imageUrl={
-            member?.profileImageUrl || generateDefaultUserImage(member?.id)
+            member?.profileImage.url || generateDefaultUserImage(member?.id)
           }
         />
         <Column>
           <ContentHeader>
             <p>{member?.nickname}</p>
             {/* TODO. Badge 적용 해야함..*/}
-            <TasteMoodBadge name={MOCK_BADGE.name} />
+            <TasteMoodBadge name={member?.tasteMood.name} />
           </ContentHeader>
 
           <ContentBody>

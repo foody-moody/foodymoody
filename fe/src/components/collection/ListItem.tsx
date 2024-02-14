@@ -17,10 +17,11 @@ import { PATH } from 'constants/path';
 
 type Props = {
   collection: CollectionItem;
+  profileAuthor?: Author;
 };
 
 export const ListItem = forwardRef<HTMLLIElement, Props>(
-  ({ collection }, ref) => {
+  ({ collection, profileAuthor }, ref) => {
     const { author } = collection;
     const { isLogin, userInfo } = useAuthState();
     const navigate = useNavigate();
@@ -126,26 +127,31 @@ export const ListItem = forwardRef<HTMLLIElement, Props>(
             }}
           >
             <ContentText>{collection.title}</ContentText>
-            {/* <BadgeWrapper>배지 영역입니다 </BadgeWrapper> */}
+
             <BadgeWrapper>
-              {collection.storeMood.map((storeMood) => (
-                <StoreMoodBadge name={storeMood.name} key={storeMood.id} />
+              {collection.storeMood.map((mood) => (
+                <StoreMoodBadge name={mood.name} key={mood.id} />
               ))}
             </BadgeWrapper>
           </ContentBody>
           <ContentBottom>
             <InfoLeft
               onClick={() => {
-                handleNavigateToProfile(collection.author.id);
+                handleNavigateToProfile(
+                  collection.author.id || (profileAuthor?.id as string)
+                );
               }}
             >
               <UserImage
                 imageUrl={
                   collection.author.profileImageUrl ||
+                  profileAuthor?.profileImageUrl ||
                   generateDefaultUserImage('얌')
                 }
               />
-              <ListUserName>{collection.author.name}</ListUserName>
+              <ListUserName>
+                {collection.author.name || profileAuthor?.name}
+              </ListUserName>
             </InfoLeft>
             <InfoRight>
               <IconBox>
@@ -175,7 +181,6 @@ const Wrapper = styled.li`
   border-top: 1px solid ${({ theme: { colors } }) => colors.black};
   border-bottom: 1px solid ${({ theme: { colors } }) => colors.black};
   cursor: pointer;
-  /* border-radius: 0px 0px 40px 0px; */
 `;
 
 const Thumbnail = styled.div`
@@ -257,13 +262,6 @@ const BadgeWrapper = styled.div`
   display: flex;
   height: fit-content;
   gap: 4px;
-  /* width: 100%; */
-  border: 1px solid red;
-
-  /* display: flex;
-  gap: 8px;
-  margin-top: 16px; */
-  /* 배지 영역입니다 */
 `;
 
 const ContentBottom = styled.div`
@@ -301,9 +299,3 @@ const IconBox = styled.div`
   gap: 2px;
   align-items: center;
 `;
-
-// const StoreMoodList = styled.div`
-//   display: flex;
-//   gap: 8px;
-//   margin-top: 16px;
-// `;

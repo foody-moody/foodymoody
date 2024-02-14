@@ -4,12 +4,14 @@ import { ListItem } from './ListItem';
 
 type Props = {
   collections: CollectionItem[];
+  author?: Author;
   hasNextPage?: boolean;
   fetchNextPage(): void;
 };
 
 export const ListLayout: React.FC<Props> = ({
   collections,
+  author,
   hasNextPage,
   fetchNextPage,
 }) => {
@@ -28,6 +30,7 @@ export const ListLayout: React.FC<Props> = ({
           <ListItem
             key={collection.id}
             collection={collection}
+            profileAuthor={author}
             ref={isLastItem ? observeTarget : null}
           />
         );

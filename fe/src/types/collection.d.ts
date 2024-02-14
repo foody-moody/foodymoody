@@ -33,3 +33,29 @@ type CarouselCollectionItem = {
   feedCount: number;
   liked: boolean;
 };
+
+type CollectionForm = {
+  title: string;
+  description: string;
+  private: boolean;
+  moodIds: string[];
+};
+
+type ProfileCollection = {
+  count: number;
+  author: Author;
+  collections: {
+    content: {
+      id: string;
+      title: string;
+      feedCount: number;
+      likeCount: number;
+      commentCount: number;
+      liked: boolean;
+      createdAt: string;
+      updatedAt: string;
+      moods: Badge[];
+    }[];
+  };
+};
+

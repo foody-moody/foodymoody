@@ -7,15 +7,13 @@ import {
   FlexRowBox,
 } from 'components/common/feedUserInfo/FeedUserInfo';
 import { useModal } from 'components/common/modal/useModal';
-import { useAuthState } from 'hooks/auth/useAuth';
 // import { Spinner } from 'components/common/loading/spinner';
 
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
 export const AccountSettingPage = () => {
   const { navigateToPassword } = usePageNavigator();
-  const { userInfo } = useAuthState();
-  const { mutate: accountMutate } = useDeleteAccount(userInfo.id);
+  const { mutate: accountMutate } = useDeleteAccount();
   const { openModal, closeModal } = useModal<'accountAlert'>();
 
   const handleDelete = () => {
@@ -63,7 +61,6 @@ export const AccountSettingPage = () => {
             <Button size="l" backgroundColor="black" onClick={handleAlert}>
               회원 탈퇴
             </Button>
-            {/* 알러트 */}
           </SectionRow>
         </Content>
       </Box>

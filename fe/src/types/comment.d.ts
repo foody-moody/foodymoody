@@ -31,3 +31,9 @@ type CommentMemberInfo = {
 };
 
 type ReplyItemType = Omit<CommentItem, 'hasReply'>;
+
+type EditReplyArgs = {
+  feedId?: string;
+  commentId?: string;
+  replyId?: string;
+};

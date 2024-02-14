@@ -1,7 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { useDeleteComment, usePutComment } from 'service/queries/comment';
 import { useDeleteReplyLike, usePostReplyLike } from 'service/queries/like';
-import { useGetReplies } from 'service/queries/reply';
+import {
+  useDeleteReply,
+  useGetReplies,
+  usePutReply,
+} from 'service/queries/reply';
 import { styled } from 'styled-components';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { useInput } from 'hooks/useInput';
@@ -16,20 +19,40 @@ import { UserImage } from '../userImage/UserImage';
 
 type Props = {
   commentId: string;
+  feedId?: string;
   reply: ReplyItemType;
   createdAt: string;
 };
 
-export const ReplyItem: React.FC<Props> = ({ commentId, reply, createdAt }) => {
+export const ReplyItem: React.FC<Props> = ({
+  commentId,
+  feedId,
+  reply,
+  createdAt,
+}) => {
   const [isEdit, setIsEdit] = useState(false);
   const { openModal, closeModal } = useModal<'commentAlert'>();
   const { isLogin, userInfo } = useAuthState();
   const { navigateToLogin } = usePageNavigator();
-  const { refetch: getReplies } = useGetReplies(commentId);
-  const { mutate: editMutate } = usePutComment();
-  const { mutate: deleteMutate } = useDeleteComment();
-  const { mutate: likeMutate } = usePostReplyLike(getReplies);
-  const { mutate: unLikeMutate } = useDeleteReplyLike(getReplies);
+  const { refetch: getReplies } = useGetReplies(commentId, feedId);
+  const { mutate: editMutate } = usePutReply(
+    {
+      feedId,
+      commentId,
+      replyId: reply.id,
+    },
+    getReplies
+  );
+  const { mutate: deleteMutate } = useDeleteReply(
+    {
+      feedId,
+      commentId,
+      replyId: reply.id,
+    },
+    getReplies
+  );
+  const { mutate: likeMutate } = usePostReplyLike(getReplies, feedId);
+  const { mutate: unLikeMutate } = useDeleteReplyLike(getReplies, feedId);
 
   const { value, handleChange, isValid } = useInput({
     initialValue: reply.content,
@@ -59,7 +82,7 @@ export const ReplyItem: React.FC<Props> = ({ commentId, reply, createdAt }) => {
   };
 
   const handleDelete = () => {
-    deleteMutate(reply.id);
+    deleteMutate();
   };
 
   const handleAlert = () => {

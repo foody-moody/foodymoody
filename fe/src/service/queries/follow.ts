@@ -49,31 +49,6 @@ export const useGetFollows = (
   };
 };
 
-export const useGetFollowers = (memberId?: string) => {
-  const { data, hasNextPage, status, isLoading, fetchNextPage, refetch } =
-    useInfiniteQuery({
-      queryKey: [QUERY_KEY.followers],
-      queryFn: ({ pageParam = 0 }) => getFollowers(memberId, pageParam),
-      getNextPageParam: (lastPage) => {
-        return lastPage.last ? undefined : lastPage.number + 1;
-      },
-      suspense: true,
-    });
-
-  const allFollowers = useMemo(() => {
-    return data?.pages.flatMap((page) => page.content) ?? [];
-  }, [data]);
-
-  return {
-    followers: allFollowers,
-    hasNextPage,
-    status,
-    isLoading,
-    fetchNextPage,
-    refetch,
-  };
-};
-
 export const usePostFollow = (memberId?: string) => {
   const queryClient = useQueryClient();
   const toast = useToast();
@@ -95,7 +70,6 @@ export const usePostFollow = (memberId?: string) => {
 export const useDeleteFollow = (memberId?: string) => {
   const queryClient = useQueryClient();
   const toast = useToast();
-
   return useMutation({
     mutationFn: () => deleteFollow(memberId),
     onSuccess: () => {
