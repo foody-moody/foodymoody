@@ -7,6 +7,7 @@ import { media } from 'styles/mediaQuery';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
 import { EditIcon } from '../icon/icons';
+import { useModal } from '../modal/useModal';
 import { UserImage } from './UserImage';
 
 type Props = {
@@ -28,7 +29,7 @@ export const UserImageEdit: React.FC<Props> = ({
   const { mutate: imageMutate, isLoading: isUploadLoading } =
     usePostImage('user');
   const { mutate: profileImageMutate } = useEditProfileImage(userInfo.id);
-
+  const { openModal, closeModal } = useModal<'profileImageAlert'>();
   const toast = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -82,8 +83,30 @@ export const UserImageEdit: React.FC<Props> = ({
     }
   };
 
+  const handleDelete = () => {
+    console.log('delete and set default image');
+  };
+
+  const handleAlert = () => {
+    const modalProps = {
+      onClose: () => {
+        closeModal('profileImageAlert');
+      },
+      onDelete: () => {
+        handleDelete();
+        closeModal('profileImageAlert');
+      },
+      onEdit: () => {
+        handleImageClick();
+        closeModal('profileImageAlert');
+      },
+    };
+
+    openModal('profileImageAlert', modalProps);
+  };
+
   return (
-    <Wrapper onClick={handleImageClick}>
+    <Wrapper onClick={handleAlert}>
       <UserImage size="l" imageUrl={userImage} isLoading={isUploadLoading} />
       <input
         ref={inputRef}

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
@@ -113,6 +114,15 @@ const MOCK_DATA: CarouselCollectionItem[] = [
 ];
 
 export const CollectionCarousel: React.FC = () => {
+  const [isDragging, setIsDragging] = useState(false);
+  const handleBeforeChange = () => {
+    setIsDragging(true);
+  };
+
+  const handleAfterChange = () => {
+    setIsDragging(false);
+  };
+
   const settings = {
     className: 'slider-items',
     dots: true,
@@ -124,6 +134,10 @@ export const CollectionCarousel: React.FC = () => {
     arrows: true,
     autoplay: true,
     autoplaySpeed: 5000,
+    touchThreshold: 100,
+    beforeChange: handleBeforeChange,
+    afterChange: handleAfterChange,
+
     responsive: [
       {
         breakpoint: 500,
@@ -141,7 +155,7 @@ export const CollectionCarousel: React.FC = () => {
       <CustomCarousel {...settings}>
         {MOCK_DATA.map((collection) => (
           <Slide key={collection.id}>
-            <GridItem collection={collection}></GridItem>
+            <GridItem collection={collection} isDragging={isDragging} />
           </Slide>
         ))}
       </CustomCarousel>

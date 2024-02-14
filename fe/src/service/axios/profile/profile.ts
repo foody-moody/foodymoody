@@ -6,11 +6,8 @@ export const getProfile = async (memberId?: string) => {
   return data;
 };
 
-export const patchProfileImage = async (
-  memberId: string,
-  body: ProfileImageBody
-) => {
-  const { data } = await privateApi.patch(END_POINT.member(memberId), body);
+export const patchProfileImage = async (body: ProfileImageBody) => {
+  const { data } = await privateApi.patch(END_POINT.member(), body);
   return data;
 };
 
@@ -20,10 +17,7 @@ export const getNicknameDuplicate = async (nickname: string) => {
   return data;
 };
 
-export const patchEditProfile = async (
-  memberId: string,
-  body: ProfileEditBody
-) => {
-  const { data } = await privateApi.patch(END_POINT.member(memberId), body);
+export const patchEditProfile = async (body: ProfileEditBody) => {
+  const { data } = await privateApi.patch(END_POINT.member(), body);
   return data;
 };

@@ -12,7 +12,6 @@ export const FeedLikeList = () => {
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
   ${flexRow};
   justify-content: center;
   padding: 20px 0 0 0;

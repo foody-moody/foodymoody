@@ -59,7 +59,7 @@ export const ProfileEditForm = () => {
     const registerData = {
       nickname: value.nickname === profile?.nickname ? null : value.nickname,
       tasteMoodId:
-        value.tasteMoodId === profile?.tasteMoodId ? null : value.tasteMoodId,
+        value.tasteMoodId === profile?.tasteMood.id ? null : value.tasteMoodId,
       profileImageId: null,
     };
 
@@ -132,7 +132,7 @@ export const ProfileEditForm = () => {
           <UserImageEdit
             isAuthor={isAuthor}
             imageUrl={
-              profile?.profileImageUrl || generateDefaultUserImage(userInfo.id)
+              profile?.profileImage.url || generateDefaultUserImage(userInfo.id)
             }
           />
           <InfoMessage>

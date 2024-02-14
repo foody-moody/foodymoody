@@ -17,10 +17,15 @@ import { PATH } from 'constants/path';
 
 type Props = {
   createdAt: string;
+  feedId: string;
   comment: CommentItemType;
 };
 
-export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
+export const CommentItem: React.FC<Props> = ({
+  createdAt,
+  feedId,
+  comment,
+}) => {
   console.log(comment, ' now commentItems');
   const inputRef = useRef(null);
   const navigate = useNavigate();
@@ -29,10 +34,10 @@ export const CommentItem: React.FC<Props> = ({ createdAt, comment }) => {
   const { isLogin, userInfo } = useAuthState();
   const { navigateToLogin } = usePageNavigator();
   const { openModal, closeModal } = useModal<'commentAlert'>();
-  const { mutate: editMutate } = usePutComment();
-  const { mutate: deleteMutate } = useDeleteComment();
-  const { mutate: likeMutate } = usePostCommentLike();
-  const { mutate: unLikeMutate } = useDeleteCommentLike();
+  const { mutate: editMutate } = usePutComment(feedId);
+  const { mutate: deleteMutate } = useDeleteComment(feedId);
+  const { mutate: likeMutate } = usePostCommentLike(feedId);
+  const { mutate: unLikeMutate } = useDeleteCommentLike(feedId);
 
   const { value, handleChange, isValid } = useInput({
     initialValue: comment.content, //여기 추가함
