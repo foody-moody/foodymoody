@@ -3,7 +3,7 @@ package com.foodymoody.be.member.presentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.request.ChangePasswordRequest;
-import com.foodymoody.be.member.application.dto.request.MemberSignupRequest;
+import com.foodymoody.be.member.application.dto.request.SignupRequest;
 import com.foodymoody.be.member.application.dto.request.UpdateProfileRequest;
 import com.foodymoody.be.member.application.dto.response.MemberSignupResponse;
 import com.foodymoody.be.member.application.service.FollowWriteService;
@@ -32,7 +32,7 @@ public class MemberWriteController {
 
     @PostMapping
     public ResponseEntity<MemberSignupResponse> signup(
-            @Valid @RequestBody MemberSignupRequest request) {
+            @Valid @RequestBody SignupRequest request) {
         MemberSignupResponse response = memberWriteService.create(request);
         return ResponseEntity.ok().body(response);
     }
