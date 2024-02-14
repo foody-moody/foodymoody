@@ -2,13 +2,18 @@ package com.foodymoody.be.member.domain;
 
 import static com.foodymoody.be.common.util.Constants.UTILITY_CLASS;
 
-import com.foodymoody.be.common.util.IdGenerator;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.member.application.dto.response.NicknameDuplicationCheckResponse;
-import com.foodymoody.be.member.application.dto.response.FollowMemberSummaryResponse;
-import com.foodymoody.be.member.application.dto.request.MemberSignupRequest;
-import com.foodymoody.be.member.application.dto.response.MemberSignupResponse;
 import com.foodymoody.be.member.application.dto.FollowMemberSummary;
+import com.foodymoody.be.member.application.dto.MyFeedCollectionWithFeedIdsSummary;
+import com.foodymoody.be.member.application.dto.request.SignupRequest;
+import com.foodymoody.be.member.application.dto.response.FollowMemberSummaryResponse;
+import com.foodymoody.be.member.application.dto.response.MemberSignupResponse;
+import com.foodymoody.be.member.application.dto.response.MyCollectionWithFeedInclusionStatusResponse;
+import com.foodymoody.be.member.application.dto.response.NicknameDuplicationCheckResponse;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Slice;
 
 public class MemberMapper {
@@ -17,14 +22,14 @@ public class MemberMapper {
         throw new IllegalStateException(UTILITY_CLASS);
     }
 
-    public static Member toEntity(MemberSignupRequest request, TasteMood tasteMood) {
+    public static Member toEntity(MemberId id, SignupRequest request, TasteMood tasteMood, LocalDateTime createdAt) {
         return Member.of(
-                IdGenerator.generate(),
+                id,
                 request.getEmail(),
                 request.getNickname(),
                 request.getPassword(),
-                request.getReconfirmPassword(),
-                tasteMood
+                tasteMood,
+                createdAt
         );
     }
 
@@ -36,17 +41,19 @@ public class MemberMapper {
         return new NicknameDuplicationCheckResponse(isDuplicate);
     }
 
-    public static Slice<FollowMemberSummaryResponse> toFollowMemberSummaryResponses(Member currentMember, Slice<FollowMemberSummary> followInfoMembers) {
+    public static Slice<FollowMemberSummaryResponse> toFollowMemberSummaryResponses(Member currentMember,
+            Slice<FollowMemberSummary> followInfoMembers) {
         return followInfoMembers.map(
                 followMemberSummary -> FollowMemberSummaryResponse.of(
-                            followMemberSummary.getId(),
-                            followMemberSummary.getNickname(),
-                            followMemberSummary.getProfileImageUrl(),
-                            currentMember.isMyFollowing(followMemberSummary.getId()),
-                            currentMember.isMyFollower(followMemberSummary.getId())));
+                        followMemberSummary.getId(),
+                        followMemberSummary.getNickname(),
+                        followMemberSummary.getProfileImageUrl(),
+                        currentMember.isMyFollowing(followMemberSummary.getId()),
+                        currentMember.isMyFollower(followMemberSummary.getId())));
     }
 
-    public static Slice<FollowMemberSummaryResponse> toFollowMemberSummaryResponses(Slice<FollowMemberSummary> followInfoMembers) {
+    public static Slice<FollowMemberSummaryResponse> toFollowMemberSummaryResponses(
+            Slice<FollowMemberSummary> followInfoMembers) {
         return followInfoMembers.map(
                 followMemberSummary -> FollowMemberSummaryResponse.of(
                         followMemberSummary.getId(),
@@ -56,4 +63,15 @@ public class MemberMapper {
                         Boolean.FALSE));
     }
 
+    public static List<MyCollectionWithFeedInclusionStatusResponse> toMyFeedCollectionWithFeedInclusionStatusResponse(
+            List<MyFeedCollectionWithFeedIdsSummary> summaries, FeedId feedId) {
+        return summaries.stream()
+                .map(
+                        summary -> MyCollectionWithFeedInclusionStatusResponse.of(
+                                summary.getId(),
+                                summary.getTitle(),
+                                summary.getFeedIds().contains(feedId)
+                        )
+                ).collect(Collectors.toUnmodifiableList());
+    }
 }

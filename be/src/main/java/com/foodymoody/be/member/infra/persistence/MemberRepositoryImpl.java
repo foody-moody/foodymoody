@@ -2,9 +2,10 @@ package com.foodymoody.be.member.infra.persistence;
 
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
-import com.foodymoody.be.member.application.dto.response.MyCollectionTitleResponse;
+import com.foodymoody.be.member.application.dto.MyFeedCollectionWithFeedIdsSummary;
+import com.foodymoody.be.member.application.dto.response.MyFeedCollectionTitleResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
-import com.foodymoody.be.member.application.dto.response.FeedPreviewResponse;
+import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberRepository;
@@ -33,7 +34,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public Slice<FeedPreviewResponse> fetchFeedPreviewResponsesById(MemberId id, Pageable pageable) {
+    public Slice<MyFeedPreviewResponse> fetchFeedPreviewResponsesById(MemberId id, Pageable pageable) {
         return jpaRepository.fetchFeedPreviewResponsesById(id, pageable);
     }
 
@@ -88,7 +89,12 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public List<MyCollectionTitleResponse> fetchMyCollectionTitles(MemberId id) {
+    public List<MyFeedCollectionTitleResponse> fetchMyCollectionTitles(MemberId id) {
         return jpaRepository.fetchMyCollectionTitles(id);
+    }
+
+    @Override
+    public List<MyFeedCollectionWithFeedIdsSummary> fetchMyCollectionWithFeedIds(MemberId currentMemberId) {
+        return jpaRepository.fetchMyFeedCollectionWithFeedIds(currentMemberId);
     }
 }
