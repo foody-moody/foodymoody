@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { NOTIFICATION_TEXT_TYPE } from 'service/constants/notificationTextMessage';
 import { styled } from 'styled-components';
 import { Button } from 'components/common/button/Button';
 import { UserImage } from 'components/common/userImage/UserImage';
@@ -12,21 +13,6 @@ type Props = {
   notification: NotificationItem;
   onClick: (notificationId: string) => void;
 };
-
-// 분리하기
-const notificationMessages = {
-  FEED_LIKED_ADDED_EVENT: '님이 회원님의 피드를 좋아합니다.',
-  COMMENT_LIKED_ADDED_EVENT: '님이 회원님의 댓글을 좋아합니다.',
-  FEED_COLLECTION_LIKED_ADDED_EVENT: '님이 회원님의 컬렉션을 좋아합니다.',
-  FEED_COMMENT_ADDED_EVENT: '님이 회원님의 피드에 댓글을 남겼습니다.',
-  COLLECTION_COMMENT_ADDED_EVENT: '님이 회원님의 컬렉션에 댓글을 남겼습니다.',
-  MEMBER_MENTIONED_EVENT: '님이 댓글에서 회원님을 언급 했습니다.',
-  MEMBER_FOLLOWED_EVENT: '님이 회원님을 팔로우 했습니다.',
-};
-
-function generateNotiText(type: NotificationType) {
-  return notificationMessages[type] || '님에게 알림이 왔어요';
-}
 
 export const NotiItem = forwardRef<HTMLLIElement, Props>(
   ({ notification, onClick }, ref) => {
@@ -50,7 +36,10 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
       read,
     } = notification;
 
-    const notiText = generateNotiText(type);
+    const generateNotiTextByType = (type: NotificationType) => {
+      return NOTIFICATION_TEXT_TYPE[type] || '님에게 알림이 왔어요';
+    };
+
     const isFollowNoti = type === 'MEMBER_FOLLOWED_EVENT';
 
     const handleClick = () => {
@@ -86,7 +75,7 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
             <div>
               <NotiText>
                 <span>{nickname}</span>
-                {notiText}
+                {generateNotiTextByType(type)}
               </NotiText>
               {!isFollowNoti && <Message>{commentMessage}</Message>}
               <Time>{formatTimeStamp(notification.createdAt)}</Time>

@@ -1,12 +1,18 @@
-type NotificationItem = {
-  notificationId: string;
-  sender: Sender;
-  target?: Target;
-  type: NotificationType;
-  createdAt: string;
-  updatedAt: string;
-  read: boolean;
-};
+type NotificationType =
+  | 'FEED_ADDED_EVENT'
+  | 'FEED_LIKED_ADDED_EVENT'
+  | 'FEED_COMMENT_ADDED_EVENT'
+  | 'FEED_COMMENT_LIKED_ADDED_EVENT'
+  | 'FEED_COMMENT_REPLY_ADDED_EVENT'
+  | 'FEED_COMMENT_REPLY_LIKED_ADDED_EVENT'
+  | 'FEED_COLLECTION_ADDED_EVENT'
+  | 'FEED_COLLECTION_LIKED_ADDED_EVENT'
+  | 'FEED_COLLECTION_COMMENT_ADDED_EVENT'
+  | 'FEED_COLLECTION_COMMENT_LIKED_ADDED_EVENT'
+  | 'FEED_COLLECTION_COMMENT_REPLY_ADDED_EVENT'
+  | 'FEED_COLLECTION_COMMENT_REPLY_LIKED_ADDED_EVENT'
+  | 'MEMBER_MENTIONED_EVENT'
+  | 'MEMBER_FOLLOWED_EVENT';
 
 type Sender = {
   id: string;
