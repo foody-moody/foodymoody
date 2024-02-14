@@ -19,7 +19,7 @@ export const FeedProfileItem = forwardRef<HTMLLIElement, Props>(
 
     return (
       <Wrapper ref={ref} onClick={handleOpenDetailFeed}>
-        <img src={feed.imageUrl} alt="프로필피드" />
+        <img src={feed?.imageUrl} alt="프로필피드" />
       </Wrapper>
     );
   }
