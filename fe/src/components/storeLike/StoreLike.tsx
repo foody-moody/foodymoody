@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from 'recoil/toast/useToast';
 import { useDeleteStoreLike, usePostStoreLike } from 'service/queries/like';

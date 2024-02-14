@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { useDeleteComment, usePutComment } from 'service/queries/comment';
 import { useDeleteReplyLike, usePostReplyLike } from 'service/queries/like';
 import {
   useDeleteReply,

@@ -13,11 +13,6 @@ import { CollectableAddIcon } from '../common/icon/icons';
 import { UserImageEdit } from '../common/userImage/UserImageEdit';
 import { PATH } from 'constants/path';
 
-const MOCK_BADGE = {
-  id: '0',
-  name: '도전적인',
-};
-
 export const ProfileUserInfo = () => {
   const { id } = useParams();
   const { userInfo } = useAuthState();

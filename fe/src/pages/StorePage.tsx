@@ -227,19 +227,6 @@ const SubTitle = styled.p`
   font: ${({ theme: { fonts } }) => fonts.displayB16};
 `;
 
-const Map = styled.div`
-  width: 100%;
-  height: 400px; // media
-
-  ${media.md} {
-    height: 400px;
-  }
-
-  ${media.xs} {
-    height: 320px;
-  }
-`;
-
 const InfoContainer = styled.div`
   ${flexColumn}
   width: 100%;
