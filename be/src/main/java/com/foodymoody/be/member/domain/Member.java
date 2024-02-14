@@ -1,7 +1,6 @@
 package com.foodymoody.be.member.domain;
 
 import com.foodymoody.be.common.event.EventManager;
-import com.foodymoody.be.common.exception.InvalidReconfirmPasswordException;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
@@ -13,16 +12,13 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Member {
 
@@ -42,8 +38,9 @@ public class Member {
     private MyFollowings myFollowings;
     @Embedded
     private MyFollowers myFollowers;
+    private LocalDateTime createdAt;
 
-    public Member(MemberId id, String email, String nickname, String password, TasteMood tasteMood) {
+    public Member(MemberId id, String email, String nickname, String password, TasteMood tasteMood, LocalDateTime createdAt) {
         this.id = id;
         this.email = email;
         this.nickname = nickname;
@@ -52,17 +49,14 @@ public class Member {
         this.profileImage = MemberProfileImage.DEFAULT;
         this.myFollowings = new MyFollowings();
         this.myFollowers = new MyFollowers();
+        this.createdAt = createdAt;
         EventManager.raise(toMemberCreatedEvent());
     }
 
     public static Member of(
-            String id, String email, String nickname, String password, String reconfirmPassword,
-            TasteMood tasteMood
+            MemberId id, String email, String nickname, String password, TasteMood tasteMood, LocalDateTime createdAt
     ) {
-        if (!Objects.equals(reconfirmPassword, password)) {
-            throw new InvalidReconfirmPasswordException();
-        }
-        return new Member(new MemberId(id), email, nickname, password, tasteMood);
+        return new Member(id, email, nickname, password, tasteMood, createdAt);
     }
 
     public MemberId getId() {

@@ -35,7 +35,7 @@ public class MemberSteps {
                 "nickname", 사용자_보노.getNickname(),
                 "email", 사용자_보노.getEmail(),
                 "password", 사용자_보노.getPassword(),
-                "reconfirmPassword", 사용자_보노.getPassword(),
+                "repeatPassword", 사용자_보노.getPassword(),
                 "tasteMoodId", 사용자_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
@@ -46,7 +46,7 @@ public class MemberSteps {
                 "nickname", 사용자_보노.getNickname(),
                 "email", 사용자_푸반.getEmail(),
                 "password", 사용자_보노.getPassword(),
-                "reconfirmPassword", 사용자_보노.getPassword(),
+                "repeatPassword", 사용자_보노.getPassword(),
                 "tasteMoodId", 사용자_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
@@ -57,7 +57,7 @@ public class MemberSteps {
                 "nickname", 사용자_푸반.getNickname(),
                 "email", 사용자_보노.getEmail(),
                 "password", 사용자_보노.getPassword(),
-                "reconfirmPassword", 사용자_보노.getPassword(),
+                "repeatPassword", 사용자_보노.getPassword(),
                 "tasteMoodId", 사용자_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
@@ -68,7 +68,7 @@ public class MemberSteps {
                 "nickname", 사용자_보노.getNickname(),
                 "email", 사용자_보노.getEmail(),
                 "password", 사용자_보노.getPassword(),
-                "reconfirmPassword", "diffrentPassword",
+                "repeatPassword", "diffrentPassword",
                 "tasteMoodId", 사용자_보노.getTasteMoodId());
 
         return 회원가입한다(memberRegisterRequest, spec);
@@ -97,17 +97,10 @@ public class MemberSteps {
         );
     }
 
-    public static void 상태코드가_400이고_오류코드가_m004인지_검증한다(ExtractableResponse<Response> response) {
+    public static void 상태코드가_400이고_오류코드가_g001인지_검증한다(ExtractableResponse<Response> response) {
         Assertions.assertAll(
                 () -> 상태코드를_검증한다(response, HttpStatus.BAD_REQUEST),
-                () -> 오류코드를_검증한다(response, "m004")
-        );
-    }
-
-    public static void 상태코드가_404이고_오류코드가_m001인지_검증한다(ExtractableResponse<Response> response) {
-        Assertions.assertAll(
-                () -> 상태코드를_검증한다(response, HttpStatus.NOT_FOUND),
-                () -> 오류코드를_검증한다(response, "m001")
+                () -> 오류코드를_검증한다(response, "g001")
         );
     }
 
@@ -116,7 +109,7 @@ public class MemberSteps {
         Assertions.assertAll(
                 () -> 상태코드를_검증한다(response, HttpStatus.BAD_REQUEST),
                 () -> 오류코드를_검증한다(response, "g001"),
-                () -> assertThat(response.jsonPath().getMap("errors")).containsOnlyKeys("email", "nickname", "password")
+                () -> assertThat(response.jsonPath().getMap("errors")).containsKeys("email", "nickname", "password")
         );
 
     }

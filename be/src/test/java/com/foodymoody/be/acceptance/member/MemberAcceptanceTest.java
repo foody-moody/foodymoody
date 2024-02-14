@@ -26,7 +26,7 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_20
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_g001이고_errors에_email과_nickname과_password가_존재하는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m002인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m003인지_검증한다;
-import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m004인지_검증한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_g001인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드를_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.언팔로우한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.오류코드를_검증한다;
@@ -53,7 +53,6 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,7 +61,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import software.amazon.awssdk.services.s3.endpoints.internal.Value.Bool;
 
 @DisplayName("회원 관련 기능 인수테스트")
 class MemberAcceptanceTest extends AcceptanceTest {
@@ -126,7 +124,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             상태코드가_400이고_오류코드가_m003인지_검증한다(response);
         }
 
-        @DisplayName("회원 가입 시 재입력한 패스워드가 일치하지 않으면, 상태코드 400과 오류코드 m004를 응답한다")
+        @DisplayName("회원 가입 시 재입력한 패스워드가 일치하지 않으면, 상태코드 400과 오류코드 g001을 응답한다")
         @Test
         void when_registerMemberFailedByReconfirmPasswordUnmatch_then_response400Andm004() {
             // docs
@@ -136,7 +134,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             var response = 비회원보노가_틀린_재입력_패스워드로_회원가입한다(spec);
 
             // then
-            상태코드가_400이고_오류코드가_m004인지_검증한다(response);
+            상태코드가_400이고_오류코드가_g001인지_검증한다(response);
         }
 
     }
@@ -542,7 +540,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     회원푸반_액세스토큰, MemberFixture.푸반_비밀번호_수정_요청(), spec);
 
             // then
-            String 새로운_비밀번호 = String.valueOf(MemberFixture.푸반_비밀번호_수정_요청().get("newPassword"));
+            String 새로운_비밀번호 = String.valueOf(MemberFixture.푸반_비밀번호_수정_요청().get("password"));
             ExtractableResponse<Response> 푸반_로그인_응답 = 로그인한다(AuthFixture.푸반_로그인_요청_수정된_비밀번호(새로운_비밀번호),
                     new RequestSpecBuilder().build());
             Assertions.assertAll(

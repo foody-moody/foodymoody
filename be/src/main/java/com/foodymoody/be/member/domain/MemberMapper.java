@@ -2,16 +2,16 @@ package com.foodymoody.be.member.domain;
 
 import static com.foodymoody.be.common.util.Constants.UTILITY_CLASS;
 
-import com.foodymoody.be.common.util.IdGenerator;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FollowMemberSummary;
 import com.foodymoody.be.member.application.dto.MyFeedCollectionWithFeedIdsSummary;
-import com.foodymoody.be.member.application.dto.request.MemberSignupRequest;
+import com.foodymoody.be.member.application.dto.request.SignupRequest;
 import com.foodymoody.be.member.application.dto.response.FollowMemberSummaryResponse;
 import com.foodymoody.be.member.application.dto.response.MemberSignupResponse;
 import com.foodymoody.be.member.application.dto.response.MyCollectionWithFeedInclusionStatusResponse;
 import com.foodymoody.be.member.application.dto.response.NicknameDuplicationCheckResponse;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Slice;
@@ -22,14 +22,14 @@ public class MemberMapper {
         throw new IllegalStateException(UTILITY_CLASS);
     }
 
-    public static Member toEntity(MemberSignupRequest request, TasteMood tasteMood) {
+    public static Member toEntity(MemberId id, SignupRequest request, TasteMood tasteMood, LocalDateTime createdAt) {
         return Member.of(
-                IdGenerator.generate(),
+                id,
                 request.getEmail(),
                 request.getNickname(),
                 request.getPassword(),
-                request.getReconfirmPassword(),
-                tasteMood
+                tasteMood,
+                createdAt
         );
     }
 
