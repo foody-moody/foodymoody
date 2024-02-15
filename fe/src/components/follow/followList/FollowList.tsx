@@ -22,7 +22,6 @@ export const FollowList: React.FC<Props> = ({ followType, rootRef }) => {
     fetchNextPage,
     // error,
   } = useGetFollows(followType, USER_ID);
-  console.log(followList, 'followList');
 
   const { observeTarget } = useIntersectionObserver({
     callbackFn: () => {
@@ -44,7 +43,7 @@ export const FollowList: React.FC<Props> = ({ followType, rootRef }) => {
               followListItem={followListItem}
               key={followListItem.id}
               ref={isLastItem ? observeTarget : null}
-              isAuthor={followListItem.id === userInfo.id}
+              isAuthor={followListItem.id === userInfo?.id}
             />
           );
         })

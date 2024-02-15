@@ -22,9 +22,9 @@ type Props = {
 
 export const ListItem = forwardRef<HTMLLIElement, Props>(
   ({ collection, profileAuthor }, ref) => {
-    const { author } = collection;
     const { isLogin, userInfo } = useAuthState();
-    const isAuthor = author.id === userInfo.id;
+    const isAuthor =
+      userInfo?.id === (collection?.author?.id || profileAuthor?.id);
     const navigate = useNavigate();
 
     const handleNavigateToDetail = (id: string) => {
@@ -55,7 +55,9 @@ export const ListItem = forwardRef<HTMLLIElement, Props>(
         id: 2,
         content: '팔로우',
         onClick: () => {
-          navigate(`${PATH.PROFILE}/${author.id}`);
+          navigate(
+            `${PATH.PROFILE}/${collection?.author?.id || profileAuthor?.id}`
+          );
         },
       },
     ];
@@ -76,7 +78,9 @@ export const ListItem = forwardRef<HTMLLIElement, Props>(
     ];
 
     const menu =
-      isLogin && userInfo.id === author.id ? privateMenu : publicMenu;
+      isLogin && userInfo?.id === (collection?.author?.id || profileAuthor?.id)
+        ? privateMenu
+        : publicMenu;
 
     return (
       <Wrapper key={collection.id} ref={ref}>
@@ -130,28 +134,32 @@ export const ListItem = forwardRef<HTMLLIElement, Props>(
             <ContentText>{collection.title}</ContentText>
 
             <BadgeWrapper>
-              {collection.storeMood.map((mood) => (
-                <StoreMoodBadge name={mood.name} key={mood.id} />
-              ))}
+            {'storeMood' in collection
+    ? collection?.storeMood?.map((mood) => (
+        <StoreMoodBadge name={mood.name} key={mood.id} />
+      ))
+    : collection?.moods?.map((mood) => (
+        <StoreMoodBadge name={mood.name} key={mood.id} />
+      ))}
             </BadgeWrapper>
           </ContentBody>
           <ContentBottom>
             <InfoLeft
               onClick={() => {
                 handleNavigateToProfile(
-                  collection.author.id || (profileAuthor?.id as string)
+                  collection?.author?.id || (profileAuthor?.id as string)
                 );
               }}
             >
               <UserImage
                 imageUrl={
-                  collection.author.profileImageUrl ||
+                  collection?.author?.profileImageUrl ||
                   profileAuthor?.profileImageUrl ||
                   generateDefaultUserImage('얌')
                 }
               />
               <ListUserName>
-                {collection.author.name || profileAuthor?.name}
+                {collection?.author?.name || profileAuthor?.name}
               </ListUserName>
             </InfoLeft>
             <InfoRight>
