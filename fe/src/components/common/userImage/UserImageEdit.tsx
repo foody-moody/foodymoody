@@ -37,7 +37,7 @@ export const UserImageEdit: React.FC<Props> = ({
   const userImage = imageData.url || defaultImage;
 
   const handleImageClick = () => {
-    if (!isAuthor || isUploadLoading) {
+    if (isUploadLoading) {
       return;
     }
 
@@ -88,6 +88,10 @@ export const UserImageEdit: React.FC<Props> = ({
   };
 
   const handleAlert = () => {
+    if (!isAuthor || isUploadLoading) {
+      return;
+    }
+
     const modalProps = {
       onClose: () => {
         closeModal('profileImageAlert');
