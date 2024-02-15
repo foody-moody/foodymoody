@@ -17,7 +17,7 @@ export const GridItem = forwardRef<HTMLLIElement, Props>(
   ({ collection, author, isDragging }, ref) => {
     const navigate = useNavigate();
     const { userInfo } = useAuthState();
-    const isAuthor = userInfo?.id === (collection.author.id || author?.id);
+    const isAuthor = userInfo?.id === (collection?.author?.id || author?.id);
 
     const handleNavigateToDetail = (id: string) => {
       navigate(PATH.COLLECTION + '/' + id);
@@ -60,18 +60,18 @@ export const GridItem = forwardRef<HTMLLIElement, Props>(
                 onClick={(e) => {
                   e.stopPropagation();
                   handleNavigateToProfile(
-                    collection.author.id || (author?.id as string)
+                    collection?.author?.id || (author?.id as string)
                   );
                 }}
               >
                 <UserImage
                   imageUrl={
-                    collection.author.profileImageUrl ||
+                    collection?.author?.profileImageUrl ||
                     author?.profileImageUrl ||
                     generateDefaultUserImage('얌')
                   }
                 />
-                <UserName>{collection.author.name || author?.name}</UserName>
+                <UserName>{collection?.author?.name || author?.name}</UserName>
               </InfoLeft>
               <InfoRight>
                 <HeartSmallFill />

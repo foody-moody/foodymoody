@@ -10,7 +10,7 @@ import { CollectionContainer } from './CollectionContainer';
 export const Collection = () => {
   const { id } = useParams();
   const { userInfo } = useAuthState();
-  const USER_ID = id || userInfo.id;
+  const USER_ID = id || userInfo?.id;
   const { sortBy } = useSort('profileCollection');
   const { collections, count, author, hasNextPage, fetchNextPage } =
     useGetProfileCollection(USER_ID, sortBy);

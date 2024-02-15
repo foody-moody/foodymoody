@@ -33,7 +33,7 @@ export const UserImageEdit: React.FC<Props> = ({
   const toast = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const defaultImage = generateDefaultUserImage(userInfo.id);
+  const defaultImage = generateDefaultUserImage(userInfo?.id);
   const userImage = imageData.url || defaultImage;
 
   const handleImageClick = () => {

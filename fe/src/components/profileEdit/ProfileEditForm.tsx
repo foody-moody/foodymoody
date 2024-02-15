@@ -20,15 +20,15 @@ export const ProfileEditForm = () => {
   // 변경사항이 생겻는데 어디가려고할때 alert 할지? (변경사항이 저장되지 않았습니다. 나가시겠습니까?)
 
   const { userInfo } = useAuthState();
-  const { data: profile } = useGetProfile(userInfo.id);
+  const { data: profile } = useGetProfile(userInfo?.id);
   const { data: tastes } = useGetTasteMood();
   console.log(profile);
 
-  const { mutate: profileMutate } = useEditProfile(userInfo.id);
+  const { mutate: profileMutate } = useEditProfile(userInfo?.id);
   const { register, handleSubmit, state, errorItem, getValues } =
     useProfileEditForm(profile);
 
-  const isAuthor = profile?.id === userInfo.id;
+  const isAuthor = profile?.id === userInfo?.id;
 
   const checkBtnDisabled =
     state.isValidating ||
@@ -132,7 +132,8 @@ export const ProfileEditForm = () => {
           <UserImageEdit
             isAuthor={isAuthor}
             imageUrl={
-              profile?.profileImage.url || generateDefaultUserImage(userInfo.id)
+              profile?.profileImage.url ||
+              generateDefaultUserImage(userInfo?.id)
             }
           />
           <InfoMessage>
