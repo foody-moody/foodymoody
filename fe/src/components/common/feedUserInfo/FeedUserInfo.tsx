@@ -33,7 +33,7 @@ export const FeedUserInfo: React.FC<Props> = ({
   const { mutate: deleteMutate } = useDeleteFeed();
   const { isLogin, userInfo } = useAuthState();
   const formattedTimeStamp = formatTimeStamp(createdAt);
-  const isAuthor = userInfo.id === member.id;
+  const isAuthor = userInfo?.id === member.id;
 
   const handleNavigateProfile = () => {
     isAuthor
@@ -90,7 +90,7 @@ export const FeedUserInfo: React.FC<Props> = ({
     },
   ];
 
-  const menu = isLogin && userInfo.id === member.id ? privateMenu : publicMenu;
+  const menu = isLogin && userInfo?.id === member.id ? privateMenu : publicMenu;
 
   return (
     <Wrapper>

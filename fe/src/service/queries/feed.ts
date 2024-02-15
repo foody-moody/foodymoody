@@ -40,7 +40,7 @@ export const useAllFeeds = () => {
   };
 };
 
-export const useAllProfileFeeds = (memberId: string) => {
+export const useAllProfileFeeds = (memberId?: string) => {
   const query = useInfiniteQuery({
     queryKey: [QUERY_KEY.profileFeeds, memberId],
     queryFn: ({ pageParam = 0 }) => getAllProfileFeeds(pageParam, 10, memberId),

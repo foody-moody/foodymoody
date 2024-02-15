@@ -1,32 +1,17 @@
 import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { NOTIFICATION_TEXT_TYPE } from 'service/constants/notificationTextMessage';
 import { styled } from 'styled-components';
-import { Button } from 'components/common/button/Button';
 import { UserImage } from 'components/common/userImage/UserImage';
+import { FollowListButton } from 'components/follow/followButton/FollowListButton';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
-// import { useModal } from './useModal';
 import { PATH } from 'constants/path';
 
 type Props = {
   notification: NotificationItem;
   onClick: (notificationId: string) => void;
 };
-
-// 분리하기
-const notificationMessages = {
-  FEED_LIKED_ADDED_EVENT: '님이 회원님의 피드를 좋아합니다.',
-  COMMENT_LIKED_ADDED_EVENT: '님이 회원님의 댓글을 좋아합니다.',
-  FEED_COLLECTION_LIKED_ADDED_EVENT: '님이 회원님의 컬렉션을 좋아합니다.',
-  FEED_COMMENT_ADDED_EVENT: '님이 회원님의 피드에 댓글을 남겼습니다.',
-  COLLECTION_COMMENT_ADDED_EVENT: '님이 회원님의 컬렉션에 댓글을 남겼습니다.',
-  MEMBER_MENTIONED_EVENT: '님이 댓글에서 회원님을 언급 했습니다.',
-  MEMBER_FOLLOWED_EVENT: '님이 회원님을 팔로우 했습니다.',
-};
-
-function generateNotiText(type: NotificationType) {
-  return notificationMessages[type] || '님에게 알림이 왔어요';
-}
 
 export const NotiItem = forwardRef<HTMLLIElement, Props>(
   ({ notification, onClick }, ref) => {
@@ -37,21 +22,20 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
       nickname,
       imageUrl: senderImageUrl = undefined,
     } = notification.sender;
-    const {
-      feedId,
-      imageUrl: targetImageUrl,
-      // commentId,
-      commentMessage = null,
-    } = notification.target || {};
-    const {
-      notificationId,
-      type,
-      //  createdAt, updatedAt,
-      read,
-    } = notification;
 
-    const notiText = generateNotiText(type);
+    const { notificationId, type, read } = notification;
+
+    const generateNotiTextByType = (type: NotificationType) => {
+      return NOTIFICATION_TEXT_TYPE[type] || '님에게 알림이 왔어요';
+    };
+
     const isFollowNoti = type === 'MEMBER_FOLLOWED_EVENT';
+
+    const hasCommentMessage =
+      type === 'FEED_COMMENT_ADDED_EVENT' ||
+      type === 'FEED_COMMENT_REPLY_ADDED_EVENT' ||
+      type === 'FEED_COLLECTION_COMMENT_ADDED_EVENT' ||
+      type === 'FEED_COLLECTION_COMMENT_REPLY_ADDED_EVENT';
 
     const handleClick = () => {
       if (read) return;
@@ -59,17 +43,19 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
     };
 
     const handleNavigateProfile = () => {
-      // api에서 지금 sender id를 제대로 안주고 있음
-      // 자기 자신 프로필이면 /id 없이 PATH.PROFILE 로만 이동
       navigate(PATH.PROFILE + '/' + id);
       sessionStorage.setItem('profileId', id);
     };
 
     const handleNavigateTarget = () => {
-      // TODO.컬렉션일 경우도 나중에 처리해야함
-      navigate('detail/feed/' + feedId, {
-        state: { background: 'notiDetailFeed' },
-      });
+      if (notification.target.feedId) {
+        navigate('detail/feed/' + notification.target.feedId, {
+          state: { background: 'notiDetailFeed' },
+        });
+      }
+      if (notification.target.feedCollectionId) {
+        navigate('/collection/' + notification.target.feedCollectionId);
+      }
     };
 
     return (
@@ -81,39 +67,49 @@ export const NotiItem = forwardRef<HTMLLIElement, Props>(
             onClick={handleNavigateProfile}
           />
 
-          {/* TODO 3. Content 영역 클릭 시 해당 글 모달 키기 */}
           <Content onClick={handleNavigateTarget}>
             <div>
               <NotiText>
                 <span>{nickname}</span>
-                {notiText}
+                {generateNotiTextByType(type)}
               </NotiText>
-              {!isFollowNoti && <Message>{commentMessage}</Message>}
+              {hasCommentMessage && (
+                <>
+                  <Message>{notification.target.feedCommentContent}</Message>
+                  <Message>{notification.target.feedReplyContent}</Message>
+                </>
+              )}
               <Time>{formatTimeStamp(notification.createdAt)}</Time>
             </div>
 
-            {/* TODO. UsrImage 컴포넌트 수정되면 바꾸기 */}
-            {!isFollowNoti && (
-              <TargetFeedImg src={targetImageUrl} alt="피드 썸네일 이미지" />
+            {notification.target.feedThumbnailUrl && (
+              <TargetFeedImg
+                src={notification.target.feedThumbnailUrl}
+                alt="피드 썸네일 이미지"
+              />
+            )}
+            {notification.target.feedCollectionThumbnailUrl && (
+              <TargetFeedImg
+                src={notification.target.feedCollectionThumbnailUrl}
+                alt="컬렉션 썸네일 이미지"
+              />
             )}
           </Content>
         </NotiInfo>
 
-        {/* TODO 4. 팔로우 버튼 누르면 팔로우 요청 보내기. 
-            팔로우 된 경우에 언팔 버튼을 띄울지? 아니면 그냥 팔로우됨. 으로 띄울지 이야기 해부기 */}
-        {isFollowNoti && (
-          <FollowBtn backgroundColor="black" size="xs">
-            팔로우
-          </FollowBtn>
+        {/* TODO. 팔로우 제대로 되는지 확인해야함 */}
+        {isFollowNoti && notification.target.followed !== undefined && (
+          <FollowListButton
+            size="xs"
+            width={100}
+            memberId={notification.sender.id}
+            isFollowing={notification.target.followed}
+          />
         )}
       </Wrapper>
     );
   }
 );
-
-const FollowBtn = styled(Button)`
-  width: 100px;
-`;
 
 const Wrapper = styled.li<{
   $isRead: boolean;
@@ -131,14 +127,6 @@ const NotiInfo = styled.div`
   gap: 16px;
   width: 100%;
 `;
-
-// const Thumbnail = styled.img`
-//   cursor: pointer;
-//   width: 60px;
-//   height: 60px;
-//   border: 0.5px solid ${({ theme: { colors } }) => colors.black};
-//   border-radius: ${({ theme: { radius } }) => radius.half};
-// `;
 
 const Content = styled.div`
   display: flex;

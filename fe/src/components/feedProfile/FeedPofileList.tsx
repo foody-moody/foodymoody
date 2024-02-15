@@ -11,7 +11,7 @@ import { FeedProfileItem } from './FeedProfleItem';
 export const FeedProfileList = () => {
   const { id } = useParams();
   const { userInfo } = useAuthState();
-  const USER_ID = id || userInfo.id;
+  const USER_ID = id || userInfo?.id;
 
   const { profileFeeds, hasNextPage, fetchNextPage } =
     useAllProfileFeeds(USER_ID);
