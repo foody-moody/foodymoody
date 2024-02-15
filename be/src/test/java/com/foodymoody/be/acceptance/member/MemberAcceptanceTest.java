@@ -5,6 +5,7 @@ import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_또_등록한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_등록하고_피드_리스트도_추가한다;
+import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션을_삭제한다;
 import static com.foodymoody.be.acceptance.feed_collection_like.FeedCollectionLikeSteps.피드_컬렉션에_좋아요를_등록한다;
 import static com.foodymoody.be.acceptance.feed_collection_mood.FeedCollectionMoodSteps.피드_컬렉션_무드를_등록하고_아이디를_가져온다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
@@ -309,9 +310,10 @@ class MemberAcceptanceTest extends AcceptanceTest {
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디, 무드2_아이디, 무드3_아이디), 회원아티_액세스토큰, List.of(피드1_아이디, 피드2_아이디, 피드3_아이디));
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
-            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
             String 컬렉션1_아이디 = 피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+            String 컬렉션2_아이디 = 피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
             피드_컬렉션에_좋아요를_등록한다(회원아티_액세스토큰, 컬렉션1_아이디, new RequestSpecBuilder().build());
+            피드_컬렉션을_삭제한다(컬렉션2_아이디, 회원아티_액세스토큰, new RequestSpecBuilder().build());
 
             // when
             ExtractableResponse<Response> response = 회원이_작성한_피드_컬렉션_목록을_조회한다(회원아티_액세스토큰, 아티_아이디, 0, 5, spec);
@@ -320,7 +322,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),
                     () -> assertThat(response.jsonPath().getLong("count"))
-                            .isEqualTo(7),
+                            .isEqualTo(6),
                     () -> assertThat(response.jsonPath().getList("collections.content"))
                             .hasSize(5)
             );
