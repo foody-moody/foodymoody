@@ -120,7 +120,7 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
                 .leftJoin(feedCollectionLike).on(feedCollectionLike.feedCollectionId.eq(feedCollection.id))
                 .leftJoin(liked)
                 .on(feedCollectionLike.feedCollectionId.eq(feedCollection.id).and(eqMemberIdIfNotNull(currentMemberId)))
-                .innerJoin(feedCollectionMood).on(feedCollection.moods.moodList.contains(feedCollectionMood))
+                .leftJoin(feedCollectionMood).on(feedCollection.moods.moodList.contains(feedCollectionMood))
                 .leftJoin(feedCollection.feedIds.ids)
                 .leftJoin(feedCollection.commentIds.ids)
                 .where(feedCollection.authorId.eq(id).and(feedCollection.isDeleted.isFalse()))
@@ -140,7 +140,7 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
                                 feedCollection.id
                         ))
                 .from(feedCollection)
-                .innerJoin(feedCollectionMood).on(feedCollection.moods.moodList.contains(feedCollectionMood))
+                .leftJoin(feedCollectionMood).on(feedCollection.moods.moodList.contains(feedCollectionMood))
                 .orderBy(feedCollection.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
