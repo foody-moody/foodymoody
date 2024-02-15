@@ -91,7 +91,7 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
                 )
                 .from(member)
                 .leftJoin(image).on(image.id.eq(member.profileImage.id))
-                .leftJoin(feedCollection).on(feedCollection.authorId.eq(member.id))
+                .leftJoin(feedCollection).on(feedCollection.authorId.eq(member.id).and(feedCollection.isDeleted.isFalse()))
                 .where(member.id.eq(id))
                 .fetchOne();
 
@@ -123,7 +123,7 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
                 .leftJoin(feedCollectionMood).on(feedCollection.moods.moodList.contains(feedCollectionMood))
                 .leftJoin(feedCollection.feedIds.ids)
                 .leftJoin(feedCollection.commentIds.ids)
-                .where(feedCollection.authorId.eq(id).and(feedCollection.isDeleted.isFalse()))
+                .where(getMyCollectionCondition(id))
                 .groupBy(feedCollection.id)
                 .orderBy(feedCollection.createdAt.desc())
                 .offset(pageable.getOffset())
@@ -141,6 +141,7 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
                         ))
                 .from(feedCollection)
                 .leftJoin(feedCollectionMood).on(feedCollection.moods.moodList.contains(feedCollectionMood))
+                .where(getMyCollectionCondition(id))
                 .orderBy(feedCollection.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
@@ -189,6 +190,10 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
                                 fc.getFeedIds()
                         )
                 ).collect(Collectors.toUnmodifiableList());
+    }
+
+    private BooleanExpression getMyCollectionCondition(MemberId id) {
+        return feedCollection.authorId.eq(id).and(feedCollection.isDeleted.isFalse());
     }
 
     private Expression<Boolean> isFollowed(MemberId currentMemberId) {
