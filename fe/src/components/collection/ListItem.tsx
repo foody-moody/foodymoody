@@ -134,13 +134,12 @@ export const ListItem = forwardRef<HTMLLIElement, Props>(
             <ContentText>{collection.title}</ContentText>
 
             <BadgeWrapper>
-            {'storeMood' in collection
-    ? collection?.storeMood?.map((mood) => (
-        <StoreMoodBadge name={mood.name} key={mood.id} />
-      ))
-    : collection?.moods?.map((mood) => (
-        <StoreMoodBadge name={mood.name} key={mood.id} />
-      ))}
+              {collection.storeMood?.map((mood) => (
+                <StoreMoodBadge name={mood.name} key={mood.id} />
+              )) ||
+                collection.moods?.map((mood) => (
+                  <StoreMoodBadge name={mood.name} key={mood.id} />
+                ))}
             </BadgeWrapper>
           </ContentBody>
           <ContentBottom>
