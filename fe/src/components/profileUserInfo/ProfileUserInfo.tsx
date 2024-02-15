@@ -25,13 +25,13 @@ export const ProfileUserInfo = () => {
       ? profileId
       : !isDetailFeedUrl && id
       ? id
-      : userInfo.id;
+      : userInfo?.id;
 
   const { data: member } = useGetProfile(USER_ID);
 
   const navigate = useNavigate();
   const { navigateToProfileSetting } = usePageNavigator();
-  const isAuthor = member?.id === userInfo.id;
+  const isAuthor = member?.id === userInfo?.id;
   const { openModal } = useModal<'collection'>();
 
   const handleAddCollection = () => {

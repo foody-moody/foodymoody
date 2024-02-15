@@ -1,12 +1,18 @@
-type NotificationItem = {
-  notificationId: string;
-  sender: Sender;
-  target?: Target;
-  type: NotificationType;
-  createdAt: string;
-  updatedAt: string;
-  read: boolean;
-};
+type NotificationType =
+  | 'FEED_ADDED_EVENT'
+  | 'FEED_LIKED_ADDED_EVENT'
+  | 'FEED_COMMENT_ADDED_EVENT'
+  | 'FEED_COMMENT_LIKED_ADDED_EVENT'
+  | 'FEED_COMMENT_REPLY_ADDED_EVENT'
+  | 'FEED_COMMENT_REPLY_LIKED_ADDED_EVENT'
+  | 'FEED_COLLECTION_ADDED_EVENT'
+  | 'FEED_COLLECTION_LIKED_ADDED_EVENT'
+  | 'FEED_COLLECTION_COMMENT_ADDED_EVENT'
+  | 'FEED_COLLECTION_COMMENT_LIKED_ADDED_EVENT'
+  | 'FEED_COLLECTION_COMMENT_REPLY_ADDED_EVENT'
+  | 'FEED_COLLECTION_COMMENT_REPLY_LIKED_ADDED_EVENT'
+  | 'MEMBER_MENTIONED_EVENT'
+  | 'MEMBER_FOLLOWED_EVENT';
 
 type Sender = {
   id: string;
@@ -15,24 +21,32 @@ type Sender = {
 };
 
 type Target = {
-  feedId: string;
-  imageUrl: string;
-  commentId: string;
-  commentMessage: string;
+  '@type'?: string; // 나중에 BE에서 제거해주시면 지워야함
+  feedId?: string;
+  feedThumbnailUrl?: string;
+  feedCommentId?: string;
+  feedCommentContent?: string;
+  feedReplyId: string;
+  feedReplyContent: string;
+  feedCollectionId?: string;
+  feedCollectionTitle?: string;
+  feedCollectionThumbnailUrl?: string;
+  feedCollectionCommentContent?: string;
+  feedCollectionCommentId?: string;
+  feedCollectionReplyId?: string;
+  feedCollectionReplyContent?: string;
+  followed?: boolean;
 };
 
-type NotificationType =
-  // 좋아요
-  | 'FEED_LIKED_ADDED_EVENT'
-  | 'COMMENT_LIKED_ADDED_EVENT'
-  | 'FEED_COLLECTION_LIKED_ADDED_EVENT'
-  // 댓글
-  | 'FEED_COMMENT_ADDED_EVENT'
-  | 'COLLECTION_COMMENT_ADDED_EVENT'
-  // 멘션
-  | 'MEMBER_MENTIONED_EVENT'
-  // 팔로우
-  | 'MEMBER_FOLLOWED_EVENT';
+type NotificationItem = {
+  notificationId: string;
+  sender: Sender;
+  target: Target;
+  type: NotificationType;
+  createdAt: string;
+  updatedAt: string;
+  read: boolean;
+};
 
 // 알림 설정
 type NotiSettingKeys =
