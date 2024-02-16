@@ -60,7 +60,7 @@ public interface FeedCommentJpaRepository extends JpaRepository<FeedComment, Fee
             Pageable pageable
     );
 
-    @Query("SELECT COUNT(_feedComment) FROM FeedComment _feedComment WHERE _feedComment.feedId = :feedId")
+    @Query("SELECT COUNT(_feedComment) FROM FeedComment _feedComment WHERE _feedComment.feedId = :feedId and _feedComment.deleted = false")
     Optional<Long> fetchCountByFeedId(@Param("feedId") FeedId feedId);
 
 }
