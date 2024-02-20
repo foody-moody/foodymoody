@@ -11,7 +11,6 @@ import com.foodymoody.be.feed_comment.persentation.translator.FeedReplyTranslato
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,17 +31,6 @@ public class FeedReplyWriteController {
     ) {
         var data = FeedReplyTranslator.toUpdateReplyData(request, feedReplyId, memberId);
         service.update(data);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/api/feed/{ignoreFeedId}/comments/{ignoreFeedCommentId}/replies/{feedReplyId}")
-    public ResponseEntity<Void> delete(
-            @PathVariable FeedId ignoreFeedId,
-            @PathVariable FeedCommentId ignoreFeedCommentId,
-            @PathVariable FeedReplyId feedReplyId,
-            @CurrentMemberId MemberId memberId
-    ) {
-        service.delete(feedReplyId, memberId);
         return ResponseEntity.ok().build();
     }
 }

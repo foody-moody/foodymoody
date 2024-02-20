@@ -48,7 +48,11 @@ public class FeedComment {
     private FeedReplyComments feedReplyComments;
 
     public FeedComment(
-            FeedCommentId id, Content content, FeedId feedId, boolean deleted, MemberId memberId,
+            FeedCommentId id,
+            Content content,
+            FeedId feedId,
+            boolean deleted,
+            MemberId memberId,
             LocalDateTime createdAt
     ) {
         validate(id, content, feedId, memberId, createdAt);
@@ -94,6 +98,9 @@ public class FeedComment {
 
     public void deleteReply(FeedReply feedReply, LocalDateTime updatedAt) {
         this.feedReplyComments.delete(feedReply);
+        if (feedReplyComments.isEmpty()) {
+            this.hasReply = false;
+        }
         this.updatedAt = updatedAt;
     }
 
