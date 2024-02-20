@@ -8,7 +8,6 @@ import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import com.foodymoody.be.feed_collection.domain.QFeedCollection;
 import com.foodymoody.be.feed_collection.infra.persistence.jpa.FeedCollectionJpaRepository;
 import com.foodymoody.be.feed_collection_like.domain.QFeedCollectionLike;
-import com.foodymoody.be.feed_collection_like_count.domain.QFeedCollectionLikeCount;
 import com.foodymoody.be.image.domain.QImage;
 import com.foodymoody.be.member.domain.QMember;
 import com.foodymoody.be.member.domain.QTasteMood;
@@ -67,7 +66,6 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
         QMember member = QMember.member;
         QImage image = QImage.image;
         QTasteMood tasteMood = QTasteMood.tasteMood;
-        QFeedCollectionLikeCount likeCount = QFeedCollectionLikeCount.feedCollectionLikeCount;
 
         // table join
         JPAQuery<?> query = queryFactory
@@ -75,7 +73,6 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
                 .join(member).on(feedCollection.authorId.eq(member.id))
                 .join(image).on(member.profileImage.id.eq(image.id))
                 .join(tasteMood).on(member.tasteMood.eq(tasteMood))
-                .join(likeCount).on(feedCollection.id.eq(likeCount.feedCollectionId))
                 .where(feedCollection.isDeleted.isFalse())
                 .where(feedCollection.isPrivate.isFalse())
                 .offset(pageable.getOffset())
@@ -104,7 +101,7 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
                                         feedCollection.title,
                                         feedCollection.thumbnailUrl,
                                         feedCollection.description,
-                                        likeCount.count,
+                                        feedCollection.likeCount,
                                         feedCollection.followerCount,
                                         feedCollection.feedIds.ids.size(),
                                         feedCollection.commentIds.ids.size(),

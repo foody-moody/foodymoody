@@ -13,7 +13,7 @@ public class FeedCollectionResponse {
     private AuthorSummaryResponse author;
     private String title;
     private String description;
-    private Long likeCount;
+    private int likeCount;
     private boolean isLiked;
     private int followerCount;
     private int commentCount;
@@ -24,9 +24,19 @@ public class FeedCollectionResponse {
     private LocalDateTime updatedAt;
 
     public FeedCollectionResponse(
-            FeedCollectionId id, AuthorSummaryResponse author, String title, String description, String thumbnailUrl,
-            Long likeCount, boolean isLiked, int followerCount, int commentCount, int feedCount,
-            List<FeedCollectionMoodResponse> moods, LocalDateTime createdAt, LocalDateTime updatedAt
+            FeedCollectionId id,
+            AuthorSummaryResponse author,
+            String title,
+            String description,
+            String thumbnailUrl,
+            int likeCount,
+            boolean isLiked,
+            int followerCount,
+            int commentCount,
+            int feedCount,
+            List<FeedCollectionMoodResponse> moods,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
     ) {
         this.id = id;
         this.author = author;

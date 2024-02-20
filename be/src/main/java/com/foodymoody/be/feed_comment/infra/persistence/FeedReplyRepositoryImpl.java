@@ -26,7 +26,8 @@ public class FeedReplyRepositoryImpl implements FeedReplyRepository {
 
     @Override
     public Slice<MemberFeedReplySummary> findByCommentIdAndMemberId(
-            FeedCommentId feedCommentId, MemberId memberId,
+            FeedCommentId feedCommentId,
+            MemberId memberId,
             Pageable pageable
     ) {
         return feedReplyJpaRepository.findReplyByCommentIdAndMemberId(feedCommentId, memberId, pageable);

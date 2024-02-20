@@ -663,6 +663,14 @@ operation::feed_collection_request_update_success[snippets='http-request,http-re
 
 operation::feed_collection_request_update_feed_list_success[snippets='http-request,http-response']
 
+=== 컬렉션 피드 리스트에 피드 추가 🔐
+
+operation::feed_collection_request_add_feed_success[snippets='http-request,http-response']
+
+=== 컬렉션 피드 리스트에서 피드 삭제 🔐
+
+operation::feed_collection_request_delete_feed_success[snippets='http-request,http-response']
+
 === 컬렉션 피드 리스트 및 썸네일 수정 🔐
 
 operation::feed_collection_request_update_feed_list_and_thumbnail_success[snippets='http-request,http-response']

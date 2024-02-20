@@ -10,6 +10,7 @@ import com.foodymoody.be.feed_comment.application.dto.data.RegisterFeedCommentDa
 import com.foodymoody.be.feed_comment.application.dto.data.RegisterFeedReplyData;
 import com.foodymoody.be.feed_comment.application.mapper.FeedCommentMapper;
 import com.foodymoody.be.feed_comment.domain.entity.FeedComment;
+import com.foodymoody.be.feed_comment.domain.entity.FeedReply;
 import com.foodymoody.be.feed_comment.domain.repository.FeedCommentRepository;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,11 @@ public class FeedCommentWriteService {
         var reply = FeedCommentMapper.toFeedReply(replyId, data, now);
         comment.addReply(reply, now);
         return reply.getId();
+    }
+
+    public void deleteReply(FeedCommentId commentId, FeedReply feedReply, LocalDateTime updatedAt) {
+        var comment = fetchById(commentId);
+        comment.deleteReply(feedReply, updatedAt);
     }
 
     private FeedComment fetchById(FeedCommentId id) {
