@@ -44,7 +44,7 @@ public class FeedCollection {
     @Getter
     private String description;
     @Getter
-    private int heartCount;
+    private int likeCount;
     @Getter
     private int followerCount;
     @Getter
@@ -174,5 +174,9 @@ public class FeedCollection {
         validateAuthor(memberId);
         feedIds.remove(feedId);
         this.updatedAt = now;
+    }
+
+    public void updateLikeCount(long likeCount) {
+        this.likeCount = (int) likeCount;
     }
 }

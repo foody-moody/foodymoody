@@ -11,6 +11,7 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionMood;
 import com.foodymoody.be.feed_collection.domain.FeedCollectionRepository;
+import com.foodymoody.be.feed_collection_like_count.domain.FeedCollectionLikeCount;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -108,5 +109,13 @@ public class FeedCollectionWriteService {
     public void removeFeed(FeedCollectionId id, FeedId feedId, MemberId memberId) {
         FeedCollection feedCollection = fetchById(id);
         feedCollection.removeFeed(feedId, memberId, LocalDateTime.now());
+    }
+
+    @Transactional
+    public void updateLikeCount(List<FeedCollectionLikeCount> all) {
+        all.forEach(likeCount -> {
+            var feedCollection = fetchById(likeCount.getFeedCollectionId());
+            feedCollection.updateLikeCount(likeCount.getLikeCount());
+        });
     }
 }
