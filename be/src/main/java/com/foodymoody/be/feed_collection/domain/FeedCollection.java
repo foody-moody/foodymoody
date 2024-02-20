@@ -163,4 +163,10 @@ public class FeedCollection {
             throw new IllegalArgumentException("피드 컬렉션 작성자가 아닙니다.");
         }
     }
+
+    public void addFeed(FeedId feedId, MemberId memberId, LocalDateTime now) {
+        validateAuthor(memberId);
+        feedIds.add(feedId);
+        this.updatedAt = now;
+    }
 }

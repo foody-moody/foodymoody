@@ -12,6 +12,7 @@ import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.�
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_피드리스트_및_썸네일을_수정한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_피드리스트를_수정한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션_피드리스트를_조회한다;
+import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션에_피드를_추가한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션을_삭제한다;
 import static com.foodymoody.be.acceptance.feed_collection.FeedCollectionSteps.피드_컬렉션을_수정한다;
 import static com.foodymoody.be.acceptance.feed_collection_comment.FeedCollectionCommentSteps.피드_컬렉션에_댓글을_등록하고_아이디를_받는다;
@@ -30,6 +31,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 @DisplayName("피드 컬렉션 인수 테스트")
 class FeedCollectionAcceptanceTest extends AcceptanceTest {
@@ -177,7 +179,7 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(204);
     }
 
-    @DisplayName("피드 컬렉션을 수정 요청 성공하면 응답 코드 204를 반환한다.")
+    @DisplayName("피드 컬렉션 수정 요청 성공하면 응답 코드 204를 반환한다.")
     @Test
     void when_request_to_update_feed_collection_with_thumbnail_url_then_respond_code_204() {
         // docs
@@ -211,7 +213,7 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(200);
     }
 
-    @DisplayName("피드 켈렉션의 피드리스틀 수정 요청 성공하면 응답 코드 204를 반환한다.")
+    @DisplayName("피드 켈렉션의 피드리스트를 수정 요청 성공하면 응답 코드 204를 반환한다.")
     @Test
     void when_request_to_update_feed_list_then_response_code_204() {
         // docs
@@ -226,6 +228,26 @@ class FeedCollectionAcceptanceTest extends AcceptanceTest {
 
         // then
         assertThat(response.statusCode()).isEqualTo(204);
+    }
+
+    @DisplayName("피드 컬렉션의 피드를 추가 요청 성공하면 응답 코드 201를 반환한다.")
+    @Test
+    void when_request_to_add_feed_to_collection_then_respond_code_201() {
+        // docs
+        api_문서_타이틀("feed_collection_request_add_feed_success", spec);
+
+        // given
+        String collectionId = 피드_컬렉션_등록하고_아이디를_가져온다(moodIds, 회원아티_액세스토큰);
+        String feedId = feedIds.get(0);
+
+        // when
+        var response = 피드_컬렉션에_피드를_추가한다(collectionId, feedId, 회원아티_액세스토큰, spec);
+
+        feedId = feedIds.get(1);
+        var response2 = 피드_컬렉션에_피드를_추가한다(collectionId, feedId, 회원아티_액세스토큰, spec);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
 
     @DisplayName("피드 컬렉션을 삭제 요청 성공하면 응답 코드 204를 반환한다.")

@@ -37,4 +37,8 @@ public class FeedIds {
     public void update(List<FeedId> feedIds) {
         ids = feedIds;
     }
+
+    public void add(FeedId feedId) {
+        ids.add(feedId);
+    }
 }

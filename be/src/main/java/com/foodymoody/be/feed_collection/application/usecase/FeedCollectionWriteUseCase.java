@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed_collection.application.usecase;
 
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.service.FeedReadService;
 import com.foodymoody.be.feed_collection.application.service.FeedCollectionMoodWriteService;
@@ -65,5 +66,9 @@ public class FeedCollectionWriteUseCase {
 
     public void delete(FeedCollectionId id, MemberId memberId) {
         service.delete(id, memberId);
+    }
+
+    public void addFeed(FeedCollectionId id, FeedId feedId, MemberId memberId) {
+        service.addFeed(id, feedId, memberId);
     }
 }
