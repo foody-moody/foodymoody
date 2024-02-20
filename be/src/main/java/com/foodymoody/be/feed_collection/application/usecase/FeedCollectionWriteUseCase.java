@@ -71,4 +71,8 @@ public class FeedCollectionWriteUseCase {
     public void addFeed(FeedCollectionId id, FeedId feedId, MemberId memberId) {
         service.addFeed(id, feedId, memberId);
     }
+
+    public void removeFeed(FeedCollectionId id, FeedId feedId, MemberId memberId) {
+        service.removeFeed(id, feedId, memberId);
+    }
 }

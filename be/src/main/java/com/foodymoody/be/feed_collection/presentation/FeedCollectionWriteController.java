@@ -3,6 +3,7 @@ package com.foodymoody.be.feed_collection.presentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.IdResponse;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.application.usecase.FeedCollectionWriteUseCase;
 import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionAddFeedRequest;
@@ -63,6 +64,16 @@ public class FeedCollectionWriteController {
     ) {
         useCase.addFeed(id, request.getFeedId(), memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping("/api/feed_collections/{id}/feeds/{feedId}")
+    public ResponseEntity<Void> removeFeed(
+            @PathVariable FeedCollectionId id,
+            @PathVariable FeedId feedId,
+            @CurrentMemberId MemberId memberId
+    ) {
+        useCase.removeFeed(id, feedId, memberId);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/api/feed_collections/{id}")

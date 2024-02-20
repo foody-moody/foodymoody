@@ -41,4 +41,8 @@ public class FeedIds {
     public void add(FeedId feedId) {
         ids.add(feedId);
     }
+
+    public void remove(FeedId feedId) {
+        ids.remove(feedId);
+    }
 }

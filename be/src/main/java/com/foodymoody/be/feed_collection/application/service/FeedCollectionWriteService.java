@@ -103,4 +103,10 @@ public class FeedCollectionWriteService {
         FeedCollection feedCollection = fetchById(id);
         feedCollection.addFeed(feedId, memberId, LocalDateTime.now());
     }
+
+    @Transactional
+    public void removeFeed(FeedCollectionId id, FeedId feedId, MemberId memberId) {
+        FeedCollection feedCollection = fetchById(id);
+        feedCollection.removeFeed(feedId, memberId, LocalDateTime.now());
+    }
 }

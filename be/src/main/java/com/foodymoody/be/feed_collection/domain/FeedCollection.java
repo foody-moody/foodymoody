@@ -169,4 +169,10 @@ public class FeedCollection {
         feedIds.add(feedId);
         this.updatedAt = now;
     }
+
+    public void removeFeed(FeedId feedId, MemberId memberId, LocalDateTime now) {
+        validateAuthor(memberId);
+        feedIds.remove(feedId);
+        this.updatedAt = now;
+    }
 }
