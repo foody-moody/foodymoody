@@ -133,8 +133,8 @@ public class Member {
 
     private MemberFollowedEvent toMemberFollowedEvent(Member target) {
         return MemberFollowedEvent.of(
-                target.id,
                 this.id,
+                target.id,
                 LocalDateTime.now()
         );
     }
