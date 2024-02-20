@@ -26,8 +26,10 @@ public class FeedCollectionLikeCount {
     @Getter
     @Id
     private FeedCollectionLikeCountId id;
+    @Getter
     @AttributeOverride(name = "value", column = @Column(name = "feed_collection_id"))
     private FeedCollectionId feedCollectionId;
+    @Getter
     private Long count;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

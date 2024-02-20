@@ -27,7 +27,7 @@ public interface FeedReplyJpaRepository extends JpaRepository<FeedReply, FeedRep
             "left join Member _member on _reply.memberId = _member.id.value " +
             "left join Image _image on _member.profileImage.id = _image.id AND _image.deleted = false " +
             "left join FeedCommentLikeCount _likeCount on _likeCount.feedCommentId = _comment.id " +
-            "where _comment.id = :feedCommentId")
+            "where _comment.id = :feedCommentId AND _reply.deleted = false")
     Slice<MemberFeedReplySummary> findReplyByCommentId(FeedCommentId feedCommentId, Pageable pageable);
 
     @Query("select _reply.id as replyId, _reply.content as content" +
@@ -44,7 +44,7 @@ public interface FeedReplyJpaRepository extends JpaRepository<FeedReply, FeedRep
             "left join Image _image on _member.profileImage.id = _image.id AND _image.deleted = false " +
             "left join FeedReplyLikeCount _replyLikeCount on _replyLikeCount.feedReplyId = _reply.id " +
             "left join FeedReplyLike _feedRelyLike on _feedRelyLike.feedReplyId = _reply.id and _feedRelyLike.memberId = :memberId " +
-            "where _comment.id = :feedCommentId")
+            "where _comment.id = :feedCommentId AND _reply.deleted = false")
     Slice<MemberFeedReplySummary> findReplyByCommentIdAndMemberId(
             FeedCommentId feedCommentId,
             MemberId memberId,

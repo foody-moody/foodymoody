@@ -13,7 +13,7 @@ public class FeedCollectionSummary {
     private AuthorSummaryResponse author;
     private String title;
     private String description;
-    private Long likeCount;
+    private int likeCount;
     private boolean isLiked;
     private String thumbnailUrl;
     private int followerCount;
@@ -32,7 +32,7 @@ public class FeedCollectionSummary {
             String title,
             String thumbnailUrl,
             String description,
-            Long likeCount,
+            int likeCount,
             int followerCount,
             int feedCount,
             int commentCount,

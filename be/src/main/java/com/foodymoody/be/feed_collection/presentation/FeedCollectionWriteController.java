@@ -3,8 +3,10 @@ package com.foodymoody.be.feed_collection.presentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.IdResponse;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
+import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection.application.usecase.FeedCollectionWriteUseCase;
+import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionAddFeedRequest;
 import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionCreateRequest;
 import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionEditRequest;
 import com.foodymoody.be.feed_collection.application.usecase.dto.FeedCollectionFeedsUpdateRequest;
@@ -51,6 +53,26 @@ public class FeedCollectionWriteController {
             @CurrentMemberId MemberId memberId
     ) {
         useCase.update(id, request, memberId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/api/feed_collections/{id}/feeds")
+    public ResponseEntity<Void> addFeed(
+            @PathVariable FeedCollectionId id,
+            @RequestBody FeedCollectionAddFeedRequest request,
+            @CurrentMemberId MemberId memberId
+    ) {
+        useCase.addFeed(id, request.getFeedId(), memberId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping("/api/feed_collections/{id}/feeds/{feedId}")
+    public ResponseEntity<Void> removeFeed(
+            @PathVariable FeedCollectionId id,
+            @PathVariable FeedId feedId,
+            @CurrentMemberId MemberId memberId
+    ) {
+        useCase.removeFeed(id, feedId, memberId);
         return ResponseEntity.noContent().build();
     }
 

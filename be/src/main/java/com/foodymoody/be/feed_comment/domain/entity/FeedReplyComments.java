@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
 @Embeddable
 public class FeedReplyComments {
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST}, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<FeedReply> commentList = new ArrayList<>();
 
     public void add(FeedReply feedReply) {
@@ -23,5 +23,9 @@ public class FeedReplyComments {
 
     public void delete(FeedReply feedReply) {
         commentList.remove(feedReply);
+    }
+
+    public boolean isEmpty() {
+        return commentList.isEmpty();
     }
 }

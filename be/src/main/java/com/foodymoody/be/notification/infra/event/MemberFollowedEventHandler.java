@@ -29,8 +29,8 @@ public class MemberFollowedEventHandler {
         var toMemberId = event.getToMemberId();
         if (settingReadUseCase.isMemberFollowedEventEnabled(toMemberId)) {
             var notificationId = IdFactory.createNotificationId();
-            var fromMember = memberQueryService.findById(event.getFromMemberId());
-            boolean isFollowed = fromMember.isMyFollowing(toMemberId);
+            var toMember = memberQueryService.findById(event.getToMemberId());
+            boolean isFollowed = toMember.isMyFollowing(event.getFromMemberId());
             var details = makeDetails(isFollowed);
             var notification = NotificationMapper.toNotification(event, notificationId, details, toMemberId);
             notificationService.save(notification);
