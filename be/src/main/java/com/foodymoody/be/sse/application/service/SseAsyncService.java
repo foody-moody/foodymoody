@@ -44,9 +44,7 @@ public class SseAsyncService {
             }
             try {
                 long count = service.fetchCountNotReadNotification(memberId);
-                if (count > MIN_COUNT) {
-                    sendCount(memberId, count, emitter);
-                }
+                sendCount(memberId, count, emitter);
             } catch (IOException e) {
                 emitter.completeWithError(e);
             }

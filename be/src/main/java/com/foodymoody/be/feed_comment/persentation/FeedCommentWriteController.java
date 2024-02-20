@@ -4,6 +4,7 @@ import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.IdResponse;
 import com.foodymoody.be.common.util.ids.FeedCommentId;
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.FeedReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_comment.application.service.FeedCommentWriteService;
 import com.foodymoody.be.feed_comment.application.usecase.FeedCommentWriteUseCase;
@@ -72,5 +73,16 @@ public class FeedCommentWriteController {
         var data = FeedCommentTranslator.toRegisterReplyData(request, memberId, id);
         var replyId = service.reply(data);
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(replyId));
+    }
+
+    @DeleteMapping("/api/feed/{ignoreFeedId}/comments/{feedCommentId}/replies/{feedReplyId}")
+    public ResponseEntity<Void> delete(
+            @PathVariable FeedId ignoreFeedId,
+            @PathVariable FeedCommentId feedCommentId,
+            @PathVariable FeedReplyId feedReplyId,
+            @CurrentMemberId MemberId memberId
+    ) {
+        useCase.deleteReply(feedCommentId, feedReplyId, memberId);
+        return ResponseEntity.ok().build();
     }
 }

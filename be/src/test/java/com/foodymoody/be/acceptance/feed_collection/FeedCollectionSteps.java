@@ -188,6 +188,41 @@ public class FeedCollectionSteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 피드_컬렉션에_피드를_추가한다(
+            String collectionId,
+            String feedId,
+            String accessToken,
+            RequestSpecification spec
+    ) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("feedId", feedId);
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .body(body).contentType("application/json")
+                .when()
+                .post("/api/feed_collections/{collectionId}/feeds", collectionId)
+                .then().log().all()
+                .extract();
+    }
+
+    public static ExtractableResponse<Response> 피드_컬렉션에_피드를_삭제한다(
+            String collectionId,
+            String feedId,
+            String accessToken,
+            RequestSpecification spec
+    ) {
+        return RestAssured.given()
+                .spec(spec)
+                .log().all()
+                .auth().oauth2(accessToken)
+                .when()
+                .delete("/api/feed_collections/{collectionId}/feeds/{feedId}", collectionId, feedId)
+                .then().log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> 피드_컬렉션_피드리스트_및_썸네일을_수정한다(
             String collectionId,
             String accessToken,

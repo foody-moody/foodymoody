@@ -44,7 +44,7 @@ public class FeedCollection {
     @Getter
     private String description;
     @Getter
-    private int heartCount;
+    private int likeCount;
     @Getter
     private int followerCount;
     @Getter
@@ -162,5 +162,21 @@ public class FeedCollection {
         if (!memberId.equals(authorId)) {
             throw new IllegalArgumentException("피드 컬렉션 작성자가 아닙니다.");
         }
+    }
+
+    public void addFeed(FeedId feedId, MemberId memberId, LocalDateTime now) {
+        validateAuthor(memberId);
+        feedIds.add(feedId);
+        this.updatedAt = now;
+    }
+
+    public void removeFeed(FeedId feedId, MemberId memberId, LocalDateTime now) {
+        validateAuthor(memberId);
+        feedIds.remove(feedId);
+        this.updatedAt = now;
+    }
+
+    public void updateLikeCount(long likeCount) {
+        this.likeCount = (int) likeCount;
     }
 }

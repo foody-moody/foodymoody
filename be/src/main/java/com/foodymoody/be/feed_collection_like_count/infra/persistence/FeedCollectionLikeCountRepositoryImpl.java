@@ -4,6 +4,7 @@ import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.feed_collection_like_count.domain.FeedCollectionLikeCount;
 import com.foodymoody.be.feed_collection_like_count.domain.FeedCollectionLikeCountRepository;
 import com.foodymoody.be.feed_collection_like_count.infra.persistence.jpa.FeedCollectionLikeCountJpaRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -32,5 +33,10 @@ public class FeedCollectionLikeCountRepositoryImpl implements FeedCollectionLike
     @Override
     public Optional<FeedCollectionLikeCount> findByFeedCollectionId(FeedCollectionId feedCollectionId) {
         return repository.findByFeedCollectionId(feedCollectionId);
+    }
+
+    @Override
+    public List<FeedCollectionLikeCount> findAll() {
+        return repository.findAll();
     }
 }

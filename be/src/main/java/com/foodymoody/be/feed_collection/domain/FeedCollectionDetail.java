@@ -39,7 +39,7 @@ public class FeedCollectionDetail {
         this.id = feedCollection.getId().getValue();
         this.title = feedCollection.getTitle();
         this.description = feedCollection.getDescription();
-        this.likeCount = feedCollection.getHeartCount();
+        this.likeCount = feedCollection.getLikeCount();
         this.isLiked = false;
         this.followerCount = feedCollection.getFollowerCount();
         this.isPrivate = feedCollection.isPrivate();
