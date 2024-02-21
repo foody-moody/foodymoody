@@ -1,6 +1,7 @@
 package com.foodymoody.be.member.application;
 
 import com.foodymoody.be.member.domain.PasswordPattern;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -11,6 +12,9 @@ public class PasswordPatternValidator implements ConstraintValidator<PasswordPat
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (Objects.isNull(value)) {
+            return Boolean.FALSE;
+        }
         return Pattern.matches(REGEX, value);
     }
 }
