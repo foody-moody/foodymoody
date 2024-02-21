@@ -77,6 +77,9 @@ dependencies {
     // Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.14'
 
+    // WebFlux
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
 }
 
 ext {

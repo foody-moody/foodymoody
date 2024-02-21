@@ -40,6 +40,8 @@ public enum ErrorMessage {
     CLAIM_NOT_FOUND("토큰에 해당 클레임이 존재하지 않습니다", "a003"),
     INVALID_ACCESS_TOKEN("유효하지 않은 액세스 토큰입니다", "a004"),
     MEMBER_INCORRECT_PASSWORD("사용자 정보와 비밀번호가 일치하지 않습니다", "a005"),
+    UNSUPPORTED_OAUTH_PROVIDER("지원되지 않는 OAuth입니다.", "a006"),
+    INVALID_OAUTH_RESPONSE("OAuth 클라이언트로부터의 응답이 유효하지 않습니다", "a007"),
     // mood
     DUPLICATE_MOOD("이미 존재하는 무드입니다", "o001"),
     MOOD_NOT_FOUND("존재하지 않는 무드입니다", "o002"),
@@ -59,7 +61,7 @@ public enum ErrorMessage {
     IMAGE_UPLOAD_FAILED("이미지 업로드에 실패했습니다", "i002"),
     FILE_SIGNATURE_DOES_NOT_MATCH_CONTENT_TYPE("파일 시그니처와 ContentType 헤더가 일치하지 않습니다", "i003"),
     INVALID_IMAGE_FILE("유효하지 않은 이미지 파일입니다", "i004"),
-    UNSUPPORTED_IMAGE_FORMAT_EXCEPTION("지원되지 않는 이미지 형식입니다", "i005"),
+    UNSUPPORTED_IMAGE_FORMAT("지원되지 않는 이미지 형식입니다", "i005"),
     INVALID_IMAGE_URL("유효하지 않은 이미지 url입니다", "i006"),
     MAX_UPLOAD_SIZE_EXCEEDED("2.8MB 이하의 이미지만 업로드 가능합니다", "i007"),
     INVALID_IMAGE_ID("유효하지 않은 이미지 id입니다", "i008"),

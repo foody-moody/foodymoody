@@ -109,6 +109,12 @@ operation::readAllStoreMood[snippets='http-request,http-response']
 
 operation::login_success[snippets='http-request,http-response']
 
+=== OAuth 로그인
+
+==== 성공 (현재 google 가능)
+
+operation::OAuth_login_success[snippets='http-request,http-response']
+
 ==== 가입되지 않은 이메일일 때
 
 operation::login_failedByUnregisteredEmail[snippets='http-response']

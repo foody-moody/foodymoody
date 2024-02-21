@@ -1,19 +1,23 @@
 package com.foodymoody.be.member.domain;
 
+import com.foodymoody.be.common.auth.AuthProvider;
+import com.foodymoody.be.common.auth.SupportedAuthProvider;
 import com.foodymoody.be.common.event.EventManager;
+import com.foodymoody.be.common.exception.IncorrectMemberPasswordException;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -27,9 +31,7 @@ public class Member {
     private MemberId id;
     private String email;
     private String nickname;
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "password"))
-    private Password password;
+    private String password;
     @Embedded
     private MemberProfileImage profileImage;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,15 +40,27 @@ public class Member {
     private MyFollowings myFollowings;
     @Embedded
     private MyFollowers myFollowers;
+    @Enumerated(EnumType.STRING)
+    private SupportedAuthProvider authProvider;
     private LocalDateTime createdAt;
 
-    public Member(MemberId id, String email, String nickname, String password, TasteMood tasteMood, LocalDateTime createdAt) {
+    @Builder
+    public Member(
+            MemberId id,
+            SupportedAuthProvider authProvider,
+            String email,
+            String nickname,
+            String password,
+            TasteMood tasteMood,
+            MemberProfileImage profileImage,
+            LocalDateTime createdAt) {
         this.id = id;
+        this.authProvider = authProvider;
         this.email = email;
         this.nickname = nickname;
-        this.password = new Password(password);
+        this.password = password;
         this.tasteMood = tasteMood;
-        this.profileImage = MemberProfileImage.DEFAULT;
+        this.profileImage = Objects.isNull(profileImage) ? MemberProfileImage.DEFAULT : profileImage;
         this.myFollowings = new MyFollowings();
         this.myFollowers = new MyFollowers();
         this.createdAt = createdAt;
@@ -54,9 +68,15 @@ public class Member {
     }
 
     public static Member of(
-            MemberId id, String email, String nickname, String password, TasteMood tasteMood, LocalDateTime createdAt
-    ) {
-        return new Member(id, email, nickname, password, tasteMood, createdAt);
+            MemberId id,
+            SupportedAuthProvider authProvider,
+            String email,
+            String nickname,
+            String password,
+            MemberProfileImage profileImage,
+            TasteMood tasteMood,
+            LocalDateTime now) {
+        return new Member(id, authProvider, email, nickname, password, tasteMood, profileImage, now);
     }
 
     public MemberId getId() {
@@ -79,17 +99,26 @@ public class Member {
         return profileImage.getUrl();
     }
 
-    public TasteMoodId getTasteMoodId() {
-        return tasteMood.getId();
+    public AuthProvider getAuthProvider() {
+        return this.authProvider;
     }
 
-    public void checkPasswordMatch(String password) {
-        this.password.validateEquals(password);
+    public TasteMoodId getTasteMoodId() {
+        if (Objects.nonNull(tasteMood)) {
+            return tasteMood.getId();
+        }
+        return null;
     }
 
     public void changePassword(String oldPassword, String newPassword) {
         checkPasswordMatch(oldPassword);
-        this.password = new Password(newPassword);
+        this.password = newPassword;
+    }
+
+    public void checkPasswordMatch(String password) {
+        if (!Objects.equals(password, this.password)) {
+            throw new IncorrectMemberPasswordException();
+        }
     }
 
     public void updateProfileImage(MemberProfileImage newProfileImage) {
@@ -140,7 +169,7 @@ public class Member {
     }
 
     private MemberCreatedEvent toMemberCreatedEvent() {
-        return MemberCreatedEvent.of(id, email, nickname, profileImage.getId(), tasteMood.getId(), LocalDateTime.now());
+        return MemberCreatedEvent.of(id, email, nickname, getProfileImageId(), getTasteMoodId(), LocalDateTime.now());
     }
 
 }

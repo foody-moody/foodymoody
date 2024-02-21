@@ -4,6 +4,6 @@ public class UnsupportedImageFormatException extends BusinessException {
 
 
     public UnsupportedImageFormatException() {
-        super(ErrorMessage.UNSUPPORTED_IMAGE_FORMAT_EXCEPTION);
+        super(ErrorMessage.UNSUPPORTED_IMAGE_FORMAT);
     }
 }
