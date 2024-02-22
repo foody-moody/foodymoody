@@ -1,15 +1,14 @@
 package com.foodymoody.be.member.application.service;
 
+import com.foodymoody.be.common.auth.SupportedAuthProvider;
 import com.foodymoody.be.common.exception.DuplicateMemberEmailException;
 import com.foodymoody.be.common.exception.DuplicateNicknameException;
 import com.foodymoody.be.common.exception.MemberNotFoundException;
-import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.request.ChangePasswordRequest;
-import com.foodymoody.be.member.application.dto.request.SignupRequest;
-import com.foodymoody.be.member.application.dto.response.MemberSignupResponse;
 import com.foodymoody.be.member.domain.Member;
-import com.foodymoody.be.member.domain.MemberMapper;
+import com.foodymoody.be.member.domain.MemberProfileImage;
 import com.foodymoody.be.member.domain.MemberRepository;
 import com.foodymoody.be.member.domain.TasteMood;
 import java.time.LocalDateTime;
@@ -23,15 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberWriteService {
 
     private final MemberRepository memberRepository;
-    private final TasteMoodReadService tasteMoodReadService;
 
-    public MemberSignupResponse create(SignupRequest request) {
-        TasteMood tasteMood = tasteMoodReadService.findById(request.getTasteMoodId());
-        validateNicknameDuplication(request.getNickname());
-        validateEmailDuplication(request.getEmail());
-        Member forSave = createEntity(request, tasteMood);
-        MemberId savedMemberId = memberRepository.save(forSave).getId();
-        return MemberMapper.toSignupResponse(savedMemberId);
+    public Member create(MemberId id, SupportedAuthProvider authProvider, String email, String nickname, String password, TasteMood tasteMood, ImageId profileImageId, String profileImageUrl, LocalDateTime now) {
+        validateNicknameDuplication(nickname);
+        validateEmailDuplication(email);
+        MemberProfileImage profileImage = MemberProfileImage.of(profileImageId, profileImageUrl);
+        Member forSave = Member.of(id, authProvider, email, nickname, password, profileImage, tasteMood, now);
+        return memberRepository.save(forSave);
     }
 
     public void changePassword(MemberId id, ChangePasswordRequest request) {
@@ -42,12 +39,6 @@ public class MemberWriteService {
     public void delete(MemberId id) {
         Member member = findById(id);
         memberRepository.delete(member);
-    }
-
-    private Member createEntity(SignupRequest request, TasteMood tasteMood) {
-        MemberId id = IdFactory.createMemberId();
-        LocalDateTime now = LocalDateTime.now();
-        return MemberMapper.toEntity(id, request, tasteMood, now);
     }
 
     private void validateNicknameDuplication(String nickname) {

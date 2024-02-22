@@ -1,5 +1,6 @@
 package com.foodymoody.be.member.infra.persistence.jpa;
 
+import com.foodymoody.be.common.auth.SupportedAuthProvider;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionTitleResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
@@ -34,7 +35,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, MemberId>, Me
 
     Optional<Member> findByNickname(String nickname);
 
-    boolean existsByEmail(String email);
+    boolean existsByEmailAndAuthProvider(String email, SupportedAuthProvider authProvider);
 
     boolean existsByNickname(String nickname);
 
@@ -51,4 +52,5 @@ public interface MemberJpaRepository extends JpaRepository<Member, MemberId>, Me
             + "ORDER BY fc.createdAt DESC")
     List<MyFeedCollectionTitleResponse> fetchMyCollectionTitles(MemberId id);
 
+    boolean existsByEmail(String email);
 }

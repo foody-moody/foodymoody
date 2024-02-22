@@ -8,9 +8,11 @@ import com.foodymoody.be.member.application.dto.request.UpdateProfileRequest;
 import com.foodymoody.be.member.application.dto.response.MemberSignupResponse;
 import com.foodymoody.be.member.application.service.FollowWriteService;
 import com.foodymoody.be.member.application.service.MemberWriteService;
+import com.foodymoody.be.member.application.usecase.LocalSignUpUseCase;
 import com.foodymoody.be.member.application.usecase.UpdateMemberProfileUseCase;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,19 +30,20 @@ public class MemberWriteController {
 
     private final MemberWriteService memberWriteService;
     private final FollowWriteService followWriteService;
+    private final LocalSignUpUseCase localMemberSignUpUseCase;
     private final UpdateMemberProfileUseCase updateMemberProfileUseCase;
 
     @PostMapping
     public ResponseEntity<MemberSignupResponse> signup(
             @Valid @RequestBody SignupRequest request) {
-        MemberSignupResponse response = memberWriteService.create(request);
-        return ResponseEntity.ok().body(response);
+        MemberSignupResponse response = localMemberSignUpUseCase.signUp(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/me/password")
     public ResponseEntity<Void> changePassword(
             @CurrentMemberId MemberId currentMemberId,
-            @RequestBody ChangePasswordRequest request) {
+            @Valid @RequestBody ChangePasswordRequest request) {
         memberWriteService.changePassword(currentMemberId, request);
         return ResponseEntity.noContent().build();
     }

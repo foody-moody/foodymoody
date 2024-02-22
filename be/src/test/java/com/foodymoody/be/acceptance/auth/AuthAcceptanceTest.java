@@ -1,5 +1,6 @@
 package com.foodymoody.be.acceptance.auth;
 
+import static com.foodymoody.be.acceptance.auth.AuthSteps.OAuth_로그인한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.로그아웃_한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.로그아웃한_푸반의_액세스토큰으로_알림이_조회가_안됨을_검증한다;
 import static com.foodymoody.be.acceptance.auth.AuthSteps.비회원보노가_로그인한다;
@@ -63,6 +64,27 @@ class AuthAcceptanceTest extends AcceptanceTest {
 
             // then
             상태코드_401과_오류코드_a005를_반환하는지_검증한다(response);
+        }
+
+    }
+
+    @Nested
+    @DisplayName("OAuth 로그인 인수테스트")
+    class OAuthLogin {
+
+        @DisplayName("OAuth 로그인 요청시 성공하면 토큰을 반환한다.")
+        @Test
+        void when_login_then_return_200AndToken() {
+            // docs
+            api_문서_타이틀("OAuth_login_success", spec);
+            String provider = "google";
+            String code = "authorizationCode";
+
+            // when
+            var response = OAuth_로그인한다(provider, code, spec);
+
+            // then
+            토큰과_상태코드_200을_응답하는지_검증한다(response);
         }
 
     }

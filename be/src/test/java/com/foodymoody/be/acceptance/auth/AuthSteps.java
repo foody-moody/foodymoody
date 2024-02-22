@@ -43,6 +43,18 @@ public class AuthSteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> OAuth_로그인한다(String provider, String authorizationCode, RequestSpecification spec) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .spec(spec)
+                .params("code", authorizationCode)
+                .log().all()
+                .when().get("/api/auth/oauth/{provider}", provider)
+                .then().log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> 토큰을_재발급한다(String refreshToken, RequestSpecification spec) {
         return RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

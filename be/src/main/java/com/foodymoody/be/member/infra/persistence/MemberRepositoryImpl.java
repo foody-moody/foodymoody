@@ -1,5 +1,6 @@
 package com.foodymoody.be.member.infra.persistence;
 
+import com.foodymoody.be.common.auth.SupportedAuthProvider;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
 import com.foodymoody.be.member.application.dto.MyFeedCollectionWithFeedIdsSummary;
