@@ -26,19 +26,22 @@ public enum MemberFixture {
     public static Map<String, Object> 푸반_비밀번호_수정_요청() {
         return Map.of(
                 "oldPassword", 사용자_푸반.getPassword(),
-                "password", "atiati123!");
+                "password", "atiati123!",
+                "repeatPassword", "atiati123!");
     }
 
     public static Map<String, Object> 푸반_비밀번호_수정_요청_틀린_형식() {
         return Map.of(
                 "oldPassword", 사용자_푸반.getPassword(),
-                "password", "puban");
+                "password", "puban",
+                "repeatPassword", "puban");
     }
 
     public static Map<String, Object> 푸반_비밀번호_수정_요청_인증_실패() {
         return Map.of(
                 "oldPassword", "incorrect123!",
-                "password", "atiati123!");
+                "password", "atiati123!",
+                "repeatPassword", "atiati123!");
     }
 
     public static Map<String, Object> 보노_프로필_수정_요청(String imageId) {

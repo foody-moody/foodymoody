@@ -9,6 +9,6 @@ public class ImageStorageConfig {
 
     @Bean
     public ImageStorage imageStorage() {
-        return new MockImageStorage();
+        return new FakeImageStorage();
     }
 }
