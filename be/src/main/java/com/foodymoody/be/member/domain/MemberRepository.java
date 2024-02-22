@@ -26,8 +26,6 @@ public interface MemberRepository {
 
     Optional<Member> findByNickname(String nickname);
 
-    boolean existsByEmail(String email);
-
     boolean existsByNickname(String nickname);
 
     Member save(Member member);
@@ -43,4 +41,6 @@ public interface MemberRepository {
     List<MyFeedCollectionTitleResponse> fetchMyCollectionTitles(MemberId id);
 
     List<MyFeedCollectionWithFeedIdsSummary> fetchMyCollectionWithFeedIds(MemberId currentMemberId);
+
+    boolean existsByEmail(String email);
 }

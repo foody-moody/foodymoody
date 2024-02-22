@@ -114,12 +114,12 @@ public class MemberSteps {
 
     }
 
-    public static void 상태코드가_200이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
+    public static void 상태코드가_201이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다(ExtractableResponse<Response> response) {
         String 회원보노_아이디 = response.jsonPath().getObject("id", String.class);
         var 회원보노_회원프로필_조회_응답 = 회원프로필을_조회한다(회원보노_아이디, MOCK_SPEC);
 
         Assertions.assertAll(
-                () -> 상태코드를_검증한다(response, HttpStatus.OK),
+                () -> 상태코드를_검증한다(response, HttpStatus.CREATED),
                 () -> assertThat(response.jsonPath().getObject("id", String.class)).isNotNull(),
                 () -> 상태코드를_검증한다(회원보노_회원프로필_조회_응답, HttpStatus.OK),
                 () -> assertThat(회원보노_회원프로필_조회_응답.jsonPath().getString("email")).isEqualTo(사용자_보노.getEmail())

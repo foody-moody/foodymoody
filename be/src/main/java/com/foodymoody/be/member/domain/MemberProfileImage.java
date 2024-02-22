@@ -32,7 +32,7 @@ public class MemberProfileImage {
 
     public static MemberProfileImage of(ImageId id, String url) {
         if (Objects.isNull(id) || Objects.isNull(url)) {
-            throw new IllegalArgumentException("id, url은 null일 수 없습니다");
+            return DEFAULT;
         }
         return new MemberProfileImage(id, url);
     }

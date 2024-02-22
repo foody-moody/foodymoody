@@ -6,7 +6,7 @@ import com.foodymoody.be.image.domain.ImageResource;
 import com.foodymoody.be.image.domain.ImageStorage;
 import java.util.List;
 
-public class MockImageStorage implements ImageStorage {
+public class FakeImageStorage implements ImageStorage {
 
     @Override
     public String upload(String key, ImageResource imageResource) {

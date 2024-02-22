@@ -44,6 +44,12 @@ public class ImageService {
         return ImageMapper.toUploadResponse(upload(key, currentMemberId, imageResource));
     }
 
+    public ImageUploadResponse saveOAuthMemberProfileImage(MemberId memberId, String imageUrl) {
+        ImageId imageId = IdFactory.createImageId();
+        Image image = new Image(imageId, imageUrl, memberId);
+        return ImageMapper.toUploadResponse(imageRepository.save(image));
+    }
+
     public void softDelete(MemberId currentMemberId, ImageId id) {
         Image image = findById(id);
         image.softDelete(currentMemberId);
@@ -69,7 +75,6 @@ public class ImageService {
         List<String> imageKeys = images.stream()
                 .map(image -> imageStorage.getKey(image.getUrl()))
                 .collect(Collectors.toUnmodifiableList());
-        // TODO s3, 테이블 간 동기화
         imageStorage.deleteAll(imageKeys);
         imageRepository.deleteAllInBatch(images);
     }
