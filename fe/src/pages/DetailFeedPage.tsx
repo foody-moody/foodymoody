@@ -68,8 +68,6 @@ export const DetailFeedModalPage = () => {
     }
   };
 
-  const isUpdated = feed?.createdAt !== feed?.updatedAt;
-
   return (
     <>
       <Dim
@@ -87,8 +85,8 @@ export const DetailFeedModalPage = () => {
                   <FeedUserInfo
                     feedId={feed?.id}
                     member={feed?.member}
-                    createdAt={isUpdated ? feed.updatedAt : feed.createdAt}
-                    isUpdated={isUpdated}
+                    createdAt={feed?.updatedAt || feed?.createdAt}
+                    isUpdated={feed?.updatedAt}
                     store={feed?.store}
                     thumbnail={feed?.images[0]?.image.url}
                   />
