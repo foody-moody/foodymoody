@@ -16,7 +16,7 @@ type Props = {
   feedId?: string;
   member: FeedMemberInfo;
   createdAt: string;
-  isUpdated: boolean;
+  isUpdated: string | null;
   store: Store;
   thumbnail?: string;
 };

@@ -31,7 +31,7 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
           <FeedUserInfo
             feedId={feed.id}
             member={feed.member}
-            createdAt={feed.updatedAt || feed.updatedAt}
+            createdAt={feed.updatedAt || feed.createdAt}
             isUpdated={feed.updatedAt}
             store={feed.store}
             thumbnail={feed.images[0]?.image.url}
