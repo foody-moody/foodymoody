@@ -11,6 +11,7 @@ import { LoginPage } from 'pages/LoginPage';
 import { NewFeedModalPage } from 'pages/NewFeedPage';
 import { NotiPage } from 'pages/NotiPage';
 import { NotiSettingPage } from 'pages/NotiSettingPage';
+import { OAuthRedirectPage } from 'pages/OAuthRedirectPage';
 import { PasswordPage } from 'pages/PasswordPage';
 import { ProfileEditPage } from 'pages/ProfileEditPage';
 import { ProfilePage } from 'pages/ProfilePage';
@@ -132,6 +133,10 @@ const router = createBrowserRouter([
   {
     path: PATH.REGISTER,
     element: <RegisterPage />,
+  },
+  {
+    path: PATH.GOOGLE,
+    element: <OAuthRedirectPage />,
   },
 ]);
 
