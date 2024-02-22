@@ -17,6 +17,7 @@ import { QUERY_KEY } from 'service/constants/queryKey';
 
 export const useGetReplies = (commentId: string, feedId?: string) => {
   console.log('replies commentId', commentId);
+  console.log('replies feedId', feedId);
 
   const { data, hasNextPage, isFetching, fetchNextPage, refetch } =
     useInfiniteQuery({
