@@ -39,7 +39,6 @@ public class FeedCollectionWriteService {
                 memberId,
                 title,
                 description,
-                "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1",
                 0,
                 isPrivate,
                 false,

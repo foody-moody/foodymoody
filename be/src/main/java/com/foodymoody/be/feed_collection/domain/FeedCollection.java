@@ -72,7 +72,6 @@ public class FeedCollection {
             MemberId memberId,
             String title,
             String description,
-            String thumbnailUrl,
             int followerCount,
             boolean isPrivate,
             boolean isDeleted,
@@ -98,7 +97,6 @@ public class FeedCollection {
                 thumbnailUrl,
                 createdAt
         ));
-        this.thumbnailUrl = thumbnailUrl;
     }
 
     public List<FeedId> getFeedIds() {
