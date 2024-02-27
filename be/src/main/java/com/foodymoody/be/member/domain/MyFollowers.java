@@ -26,4 +26,8 @@ public class MyFollowers {
                 .map(Follow::getFollower)
                 .collect(Collectors.toUnmodifiableList());
     }
+
+    public int getCount() {
+        return follows.size();
+    }
 }

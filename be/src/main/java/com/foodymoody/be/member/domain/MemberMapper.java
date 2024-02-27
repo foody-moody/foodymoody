@@ -7,9 +7,12 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FollowMemberSummary;
 import com.foodymoody.be.member.application.dto.MyFeedCollectionWithFeedIdsSummary;
 import com.foodymoody.be.member.application.dto.response.FollowMemberSummaryResponse;
+import com.foodymoody.be.member.application.dto.response.MemberProfileImageResponse;
+import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import com.foodymoody.be.member.application.dto.response.MemberSignupResponse;
 import com.foodymoody.be.member.application.dto.response.MyCollectionWithFeedInclusionStatusResponse;
 import com.foodymoody.be.member.application.dto.response.NicknameDuplicationCheckResponse;
+import com.foodymoody.be.member.application.dto.response.TasteMoodResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Slice;
@@ -60,5 +63,41 @@ public class MemberMapper {
                                 summary.getFeedIds().contains(feedId)
                         )
                 ).collect(Collectors.toUnmodifiableList());
+    }
+
+    public static MemberProfileResponse toMemberProfileResponse(Member member, long myFeedCount, Member currentMember) {
+        return new MemberProfileResponse(
+                member.getId(),
+                MemberProfileImageResponse.of(
+                        member.getProfileImageId(),
+                        member.getProfileImageUrl()),
+                member.getNickname(),
+                member.getEmail(),
+                TasteMoodResponse.of(
+                        member.getTasteMoodId(),
+                        member.getTasteMoodName()),
+                member.getMyFollowingCount(),
+                member.getMyFollowerCount(),
+                currentMember.isMyFollowing(member.getId()),
+                currentMember.isMyFollower(member.getId()),
+                myFeedCount);
+    }
+
+    public static MemberProfileResponse toMemberProfileResponse(Member member, long myFeedCount) {
+        return new MemberProfileResponse(
+                member.getId(),
+                MemberProfileImageResponse.of(
+                        member.getProfileImageId(),
+                        member.getProfileImageUrl()),
+                member.getNickname(),
+                member.getEmail(),
+                TasteMoodResponse.of(
+                        member.getTasteMoodId(),
+                        member.getTasteMoodName()),
+                member.getMyFollowingCount(),
+                member.getMyFollowerCount(),
+                Boolean.FALSE,
+                Boolean.FALSE,
+                myFeedCount);
     }
 }
