@@ -54,12 +54,11 @@ public class FeedCollectionWriteUseCase {
         var feedIds = request.getFeedIds();
         var thumbnailUrl = request.getThumbnailUrl();
         feedReadService.validateIds(feedIds);
+        if (thumbnailUrl == null && feedIds.isEmpty()) {
+            return;
+        }
         if (thumbnailUrl == null || thumbnailUrl.isBlank()) {
-            if (feedIds.isEmpty()) {
-                thumbnailUrl = "https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1";
-            } else {
-                thumbnailUrl = feedReadService.findFeed(feedIds.get(0)).getProfileImageUrl();
-            }
+            thumbnailUrl = feedReadService.findFeed(feedIds.get(0)).getProfileImageUrl();
         }
         service.update(id, feedIds, memberId, thumbnailUrl);
     }
