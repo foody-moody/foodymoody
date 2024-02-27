@@ -21,11 +21,11 @@ VALUES (1, 'OPEN'),
        (4, 'ETC');
 
 INSERT INTO image (id, url, deleted)
-VALUES ('1', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1', 0),
-       ('2', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png2', 0),
-       ('3', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png3', 0),
-       ('4', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png4', 0),
-       ('member-profile-default', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1', 0);
+VALUES ('1', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png', 0),
+       ('2', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png', 0),
+       ('3', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png', 0),
+       ('4', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png', 0),
+       ('member-profile-default', 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png', 0);
 
 INSERT INTO store (id, name, road_address, address, phone, x, y, status)
 VALUES ('1', '영업중 식당', '도로명주소1', '지번주소1', '전화번호1', 0, 0, 1),
