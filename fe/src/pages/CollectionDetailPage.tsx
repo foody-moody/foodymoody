@@ -1,6 +1,13 @@
+import { useParams } from 'react-router-dom';
+import {
+  useDeleteFeedFromCollection,
+  useGetCollectionDetail,
+} from 'service/queries/collection';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { StoreMoodBadge } from 'components/common/badge/StoreMoodBadge';
+import { Dropdown } from 'components/common/dropdown/Dropdown';
+import { DropdownRow } from 'components/common/dropdown/DropdownRow';
 import {
   DotGhostIcon,
   HeartSmallEmpty,
@@ -8,192 +15,69 @@ import {
   StoreIcon,
   HeartBgIcon,
   ChatDotsIcon,
+  TrashIcon,
 } from 'components/common/icon/icons';
+import { useModal } from 'components/common/modal/useModal';
 import { UserImage } from 'components/common/userImage/UserImage';
 import { FollowListButton } from 'components/follow/followButton/FollowListButton';
+import { useAuthState } from 'hooks/auth/useAuth';
+import { formatTimeStamp } from 'utils/formatTimeStamp';
+
+/** TODO
+ * 1. 기본 정보 수정 기능
+ * 2. 글 삭제
+ * 3. 좋아요 기능
+ * 4. 공유하기
+ * 5. 댓글 (?)
+ */
 
 export const CollectionDetailPage = () => {
-  const collection = {
-    id: 'fd9ecac46496ef07ec38ccbb',
-    author: {
-      id: 'fd9ec99e6496ef07ec38cc96',
-      name: '아티',
-      mood: 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1',
-      profileImageUrl:
-        'https://cdn.pixabay.com/photo/2020/05/17/20/21/cat-5183427_1280.jpg',
-    },
-    thumnailImgUrl:
-      'https://d2v80xjmx68n4w.cloudfront.net/gigs/fPoZ31584321311.jpg',
-    title: '테스트 컬렉션',
-    description:
-      '이보다 맛있는 맛집 컬렉션 이세상에 없습니다.이보다 맛있는 맛집 컬렉션 이세상에 없습니다.이보다 맛있는 맛집 컬렉션 이세상에 없습니다.이보다 맛있는 맛집 컬렉션 이세상에 없습니다.이보다 맛있는 맛집 컬렉션 이세상에 없습니다.이보다 맛있는 맛집 컬렉션 이세상에 없습니다.',
-    likeCount: 0,
-    followerCount: 0,
-    viewCount: 0,
-    feedCount: 5,
-    commentCount: 3,
-    moods: [
-      {
-        id: 'fd9eca8d6496ef07ec38ccb8',
-        name: '행복',
-      },
-      {
-        id: 'fd9eca9e6496ef07ec38ccb9',
-        name: '행복',
-      },
-      {
-        id: 'fd9ecaaf6496ef07ec38ccba',
-        name: '행복',
-      },
-    ],
-    createdAt: '2024-01-12T12:21:31.460596',
-    updatedAt: '2024-01-12T12:21:31.498458',
-    liked: false,
+  // TODO. private 글이면 접근 못하게 해야함
+  const { id } = useParams() as { id: string };
+  const { openModal, closeModal } = useModal<'collectionAlert'>();
 
-    private: false,
+  const { userInfo } = useAuthState();
 
-    feeds: [
+  const { data: collection, isLoading } = useGetCollectionDetail(id);
+  const { mutate: deleteFeed } = useDeleteFeedFromCollection();
+  console.log(collection);
+
+  if (isLoading) return <p>로딩중</p>; // 임시 로딩중
+
+  const isMe = userInfo?.id === collection.author.id;
+
+  const handleDeleteFeed = (feedId: string) => {
+    deleteFeed(
+      { collectionId: id, feedId },
       {
-        id: '20adfddfb74c89083d7d454c',
-        thumbnailUrl:
-          'https://d2v80xjmx68n4w.cloudfront.net/gigs/fPoZ31584321311.jpg',
-        content: '맛있어요!',
-        storeMood: [
-          {
-            id: '1',
-            name: '가족과 함께',
-          },
-          {
-            id: '3',
-            name: '감성',
-          },
-          {
-            id: '4',
-            name: '데이트',
-          },
-        ],
-        likeCount: 0,
-        commentCount: 0,
-        createdAt: '2024-01-19T07:44:50.143663',
-        updatedAt: null,
-        liked: false,
-      },
-      {
-        id: '20adfe00b74c89083d7d4552',
-        thumbnailUrl:
-          'https://d2v80xjmx68n4w.cloudfront.net/gigs/fPoZ31584321311.jpg',
-        content: '맛있어요!',
-        storeMood: [
-          {
-            id: '1',
-            name: '가족과 함께',
-          },
-          {
-            id: '3',
-            name: '감성',
-          },
-          {
-            id: '4',
-            name: '데이트',
-          },
-        ],
-        likeCount: 0,
-        commentCount: 0,
-        createdAt: '2024-01-19T07:44:50.17695',
-        updatedAt: null,
-        liked: false,
-      },
-      {
-        id: '20adfe22b74c89083d7d4558',
-        thumbnailUrl:
-          'https://d2v80xjmx68n4w.cloudfront.net/gigs/fPoZ31584321311.jpg',
-        content: '맛있어요!',
-        storeMood: [
-          {
-            id: '1',
-            name: '가족과 함께',
-          },
-          {
-            id: '3',
-            name: '감성',
-          },
-          {
-            id: '4',
-            name: '데이트',
-          },
-        ],
-        likeCount: 0,
-        commentCount: 0,
-        createdAt: '2024-01-19T07:44:50.21004',
-        updatedAt: null,
-        liked: false,
-      },
-      {
-        id: '20adfe3eb74c89083d7d455e',
-        thumbnailUrl:
-          'https://d2v80xjmx68n4w.cloudfront.net/gigs/fPoZ31584321311.jpg',
-        content: '맛있어요!',
-        storeMood: [
-          {
-            id: '1',
-            name: '가족과 함께',
-          },
-          {
-            id: '3',
-            name: '감성',
-          },
-          {
-            id: '4',
-            name: '데이트',
-          },
-        ],
-        likeCount: 0,
-        commentCount: 0,
-        createdAt: '2024-01-19T07:44:50.238608',
-        updatedAt: null,
-        liked: false,
-      },
-      {
-        id: '20adfe5db74c89083d7d4564',
-        thumbnailUrl:
-          'https://d2v80xjmx68n4w.cloudfront.net/gigs/fPoZ31584321311.jpg',
-        content: '맛있어요!',
-        storeMood: [
-          {
-            id: '1',
-            name: '가족과 함께',
-          },
-          {
-            id: '3',
-            name: '감성',
-          },
-          {
-            id: '4',
-            name: '데이트',
-          },
-        ],
-        likeCount: 0,
-        commentCount: 0,
-        createdAt: '2024-01-19T07:44:50.269128',
-        updatedAt: null,
-        liked: false,
-      },
-    ],
+        onSuccess: () => {
+          closeModal('collectionAlert');
+        },
+      }
+    );
   };
+  console.log(userInfo, 'userInfo');
 
   return (
     <Wrapper>
       <HeroImage>
-        <MainThumnail src={collection.thumnailImgUrl} />
+        <MainThumnail
+          src={
+            collection?.thumbnailUrl ||
+            'https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          }
+        />
         <Author>
           <UserImage imageUrl={collection.author.profileImageUrl} />
           <UserName>{collection.author.name}</UserName>
-          <FollowListButton
-            memberId={collection.author.id}
-            isFollowing={false}
-            size="xs"
-            width={80}
-          />
+          {!isMe && (
+            <FollowListButton
+              memberId={collection.author.id}
+              isFollowing={false}
+              size="xs"
+              width={80}
+            />
+          )}
         </Author>
       </HeroImage>
 
@@ -202,18 +86,32 @@ export const CollectionDetailPage = () => {
           <div>
             <Title>
               <h1>{collection.title}</h1>
-              <span>날짜 및 업데이트 관련</span>
+              <span>{formatTimeStamp(collection.createdAt)}</span>
             </Title>
             <p>{collection.description}</p>
           </div>
           <div>
-            <DotGhostIcon /> {/* TODO. 이거 나중에 수정 */}
+            {isMe && (
+              <Dropdown align="right" opener={<DotGhostIcon />}>
+                <DropdownRow>수정하기</DropdownRow>
+                <DropdownRow
+                  onClick={() =>
+                    openModal('collectionAlert', {
+                      title: '현재 컬렉션을 삭제하시겠습니까?',
+                      onConfirm: () => {},
+                    })
+                  }
+                >
+                  삭제하기
+                </DropdownRow>
+              </Dropdown>
+            )}
           </div>
         </Info>
 
         <Moods>
-          {collection.moods.map((mood) => (
-            <StoreMoodBadge name={mood.name} />
+          {collection.moods.map((mood: { id: string; name: string }) => (
+            <StoreMoodBadge name={mood.name} key={mood.id} />
           ))}
         </Moods>
 
@@ -232,12 +130,14 @@ export const CollectionDetailPage = () => {
 
       <FeedsWrapper>
         <h2>
-          피드들 <span>15</span>
+          피드들 <span>{collection.feeds.length}</span>
         </h2>
 
         <ul>
-          {collection.feeds.map((feed) => (
-            <FeedItem>
+          {/* 수정되면 type 박아용 */}
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+          {collection.feeds.map((feed: any) => (
+            <FeedItem key={feed.id}>
               <img src={feed.thumbnailUrl} alt="" />
               <FeedInfo>
                 <FeedTop>
@@ -245,14 +145,23 @@ export const CollectionDetailPage = () => {
                     <FeedTitle>
                       <StoreIcon /> <h3>가게 이름이 올거에요~~</h3>
                     </FeedTitle>
-                    <DotGhostIcon /> {/* TODO. 이거 나중에 수정 */}
+                    {isMe && (
+                      <TrashIcon
+                        onClick={() =>
+                          openModal('collectionAlert', {
+                            title: '해당 피드를 컬렉션에서 삭제하시겠습니까?',
+                            onConfirm: () => handleDeleteFeed(feed.id),
+                          })
+                        }
+                      />
+                    )}
                   </FeedHeader>
                   <p>{feed.content}</p>
                 </FeedTop>
                 <FeedBottom>
                   <FeedMoods>
-                    {feed.storeMood.map((mood) => (
-                      <StoreMoodBadge name={mood.name} />
+                    {feed.storeMood.map((mood: Badge) => (
+                      <StoreMoodBadge name={mood.name} key={mood.id} />
                     ))}
                   </FeedMoods>
                   <FeedIcon>
@@ -272,7 +181,7 @@ export const CollectionDetailPage = () => {
         </ul>
       </FeedsWrapper>
 
-      <div>위로 올라가기</div>
+      {/* <div>위로 올라가기</div> */}
     </Wrapper>
   );
 };
@@ -367,6 +276,7 @@ const Moods = styled.div`
   display: flex;
   gap: 8px;
   margin-left: auto;
+  flex-wrap: wrap;
 `;
 
 const ActionBar = styled.div`

@@ -7,6 +7,7 @@ type ModalPropsMap = {
   accountAlert: AccountAlertProps;
   profileImageAlert: ProfileImageAlertProps;
   collection: CollectionModalProps;
+  collectionAlert: CollectionAlertProps;
 };
 
 type Modal<T extends ModalType> = {
@@ -27,6 +28,7 @@ type Test2ModalProps = {
 
 type CollectionModalProps = {
   type: 'default' | 'addFeed';
+  feedId?: string;
 };
 
 type CommentAlertProps = {
@@ -45,4 +47,11 @@ type ProfileImageAlertProps = {
   onEdit?(): void;
   onDelete?(): void;
   onClose?(): void;
+};
+
+type CollectionAlertProps = {
+  title: string;
+  onConfirm: () => void;
+  deleteText?: string;
+  closeText?: string;
 };

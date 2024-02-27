@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { modalListState } from 'recoil/modal/atom';
 import { modalSelector } from 'recoil/modal/selector';
 import { AccountAlert } from './AccountAlert';
+import { CollectionAlert } from './CollectionAlert';
 import { CollectionModal } from './CollectionModal';
 import { CommentAlert } from './CommentAlert';
 import { ProfileImageAlert } from './ProfileImageAlert';
@@ -14,6 +15,7 @@ const MODAL_COMPONENTS: {
   commentAlert: CommentAlert,
   accountAlert: AccountAlert,
   collection: CollectionModal,
+  collectionAlert: CollectionAlert,
   profileImageAlert: ProfileImageAlert,
   test: TestModal,
   test2: Test2Modal,
