@@ -31,6 +31,7 @@ import com.foodymoody.be.feed_like.application.service.FeedLikeService;
 import com.foodymoody.be.image.application.service.ImageService;
 import com.foodymoody.be.member.application.service.MemberReadService;
 import com.foodymoody.be.member.application.service.TasteMoodReadService;
+import com.foodymoody.be.store.application.service.StoreReadService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,7 @@ public class FeedCollectionReadUseCase {
     private final FeedCollectionCommentReadService commentReadService;
     private final FeedCollectionMoodReadService feedCollectionMoodReadService;
     private final FeedCommentCountReadService feedCommentCountReadService;
+    private final StoreReadService storeReadService;
 
     @Transactional(readOnly = true)
     public Slice<FeedCollectionResponse> fetchAll(Pageable pageable) {
@@ -163,7 +165,9 @@ public class FeedCollectionReadUseCase {
                 .map(feed -> {
                     List<StoreMoodResponse> moods = toStoreMoodResponse(feed.getStoreMoods());
                     int commentCount = feedCommentCountReadService.fetchCountByFeedId(feed.getId()).intValue();
-                    return toFeedSummaryResponse(feed, moods, false, commentCount);
+                    var storeId = feed.getStoreId();
+                    var store = storeReadService.findById(storeId);
+                    return toFeedSummaryResponse(feed, moods, false, commentCount, storeId, store.getName());
                 })
                 .collect(Collectors.toList());
     }
@@ -174,7 +178,9 @@ public class FeedCollectionReadUseCase {
                     boolean isLiked = feedLikeService.existsHeart(memberId, feed.getId().getValue());
                     List<StoreMoodResponse> moods = toStoreMoodResponse(feed.getStoreMoods());
                     int commentCount = feedCommentCountReadService.fetchCountByFeedId(feed.getId()).intValue();
-                    return toFeedSummaryResponse(feed, moods, isLiked, commentCount);
+                    var storeId = feed.getStoreId();
+                    var store = storeReadService.findById(storeId);
+                    return toFeedSummaryResponse(feed, moods, isLiked, commentCount, storeId, store.getName());
                 })
                 .collect(Collectors.toList());
     }
