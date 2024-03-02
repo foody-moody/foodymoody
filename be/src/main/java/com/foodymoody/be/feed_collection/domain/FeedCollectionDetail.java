@@ -33,14 +33,15 @@ public class FeedCollectionDetail {
             AuthorSummaryResponse author,
             List<FeedSummaryResponse> feeds,
             Slice<FeedCollectionCommentResponse> comments,
-            List<FeedCollectionMoodResponse> moods
+            List<FeedCollectionMoodResponse> moods,
+            boolean isLiked
     ) {
         this.author = author;
         this.id = feedCollection.getId().getValue();
         this.title = feedCollection.getTitle();
         this.description = feedCollection.getDescription();
         this.likeCount = feedCollection.getLikeCount();
-        this.isLiked = false;
+        this.isLiked = isLiked;
         this.followerCount = feedCollection.getFollowerCount();
         this.isPrivate = feedCollection.isPrivate();
         this.viewCount = 0;

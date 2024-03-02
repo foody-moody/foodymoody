@@ -27,10 +27,12 @@ import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import com.foodymoody.be.feed_collection.domain.FeedSummaryResponse;
 import com.foodymoody.be.feed_collection_comment.application.service.FeedCollectionCommentReadService;
 import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionCommentSummary;
+import com.foodymoody.be.feed_collection_like.application.service.FeedCollectionLikeReadService;
 import com.foodymoody.be.feed_like.application.service.FeedLikeService;
 import com.foodymoody.be.image.application.service.ImageService;
 import com.foodymoody.be.member.application.service.MemberReadService;
 import com.foodymoody.be.member.application.service.TasteMoodReadService;
+import com.foodymoody.be.store.application.service.StoreReadService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +56,8 @@ public class FeedCollectionReadUseCase {
     private final FeedCollectionCommentReadService commentReadService;
     private final FeedCollectionMoodReadService feedCollectionMoodReadService;
     private final FeedCommentCountReadService feedCommentCountReadService;
+    private final StoreReadService storeReadService;
+    private final FeedCollectionLikeReadService feedCollectionLikeReadService;
 
     @Transactional(readOnly = true)
     public Slice<FeedCollectionResponse> fetchAll(Pageable pageable) {
@@ -74,17 +78,18 @@ public class FeedCollectionReadUseCase {
         var feeds = getFeedSummaryResponse(feedCollection.getFeedIds());
         var comments = getComments(feedCollection.getCommentIds());
         var moods = getMoodResponses(id);
-        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods);
+        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods, false);
     }
 
     @Transactional(readOnly = true)
     public FeedCollectionDetail fetchDetail(FeedCollectionId id, MemberId memberId) {
         var feedCollection = feedCollectionReadService.fetchById(id, memberId);
+        var isLiked = feedCollectionLikeReadService.isLiked(id, memberId);
         var authorSummaryResponse = getAuthorSummaryResponse(feedCollection);
         var feeds = getFeedSummaryResponse(memberId, feedCollection);
         var comments = getComments(memberId, feedCollection.getCommentIds());
         var moods = getMoodResponses(id);
-        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods);
+        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods, isLiked);
     }
 
     @Transactional(readOnly = true)
@@ -163,7 +168,9 @@ public class FeedCollectionReadUseCase {
                 .map(feed -> {
                     List<StoreMoodResponse> moods = toStoreMoodResponse(feed.getStoreMoods());
                     int commentCount = feedCommentCountReadService.fetchCountByFeedId(feed.getId()).intValue();
-                    return toFeedSummaryResponse(feed, moods, false, commentCount);
+                    var storeId = feed.getStoreId();
+                    var store = storeReadService.findById(storeId);
+                    return toFeedSummaryResponse(feed, moods, false, commentCount, storeId, store.getName());
                 })
                 .collect(Collectors.toList());
     }
@@ -174,7 +181,9 @@ public class FeedCollectionReadUseCase {
                     boolean isLiked = feedLikeService.existsHeart(memberId, feed.getId().getValue());
                     List<StoreMoodResponse> moods = toStoreMoodResponse(feed.getStoreMoods());
                     int commentCount = feedCommentCountReadService.fetchCountByFeedId(feed.getId()).intValue();
-                    return toFeedSummaryResponse(feed, moods, isLiked, commentCount);
+                    var storeId = feed.getStoreId();
+                    var store = storeReadService.findById(storeId);
+                    return toFeedSummaryResponse(feed, moods, isLiked, commentCount, storeId, store.getName());
                 })
                 .collect(Collectors.toList());
     }
