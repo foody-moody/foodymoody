@@ -8,6 +8,9 @@
 
 🍝 당신의 기억에 남는 음식 경험, **FoodyMoody**에서 그 무드를 함께 나누어 보세요. 10~30대를 중심으로, 같은 세대의 입맛을 공유하고, 새로운 맛집 정보를 발견하는 SNS 플랫폼입니다.
 
+### ☁☁ [배포 링크](https://foodymoody.site/)
+### 📃 [API 문서 링크](https://foodymoody.site/api/docs)
+
 ## 🍻 팀 구성
 
 👩‍💻 **BE 팀**: Albert, Sully, 보노  
