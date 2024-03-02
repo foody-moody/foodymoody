@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_collection.application.usecase;
 
+import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.feed.application.dto.response.StoreMoodResponse;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.StoreMood;
@@ -64,7 +65,12 @@ public class FeedCollectionMapper {
     }
 
     public static FeedSummaryResponse toFeedSummaryResponse(
-            Feed feed, List<StoreMoodResponse> moods, boolean isLiked, int commentCount
+            Feed feed,
+            List<StoreMoodResponse> moods,
+            boolean isLiked,
+            int commentCount,
+            StoreId storeId,
+            String storeName
     ) {
         return new FeedSummaryResponse(
                 feed.getId().getValue(),
@@ -74,6 +80,8 @@ public class FeedCollectionMapper {
                 feed.getLikeCount(),
                 commentCount,
                 isLiked,
+                storeId,
+                storeName,
                 feed.getCreatedAt(),
                 feed.getUpdatedAt()
         );

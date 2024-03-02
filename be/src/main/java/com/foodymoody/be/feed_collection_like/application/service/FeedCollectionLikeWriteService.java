@@ -1,5 +1,6 @@
 package com.foodymoody.be.feed_collection_like.application.service;
 
+import com.foodymoody.be.common.exception.FeedCollectionLikeIsAlreadyExistException;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedCollectionLikeId;
 import com.foodymoody.be.common.util.ids.IdFactory;
@@ -19,6 +20,9 @@ public class FeedCollectionLikeWriteService {
 
     @Transactional
     public FeedCollectionLikeId post(FeedCollectionId feedCollectionId, MemberId memberId) {
+        repository.findByFeedCollectionIdAndMemberId(feedCollectionId, memberId).ifPresent(like -> {
+            throw new FeedCollectionLikeIsAlreadyExistException();
+        });
         var id = IdFactory.createFeedCollectionLikeId();
         var like = new FeedCollectionLike(id, feedCollectionId, memberId, LocalDateTime.now());
         return repository.save(like).getId();
