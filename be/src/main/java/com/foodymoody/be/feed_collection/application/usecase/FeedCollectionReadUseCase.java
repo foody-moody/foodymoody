@@ -27,6 +27,7 @@ import com.foodymoody.be.feed_collection.domain.FeedCollectionSummary;
 import com.foodymoody.be.feed_collection.domain.FeedSummaryResponse;
 import com.foodymoody.be.feed_collection_comment.application.service.FeedCollectionCommentReadService;
 import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionCommentSummary;
+import com.foodymoody.be.feed_collection_like.application.service.FeedCollectionLikeReadService;
 import com.foodymoody.be.feed_like.application.service.FeedLikeService;
 import com.foodymoody.be.image.application.service.ImageService;
 import com.foodymoody.be.member.application.service.MemberReadService;
@@ -56,6 +57,7 @@ public class FeedCollectionReadUseCase {
     private final FeedCollectionMoodReadService feedCollectionMoodReadService;
     private final FeedCommentCountReadService feedCommentCountReadService;
     private final StoreReadService storeReadService;
+    private final FeedCollectionLikeReadService feedCollectionLikeReadService;
 
     @Transactional(readOnly = true)
     public Slice<FeedCollectionResponse> fetchAll(Pageable pageable) {
@@ -76,17 +78,18 @@ public class FeedCollectionReadUseCase {
         var feeds = getFeedSummaryResponse(feedCollection.getFeedIds());
         var comments = getComments(feedCollection.getCommentIds());
         var moods = getMoodResponses(id);
-        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods);
+        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods, false);
     }
 
     @Transactional(readOnly = true)
     public FeedCollectionDetail fetchDetail(FeedCollectionId id, MemberId memberId) {
         var feedCollection = feedCollectionReadService.fetchById(id, memberId);
+        var isLiked = feedCollectionLikeReadService.isLiked(id, memberId);
         var authorSummaryResponse = getAuthorSummaryResponse(feedCollection);
         var feeds = getFeedSummaryResponse(memberId, feedCollection);
         var comments = getComments(memberId, feedCollection.getCommentIds());
         var moods = getMoodResponses(id);
-        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods);
+        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods, isLiked);
     }
 
     @Transactional(readOnly = true)
