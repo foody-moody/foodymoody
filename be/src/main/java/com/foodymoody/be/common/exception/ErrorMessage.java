@@ -56,6 +56,7 @@ public enum ErrorMessage {
     // feed collection
     FEED_COLLECTION_NOT_FOUND("존재하지 않는 피드 컬렉션입니다.", "fc001"),
     FEED_COLLECTION_REPLY_NOT_FOUND("존재하지 않는 피드 컬렉션 답글입니다.", "fc002"),
+    FEED_COLLECTION_LIKE_IS_ALREADY_EXIST("이미 좋아요 누른 피드 컬렉션입니다.", "fc003"),
     // image
     IMAGE_NOT_FOUND("해당 id의 이미지가 존재하지 않습니다", "i001"),
     IMAGE_UPLOAD_FAILED("이미지 업로드에 실패했습니다", "i002"),
