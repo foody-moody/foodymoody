@@ -53,4 +53,10 @@ public interface MemberJpaRepository extends JpaRepository<Member, MemberId>, Me
     List<MyFeedCollectionTitleResponse> fetchMyCollectionTitles(MemberId id);
 
     boolean existsByEmail(String email);
+
+    @Query("SELECT count(f) "
+            + "FROM Member m "
+            + "LEFT JOIN Feed f ON f.memberId = m.id "
+            + "WHERE m.id = :id")
+    long countMyFeedById(MemberId id);
 }
