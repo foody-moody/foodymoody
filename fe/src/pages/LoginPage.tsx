@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { TextButton } from 'components/common/button/TextButton';
 import { LogoXLarge } from 'components/common/icon/icons';
+import { OAuthButton } from 'components/common/oauthButton/OAuthButton';
 import { LoginForm } from 'components/login/LoginForm';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 
@@ -14,6 +15,14 @@ export const LoginPage = () => {
           <LogoXLarge onClick={navigateToHome} />
         </Header>
         <LoginForm />
+        <OAuthBox>
+          <Divider>
+            <Line />
+            <OAuthHelperText>SNS계정으로 시작하기</OAuthHelperText>
+            <Line />
+          </Divider>
+          <OAuthButton />
+        </OAuthBox>
         <ButtonWrapper>
           <span>계정이 없으신가요?</span>
           <TextButton color="orange" size="m" onClick={navigateToRegister}>
@@ -58,4 +67,34 @@ const ButtonWrapper = styled.div`
     color: ${({ theme: { colors } }) => colors.textPrimary};
     font: ${({ theme: { fonts } }) => fonts.displayM14};
   }
+`;
+
+const OAuthBox = styled.div`
+  margin-top: -16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 16px;
+`;
+
+const Divider = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
+const Line = styled.div`
+  flex: 1;
+  height: 0.4px;
+  background-color: ${({ theme: { colors } }) => colors.textTertiary};
+`;
+
+const OAuthHelperText = styled.p`
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+  color: ${({ theme: { colors } }) => colors.textSecondary};
+  font: ${({ theme: { fonts } }) => fonts.displayM14};
 `;

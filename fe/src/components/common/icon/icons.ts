@@ -49,3 +49,5 @@ export { default as ShareIcon } from 'assets/share.svg?react';
 export { default as StoreIcon } from 'assets/store.svg?react';
 export { default as CopySmallIcon } from 'assets/copyS.svg?react';
 export { default as PhoneIcon } from 'assets/phone.svg?react';
+export { default as GoogleIcon } from 'assets/googleIcon.svg?react';
+export { default as TrashIcon } from 'assets/bin.svg?react';
