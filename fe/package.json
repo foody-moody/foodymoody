@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
+    "@loadable/component": "^5.16.3",
     "@tanstack/react-query": "^4.36.1",
     "@tanstack/react-query-devtools": "^4.36.1",
     "@types/navermaps": "^3.7.4",
@@ -36,6 +37,7 @@
     "@tanstack/eslint-plugin-query": "^4.36.1",
     "@trivago/prettier-plugin-sort-imports": "^1.4.4",
     "@types/event-source-polyfill": "^1.0.5",
+    "@types/loadable__component": "^5.13.9",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@types/react-slick": "^0.23.11",
