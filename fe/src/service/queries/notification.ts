@@ -56,9 +56,21 @@ export const useReadAllNotification = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => readAllNotifications(),
+    mutationFn: async () => {
+      const data = queryClient.getQueryData([QUERY_KEY.notifications]) as {
+        pages: { content: NotificationItem[] }[];
+      };
+      if (data.pages[0].content.length !== 0) {
+        return readAllNotifications();
+      }
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEY.notifications]);
+      const data = queryClient.getQueryData([QUERY_KEY.notifications]) as {
+        pages: { content: NotificationItem[] }[];
+      };
+      if (data.pages[0].content.length !== 0) {
+        queryClient.invalidateQueries([QUERY_KEY.notifications]);
+      }
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
@@ -71,9 +83,21 @@ export const useDeleteReadNotification = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => deleteReadNotifications(),
+    mutationFn: async () => {
+      const data = queryClient.getQueryData([QUERY_KEY.notifications]) as {
+        pages: { content: NotificationItem[] }[];
+      };
+      if (data.pages[0].content.length !== 0) {
+        return deleteReadNotifications();
+      }
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEY.notifications]);
+      const data = queryClient.getQueryData([QUERY_KEY.notifications]) as {
+        pages: { content: NotificationItem[] }[];
+      };
+      if (data.pages[0].content.length !== 0) {
+        queryClient.invalidateQueries([QUERY_KEY.notifications]);
+      }
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;

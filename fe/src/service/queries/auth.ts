@@ -26,13 +26,13 @@ export const useLogin = () => {
   const location = useLocation();
   const from = location.state?.redirectedFrom?.pathname || PATH.HOME;
   //  사용자가 로그인 전에 접근하려고 했던 경로
-
+  // 오어스에서 충돌되는 부분 없나? 이거때매 안되면 그냥 오어스용 쿼리 따로 파기
   const setAccessToken = useSetRecoilState(accessTokenState);
   const setRefreshToken = useSetRecoilState(refreshTokenState);
   const setUserInfo = useSetRecoilState(userInfoState);
 
   return useMutation({
-    mutationFn: (body: LoginBody) => fetchLogin(body),
+    mutationFn: (body: LoginBody) => fetchLogin(body), // oauth 로그 바디도 추가
     onSuccess: (data) => {
       const { accessToken, refreshToken } = data;
       const payload = jwtDecode(accessToken);
@@ -101,6 +101,7 @@ export const useRefreshToken = () => {
   const refreshToken = useRecoilValue(refreshTokenState);
   const userInfo = useRecoilValue(userInfoState);
   const clearLoginInfo = useClearLoginInfo();
+  console.log('refreshToken in auth query', refreshToken);
 
   const refreshTokenMutation = useMutation(
     () => {

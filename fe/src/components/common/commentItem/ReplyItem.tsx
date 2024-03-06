@@ -67,7 +67,6 @@ export const ReplyItem: React.FC<Props> = ({
 
   const handleEdit = () => {
     setIsEdit(true);
-    console.log(inputRef?.current, ' now inputRef');
     inputRef?.current?.focus();
   };
 
@@ -111,8 +110,6 @@ export const ReplyItem: React.FC<Props> = ({
   };
 
   const handleSubmitLike = () => {
-    console.log(reply.id, ' now reply ID', commentId, 'commentId');
-
     if (isLogin) {
       reply.liked
         ? unLikeMutate({ commentId: commentId, replyId: reply.id })

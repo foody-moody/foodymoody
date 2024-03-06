@@ -1,16 +1,33 @@
+import loadable from '@loadable/component';
 import { Suspense, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { Collection } from 'components/collection/profile/Collection';
+import { Spinner } from 'components/common/loading/spinner';
 import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
 import { ProfileUserInfoSkeleton } from 'components/common/skeleton/ProfileUserInfoSkeleton';
 import { UserFeedTabs } from 'components/common/userFeedTabs/UserFeedTabs';
 import { FeedLikeList } from 'components/feedLike/FeedLikeList';
 import { FeedProfileList } from 'components/feedProfile/FeedPofileList';
 import { ProfileUserInfo } from 'components/profileUserInfo/ProfileUserInfo';
-import { DetailFeedModalPage } from './DetailFeedPage';
+// import { DetailFeedModalPage } from './DetailFeedPage';
 import { FollowModalPage } from './FollowPage';
+
+const SpinnerPage = () => {
+  return (
+    <div style={{ width: '100%', height: '100%', background: 'red' }}>
+      <Spinner isLoading />
+    </div>
+  );
+};
+
+const DetailFeedModalPage = loadable(
+  () => import('./DetailFeedPage').then((module) => module.DetailFeedModalPage),
+  {
+    fallback: <SpinnerPage />,
+  }
+);
 
 export const ProfilePage = () => {
   /* TODO. data.myFeed 데이터 생기면 추가하기 */

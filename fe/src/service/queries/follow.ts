@@ -62,6 +62,7 @@ export const usePostFollow = (memberId?: string, queryKey?: string) => {
         : queryClient.invalidateQueries([QUERY_KEY.profile, memberId]);
       queryClient.invalidateQueries([QUERY_KEY.followings]);
       queryClient.invalidateQueries([QUERY_KEY.followers]);
+      queryClient.invalidateQueries([QUERY_KEY.notifications]);
     },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;

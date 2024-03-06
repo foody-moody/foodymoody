@@ -8,7 +8,8 @@ import { ListLayout } from './ListLayout';
 export const CollectionContainer = () => {
   // TODO 프로필에 쓰이는거는 위로 올려야함
   const { sortBy } = useSort('collection');
-  const { collections, hasNextPage, fetchNextPage } = useGetCollection(sortBy);
+  const SORT = sortBy === 'likeCount' ? 'likeCount,desc' : 'createdAt';
+  const { collections, hasNextPage, fetchNextPage } = useGetCollection(SORT);
   console.log(collections);
   const grid = useToggle('grid');
 

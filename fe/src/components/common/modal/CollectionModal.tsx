@@ -1,10 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { useToast } from 'recoil/toast/useToast';
 import {
+  useAddFeedToCollection,
   useAddUserCollection,
-  useUserCollectionTitle,
+  useDeleteFeedFromCollection,
+  useGetCollectionsWithFeedStatus,
+  useGetUserCollectionTitle,
 } from 'service/queries/collection';
 import styled from 'styled-components';
 import { z } from 'zod';
@@ -17,39 +22,6 @@ import { PlusSquareIcon } from '../icon/icons';
 import { Input } from '../input/Input';
 import { InputField } from '../input/InputField';
 import { useModal } from './useModal';
-
-const DATA = [
-  {
-    id: '1',
-    title: '컬렉션 제목1',
-    checked: false,
-  },
-  {
-    id: '2',
-    title: '컬렉션 제목2',
-    checked: true,
-  },
-  {
-    id: '3',
-    title: '컬렉션 제목2',
-    checked: true,
-  },
-  {
-    id: '4',
-    title: '컬렉션 제목2',
-    checked: true,
-  },
-  {
-    id: '5',
-    title: '컬렉션 제목2',
-    checked: true,
-  },
-  {
-    id: '6',
-    title: '컬렉션 제목2',
-    checked: true,
-  },
-];
 
 const formSchema = z.object({
   title: z.string().min(3, {
@@ -67,10 +39,11 @@ type MyCollection = {
   title: string;
 };
 
-// type MyCollectionWithChecked = MyCollection & { checked: boolean };
+type MyCollectionWithFeedStatus = MyCollection & { containsFeed: boolean };
 
 export const CollectionModal: React.FC<CollectionModalProps> = ({
   type = 'default', // default, addFeed
+  feedId = null,
 }) => {
   const {
     //  openModal,
@@ -79,27 +52,27 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
   const toast = useToast();
   const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
   const [isFormToggle, setIsFormToggle] = useState(false);
-  const [checkedIds, setCheckedIds] = useState(
-    DATA ? DATA.filter((item) => item.checked).map((item) => item.id) : []
-  );
   const [isPrivate, setIsPrivate] = useState(false);
 
-  const { data: myCollectionTitle } = useUserCollectionTitle();
-  console.log(myCollectionTitle);
+  const { data: myCollectionTitle } = useGetUserCollectionTitle(type);
+  const { data: myCollectionTitleWithFeedStatus, isLoading } =
+    useGetCollectionsWithFeedStatus(feedId);
+
+  const { mutate: addFeed } = useAddFeedToCollection();
+  const { mutate: deleteFeed } = useDeleteFeedFromCollection();
 
   const handleSelectBadgeList = (badges: Badge[]) => {
     setSelectedBadgeList(badges);
   };
 
-  const handleCheckChange = (id: string, isChecked: boolean) => {
-    setCheckedIds((prevId) => {
-      if (isChecked) {
-        return [...prevId, id];
-      } else {
-        return prevId.filter((checkedId) => checkedId !== id);
-      }
-    });
-    console.log(checkedIds);
+  const handleCheckChange = (collectionId: string, isChecked: boolean) => {
+    if (!feedId) return;
+
+    if (isChecked) {
+      addFeed({ collectionId, feedId });
+    } else {
+      deleteFeed({ collectionId, feedId });
+    }
   };
 
   const handleOpenForm = () => {
@@ -144,32 +117,46 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
       <Dim isTransparent onClick={() => closeModal('collection')} />
       <Wrapper>
         <MyList>
-          <h2>나만의 컬렉션</h2>
-
-          {DATA.length === 0 && <Text>아직 회원님의 컬렉션이 없어요</Text>}
-
+          <h2>내 컬렉션 목록</h2>
           <ListBox $isFormToggle={isFormToggle}>
-            {type === 'default' &&
-              myCollectionTitle?.map((collection: MyCollection) => (
-                <List key={collection.id}>
-                  <Title>{collection.title}</Title>
-                </List>
-              ))}
+            {type === 'default' && (
+              <>
+                {myCollectionTitle && myCollectionTitle.length > 0 ? (
+                  myCollectionTitle.map((collection: MyCollection) => (
+                    <List key={collection.id}>
+                      <Title>{collection.title}</Title>
+                    </List>
+                  ))
+                ) : (
+                  <Text>아직 회원님의 컬렉션이 없어요</Text>
+                )}
+              </>
+            )}
 
-            {type === 'addFeed' &&
-              DATA.map((collection) => (
-                <List>
-                  {!isFormToggle && (
-                    <Checkbox
-                      key={collection.id}
-                      id={collection.id}
-                      checked={collection.checked}
-                      onCheckChange={handleCheckChange}
-                    />
-                  )}
-                  <Title>{collection.title}</Title>
-                </List>
-              ))}
+            {type === 'addFeed' && isLoading && <Skeleton count={3} />}
+            {type === 'addFeed' && !isLoading && (
+              <>
+                {myCollectionTitleWithFeedStatus &&
+                myCollectionTitleWithFeedStatus.length > 0 ? (
+                  myCollectionTitleWithFeedStatus.map(
+                    (collection: MyCollectionWithFeedStatus) => (
+                      <List key={collection.id}>
+                        {!isFormToggle && (
+                          <Checkbox
+                            id={collection.id}
+                            checked={collection.containsFeed}
+                            onCheckChange={handleCheckChange}
+                          />
+                        )}
+                        <Title>{collection.title}</Title>
+                      </List>
+                    )
+                  )
+                ) : (
+                  <Text>아직 회원님의 컬렉션이 없어요</Text>
+                )}
+              </>
+            )}
           </ListBox>
         </MyList>
 

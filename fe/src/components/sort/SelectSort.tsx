@@ -11,7 +11,7 @@ export const SelectSort = ({ sortId }: Props) => {
 
   const OPTIONS = [
     { id: '1', name: '최신순', value: 'createdAt' },
-    { id: '2', name: '좋아요순', value: 'heartCount' },
+    { id: '2', name: '좋아요순', value: 'likeCount' },
   ];
 
   return (
