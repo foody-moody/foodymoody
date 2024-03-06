@@ -3,8 +3,9 @@ import { getAccessToken } from 'utils/localStorage';
 
 const { MODE, VITE_API_URL } = import.meta.env;
 
-const DEV = MODE === 'development';
-export const BASE_API_URL = DEV ? `${VITE_API_URL}/api` : `/api`;
+// const DEV = MODE === 'development';
+// export const BASE_API_URL = DEV ? `${VITE_API_URL}/api` : `/api`;
+export const BASE_API_URL = `${VITE_API_URL}/api`;
 
 export const publicApi = axios.create({
   baseURL: BASE_API_URL,

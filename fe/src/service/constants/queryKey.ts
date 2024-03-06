@@ -1,4 +1,5 @@
 export const QUERY_KEY = {
+  OAuth: 'OAuth',
   profile: 'profile',
   nickname: 'nickname',
   profileFeeds: 'profileFeeds',

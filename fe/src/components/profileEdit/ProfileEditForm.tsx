@@ -59,7 +59,7 @@ export const ProfileEditForm = () => {
     const registerData = {
       nickname: value.nickname === profile?.nickname ? null : value.nickname,
       tasteMoodId:
-        value.tasteMoodId === profile?.tasteMood.id ? null : value.tasteMoodId,
+        value.tasteMoodId === profile?.tasteMood?.id ? null : value.tasteMoodId,
       profileImageId: null,
     };
 
@@ -114,12 +114,16 @@ export const ProfileEditForm = () => {
               // value={selectedTaste?.name}
               // onChange={handleSelectChange}
             >
-              {tastes &&
-                tastes?.map((taste: Badge) => (
-                  <Option key={taste.id} value={taste.id}>
-                    {taste.name}
-                  </Option>
-                ))}
+              {!profile?.tasteMood && (
+                <Option disabled value="">
+                  무디를 선택해주세요
+                </Option>
+              )}
+              {tastes?.map((taste: Badge) => (
+                <Option key={taste.id} value={taste.id}>
+                  {taste.name}
+                </Option>
+              ))}
             </Select>
             <ArrowDownIcon />
           </SelectLabel>

@@ -67,7 +67,9 @@ export const ProfileUserInfo = () => {
           <ContentHeader>
             <p>{member?.nickname}</p>
             {/* TODO. Badge 적용 해야함..*/}
-            <TasteMoodBadge name={member?.tasteMood.name} />
+            {member?.tasteMood && (
+              <TasteMoodBadge name={member?.tasteMood.name} />
+            )}
           </ContentHeader>
 
           <ContentBody>

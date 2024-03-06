@@ -1,5 +1,6 @@
 export const END_POINT = {
   login: `/auth/login`,
+  OAuthLogin: `/auth/oauth/google`,
   logout: `/auth/logout`,
   register: `/members`,
   refresh: `/auth/token`,
