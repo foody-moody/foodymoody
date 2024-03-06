@@ -1,11 +1,28 @@
+import loadable from '@loadable/component';
 import { Suspense } from 'react';
 import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
+import { Spinner } from 'components/common/loading/spinner';
 import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
 import { FeedSkeleton } from 'components/common/skeleton/FeedSkeleton';
 import { FeedMainList } from 'components/feedMain/FeedMainList';
-import { DetailFeedModalPage } from './DetailFeedPage';
+// import { DetailFeedModalPage } from './DetailFeedPage';
 import { NewFeedModalPage } from './NewFeedPage';
+
+const SpinnerPage = () => {
+  return (
+    <div style={{ width: '100%', height: '100%', background: 'red' }}>
+      <Spinner isLoading />
+    </div>
+  );
+};
+
+const DetailFeedModalPage = loadable(
+  () => import('./DetailFeedPage').then((module) => module.DetailFeedModalPage),
+  {
+    fallback: <SpinnerPage />,
+  }
+);
 
 export const HomePage = () => {
   const location = useLocation();
