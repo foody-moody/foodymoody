@@ -31,7 +31,7 @@ public class FeedCollectionReplyLikeWriteService {
     }
 
     @Transactional
-    public void cancel(MemberId memberId, FeedCollectionReplyLikeId id) {
-        repository.deleteByIdAndMemberId(id, memberId);
+    public void cancel(MemberId memberId, FeedCollectionReplyId id) {
+        repository.deleteByFeedCollectionReplyIdAndMemberId(id, memberId);
     }
 }

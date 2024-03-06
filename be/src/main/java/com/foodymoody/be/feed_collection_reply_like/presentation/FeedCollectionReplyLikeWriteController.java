@@ -5,7 +5,6 @@ import com.foodymoody.be.common.util.IdResponse;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
-import com.foodymoody.be.common.util.ids.FeedCollectionReplyLikeId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection_reply_like.application.usecase.FeedCollectionReplyLikeWriteUseCase;
 import lombok.RequiredArgsConstructor;
@@ -33,15 +32,14 @@ public class FeedCollectionReplyLikeWriteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
-    @DeleteMapping("/api/feed_collections/{ignoreFeedCollectionId}/comments/{ignoredCommentId}/replies/{replyId}/likes/{id}")
+    @DeleteMapping("/api/feed_collections/{ignoreFeedCollectionId}/comments/{ignoredCommentId}/replies/{replyId}/likes")
     public ResponseEntity<Void> cancel(
             @PathVariable FeedCollectionId ignoreFeedCollectionId,
             @PathVariable FeedCollectionCommentId ignoredCommentId,
             @PathVariable FeedCollectionReplyId replyId,
-            @PathVariable FeedCollectionReplyLikeId id,
             @CurrentMemberId MemberId memberId
     ) {
-        useCase.cancel(replyId, memberId, id);
+        useCase.cancel(replyId, memberId);
         return ResponseEntity.noContent().build();
     }
 }

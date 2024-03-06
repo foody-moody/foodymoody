@@ -1,7 +1,6 @@
 package com.foodymoody.be.feed_collection_like.infra.persistence;
 
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
-import com.foodymoody.be.common.util.ids.FeedCollectionLikeId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection_like.domain.FeedCollectionLike;
 import com.foodymoody.be.feed_collection_like.domain.FeedCollectionLikeRepository;
@@ -22,11 +21,6 @@ public class FeedCollectionLikeRepositoryImpl implements FeedCollectionLikeRepos
     }
 
     @Override
-    public void deleteByIdAndMemberId(FeedCollectionLikeId likeId, MemberId memberId) {
-        feedCollectionLikeJpaRepository.deleteByIdAndMemberId(likeId, memberId);
-    }
-
-    @Override
     public Optional<FeedCollectionLike> findByFeedCollectionIdAndMemberId(
             FeedCollectionId feedCollectionId, MemberId memberId
     ) {
@@ -36,5 +30,10 @@ public class FeedCollectionLikeRepositoryImpl implements FeedCollectionLikeRepos
     @Override
     public boolean existsByFeedCollectionIdAndMemberId(FeedCollectionId feedCollectionId, MemberId memberId) {
         return feedCollectionLikeJpaRepository.existsByFeedCollectionIdAndMemberId(feedCollectionId, memberId);
+    }
+
+    @Override
+    public void deleteByFeedCollectionIdAndMemberId(FeedCollectionId feedCollectionId, MemberId memberId) {
+        feedCollectionLikeJpaRepository.deleteByFeedCollectionIdAndMemberId(feedCollectionId, memberId);
     }
 }
