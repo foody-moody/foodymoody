@@ -36,6 +36,10 @@ public class MyFollowings {
         follows.remove(follow);
     }
 
+    public int getCount() {
+        return follows.size();
+    }
+
     private Optional<Follow> get(Member target) {
         return this.follows.stream()
                 .filter(follow -> follow.getFollowed().equals(target))

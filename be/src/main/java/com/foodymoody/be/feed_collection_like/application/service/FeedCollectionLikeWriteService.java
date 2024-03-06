@@ -29,7 +29,7 @@ public class FeedCollectionLikeWriteService {
     }
 
     @Transactional
-    public void cancel(FeedCollectionLikeId likeId, MemberId memberId) {
-        repository.deleteByIdAndMemberId(likeId, memberId);
+    public void cancel(FeedCollectionId feedCollectionId, MemberId memberId) {
+        repository.deleteByFeedCollectionIdAndMemberId(feedCollectionId, memberId);
     }
 }

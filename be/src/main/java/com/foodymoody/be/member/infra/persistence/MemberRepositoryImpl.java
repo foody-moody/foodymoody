@@ -1,13 +1,11 @@
 package com.foodymoody.be.member.infra.persistence;
 
-import com.foodymoody.be.common.auth.SupportedAuthProvider;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
 import com.foodymoody.be.member.application.dto.MyFeedCollectionWithFeedIdsSummary;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionTitleResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
-import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberRepository;
 import com.foodymoody.be.member.infra.persistence.jpa.MemberJpaRepository;
@@ -23,11 +21,6 @@ import org.springframework.stereotype.Repository;
 public class MemberRepositoryImpl implements MemberRepository {
 
     private final MemberJpaRepository jpaRepository;
-
-    @Override
-    public Optional<MemberProfileResponse> fetchMemberProfileResponseById(MemberId id, MemberId currentMemberId) {
-        return jpaRepository.fetchMemberProfileResponseById(id, currentMemberId);
-    }
 
     @Override
     public Optional<FeedAuthorSummary> fetchFeedAuthorSummaryById(MemberId id) {
@@ -57,6 +50,11 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public boolean existsByEmail(String email) {
         return jpaRepository.existsByEmail(email);
+    }
+
+    @Override
+    public long countMyFeedById(MemberId id) {
+        return jpaRepository.countMyFeedById(id);
     }
 
     @Override
