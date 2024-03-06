@@ -60,10 +60,10 @@ class FeedCollectionReplyLikeAcceptanceTest extends AcceptanceTest {
         api_문서_타이틀("feed_collection_reply_like_cancel_success", spec);
 
         // given
-        String replyLikeId = 피드_컬렉션_대댓글에_좋아요를_등록하고_아이디를_반환한다(feedCollectionId, commentId, replyId, 회원아티_액세스토큰);
+        피드_컬렉션_대댓글에_좋아요를_등록하고_아이디를_반환한다(feedCollectionId, commentId, replyId, 회원아티_액세스토큰);
 
         // when
-        var response = 피드_컬렉션_대댓글에_좋아요를_취소한다(feedCollectionId, commentId, replyId, replyLikeId, 회원아티_액세스토큰, spec);
+        var response = 피드_컬렉션_대댓글에_좋아요를_취소한다(feedCollectionId, commentId, replyId, 회원아티_액세스토큰, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(204);

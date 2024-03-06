@@ -1,11 +1,9 @@
 package com.foodymoody.be.member.infra.persistence.jpa;
 
-import static com.foodymoody.be.feed.domain.entity.QFeed.feed;
 import static com.foodymoody.be.feed_collection.domain.QFeedCollection.feedCollection;
 import static com.foodymoody.be.feed_collection.domain.QFeedCollectionMood.feedCollectionMood;
 import static com.foodymoody.be.feed_collection_like.domain.QFeedCollectionLike.feedCollectionLike;
 import static com.foodymoody.be.image.domain.QImage.image;
-import static com.foodymoody.be.member.domain.QFollow.follow;
 import static com.foodymoody.be.member.domain.QMember.member;
 
 import com.foodymoody.be.common.util.ids.MemberId;
@@ -13,24 +11,17 @@ import com.foodymoody.be.feed_collection.domain.FeedCollection;
 import com.foodymoody.be.feed_collection_like.domain.QFeedCollectionLike;
 import com.foodymoody.be.member.application.dto.MyFeedCollectionWithFeedIdsSummary;
 import com.foodymoody.be.member.application.dto.response.FeedCollectionMoodResponse;
-import com.foodymoody.be.member.application.dto.response.MemberProfileImageResponse;
-import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionAuthorResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionMoodSummary;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
-import com.foodymoody.be.member.application.dto.response.TasteMoodResponse;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -40,44 +31,6 @@ import org.springframework.data.domain.SliceImpl;
 public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
-
-    @Override
-    public Optional<MemberProfileResponse> fetchMemberProfileResponseById(MemberId id, MemberId currentMemberId) {
-
-        MemberProfileResponse queryResult = jpaQueryFactory
-                .select(
-                        Projections.constructor(
-                                MemberProfileResponse.class,
-                                member.id,
-                                Projections.constructor(
-                                        MemberProfileImageResponse.class,
-                                        member.profileImage.id,
-                                        member.profileImage.url
-                                ),
-                                member.nickname,
-                                member.email,
-                                Projections.constructor(
-                                        TasteMoodResponse.class,
-                                        member.tasteMood.id,
-                                        member.tasteMood.name
-                                ),
-                                member.myFollowings.follows.size(),
-                                member.myFollowers.follows.size(),
-                                isFollowing(currentMemberId),
-                                isFollowed(currentMemberId),
-                                feed.count()
-                        )
-                )
-                .from(member)
-                .leftJoin(feed).on(feed.memberId.eq(member.id))
-                .where(member.id.eq(id))
-                .fetchOne();
-
-        if (Objects.nonNull(queryResult.getId())) {
-            return Optional.of(queryResult);
-        }
-        return Optional.empty();
-    }
 
     @Override
     public MyFeedCollectionsResponse fetchMyCollectionResponse(MemberId id, MemberId currentMemberId,
@@ -194,32 +147,6 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
 
     private BooleanExpression getMyCollectionCondition(MemberId id) {
         return feedCollection.authorId.eq(id).and(feedCollection.isDeleted.isFalse());
-    }
-
-    private Expression<Boolean> isFollowed(MemberId currentMemberId) {
-        if (Objects.nonNull(currentMemberId)) {
-            return ExpressionUtils.as(
-                    JPAExpressions.select(follow.count().gt(0))
-                            .from(follow)
-                            .where(follow.follower.eq(member)
-                                    .and(follow.followed.id.eq(currentMemberId))),
-                    "followed"
-            );
-        }
-        return Expressions.constant(false);
-    }
-
-    private Expression<Boolean> isFollowing(MemberId currentMemberId) {
-        if (Objects.nonNull(currentMemberId)) {
-            return ExpressionUtils.as(
-                    JPAExpressions.select(follow.count().gt(0))
-                            .from(follow)
-                            .where(follow.followed.eq(member)
-                                    .and(follow.follower.id.eq(currentMemberId))),
-                    "following"
-            );
-        }
-        return Expressions.constant(false);
     }
 
     private BooleanExpression eqMemberIdIfNotNull(MemberId currentMemberId) {

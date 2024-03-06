@@ -16,6 +16,7 @@ import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberMapper;
 import com.foodymoody.be.member.domain.MemberRepository;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -43,8 +44,13 @@ public class MemberReadService {
     }
 
     public MemberProfileResponse fetchProfile(MemberId currentMemberId, MemberId id) {
-        return repository.fetchMemberProfileResponseById(id, currentMemberId)
-                .orElseThrow(MemberNotFoundException::new);
+        Member member = findById(id);
+        long myFeedCount = repository.countMyFeedById(id);
+        if (Objects.nonNull(currentMemberId)) {
+            Member currentMember = findById(currentMemberId);
+            return MemberMapper.toMemberProfileResponse(member, myFeedCount, currentMember);
+        }
+        return MemberMapper.toMemberProfileResponse(member, myFeedCount);
     }
 
     public Slice<MyFeedPreviewResponse> fetchFeedPreviews(MemberId id, Pageable pageable) {

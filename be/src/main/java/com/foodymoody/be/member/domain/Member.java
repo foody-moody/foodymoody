@@ -160,6 +160,21 @@ public class Member {
         return myFollowers.getAll();
     }
 
+    public String getTasteMoodName() {
+        if (Objects.nonNull(tasteMood)) {
+            return tasteMood.getName();
+        }
+        return null;
+    }
+
+    public int getMyFollowingCount() {
+        return myFollowings.getCount();
+    }
+
+    public int getMyFollowerCount() {
+        return myFollowers.getCount();
+    }
+
     private MemberFollowedEvent toMemberFollowedEvent(Member target) {
         return MemberFollowedEvent.of(
                 this.id,

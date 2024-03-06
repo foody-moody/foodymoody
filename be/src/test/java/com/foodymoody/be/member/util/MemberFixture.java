@@ -1,7 +1,10 @@
 package com.foodymoody.be.member.util;
 
+import com.foodymoody.be.common.auth.SupportedAuthProvider;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.domain.Member;
+import com.foodymoody.be.member.domain.MemberProfileImage;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public enum MemberFixture {
@@ -118,6 +121,19 @@ public enum MemberFixture {
                 "password", 사용자_푸반.getPassword(),
                 "repeatPassword", 사용자_푸반.getPassword(),
                 "tasteMoodId", 사용자_푸반.getTasteMoodId());
+    }
+
+    public static Member 테이스트_무드_없는_회원() {
+        return Member.of(
+                new MemberId("3"),
+                SupportedAuthProvider.GOOGLE,
+                사용자_보노.getEmail(),
+                사용자_보노.getNickname(),
+                사용자_보노.getPassword(),
+                MemberProfileImage.DEFAULT,
+                null,
+                LocalDateTime.now()
+        );
     }
 
     public String getEmail() {

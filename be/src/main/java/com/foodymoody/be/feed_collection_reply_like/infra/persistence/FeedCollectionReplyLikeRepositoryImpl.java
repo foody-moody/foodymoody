@@ -1,6 +1,6 @@
 package com.foodymoody.be.feed_collection_reply_like.infra.persistence;
 
-import com.foodymoody.be.common.util.ids.FeedCollectionReplyLikeId;
+import com.foodymoody.be.common.util.ids.FeedCollectionReplyId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed_collection_reply_like.domain.FeedCollectionReplyLike;
 import com.foodymoody.be.feed_collection_reply_like.domain.FeedCollectionReplyLikeRepository;
@@ -20,7 +20,7 @@ public class FeedCollectionReplyLikeRepositoryImpl implements FeedCollectionRepl
     }
 
     @Override
-    public void deleteByIdAndMemberId(FeedCollectionReplyLikeId id, MemberId memberId) {
-        repository.deleteByIdAndMemberId(id, memberId);
+    public void deleteByFeedCollectionReplyIdAndMemberId(FeedCollectionReplyId id, MemberId memberId) {
+        repository.deleteByFeedCollectionReplyIdAndMemberId(id, memberId);
     }
 }

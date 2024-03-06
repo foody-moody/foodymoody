@@ -57,7 +57,6 @@ public class FeedCollectionReplyLikeSteps {
             String feedCollectionId,
             String commentId,
             String replyId,
-            String replyLikeId,
             String accessToken,
             RequestSpecification spec
     ) {
@@ -67,8 +66,8 @@ public class FeedCollectionReplyLikeSteps {
                 .auth().oauth2(accessToken)
                 .when()
                 .delete(
-                        "/api/feed_collections/{feedCollectionId}/comments/{commentId}/replies/{replyId}/likes/{id}",
-                        feedCollectionId, commentId, replyId, replyLikeId
+                        "/api/feed_collections/{feedCollectionId}/comments/{commentId}/replies/{replyId}/likes",
+                        feedCollectionId, commentId, replyId
                 )
                 .then().log().all()
                 .extract();
