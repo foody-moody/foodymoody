@@ -9,11 +9,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FeedCollectionLikeJpaRepository extends JpaRepository<FeedCollectionLike, FeedCollectionLikeId> {
 
-    void deleteByIdAndMemberId(FeedCollectionLikeId likeId, MemberId memberId);
-
     Optional<FeedCollectionLike> findByFeedCollectionIdAndMemberId(
             FeedCollectionId feedCollectionId, MemberId memberId
     );
 
     boolean existsByFeedCollectionIdAndMemberId(FeedCollectionId feedCollectionId, MemberId memberId);
+
+    void deleteByFeedCollectionIdAndMemberId(FeedCollectionId feedCollectionId, MemberId memberId);
 }

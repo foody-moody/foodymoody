@@ -29,8 +29,8 @@ public class FeedCollectionReplyLikeWriteUseCase {
     }
 
     @Transactional
-    public void cancel(FeedCollectionReplyId replyId, MemberId memberId, FeedCollectionReplyLikeId id) {
-        likeService.cancel(memberId, id);
+    public void cancel(FeedCollectionReplyId replyId, MemberId memberId) {
+        likeService.cancel(memberId, replyId);
         countService.decreaseCount(replyId);
     }
 }

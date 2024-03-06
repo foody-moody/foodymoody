@@ -34,7 +34,6 @@ public class FeedCollectionLikeSteps {
     public static ExtractableResponse<Response> 피드_컬렉션에_좋아요를_취소한다(
             String accessToken,
             String feedCollectionId,
-            String id,
             RequestSpecification spec
     ) {
         return RestAssured.given()
@@ -42,7 +41,7 @@ public class FeedCollectionLikeSteps {
                 .log().all()
                 .auth().oauth2(accessToken)
                 .when()
-                .delete("/api/feed_collections/{feedCollectionId}/likes/{id}", feedCollectionId, id)
+                .delete("/api/feed_collections/{feedCollectionId}/likes", feedCollectionId)
                 .then().log().all()
                 .extract();
     }

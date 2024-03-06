@@ -57,7 +57,7 @@ class FeedCollectionLikeAcceptanceTest extends AcceptanceTest {
         var id = 피드_컬렉션에_좋아요를_등록하고_아이디를_반환한다(회원아티_액세스토큰, feedCollectionId);
 
         // when
-        var response = 피드_컬렉션에_좋아요를_취소한다(회원아티_액세스토큰, feedCollectionId, id, spec);
+        var response = 피드_컬렉션에_좋아요를_취소한다(회원아티_액세스토큰, feedCollectionId, spec);
 
         // then
         assertThat(response.statusCode()).isEqualTo(204);
