@@ -101,13 +101,10 @@ export const useRefreshToken = () => {
   const refreshToken = useRecoilValue(refreshTokenState);
   const userInfo = useRecoilValue(userInfoState);
   const clearLoginInfo = useClearLoginInfo();
-  console.log('refreshToken in auth query', refreshToken);
 
   const refreshTokenMutation = useMutation(
     () => {
-      // 리프레쉬 토큰 만료될것같으면 clearInfo?
       // if (!refreshToken) throw new Error('No refresh token available');
-      // return fetchRefresh(refreshToken);
       return fetchRefresh(refreshToken);
     },
     {
@@ -124,6 +121,7 @@ export const useRefreshToken = () => {
       onError: (error: AxiosError<CustomErrorResponse>) => {
         const errorData = error?.response?.data;
         errorData && console.log(errorData.message);
+
         clearLoginInfo();
         window.location.replace(PATH.HOME);
       },
@@ -134,6 +132,34 @@ export const useRefreshToken = () => {
   // TODO 30초마다 체크, 만료 시간 연장되면 더 늘리기
   useEffect(() => {
     if (!userInfo) {
+      return;
+    }
+
+    const checkRefreshTokenExpiry = () => {
+      try {
+        const storedRefreshToken = localStorage.getItem('refreshToken');
+
+        if (!storedRefreshToken) {
+          return false;
+        }
+
+        const decoded = jwtDecode(storedRefreshToken);
+
+        if (decoded && typeof decoded.exp === 'number') {
+          const now = Date.now() / 1000;
+          return decoded.exp < now;
+        }
+      } catch (error) {
+        return true;
+      }
+    };
+
+    const isRefreshTokenExpired = checkRefreshTokenExpiry();
+
+    if (isRefreshTokenExpired) {
+      console.log('refreshTokenExpired!!!!!!!!!!!!!1');
+      clearLoginInfo();
+      window.location.replace(PATH.HOME);
       return;
     }
 

@@ -125,7 +125,9 @@ export const useGetProfileCollection = (memberId: string, sortBy?: string) => {
       queryFn: ({ pageParam = 0 }) =>
         getProfileCollections(pageParam, 10, memberId, sortBy),
       getNextPageParam: (lastPage) => {
-        return lastPage.last ? undefined : lastPage.number + 1;
+        return lastPage.collections.last
+          ? undefined
+          : lastPage.collections.number + 1;
       },
     });
 
