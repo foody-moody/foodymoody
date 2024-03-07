@@ -162,9 +162,12 @@ public class FeedCollection {
         }
     }
 
-    public void addFeed(FeedId feedId, MemberId memberId, LocalDateTime now) {
+    public void addFeed(FeedId feedId, MemberId memberId, String thumbnailUrl, LocalDateTime now) {
         validateAuthor(memberId);
         feedIds.add(feedId);
+        if (this.thumbnailUrl == null) {
+            this.thumbnailUrl = thumbnailUrl;
+        }
         this.updatedAt = now;
     }
 

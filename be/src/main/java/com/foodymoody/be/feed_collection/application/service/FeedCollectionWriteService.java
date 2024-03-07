@@ -99,9 +99,9 @@ public class FeedCollectionWriteService {
     }
 
     @Transactional
-    public void addFeed(FeedCollectionId id, FeedId feedId, MemberId memberId) {
+    public void addFeed(FeedCollectionId id, FeedId feedId, MemberId memberId, String thumbnailUrl) {
         FeedCollection feedCollection = fetchById(id);
-        feedCollection.addFeed(feedId, memberId, LocalDateTime.now());
+        feedCollection.addFeed(feedId, memberId, thumbnailUrl, LocalDateTime.now());
     }
 
     @Transactional
