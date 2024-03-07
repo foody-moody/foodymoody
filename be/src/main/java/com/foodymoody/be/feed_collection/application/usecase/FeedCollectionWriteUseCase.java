@@ -68,7 +68,9 @@ public class FeedCollectionWriteUseCase {
     }
 
     public void addFeed(FeedCollectionId id, FeedId feedId, MemberId memberId) {
-        service.addFeed(id, feedId, memberId);
+        var feed = feedReadService.findFeed(feedId);
+        var thumbnailUrl = feed.getProfileImageUrl();
+        service.addFeed(id, feedId, memberId, thumbnailUrl);
     }
 
     public void removeFeed(FeedCollectionId id, FeedId feedId, MemberId memberId) {
