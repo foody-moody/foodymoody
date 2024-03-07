@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed_collection_like.application.service;
 
 import com.foodymoody.be.common.exception.FeedCollectionLikeIsAlreadyExistException;
+import com.foodymoody.be.common.exception.FeedCollectionLikeIsNotExistException;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
 import com.foodymoody.be.common.util.ids.FeedCollectionLikeId;
 import com.foodymoody.be.common.util.ids.IdFactory;
@@ -10,6 +11,7 @@ import com.foodymoody.be.feed_collection_like.domain.FeedCollectionLikeRepositor
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class FeedCollectionLikeWriteService {
 
     private final FeedCollectionLikeRepository repository;
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public FeedCollectionLikeId post(FeedCollectionId feedCollectionId, MemberId memberId) {
         repository.findByFeedCollectionIdAndMemberId(feedCollectionId, memberId).ifPresent(like -> {
             throw new FeedCollectionLikeIsAlreadyExistException();
@@ -28,8 +30,13 @@ public class FeedCollectionLikeWriteService {
         return repository.save(like).getId();
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void cancel(FeedCollectionId feedCollectionId, MemberId memberId) {
+        var like = repository.findByFeedCollectionIdAndMemberId(
+                feedCollectionId, memberId);
+        if (like.isEmpty()) {
+            throw new FeedCollectionLikeIsNotExistException();
+        }
         repository.deleteByFeedCollectionIdAndMemberId(feedCollectionId, memberId);
     }
 }
