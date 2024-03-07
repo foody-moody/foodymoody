@@ -14,7 +14,7 @@ import {
 import styled from 'styled-components';
 import { z } from 'zod';
 import { customScrollStyle } from 'styles/customStyle';
-import { StoreMoodSelector } from '../badge/StoreMoodSelector';
+// import { StoreMoodSelector } from '../badge/StoreMoodSelector';
 import { Button } from '../button/Button';
 import { Checkbox } from '../checkbox/CheckBox';
 import { Dim } from '../dim/Dim';
@@ -50,9 +50,9 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
     closeModal,
   } = useModal<'collection'>();
   const toast = useToast();
-  const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
+  // const [selectedBadgeList, setSelectedBadgeList] = useState<Badge[]>([]);
   const [isFormToggle, setIsFormToggle] = useState(false);
-  const [isPrivate, setIsPrivate] = useState(false);
+  // const [isPrivate, setIsPrivate] = useState(false);
 
   const { data: myCollectionTitle } = useGetUserCollectionTitle(type);
   const { data: myCollectionTitleWithFeedStatus, isLoading } =
@@ -61,9 +61,9 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
   const { mutate: addFeed } = useAddFeedToCollection();
   const { mutate: deleteFeed } = useDeleteFeedFromCollection();
 
-  const handleSelectBadgeList = (badges: Badge[]) => {
-    setSelectedBadgeList(badges);
-  };
+  // const handleSelectBadgeList = (badges: Badge[]) => {
+  //   setSelectedBadgeList(badges);
+  // };
 
   const handleCheckChange = (collectionId: string, isChecked: boolean) => {
     if (!feedId) return;
@@ -95,12 +95,12 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
   const { mutate: addCollection } = useAddUserCollection();
 
   const onSubmit = async (value: FormSchema) => {
-    const selectedMoodIds = selectedBadgeList.map((badge) => badge.id);
+    // const selectedMoodIds = selectedBadgeList.map((badge) => badge.id);
 
     const formData = {
-      private: isPrivate,
+      private: false, // 무조건 공개로 임시 수정
       description: value.description ?? '',
-      moodIds: selectedMoodIds,
+      moodIds: [], // 임시 빈배열
       title: value.title,
     };
 
@@ -198,7 +198,7 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
               </Input>
             </div>
 
-            <div>
+            {/* <div>
               <SubTitle>컬렉션 무드 (선택사항)</SubTitle>
 
               <StoreMoodSelector
@@ -224,7 +224,7 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
               >
                 공개
               </Button>
-            </PrivacyBox>
+            </PrivacyBox> */}
 
             <SubmitBtn
               type="submit"
@@ -317,15 +317,16 @@ const ListBox = styled.ul<{
   ${customScrollStyle}
 `;
 
-const PrivacyBox = styled.fieldset`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  gap: 8px;
-  > button {
-    flex: 1;
-  }
-`;
+// const PrivacyBox = styled.fieldset`
+//   display: flex;
+//   flex-direction: row;
+//   width: 100%;
+//   gap: 8px;
+//   > button {
+//     flex: 1;
+//   }
+// `;
+
 const ErrorMessage = styled.fieldset`
   font: ${({ theme: { fonts } }) => fonts.displayM12};
   color: ${({ theme: { colors } }) => colors.pink};

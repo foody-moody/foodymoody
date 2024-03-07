@@ -128,11 +128,11 @@ export const CollectionDetailPage = () => {
           </div>
         </Info>
 
-        <Moods>
+            {/* <Moods>
           {collection.moods.map((mood: { id: string; name: string }) => (
             <StoreMoodBadge name={mood.name} key={mood.id} />
           ))}
-        </Moods>
+        </Moods> */}
 
         <ActionBar>
           <button>
