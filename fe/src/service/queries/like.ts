@@ -8,7 +8,12 @@ import {
   postReplyLikeStatus,
 } from 'service/axios/auth/comment/like';
 import 'service/axios/feed/feed';
-import { deleteLikeStatus, postLikeStatus } from 'service/axios/like/like';
+import {
+  addCollectionLike,
+  deleteCollectionLike,
+  deleteLikeStatus,
+  postLikeStatus,
+} from 'service/axios/like/like';
 import {
   deleteStoreLikeStatus,
   postStoreLikeStatus,
@@ -169,4 +174,32 @@ export const useDeleteStoreLike = (storeId?: string) => {
       errorData && toast.error(errorData.message);
     },
   });
+};
+
+type toggleCollectionLike = {
+  id: string;
+  isLiked: boolean;
+};
+
+export const useToggleLikeStatus = (collectionId: string) => {
+  const queryClient = useQueryClient();
+  const toast = useToast();
+
+  return useMutation(
+    ({ id, isLiked }: toggleCollectionLike) => {
+      console.log(isLiked, '? 뭐로 들어오는거임');
+
+      return isLiked ? deleteCollectionLike(id) : addCollectionLike(id);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['collectionDetail', collectionId]);
+      },
+      onError: (error: AxiosError<CustomErrorResponse>) => {
+        const errorData = error?.response?.data;
+
+        errorData && toast.error(errorData.message);
+      },
+    }
+  );
 };

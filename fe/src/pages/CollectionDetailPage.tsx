@@ -3,6 +3,7 @@ import {
   useDeleteFeedFromCollection,
   useGetCollectionDetail,
 } from 'service/queries/collection';
+import { useToggleLikeStatus } from 'service/queries/like';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { StoreMoodBadge } from 'components/common/badge/StoreMoodBadge';
@@ -40,7 +41,7 @@ export const CollectionDetailPage = () => {
 
   const { data: collection, isLoading } = useGetCollectionDetail(id);
   const { mutate: deleteFeed } = useDeleteFeedFromCollection();
-  console.log(collection);
+  const { mutate: likeCollection } = useToggleLikeStatus(id);
 
   if (isLoading) return <p>로딩중</p>; // 임시 로딩중
 
@@ -56,7 +57,25 @@ export const CollectionDetailPage = () => {
       }
     );
   };
-  console.log(userInfo, 'userInfo');
+
+  const toggleCollectionLike = () => {
+    const isLiked = collection.liked;
+
+    likeCollection({ id, isLiked });
+  };
+  // console.log(userInfo, 'userInfo');
+  // console.log(collection.likeCount, 'collections collection');
+
+  const onSubmit = (value: FormSchema) => {
+    const formData = {
+      content: value.content ?? '',
+      title: value.title,
+    };
+    console.log(value, 'valuevaluevaluevalue');
+    console.log(formData, 'formDataformDataformDataformDataformDataformData');
+    editCollection(formData);
+    setIsEdit(!isEdit);
+  };
 
   return (
     <Wrapper>
