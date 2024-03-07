@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useToast } from 'recoil/toast/useToast';
 import {
   addUserCollection,
@@ -16,8 +17,11 @@ import {
   getCollectionsWithFeedStatus,
   addFeedToCollection,
   deleteFeedToCollection,
+  deleteCollection,
+  editCollection,
 } from 'service/axios/collection/collection';
 import { QUERY_KEY } from 'service/constants/queryKey';
+import { PATH } from 'constants/path';
 
 export const useGetCollection = (sortBy?: string) => {
   //  TODO sortBy 타입 정의
@@ -106,11 +110,14 @@ export const useDeleteFeedFromCollection = () => {
 
 export const useAddUserCollection = () => {
   const toast = useToast();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (collectionForm: CollectionForm) =>
       addUserCollection(collectionForm),
-
+    onSuccess: () => {
+      queryClient.invalidateQueries([QUERY_KEY.profileCollections]);
+    },
     onError: (error: AxiosError<CustomErrorResponse>) => {
       const errorData = error?.response?.data;
       errorData && toast.error(errorData.message);
@@ -125,7 +132,9 @@ export const useGetProfileCollection = (memberId: string, sortBy?: string) => {
       queryFn: ({ pageParam = 0 }) =>
         getProfileCollections(pageParam, 10, memberId, sortBy),
       getNextPageParam: (lastPage) => {
-        return lastPage.last ? undefined : lastPage.number + 1;
+        return lastPage.collections.last
+          ? undefined
+          : lastPage.collections.number + 1;
       },
     });
 
@@ -146,11 +155,53 @@ export const useGetProfileCollection = (memberId: string, sortBy?: string) => {
     fetchNextPage,
   };
 };
-
 export const useGetCollectionDetail = (id: string) => {
   return useQuery({
-    queryKey: [QUERY_KEY.collectionDetail],
+    queryKey: [QUERY_KEY.collectionDetail, id],
     queryFn: () => getDetailCollection(id),
     enabled: !!id,
+  });
+};
+
+export const useEditCollection = (id: string) => {
+  const queryClient = useQueryClient();
+  const toast = useToast();
+
+  return useMutation({
+    mutationFn: (contents: {
+      title: string;
+      content: string;
+      moodIds?: string[];
+    }) => editCollection(id, contents),
+    onSuccess: () => {
+      queryClient.invalidateQueries([QUERY_KEY.collectionDetail, id]);
+      toast.success('컬렉션이 수정 되었습니다.');
+    },
+
+    onError: (error: AxiosError<CustomErrorResponse>) => {
+      const errorData = error?.response?.data;
+      errorData && toast.error(errorData.message);
+    },
+  });
+};
+
+export const useDeleteCollection = (id: string) => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  return useMutation({
+    mutationFn: () => deleteCollection(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries([QUERY_KEY.collections]);
+
+      toast.success('컬렉션이 삭제되었습니다.');
+      navigate(PATH.COLLECTION, { replace: true });
+    },
+
+    onError: (error: AxiosError<CustomErrorResponse>) => {
+      const errorData = error?.response?.data;
+      errorData && toast.error(errorData.message);
+    },
   });
 };

@@ -10,6 +10,14 @@ export const CollectionAlert: React.FC<CollectionAlertProps> = ({
   closeText = '취소',
 }) => {
   const { closeModal } = useModal<'collectionAlert'>();
+
+  const handleConfirm = () => {
+    if (onConfirm) {
+      onConfirm();
+    }
+    closeModal('collectionAlert');
+  };
+
   return (
     <>
       <Dim
@@ -30,11 +38,9 @@ export const CollectionAlert: React.FC<CollectionAlertProps> = ({
             {closeText}
           </Button>
 
-          {onConfirm && (
-            <Button size="s" backgroundColor="black" onClick={onConfirm}>
-              {deleteText}
-            </Button>
-          )}
+          <Button size="s" backgroundColor="black" onClick={handleConfirm}>
+            {deleteText}
+          </Button>
         </ActionBox>
       </Wrapper>
     </>
