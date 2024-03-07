@@ -6,6 +6,7 @@ import {
 import { useToggleLikeStatus } from 'service/queries/like';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
+import { HeroImage } from 'components/collection/detail/HeroImage';
 import { StoreMoodBadge } from 'components/common/badge/StoreMoodBadge';
 import { Dropdown } from 'components/common/dropdown/Dropdown';
 import { DropdownRow } from 'components/common/dropdown/DropdownRow';
@@ -81,10 +82,10 @@ export const CollectionDetailPage = () => {
     <Wrapper>
       <HeroImage>
         <MainThumnail
-          src={
-            collection?.thumbnailUrl ||
-            'https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-          }
+          <HeroImage
+            thumbnailUrl={collection.thumbnailUrl}
+            author={collection.author}
+          />
         />
         <Author>
           <UserImage imageUrl={collection.author.profileImageUrl} />
