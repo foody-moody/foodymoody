@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getAccessToken } from 'utils/localStorage';
+import { getAccessToken, getUserInfo } from 'utils/localStorage';
 
 const { MODE, VITE_API_URL } = import.meta.env;
 
@@ -30,14 +30,28 @@ export const multiFormApi = axios.create({
 publicApi.interceptors.request.use(
   (config) => {
     const token = getAccessToken();
+    const userInfo = getUserInfo();
+
+    const checkTokenExpiry = (userInfo: UserInfoType) => {
+      const { exp } = userInfo;
+      const now = Date.now() / 1000;
+      return exp < now;
+    };
 
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      if (!checkTokenExpiry(userInfo)) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+      } else {
+        console.log('토큰 만료');
+        //TODO 리프레쉬요청 로직을 여기도 추가해야하는지 보류
+      }
     }
     return config;
   },
 
   (error) => {
+    console.log('publicApi error', error);
+
     return Promise.reject(error);
   }
 );
