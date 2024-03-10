@@ -421,7 +421,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             String 무드1_아이디 = 피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰);
             String 무드2_아이디 = 피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰);
             String 무드3_아이디 = 피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰);
-            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+            String 피드컬렉션1_아이디 = 피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디, 무드2_아이디), 회원아티_액세스토큰, List.of(피드1_아이디, 피드2_아이디));
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디, 무드2_아이디, 무드3_아이디), 회원아티_액세스토큰,
                     List.of(피드1_아이디, 피드2_아이디, 피드3_아이디));
@@ -429,6 +429,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
+            피드_컬렉션을_삭제한다(피드컬렉션1_아이디, 회원아티_액세스토큰, new RequestSpecBuilder().build());
 
             // when
             ExtractableResponse<Response> response = 회원이_작성한_피드_컬렉션_제목_목록을_조회한다(회원아티_액세스토큰, spec);
@@ -436,7 +437,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             // then
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),
-                    () -> assertThat(response.jsonPath().getList("")).hasSize(7)
+                    () -> assertThat(response.jsonPath().getList("")).hasSize(6)
             );
 
         }
