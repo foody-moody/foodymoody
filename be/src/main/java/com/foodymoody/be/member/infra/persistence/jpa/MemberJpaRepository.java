@@ -48,7 +48,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, MemberId>, Me
     @Query("SELECT new com.foodymoody.be.member.application.dto.response.MyFeedCollectionTitleResponse (fc.id, fc.title, fc.isPrivate) "
             + "FROM Member m "
             + "LEFT JOIN FETCH FeedCollection fc ON fc.authorId = m.id "
-            + "WHERE m.id = :id "
+            + "WHERE m.id = :id AND fc.isDeleted = false "
             + "ORDER BY fc.createdAt DESC")
     List<MyFeedCollectionTitleResponse> fetchMyCollectionTitles(MemberId id);
 

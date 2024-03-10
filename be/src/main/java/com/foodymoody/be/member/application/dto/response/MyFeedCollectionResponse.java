@@ -13,7 +13,7 @@ public class MyFeedCollectionResponse {
     private String title;
     private String thumbnailUrl;
     private int feedCount;
-    private long likeCount;
+    private int likeCount;
     private int commentCount;
     private boolean liked;
     private LocalDateTime createdAt;
@@ -26,7 +26,7 @@ public class MyFeedCollectionResponse {
             String title,
             String thumbnailUrl,
             Integer feedCount,
-            Long likeCount,
+            Integer likeCount,
             Integer commentCount,
             LocalDateTime createdAt,
             LocalDateTime updatedAt,
