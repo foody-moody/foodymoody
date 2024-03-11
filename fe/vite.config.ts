@@ -8,7 +8,4 @@ export default defineConfig({
   optimizeDeps: {
     include: ['emoji-picker-react'],
   },
-  server: {
-    port: 8080,
-  },
 });
