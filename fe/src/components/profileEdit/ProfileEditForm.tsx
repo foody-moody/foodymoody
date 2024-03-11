@@ -114,7 +114,7 @@ export const ProfileEditForm = () => {
               // value={selectedTaste?.name}
               // onChange={handleSelectChange}
             >
-              {!profile?.tasteMood && (
+              {!profile?.tasteMood?.id && (
                 <Option disabled value="">
                   무디를 선택해주세요
                 </Option>
