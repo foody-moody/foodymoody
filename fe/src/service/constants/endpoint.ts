@@ -18,6 +18,7 @@ export const END_POINT = {
       ? `/members/${id}/collections?sort=${sort}`
       : `/members/${id}/collections`,
   feedLike: (id: string) => `/feeds/${id}/likes`,
+  collectionLike: (id: string) => `/feed_collections/${id}/likes`,
   commentLike: (commentId: string, feedId?: string) =>
     `/feed/${feedId}/comments/${commentId}/likes`,
   replyLike: ({ commentId, replyId }: ReplyLike, feedId?: string) =>

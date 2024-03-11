@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useDeleteFeed } from 'service/queries/feed';
 import { styled } from 'styled-components';
+import { useModal } from 'components/common/modal/useModal';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { formatTimeStamp } from 'utils/formatTimeStamp';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
@@ -34,6 +35,7 @@ export const FeedUserInfo: React.FC<Props> = ({
   const { isLogin, userInfo } = useAuthState();
   const formattedTimeStamp = formatTimeStamp(createdAt);
   const isAuthor = userInfo?.id === member.id;
+  const { openModal } = useModal<'collection'>();
 
   const handleNavigateProfile = () => {
     isAuthor
@@ -54,11 +56,6 @@ export const FeedUserInfo: React.FC<Props> = ({
     },
     {
       id: 2,
-      content: '컬렉션 추가하기',
-      onClick: () => {},
-    },
-    {
-      id: 3,
       content: '팔로우',
       onClick: () => {
         navigate(`${PATH.PROFILE}/${member.id}`);
@@ -70,7 +67,9 @@ export const FeedUserInfo: React.FC<Props> = ({
     {
       id: 1,
       content: '컬렉션 추가하기',
-      onClick: () => {},
+      onClick: () => {
+        openModal('collection', { type: 'addFeed', feedId: feedId });
+      },
     },
     {
       id: 2,

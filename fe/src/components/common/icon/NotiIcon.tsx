@@ -18,6 +18,15 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
 
   useEffect(() => {
     if (isLogin) {
+      const updateNotiCount = (newCount: number) => {
+        setNotiCount((currentCount) => {
+          if (currentCount !== newCount) {
+            return newCount;
+          }
+          return currentCount;
+        });
+      };
+
       const eventSource = new EventSourcePolyfill(`${BASE_API_URL}/sse`, {
         headers: {
           'Content-Type': 'text/event-stream',
@@ -28,17 +37,14 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
       eventSource.addEventListener('notification', (event) => {
         const messageEvent = event as MessageEvent;
         const { count } = JSON.parse(messageEvent.data);
-
-        if (notiCount !== count) {
-          setNotiCount(count);
-        }
+        updateNotiCount(count);
       });
 
       eventSource.onerror = (err) => {
         if (eventSource.readyState === EventSource.CLOSED) {
           console.log(err, 'SSE closed');
-          // 오류 날릴지 여부
         }
+        return; // 그 전의 에러가 너무 시끄러워서 넣었는데 다른 방법 있으면 추천 plz
       };
 
       return () => {

@@ -1,6 +1,22 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
+import {
+  useDeleteCollection,
+  useDeleteFeedFromCollection,
+  useEditCollection,
+  useGetCollectionDetail,
+} from 'service/queries/collection';
+import { useToggleLikeStatus } from 'service/queries/like';
 import { styled } from 'styled-components';
+import { z } from 'zod';
 import { media } from 'styles/mediaQuery';
+import { HeroImage } from 'components/collection/detail/HeroImage';
 import { StoreMoodBadge } from 'components/common/badge/StoreMoodBadge';
+import { Button } from 'components/common/button/Button';
+import { Dropdown } from 'components/common/dropdown/Dropdown';
+import { DropdownRow } from 'components/common/dropdown/DropdownRow';
 import {
   DotGhostIcon,
   HeartSmallEmpty,
@@ -8,271 +24,258 @@ import {
   StoreIcon,
   HeartBgIcon,
   ChatDotsIcon,
+  TrashIcon,
+  HeartSmallFill,
 } from 'components/common/icon/icons';
-import { UserImage } from 'components/common/userImage/UserImage';
-import { FollowListButton } from 'components/follow/followButton/FollowListButton';
+import { Input } from 'components/common/input/Input';
+import { InputField } from 'components/common/input/InputField';
+import { useModal } from 'components/common/modal/useModal';
+import { useAuthState } from 'hooks/auth/useAuth';
+import { formatTimeStamp } from 'utils/formatTimeStamp';
+
+/** TODO
+ * 1. 기본 정보 수정 기능
+ * 2. 글 삭제
+ * 3. 좋아요 기능
+ * 4. 공유하기
+ * 5. 댓글 (?)
+ */
+
+const formSchema = z.object({
+  title: z.string().min(3, {
+    message: '제목을 3자 이상 입력해주세요',
+  }),
+  content: z.string().optional(),
+  // private: z.boolean(),
+  // moodIds: z.array(z.any()).optional(),
+});
+
+type FormSchema = z.infer<typeof formSchema>;
 
 export const CollectionDetailPage = () => {
-  const collection = {
-    id: 'fd9ecac46496ef07ec38ccbb',
-    author: {
-      id: 'fd9ec99e6496ef07ec38cc96',
-      name: '아티',
-      mood: 'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/foodymoody_logo.png1',
-      profileImageUrl:
-        'https://cdn.pixabay.com/photo/2020/05/17/20/21/cat-5183427_1280.jpg',
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormSchema>({
+    defaultValues: {
+      title: '',
+      content: '',
+      // moodIds: [],
+      // private: true,
     },
-    thumnailImgUrl:
-      'https://d2v80xjmx68n4w.cloudfront.net/gigs/fPoZ31584321311.jpg',
-    title: '테스트 컬렉션',
-    description:
-      '이보다 맛있는 맛집 컬렉션 이세상에 없습니다.이보다 맛있는 맛집 컬렉션 이세상에 없습니다.이보다 맛있는 맛집 컬렉션 이세상에 없습니다.이보다 맛있는 맛집 컬렉션 이세상에 없습니다.이보다 맛있는 맛집 컬렉션 이세상에 없습니다.이보다 맛있는 맛집 컬렉션 이세상에 없습니다.',
-    likeCount: 0,
-    followerCount: 0,
-    viewCount: 0,
-    feedCount: 5,
-    commentCount: 3,
-    moods: [
-      {
-        id: 'fd9eca8d6496ef07ec38ccb8',
-        name: '행복',
-      },
-      {
-        id: 'fd9eca9e6496ef07ec38ccb9',
-        name: '행복',
-      },
-      {
-        id: 'fd9ecaaf6496ef07ec38ccba',
-        name: '행복',
-      },
-    ],
-    createdAt: '2024-01-12T12:21:31.460596',
-    updatedAt: '2024-01-12T12:21:31.498458',
-    liked: false,
+    resolver: zodResolver(formSchema),
+  });
 
-    private: false,
+  // TODO. private 글이면 접근 못하게 해야함
+  const { id } = useParams() as { id: string };
+  const [isEdit, setIsEdit] = useState(false);
+  const { openModal, closeModal } = useModal<'collectionAlert'>();
+  const { userInfo } = useAuthState();
 
-    feeds: [
+  const { data: collection, isLoading } = useGetCollectionDetail(id);
+  const { mutate: deleteFeed } = useDeleteFeedFromCollection();
+  const { mutate: likeCollection } = useToggleLikeStatus(id);
+  const { mutate: deleteCollection } = useDeleteCollection(id);
+  const { mutate: editCollection } = useEditCollection(id);
+
+  useEffect(() => {
+    if (!isLoading && collection) {
+      reset({
+        title: collection.title,
+        content: collection.description,
+      });
+    }
+  }, [isLoading, collection, reset]);
+
+  const isMe = userInfo?.id === collection?.author.id;
+
+  const handleDeleteFeed = (feedId: string) => {
+    deleteFeed(
+      { collectionId: id, feedId },
       {
-        id: '20adfddfb74c89083d7d454c',
-        thumbnailUrl:
-          'https://d2v80xjmx68n4w.cloudfront.net/gigs/fPoZ31584321311.jpg',
-        content: '맛있어요!',
-        storeMood: [
-          {
-            id: '1',
-            name: '가족과 함께',
-          },
-          {
-            id: '3',
-            name: '감성',
-          },
-          {
-            id: '4',
-            name: '데이트',
-          },
-        ],
-        likeCount: 0,
-        commentCount: 0,
-        createdAt: '2024-01-19T07:44:50.143663',
-        updatedAt: null,
-        liked: false,
-      },
-      {
-        id: '20adfe00b74c89083d7d4552',
-        thumbnailUrl:
-          'https://d2v80xjmx68n4w.cloudfront.net/gigs/fPoZ31584321311.jpg',
-        content: '맛있어요!',
-        storeMood: [
-          {
-            id: '1',
-            name: '가족과 함께',
-          },
-          {
-            id: '3',
-            name: '감성',
-          },
-          {
-            id: '4',
-            name: '데이트',
-          },
-        ],
-        likeCount: 0,
-        commentCount: 0,
-        createdAt: '2024-01-19T07:44:50.17695',
-        updatedAt: null,
-        liked: false,
-      },
-      {
-        id: '20adfe22b74c89083d7d4558',
-        thumbnailUrl:
-          'https://d2v80xjmx68n4w.cloudfront.net/gigs/fPoZ31584321311.jpg',
-        content: '맛있어요!',
-        storeMood: [
-          {
-            id: '1',
-            name: '가족과 함께',
-          },
-          {
-            id: '3',
-            name: '감성',
-          },
-          {
-            id: '4',
-            name: '데이트',
-          },
-        ],
-        likeCount: 0,
-        commentCount: 0,
-        createdAt: '2024-01-19T07:44:50.21004',
-        updatedAt: null,
-        liked: false,
-      },
-      {
-        id: '20adfe3eb74c89083d7d455e',
-        thumbnailUrl:
-          'https://d2v80xjmx68n4w.cloudfront.net/gigs/fPoZ31584321311.jpg',
-        content: '맛있어요!',
-        storeMood: [
-          {
-            id: '1',
-            name: '가족과 함께',
-          },
-          {
-            id: '3',
-            name: '감성',
-          },
-          {
-            id: '4',
-            name: '데이트',
-          },
-        ],
-        likeCount: 0,
-        commentCount: 0,
-        createdAt: '2024-01-19T07:44:50.238608',
-        updatedAt: null,
-        liked: false,
-      },
-      {
-        id: '20adfe5db74c89083d7d4564',
-        thumbnailUrl:
-          'https://d2v80xjmx68n4w.cloudfront.net/gigs/fPoZ31584321311.jpg',
-        content: '맛있어요!',
-        storeMood: [
-          {
-            id: '1',
-            name: '가족과 함께',
-          },
-          {
-            id: '3',
-            name: '감성',
-          },
-          {
-            id: '4',
-            name: '데이트',
-          },
-        ],
-        likeCount: 0,
-        commentCount: 0,
-        createdAt: '2024-01-19T07:44:50.269128',
-        updatedAt: null,
-        liked: false,
-      },
-    ],
+        onSuccess: () => {
+          closeModal('collectionAlert');
+        },
+      }
+    );
+  };
+
+  const toggleCollectionLike = () => {
+    const isLiked = collection.liked;
+
+    likeCollection({ id, isLiked });
+  };
+  // console.log(userInfo, 'userInfo');
+  // console.log(collection.likeCount, 'collections collection');
+
+  const onSubmit = (value: FormSchema) => {
+    const formData = {
+      content: value.content ?? '',
+      title: value.title,
+    };
+    console.log(value, 'valuevaluevaluevalue');
+    console.log(formData, 'formDataformDataformDataformDataformDataformData');
+    editCollection(formData);
+    setIsEdit(!isEdit);
   };
 
   return (
     <Wrapper>
-      <HeroImage>
-        <MainThumnail src={collection.thumnailImgUrl} />
-        <Author>
-          <UserImage imageUrl={collection.author.profileImageUrl} />
-          <UserName>{collection.author.name}</UserName>
-          <FollowListButton
-            memberId={collection.author.id}
-            isFollowing={false}
-            size="xs"
-            width={80}
+      {collection && (
+        <>
+          <HeroImage
+            thumbnailUrl={collection.thumbnailUrl}
+            author={collection.author}
           />
-        </Author>
-      </HeroImage>
 
-      <InfoWrapper>
-        <Info>
-          <div>
-            <Title>
-              <h1>{collection.title}</h1>
-              <span>날짜 및 업데이트 관련</span>
-            </Title>
-            <p>{collection.description}</p>
-          </div>
-          <div>
-            <DotGhostIcon /> {/* TODO. 이거 나중에 수정 */}
-          </div>
-        </Info>
-
-        <Moods>
-          {collection.moods.map((mood) => (
-            <StoreMoodBadge name={mood.name} />
-          ))}
-        </Moods>
-
-        <ActionBar>
-          <button>
-            <HeartSmallEmpty />
-            <p>좋아요</p>
-          </button>
-          {/* <button>댓글</button> */}
-          <button>
-            <ShareIcon />
-            <p>공유하기</p>
-          </button>
-        </ActionBar>
-      </InfoWrapper>
-
-      <FeedsWrapper>
-        <h2>
-          피드들 <span>15</span>
-        </h2>
-
-        <ul>
-          {collection.feeds.map((feed) => (
-            <FeedItem>
-              <img src={feed.thumbnailUrl} alt="" />
-              <FeedInfo>
-                <FeedTop>
-                  <FeedHeader>
-                    <FeedTitle>
-                      <StoreIcon /> <h3>가게 이름이 올거에요~~</h3>
-                    </FeedTitle>
-                    <DotGhostIcon /> {/* TODO. 이거 나중에 수정 */}
-                  </FeedHeader>
-                  <p>{feed.content}</p>
-                </FeedTop>
-                <FeedBottom>
-                  <FeedMoods>
-                    {feed.storeMood.map((mood) => (
-                      <StoreMoodBadge name={mood.name} />
-                    ))}
-                  </FeedMoods>
-                  <FeedIcon>
+          <InfoWrapper>
+            <Info>
+              {isEdit ? (
+                <>
+                  <Form onSubmit={handleSubmit(onSubmit)}>
                     <div>
-                      <HeartBgIcon />
-                      <span>{feed.likeCount}</span>
+                      <Input variant="underline">
+                        <Input.CenterContent>
+                          <InputField
+                            {...register('title')}
+                            name="title"
+                            placeholder="제목을 입력해주세요"
+                            type="text"
+                          />
+                        </Input.CenterContent>
+                      </Input>
+                      <ErrorMessage>{errors.title?.message}</ErrorMessage>
                     </div>
                     <div>
-                      <ChatDotsIcon />
-                      <span>{feed.commentCount}</span>
+                      <Input variant="underline">
+                        <Input.CenterContent>
+                          <InputField
+                            {...register('content')}
+                            name="content"
+                            placeholder="설명을 입력해주세요 (선택 사항)"
+                            type="text"
+                          />
+                        </Input.CenterContent>
+                      </Input>
                     </div>
-                  </FeedIcon>
-                </FeedBottom>
-              </FeedInfo>
-            </FeedItem>
-          ))}
-        </ul>
-      </FeedsWrapper>
+                    <Button type="submit" size="s" backgroundColor="black">
+                      수정 완료
+                    </Button>
+                    `
+                  </Form>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <Title>
+                      <h1>{collection.title}</h1>
+                      <span>{formatTimeStamp(collection.createdAt)}</span>
+                    </Title>
+                    <p>{collection.description}</p>
+                  </div>
+                  <div>
+                    {isMe && (
+                      <Dropdown align="right" opener={<DotGhostIcon />}>
+                        <DropdownRow onClick={() => setIsEdit(!isEdit)}>
+                          수정하기
+                        </DropdownRow>
+                        <DropdownRow
+                          onClick={() =>
+                            openModal('collectionAlert', {
+                              title: '현재 컬렉션을 삭제하시겠습니까?',
+                              onConfirm: () => {
+                                deleteCollection();
+                              },
+                            })
+                          }
+                        >
+                          삭제하기
+                        </DropdownRow>
+                      </Dropdown>
+                    )}
+                  </div>
+                </>
+              )}
+            </Info>
 
-      <div>위로 올라가기</div>
+            {/* <Moods>
+          {collection.moods.map((mood: { id: string; name: string }) => (
+            <StoreMoodBadge name={mood.name} key={mood.id} />
+          ))}
+        </Moods> */}
+
+            <ActionBar>
+              <button onClick={toggleCollectionLike}>
+                {collection.liked ? <HeartSmallFill /> : <HeartSmallEmpty />}
+                <p>좋아요 {collection.likeCount}</p>
+              </button>
+              {/* <button>댓글</button> */}
+              <button>
+                <ShareIcon />
+                <p>공유하기</p>
+              </button>
+            </ActionBar>
+          </InfoWrapper>
+
+          <FeedsWrapper>
+            <h2>
+              피드들 <span>{collection.feeds.length}</span>
+            </h2>
+
+            <ul>
+              {/* 수정되면 type 박아용 */}
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+              {collection.feeds.map((feed: any) => (
+                <FeedItem key={feed.id}>
+                  <img src={feed.thumbnailUrl} alt="" />
+                  <FeedInfo>
+                    <FeedTop>
+                      <FeedHeader>
+                        <FeedTitle>
+                          <StoreIcon /> <h3>{feed.store.name}</h3>
+                        </FeedTitle>
+                        {isMe && (
+                          <TrashIcon
+                            onClick={() =>
+                              openModal('collectionAlert', {
+                                title:
+                                  '해당 피드를 컬렉션에서 삭제하시겠습니까?',
+                                onConfirm: () => handleDeleteFeed(feed.id),
+                              })
+                            }
+                          />
+                        )}
+                      </FeedHeader>
+                      <p>{feed.content}</p>
+                    </FeedTop>
+                    <FeedBottom>
+                      <FeedMoods>
+                        {feed.storeMood.map((mood: Badge) => (
+                          <StoreMoodBadge name={mood.name} key={mood.id} />
+                        ))}
+                      </FeedMoods>
+                      <FeedIcon>
+                        <div>
+                          <HeartBgIcon />
+                          <span>{feed.likeCount}</span>
+                        </div>
+                        <div>
+                          <ChatDotsIcon />
+                          <span>{feed.commentCount}</span>
+                        </div>
+                      </FeedIcon>
+                    </FeedBottom>
+                  </FeedInfo>
+                </FeedItem>
+              ))}
+            </ul>
+          </FeedsWrapper>
+        </>
+      )}
+
+      {/* <div>위로 올라가기</div> */}
     </Wrapper>
   );
 };
@@ -298,42 +301,16 @@ const Wrapper = styled.div`
   }
 `;
 
-const HeroImage = styled.div`
-  position: relative;
-`;
-
-const MainThumnail = styled.div<{ src: string }>`
-  height: 240px;
-  width: 100%;
-  background-image: url(${({ src }) => src});
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  overflow: hidden;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-`;
-
-const Author = styled.div`
+const Form = styled.form`
   display: flex;
-  align-items: center;
-  gap: 12px;
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
 `;
 
-const UserName = styled.p`
-  color: ${({ theme: { colors } }) => colors.white};
-  font: ${({ theme: { fonts } }) => fonts.displayB16};
+const ErrorMessage = styled.fieldset`
+  font: ${({ theme: { fonts } }) => fonts.displayM12};
+  color: ${({ theme: { colors } }) => colors.pink};
 `;
 
 const InfoWrapper = styled.div`
@@ -363,11 +340,12 @@ const Title = styled.div`
   }
 `;
 
-const Moods = styled.div`
-  display: flex;
-  gap: 8px;
-  margin-left: auto;
-`;
+// const Moods = styled.div`
+//   display: flex;
+//   gap: 8px;
+//   margin-left: auto;
+//   flex-wrap: wrap;
+// `;
 
 const ActionBar = styled.div`
   display: flex;

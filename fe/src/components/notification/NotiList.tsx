@@ -15,6 +15,8 @@ export const NotiList = () => {
     // error,
   } = useAllNotifications();
 
+  console.log(notifications);
+
   const { mutate: readNotiMutate } = useReadNotification();
 
   const { observeTarget } = useIntersectionObserver({
@@ -29,18 +31,22 @@ export const NotiList = () => {
 
   return (
     <Wrapper>
-      {notifications?.map((notification: NotificationItem, index) => {
-        const isLastItem = index === notifications.length - 1;
+      {notifications.length > 0 ? (
+        notifications?.map((notification: NotificationItem, index) => {
+          const isLastItem = index === notifications.length - 1;
 
-        return (
-          <NotiItem
-            notification={notification}
-            key={notification.notificationId}
-            ref={isLastItem ? observeTarget : null}
-            onClick={handleNotificationClick}
-          />
-        );
-      })}
+          return (
+            <NotiItem
+              notification={notification}
+              key={notification.notificationId}
+              ref={isLastItem ? observeTarget : null}
+              onClick={handleNotificationClick}
+            />
+          );
+        })
+      ) : (
+        <TextBox>모든 알림을 확인하셨어요</TextBox>
+      )}
     </Wrapper>
   );
 };
@@ -57,4 +63,10 @@ const Wrapper = styled.ul`
   /* ${media.xs} {
     padding-bottom: 59px;
   } */
+`;
+
+const TextBox = styled.p`
+  font: ${({ theme: { fonts } }) => fonts.displayM14};
+  color: ${({ theme: { colors } }) => colors.textSecondary};
+  padding-top: 20px;
 `;
