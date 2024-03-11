@@ -7,16 +7,16 @@ import { ErrorPage } from 'pages/ErrorPage';
 import { FollowModalPage } from 'pages/FollowPage';
 import { HomePage } from 'pages/HomePage';
 import { Layout } from 'pages/Layout';
-import { LoginPage } from 'pages/LoginPage';
-import { NewFeedModalPage } from 'pages/NewFeedPage';
+// import { LoginPage } from 'pages/LoginPage';
+// import { NewFeedModalPage } from 'pages/NewFeedPage';
 import { NotiPage } from 'pages/NotiPage';
 import { NotiSettingPage } from 'pages/NotiSettingPage';
 import { OAuthRedirectPage } from 'pages/OAuthRedirectPage';
-import { PasswordPage } from 'pages/PasswordPage';
-import { ProfileEditPage } from 'pages/ProfileEditPage';
-import { ProfilePage } from 'pages/ProfilePage';
+// import { PasswordPage } from 'pages/PasswordPage';
+// import { ProfileEditPage } from 'pages/ProfileEditPage';
+// import { ProfilePage } from 'pages/ProfilePage';
 import { ProtectedRoute } from 'pages/ProtectedRoute';
-import { RegisterPage } from 'pages/RegisterPage';
+// import { RegisterPage } from 'pages/RegisterPage';
 import { SearchPage } from 'pages/SearchPage';
 import { SettingPage } from 'pages/SettingPage';
 // import { StorePage } from 'pages/StorePage';
@@ -35,6 +35,24 @@ const CollectionDetailPage = loadable(() =>
 );
 const StorePage = loadable(() =>
   import('pages/StorePage').then((module) => module.StorePage)
+);
+const NewFeedModalPage = loadable(() =>
+  import('pages/NewFeedPage').then((module) => module.NewFeedModalPage)
+);
+const LoginPage = loadable(() =>
+  import('pages/LoginPage').then((module) => module.LoginPage)
+);
+const PasswordPage = loadable(() =>
+  import('pages/PasswordPage').then((module) => module.PasswordPage)
+);
+const ProfileEditPage = loadable(() =>
+  import('pages/ProfileEditPage').then((module) => module.ProfileEditPage)
+);
+const RegisterPage = loadable(() =>
+  import('pages/RegisterPage').then((module) => module.RegisterPage)
+);
+const ProfilePage = loadable(() =>
+  import('pages/ProfilePage').then((module) => module.ProfilePage)
 );
 
 const router = createBrowserRouter([
