@@ -9,7 +9,7 @@ type ProfileMemberInfo = {
   tasteMood: {
     id: string;
     name: string;
-  };
+  } | null;
   followingCount: number;
   followerCount: number;
   following: boolean;
