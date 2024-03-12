@@ -29,7 +29,7 @@ export const GlobalStyles = createGlobalStyle`
     display: block;
   }
   body {
-    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-family: 'IBM Plex Sans KR', 'Helvetica Neue', Arial, sans-serif;
     background-color: ${({ theme: { colors } }) => colors.bgGray100};
   }
   ol, ul, li {
