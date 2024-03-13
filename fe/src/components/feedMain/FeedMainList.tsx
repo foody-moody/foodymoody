@@ -19,9 +19,11 @@ export const FeedMainList = () => {
     },
   });
 
+  if (!feeds) return null;
+
   return (
     <Wrapper>
-      {feeds?.map((feed: MainFeed, index: number) => {
+      {feeds.map((feed: MainFeed, index: number) => {
         const isLastItem = index === feeds?.length - 2;
 
         return (
