@@ -1,10 +1,14 @@
-import EmojiPicker, { EmojiStyle, EmojiClickData } from 'emoji-picker-react';
+import loadable from '@loadable/component';
+// import EmojiPicker, { EmojiStyle, EmojiClickData } from 'emoji-picker-react';
+import { EmojiClickData } from 'emoji-picker-react';
 import { InputHTMLAttributes, useState } from 'react';
 import { styled } from 'styled-components';
 import { TextButton } from 'components/common/button/TextButton';
 import { FaceIcon } from 'components/common/icon/icons';
 import { Input } from 'components/common/input/Input';
 import { InputField } from 'components/common/input/InputField';
+
+const LoadableEmojiPicker = loadable.lib(() => import('emoji-picker-react'));
 
 type Props = {
   value?: string;
@@ -25,7 +29,6 @@ export const CommentInput: React.FC<Props> = ({
   const handleEmojiOpen = () => {
     setIsEmojiVisible(!isEmojiVisible);
   };
-
   const handleEmojiClick = (emojiData: EmojiClickData) => {
     onChangeValue?.(value + emojiData.emoji);
     setIsEmojiVisible(false);
@@ -35,10 +38,18 @@ export const CommentInput: React.FC<Props> = ({
     <Wrapper>
       <Input variant="comment">
         <Input.TopPanel isOpen={isEmojiVisible}>
-          <EmojiPicker
+          {/* <EmojiPicker
             emojiStyle={EmojiStyle.NATIVE}
             onEmojiClick={handleEmojiClick}
-          />
+          /> */}
+          <LoadableEmojiPicker>
+            {({ default: EmojiPicker }) => (
+              <EmojiPicker
+                onEmojiClick={handleEmojiClick}
+                emojiStyle={LoadableEmojiPicker.EmojiStyle.NATIVE}
+              />
+            )}
+          </LoadableEmojiPicker>
         </Input.TopPanel>
         <Input.LeftContent>
           <FaceIcon onClick={handleEmojiOpen} />

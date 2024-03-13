@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { Collection } from 'components/collection/profile/Collection';
-import { Spinner } from 'components/common/loading/spinner';
 import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
 import { ProfileUserInfoSkeleton } from 'components/common/skeleton/ProfileUserInfoSkeleton';
 import { UserFeedTabs } from 'components/common/userFeedTabs/UserFeedTabs';
@@ -14,19 +13,8 @@ import { ProfileUserInfo } from 'components/profileUserInfo/ProfileUserInfo';
 // import { DetailFeedModalPage } from './DetailFeedPage';
 import { FollowModalPage } from './FollowPage';
 
-const SpinnerPage = () => {
-  return (
-    <div style={{ width: '100%', height: '100%', background: 'red' }}>
-      <Spinner isLoading />
-    </div>
-  );
-};
-
-const DetailFeedModalPage = loadable(
-  () => import('./DetailFeedPage').then((module) => module.DetailFeedModalPage),
-  {
-    fallback: <SpinnerPage />,
-  }
+const DetailFeedModalPage = loadable(() =>
+  import('./DetailFeedPage').then((module) => module.DetailFeedModalPage)
 );
 
 export const ProfilePage = () => {

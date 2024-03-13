@@ -27,7 +27,6 @@ export const DetailFeedModalPage = () => {
 
   const { id: feedId } = useParams() as { id: string };
   const { data: feed } = useFeedDetail(feedId);
-  console.log(feed, 'feed');
 
   const { closeModal } = useModal<'commentAlert'>();
   const wrapperRef = useRef<HTMLDivElement>(null);

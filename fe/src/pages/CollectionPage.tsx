@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { CollectionContainer } from 'components/collection/CollectionContainer';
-import { CollectionCarousel } from 'components/common/carousel/CollectionCarousel';
+// import { CollectionCarousel } from 'components/common/carousel/CollectionCarousel';
 import { LayoutButton } from 'components/layoutButton/LayoutButton';
 import { SelectSort } from 'components/sort/SelectSort';
 
@@ -9,10 +9,10 @@ export const CollectionPage = () => {
   return (
     <Wrapper>
       <ContentWrapper>
-        <HeaderContent>
+        {/* <HeaderContent>
           <SubTitle>오늘의 컬렉션🎉</SubTitle>
           <CollectionCarousel />
-        </HeaderContent>
+        </HeaderContent> */}
         <BodyContent>
           <Header>
             <HeaderLeft>
@@ -49,6 +49,7 @@ const ContentWrapper = styled.div`
   gap: 56px;
   width: 566px;
   height: 100%;
+  margin-top: 24px;
 
   ${media.md} {
     max-width: 568px;
@@ -61,14 +62,13 @@ const ContentWrapper = styled.div`
   }
 `;
 
-const HeaderContent = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-top: 24px;
-  gap: 16px;
-`;
+// const HeaderContent = styled.div`
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   gap: 16px;
+// `;
 
 const SubTitle = styled.h2`
   font: ${({ theme: { fonts } }) => fonts.displayB20};

@@ -9,24 +9,12 @@ import {
 import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { Button } from 'components/common/button/Button';
-import { Spinner } from 'components/common/loading/spinner';
 import { DeferredComponent } from 'components/common/skeleton/DeferredComponent';
 import { NotiSkeleton } from 'components/common/skeleton/NotiSkeleton';
 import { NotiList } from 'components/notification/NotiList';
 
-const SpinnerPage = () => {
-  return (
-    <div style={{ width: '100%', height: '100%', background: 'red' }}>
-      <Spinner isLoading />
-    </div>
-  );
-};
-
-const DetailFeedModalPage = loadable(
-  () => import('./DetailFeedPage').then((module) => module.DetailFeedModalPage),
-  {
-    fallback: <SpinnerPage />,
-  }
+const DetailFeedModalPage = loadable(() =>
+  import('./DetailFeedPage').then((module) => module.DetailFeedModalPage)
 );
 export const NotiPage = () => {
   const location = useLocation();

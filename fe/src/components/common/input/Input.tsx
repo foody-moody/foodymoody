@@ -65,10 +65,10 @@ export const Input = Object.assign(BaseInput, {
 
 const Wrapper = styled.div`
   position: relative;
-
   aside.EmojiPickerReact {
+    max-height: 450px;
     position: absolute;
-    top: -280px;
+    /* top: -280px; */
     left: 20px;
     width: 300px !important;
     height: 270px !important;
@@ -76,19 +76,19 @@ const Wrapper = styled.div`
     ${media.md} {
       width: 450px !important;
       height: 300px !important;
-      top: -310px;
+      /* top: -310px; */
     }
 
     ${media.sm} {
       width: 470px !important;
       height: 350px !important;
-      top: -360px;
+      /* top: -360px; */
     }
 
     ${media.xs} {
       width: 314px !important;
       height: 350px !important;
-      top: -360px;
+      /* top: -360px; */
       left: 0px;
     }
 

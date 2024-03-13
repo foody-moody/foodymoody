@@ -77,3 +77,25 @@ export const deleteFeedToCollection = async (
   );
   return data;
 };
+
+export const editCollection = async (
+  id: string,
+  contents: {
+    title: string;
+    content: string;
+    moodIds?: string[];
+  }
+) => {
+  const payload = {
+    ...contents,
+    moodIds: contents.moodIds || [],
+  };
+
+  const { data } = await privateApi.put(`/feed_collections/${id}`, payload);
+  return data;
+};
+
+export const deleteCollection = async (id: string) => {
+  const { data } = await privateApi.delete(`/feed_collections/${id}`);
+  return data;
+};
