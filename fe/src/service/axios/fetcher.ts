@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { getAccessToken, getUserInfo } from 'utils/localStorage';
 
+
 const { MODE } = import.meta.env;
 
 export const BASE_API_URL =
   MODE === 'development' ? `https://foodymoody.site` : `/api`;
+
 
 export const publicApi = axios.create({
   baseURL: BASE_API_URL,
