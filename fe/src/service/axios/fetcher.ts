@@ -4,8 +4,8 @@ import { getAccessToken, getUserInfo } from 'utils/localStorage';
 
 const { MODE } = import.meta.env;
 
-export const BASE_API_URL =
-  MODE === 'development' ? `https://foodymoody.site/api` : `/api`;
+export const BASE_API_URL = MODE === 'development' ? `https://foodymoody.site/api` : `/api`;
+
 
 
 export const publicApi = axios.create({
