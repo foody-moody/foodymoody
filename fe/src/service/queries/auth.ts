@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect } from 'react';
@@ -14,9 +14,11 @@ import { useToast } from 'recoil/toast/useToast';
 import {
   fetchLogin,
   fetchLogout,
+  fetchOAuthLogin,
   fetchRefresh,
   fetchRegister,
 } from 'service/axios/auth/login';
+import { QUERY_KEY } from 'service/constants/queryKey';
 import { usePageNavigator } from 'hooks/usePageNavigator';
 import { PATH } from 'constants/path';
 
@@ -26,13 +28,13 @@ export const useLogin = () => {
   const location = useLocation();
   const from = location.state?.redirectedFrom?.pathname || PATH.HOME;
   //  사용자가 로그인 전에 접근하려고 했던 경로
-  // 오어스에서 충돌되는 부분 없나? 이거때매 안되면 그냥 오어스용 쿼리 따로 파기
+
   const setAccessToken = useSetRecoilState(accessTokenState);
   const setRefreshToken = useSetRecoilState(refreshTokenState);
   const setUserInfo = useSetRecoilState(userInfoState);
 
   return useMutation({
-    mutationFn: (body: LoginBody) => fetchLogin(body), // oauth 로그 바디도 추가
+    mutationFn: (body: LoginBody) => fetchLogin(body),
     onSuccess: (data) => {
       const { accessToken, refreshToken } = data;
       const payload = jwtDecode(accessToken);
@@ -51,6 +53,67 @@ export const useLogin = () => {
       errorData && toast.error(errorData.message);
     },
   });
+};
+
+export const useOAuthLogin = (code: string) => {
+  const toast = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.redirectedFrom?.pathname || PATH.HOME;
+  //  사용자가 로그인 전에 접근하려고 했던 경로
+
+  const setAccessToken = useSetRecoilState(accessTokenState);
+  const setRefreshToken = useSetRecoilState(refreshTokenState);
+  const setUserInfo = useSetRecoilState(userInfoState);
+
+  const query = useQuery({
+    queryKey: [QUERY_KEY.OAuth],
+    queryFn: () => fetchOAuthLogin(code),
+    enabled: !!code,
+  });
+
+  useEffect(() => {
+    console.log('code in query', code);
+
+    if (query.isSuccess) {
+      const { accessToken, refreshToken } = query.data;
+      const payload = jwtDecode(accessToken);
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('userInfo', JSON.stringify(payload));
+      setAccessToken(accessToken);
+      setRefreshToken(refreshToken);
+      setUserInfo(JSON.stringify(payload));
+      navigate(from, { replace: true });
+      toast.success('로그인 되었습니다.');
+    }
+
+    if (query.isError) {
+      console.log('error', query.error);
+    }
+  }, [query.isSuccess, query.isError]);
+
+  return query;
+  // return useMutation({
+  //   mutationFn: (code: string) => fetchOAuthLogin(code),
+  //   onSuccess: (data) => {
+  //     const { accessToken, refreshToken } = data;
+  //     const payload = jwtDecode(accessToken);
+  //     localStorage.setItem('accessToken', accessToken);
+  //     localStorage.setItem('refreshToken', refreshToken);
+  //     localStorage.setItem('userInfo', JSON.stringify(payload));
+  //     setAccessToken(accessToken);
+  //     setRefreshToken(refreshToken);
+  //     setUserInfo(JSON.stringify(payload));
+  //     navigate(from, { replace: true });
+  //     toast.success('로그인 되었습니다.');
+  //   },
+  //   onError: (error: AxiosError<CustomErrorResponse>) => {
+  //     const errorData = error?.response?.data;
+
+  //     errorData && toast.error(errorData.message);
+  //   },
+  // });
 };
 
 export const useLogout = () => {
@@ -101,13 +164,11 @@ export const useRefreshToken = () => {
   const refreshToken = useRecoilValue(refreshTokenState);
   const userInfo = useRecoilValue(userInfoState);
   const clearLoginInfo = useClearLoginInfo();
-  console.log('refreshToken in auth query', refreshToken);
 
   const refreshTokenMutation = useMutation(
     () => {
-      // 리프레쉬 토큰 만료될것같으면 clearInfo?
       // if (!refreshToken) throw new Error('No refresh token available');
-      // return fetchRefresh(refreshToken);
+
       return fetchRefresh(refreshToken);
     },
     {
@@ -124,8 +185,8 @@ export const useRefreshToken = () => {
       onError: (error: AxiosError<CustomErrorResponse>) => {
         const errorData = error?.response?.data;
         errorData && console.log(errorData.message);
+
         clearLoginInfo();
-        window.location.replace(PATH.HOME);
       },
     }
   );
@@ -134,6 +195,34 @@ export const useRefreshToken = () => {
   // TODO 30초마다 체크, 만료 시간 연장되면 더 늘리기
   useEffect(() => {
     if (!userInfo) {
+      return;
+    }
+
+    const checkRefreshTokenExpiry = () => {
+      try {
+        const storedRefreshToken = localStorage.getItem('refreshToken');
+
+        if (!storedRefreshToken) {
+          return false;
+        }
+
+        const decoded = jwtDecode(storedRefreshToken);
+
+        if (decoded && typeof decoded.exp === 'number') {
+          const now = Date.now() / 1000;
+          return decoded.exp < now;
+        }
+      } catch (error) {
+        return true;
+      }
+    };
+
+    const isRefreshTokenExpired = checkRefreshTokenExpiry();
+
+    if (isRefreshTokenExpired) {
+      console.log('refreshTokenExpired!!!!!!!!!!!!!1');
+      clearLoginInfo();
+      // window.location.replace(PATH.HOME);
       return;
     }
 

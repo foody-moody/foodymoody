@@ -6,6 +6,13 @@ export const fetchLogin = async (body: LoginBody) => {
   return data;
 };
 
+export const fetchOAuthLogin = async (code: string) => {
+  const { data } = await publicApi.get(END_POINT.OAuthLogin, {
+    params: { code },
+  });
+  return data;
+};
+
 export const fetchLogout = async () => {
   const { data } = await privateApi.post(END_POINT.logout);
   return data;

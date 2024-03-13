@@ -1,13 +1,18 @@
+import loadable from '@loadable/component';
 import { createPortal } from 'react-dom';
 import { useRecoilValue } from 'recoil';
 import { modalListState } from 'recoil/modal/atom';
 import { modalSelector } from 'recoil/modal/selector';
 import { AccountAlert } from './AccountAlert';
 import { CollectionAlert } from './CollectionAlert';
-import { CollectionModal } from './CollectionModal';
+// import { CollectionModal } from './CollectionModal';
 import { CommentAlert } from './CommentAlert';
 import { ProfileImageAlert } from './ProfileImageAlert';
 import { TestModal, Test2Modal } from './TestModal';
+
+const CollectionModal = loadable(() =>
+  import('./CollectionModal').then((module) => module.CollectionModal)
+);
 
 const MODAL_COMPONENTS: {
   [key in ModalType]: React.ComponentType<ModalPropsMap[key]>;
