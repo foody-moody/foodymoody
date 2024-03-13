@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { getAccessToken, getUserInfo } from 'utils/localStorage';
 
-const { VITE_API_URL } = import.meta.env;
+// const { VITE_API_URL } = import.meta.env;
 
-export const BASE_API_URL = `${VITE_API_URL}/api`;
+export const BASE_API_URL = `/api`;
 
 export const publicApi = axios.create({
   baseURL: BASE_API_URL,
