@@ -222,7 +222,7 @@ export const useRefreshToken = () => {
     if (isRefreshTokenExpired) {
       console.log('refreshTokenExpired!!!!!!!!!!!!!1');
       clearLoginInfo();
-      // window.location.replace(PATH.HOME);
+      window.location.replace(PATH.HOME);
       return;
     }
 
