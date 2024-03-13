@@ -1,10 +1,8 @@
 import axios from 'axios';
 import { getAccessToken, getUserInfo } from 'utils/localStorage';
 
-const { MODE, VITE_API_URL } = import.meta.env;
+const { VITE_API_URL } = import.meta.env;
 
-// const DEV = MODE === 'development';
-// export const BASE_API_URL = DEV ? `${VITE_API_URL}/api` : `/api`;
 export const BASE_API_URL = `${VITE_API_URL}/api`;
 
 export const publicApi = axios.create({
