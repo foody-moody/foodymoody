@@ -113,9 +113,7 @@ export const ListItem = forwardRef<HTMLLIElement, Props>(
                 {timeStamp(collection.createdAt, collection.updatedAt)}
               </TimeStamp>
             </TitleContainer>
-            {/* <TextButton color="black">
-                  <DotGhostIcon />
-                </TextButton> */}
+
             <Dropdown align="right" opener={<DotGhostIcon />}>
               <DropdownRow>
                 <Share

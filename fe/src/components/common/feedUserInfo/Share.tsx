@@ -7,13 +7,16 @@ type Props = {
   targetId?: string;
   imageUrl?: string;
   description?: string;
-};
+  children?: React.ReactNode;
+} & React.HTMLAttributes<HTMLDivElement>;
 
 export const Share: React.FC<Props> = ({
   type,
   targetId,
   imageUrl,
   description,
+  children,
+  ...props
 }) => {
   useEffect(() => {
     if (window.Kakao) {
@@ -55,5 +58,9 @@ export const Share: React.FC<Props> = ({
     });
   };
 
-  return <div onClick={handleShare}>공유하기</div>; // children
+  return (
+    <div onClick={handleShare} {...props}>
+      {children || '공유하기'}
+    </div>
+  ); // children
 };
