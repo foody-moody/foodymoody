@@ -30,6 +30,7 @@ export const MainFeedItem = forwardRef<HTMLLIElement, Props>(
         <Info>
           <FeedUserInfo
             feedId={feed.id}
+            feedDescription={feed.review}
             member={feed.member}
             createdAt={feed.updatedAt || feed.createdAt}
             isUpdated={feed.updatedAt}
