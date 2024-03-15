@@ -63,7 +63,7 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
                                 feedCollection.title,
                                 feedCollection.thumbnailUrl,
                                 feedCollection.feedIds.ids.size(),
-                                feedCollectionLike.count(),
+                                feedCollection.likeCount,
                                 feedCollection.commentIds.ids.size(),
                                 feedCollection.createdAt,
                                 feedCollection.updatedAt,
