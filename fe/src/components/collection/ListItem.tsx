@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import { StoreMoodBadge } from 'components/common/badge/StoreMoodBadge';
 import { Dropdown } from 'components/common/dropdown/Dropdown';
 import { DropdownRow } from 'components/common/dropdown/DropdownRow';
+import { Share } from 'components/common/feedUserInfo/Share';
 import {
   ChatDotsIcon,
   DotGhostIcon,
@@ -112,13 +113,20 @@ export const ListItem = forwardRef<HTMLLIElement, Props>(
                 {timeStamp(collection.createdAt, collection.updatedAt)}
               </TimeStamp>
             </TitleContainer>
-            {/* <TextButton color="black">
-                  <DotGhostIcon />
-                </TextButton> */}
+
             <Dropdown align="right" opener={<DotGhostIcon />}>
-              {/* <DropdownRow>
-                    <Share imageUrl={thumbnail} targetId={feedId} />
-                  </DropdownRow> */}
+              <DropdownRow>
+                <Share
+                  type="collection"
+                  targetId={collection.id}
+                  imageUrl={
+                    !collection.thumbnailUrl || collection.feedCount === 0
+                      ? generateDefaultUserImage(collection.id)
+                      : collection.thumbnailUrl
+                  }
+                  description={collection.description}
+                />
+              </DropdownRow>
               {menu.map((item) => (
                 <DropdownRow key={item.id} onClick={item.onClick}>
                   {item.content}
@@ -131,7 +139,7 @@ export const ListItem = forwardRef<HTMLLIElement, Props>(
               handleNavigateToDetail(collection.id);
             }}
           >
-            <ContentText>{collection.title}</ContentText>
+            <ContentText>{collection.description}</ContentText>
 
             <BadgeWrapper>
               {collection.storeMood?.map((mood) => (
