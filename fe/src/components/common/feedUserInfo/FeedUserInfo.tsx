@@ -15,6 +15,7 @@ import { PATH } from 'constants/path';
 
 type Props = {
   feedId?: string;
+  feedDescription?: string;
   member: FeedMemberInfo;
   createdAt: string;
   isUpdated: string | null;
@@ -24,6 +25,7 @@ type Props = {
 
 export const FeedUserInfo: React.FC<Props> = ({
   feedId,
+  feedDescription,
   member,
   createdAt,
   isUpdated,
@@ -119,7 +121,12 @@ export const FeedUserInfo: React.FC<Props> = ({
 
         <Dropdown align="right" opener={<DotGhostIcon />}>
           <DropdownRow>
-            <Share imageUrl={thumbnail} targetId={feedId} />
+            <Share
+              type="feed"
+              imageUrl={thumbnail}
+              targetId={feedId}
+              description={feedDescription}
+            />
           </DropdownRow>
           {menu.map((item) => (
             <DropdownRow key={item.id} onClick={item.onClick}>
