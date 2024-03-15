@@ -96,11 +96,16 @@ export const NaviBar = () => {
     <>
       <Wrapper>
         <Navi>
-          <LogoBox>
+          <LogoBox role="button" aria-label="logo">
             <Logo onClick={navigateToHome} />
           </LogoBox>
           {NaviItems.map((item) => (
-            <NaviLink to={item.path} state={item.state} key={item.label}>
+            <NaviLink
+              to={item.path}
+              state={item.state}
+              key={item.label}
+              aria-label={item.label}
+            >
               {item.icon}
               <span>{item.label}</span>
             </NaviLink>
@@ -109,7 +114,12 @@ export const NaviBar = () => {
 
         <NaviM>
           {NaviItemsM.map((item) => (
-            <NaviLink to={item.path} state={item?.state} key={item.label}>
+            <NaviLink
+              to={item.path}
+              state={item?.state}
+              key={item.label}
+              aria-label={item.label}
+            >
               {item.icon}
             </NaviLink>
           ))}
@@ -117,9 +127,9 @@ export const NaviBar = () => {
 
         <Dropdown
           opener={
-            <MoreBtn>
+            <MoreBtn aria-labelledby="morebtn">
               <DotRoundIcon />
-              <span>더보기</span>
+              <span id="morebtn">더보기</span>
             </MoreBtn>
           }
         >
