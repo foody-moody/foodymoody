@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RouteContainer } from 'RouteContainer';
+import { HelmetProvider } from 'react-helmet-async';
 // import { RouterProvider } from 'react-router-dom';
 import { RecoilRoot, RecoilEnv } from 'recoil';
 import { ThemeProvider } from 'styled-components';
@@ -19,6 +20,8 @@ export const queryClient = new QueryClient({
   },
 });
 
+const helmetContext = {};
+
 function App() {
   RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
@@ -32,7 +35,9 @@ function App() {
             <GlobalModals />
             <GlobalToasts />
             {/* <RouterProvider router={router} /> */}
-            <RouteContainer />
+            <HelmetProvider context={helmetContext}>
+              <RouteContainer />
+            </HelmetProvider>
           </RecoilRoot>
         </ThemeProvider>
       </QueryClientProvider>
