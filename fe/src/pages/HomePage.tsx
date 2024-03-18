@@ -33,7 +33,8 @@ export const HomePage = () => {
           맛집 컬렉터들의 '진짜' 맛집 후기를 모아보고, 나만의 맛집 컬렉션을 만들어보세요!`,
           ogTitle: '푸디무디 - 홈',
           ogDescription: `여기를 눌러 링크를 확인하세요`,
-          ogImage: 'https://www.foodiemoodie.io/og-image.png', // TODO: 이미지 경로 수정
+          ogImage:
+            'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/images/fm-logo-with-text.png',
           ogUrl: 'https://foodymoody.site',
           ogType: 'website',
           ogSiteName: '푸디무디',
@@ -41,7 +42,8 @@ export const HomePage = () => {
           twitterTitle: '푸디무디 - 홈',
           twitterDescription: `'진짜'만 모은 맛잘알들의 맛집 컬렉션!
           맛집 컬렉터들의 '진짜' 맛집 후기를 모아보고, 나만의 맛집 컬렉션을 만들어보세요!`,
-          twitterImage: 'https://www.foodiemoodie.io/og-image.png', // TODO: 이미지 경로 수정
+          twitterImage:
+            'https://foodymoody-test.s3.ap-northeast-2.amazonaws.com/images/fm-logo-with-text.png',
           twitterUrl: 'https://foodymoody.site',
         }}
       />
