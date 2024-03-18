@@ -87,8 +87,7 @@ export const DetailFeedModalPage = () => {
             twitterDescription: feed?.review,
             twitterImage: feed?.images[0]?.image.url,
             twitterUrl: `https://foodymoody.site/detail/feed/${feed?.id}`,
-            canonical: `https://foodymoody.site/detail/feed/${feed?.id}
-            `,
+            canonical: `https://foodymoody.site/detail/feed/${feed?.id}`,
           }}
         />
       )}
