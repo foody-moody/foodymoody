@@ -176,6 +176,10 @@ public class MemberSteps {
                 .extract();
     }
 
+    public static ExtractableResponse<Response> 팔로우한다(String accessToken, String id) {
+        return 팔로우한다(accessToken, id, new RequestSpecBuilder().build());
+    }
+
     public static ExtractableResponse<Response> 팔로우한다(String accessToken, String id, RequestSpecification spec) {
         return RestAssured.given().log().all().spec(spec)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

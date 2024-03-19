@@ -22,6 +22,7 @@ public class FeedCollectionDetail {
     private int feedCount;
     private int commentCount;
     private String thumbnailUrl;
+    private boolean isFollowed;
     private List<FeedSummaryResponse> feeds;
     private Slice<FeedCollectionCommentResponse> comments;
     private List<FeedCollectionMoodResponse> moods;
@@ -34,7 +35,8 @@ public class FeedCollectionDetail {
             List<FeedSummaryResponse> feeds,
             Slice<FeedCollectionCommentResponse> comments,
             List<FeedCollectionMoodResponse> moods,
-            boolean isLiked
+            boolean isLiked,
+            boolean isFollowed
     ) {
         this.author = author;
         this.id = feedCollection.getId().getValue();
@@ -53,5 +55,6 @@ public class FeedCollectionDetail {
         commentCount = comments.getContent().size();
         this.thumbnailUrl = feedCollection.getThumbnailUrl();
         this.moods = moods;
+        this.isFollowed = isFollowed;
     }
 }

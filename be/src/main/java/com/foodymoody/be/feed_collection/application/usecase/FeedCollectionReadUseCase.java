@@ -30,6 +30,7 @@ import com.foodymoody.be.feed_collection_comment.domain.FeedCollectionCommentSum
 import com.foodymoody.be.feed_collection_like.application.service.FeedCollectionLikeReadService;
 import com.foodymoody.be.feed_like.application.service.FeedLikeService;
 import com.foodymoody.be.image.application.service.ImageService;
+import com.foodymoody.be.member.application.service.FollowReadService;
 import com.foodymoody.be.member.application.service.MemberReadService;
 import com.foodymoody.be.member.application.service.TasteMoodReadService;
 import com.foodymoody.be.store.application.service.StoreReadService;
@@ -58,6 +59,7 @@ public class FeedCollectionReadUseCase {
     private final FeedCommentCountReadService feedCommentCountReadService;
     private final StoreReadService storeReadService;
     private final FeedCollectionLikeReadService feedCollectionLikeReadService;
+    private final FollowReadService followReadService;
 
     @Transactional(readOnly = true)
     public Slice<FeedCollectionResponse> fetchAll(Pageable pageable) {
@@ -78,7 +80,7 @@ public class FeedCollectionReadUseCase {
         var feeds = getFeedSummaryResponse(feedCollection.getFeedIds());
         var comments = getComments(feedCollection.getCommentIds());
         var moods = getMoodResponses(id);
-        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods, false);
+        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods, false, false);
     }
 
     @Transactional(readOnly = true)
@@ -89,7 +91,10 @@ public class FeedCollectionReadUseCase {
         var feeds = getFeedSummaryResponse(memberId, feedCollection);
         var comments = getComments(memberId, feedCollection.getCommentIds());
         var moods = getMoodResponses(id);
-        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods, isLiked);
+        var isFollowed = followReadService.isFollowing(memberId, feedCollection.getAuthorId());
+        return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods, isLiked,
+                                        isFollowed
+        );
     }
 
     @Transactional(readOnly = true)
