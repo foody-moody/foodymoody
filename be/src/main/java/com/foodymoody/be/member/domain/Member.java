@@ -175,6 +175,10 @@ public class Member {
         return myFollowers.getCount();
     }
 
+    public boolean isFollowing(Member target) {
+        return myFollowings.contains(target);
+    }
+
     private MemberFollowedEvent toMemberFollowedEvent(Member target) {
         return MemberFollowedEvent.of(
                 this.id,
