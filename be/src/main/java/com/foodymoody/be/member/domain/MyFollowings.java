@@ -40,6 +40,11 @@ public class MyFollowings {
         return follows.size();
     }
 
+    public boolean contains(Member target) {
+        return follows.stream()
+                .anyMatch(follow -> follow.getFollower().equals(target));
+    }
+
     private Optional<Follow> get(Member target) {
         return this.follows.stream()
                 .filter(follow -> follow.getFollowed().equals(target))
