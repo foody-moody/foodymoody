@@ -22,19 +22,35 @@ public class FollowReadService {
     private final FollowRepository followRepository;
 
     public Slice<FollowMemberSummaryResponse> listFollowings(
-            MemberId currentMemberId, MemberId id, Pageable pageable) {
+            MemberId currentMemberId,
+            MemberId id,
+            Pageable pageable
+    ) {
         Member member = memberReadService.findById(id);
         Slice<FollowMemberSummary> followings = followRepository.fetchMyFollowingSummariesByMember(member, pageable);
         return toFollowSummaryResponsesWithCurrentMember(currentMemberId, followings);
     }
 
-    public Slice<FollowMemberSummaryResponse> listFollowers(MemberId currentMemberId, MemberId id, Pageable pageable) {
+    public Slice<FollowMemberSummaryResponse> listFollowers(
+            MemberId currentMemberId,
+            MemberId id,
+            Pageable pageable
+    ) {
         Member member = memberReadService.findById(id);
         Slice<FollowMemberSummary> followers = followRepository.fetchMyFollowerSummariesByMember(member, pageable);
         return toFollowSummaryResponsesWithCurrentMember(currentMemberId, followers);
     }
 
-    private Slice<FollowMemberSummaryResponse> toFollowSummaryResponsesWithCurrentMember(MemberId currentMemberId, Slice<FollowMemberSummary> followers) {
+    public boolean isFollowing(MemberId currentMemberId, MemberId targetId) {
+        Member currentMember = memberReadService.findById(currentMemberId);
+        Member target = memberReadService.findById(targetId);
+        return currentMember.isFollowing(target);
+    }
+
+    private Slice<FollowMemberSummaryResponse> toFollowSummaryResponsesWithCurrentMember(
+            MemberId currentMemberId,
+            Slice<FollowMemberSummary> followers
+    ) {
         if(Objects.nonNull(currentMemberId)) {
             Member currentMember = memberReadService.findById(currentMemberId);
             return MemberMapper.toFollowMemberSummaryResponses(currentMember, followers);
