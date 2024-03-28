@@ -34,9 +34,6 @@ export const getDetailCollection = async (id: string) => {
 
 export const addUserCollection = async (collectionForm: CollectionForm) => {
   const { data } = await privateApi.post('/feed_collections', collectionForm);
-
-  console.log(data);
-
   return data;
 };
 
