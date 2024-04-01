@@ -12,22 +12,26 @@ type Props = {
 };
 
 export const NotiIcon: React.FC<Props> = ({ onClick }) => {
-  const [notiCount, setNotiCount] = useState(0);
+  const [notiCount, setNotiCount] = useState<number>(0);
   const { isLogin } = useAuthState();
-  const accessToken = useRecoilValue(accessTokenState);
+  const accessToken = useRecoilValue<string>(accessTokenState);
 
   useEffect(() => {
-    if (isLogin) {
-      const updateNotiCount = (newCount: number) => {
-        setNotiCount((currentCount) => {
-          if (currentCount !== newCount) {
-            return newCount;
-          }
-          return currentCount;
-        });
-      };
+    let eventSource: EventSourcePolyfill | null = null;
+    const MAX_RECONNECT_ATTEMPTS = 3;
+    let reconnectAttempts = 0;
 
-      const eventSource = new EventSourcePolyfill(`${BASE_API_URL}/sse`, {
+    if (!isLogin || !accessToken) {
+      return;
+    }
+
+    const openConnection = () => {
+      if (reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+        console.log('Max reconnect attempts reached, will not reconnect.');
+        return;
+      }
+
+      eventSource = new EventSourcePolyfill(`${BASE_API_URL}/sse`, {
         headers: {
           'Content-Type': 'text/event-stream',
           Authorization: `Bearer ${accessToken}`,
@@ -37,25 +41,30 @@ export const NotiIcon: React.FC<Props> = ({ onClick }) => {
       eventSource.addEventListener('notification', (event) => {
         const messageEvent = event as MessageEvent;
         const { count } = JSON.parse(messageEvent.data);
-        updateNotiCount(count);
+        setNotiCount(count);
       });
 
       eventSource.onerror = (err) => {
-        if (eventSource.readyState === EventSource.CLOSED) {
-          console.log(err, 'SSE closed');
+        console.error('SSE error:', err);
+        if (eventSource?.readyState === EventSource.CLOSED) {
+          console.log('SSE closed, attempting to reconnect...');
+          eventSource.close();
+          reconnectAttempts += 1;
+          setTimeout(openConnection, 5000); // 5초 후 재연결 시도
         }
-        return; // 그 전의 에러가 너무 시끄러워서 넣었는데 다른 방법 있으면 추천 plz
       };
+    };
 
-      return () => {
-        eventSource.close();
-      };
-    }
+    openConnection();
+
+    return () => {
+      eventSource?.close();
+    };
   }, [isLogin, accessToken]);
 
   return (
-    <Wrapper>
-      <NotificationIcon onClick={onClick} />
+    <Wrapper onClick={onClick}>
+      <NotificationIcon />
       {notiCount > 0 ? (
         <NotiCount>{notiCount > 99 ? '99+' : notiCount}</NotiCount>
       ) : null}
