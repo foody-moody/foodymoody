@@ -100,7 +100,9 @@ export const DetailFeedModalPage = () => {
       <Wrapper ref={wrapperRef}>
         {feed && (
           <Box>
-            <Carousel images={feed?.images} />
+            <Menus>
+              <Carousel images={feed?.images} />
+            </Menus>
             <Content>
               <Info>
                 <Detail>
@@ -173,6 +175,12 @@ const Wrapper = styled.div`
     height: 100%;
     overflow: hidden;
   }
+`;
+
+const Menus = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: ${({ theme: { colors } }) => colors.black};
 `;
 
 const Review = styled.p`

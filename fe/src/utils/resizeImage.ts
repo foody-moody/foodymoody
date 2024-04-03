@@ -1,7 +1,7 @@
 import Resizer from 'react-image-file-resizer';
 
 type Props = {
-  file: Blob;
+  file: File;
   maxWidth: number;
   maxHeight: number;
 };
