@@ -6,6 +6,7 @@ import {
 } from 'service/queries/notification';
 import { styled } from 'styled-components';
 import { Switch } from 'components/common/switch/Switch';
+import { debounce } from 'utils/debounce';
 
 const DEFAULT_SETTING: NotiSettingType = {
   allNotification: false,
@@ -19,9 +20,9 @@ const DEFAULT_SETTING: NotiSettingType = {
 
 export const NotiSettingPage = () => {
   const { data: settingData } = useNotificationSettings();
-  const { mutate } = useUpdateNotificationSettings();
   const [settings, setSettings] = useState(DEFAULT_SETTING);
-  const { mutate: updateAll } = useUpdateAllNotificationSettings();
+  const { mutate: updateNotification } = useUpdateNotificationSettings();
+  const { mutate: updateAllNotification } = useUpdateAllNotificationSettings();
 
   useEffect(() => {
     if (settingData) {
@@ -29,13 +30,16 @@ export const NotiSettingPage = () => {
     }
   }, [settingData]);
 
-  const handleToggle = (setting: keyof NotiSettingType) => {
+  const debouncedUpdateNotification = debounce(updateNotification, 200);
+  const debouncedUpdateAll = debounce(updateAllNotification, 200);
+
+  const handleToggle = (setting: keyof typeof DEFAULT_SETTING) => {
     if (setting === 'allNotification') {
-      const allNotiState = { allow: !settings['allNotification'] };
-      updateAll(allNotiState);
+      const newAllNotiState = !settings.allNotification;
+      debouncedUpdateAll({ allow: newAllNotiState });
     } else {
       const updatedSettings = { ...settings, [setting]: !settings[setting] };
-      mutate(updatedSettings);
+      debouncedUpdateNotification(updatedSettings);
     }
   };
 
