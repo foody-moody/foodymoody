@@ -6,6 +6,7 @@ import { styled } from 'styled-components';
 import { media } from 'styles/mediaQuery';
 import { useAuthState } from 'hooks/auth/useAuth';
 import { generateDefaultUserImage } from 'utils/generateDefaultUserImage';
+import { resizeImage } from 'utils/resizeImage';
 import { EditIcon } from '../icon/icons';
 import { useModal } from '../modal/useModal';
 import { UserImage } from './UserImage';
@@ -46,25 +47,40 @@ export const UserImageEdit: React.FC<Props> = ({
     }
   };
 
-  const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    console.log('file', file);
+    console.log('file', typeof file);
 
     if (!file) {
       return;
     }
 
-    const ALLOWED_TYPES = ['image/png', 'image/jpg', 'image/jpeg'];
-    const MAX_FILE_SIZE_BYTES = 1024 * 1024 * 2; // 2MB
+    const ALLOWED_TYPES = [
+      'image/png',
+      'image/jpg',
+      'image/jpeg',
+      'image/webp',
+    ];
+    const MAX_FILE_SIZE_BYTES = 1024 * 1024 * 2.6; // 2MB
 
     if (!ALLOWED_TYPES.includes(file.type) || file.size > MAX_FILE_SIZE_BYTES) {
       toast.noti(
-        '이미지는 2MB 이하의 png, jpg, jpeg 파일만 업로드 가능합니다.'
+        '이미지는 2.6MB 이하의 png, jpg, jpeg 파일만 업로드 가능합니다.'
       );
       return;
     }
 
+    const resizedFile = (await resizeImage({
+      file,
+      maxWidth: 200,
+      maxHeight: 200,
+    })) as File;
+    console.log('resizedFile', resizedFile);
+
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', resizedFile);
+    // formData.append('file', file);
 
     imageMutate(formData, {
       onSuccess: (res) => {

@@ -19,7 +19,13 @@ export const FeedMainList = () => {
     },
   });
 
-  if (!feeds) return null;
+  if (!feeds || feeds.length === 0) {
+    return (
+      <Wrapper>
+        <TextBox>피드가 없습니다.</TextBox>
+      </Wrapper>
+    );
+  }
 
   return (
     <Wrapper>
