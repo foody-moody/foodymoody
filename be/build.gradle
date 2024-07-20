@@ -35,6 +35,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    // actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
     // querydsl
     implementation "com.querydsl:querydsl-jpa"
     implementation "com.querydsl:querydsl-core"
