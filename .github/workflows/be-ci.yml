@@ -32,37 +32,4 @@ jobs:
           chmod +x gradlew
           ./gradlew build
         working-directory: ${{ env.ROOT_PATH }}
-      - name: CoverAlls를 실행한다
-        uses: coverallsapp/github-action@v2
-        with:
-          base-path: COVERALLS_PATH
-      - name: 도커 허브에 로그인한다
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      - name: 어플리케이션의 도커 이미지를 빌드하고 도커 허브에 푸시한다
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile.be
-          push: true
-          tags: ${{ secrets.BE_DOCKER_IMAGE_NAME }}
-      - name: 어플리케이션을 배포한다
-        env:
-          PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          HOST: ${{ secrets.HOST_ADDRESS }}
-          USER: ${{ secrets.HOST_USERNAME }}
-          TAG: ${{ secrets.BE_DOCKER_IMAGE_NAME }}
-        run: |
-          # Private key를 파일로 생성합니다.
-          echo "$PRIVATE_KEY" > private_key.pem
-          chmod 600 private_key.pem
 
-          # EC2 인스턴스에 SSH로 접속하여 Docker 컨테이너를 관리합니다.
-          ssh -o StrictHostKeyChecking=no -i private_key.pem $USER@$HOST "
-            sudo docker compose -f docker-compose-be-app.yml down -v
-            sudo docker compose -f docker-compose-be-app.yml pull
-            sudo docker compose -f docker-compose-be-app.yml up -d
-            sudo docker image prune -f
-          "
