@@ -41,14 +41,20 @@ jobs:
           push: true
           tags: ${{ secrets.FE_DOCKER_IMAGE_NAME }}
       - name: 어플리케이션을 배포한다
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_ADDRESS }}
-          username: ${{ secrets.HOST_USERNAME }}
-          key: ${{ secrets.HOST_KEY }}
-          port: ${{ secrets.HOST_PORT }}
-          script: |
+        env:
+          PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.HOST_ADDRESS }}
+          USER: ${{ secrets.HOST_USERNAME }}
+          TAG: ${{ secrets.BE_DOCKER_IMAGE_NAME }}
+        run: |
+          # Private key를 파일로 생성합니다.
+          echo "$PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+
+          # EC2 인스턴스에 SSH로 접속하여 Docker 컨테이너를 관리합니다.
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $USER@$HOST "
             sudo docker compose -f docker-compose-fe-app.yml down -v
             sudo docker compose -f docker-compose-fe-app.yml pull
             sudo docker compose -f docker-compose-fe-app.yml up -d
             sudo docker image prune -f
+          "
