@@ -8,4 +8,4 @@ filter:
     POST /api/images,GET /api/feed/.*/comments/.*/replies,GET /api/feed/.*/comments/.*/replies/.*,
     GET /api/feed_collections, GET /api/feed_collections/.*,
     GET /api/stores/.*, GET /api/stores/search, GET /api/feed_collections/.*/comments,
-    GET /api/auth/oauth/google
+    GET /api/auth/oauth/google, GET /actuator/.*, GET /actuator
