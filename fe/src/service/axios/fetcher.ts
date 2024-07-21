@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { getAccessToken, getUserInfo } from 'utils/localStorage';
+import {getAccessToken, getUserInfo} from 'utils/localStorage';
 
 
-const { MODE } = import.meta.env;
+const {MODE, VITE_API_URL} = import.meta.env;
 
-export const BASE_API_URL = MODE === 'development' ? `https://foodymoody.site/api` : `/api`;
+export const BASE_API_URL = MODE === 'development' ? `https://foodymoody.site/api` : VITE_API_URL;
 
 
 
