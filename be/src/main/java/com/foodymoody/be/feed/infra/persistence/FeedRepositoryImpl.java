@@ -65,4 +65,9 @@ public class FeedRepositoryImpl implements FeedRepository {
         return feedJpaRepository.fetchMenuNameRatingList(imageMenus);
     }
 
+    @Override
+    public void updateLikeCount(int heartCount, FeedId feedId) {
+        feedJpaRepository.updateLikeCount(heartCount, feedId);
+    }
+
 }

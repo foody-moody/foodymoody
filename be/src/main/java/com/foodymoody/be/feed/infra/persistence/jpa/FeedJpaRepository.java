@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -30,5 +31,9 @@ public interface FeedJpaRepository extends JpaRepository<Feed, FeedId> {
             " JOIN Menu m ON im.menuId = m.id" +
             " WHERE im IN :imageMenus")
     Optional<List<MenuNameRatingPair>> fetchMenuNameRatingList(@Param("imageMenus") List<ImageMenu> imageMenus);
+
+    @Modifying
+    @Query("UPDATE Feed f SET f.likeCount = :likeCount WHERE f.id = :feedId")
+    void updateLikeCount(@Param("likeCount") int likeCount, @Param("feedId") FeedId feedId);
 
 }

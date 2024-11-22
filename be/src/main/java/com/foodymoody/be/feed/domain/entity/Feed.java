@@ -102,10 +102,6 @@ public class Feed {
         this.updatedAt = updatedAt;
     }
 
-    public void updateLikeCountBy(int heartCount) {
-        this.likeCount = heartCount;
-    }
-
     public List<ImageMenu> getImageMenus() {
         return imageMenus.getNewUnmodifiedImageMenus();
     }

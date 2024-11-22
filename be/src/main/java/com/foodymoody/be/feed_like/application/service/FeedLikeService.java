@@ -7,6 +7,7 @@ import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.service.FeedReadService;
 import com.foodymoody.be.feed.domain.entity.Feed;
+import com.foodymoody.be.feed.domain.repository.FeedRepository;
 import com.foodymoody.be.feed_like.application.FeedLikeMapper;
 import com.foodymoody.be.feed_like.application.dto.response.FeedLikeResponse;
 import com.foodymoody.be.feed_like.domain.FeedLikeRepository;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class FeedLikeService {
 
+    private final FeedRepository feedRepository;
     private final FeedLikeRepository feedLikeRepository;
     private final FeedLikeCountService feedLikeCountService;
     private final MemberReadService memberReadService;
@@ -78,9 +80,7 @@ public class FeedLikeService {
 
     private void updateFeed(String feedId, int heartCount) {
         FeedId feedIdObj = IdFactory.createFeedId(feedId);
-        Feed feed = feedReadService.findFeed(feedIdObj);
-
-        feed.updateLikeCountBy(heartCount);
+        feedRepository.updateLikeCount(heartCount, feedIdObj);
     }
 
     @Transactional(readOnly = true)

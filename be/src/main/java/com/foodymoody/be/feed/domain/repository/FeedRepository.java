@@ -30,4 +30,6 @@ public interface FeedRepository {
 
     Optional<List<MenuNameRatingPair>> fetchMenuNameRatingList(List<ImageMenu> imageMenus);
 
+    void updateLikeCount(int heartCount, FeedId feedId);
+
 }
