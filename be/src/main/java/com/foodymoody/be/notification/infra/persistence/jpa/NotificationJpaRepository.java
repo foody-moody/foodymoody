@@ -4,7 +4,9 @@ import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.NotificationId;
 import com.foodymoody.be.notification.domain.Notification;
 import com.foodymoody.be.notification.domain.NotificationSummary;
-import io.lettuce.core.dynamic.annotation.Param;
+// Redis 삭제 후 주석 처리
+//import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
