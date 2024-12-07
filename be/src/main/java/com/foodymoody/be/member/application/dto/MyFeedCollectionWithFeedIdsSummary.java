@@ -17,4 +17,5 @@ public class MyFeedCollectionWithFeedIdsSummary {
         this.title = title;
         this.feedIds = feedIds;
     }
+
 }

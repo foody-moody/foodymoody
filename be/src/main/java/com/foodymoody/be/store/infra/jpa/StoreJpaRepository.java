@@ -18,4 +18,5 @@ public interface StoreJpaRepository extends JpaRepository<Store, StoreId>, Store
             + "WHERE s.id = :id AND im.displayOrder = 0 "
             + "ORDER BY f.createdAt DESC")
     Slice<StoreFeedPreviewResponse> fetchStoreFeedResponses(StoreId id, Pageable pageable);
+
 }

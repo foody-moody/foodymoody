@@ -9,4 +9,5 @@ public interface FollowRepository {
     Slice<FollowMemberSummary> fetchMyFollowingSummariesByMember(Member member, Pageable pageable);
 
     Slice<FollowMemberSummary> fetchMyFollowerSummariesByMember(Member member, Pageable pageable);
+
 }

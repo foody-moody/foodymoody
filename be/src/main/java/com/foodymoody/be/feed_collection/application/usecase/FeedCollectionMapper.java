@@ -106,4 +106,5 @@ public class FeedCollectionMapper {
                 comment.getMood()
         ));
     }
+
 }

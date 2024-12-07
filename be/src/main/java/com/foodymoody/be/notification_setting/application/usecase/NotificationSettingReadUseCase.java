@@ -21,7 +21,6 @@ public class NotificationSettingReadUseCase {
         return setting.isFeedComment();
     }
 
-
     public boolean isCommentLikedAllowed(MemberId memberId) {
         var setting = settingService.fetchByMemberId(memberId);
         return setting.isCommentLike();
@@ -57,7 +56,6 @@ public class NotificationSettingReadUseCase {
         return setting.isCommentLike();
     }
 
-
     public boolean isFeedCollectionReplyLikeAllowed(MemberId toMemberId) {
         var setting = settingService.fetchByMemberId(toMemberId);
         return setting.isCommentLike();
@@ -67,4 +65,5 @@ public class NotificationSettingReadUseCase {
         var setting = settingService.fetchByMemberId(toMemberId);
         return setting.isFollow();
     }
+
 }

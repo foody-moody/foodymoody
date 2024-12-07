@@ -19,10 +19,13 @@ public class FeedReplyLike {
 
     @EmbeddedId
     private FeedReplyLikeId id;
+
     @AttributeOverride(name = "value", column = @Column(name = "feed_comment_id"))
     private FeedCommentId feedCommentId;
+
     @AttributeOverride(name = "value", column = @Column(name = "reply_id"))
     private FeedReplyId feedReplyId;
+
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
     private LocalDateTime createdAt;
@@ -57,4 +60,5 @@ public class FeedReplyLike {
                 createdAt
         );
     }
+
 }

@@ -31,4 +31,5 @@ public class FeedCommentReplyLikeNotificationDetails extends NotificationDetails
         this.feedReplyId = feedReplyId;
         this.feedReplyContent = feedReplyContent;
     }
+
 }

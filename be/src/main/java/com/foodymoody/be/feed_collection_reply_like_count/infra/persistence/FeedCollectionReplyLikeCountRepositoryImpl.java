@@ -27,4 +27,5 @@ public class FeedCollectionReplyLikeCountRepositoryImpl implements FeedCollectio
     public FeedCollectionReplyLikeCount save(FeedCollectionReplyLikeCount likeCount) {
         return repository.save(likeCount);
     }
+
 }

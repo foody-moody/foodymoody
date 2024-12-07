@@ -53,4 +53,5 @@ public class FeedCollectionCommentWriteController {
         useCase.edit(id, content, memberId);
         return ResponseEntity.noContent().build();
     }
+
 }

@@ -16,6 +16,7 @@ public class ImageMapper {
     public static ImageResource toImageResource(MultipartFile file) {
         return new ImageResource(file);
     }
+
 }
 
 

@@ -11,4 +11,5 @@ public interface RefreshTokenStorage {
     void addBlacklist(String token, long exp);
 
     boolean isBlacklist(String token);
+
 }

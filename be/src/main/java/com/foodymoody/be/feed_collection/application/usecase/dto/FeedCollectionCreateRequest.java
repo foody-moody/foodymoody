@@ -17,4 +17,5 @@ public class FeedCollectionCreateRequest {
     private String description;
     private List<FeedCollectionMoodId> moodIds;
     private boolean isPrivate = true;
+
 }

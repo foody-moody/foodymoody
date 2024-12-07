@@ -5,4 +5,5 @@ public class InvalidReplyIdException extends BusinessException {
     public InvalidReplyIdException() {
         super(ErrorMessage.INVALID_REPLY_ID);
     }
+
 }

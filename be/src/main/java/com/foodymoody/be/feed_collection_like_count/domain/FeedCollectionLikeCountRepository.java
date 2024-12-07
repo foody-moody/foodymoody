@@ -15,4 +15,5 @@ public interface FeedCollectionLikeCountRepository {
     Optional<FeedCollectionLikeCount> findByFeedCollectionId(FeedCollectionId feedCollectionId);
 
     List<FeedCollectionLikeCount> findAll();
+
 }

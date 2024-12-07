@@ -11,4 +11,5 @@ public class FeedCollectionFeedsUpdateRequest {
 
     private List<FeedId> feedIds;
     private String thumbnailUrl;
+
 }

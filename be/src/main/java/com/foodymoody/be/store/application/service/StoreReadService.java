@@ -39,4 +39,5 @@ public class StoreReadService {
         return storeRepository.findById(id)
                 .orElseThrow(StoreNotFoundException::new);
     }
+
 }

@@ -30,4 +30,5 @@ public class FeedCommentLikeWriteUseCase {
         feedCommentLikeService.delete(feedCommentId, memberId);
         feedCommentLikeCountService.decrement(feedCommentId);
     }
+
 }

@@ -65,4 +65,5 @@ public class FeedCommentWriteService {
     private FeedComment fetchById(FeedCommentId id) {
         return feedCommentRepository.findById(id).orElseThrow(CommentNotExistsException::new);
     }
+
 }

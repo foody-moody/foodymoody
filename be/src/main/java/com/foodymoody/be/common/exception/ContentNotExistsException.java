@@ -5,4 +5,5 @@ public class ContentNotExistsException extends BusinessException {
     public ContentNotExistsException() {
         super(ErrorMessage.COMMENT_NOT_EXISTS);
     }
+
 }

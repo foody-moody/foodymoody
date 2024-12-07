@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface FeedCollectionJpaRepository extends JpaRepository<FeedCollection, FeedCollectionId> {
 
     Optional<FeedCollection> findByIdAndIsDeleted(FeedCollectionId feedCollectionId, boolean isDeleted);
+
 }

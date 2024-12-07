@@ -41,4 +41,5 @@ public class FeedReplyLikeWriteController {
         useCase.delete(feedReplyId, memberId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
 }

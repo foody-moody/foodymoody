@@ -16,4 +16,5 @@ public interface FeedCollectionMoodRepository {
     List<FeedCollectionMood> findAllById(List<FeedCollectionMoodId> moodsIds);
 
     List<FeedCollectionMood> findResponseByFeedCollectionId(FeedCollectionId id);
+
 }

@@ -19,4 +19,5 @@ public class IdResponse {
     public static IdResponse of(BaseId id) {
         return new IdResponse(id);
     }
+
 }

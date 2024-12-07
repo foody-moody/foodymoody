@@ -24,4 +24,5 @@ public interface MemberFeedReplySummary {
     LocalDateTime getCreatedAt();
 
     LocalDateTime getUpdatedAt();
+
 }

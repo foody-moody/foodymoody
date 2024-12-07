@@ -10,4 +10,5 @@ public class NicknameDuplicationCheckResponse {
     public NicknameDuplicationCheckResponse(boolean duplicate) {
         this.duplicate = duplicate;
     }
+
 }

@@ -26,23 +26,31 @@ public class FeedComment {
     @Getter
     @Id
     private FeedCommentId id;
+
     @Getter
     @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
     private FeedId feedId;
+
     @Getter
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
+
     @Getter
     @AttributeOverride(name = "value", column = @Column(name = "content"))
     private Content content;
+
     @Getter
     private boolean deleted;
+
     @Getter
     private boolean hasReply;
+
     @Getter
     private LocalDateTime createdAt;
+
     @Getter
     private LocalDateTime updatedAt;
+
     @Getter
     @Embedded
     private FeedReplyComments feedReplyComments;
@@ -125,4 +133,5 @@ public class FeedComment {
                 createdAt
         );
     }
+
 }

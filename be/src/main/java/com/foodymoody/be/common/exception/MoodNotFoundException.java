@@ -5,4 +5,5 @@ public class MoodNotFoundException extends ResourceNotFoundException {
     public MoodNotFoundException() {
         super(ErrorMessage.MOOD_NOT_FOUND);
     }
+
 }

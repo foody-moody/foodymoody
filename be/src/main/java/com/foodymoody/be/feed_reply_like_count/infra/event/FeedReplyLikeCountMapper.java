@@ -18,4 +18,5 @@ public class FeedReplyLikeCountMapper {
     ) {
         return new FeedReplyLikeCount(feedReplyLikeCountId, event.getFeedReplyId(), INIT_COUNT);
     }
+
 }

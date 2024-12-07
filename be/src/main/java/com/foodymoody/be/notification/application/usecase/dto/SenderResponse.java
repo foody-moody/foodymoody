@@ -39,4 +39,5 @@ public class SenderResponse {
     public static SenderResponse of(MemberId id, String nickname, String imageUrl) {
         return new SenderResponse(id, nickname, imageUrl);
     }
+
 }

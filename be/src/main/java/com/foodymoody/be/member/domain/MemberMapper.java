@@ -32,7 +32,7 @@ public class MemberMapper {
     }
 
     public static Slice<FollowMemberSummaryResponse> toFollowMemberSummaryResponses(Member currentMember,
-            Slice<FollowMemberSummary> followInfoMembers) {
+                                                                                    Slice<FollowMemberSummary> followInfoMembers) {
         return followInfoMembers.map(
                 followMemberSummary -> FollowMemberSummaryResponse.of(
                         followMemberSummary.getId(),
@@ -100,4 +100,5 @@ public class MemberMapper {
                 Boolean.FALSE,
                 myFeedCount);
     }
+
 }

@@ -35,4 +35,5 @@ public class FeedCollectionCommentWriteUseCase {
     public void edit(FeedCollectionCommentId id, Content content, MemberId memberId) {
         feedCollectionCommentWriteService.edit(id, content, memberId);
     }
+
 }

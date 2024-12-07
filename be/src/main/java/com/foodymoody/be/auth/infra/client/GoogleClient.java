@@ -61,7 +61,8 @@ public class GoogleClient implements OAuthClient {
                 .uri(userInfoUri)
                 .headers(header -> header.setBearerAuth(accessToken))
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
+                })
                 .block();
 
         return OAuthMemberDetails.of(
@@ -72,13 +73,13 @@ public class GoogleClient implements OAuthClient {
     }
 
     private MultiValueMap<String, String> createTokenRequest(String authorizationCode) {
-            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-            formData.add("code", authorizationCode);
-            formData.add("grant_type", "authorization_code");
-            formData.add("redirect_uri", redirectUri);
-            formData.add("client_id", clientId);
-            formData.add("client_secret", clientSecret);
-            return formData;
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        formData.add("code", authorizationCode);
+        formData.add("grant_type", "authorization_code");
+        formData.add("redirect_uri", redirectUri);
+        formData.add("client_id", clientId);
+        formData.add("client_secret", clientSecret);
+        return formData;
     }
 
     @Override
@@ -100,5 +101,6 @@ public class GoogleClient implements OAuthClient {
             throw new InvalidOAuthResponseException();
         }
     }
+
 }
 

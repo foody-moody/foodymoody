@@ -15,4 +15,5 @@ public class MemberSignupResponse {
     public static MemberSignupResponse from(MemberId savedMemberId) {
         return new MemberSignupResponse(savedMemberId);
     }
+
 }

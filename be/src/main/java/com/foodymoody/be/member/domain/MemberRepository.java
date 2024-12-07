@@ -42,4 +42,5 @@ public interface MemberRepository {
     boolean existsByEmail(String email);
 
     long countMyFeedById(MemberId id);
+
 }

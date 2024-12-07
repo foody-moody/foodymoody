@@ -18,4 +18,5 @@ public class SseController {
     public SseEmitter stream(@CurrentMemberId MemberId memberId) {
         return sseService.stream(memberId);
     }
+
 }

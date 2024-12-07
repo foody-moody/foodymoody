@@ -38,7 +38,7 @@ public class AuthController {
     }
 
     @GetMapping("/oauth/{provider}")
-    public ResponseEntity<TokenIssueResponse> oAuthLogin (
+    public ResponseEntity<TokenIssueResponse> oAuthLogin(
             @PathVariable String provider,
             @RequestParam("code") String code) {
         TokenIssueResponse response = oAuthLoginUseCase.login(provider, code);

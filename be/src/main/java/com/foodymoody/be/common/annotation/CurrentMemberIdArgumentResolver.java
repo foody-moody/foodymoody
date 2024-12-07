@@ -19,8 +19,9 @@ public class CurrentMemberIdArgumentResolver implements HandlerMethodArgumentRes
 
     @Override
     public MemberId resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+                                    NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         String id = Objects.toString(webRequest.getAttribute("id", 0), null);
         return Objects.nonNull(id) ? new MemberId(id) : null;
     }
+
 }

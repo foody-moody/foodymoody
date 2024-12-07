@@ -32,4 +32,5 @@ public class FeedCommentWriteUseCase {
         feedReply.delete(memberId, updatedAt);
         feedCommentService.deleteReply(commentId, feedReply, updatedAt);
     }
+
 }

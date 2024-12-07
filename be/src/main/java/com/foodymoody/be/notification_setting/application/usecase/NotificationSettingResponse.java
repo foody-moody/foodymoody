@@ -30,4 +30,5 @@ public class NotificationSettingResponse {
         this.feedComment = feedComment;
         this.collectionComment = collectionComment;
     }
+
 }

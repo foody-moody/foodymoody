@@ -15,4 +15,5 @@ public class ReplyIdValidator {
             throw new InvalidReplyIdException();
         }
     }
+
 }

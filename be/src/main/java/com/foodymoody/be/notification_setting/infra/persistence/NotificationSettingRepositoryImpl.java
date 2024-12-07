@@ -29,4 +29,5 @@ public class NotificationSettingRepositoryImpl implements NotificationSettingRep
     public Optional<NotificationSettingSummary> findSummaryByMemberId(MemberId memberId) {
         return notificationSettingJpaRepository.findSummaryByMemberId(memberId);
     }
+
 }

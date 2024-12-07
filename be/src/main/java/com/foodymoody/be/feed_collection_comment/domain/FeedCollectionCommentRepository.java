@@ -25,4 +25,5 @@ public interface FeedCollectionCommentRepository {
             List<FeedCollectionCommentId> commentIds,
             Pageable pageable
     );
+
 }

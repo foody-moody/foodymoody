@@ -34,4 +34,5 @@ public class FeedCommentReadService {
         return feedCommentRepository.findById(id)
                 .orElseThrow(FeedCommentNotFoundException::new);
     }
+
 }

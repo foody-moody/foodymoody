@@ -47,4 +47,5 @@ public class FeedCollectionReplyEventHandler {
         var feedNotification = toNotification(event, feedNotificationId, details, toMemberId);
         notificationService.save(feedNotification);
     }
+
 }

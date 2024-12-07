@@ -11,4 +11,5 @@ public class FeedLikeCountId extends BaseId {
     public FeedLikeCountId(String value) {
         super(value);
     }
+
 }

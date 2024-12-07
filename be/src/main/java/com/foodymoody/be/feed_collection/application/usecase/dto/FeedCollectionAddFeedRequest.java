@@ -9,4 +9,5 @@ import lombok.Setter;
 public class FeedCollectionAddFeedRequest {
 
     private FeedId feedId;
+
 }

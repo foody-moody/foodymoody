@@ -20,4 +20,5 @@ public interface FeedReplyLikeCountJpaRepository extends JpaRepository<FeedReply
             "set _replyLikeCount.count = _replyLikeCount.count - 1 " +
             "where _replyLikeCount.feedReplyId = :feedReplyId")
     void decrementCount(FeedReplyId feedReplyId);
+
 }

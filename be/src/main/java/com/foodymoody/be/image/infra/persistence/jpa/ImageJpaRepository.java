@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface ImageJpaRepository extends JpaRepository<Image, ImageId> {
-    
+
     @Modifying
     @Query("UPDATE Image i "
             + "SET i.deleted = true "
@@ -21,4 +21,5 @@ public interface ImageJpaRepository extends JpaRepository<Image, ImageId> {
     List<Image> findAllByDeletedTrue();
 
     List<Image> findAllByIdInAndDeletedFalse(List<ImageId> ids);
+
 }

@@ -15,4 +15,5 @@ public class MemberIdValidator {
             throw new InvalidMemberIdException();
         }
     }
+
 }

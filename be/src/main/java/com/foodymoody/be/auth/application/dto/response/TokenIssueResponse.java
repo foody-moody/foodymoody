@@ -16,4 +16,5 @@ public class TokenIssueResponse {
     public static TokenIssueResponse of(String accessToken, String refreshToken) {
         return new TokenIssueResponse(accessToken, refreshToken);
     }
+
 }

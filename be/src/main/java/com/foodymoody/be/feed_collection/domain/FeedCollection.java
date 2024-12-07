@@ -36,34 +36,47 @@ public class FeedCollection {
     @Getter
     @Id
     private FeedCollectionId id;
+
     @Getter
     @AttributeOverride(name = "value", column = @Column(name = "author_id"))
     private MemberId authorId;
+
     @Getter
     private String title;
+
     @Getter
     private String description;
+
     @Getter
     private int likeCount;
+
     @Getter
     private int followerCount;
+
     @Getter
     private String thumbnailUrl;
+
     @Getter
     private boolean isPrivate;
+
     @Getter
     private boolean isDeleted;
+
     @Embedded
     private FeedIds feedIds;
+
     @Embedded
     private CommentIds commentIds;
+
     @OneToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true)
     private FeedCollectionMoods moods;
+
     @Getter
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
     @Getter
     private LocalDateTime updatedAt;
 
@@ -180,4 +193,5 @@ public class FeedCollection {
     public void updateLikeCount(long likeCount) {
         this.likeCount = (int) likeCount;
     }
+
 }

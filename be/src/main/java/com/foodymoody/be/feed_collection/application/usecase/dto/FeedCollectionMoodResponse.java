@@ -13,4 +13,5 @@ public class FeedCollectionMoodResponse {
         this.id = id;
         this.name = name;
     }
+
 }

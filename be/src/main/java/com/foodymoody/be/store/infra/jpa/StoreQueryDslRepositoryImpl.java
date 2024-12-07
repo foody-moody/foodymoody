@@ -1,11 +1,11 @@
 package com.foodymoody.be.store.infra.jpa;
 
-import static com.foodymoody.be.feed.domain.entity.QFeed.*;
-import static com.foodymoody.be.feed.domain.entity.QImageMenu.*;
-import static com.foodymoody.be.menu.domain.entity.QMenu.*;
+import static com.foodymoody.be.feed.domain.entity.QFeed.feed;
+import static com.foodymoody.be.feed.domain.entity.QImageMenu.imageMenu;
+import static com.foodymoody.be.menu.domain.entity.QMenu.menu;
 import static com.foodymoody.be.store.domain.QStore.store;
-import static com.foodymoody.be.store_like.domain.QStoreLike.*;
-import static com.foodymoody.be.store_like_count.domain.QStoreLikeCount.*;
+import static com.foodymoody.be.store_like.domain.QStoreLike.storeLike;
+import static com.foodymoody.be.store_like_count.domain.QStoreLikeCount.storeLikeCount;
 
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.StoreId;
@@ -86,4 +86,5 @@ public class StoreQueryDslRepositoryImpl implements StoreQueryDslRepository {
         }
         return Expressions.asBoolean(true).isFalse();
     }
+
 }

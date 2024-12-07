@@ -21,4 +21,5 @@ public interface NotificationSettingJpaRepository extends JpaRepository<Notifica
             "from NotificationSetting _notificationSetting " +
             "where _notificationSetting.memberId = :memberId")
     Optional<NotificationSettingSummary> findSummaryByMemberId(MemberId memberId);
+
 }

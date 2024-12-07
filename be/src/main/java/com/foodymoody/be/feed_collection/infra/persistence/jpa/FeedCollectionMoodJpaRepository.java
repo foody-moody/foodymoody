@@ -16,4 +16,5 @@ public interface FeedCollectionMoodJpaRepository extends JpaRepository<FeedColle
                     "where _feedCollection.id = :id"
     )
     List<FeedCollectionMood> findResponseByFeedCollectionId(FeedCollectionId id);
+
 }

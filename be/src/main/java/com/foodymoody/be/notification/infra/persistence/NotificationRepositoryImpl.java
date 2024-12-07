@@ -79,4 +79,5 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     public void deleteRead(MemberId memberId, LocalDateTime updatedAt) {
         notificationJpaRepository.deleteRead(memberId, updatedAt);
     }
+
 }

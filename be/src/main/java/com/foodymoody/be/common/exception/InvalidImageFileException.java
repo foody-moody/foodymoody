@@ -9,4 +9,5 @@ public class InvalidImageFileException extends IllegalArgumentException {
     public String getCode() {
         return ErrorMessage.INVALID_IMAGE_FILE.getCode();
     }
+
 }

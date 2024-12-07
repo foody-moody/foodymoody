@@ -5,4 +5,5 @@ public class InvalidCommentIdException extends BusinessException {
     public InvalidCommentIdException() {
         super(ErrorMessage.INVALID_COMMENT_ID);
     }
+
 }

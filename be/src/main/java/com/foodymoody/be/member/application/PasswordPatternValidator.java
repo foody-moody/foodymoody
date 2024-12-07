@@ -17,4 +17,5 @@ public class PasswordPatternValidator implements ConstraintValidator<PasswordPat
         }
         return Pattern.matches(REGEX, value);
     }
+
 }

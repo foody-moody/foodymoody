@@ -17,4 +17,5 @@ public interface NotificationSummaryDao {
      * @return A slice of NotificationSummary objects representing the retrieved notification summaries
      */
     Slice<NotificationSummary> findAllByMemberId(MemberId memberId, Pageable pageable);
+
 }

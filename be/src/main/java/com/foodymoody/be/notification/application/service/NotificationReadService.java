@@ -1,6 +1,5 @@
 package com.foodymoody.be.notification.application.service;
 
-
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.notification.domain.NotificationRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,4 +28,5 @@ public class NotificationReadService {
     public long fetchCountNotReadNotification(MemberId memberId) {
         return notificationRepository.countByMemberIdAndDeletedAndRead(memberId, false, false);
     }
+
 }

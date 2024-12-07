@@ -16,7 +16,9 @@ public class MyCollectionWithFeedInclusionStatusResponse {
         this.containsFeed = containsFeed;
     }
 
-    public static MyCollectionWithFeedInclusionStatusResponse of(FeedCollectionId id, String title, boolean containsFeed) {
+    public static MyCollectionWithFeedInclusionStatusResponse of(FeedCollectionId id, String title,
+                                                                 boolean containsFeed) {
         return new MyCollectionWithFeedInclusionStatusResponse(id, title, containsFeed);
     }
+
 }

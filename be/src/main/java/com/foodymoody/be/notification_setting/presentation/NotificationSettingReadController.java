@@ -20,4 +20,5 @@ public class NotificationSettingReadController {
         var notificationSettingSummary = useCase.request(memberId);
         return ResponseEntity.ok(notificationSettingSummary);
     }
+
 }

@@ -28,4 +28,5 @@ public class FeedReplyComments {
     public boolean isEmpty() {
         return commentList.isEmpty();
     }
+
 }

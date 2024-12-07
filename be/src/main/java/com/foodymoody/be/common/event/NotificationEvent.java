@@ -10,4 +10,5 @@ public interface NotificationEvent extends Event {
     NotificationType getNotificationType();
 
     LocalDateTime getCreatedAt();
+
 }

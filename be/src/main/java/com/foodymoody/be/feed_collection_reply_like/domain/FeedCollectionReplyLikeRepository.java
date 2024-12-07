@@ -8,4 +8,5 @@ public interface FeedCollectionReplyLikeRepository {
     FeedCollectionReplyLike save(FeedCollectionReplyLike like);
 
     void deleteByFeedCollectionReplyIdAndMemberId(FeedCollectionReplyId id, MemberId memberId);
+
 }

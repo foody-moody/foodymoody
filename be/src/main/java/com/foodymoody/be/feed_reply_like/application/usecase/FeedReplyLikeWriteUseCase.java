@@ -33,4 +33,5 @@ public class FeedReplyLikeWriteUseCase {
         feedReplyLikeService.delete(feedReplyId, memberId);
         replyHeartCountService.decrement(feedReplyId);
     }
+
 }

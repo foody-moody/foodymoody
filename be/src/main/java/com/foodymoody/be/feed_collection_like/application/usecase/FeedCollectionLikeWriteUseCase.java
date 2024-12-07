@@ -28,4 +28,5 @@ public class FeedCollectionLikeWriteUseCase {
         likeService.cancel(feedCollectionId, memberId);
         likeCountService.decreaseLikeCount(feedCollectionId);
     }
+
 }

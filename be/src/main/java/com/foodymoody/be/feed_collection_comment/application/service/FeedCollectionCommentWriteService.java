@@ -52,4 +52,5 @@ public class FeedCollectionCommentWriteService {
         return repository.findById(id)
                 .orElseThrow(FeedCollectionCommentNotFoundException::new);
     }
+
 }

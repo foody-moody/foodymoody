@@ -24,4 +24,5 @@ public interface FeedCollectionLikeCountJpaRepository extends
     void decreaseCount(FeedCollectionId feedCollectionId);
 
     Optional<FeedCollectionLikeCount> findByFeedCollectionId(FeedCollectionId feedCollectionId);
+
 }

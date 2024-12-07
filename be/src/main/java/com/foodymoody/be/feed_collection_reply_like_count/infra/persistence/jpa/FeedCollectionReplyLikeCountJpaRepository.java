@@ -21,4 +21,5 @@ public interface FeedCollectionReplyLikeCountJpaRepository extends
             "SET _lickCount.count = _lickCount.count - 1 " +
             "WHERE _lickCount.feedCollectionReplyId = :feedCollectionReplyId")
     void decreaseCount(FeedCollectionReplyId feedCollectionReplyId);
+
 }

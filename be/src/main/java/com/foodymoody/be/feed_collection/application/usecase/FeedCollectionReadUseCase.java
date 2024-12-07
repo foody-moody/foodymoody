@@ -93,7 +93,7 @@ public class FeedCollectionReadUseCase {
         var moods = getMoodResponses(id);
         var isFollowed = followReadService.isFollowing(memberId, feedCollection.getAuthorId());
         return new FeedCollectionDetail(feedCollection, authorSummaryResponse, feeds, comments, moods, isLiked,
-                                        isFollowed
+                isFollowed
         );
     }
 
@@ -199,4 +199,5 @@ public class FeedCollectionReadUseCase {
         var authorTasteMood = tasteMoodReadService.findById(author.getTasteMoodId());
         return toAuthorSummaryResponse(author, authorProfileImage, authorTasteMood);
     }
+
 }

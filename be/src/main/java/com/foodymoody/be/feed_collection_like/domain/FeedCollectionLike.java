@@ -27,8 +27,10 @@ public class FeedCollectionLike {
     @Getter
     @Id
     private FeedCollectionLikeId id;
+
     @AttributeOverride(name = "value", column = @Column(name = "feed_collection_id"))
     private FeedCollectionId feedCollectionId;
+
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
     private LocalDateTime createdAt;
@@ -50,4 +52,5 @@ public class FeedCollectionLike {
     ) {
         return FeedCollectionLikeAddedEvent.of(memberId, feedCollectionId, createdAt);
     }
+
 }

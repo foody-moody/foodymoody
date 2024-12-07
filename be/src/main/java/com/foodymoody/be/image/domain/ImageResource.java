@@ -76,4 +76,5 @@ public class ImageResource {
 
         return signature;
     }
+
 }

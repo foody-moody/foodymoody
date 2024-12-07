@@ -6,7 +6,6 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.service.FeedReadService;
-import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
 import com.foodymoody.be.feed_like.application.FeedLikeMapper;
 import com.foodymoody.be.feed_like.application.dto.response.FeedLikeResponse;

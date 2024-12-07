@@ -19,4 +19,5 @@ public interface StoreRepository {
     Optional<Store> findById(StoreId id);
 
     Slice<StoreFeedPreviewResponse> fetchStoreFeedResponses(StoreId id, Pageable pageable);
+
 }

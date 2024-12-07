@@ -27,4 +27,5 @@ public class FeedCommentNotificationDetails extends NotificationDetails {
         this.feedCommentId = feedCommentId;
         this.feedCommentContent = feedCommentContent;
     }
+
 }

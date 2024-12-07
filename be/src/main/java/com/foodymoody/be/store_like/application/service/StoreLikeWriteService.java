@@ -57,4 +57,5 @@ public class StoreLikeWriteService {
         return repository.findByStoreIdAndMemberId(storeId, memberId)
                 .isPresent();
     }
+
 }

@@ -5,8 +5,6 @@ import com.foodymoody.be.common.util.ids.StoreId;
 import com.foodymoody.be.store_like_count.domain.StoreLikeCount;
 import com.foodymoody.be.store_like_count.domain.StoreLikeCountRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,4 +26,5 @@ public class StoreLikeCountWriteService {
                 .orElseThrow(StoreNotFoundException::new);
         count.decrement();
     }
+
 }

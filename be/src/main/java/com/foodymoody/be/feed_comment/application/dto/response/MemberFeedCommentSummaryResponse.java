@@ -39,4 +39,5 @@ public class MemberFeedCommentSummaryResponse {
         this.likeCount = likeCount;
         this.liked = liked;
     }
+
 }

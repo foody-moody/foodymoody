@@ -23,4 +23,5 @@ public class StoreLikeCountRepositoryImpl implements StoreLikeCountRepository {
     public StoreLikeCount save(StoreLikeCount storeLikeCount) {
         return jpaRepository.save(storeLikeCount);
     }
+
 }

@@ -33,4 +33,5 @@ public class FeedReplyWriteController {
         service.update(data);
         return ResponseEntity.ok().build();
     }
+
 }

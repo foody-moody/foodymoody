@@ -12,4 +12,5 @@ public abstract class ResourceNotFoundException extends RuntimeException {
     public String getCode() {
         return errorMessage.getCode();
     }
+
 }

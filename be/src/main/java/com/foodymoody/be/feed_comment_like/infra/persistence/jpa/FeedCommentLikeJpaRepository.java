@@ -11,4 +11,5 @@ public interface FeedCommentLikeJpaRepository extends JpaRepository<FeedCommentL
     void deleteByFeedCommentIdAndMemberId(FeedCommentId feedCommentId, MemberId memberId);
 
     boolean existsByFeedCommentIdAndMemberId(FeedCommentId feedCommentId, MemberId memberId);
+
 }

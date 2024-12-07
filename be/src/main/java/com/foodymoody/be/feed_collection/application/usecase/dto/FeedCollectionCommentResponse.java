@@ -48,4 +48,5 @@ public class FeedCollectionCommentResponse {
         this.likeCount = likeCount;
         this.author = new AuthorSummaryResponse(memberId, nickname, mood, profileImageUrl);
     }
+
 }

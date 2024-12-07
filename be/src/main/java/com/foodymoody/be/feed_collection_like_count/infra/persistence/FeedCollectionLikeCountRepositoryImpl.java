@@ -39,4 +39,5 @@ public class FeedCollectionLikeCountRepositoryImpl implements FeedCollectionLike
     public List<FeedCollectionLikeCount> findAll() {
         return repository.findAll();
     }
+
 }

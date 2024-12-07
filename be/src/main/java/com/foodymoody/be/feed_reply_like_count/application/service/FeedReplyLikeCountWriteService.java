@@ -27,4 +27,5 @@ public class FeedReplyLikeCountWriteService {
     public void save(FeedReplyLikeCount feedReplyLikeCount) {
         repository.save(feedReplyLikeCount);
     }
+
 }

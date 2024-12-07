@@ -28,4 +28,5 @@ public class FeedCollectionRepositoryImpl implements FeedCollectionRepository {
     public Optional<FeedCollection> findById(FeedCollectionId feedCollectionId) {
         return repository.findById(feedCollectionId);
     }
+
 }

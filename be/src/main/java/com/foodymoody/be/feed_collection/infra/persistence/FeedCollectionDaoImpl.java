@@ -31,14 +31,12 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
-
 @RequiredArgsConstructor
 @Repository
 public class FeedCollectionDaoImpl implements FeedCollectionDao {
 
     private final FeedCollectionJpaRepository repository;
     private final JPAQueryFactory queryFactory;
-
 
     @Override
     public Slice<FeedCollectionSummary> findAllSummary(Pageable pageable) {
@@ -56,7 +54,6 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
     public Optional<FeedCollection> fetchById(FeedCollectionId feedCollectionId) {
         return repository.findByIdAndIsDeleted(feedCollectionId, false);
     }
-
 
     private Slice<FeedCollectionSummary> getSliceOfAllCollectionSummaries(
             Pageable pageable, Expression<Boolean> liked
@@ -133,4 +130,5 @@ public class FeedCollectionDaoImpl implements FeedCollectionDao {
         return feedCollectionLike.memberId.eq(memberId)
                 .and(feedCollectionLike.feedCollectionId.eq(feedCollection.id));
     }
+
 }

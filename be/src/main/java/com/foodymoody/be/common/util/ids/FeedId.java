@@ -11,4 +11,5 @@ public class FeedId extends BaseId {
     public FeedId(String value) {
         super(value);
     }
+
 }

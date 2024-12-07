@@ -62,4 +62,5 @@ public class FeedCommentReplyAddedEvent implements NotificationEvent {
                 createdAt
         );
     }
+
 }

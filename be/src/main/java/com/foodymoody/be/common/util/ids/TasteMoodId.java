@@ -12,4 +12,5 @@ public class TasteMoodId extends BaseId {
     public TasteMoodId(String value) {
         super(value);
     }
+
 }

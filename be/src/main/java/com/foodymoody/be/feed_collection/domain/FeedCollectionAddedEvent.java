@@ -49,4 +49,5 @@ public class FeedCollectionAddedEvent implements NotificationEvent {
                 createdAt
         );
     }
+
 }

@@ -14,4 +14,5 @@ public interface StoreQueryDslRepository {
     Optional<StoreDetailsResponse> fetchDetailsById(StoreId id, MemberId currentMemberId);
 
     List<StoreSearchResponse> searchByKeyword(String query);
+
 }

@@ -18,8 +18,10 @@ public class Store {
 
     @EmbeddedId
     private StoreId id;
+
     @Embedded
     private LocalDataKey localDataKey;
+
     @Getter
     private String name;
     private String roadAddress;
@@ -27,6 +29,7 @@ public class Store {
     private String phone;
     private Double x;
     private Double y;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status")
     private StoreStatus status;

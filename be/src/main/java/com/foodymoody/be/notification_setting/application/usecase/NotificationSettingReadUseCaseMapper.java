@@ -28,4 +28,5 @@ public class NotificationSettingReadUseCaseMapper {
                 summary.isFeedComment() &&
                 summary.isCollectionComment();
     }
+
 }

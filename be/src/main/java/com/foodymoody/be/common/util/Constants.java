@@ -7,4 +7,5 @@ public class Constants {
     private Constants() {
         throw new IllegalStateException(UTILITY_CLASS);
     }
+
 }

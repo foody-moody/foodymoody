@@ -23,4 +23,5 @@ public class FeedCollectionCommentLikeRepositoryImpl implements FeedCollectionCo
     public void deleteByCommentIdAndMemberId(FeedCollectionCommentId commentId, MemberId memberId) {
         repository.deleteByCommentIdAndMemberId(commentId, memberId);
     }
+
 }

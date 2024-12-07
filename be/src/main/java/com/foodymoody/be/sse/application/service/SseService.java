@@ -48,4 +48,5 @@ public class SseService {
     private void sendSseEvents(MemberId memberId) {
         executorService.submit(() -> sseAsyncService.sendSseEvents(memberId, emitters));
     }
+
 }

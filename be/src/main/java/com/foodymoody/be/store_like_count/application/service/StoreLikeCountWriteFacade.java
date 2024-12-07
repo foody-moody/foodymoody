@@ -14,7 +14,7 @@ public class StoreLikeCountWriteFacade {
 
     @SneakyThrows
     public void increment(StoreId storeId) {
-        while(true) {
+        while (true) {
             try {
                 likeCountService.increment(storeId);
                 break;
@@ -26,7 +26,7 @@ public class StoreLikeCountWriteFacade {
 
     @SneakyThrows
     public void decrement(StoreId storeId) {
-        while(true) {
+        while (true) {
             try {
                 likeCountService.decrement(storeId);
                 break;

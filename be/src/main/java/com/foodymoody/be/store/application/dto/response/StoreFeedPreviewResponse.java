@@ -13,4 +13,5 @@ public class StoreFeedPreviewResponse {
         this.feedId = feedId;
         this.thumbnailUrl = thumbnailUrl;
     }
+
 }

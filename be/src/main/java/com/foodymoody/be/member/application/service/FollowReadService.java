@@ -51,10 +51,11 @@ public class FollowReadService {
             MemberId currentMemberId,
             Slice<FollowMemberSummary> followers
     ) {
-        if(Objects.nonNull(currentMemberId)) {
+        if (Objects.nonNull(currentMemberId)) {
             Member currentMember = memberReadService.findById(currentMemberId);
             return MemberMapper.toFollowMemberSummaryResponses(currentMember, followers);
         }
         return MemberMapper.toFollowMemberSummaryResponses(followers);
     }
+
 }

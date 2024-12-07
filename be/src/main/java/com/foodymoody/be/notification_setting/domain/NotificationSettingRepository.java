@@ -10,4 +10,5 @@ public interface NotificationSettingRepository {
     NotificationSetting save(NotificationSetting notificationSetting);
 
     Optional<NotificationSettingSummary> findSummaryByMemberId(MemberId memberId);
+
 }

@@ -33,4 +33,5 @@ public class NotificationSettingWriteController {
         service.updateAll(memberId, request.isAllow());
         return ResponseEntity.noContent().build();
     }
+
 }

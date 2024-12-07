@@ -24,4 +24,5 @@ public class FollowRepositoryImpl implements FollowRepository {
     public Slice<FollowMemberSummary> fetchMyFollowerSummariesByMember(Member member, Pageable pageable) {
         return jpaRepository.fetchMyFollowerSummariesByMember(member, pageable);
     }
+
 }

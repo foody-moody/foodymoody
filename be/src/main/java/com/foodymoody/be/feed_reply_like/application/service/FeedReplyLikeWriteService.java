@@ -33,4 +33,5 @@ public class FeedReplyLikeWriteService {
     public boolean existsByReplyIdAndMemberId(FeedReplyId feedReplyId, MemberId memberId) {
         return feedReplyLikeRepository.existsByReplyIdAndMemberId(feedReplyId, memberId);
     }
+
 }

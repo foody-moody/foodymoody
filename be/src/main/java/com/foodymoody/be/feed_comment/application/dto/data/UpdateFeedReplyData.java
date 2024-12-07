@@ -17,4 +17,5 @@ public class UpdateFeedReplyData {
         this.memberId = memberId;
         this.content = new Content(content);
     }
+
 }

@@ -18,4 +18,5 @@ public class OAuthMemberDetails {
     public static OAuthMemberDetails of(String email, String nickname, String profileImageUrl) {
         return new OAuthMemberDetails(email, nickname, profileImageUrl);
     }
+
 }

@@ -34,4 +34,5 @@ public class FeedCollectionReplyWriteUseCase {
     public void edit(FeedCollectionReplyId replyId, Content content, MemberId memberId) {
         replyService.edit(replyId, content, memberId);
     }
+
 }

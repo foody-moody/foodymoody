@@ -27,4 +27,5 @@ public class TasteMoodReadService {
                 .map(m -> TasteMoodResponse.of(m.getId(), m.getName()))
                 .collect(Collectors.toUnmodifiableList());
     }
+
 }

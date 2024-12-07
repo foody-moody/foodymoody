@@ -10,6 +10,7 @@ public class StoreStatus {
 
     @Id
     private int code;
+
     @Enumerated(EnumType.STRING)
     private StatusType type;
 
@@ -18,8 +19,8 @@ public class StoreStatus {
     }
 
     public enum StatusType {
-        OPEN("영업/정상") ,
-        TEMPORARILY_CLOSED("휴업") ,
+        OPEN("영업/정상"),
+        TEMPORARILY_CLOSED("휴업"),
         CLOSED("폐업") {
             @Override
             public boolean isClosed() {
@@ -38,4 +39,5 @@ public class StoreStatus {
             this.description = description;
         }
     }
+
 }

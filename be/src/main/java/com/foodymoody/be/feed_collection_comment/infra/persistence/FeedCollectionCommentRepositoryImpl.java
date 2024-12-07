@@ -50,4 +50,5 @@ public class FeedCollectionCommentRepositoryImpl implements FeedCollectionCommen
     ) {
         return repository.findSummaryAllByIdIn(commentIds, pageable);
     }
+
 }

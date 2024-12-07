@@ -13,4 +13,5 @@ public class MyFeedCollectionAuthorResponse {
         this.id = id;
         this.profileImageUrl = profileImageUrl;
     }
+
 }

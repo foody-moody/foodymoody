@@ -24,4 +24,5 @@ public class FeedCollectionMoodReadUseCase {
     private static FeedCollectionMoodResponse toResponse(FeedCollectionMood mood) {
         return new FeedCollectionMoodResponse(mood.getId(), mood.getName());
     }
+
 }

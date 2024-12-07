@@ -29,8 +29,10 @@ public class Image {
     private ImageId id;
     // TODO URL 로 리팩토링
     private String url;
+
     @CreatedDate
     private LocalDateTime createdAt;
+
     @AttributeOverride(name = "value", column = @Column(name = "uploader_id"))
     private MemberId uploaderId;
     private boolean deleted;
@@ -51,4 +53,5 @@ public class Image {
         validateIsUploader(currentMemberId);
         deleted = Boolean.TRUE;
     }
+
 }

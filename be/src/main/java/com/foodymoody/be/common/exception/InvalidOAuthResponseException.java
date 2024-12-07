@@ -5,4 +5,5 @@ public class InvalidOAuthResponseException extends BusinessException {
     public InvalidOAuthResponseException() {
         super(ErrorMessage.INVALID_OAUTH_RESPONSE);
     }
+
 }

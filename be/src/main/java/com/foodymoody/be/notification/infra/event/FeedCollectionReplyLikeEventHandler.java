@@ -67,4 +67,5 @@ public class FeedCollectionReplyLikeEventHandler {
         var reply = replyReadService.fetchById(feedCollectionReplyId);
         return reply.getContent();
     }
+
 }

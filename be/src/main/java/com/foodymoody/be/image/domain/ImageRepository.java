@@ -21,4 +21,5 @@ public interface ImageRepository {
     void setDeletedTrueInBatch(List<Image> images);
 
     List<Image> findAllByIdInAndDeletedFalse(List<ImageId> ids);
+
 }

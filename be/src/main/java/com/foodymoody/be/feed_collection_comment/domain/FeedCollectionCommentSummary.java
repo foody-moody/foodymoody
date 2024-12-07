@@ -33,4 +33,5 @@ public interface FeedCollectionCommentSummary {
     String getProfileImageUrl();
 
     String getMood();
+
 }

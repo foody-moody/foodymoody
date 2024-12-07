@@ -11,4 +11,5 @@ public class NotificationSettingId extends BaseId {
     public NotificationSettingId(String value) {
         super(value);
     }
+
 }

@@ -84,4 +84,5 @@ public class NotificationResponseMapper {
     ) {
         return notificationSummaries.map(NotificationResponseMapper::toNotificationResponse);
     }
+
 }

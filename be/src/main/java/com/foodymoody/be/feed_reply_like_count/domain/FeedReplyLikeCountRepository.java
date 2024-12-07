@@ -1,6 +1,5 @@
 package com.foodymoody.be.feed_reply_like_count.domain;
 
-
 import com.foodymoody.be.common.util.ids.FeedReplyId;
 
 public interface FeedReplyLikeCountRepository {
@@ -10,4 +9,5 @@ public interface FeedReplyLikeCountRepository {
     void incrementCount(FeedReplyId feedReplyId);
 
     void decrementCount(FeedReplyId feedReplyId);
+
 }

@@ -20,4 +20,5 @@ public class FeedCollectionMoodReadController {
         return ResponseEntity.ok()
                 .body(response);
     }
+
 }

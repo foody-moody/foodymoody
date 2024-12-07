@@ -31,4 +31,5 @@ public class FeedCollectionReplyIds {
     public void add(FeedCollectionReplyId id) {
         ids.add(id);
     }
+
 }

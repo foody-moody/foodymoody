@@ -44,4 +44,5 @@ public class FeedCollectionLikeAddedEventHandler {
         var notification = NotificationMapper.toNotification(event, notificationId, details, toMemberId);
         notificationService.save(notification);
     }
+
 }

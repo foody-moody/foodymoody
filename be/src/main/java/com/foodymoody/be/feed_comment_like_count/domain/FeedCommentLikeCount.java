@@ -15,6 +15,7 @@ public class FeedCommentLikeCount {
 
     @EmbeddedId
     private FeedCommentLikeCountId id;
+
     @AttributeOverride(name = "value", column = @Column(name = "comment_id"))
     private FeedCommentId feedCommentId;
     private long count;
@@ -24,4 +25,5 @@ public class FeedCommentLikeCount {
         this.feedCommentId = feedCommentId;
         this.count = count;
     }
+
 }

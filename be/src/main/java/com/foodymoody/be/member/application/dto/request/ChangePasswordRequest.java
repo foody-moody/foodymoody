@@ -9,6 +9,7 @@ import lombok.Getter;
 public class ChangePasswordRequest {
 
     private String oldPassword;
+
     @PasswordPattern
     private String password;
     private String repeatPassword;

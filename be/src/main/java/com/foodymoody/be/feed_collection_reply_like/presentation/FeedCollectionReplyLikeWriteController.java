@@ -42,4 +42,5 @@ public class FeedCollectionReplyLikeWriteController {
         useCase.cancel(replyId, memberId);
         return ResponseEntity.noContent().build();
     }
+
 }

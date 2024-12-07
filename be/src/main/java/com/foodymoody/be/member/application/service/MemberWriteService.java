@@ -23,7 +23,9 @@ public class MemberWriteService {
 
     private final MemberRepository memberRepository;
 
-    public Member create(MemberId id, SupportedAuthProvider authProvider, String email, String nickname, String password, TasteMood tasteMood, ImageId profileImageId, String profileImageUrl, LocalDateTime now) {
+    public Member create(MemberId id, SupportedAuthProvider authProvider, String email, String nickname,
+                         String password, TasteMood tasteMood, ImageId profileImageId, String profileImageUrl,
+                         LocalDateTime now) {
         validateNicknameDuplication(nickname);
         validateEmailDuplication(email);
         MemberProfileImage profileImage = MemberProfileImage.of(profileImageId, profileImageUrl);

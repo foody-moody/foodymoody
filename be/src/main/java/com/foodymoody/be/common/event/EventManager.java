@@ -3,7 +3,6 @@ package com.foodymoody.be.common.event;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class EventManager {
 
     private static final ThreadLocal<List<Event>> threadLocalEvents = new ThreadLocal<>();
@@ -29,4 +28,5 @@ public class EventManager {
         }
         getEvents().add(event);
     }
+
 }

@@ -117,4 +117,5 @@ public class FeedCollectionWriteService {
             feedCollection.updateLikeCount(likeCount.getLikeCount());
         });
     }
+
 }

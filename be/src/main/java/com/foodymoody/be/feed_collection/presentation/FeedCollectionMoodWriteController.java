@@ -31,7 +31,6 @@ public class FeedCollectionMoodWriteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse.of(id));
     }
 
-
     @PostMapping("/api/feed_collections/{feedCollectionId}/moods")
     public ResponseEntity<Void> addMood(
             @PathVariable FeedCollectionId feedCollectionId,
@@ -51,4 +50,5 @@ public class FeedCollectionMoodWriteController {
         service.removeMood(feedCollectionId, memberId, moodId);
         return ResponseEntity.noContent().build();
     }
+
 }

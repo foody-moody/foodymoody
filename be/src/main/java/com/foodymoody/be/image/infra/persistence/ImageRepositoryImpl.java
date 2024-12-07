@@ -49,4 +49,5 @@ public class ImageRepositoryImpl implements ImageRepository {
     public List<Image> findAllByIdInAndDeletedFalse(List<ImageId> ids) {
         return jpaRepository.findAllByIdInAndDeletedFalse(ids);
     }
+
 }

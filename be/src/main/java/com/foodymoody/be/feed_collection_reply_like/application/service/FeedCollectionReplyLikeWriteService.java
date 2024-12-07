@@ -34,4 +34,5 @@ public class FeedCollectionReplyLikeWriteService {
     public void cancel(MemberId memberId, FeedCollectionReplyId id) {
         repository.deleteByFeedCollectionReplyIdAndMemberId(id, memberId);
     }
+
 }

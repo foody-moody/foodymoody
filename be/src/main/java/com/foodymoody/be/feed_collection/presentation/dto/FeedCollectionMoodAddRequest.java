@@ -9,4 +9,5 @@ import lombok.Setter;
 public class FeedCollectionMoodAddRequest {
 
     private FeedCollectionMoodId moodId;
+
 }

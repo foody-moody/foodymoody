@@ -18,6 +18,7 @@ public class FeedCollectionReplyLikeCount {
     @Getter
     @Id
     private FeedCollectionReplyLikeCountId id;
+
     @AttributeOverride(name = "value", column = @Column(name = "feed_collection_reply_id"))
     private FeedCollectionReplyId feedCollectionReplyId;
     private Long count;
@@ -34,4 +35,5 @@ public class FeedCollectionReplyLikeCount {
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
     }
+
 }

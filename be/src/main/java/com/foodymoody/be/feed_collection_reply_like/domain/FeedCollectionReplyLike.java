@@ -21,10 +21,13 @@ public class FeedCollectionReplyLike {
     @Getter
     @Id
     private FeedCollectionReplyLikeId id;
+
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
+
     @AttributeOverride(name = "value", column = @Column(name = "feed_collection_id"))
     private FeedCollectionReplyId feedCollectionReplyId;
+
     @AttributeOverride(name = "value", column = @Column(name = "feed_collection_comment_id"))
     private FeedCollectionCommentId feedCollectionCommentId;
     private LocalDateTime createdAt;
@@ -59,4 +62,5 @@ public class FeedCollectionReplyLike {
                 createdAt
         );
     }
+
 }

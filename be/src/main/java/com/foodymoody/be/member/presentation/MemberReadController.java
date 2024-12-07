@@ -3,12 +3,12 @@ package com.foodymoody.be.member.presentation;
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
-import com.foodymoody.be.member.application.dto.response.MyFeedCollectionTitleResponse;
-import com.foodymoody.be.member.application.dto.response.MyCollectionWithFeedInclusionStatusResponse;
-import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.FollowMemberSummaryResponse;
 import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
+import com.foodymoody.be.member.application.dto.response.MyCollectionWithFeedInclusionStatusResponse;
+import com.foodymoody.be.member.application.dto.response.MyFeedCollectionTitleResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
+import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.NicknameDuplicationCheckResponse;
 import com.foodymoody.be.member.application.dto.response.TasteMoodResponse;
 import com.foodymoody.be.member.application.service.FollowReadService;
@@ -71,7 +71,8 @@ public class MemberReadController {
     public ResponseEntity<List<MyCollectionWithFeedInclusionStatusResponse>> fetchMyCollectionWithFeedInclusionStatus(
             @CurrentMemberId MemberId currentMemberId,
             @PathVariable FeedId feedId) {
-        List<MyCollectionWithFeedInclusionStatusResponse> responses = memberReadService.fetchMyCollectionWithFeedInclusionStatus(currentMemberId, feedId);
+        List<MyCollectionWithFeedInclusionStatusResponse> responses = memberReadService.fetchMyCollectionWithFeedInclusionStatus(
+                currentMemberId, feedId);
         return ResponseEntity.ok().body(responses);
     }
 

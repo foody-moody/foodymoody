@@ -19,4 +19,5 @@ public class StoreSummaryResponse {
     public String getName() {
         return name;
     }
+
 }

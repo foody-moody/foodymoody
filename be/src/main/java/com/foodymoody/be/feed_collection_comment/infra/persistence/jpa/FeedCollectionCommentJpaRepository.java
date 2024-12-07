@@ -19,7 +19,8 @@ public interface FeedCollectionCommentJpaRepository extends
                     ", _comment.memberId AS memberId " +
                     ", _comment.content AS content " +
                     ", _comment.deleted AS deleted " +
-                    ", (CASE WHEN EXISTS (select 1 from FeedCollectionReply _reply where _reply.commentId = _comment.id) " +
+                    ", (CASE WHEN EXISTS (select 1 from FeedCollectionReply _reply where _reply.commentId = _comment.id) "
+                    +
                     " THEN true " +
                     " ELSE false " +
                     " END) AS hasReply " +
@@ -33,7 +34,8 @@ public interface FeedCollectionCommentJpaRepository extends
                     "FROM FeedCollectionComment _comment " +
                     "JOIN Member _member ON _comment.memberId = _member.id " +
                     "LEFT JOIN Image _image ON _member.profileImage.id = _image.id AND _image.deleted = false " +
-                    "JOIN FeedCollectionCommentLikeCount _likeCount on _likeCount.feedCollectionCommentId = _comment.id " +
+                    "JOIN FeedCollectionCommentLikeCount _likeCount on _likeCount.feedCollectionCommentId = _comment.id "
+                    +
                     "LEFT JOIN FeedCollectionCommentLike _like " +
                     "ON _comment.id = _like.commentId AND _like.memberId = :memberId " +
                     "WHERE _comment.id IN :commentIds AND _comment.deleted = false"
@@ -50,7 +52,8 @@ public interface FeedCollectionCommentJpaRepository extends
                     ", _comment.memberId AS memberId " +
                     ", _comment.content AS content " +
                     ", _comment.deleted AS deleted " +
-                    ", (CASE WHEN EXISTS (select 1 from FeedCollectionReply _reply where _reply.commentId = _comment.id) " +
+                    ", (CASE WHEN EXISTS (select 1 from FeedCollectionReply _reply where _reply.commentId = _comment.id) "
+                    +
                     " THEN true " +
                     " ELSE false " +
                     " END) AS hasReply " +
@@ -64,11 +67,13 @@ public interface FeedCollectionCommentJpaRepository extends
                     "FROM FeedCollectionComment _comment " +
                     "JOIN Member _member ON _comment.memberId = _member.id " +
                     "LEFT JOIN Image _image ON _member.profileImage.id = _image.id AND _image.deleted = false " +
-                    "JOIN FeedCollectionCommentLikeCount _likeCount on _likeCount.feedCollectionCommentId = _comment.id " +
+                    "JOIN FeedCollectionCommentLikeCount _likeCount on _likeCount.feedCollectionCommentId = _comment.id "
+                    +
                     "WHERE _comment.id IN :commentIds AND _comment.deleted = false"
     )
     Slice<FeedCollectionCommentSummary> findSummaryAllByIdIn(
             List<FeedCollectionCommentId> commentIds,
             Pageable pageable
     );
+
 }

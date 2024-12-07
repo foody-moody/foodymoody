@@ -10,4 +10,5 @@ public class MenuId extends BaseId {
     public MenuId(String value) {
         super(value);
     }
+
 }

@@ -54,4 +54,5 @@ public class FeedCommentLikedEventHandler {
         var feedNotification = toNotification(event, feedNotificationId, details, toMemberId);
         notificationService.save(feedNotification);
     }
+
 }

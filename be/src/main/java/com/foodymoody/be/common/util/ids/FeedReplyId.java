@@ -29,4 +29,5 @@ public class FeedReplyId extends BaseId {
         FeedReplyId feedReplyId = (FeedReplyId) obj;
         return Objects.equals(getValue(), feedReplyId.getValue());
     }
+
 }

@@ -44,4 +44,5 @@ public class FeedSummaryResponse {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
 }

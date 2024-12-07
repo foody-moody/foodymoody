@@ -39,4 +39,5 @@ public class FeedLikeAddedEvent implements NotificationEvent {
                 createdAt
         );
     }
+
 }

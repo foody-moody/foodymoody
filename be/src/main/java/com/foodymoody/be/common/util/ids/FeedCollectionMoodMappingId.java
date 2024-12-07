@@ -11,4 +11,5 @@ public class FeedCollectionMoodMappingId extends BaseId {
     public FeedCollectionMoodMappingId(String value) {
         super(value);
     }
+
 }

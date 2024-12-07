@@ -17,4 +17,5 @@ public class FeedCollectionWriteScheduler {
     public void updateLikeCount() {
         feedCollectionWriteService.updateLikeCount(feedCollectionLikeCountReadService.getAll());
     }
+
 }

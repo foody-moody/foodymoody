@@ -80,4 +80,5 @@ public class NotificationWriteController {
         service.deleteRead(memberId);
         return ResponseEntity.noContent().build();
     }
+
 }

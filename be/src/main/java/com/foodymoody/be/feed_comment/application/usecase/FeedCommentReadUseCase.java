@@ -29,4 +29,5 @@ public class FeedCommentReadUseCase {
         var fetchComments = feedCommentService.fetchComments(feedId, pageable, memberId);
         return FeedCommentMapper.toSummaryResponses(fetchComments);
     }
+
 }

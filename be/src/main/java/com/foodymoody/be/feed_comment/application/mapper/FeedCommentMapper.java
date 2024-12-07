@@ -90,4 +90,5 @@ public class FeedCommentMapper {
     public static MemberSummaryResponse getMember(MemberFeedReplySummary summary) {
         return new MemberSummaryResponse(summary.getMemberId(), summary.getNickname(), summary.getImageUrl());
     }
+
 }

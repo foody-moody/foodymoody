@@ -18,7 +18,7 @@ public class MemberCreatedEvent implements Event {
     private LocalDateTime createdAt;
 
     private MemberCreatedEvent(MemberId memberid, String email, String nickname, ImageId profileImageId,
-            TasteMoodId tasteMoodId, LocalDateTime createdAt) {
+                               TasteMoodId tasteMoodId, LocalDateTime createdAt) {
         this.memberid = memberid;
         this.email = email;
         this.nickname = nickname;
@@ -28,7 +28,8 @@ public class MemberCreatedEvent implements Event {
     }
 
     public static MemberCreatedEvent of(MemberId id, String email, String nickname, ImageId profileImageId,
-            TasteMoodId tasteMoodId, LocalDateTime createdAt) {
+                                        TasteMoodId tasteMoodId, LocalDateTime createdAt) {
         return new MemberCreatedEvent(id, email, nickname, profileImageId, tasteMoodId, createdAt);
     }
+
 }

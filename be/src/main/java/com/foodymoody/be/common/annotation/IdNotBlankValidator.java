@@ -12,4 +12,5 @@ public class IdNotBlankValidator implements ConstraintValidator<IdNotBlank, Base
         String value = id.getValue();
         return Objects.nonNull(value) && !value.isBlank();
     }
+
 }

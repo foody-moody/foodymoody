@@ -21,6 +21,7 @@ public class FeedCollectionMoods {
 
     @Id
     private FeedCollectionMoodsId id;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "feed_collection_mood_list",
@@ -49,4 +50,5 @@ public class FeedCollectionMoods {
     public void update(List<FeedCollectionMood> moodIds) {
         this.moodList = moodIds;
     }
+
 }

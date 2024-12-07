@@ -22,4 +22,5 @@ public class FeedCollectionNotificationDetails extends NotificationDetails {
         this.feedCollectionTitle = feedCollectionTitle;
         this.feedCollectionThumbnailUrl = feedCollectionThumbnailUrl;
     }
+
 }

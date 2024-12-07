@@ -36,4 +36,5 @@ public class FeedReplyReadController {
         var response = service.fetchAllReplyByMemberId(feedCommentId, memberId, pageable);
         return ResponseEntity.ok(response);
     }
+
 }

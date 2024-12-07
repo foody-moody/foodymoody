@@ -108,4 +108,5 @@ public class NotificationWriteService {
         return notificationRepository.findById(notificationId)
                 .orElseThrow(FeedNotificationNotFoundException::new);
     }
+
 }

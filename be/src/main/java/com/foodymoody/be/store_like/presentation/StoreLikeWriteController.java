@@ -37,4 +37,5 @@ public class StoreLikeWriteController {
         service.cancel(storeId, memberId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
 }

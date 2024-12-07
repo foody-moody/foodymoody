@@ -15,6 +15,7 @@ public class NotificationSetting {
 
     @EmbeddedId
     private NotificationSettingId id;
+
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
     private boolean isFeedLike;
@@ -39,7 +40,6 @@ public class NotificationSetting {
         this.isCollectionComment = isCollectionComment;
     }
 
-
     public void update(
             boolean isFeedLike, boolean isCollectionLike, boolean isCommentLike, boolean isFollow,
             boolean isFeedComment, boolean isCollectionComment
@@ -60,4 +60,5 @@ public class NotificationSetting {
         this.isFeedComment = allow;
         this.isCollectionComment = allow;
     }
+
 }

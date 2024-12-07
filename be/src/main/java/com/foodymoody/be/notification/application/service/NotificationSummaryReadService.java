@@ -1,6 +1,5 @@
 package com.foodymoody.be.notification.application.service;
 
-
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.notification.domain.NotificationSummary;
 import com.foodymoody.be.notification.domain.NotificationSummaryDao;
@@ -31,4 +30,5 @@ public class NotificationSummaryReadService {
     public Slice<NotificationSummary> requestAll(MemberId memberId, Pageable pageable) {
         return dao.findAllByMemberId(memberId, pageable);
     }
+
 }

@@ -60,8 +60,9 @@ public class SseAsyncService {
     private static void sendCount(MemberId memberId, long count, SseEmitter emitter) throws IOException {
         SseResponse sseResponse = new SseResponse(count);
         emitter.send(SseEmitter.event()
-                             .name(NOTIFICATION_EVENT_NAME)
-                             .id(memberId.getValue())
-                             .data(sseResponse));
+                .name(NOTIFICATION_EVENT_NAME)
+                .id(memberId.getValue())
+                .data(sseResponse));
     }
+
 }

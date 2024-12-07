@@ -19,4 +19,5 @@ public class NotificationSettingReadService {
         return settingRepository.findSummaryByMemberId(toMemberId)
                 .orElseThrow(NotificationSettingNotFoundException::new);
     }
+
 }

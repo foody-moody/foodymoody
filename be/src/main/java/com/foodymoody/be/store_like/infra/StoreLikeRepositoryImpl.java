@@ -29,4 +29,5 @@ public class StoreLikeRepositoryImpl implements StoreLikeRepository {
     public Optional<StoreLike> findByStoreIdAndMemberId(StoreId storeId, MemberId memberId) {
         return jpaRepository.findByStoreIdAndMemberId(storeId, memberId);
     }
+
 }

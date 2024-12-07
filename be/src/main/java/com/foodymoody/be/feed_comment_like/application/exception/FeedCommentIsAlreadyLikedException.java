@@ -8,4 +8,5 @@ public class FeedCommentIsAlreadyLikedException extends BusinessException {
     public FeedCommentIsAlreadyLikedException() {
         super(ErrorMessage.FEED_COMMENT_IS_ALREADY_LIKED);
     }
+
 }

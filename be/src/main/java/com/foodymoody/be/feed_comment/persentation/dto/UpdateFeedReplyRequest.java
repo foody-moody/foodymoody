@@ -8,4 +8,5 @@ import lombok.Setter;
 public class UpdateFeedReplyRequest {
 
     private String content;
+
 }

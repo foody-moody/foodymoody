@@ -25,4 +25,5 @@ public interface FollowJpaRepository extends JpaRepository<Follow, Long> {
             + "WHERE f.followed = :member "
             + "ORDER BY f.createdAt DESC ")
     Slice<FollowMemberSummary> fetchMyFollowerSummariesByMember(Member member, Pageable pageable);
+
 }

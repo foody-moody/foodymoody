@@ -17,4 +17,5 @@ public class EditFeedCommentData {
         this.memberId = memberId;
         this.content = content;
     }
+
 }

@@ -5,4 +5,5 @@ public class DuplicateMemberEmailException extends BusinessException {
     public DuplicateMemberEmailException() {
         super(ErrorMessage.DUPLICATE_MEMBER_EMAIL);
     }
+
 }

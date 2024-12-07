@@ -23,4 +23,5 @@ public class FeedCollectionReplyLikeRepositoryImpl implements FeedCollectionRepl
     public void deleteByFeedCollectionReplyIdAndMemberId(FeedCollectionReplyId id, MemberId memberId) {
         repository.deleteByFeedCollectionReplyIdAndMemberId(id, memberId);
     }
+
 }

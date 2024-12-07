@@ -105,7 +105,6 @@ public class FeedMapper {
                 .build();
     }
 
-
     public static List<FeedStoreMoodResponse> makeFeedStoreMoodResponses(List<StoreMood> storeMoods) {
         return storeMoods.stream()
                 .map(storeMood -> FeedStoreMoodResponse.from(storeMood.getId(), storeMood.getName()))

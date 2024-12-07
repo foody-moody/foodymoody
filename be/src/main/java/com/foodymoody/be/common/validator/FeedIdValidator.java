@@ -15,4 +15,5 @@ public class FeedIdValidator {
             throw new InvalidFeedIdException();
         }
     }
+
 }

@@ -12,4 +12,5 @@ public class EditFeedCommentRequest {
     @Size(max = 200)
     @NotBlank
     String content;
+
 }

@@ -12,4 +12,5 @@ public interface StoreLikeJpaRepository extends JpaRepository<StoreLike, StoreLi
     void deleteByStoreIdAndMemberId(StoreId storeId, MemberId memberId);
 
     Optional<StoreLike> findByStoreIdAndMemberId(StoreId storeId, MemberId memberId);
+
 }

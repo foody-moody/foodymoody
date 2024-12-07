@@ -1,6 +1,5 @@
 package com.foodymoody.be.feed_collection_comment.application;
 
-
 import com.foodymoody.be.common.util.Content;
 import com.foodymoody.be.common.util.ids.FeedCollectionCommentId;
 import com.foodymoody.be.common.util.ids.FeedCollectionId;
@@ -29,4 +28,5 @@ public class FeedCollectionCommentMapper {
                 createdAt
         );
     }
+
 }

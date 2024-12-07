@@ -23,4 +23,5 @@ public interface FeedCollectionReplyRepository {
             FeedCollectionCommentId commentId,
             Pageable pageable
     );
+
 }

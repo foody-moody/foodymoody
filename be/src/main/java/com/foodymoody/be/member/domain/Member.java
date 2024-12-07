@@ -32,14 +32,19 @@ public class Member {
     private String email;
     private String nickname;
     private String password;
+
     @Embedded
     private MemberProfileImage profileImage;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private TasteMood tasteMood;
+
     @Embedded
     private MyFollowings myFollowings;
+
     @Embedded
     private MyFollowers myFollowers;
+
     @Enumerated(EnumType.STRING)
     private SupportedAuthProvider authProvider;
     private LocalDateTime createdAt;

@@ -16,4 +16,5 @@ public class FeedNotificationDetails extends NotificationDetails {
         this.feedId = feedId;
         this.feedThumbnailUrl = feedThumbnailUrl;
     }
+
 }

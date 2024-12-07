@@ -36,4 +36,5 @@ public class Count {
             throw new IllegalArgumentException(ErrorMessage.COUNT_OUT_OF_BOUNDS.getMessage());
         }
     }
+
 }

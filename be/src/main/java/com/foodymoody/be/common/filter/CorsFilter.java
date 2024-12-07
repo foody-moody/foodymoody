@@ -44,4 +44,5 @@ public class CorsFilter implements Filter {
                 request.getHeader(HttpHeaders.ORIGIN) != null &&
                 request.getHeader(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD) != null);
     }
+
 }

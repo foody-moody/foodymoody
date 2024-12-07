@@ -20,4 +20,5 @@ public interface FeedReplyRepository {
     boolean existsById(FeedReplyId feedReplyId);
 
     Optional<FeedReply> findById(FeedReplyId feedReplyId);
+
 }

@@ -28,4 +28,5 @@ public class FeedCollectionCommentLikeUseCase {
         likeService.cancel(commentId, memberId);
         likeCountService.decrease(commentId);
     }
+
 }

@@ -18,4 +18,5 @@ public class StoreLikeRegisteredEvent implements Event {
     public StoreId getStoreId() {
         return this.storeId;
     }
+
 }

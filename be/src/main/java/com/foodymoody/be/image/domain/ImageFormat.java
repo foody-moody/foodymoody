@@ -5,4 +5,5 @@ public interface ImageFormat {
     public String getMimeType();
 
     public byte[] getSignature();
+
 }

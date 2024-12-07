@@ -25,4 +25,5 @@ public class FeedCollectionReplyReadUseCase {
         var summaries = readService.fetch(commentId, pageable);
         return summaries.map(FeedCollectionReplyMapper::toResponse);
     }
+
 }

@@ -40,4 +40,5 @@ public class StoreRepositoryImpl implements StoreRepository {
     public Slice<StoreFeedPreviewResponse> fetchStoreFeedResponses(StoreId id, Pageable pageable) {
         return jpaRepository.fetchStoreFeedResponses(id, pageable);
     }
+
 }

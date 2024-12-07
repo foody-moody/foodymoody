@@ -48,4 +48,5 @@ public class NotificationSettingWriteService {
         return notificationSettingRepository.findByMemberId(memberId)
                 .orElseThrow(NotificationSettingNotFoundException::new);
     }
+
 }

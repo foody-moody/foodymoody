@@ -5,12 +5,12 @@ import com.foodymoody.be.common.exception.MemberNotFoundException;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.FeedAuthorSummary;
-import com.foodymoody.be.member.application.dto.response.MyFeedCollectionTitleResponse;
-import com.foodymoody.be.member.application.dto.response.MyCollectionWithFeedInclusionStatusResponse;
-import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
-import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
 import com.foodymoody.be.member.application.dto.MyFeedCollectionWithFeedIdsSummary;
+import com.foodymoody.be.member.application.dto.response.MemberProfileResponse;
+import com.foodymoody.be.member.application.dto.response.MyCollectionWithFeedInclusionStatusResponse;
+import com.foodymoody.be.member.application.dto.response.MyFeedCollectionTitleResponse;
 import com.foodymoody.be.member.application.dto.response.MyFeedCollectionsResponse;
+import com.foodymoody.be.member.application.dto.response.MyFeedPreviewResponse;
 import com.foodymoody.be.member.application.dto.response.NicknameDuplicationCheckResponse;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberMapper;
@@ -87,7 +87,8 @@ public class MemberReadService {
         return repository.fetchMyCollectionTitles(id);
     }
 
-    public List<MyCollectionWithFeedInclusionStatusResponse> fetchMyCollectionWithFeedInclusionStatus(MemberId currentMemberId, FeedId feedId) {
+    public List<MyCollectionWithFeedInclusionStatusResponse> fetchMyCollectionWithFeedInclusionStatus(
+            MemberId currentMemberId, FeedId feedId) {
         List<MyFeedCollectionWithFeedIdsSummary> summaries = repository.fetchMyCollectionWithFeedIds(currentMemberId);
         return MemberMapper.toMyFeedCollectionWithFeedInclusionStatusResponse(summaries, feedId);
     }

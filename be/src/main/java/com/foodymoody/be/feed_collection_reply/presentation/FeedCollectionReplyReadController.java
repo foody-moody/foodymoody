@@ -36,4 +36,5 @@ public class FeedCollectionReplyReadController {
         var replaySummaries = useCase.fetch(commentId, memberId, pageable);
         return ResponseEntity.ok(replaySummaries);
     }
+
 }

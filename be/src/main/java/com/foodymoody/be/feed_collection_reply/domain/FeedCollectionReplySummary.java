@@ -24,4 +24,5 @@ public interface FeedCollectionReplySummary {
     boolean isLiked();
 
     long getLikeCount();
+
 }

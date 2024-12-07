@@ -56,4 +56,5 @@ public class FeedCollectionReplyWriteController {
         useCase.edit(replyId, content, memberId);
         return ResponseEntity.noContent().build();
     }
+
 }

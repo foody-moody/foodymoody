@@ -20,16 +20,21 @@ public class FeedReply {
     @Getter
     @EmbeddedId
     private FeedReplyId id;
+
     @Getter
     @AttributeOverride(name = "value", column = @Column(name = "content"))
     private Content content;
+
     @Getter
     private boolean deleted;
+
     @Getter
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
+
     @Getter
     private LocalDateTime createdAt;
+
     @Getter
     private LocalDateTime updatedAt;
 
@@ -80,4 +85,5 @@ public class FeedReply {
             throw new PermissionDeniedAccessException();
         }
     }
+
 }

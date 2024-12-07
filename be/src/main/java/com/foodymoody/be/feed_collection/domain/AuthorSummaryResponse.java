@@ -22,4 +22,5 @@ public class AuthorSummaryResponse {
         this.mood = mood;
         this.profileImageUrl = profileImageUrl;
     }
+
 }

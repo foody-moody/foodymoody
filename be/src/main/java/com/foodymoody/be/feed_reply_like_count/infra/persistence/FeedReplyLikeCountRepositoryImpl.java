@@ -27,4 +27,5 @@ public class FeedReplyLikeCountRepositoryImpl implements FeedReplyLikeCountRepos
     public void decrementCount(FeedReplyId feedReplyId) {
         feedReplyLikeCountJpaRepository.decrementCount(feedReplyId);
     }
+
 }

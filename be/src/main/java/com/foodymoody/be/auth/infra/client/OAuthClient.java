@@ -8,4 +8,5 @@ public interface OAuthClient {
     OAuthMemberDetails getOAuthMemberDetails(String accessToken);
 
     OAuthTokenResponse getOauthToken(String authorizationCode);
+
 }

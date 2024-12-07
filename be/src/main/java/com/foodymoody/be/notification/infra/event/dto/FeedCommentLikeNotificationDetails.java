@@ -27,4 +27,5 @@ public class FeedCommentLikeNotificationDetails extends NotificationDetails {
         this.feedId = feedId;
         this.feedThumbnailUrl = feedThumbnailUrl;
     }
+
 }

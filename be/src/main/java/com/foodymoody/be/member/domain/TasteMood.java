@@ -29,4 +29,5 @@ public class TasteMood {
     public String getName() {
         return name;
     }
+
 }

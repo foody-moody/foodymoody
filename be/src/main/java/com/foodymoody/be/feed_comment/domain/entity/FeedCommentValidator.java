@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 
 public class FeedCommentValidator {
 
-
     private FeedCommentValidator() {
         throw new AssertionError(UTILITY_CLASS);
     }
@@ -33,4 +32,5 @@ public class FeedCommentValidator {
         MemberIdValidator.validate(memberId);
         CreatedAtValidator.validate(createdAt);
     }
+
 }

@@ -73,4 +73,5 @@ public class NotificationReadUseCase {
         var notificationSummaries = notificationSummaryReadService.requestAll(memberId, pageable);
         return NotificationResponseMapper.toNotificationResponseList(notificationSummaries);
     }
+
 }

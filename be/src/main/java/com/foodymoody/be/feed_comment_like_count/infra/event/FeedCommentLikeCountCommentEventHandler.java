@@ -21,4 +21,5 @@ class FeedCommentLikeCountCommentEventHandler {
         var feedCommentLikeCount = FeedCommentLikeCountMapper.toFeedCommentLikeCount(event, feedCommentLikeCountId);
         feedCommentLikeCountService.save(feedCommentLikeCount);
     }
+
 }

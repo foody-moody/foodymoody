@@ -27,4 +27,5 @@ public class FeedCollectionCommentLikeNotificationDetails extends NotificationDe
         this.feedCollectionId = feedCollectionId;
         this.feedCollectionThumbnailUrl = feedCollectionThumbnailUrl;
     }
+
 }

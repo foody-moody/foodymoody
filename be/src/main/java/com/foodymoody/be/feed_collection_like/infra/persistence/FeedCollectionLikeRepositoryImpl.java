@@ -36,4 +36,5 @@ public class FeedCollectionLikeRepositoryImpl implements FeedCollectionLikeRepos
     public void deleteByFeedCollectionIdAndMemberId(FeedCollectionId feedCollectionId, MemberId memberId) {
         feedCollectionLikeJpaRepository.deleteByFeedCollectionIdAndMemberId(feedCollectionId, memberId);
     }
+
 }

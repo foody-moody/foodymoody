@@ -11,4 +11,5 @@ public interface FeedReplyLikeJpaRepository extends JpaRepository<FeedReplyLike,
     void deleteByFeedReplyIdAndMemberId(FeedReplyId feedReplyId, MemberId memberId);
 
     boolean existsByFeedReplyIdAndMemberId(FeedReplyId feedReplyId, MemberId memberId);
+
 }

@@ -17,4 +17,5 @@ public class RegisterFeedCommentData {
         this.content = content;
         this.memberId = memberId;
     }
+
 }

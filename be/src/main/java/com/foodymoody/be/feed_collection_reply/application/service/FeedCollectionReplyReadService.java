@@ -34,4 +34,5 @@ public class FeedCollectionReplyReadService {
         return repository.findById(replyId)
                 .orElseThrow(FeedCollectionReplyNotFoundException::new);
     }
+
 }

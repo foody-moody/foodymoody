@@ -22,4 +22,5 @@ public class FeedCommentLikeCountMapper {
                 INIT_COUNT
         );
     }
+
 }

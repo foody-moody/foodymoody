@@ -39,4 +39,5 @@ public class FeedCollectionLikeWriteService {
         }
         repository.deleteByFeedCollectionIdAndMemberId(feedCollectionId, memberId);
     }
+
 }

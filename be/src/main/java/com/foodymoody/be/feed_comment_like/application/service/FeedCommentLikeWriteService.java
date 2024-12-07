@@ -40,4 +40,5 @@ public class FeedCommentLikeWriteService {
     private boolean existsByCommentIdAndMemberId(FeedCommentId feedCommentId, MemberId memberId) {
         return repository.existsByFeedCommentIdAndMemberId(feedCommentId, memberId);
     }
+
 }

@@ -15,4 +15,5 @@ public class NotificationSettingUpdateRequest {
     private boolean isFollow;
     private boolean isFeedComment;
     private boolean isCollectionComment;
+
 }

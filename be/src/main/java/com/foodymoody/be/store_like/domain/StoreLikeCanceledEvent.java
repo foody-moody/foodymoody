@@ -18,4 +18,5 @@ public class StoreLikeCanceledEvent implements Event {
     public StoreId getStoreId() {
         return this.storeId;
     }
+
 }

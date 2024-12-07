@@ -9,4 +9,5 @@ public interface FeedCommentLikeCountRepository {
     void incrementCount(FeedCommentId feedCommentId);
 
     void decrementCount(FeedCommentId feedCommentId);
+
 }

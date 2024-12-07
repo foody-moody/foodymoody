@@ -33,4 +33,5 @@ public class MemberFeedReplySummaryResponse {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
 }

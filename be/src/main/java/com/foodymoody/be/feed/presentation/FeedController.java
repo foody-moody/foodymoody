@@ -5,7 +5,6 @@ import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.FeedMapper;
 import com.foodymoody.be.feed.application.dto.request.FeedRegisterRequest;
-import com.foodymoody.be.feed.application.dto.request.FeedServiceDeleteRequest;
 import com.foodymoody.be.feed.application.dto.request.FeedUpdateRequest;
 import com.foodymoody.be.feed.application.dto.response.FeedReadAllResponse;
 import com.foodymoody.be.feed.application.dto.response.FeedReadResponse;

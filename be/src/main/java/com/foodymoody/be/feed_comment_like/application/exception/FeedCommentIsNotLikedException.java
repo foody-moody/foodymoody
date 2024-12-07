@@ -8,4 +8,5 @@ public class FeedCommentIsNotLikedException extends BusinessException {
     public FeedCommentIsNotLikedException() {
         super(ErrorMessage.FEED_COMMENT_IS_NOT_LIKED);
     }
+
 }

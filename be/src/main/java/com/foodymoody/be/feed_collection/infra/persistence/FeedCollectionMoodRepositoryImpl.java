@@ -40,4 +40,5 @@ public class FeedCollectionMoodRepositoryImpl implements FeedCollectionMoodRepos
     public List<FeedCollectionMood> findResponseByFeedCollectionId(FeedCollectionId id) {
         return repository.findResponseByFeedCollectionId(id);
     }
+
 }

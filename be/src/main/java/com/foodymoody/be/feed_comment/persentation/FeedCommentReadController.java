@@ -34,4 +34,5 @@ public class FeedCommentReadController {
         var response = useCase.fetchComments(feedId, pageable, memberId);
         return ResponseEntity.ok(response);
     }
+
 }

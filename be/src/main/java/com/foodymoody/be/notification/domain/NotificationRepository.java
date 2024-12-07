@@ -49,4 +49,5 @@ public interface NotificationRepository {
      * @param updatedAt The timestamp of when the notifications were last updated.
      */
     void deleteRead(MemberId memberId, LocalDateTime updatedAt);
+
 }

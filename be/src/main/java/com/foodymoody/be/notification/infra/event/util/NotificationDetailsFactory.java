@@ -173,4 +173,5 @@ public class NotificationDetailsFactory {
     public static NotificationDetails makeDetails(boolean isFollowed) {
         return new MemberFollowedNotificationDetails(isFollowed);
     }
+
 }

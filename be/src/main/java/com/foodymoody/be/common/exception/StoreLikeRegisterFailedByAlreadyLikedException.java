@@ -5,4 +5,5 @@ public class StoreLikeRegisterFailedByAlreadyLikedException extends BusinessExce
     public StoreLikeRegisterFailedByAlreadyLikedException() {
         super(ErrorMessage.ALREADY_LIKED_STORE);
     }
+
 }

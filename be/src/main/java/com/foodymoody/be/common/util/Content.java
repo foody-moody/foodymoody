@@ -64,4 +64,5 @@ public class Content {
     public static boolean isNull(Object object) {
         return object == null;
     }
+
 }

@@ -34,7 +34,7 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
 
     @Override
     public MyFeedCollectionsResponse fetchMyCollectionResponse(MemberId id, MemberId currentMemberId,
-            Pageable pageable) {
+                                                               Pageable pageable) {
         // 컬렉션 작성자, 컬렉션 전체 개수 조회
         Tuple findById = jpaQueryFactory
                 .select(
@@ -44,7 +44,8 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
                 )
                 .from(member)
                 .leftJoin(image).on(image.id.eq(member.profileImage.id))
-                .leftJoin(feedCollection).on(feedCollection.authorId.eq(member.id).and(feedCollection.isDeleted.isFalse()))
+                .leftJoin(feedCollection)
+                .on(feedCollection.authorId.eq(member.id).and(feedCollection.isDeleted.isFalse()))
                 .where(member.id.eq(id))
                 .fetchOne();
 
@@ -155,4 +156,5 @@ public class MemberQueryDslRepositoryImpl implements MemberQueryDslRepository {
         }
         return Expressions.asBoolean(true).isFalse();
     }
+
 }

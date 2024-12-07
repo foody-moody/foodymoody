@@ -21,4 +21,5 @@ public interface FeedCollectionCommentLikeCountJpaRepository extends
             "SET _likeCount.count = _likeCount.count - 1 " +
             "WHERE _likeCount.feedCollectionCommentId = :feedCollectionCommentId")
     void decrease(FeedCollectionCommentId feedCollectionCommentId);
+
 }

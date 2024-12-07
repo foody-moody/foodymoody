@@ -49,4 +49,5 @@ public class FeedCollectionCommentReadService {
         return repository.findById(toFeedCollectionCommentId)
                 .orElseThrow(FeedCollectionCommentNotFoundException::new);
     }
+
 }

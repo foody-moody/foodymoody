@@ -42,4 +42,5 @@ public class FeedReplyRepositoryImpl implements FeedReplyRepository {
     public Optional<FeedReply> findById(FeedReplyId feedReplyId) {
         return feedReplyJpaRepository.findByIdAndDeleted(feedReplyId, false);
     }
+
 }

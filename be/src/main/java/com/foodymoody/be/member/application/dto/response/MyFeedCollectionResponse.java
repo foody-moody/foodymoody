@@ -18,6 +18,7 @@ public class MyFeedCollectionResponse {
     private boolean liked;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
     @Setter
     private List<FeedCollectionMoodResponse> moods;
 
@@ -31,7 +32,7 @@ public class MyFeedCollectionResponse {
             LocalDateTime createdAt,
             LocalDateTime updatedAt,
             Boolean liked
-            ) {
+    ) {
         this.id = id;
         this.title = title;
         this.thumbnailUrl = thumbnailUrl;
@@ -42,4 +43,5 @@ public class MyFeedCollectionResponse {
         this.updatedAt = updatedAt;
         this.liked = liked;
     }
+
 }

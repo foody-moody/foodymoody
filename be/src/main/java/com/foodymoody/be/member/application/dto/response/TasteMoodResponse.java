@@ -15,4 +15,5 @@ public class TasteMoodResponse {
     public static TasteMoodResponse of(TasteMoodId id, String name) {
         return new TasteMoodResponse(id, name);
     }
+
 }

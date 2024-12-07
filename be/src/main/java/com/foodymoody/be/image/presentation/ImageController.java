@@ -47,6 +47,7 @@ public class ImageController {
         imageService.softDelete(memberId, id);
         return ResponseEntity.ok().build();
     }
+
 }
 
 

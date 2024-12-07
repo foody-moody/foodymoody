@@ -41,7 +41,8 @@ public class OAuthLoginUseCase {
                 .orElseGet(
                         () -> {
                             MemberId memberId = IdFactory.createMemberId();
-                            var savedImage = imageService.saveOAuthMemberProfileImage(memberId, oAuthMemberDetails.getProfileImageUrl());
+                            var savedImage = imageService.saveOAuthMemberProfileImage(memberId,
+                                    oAuthMemberDetails.getProfileImageUrl());
                             return memberWriteService.create(
                                     memberId,
                                     authProvider,

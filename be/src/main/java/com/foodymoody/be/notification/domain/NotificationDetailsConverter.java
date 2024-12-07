@@ -35,4 +35,5 @@ public class NotificationDetailsConverter implements AttributeConverter<Notifica
             throw new JsonConvertException();
         }
     }
+
 }

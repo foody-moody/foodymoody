@@ -23,10 +23,13 @@ public class FeedCollectionMood {
     @Getter
     @Id
     private FeedCollectionMoodId id;
+
     @Getter
     private String name;
+
     @Getter
     private LocalDateTime createdAt;
+
     @Getter
     private LocalDateTime updatedAt;
 
@@ -36,4 +39,5 @@ public class FeedCollectionMood {
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
     }
+
 }

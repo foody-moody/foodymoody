@@ -16,4 +16,5 @@ public class FeedCollectionEditRequest {
     private Content content;
     private String thumbnailUrl;
     private List<FeedCollectionMoodId> moodIds;
+
 }

@@ -21,9 +21,10 @@ public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch
             Class<?> c = value.getClass();
             Method method = c.getMethod(getter);
             Object invoke = method.invoke(value);
-            return Objects.nonNull(invoke)? invoke.toString() : null;
+            return Objects.nonNull(invoke) ? invoke.toString() : null;
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new IllegalStateException(e);
         }
     }
+
 }

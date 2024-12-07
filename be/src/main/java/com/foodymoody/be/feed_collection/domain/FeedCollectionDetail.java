@@ -57,4 +57,5 @@ public class FeedCollectionDetail {
         this.moods = moods;
         this.isFollowed = isFollowed;
     }
+
 }

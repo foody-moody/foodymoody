@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 
 public interface MemberFeedCommentSummary {
 
-
     FeedCommentId getId();
 
     Content getContent();
@@ -29,4 +28,5 @@ public interface MemberFeedCommentSummary {
     long getLikeCount();
 
     boolean isLiked();
+
 }

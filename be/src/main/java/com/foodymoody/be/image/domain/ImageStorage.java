@@ -14,4 +14,5 @@ public interface ImageStorage {
     String generateKey(ImageCategory category, BaseId resourceId, String uuid, String originalFilename);
 
     String getKey(String url);
+
 }

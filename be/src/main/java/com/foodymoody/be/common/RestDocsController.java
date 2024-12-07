@@ -10,4 +10,5 @@ public class RestDocsController {
     public String getDocs() {
         return "/docs/index.html";
     }
+
 }

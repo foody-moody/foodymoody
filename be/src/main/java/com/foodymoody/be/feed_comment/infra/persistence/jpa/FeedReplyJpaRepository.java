@@ -43,7 +43,8 @@ public interface FeedReplyJpaRepository extends JpaRepository<FeedReply, FeedRep
             "left join Member _member on _reply.memberId = _member.id " +
             "left join Image _image on _member.profileImage.id = _image.id AND _image.deleted = false " +
             "left join FeedReplyLikeCount _replyLikeCount on _replyLikeCount.feedReplyId = _reply.id " +
-            "left join FeedReplyLike _feedRelyLike on _feedRelyLike.feedReplyId = _reply.id and _feedRelyLike.memberId = :memberId " +
+            "left join FeedReplyLike _feedRelyLike on _feedRelyLike.feedReplyId = _reply.id and _feedRelyLike.memberId = :memberId "
+            +
             "where _comment.id = :feedCommentId AND _reply.deleted = false")
     Slice<MemberFeedReplySummary> findReplyByCommentIdAndMemberId(
             FeedCommentId feedCommentId,
@@ -52,4 +53,5 @@ public interface FeedReplyJpaRepository extends JpaRepository<FeedReply, FeedRep
     );
 
     Optional<FeedReply> findByIdAndDeleted(FeedReplyId feedReplyId, boolean deleted);
+
 }

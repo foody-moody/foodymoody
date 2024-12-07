@@ -14,5 +14,6 @@ public class MessagePublisherImpl implements MessagePublisher {
     public void publish(Event event) {
         publisher.publishEvent(event);
     }
+
 }
 

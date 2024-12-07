@@ -21,4 +21,5 @@ public class FeedCollectionReplyMapper {
                 summary.getLikeCount()
         );
     }
+
 }

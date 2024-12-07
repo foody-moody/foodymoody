@@ -17,4 +17,5 @@ public class FeedCollectionLikeCountReadService {
     public List<FeedCollectionLikeCount> getAll() {
         return repository.findAll();
     }
+
 }

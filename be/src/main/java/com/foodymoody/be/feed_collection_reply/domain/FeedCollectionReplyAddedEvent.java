@@ -51,4 +51,5 @@ public class FeedCollectionReplyAddedEvent implements NotificationEvent {
                 createdAt
         );
     }
+
 }

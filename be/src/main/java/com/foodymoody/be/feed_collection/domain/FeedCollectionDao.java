@@ -13,4 +13,5 @@ public interface FeedCollectionDao {
     Slice<FeedCollectionSummary> findAllSummary(MemberId memberId, Pageable pageable);
 
     Optional<FeedCollection> fetchById(FeedCollectionId feedCollectionId);
+
 }

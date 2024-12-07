@@ -13,4 +13,5 @@ public class MemberFollowedNotificationDetails extends NotificationDetails {
     public MemberFollowedNotificationDetails(boolean followed) {
         this.followed = followed;
     }
+
 }

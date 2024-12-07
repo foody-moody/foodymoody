@@ -27,4 +27,5 @@ public class FeedCollectionCommentNotificationDetails extends NotificationDetail
         this.feedCollectionCommentId = feedCollectionCommentId;
         this.feedCollectionCommentContent = feedCollectionCommentContent;
     }
+
 }

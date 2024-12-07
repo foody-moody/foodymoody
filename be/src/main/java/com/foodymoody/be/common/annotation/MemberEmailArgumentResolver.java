@@ -18,8 +18,9 @@ public class MemberEmailArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public String resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         Object attribute = webRequest.getAttribute("email", 0);
         return Objects.toString(attribute, null);
     }
+
 }

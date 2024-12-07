@@ -9,4 +9,5 @@ public interface FeedCollectionCommentLikeCountRepository {
     void decrease(FeedCollectionCommentId feedCollectionCommentId);
 
     FeedCollectionCommentLikeCount save(FeedCollectionCommentLikeCount likeCount);
+
 }

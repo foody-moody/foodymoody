@@ -28,4 +28,5 @@ public class FeedReplyLikeRepositoryImpl implements FeedReplyLikeRepository {
     public boolean existsByReplyIdAndMemberId(FeedReplyId feedReplyId, MemberId memberId) {
         return repository.existsByFeedReplyIdAndMemberId(feedReplyId, memberId);
     }
+
 }

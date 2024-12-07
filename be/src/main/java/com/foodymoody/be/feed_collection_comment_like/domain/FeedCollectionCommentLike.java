@@ -19,8 +19,10 @@ public class FeedCollectionCommentLike {
     @Getter
     @Id
     private FeedCollectionCommentLikeId id;
+
     @AttributeOverride(name = "value", column = @javax.persistence.Column(name = "comment_id"))
     private FeedCollectionCommentId commentId;
+
     @AttributeOverride(name = "value", column = @javax.persistence.Column(name = "member_id"))
     private MemberId memberId;
     private LocalDateTime createdAt;
@@ -47,4 +49,5 @@ public class FeedCollectionCommentLike {
     ) {
         return FeedCollectionCommentLikeAddedEvent.of(commentId, memberId, createdAt);
     }
+
 }

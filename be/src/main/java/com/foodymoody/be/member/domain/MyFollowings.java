@@ -50,4 +50,5 @@ public class MyFollowings {
                 .filter(follow -> follow.getFollowed().equals(target))
                 .findAny();
     }
+
 }

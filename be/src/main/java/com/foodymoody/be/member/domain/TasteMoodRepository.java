@@ -9,4 +9,5 @@ public interface TasteMoodRepository {
     Optional<TasteMood> findById(TasteMoodId id);
 
     List<TasteMood> findAll();
+
 }

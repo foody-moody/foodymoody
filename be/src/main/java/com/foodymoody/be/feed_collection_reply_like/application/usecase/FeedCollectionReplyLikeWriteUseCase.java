@@ -33,4 +33,5 @@ public class FeedCollectionReplyLikeWriteUseCase {
         likeService.cancel(memberId, replyId);
         countService.decreaseCount(replyId);
     }
+
 }

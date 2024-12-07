@@ -11,4 +11,5 @@ public interface MemberQueryDslRepository {
     MyFeedCollectionsResponse fetchMyCollectionResponse(MemberId id, MemberId currentMemberId, Pageable pageable);
 
     List<MyFeedCollectionWithFeedIdsSummary> fetchMyFeedCollectionWithFeedIds(MemberId currentMemberId);
+
 }

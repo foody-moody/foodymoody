@@ -84,4 +84,5 @@ public class FeedCollectionWriteController {
         useCase.delete(id, memberId);
         return ResponseEntity.noContent().build();
     }
+
 }

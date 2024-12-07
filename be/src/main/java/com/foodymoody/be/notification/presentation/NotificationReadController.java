@@ -60,4 +60,5 @@ public class NotificationReadController {
         var notification = useCase.request(memberId, notificationId);
         return ResponseEntity.ok(notification);
     }
+
 }

@@ -17,8 +17,10 @@ public class StoreLikeCount {
     @EmbeddedId
     @AttributeOverride(name = "value", column = @Column(name = "store_id"))
     private StoreId storeId;
+
     @Embedded
     private Count count;
+
     @Version
     private Long version;
 

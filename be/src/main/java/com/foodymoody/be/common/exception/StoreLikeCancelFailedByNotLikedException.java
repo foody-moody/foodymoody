@@ -5,4 +5,5 @@ public class StoreLikeCancelFailedByNotLikedException extends BusinessException 
     public StoreLikeCancelFailedByNotLikedException() {
         super(ErrorMessage.NOT_LIKED_STORE);
     }
+
 }

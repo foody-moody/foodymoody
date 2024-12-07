@@ -18,4 +18,5 @@ public class OAuthProvider implements AuthProvider {
     public String getName() {
         return null;
     }
+
 }

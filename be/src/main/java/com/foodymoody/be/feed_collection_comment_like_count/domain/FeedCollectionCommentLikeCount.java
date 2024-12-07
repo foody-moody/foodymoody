@@ -17,6 +17,7 @@ public class FeedCollectionCommentLikeCount {
     @Getter
     @Id
     private FeedCollectionCommentLikeCountId id;
+
     @AttributeOverride(name = "value", column = @Column(name = "feed_collection_comment_id"))
     private FeedCollectionCommentId feedCollectionCommentId;
     private Long count;
@@ -34,4 +35,5 @@ public class FeedCollectionCommentLikeCount {
     public long getLikeCount() {
         return count;
     }
+
 }

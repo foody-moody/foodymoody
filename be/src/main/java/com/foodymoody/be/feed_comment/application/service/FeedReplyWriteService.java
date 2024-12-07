@@ -35,4 +35,5 @@ public class FeedReplyWriteService {
         return repository.findById(feedReplyId)
                 .orElseThrow(FeedReplyNotFoundException::new);
     }
+
 }

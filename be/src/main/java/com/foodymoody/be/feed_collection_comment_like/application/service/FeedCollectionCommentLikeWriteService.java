@@ -29,4 +29,5 @@ public class FeedCollectionCommentLikeWriteService {
     public void cancel(FeedCollectionCommentId commentId, MemberId memberId) {
         repository.deleteByCommentIdAndMemberId(commentId, memberId);
     }
+
 }

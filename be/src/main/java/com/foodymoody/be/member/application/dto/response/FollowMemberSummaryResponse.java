@@ -13,7 +13,7 @@ public class FollowMemberSummaryResponse {
     private boolean followed;
 
     public FollowMemberSummaryResponse(MemberId id, String nickname, String profileImageUrl, boolean following,
-            boolean followed) {
+                                       boolean followed) {
         this.id = id;
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
@@ -21,7 +21,8 @@ public class FollowMemberSummaryResponse {
         this.followed = followed;
     }
 
-    public static FollowMemberSummaryResponse of (MemberId id, String nickname, String profileImageUrl, boolean isMyFollowing, boolean isMyFollower) {
+    public static FollowMemberSummaryResponse of(MemberId id, String nickname, String profileImageUrl,
+                                                 boolean isMyFollowing, boolean isMyFollower) {
         return new FollowMemberSummaryResponse(id, nickname, profileImageUrl, isMyFollowing, isMyFollower);
     }
 

@@ -19,7 +19,6 @@ public class FeedCollectionCommentAddedEvent implements NotificationEvent {
     private final NotificationType notificationType;
     private final LocalDateTime createdAt;
 
-
     private FeedCollectionCommentAddedEvent(
             FeedCollectionId feedCollectionId,
             MemberId fromMemberId,
@@ -52,4 +51,5 @@ public class FeedCollectionCommentAddedEvent implements NotificationEvent {
                 createdAt
         );
     }
+
 }

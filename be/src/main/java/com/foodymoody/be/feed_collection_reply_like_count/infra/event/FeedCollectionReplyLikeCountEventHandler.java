@@ -21,4 +21,5 @@ public class FeedCollectionReplyLikeCountEventHandler {
         var likeCount = FeedCollectionReplyLikeCountMapper.toLikeCount(event, id);
         service.save(likeCount);
     }
+
 }

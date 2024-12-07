@@ -17,4 +17,5 @@ public class FeedCollectionLikeReadService {
     public boolean isLiked(FeedCollectionId feedCollectionId, MemberId memberId) {
         return repository.existsByFeedCollectionIdAndMemberId(feedCollectionId, memberId);
     }
+
 }

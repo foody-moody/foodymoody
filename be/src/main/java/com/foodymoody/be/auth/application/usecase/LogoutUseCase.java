@@ -13,4 +13,5 @@ public class LogoutUseCase {
     public void logout(String accessToken) {
         tokenService.revoke(accessToken);
     }
+
 }

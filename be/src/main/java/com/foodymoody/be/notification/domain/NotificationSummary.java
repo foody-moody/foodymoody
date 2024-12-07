@@ -74,4 +74,5 @@ public interface NotificationSummary {
      * @return The updated time of the notification.
      */
     LocalDateTime getUpdatedAt();
+
 }

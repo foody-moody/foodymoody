@@ -52,4 +52,5 @@ public class FeedReplyReadService {
         return feedReplyRepository.findById(feedReplyId)
                 .orElseThrow(FeedReplyNotFoundException::new);
     }
+
 }

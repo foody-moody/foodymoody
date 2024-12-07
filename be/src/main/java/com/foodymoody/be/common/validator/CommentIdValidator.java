@@ -16,4 +16,5 @@ public class CommentIdValidator {
             throw new InvalidCommentIdException();
         }
     }
+
 }

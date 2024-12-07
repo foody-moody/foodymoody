@@ -10,4 +10,5 @@ public interface FeedCollectionCommentLikeJpaRepository extends
         JpaRepository<FeedCollectionCommentLike, FeedCollectionCommentLikeId> {
 
     void deleteByCommentIdAndMemberId(FeedCollectionCommentId commentId, MemberId memberId);
+
 }

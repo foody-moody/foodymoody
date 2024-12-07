@@ -28,4 +28,5 @@ public class AppConfig {
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
         return new JPAQueryFactory(entityManager);
     }
+
 }

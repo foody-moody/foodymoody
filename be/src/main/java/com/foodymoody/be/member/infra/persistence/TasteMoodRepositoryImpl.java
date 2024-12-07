@@ -24,4 +24,5 @@ public class TasteMoodRepositoryImpl implements TasteMoodRepository {
     public List<TasteMood> findAll() {
         return jpaRepository.findAll();
     }
+
 }

@@ -42,4 +42,5 @@ public class FeedCollectionReplyRepositoryImpl implements FeedCollectionReplyRep
     public Slice<FeedCollectionReplySummary> findByCommentId(FeedCollectionCommentId commentId, Pageable pageable) {
         return repository.findSummaryByCommentId(commentId, pageable);
     }
+
 }

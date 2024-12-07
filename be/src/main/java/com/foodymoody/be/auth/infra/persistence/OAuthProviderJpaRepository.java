@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface OAuthProviderJpaRepository extends JpaRepository<OAuthProvider, SupportedAuthProvider> {
 
     OAuthProvider findByName(AuthProvider authProvider);
+
 }

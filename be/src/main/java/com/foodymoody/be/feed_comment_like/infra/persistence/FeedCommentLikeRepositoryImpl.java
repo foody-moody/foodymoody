@@ -28,4 +28,5 @@ public class FeedCommentLikeRepositoryImpl implements FeedCommentLikeRepository 
     public boolean existsByFeedCommentIdAndMemberId(FeedCommentId feedCommentId, MemberId memberId) {
         return feedCommentLikeJpaRepository.existsByFeedCommentIdAndMemberId(feedCommentId, memberId);
     }
+
 }

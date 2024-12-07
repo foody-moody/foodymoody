@@ -238,9 +238,13 @@ public class IdFactory {
         return createId(FeedCommentLikeId.class);
     }
 
-    public static FeedCommentLikeId createFeedCommentLikeId(String id) { return createId(FeedCommentLikeId.class, id); }
+    public static FeedCommentLikeId createFeedCommentLikeId(String id) {
+        return createId(FeedCommentLikeId.class, id);
+    }
 
-    public static StoreLikeId createStoreLikeId() { return createId(StoreLikeId.class); }
+    public static StoreLikeId createStoreLikeId() {
+        return createId(StoreLikeId.class);
+    }
 
     public static StoreLikeCountId createStoreLikeCountId() {
         return createId(StoreLikeCountId.class);
@@ -265,4 +269,5 @@ public class IdFactory {
             throw new IllegalArgumentException("Id 클래스 생성에 실패했습니다.");
         }
     }
+
 }

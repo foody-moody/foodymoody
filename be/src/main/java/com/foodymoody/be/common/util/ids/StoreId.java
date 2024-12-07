@@ -13,4 +13,5 @@ public class StoreId extends BaseId {
     public StoreId(String value) {
         super(value);
     }
+
 }

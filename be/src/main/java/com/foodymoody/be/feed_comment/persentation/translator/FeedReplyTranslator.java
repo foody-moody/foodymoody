@@ -18,4 +18,5 @@ public class FeedReplyTranslator {
     ) {
         return new UpdateFeedReplyData(feedReplyId, memberId, request.getContent());
     }
+
 }

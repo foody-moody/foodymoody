@@ -40,4 +40,5 @@ public class FeedCommentTranslator {
         var content = new Content(request.getContent());
         return new RegisterFeedReplyData(id, memberId, content);
     }
+
 }

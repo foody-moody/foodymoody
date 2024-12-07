@@ -78,4 +78,5 @@ public interface NotificationJpaRepository extends JpaRepository<Notification, N
      * @return The count of notifications
      */
     long countByToMemberIdAndIsDeletedAndIsRead(MemberId toMemberId, boolean isDeleted, boolean isRead);
+
 }

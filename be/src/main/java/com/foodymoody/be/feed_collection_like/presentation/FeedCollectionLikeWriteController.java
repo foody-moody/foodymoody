@@ -37,4 +37,5 @@ public class FeedCollectionLikeWriteController {
         useCase.cancel(feedCollectionId, memberId);
         return ResponseEntity.noContent().build();
     }
+
 }

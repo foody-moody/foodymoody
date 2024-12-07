@@ -53,4 +53,5 @@ public class FeedCollectionSummary {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
 }

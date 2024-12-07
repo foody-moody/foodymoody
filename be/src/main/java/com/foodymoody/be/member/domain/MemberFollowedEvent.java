@@ -38,4 +38,5 @@ public class MemberFollowedEvent implements NotificationEvent {
                 createdAt
         );
     }
+
 }

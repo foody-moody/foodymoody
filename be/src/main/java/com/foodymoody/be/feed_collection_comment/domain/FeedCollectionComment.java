@@ -23,12 +23,15 @@ public class FeedCollectionComment {
     @Getter
     @Id
     private FeedCollectionCommentId id;
+
     @Getter
     @AttributeOverride(name = "value", column = @Column(name = "feed_id"))
     private FeedCollectionId feedCollectionId;
+
     @Getter
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
+
     @Getter
     @AttributeOverride(name = "value", column = @Column(name = "content"))
     private Content content;
@@ -90,4 +93,5 @@ public class FeedCollectionComment {
                 createdAt
         );
     }
+
 }

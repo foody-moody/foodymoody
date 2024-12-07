@@ -20,4 +20,5 @@ public class FeedCollectionMoodReadService {
     public List<FeedCollectionMood> findByFeedCollectionId(FeedCollectionId id) {
         return repository.findResponseByFeedCollectionId(id);
     }
+
 }

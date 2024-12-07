@@ -24,4 +24,5 @@ public class FeedCollectionLikeCountEventHandler {
                 id, event.getFeedCollectionId(), 0L, LocalDateTime.now());
         service.save(likeCount);
     }
+
 }

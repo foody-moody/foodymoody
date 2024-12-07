@@ -33,7 +33,8 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public MyFeedCollectionsResponse fetchMyCollectionSummaries(MemberId id, MemberId currentMemberId, Pageable pageable) {
+    public MyFeedCollectionsResponse fetchMyCollectionSummaries(MemberId id, MemberId currentMemberId,
+                                                                Pageable pageable) {
         return jpaRepository.fetchMyCollectionResponse(id, currentMemberId, pageable);
     }
 
@@ -96,4 +97,5 @@ public class MemberRepositoryImpl implements MemberRepository {
     public List<MyFeedCollectionWithFeedIdsSummary> fetchMyCollectionWithFeedIds(MemberId currentMemberId) {
         return jpaRepository.fetchMyFeedCollectionWithFeedIds(currentMemberId);
     }
+
 }

@@ -10,4 +10,5 @@ public class FeedCollectionId extends BaseId {
     public FeedCollectionId(String value) {
         super(value);
     }
+
 }

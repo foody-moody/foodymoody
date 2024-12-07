@@ -15,4 +15,5 @@ public interface FeedCollectionLikeRepository {
     boolean existsByFeedCollectionIdAndMemberId(FeedCollectionId feedCollectionId, MemberId memberId);
 
     void deleteByFeedCollectionIdAndMemberId(FeedCollectionId feedCollectionId, MemberId memberId);
+
 }

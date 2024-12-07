@@ -11,4 +11,5 @@ public class FeedCollectionReplyLikeId extends BaseId {
     public FeedCollectionReplyLikeId(String value) {
         super(value);
     }
+
 }

@@ -38,4 +38,5 @@ public class FeedCommentLikeWriteController {
         useCase.deleteCommentLike(feedCommentId, memberId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
 }

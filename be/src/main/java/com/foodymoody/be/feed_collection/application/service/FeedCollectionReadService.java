@@ -48,4 +48,5 @@ public class FeedCollectionReadService {
         }
         return feedCollection;
     }
+
 }

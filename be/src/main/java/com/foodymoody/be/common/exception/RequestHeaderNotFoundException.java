@@ -5,4 +5,5 @@ public class RequestHeaderNotFoundException extends BusinessException {
     public RequestHeaderNotFoundException() {
         super(ErrorMessage.REQUEST_HEADER_NOT_FOUND);
     }
+
 }

@@ -2,8 +2,8 @@ package com.foodymoody.be.feed_like_count.infra.persistence;
 
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.feed_like_count.domain.FeedLikeCountRepository;
-import com.foodymoody.be.feed_like_count.infra.persistence.jpa.FeedLikeCountJpaRepository;
 import com.foodymoody.be.feed_like_count.domain.entity.FeedLikeCount;
+import com.foodymoody.be.feed_like_count.infra.persistence.jpa.FeedLikeCountJpaRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

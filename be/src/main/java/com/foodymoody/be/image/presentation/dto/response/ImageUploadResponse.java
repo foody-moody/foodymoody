@@ -13,5 +13,6 @@ public class ImageUploadResponse {
         this.id = id;
         this.url = url;
     }
+
 }
 

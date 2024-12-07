@@ -42,4 +42,5 @@ public abstract class BaseId implements Serializable {
         BaseId baseId = (BaseId) o;
         return Objects.equals(getValue(), baseId.getValue());
     }
+
 }

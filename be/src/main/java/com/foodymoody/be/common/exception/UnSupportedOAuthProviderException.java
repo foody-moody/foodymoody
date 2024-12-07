@@ -5,4 +5,5 @@ public class UnSupportedOAuthProviderException extends BusinessException {
     public UnSupportedOAuthProviderException() {
         super(ErrorMessage.UNSUPPORTED_OAUTH_PROVIDER);
     }
+
 }

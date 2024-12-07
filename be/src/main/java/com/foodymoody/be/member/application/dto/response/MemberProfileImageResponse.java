@@ -15,4 +15,5 @@ public class MemberProfileImageResponse {
     public static MemberProfileImageResponse of(ImageId id, String url) {
         return new MemberProfileImageResponse(id, url);
     }
+
 }

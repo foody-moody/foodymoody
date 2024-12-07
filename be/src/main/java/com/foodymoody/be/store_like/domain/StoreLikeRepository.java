@@ -11,4 +11,5 @@ public interface StoreLikeRepository {
     void deleteByStoreIdAndMemberId(StoreId storeId, MemberId memberId);
 
     Optional<StoreLike> findByStoreIdAndMemberId(StoreId storeId, MemberId memberId);
+
 }

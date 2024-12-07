@@ -40,4 +40,5 @@ public class FeedCommentRepositoryImpl implements FeedCommentRepository {
     ) {
         return feedCommentJpaRepository.findWithMemberAllByFeedIdAndMemberId(feedId, memberId, pageable);
     }
+
 }

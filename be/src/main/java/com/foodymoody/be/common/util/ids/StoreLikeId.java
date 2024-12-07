@@ -13,4 +13,5 @@ public class StoreLikeId extends BaseId {
     public StoreLikeId(String value) {
         super(value);
     }
+
 }

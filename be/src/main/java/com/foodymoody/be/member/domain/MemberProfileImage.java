@@ -16,12 +16,13 @@ public class MemberProfileImage {
 
     public static final MemberProfileImage DEFAULT =
             MemberProfileImage.of(
-            IdFactory.createImageId("member-profile-default"),
-            "http://dummyimage.com/236x100.png/5fa2dd/ffffff");
+                    IdFactory.createImageId("member-profile-default"),
+                    "http://dummyimage.com/236x100.png/5fa2dd/ffffff");
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "profile_image_id"))
     private ImageId id;
+
     @Column(name = "profile_image_url")
     private String url;
 
@@ -44,4 +45,5 @@ public class MemberProfileImage {
     public String getUrl() {
         return url;
     }
+
 }

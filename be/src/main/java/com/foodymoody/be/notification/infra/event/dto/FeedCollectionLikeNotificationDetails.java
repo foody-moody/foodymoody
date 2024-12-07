@@ -19,4 +19,5 @@ public class FeedCollectionLikeNotificationDetails extends NotificationDetails {
         this.feedCollectionId = feedCollectionId;
         this.feedCollectionThumbnailUrl = feedCollectionThumbnailUrl;
     }
+
 }

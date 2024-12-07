@@ -22,10 +22,13 @@ public class FeedCollectionReply {
     @Getter
     @Id
     private FeedCollectionReplyId id;
+
     @AttributeOverride(name = "value", column = @Column(name = "comment_id"))
     private FeedCollectionCommentId commentId;
+
     @AttributeOverride(name = "value", column = @Column(name = "member_id"))
     private MemberId memberId;
+
     @Getter
     private Content content;
     private boolean deleted;
@@ -82,4 +85,5 @@ public class FeedCollectionReply {
                 createdAt
         );
     }
+
 }

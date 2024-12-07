@@ -52,5 +52,7 @@ public class CommandHandlerAspect {
         public void afterCompletion(int status) {
             EventManager.clear();
         }
+
     }
+
 }

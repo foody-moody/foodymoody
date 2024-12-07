@@ -10,4 +10,5 @@ public interface FeedCollectionRepository {
     boolean existsById(FeedCollectionId feedCollectionId);
 
     Optional<FeedCollection> findById(FeedCollectionId feedCollectionId);
+
 }

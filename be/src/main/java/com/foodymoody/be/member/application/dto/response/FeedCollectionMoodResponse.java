@@ -10,4 +10,5 @@ public class FeedCollectionMoodResponse {
 
     private FeedCollectionMoodId id;
     private String name;
+
 }

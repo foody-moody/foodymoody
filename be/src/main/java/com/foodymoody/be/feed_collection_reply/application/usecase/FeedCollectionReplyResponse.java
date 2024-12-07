@@ -49,5 +49,7 @@ public class FeedCollectionReplyResponse {
             this.nickname = nickname;
             this.profileUrl = profileUrl;
         }
+
     }
+
 }

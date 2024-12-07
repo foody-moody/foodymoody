@@ -48,4 +48,5 @@ public class FeedEventHandler {
         var feedNotification = toNotification(event, notificationId, details, toMemberId);
         notificationService.save(feedNotification);
     }
+
 }

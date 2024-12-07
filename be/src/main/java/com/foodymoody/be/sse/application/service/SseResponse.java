@@ -11,4 +11,5 @@ public class SseResponse {
     public long getCount() {
         return count;
     }
+
 }

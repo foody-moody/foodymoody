@@ -39,4 +39,5 @@ public class FeedCollectionCommentLikeWriteController {
         useCase.cancel(commentId, memberId);
         return ResponseEntity.noContent().build();
     }
+
 }

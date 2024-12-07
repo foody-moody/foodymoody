@@ -50,4 +50,5 @@ public class FeedCollectionMoodWriteService {
     public List<FeedCollectionMood> findAllById(List<FeedCollectionMoodId> moodsIds) {
         return moodRepository.findAllById(moodsIds);
     }
+
 }

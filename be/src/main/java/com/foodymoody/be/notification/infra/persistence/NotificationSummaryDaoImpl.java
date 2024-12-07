@@ -26,4 +26,5 @@ public class NotificationSummaryDaoImpl implements NotificationSummaryDao {
     public Slice<NotificationSummary> findAllByMemberId(MemberId memberId, Pageable pageable) {
         return notificationJpaRepository.findAllSummaryByMemberId(memberId, pageable);
     }
+
 }

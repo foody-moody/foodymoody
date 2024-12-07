@@ -15,4 +15,5 @@ public class MemberSummaryResponse {
         this.nickname = nickname;
         this.imageUrl = imageUrl;
     }
+
 }

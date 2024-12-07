@@ -52,4 +52,5 @@ public class FeedCollectionResponse {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
 }

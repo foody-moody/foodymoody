@@ -20,4 +20,5 @@ public class ArgumentResolverConfig implements WebMvcConfigurer {
         resolvers.add(memberEmailArgumentResolver);
         resolvers.add(currentMemberIdArgumentResolver);
     }
+
 }

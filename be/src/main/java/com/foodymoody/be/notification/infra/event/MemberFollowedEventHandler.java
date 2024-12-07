@@ -36,4 +36,5 @@ public class MemberFollowedEventHandler {
             notificationService.save(notification);
         }
     }
+
 }

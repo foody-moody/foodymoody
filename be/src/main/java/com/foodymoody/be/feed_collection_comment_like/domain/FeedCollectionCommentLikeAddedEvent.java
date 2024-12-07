@@ -39,4 +39,5 @@ public class FeedCollectionCommentLikeAddedEvent implements NotificationEvent {
                 createdAt
         );
     }
+
 }

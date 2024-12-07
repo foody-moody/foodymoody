@@ -21,10 +21,13 @@ public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Member follower;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Member followed;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -44,4 +47,5 @@ public class Follow {
     public Member getFollowed() {
         return followed;
     }
+
 }

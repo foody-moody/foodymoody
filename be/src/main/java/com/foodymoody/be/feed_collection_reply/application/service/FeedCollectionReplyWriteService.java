@@ -45,4 +45,5 @@ public class FeedCollectionReplyWriteService {
         return repository.findById(replyId)
                 .orElseThrow(FeedCollectionReplyNotFoundException::new);
     }
+
 }

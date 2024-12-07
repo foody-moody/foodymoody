@@ -5,4 +5,5 @@ import com.foodymoody.be.menu.domain.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MenuJpaRepository extends JpaRepository<Menu, MenuId> {
+
 }

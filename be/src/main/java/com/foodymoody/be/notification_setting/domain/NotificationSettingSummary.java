@@ -13,4 +13,5 @@ public interface NotificationSettingSummary {
     boolean isFeedComment();
 
     boolean isCollectionComment();
+
 }
