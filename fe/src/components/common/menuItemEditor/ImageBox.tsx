@@ -14,18 +14,20 @@ type Props = {
 };
 
 export const ImageBox: React.FC<Props> = ({
-  menuId,
-  imageUrl,
-  onEditMenuImage,
-}) => {
+                                            menuId,
+                                            imageUrl,
+                                            onEditMenuImage,
+                                          }) => {
   const toast = useToast();
   const { mutate: imageMutate, isLoading } = usePostImage('feed');
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null); // img 태그 ref 추가
 
   const [imageData, setImageData] = useState({
     id: '',
     url: imageUrl,
+    originalUrl: '', // 원본 이미지 URL 저장
   });
 
   const handleImageClick = () => {
@@ -48,7 +50,7 @@ export const ImageBox: React.FC<Props> = ({
 
     if (!ALLOWED_TYPES.includes(file.type) || file.size > MAX_FILE_SIZE_BYTES) {
       toast.noti(
-        '이미지는 2.6MB 이하의 png, jpg, jpeg 파일만 업로드 가능합니다.'
+          '이미지는 2.6MB 이하의 png, jpg, jpeg 파일만 업로드 가능합니다.'
       );
       return;
     }
@@ -62,12 +64,14 @@ export const ImageBox: React.FC<Props> = ({
 
     const formData = new FormData();
     formData.append('file', resizedFile);
-    // formData.append('file', file);
+    // formData.append('file', file); // 원본 이미지 업로드 시
 
     imageMutate(formData, {
       onSuccess: (res) => {
         console.log(res, ' now res');
-        setImageData(res);
+        // originalUrl 저장 (res에 원본 url이 있다고 가정)
+        // 만약 원본 이미지를 업로드하는 경우, res.url을 resizedFile의 url로 변경
+        setImageData({ ...res, originalUrl: res.url });
         onEditMenuImage(menuId, res);
       },
     });
@@ -78,24 +82,41 @@ export const ImageBox: React.FC<Props> = ({
   };
 
   return (
-    <ImageWrapper $isImageUrl={!!imageUrl} onClick={handleImageClick}>
-      <input
-        ref={inputRef}
-        type="file"
-        accept=".png, .jpg, .jpeg"
-        onChange={handleUploadImage}
-      />
-      <img
-        src={imageData.url || generateDefaultUserImage(menuId)}
-        alt="menu item image"
-      />
-      {isLoading && (
-        <SpinnerContainer>
-          <Spinner isLoading={isLoading} />
-        </SpinnerContainer>
-      )}
-      {!isLoading && <PlusGhostIcon />}
-    </ImageWrapper>
+      <ImageWrapper
+          $isImageUrl={!!imageUrl}
+          onClick={handleImageClick}
+          onMouseEnter={() => {
+            if (imageRef.current && imageData.originalUrl) {
+              imageRef.current.src = imageData.originalUrl;
+              imageRef.current.style.transform = 'scale(1.5)';
+            }
+          }}
+          onMouseLeave={() => {
+            if (imageRef.current) {
+              imageRef.current.src =
+                  imageData.url || generateDefaultUserImage(menuId);
+              imageRef.current.style.transform = 'scale(1)';
+            }
+          }}
+      >
+        <input
+            ref={inputRef}
+            type="file"
+            accept=".png, .jpg, .jpeg"
+            onChange={handleUploadImage}
+        />
+        <img
+            ref={imageRef}
+            src={imageData.url || generateDefaultUserImage(menuId)}
+            alt="menu item image"
+        />
+        {isLoading && (
+            <SpinnerContainer>
+              <Spinner isLoading={isLoading} />
+            </SpinnerContainer>
+        )}
+        {!isLoading && <PlusGhostIcon />}
+      </ImageWrapper>
   );
 };
 
@@ -131,6 +152,12 @@ const ImageWrapper = styled.div<{ $isImageUrl: boolean }>`
     width: 95px;
     height: 95px;
     object-fit: cover;
+    transition: transform 0.3s ease;
+    z-index: 1;
+  }
+
+  &:hover img {
+    z-index: 10;
   }
 
   svg {
