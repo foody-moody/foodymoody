@@ -1,3 +1,3 @@
 export const generateDefaultUserImage = (userId?: string) => {
-  return `https://source.boringavatars.com/beam/${userId}?square`;
+  return `https://api.dicebear.com/9.x/shapes/svg?seed=${userId}`;
 };
