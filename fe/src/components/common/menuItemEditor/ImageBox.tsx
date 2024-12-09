@@ -48,7 +48,7 @@ export const ImageBox: React.FC<Props> = ({
 
         if (!ALLOWED_TYPES.includes(file.type) || file.size > MAX_FILE_SIZE_BYTES) {
             toast.noti(
-                '이미지는 2.6MB 이하의 png, jpg, jpeg 파일만 업로드 가능합니z다.'
+                '이미지는 2.6MB 이하의 png, jpg, jpeg 파일만 업로드 가능합니다.'
             );
             return;
         }
@@ -85,12 +85,10 @@ export const ImageBox: React.FC<Props> = ({
                 accept=".png, .jpg, .jpeg"
                 onChange={handleUploadImage}
             />
-            <ImageContainer>
-                <img
-                    src={imageData.url || generateDefaultUserImage(menuId)}
-                    alt="menu item image"
-                />
-            </ImageContainer>
+            <img
+                src={imageData.url || generateDefaultUserImage(menuId)}
+                alt="menu item image"
+            />
             {isLoading && (
                 <SpinnerContainer>
                     <Spinner isLoading={isLoading} />
@@ -109,7 +107,6 @@ const ImageWrapper = styled.div<{ $isImageUrl: boolean }>`
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    overflow: hidden;
 
     &::after {
         content: '';
@@ -130,6 +127,12 @@ const ImageWrapper = styled.div<{ $isImageUrl: boolean }>`
         }
     }
 
+    img {
+        width: 95px;
+        height: 95px;
+        object-fit: cover;
+    }
+
     svg {
         position: absolute;
         top: 50%;
@@ -139,29 +142,13 @@ const ImageWrapper = styled.div<{ $isImageUrl: boolean }>`
     }
 `;
 
-const ImageContainer = styled.div`
+const SpinnerContainer = styled.div`
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
-    transition: transform 0.2s ease-in-out;
-
-    &:hover {
-        transform: scale(1.1);
-    }
-
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-`;
-
-const SpinnerContainer = styled.div`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
+    top: 0;
+    left: 0;
 `;
