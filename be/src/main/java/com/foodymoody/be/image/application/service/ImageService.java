@@ -1,9 +1,11 @@
 package com.foodymoody.be.image.application.service;
 
 import com.foodymoody.be.common.exception.ImageNotFoundException;
+import com.foodymoody.be.common.exception.NotFoundDefaultProfileImageException;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.image.application.dto.ImageDefaultProfileData;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.image.domain.ImageCategory;
 import com.foodymoody.be.image.domain.ImageMapper;
@@ -11,7 +13,9 @@ import com.foodymoody.be.image.domain.ImageRepository;
 import com.foodymoody.be.image.domain.ImageResource;
 import com.foodymoody.be.image.domain.ImageStorage;
 import com.foodymoody.be.image.presentation.dto.response.ImageUploadResponse;
+import com.foodymoody.be.member.domain.MemberProfileImage;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +32,12 @@ public class ImageService {
 
     private final ImageStorage imageStorage;
     private final ImageRepository imageRepository;
+
+    public ImageDefaultProfileData fetchImageDefaultProfile() {
+        Image image = imageRepository.fetchImageDefaultProfile(MemberProfileImage.defaultBasicProfileId)
+                .orElseThrow(NotFoundDefaultProfileImageException::new);
+        return ImageDefaultProfileData.of(image.getId(), image.getUrl());
+    }
 
     public ImageUploadResponse uploadFeedImage(MemberId currentMemberId, MultipartFile file) {
         ImageResource imageResource = ImageMapper.toImageResource(file);

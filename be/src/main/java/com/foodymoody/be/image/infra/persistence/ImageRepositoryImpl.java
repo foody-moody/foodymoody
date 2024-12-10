@@ -16,6 +16,11 @@ public class ImageRepositoryImpl implements ImageRepository {
     private final ImageJpaRepository jpaRepository;
 
     @Override
+    public Optional<Image> fetchImageDefaultProfile(ImageId defaultId) {
+        return jpaRepository.findById(defaultId);
+    }
+
+    @Override
     public Image save(Image image) {
         return jpaRepository.save(image);
     }

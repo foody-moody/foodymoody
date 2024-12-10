@@ -6,6 +6,8 @@ import com.foodymoody.be.common.exception.DuplicateNicknameException;
 import com.foodymoody.be.common.exception.MemberNotFoundException;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.image.application.dto.ImageDefaultProfileData;
+import com.foodymoody.be.image.application.service.ImageService;
 import com.foodymoody.be.member.application.dto.request.ChangePasswordRequest;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberProfileImage;
@@ -22,14 +24,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberWriteService {
 
     private final MemberRepository memberRepository;
+    private final ImageService imageService;
 
     public Member create(MemberId id, SupportedAuthProvider authProvider, String email, String nickname,
                          String password, TasteMood tasteMood, ImageId profileImageId, String profileImageUrl,
                          LocalDateTime now) {
         validateNicknameDuplication(nickname);
         validateEmailDuplication(email);
-        MemberProfileImage profileImage = MemberProfileImage.of(profileImageId, profileImageUrl);
+
+        ImageDefaultProfileData imageDefaultProfileData = imageService.fetchImageDefaultProfile();
+        MemberProfileImage profileImage = MemberProfileImage.of(profileImageId, profileImageUrl, imageDefaultProfileData);
+
         Member forSave = Member.of(id, authProvider, email, nickname, password, profileImage, tasteMood, now);
+
         return memberRepository.save(forSave);
     }
 

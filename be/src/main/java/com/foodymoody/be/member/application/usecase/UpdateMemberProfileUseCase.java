@@ -3,6 +3,7 @@ package com.foodymoody.be.member.application.usecase;
 import com.foodymoody.be.common.util.ids.ImageId;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.common.util.ids.TasteMoodId;
+import com.foodymoody.be.image.application.dto.ImageDefaultProfileData;
 import com.foodymoody.be.image.application.service.ImageService;
 import com.foodymoody.be.image.domain.Image;
 import com.foodymoody.be.member.application.dto.request.UpdateProfileRequest;
@@ -12,6 +13,7 @@ import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberProfileImage;
 import com.foodymoody.be.member.domain.TasteMood;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,12 +49,12 @@ public class UpdateMemberProfileUseCase {
     }
 
     private void updateProfileImage(MemberId currentMemberId, Member member, Image image) {
-        ImageId defaultImageId = MemberProfileImage.DEFAULT.getId();
+        ImageId defaultImageId = MemberProfileImage.defaultBasicProfileId;
         ImageId currentImageId = member.getProfileImageId();
         if (!Objects.equals(currentImageId, defaultImageId)) {
             imageService.softDelete(currentMemberId, member.getProfileImageId());
         }
-        member.updateProfileImage(MemberProfileImage.of(image.getId(), image.getUrl()));
+        member.updateProfileImage(MemberProfileImage.of(image.getId(), image.getUrl(), new ImageDefaultProfileData()));
     }
 
     private boolean isRequestedNicknameValid(String requestedNickname, Member member) {

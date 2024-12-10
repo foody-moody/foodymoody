@@ -2,12 +2,14 @@ package com.foodymoody.be.member.util;
 
 import com.foodymoody.be.common.auth.SupportedAuthProvider;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.image.application.dto.ImageDefaultProfileData;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberProfileImage;
 import java.time.LocalDateTime;
 import java.util.Map;
 
 public enum MemberFixture {
+
     사용자_알버트("albert@albert.com", "albert123!", "알버트", "1"),
     사용자_설리("sully@sully.com", "sully123!", "설리", "1"),
     사용자_보노("bono@bono.com", "bono123!", "보노", "1"),
@@ -130,7 +132,7 @@ public enum MemberFixture {
                 사용자_보노.getEmail(),
                 사용자_보노.getNickname(),
                 사용자_보노.getPassword(),
-                MemberProfileImage.DEFAULT,
+                MemberProfileImage.of(MemberProfileImage.defaultBasicProfileId, "", new ImageDefaultProfileData()),
                 null,
                 LocalDateTime.now()
         );

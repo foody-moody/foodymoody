@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ImageRepository {
 
+    Optional<Image> fetchImageDefaultProfile(ImageId defaultId);
+
     Image save(Image image);
 
     void delete(Image image);

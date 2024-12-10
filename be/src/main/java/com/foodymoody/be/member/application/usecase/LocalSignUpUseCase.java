@@ -3,6 +3,7 @@ package com.foodymoody.be.member.application.usecase;
 import com.foodymoody.be.common.auth.SupportedAuthProvider;
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.image.application.service.ImageService;
 import com.foodymoody.be.member.application.dto.request.SignupRequest;
 import com.foodymoody.be.member.application.dto.response.MemberSignupResponse;
 import com.foodymoody.be.member.application.service.MemberWriteService;
@@ -23,6 +24,7 @@ public class LocalSignUpUseCase {
 
     private final TasteMoodReadService tasteMoodReadService;
     private final MemberWriteService memberWriteService;
+    private final ImageService imageService;
 
     public MemberSignupResponse signUp(SignupRequest request) {
         TasteMood tasteMood = tasteMoodReadService.findById(request.getTasteMoodId());
@@ -34,8 +36,8 @@ public class LocalSignUpUseCase {
                 request.getNickname(),
                 request.getPassword(),
                 tasteMood,
-                MemberProfileImage.DEFAULT.getId(),
-                MemberProfileImage.DEFAULT.getUrl(),
+                imageService.fetchImageDefaultProfile().getId(),
+                imageService.fetchImageDefaultProfile().getProfileImageUrl(),
                 LocalDateTime.now()
         );
         return MemberMapper.toSignupResponse(member.getId());

@@ -49,7 +49,6 @@ public class Member {
     private SupportedAuthProvider authProvider;
     private LocalDateTime createdAt;
 
-    @Builder
     public Member(
             MemberId id,
             SupportedAuthProvider authProvider,
@@ -65,7 +64,7 @@ public class Member {
         this.nickname = nickname;
         this.password = password;
         this.tasteMood = tasteMood;
-        this.profileImage = Objects.isNull(profileImage) ? MemberProfileImage.DEFAULT : profileImage;
+        this.profileImage = profileImage;
         this.myFollowings = new MyFollowings();
         this.myFollowers = new MyFollowers();
         this.createdAt = createdAt;
