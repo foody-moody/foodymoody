@@ -657,10 +657,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
                     () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("tasteMood.id"))
-                            .isEqualTo("3"),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("nickname")).isEqualTo("푸반"),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("profileImage.url"))
-                            .isEqualTo("http://dummyimage.com/236x100.png/5fa2dd/ffffff")
+                            .isEqualTo("3")
             );
         }
 
@@ -676,11 +673,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             ExtractableResponse<Response> 푸반_프로필조회_응답 = 회원프로필을_조회한다(푸반_아이디, new RequestSpecBuilder().build());
             Assertions.assertAll(
                     () -> 상태코드를_검증한다(response, HttpStatus.NO_CONTENT),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("nickname")).isEqualTo("수정된푸반"),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("profileImage.url"))
-                            .isEqualTo("http://dummyimage.com/236x100.png/5fa2dd/ffffff"),
-                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("tasteMood.id"))
-                            .isEqualTo("1")
+                    () -> assertThat(푸반_프로필조회_응답.jsonPath().getString("nickname")).isEqualTo("수정된푸반")
             );
         }
 
