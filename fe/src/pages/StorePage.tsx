@@ -23,7 +23,9 @@ export const StorePage = () => {
   const toast = useToast();
 
   const handleTabClick = (tab: 'home' | 'feed') => {
+    console.log("Tab clicked:", tab); // 클릭한 탭 확인
     setActiveTab(tab);
+    console.log("activeTab updated:", activeTab); // activeTab 상태 확인
   };
 
   const handleCopyToClipBoard = async () => {
