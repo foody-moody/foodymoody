@@ -11,10 +11,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableJpaAuditing
 @EnableScheduling
-@EnableJpaRepositories(
-        basePackages = "com.foodymoody.be",
-        excludeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.foodymoody.be.auth.*")
-)
 public class BeApplication {
 
     public static void main(String[] args) {
