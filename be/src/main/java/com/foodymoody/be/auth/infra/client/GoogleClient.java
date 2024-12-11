@@ -82,6 +82,7 @@ public class GoogleClient implements OAuthClient {
         formData.add("redirect_uri", redirectUri);
         formData.add("client_id", clientId);
         formData.add("client_secret", clientSecret);
+        formData.add("grant_type", "authorization_code");
         return formData;
     }
 
