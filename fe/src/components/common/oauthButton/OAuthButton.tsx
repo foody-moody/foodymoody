@@ -14,7 +14,7 @@ export const OAuthButton = () => {
     console.log('RedirectAddress', 'https://foodymoody.store' + PATH.GOOGLE);
 
     const GOOGLE_URL = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&client_id=${VITE_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=${
-        isDev ? LOCAL_URL + PATH.GOOGLE : 'https://foodymoody.store' + PATH.GOOGLE
+        isDev ? LOCAL_URL + '/login/oauth2/code/google' : 'https://foodymoody.store/login/oauth2/code/google'
     }&access_type=offline`;
 
     // const GOOGLE_URL = `https://accounts.google.com/o/oauth2/v2/auth?
