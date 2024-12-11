@@ -18,5 +18,5 @@ export const PATH = {
   FOLLOWER: '/followers',
   FOLLOWING: '/followings',
   STORE: '/store',
-  GOOGLE: '/api/auth/oauth/google',
+  GOOGLE: '/auth/oauth/google',
 };
