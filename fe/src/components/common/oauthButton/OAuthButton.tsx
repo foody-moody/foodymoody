@@ -2,16 +2,14 @@ import { styled } from 'styled-components';
 import { GoogleIcon } from '../icon/icons';
 import { PATH } from 'constants/path';
 
-const { MODE, VITE_GOOGLE_CLIENT_ID } = import.meta.env;
+const { MODE, VITE_GOOGLE_CLIENT_ID, VITE_GOOGLE_CLIENT_SECRET } = import.meta.env;
 
 export const OAuthButton = () => {
   const isDev = MODE === 'development';
   console.log('isDev', isDev);
 
   const LOCAL_URL = 'http://localhost:5173';
-  const GOOGLE_URL = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&client_id=${VITE_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=${
-    isDev ? LOCAL_URL + PATH.GOOGLE : 'https://foodymoody.store' + PATH.GOOGLE
-  }&access_type=offline`;
+  const GOOGLE_URL = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&client_id=${VITE_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=${VITE_GOOGLE_CLIENT_SECRET}&access_type=offline`;
   // const GOOGLE_URL = `https://accounts.google.com/o/oauth2/v2/auth?
   // 	client_id=${VITE_GOOGLE_CLIENT_ID}
   // 	&redirect_uri=${isDev ? LOCAL_URL + PATH.GOOGLE : VITE_API_URL + PATH.GOOGLE}
