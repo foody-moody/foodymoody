@@ -79,17 +79,16 @@ public class GoogleClient implements OAuthClient {
     private MultiValueMap<String, String> createTokenRequest(String authorizationCode) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("code", authorizationCode);
-        formData.add("redirect_uri", redirectUri);
+        formData.add("grant_type", "authorization_code");
+        formData.add("redirect_uri", "https://foodymoody.store/api/auth/oauth/google"); // 하드코딩
         formData.add("client_id", clientId);
         formData.add("client_secret", clientSecret);
-        formData.add("grant_type", "authorization_code");
         return formData;
     }
 
     @Override
     public OAuthTokenResponse getOauthToken(String authorizationCode) {
         try {
-            // WebClient 요청 로깅
             log.info("Sending token request to: {}", tokenUri);
             MultiValueMap<String, String> formData = createTokenRequest(authorizationCode);
             log.info("Request form data: {}", formData);
@@ -105,7 +104,6 @@ public class GoogleClient implements OAuthClient {
                     .bodyValue(formData)
                     .retrieve()
                     .onStatus(HttpStatus::is4xxClientError, clientResponse -> {
-                        // 4xx 에러 발생 시 상세 정보 로깅
                         log.error("Error response status: {}", clientResponse.statusCode());
                         return clientResponse.bodyToMono(String.class).flatMap(body -> {
                             log.error("Error response body: {}", body);
@@ -113,7 +111,9 @@ public class GoogleClient implements OAuthClient {
                         });
                     })
                     .bodyToMono(OAuthTokenResponse.class)
-                    .doOnNext(response -> log.info("Token response: {}", response)) // 응답 로깅
+                    .doOnNext(response -> log.info("Token response: {}", response))
+                    .doOnError(error -> log.error("Error during getOauthToken", error))
+                    .doOnSuccess(response -> log.info("Successfully got oauth token")) // 성공 로그 추가
                     .block();
         } catch (RuntimeException e) {
             log.error("Error during getOauthToken", e);
