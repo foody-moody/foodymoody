@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { GoogleIcon } from '../icon/icons';
-import { PATH } from 'constants/path';
+// import { PATH } from 'constants/path';
+import {END_POINT} from "../../../service/constants/endpoint.ts";
 
 const { MODE, VITE_GOOGLE_CLIENT_ID } = import.meta.env;
 
@@ -12,9 +13,9 @@ export const OAuthButton = () => {
     // const GOOGLE_URL = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&client_id=${VITE_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=${VITE_REDIRECT_ADDRESS}&access_type=offline`;
 
     const GOOGLE_URL = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&client_id=${VITE_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=${
-        isDev ? LOCAL_URL + PATH.GOOGLE : 'https://foodymoody.store' + PATH.GOOGLE
+        isDev ? LOCAL_URL + END_POINT.OAuthLogin : 'https://foodymoody.store' + END_POINT.OAuthLogin
     }&access_type=offline`;
-    console.log('RedirectAddress', 'https://foodymoody.store' + PATH.GOOGLE);
+    console.log('RedirectAddress', 'https://foodymoody.store' + END_POINT.OAuthLogin);
 
     // const GOOGLE_URL = `https://accounts.google.com/o/oauth2/v2/auth?
     // 	client_id=${VITE_GOOGLE_CLIENT_ID}
