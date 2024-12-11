@@ -6,6 +6,7 @@ import com.foodymoody.be.common.exception.InvalidOAuthResponseException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
+@Slf4j
 public class GoogleClient implements OAuthClient {
 
     private final String clientId;
@@ -75,10 +77,18 @@ public class GoogleClient implements OAuthClient {
     private MultiValueMap<String, String> createTokenRequest(String authorizationCode) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("code", authorizationCode);
+        log.info("code={}", authorizationCode);
+
         formData.add("grant_type", "authorization_code");
+
         formData.add("redirect_uri", redirectUri);
+        log.info("redirect_uri={}", redirectUri);
+
         formData.add("client_id", clientId);
+        log.info("client_id={}", clientId);
+
         formData.add("client_secret", clientSecret);
+
         return formData;
     }
 
