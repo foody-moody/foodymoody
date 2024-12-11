@@ -9,11 +9,13 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Component
 @Slf4j
@@ -77,24 +79,20 @@ public class GoogleClient implements OAuthClient {
     private MultiValueMap<String, String> createTokenRequest(String authorizationCode) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("code", authorizationCode);
-        log.info("code={}", authorizationCode);
-
-        formData.add("grant_type", "authorization_code");
-
         formData.add("redirect_uri", redirectUri);
-        log.info("redirect_uri={}", redirectUri);
-
         formData.add("client_id", clientId);
-        log.info("client_id={}", clientId);
-
         formData.add("client_secret", clientSecret);
-
         return formData;
     }
 
     @Override
     public OAuthTokenResponse getOauthToken(String authorizationCode) {
         try {
+            // WebClient 요청 로깅
+            log.info("Sending token request to: {}", tokenUri);
+            MultiValueMap<String, String> formData = createTokenRequest(authorizationCode);
+            log.info("Request form data: {}", formData);
+
             return WebClient.create()
                     .post()
                     .uri(tokenUri)
@@ -103,11 +101,21 @@ public class GoogleClient implements OAuthClient {
                         header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
                         header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
                     })
-                    .bodyValue(createTokenRequest(authorizationCode))
+                    .bodyValue(formData)
                     .retrieve()
+                    .onStatus(HttpStatus::is4xxClientError, clientResponse -> {
+                        // 4xx 에러 발생 시 상세 정보 로깅
+                        log.error("Error response status: {}", clientResponse.statusCode());
+                        return clientResponse.bodyToMono(String.class).flatMap(body -> {
+                            log.error("Error response body: {}", body);
+                            return Mono.error(new RuntimeException("4xx error"));
+                        });
+                    })
                     .bodyToMono(OAuthTokenResponse.class)
+                    .doOnNext(response -> log.info("Token response: {}", response)) // 응답 로깅
                     .block();
         } catch (RuntimeException e) {
+            log.error("Error during getOauthToken", e);
             throw new InvalidOAuthResponseException();
         }
     }
