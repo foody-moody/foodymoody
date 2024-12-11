@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { GoogleIcon } from '../icon/icons';
-import { PATH } from 'constants/path';
+import {END_POINT} from "../../../service/constants/endpoint.ts";
 
 const { MODE, VITE_GOOGLE_CLIENT_ID } = import.meta.env;
 
@@ -11,16 +11,16 @@ export const OAuthButton = () => {
     const LOCAL_URL = 'http://localhost:5173';
     // const GOOGLE_URL = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&client_id=${VITE_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=${VITE_REDIRECT_ADDRESS}&access_type=offline`;
 
-    // const GOOGLE_URL = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&client_id=${VITE_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=${
-    //     isDev ? LOCAL_URL + END_POINT.OAuthLogin : 'https://foodymoody.store' + END_POINT.OAuthLogin
-    // }&access_type=offline`;
-    // console.log('RedirectAddress', 'https://foodymoody.store' + END_POINT.OAuthLogin);
+    const GOOGLE_URL = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&client_id=${VITE_GOOGLE_CLIENT_ID}&response_type=code&redirect_uri=${
+        isDev ? LOCAL_URL + END_POINT.OAuthLogin : 'https://foodymoody.store/api' + END_POINT.OAuthLogin
+    }&access_type=offline`;
+    console.log('RedirectAddress', 'https://foodymoody.store/api' + END_POINT.OAuthLogin);
 
-    const GOOGLE_URL = `https://accounts.google.com/o/oauth2/v2/auth?
-    	client_id=${VITE_GOOGLE_CLIENT_ID}
-    	&redirect_uri=${isDev ? LOCAL_URL + PATH.GOOGLE : 'https://foodymoody.store/api' + PATH.GOOGLE}
-    	&response_type=code
-    	&scope=email profile`;
+    // const GOOGLE_URL = `https://accounts.google.com/o/oauth2/v2/auth?
+    // 	client_id=${VITE_GOOGLE_CLIENT_ID}
+    // 	&redirect_uri=${isDev ? LOCAL_URL + PATH.GOOGLE : 'https://foodymoody.store/api' + PATH.GOOGLE}
+    // 	&response_type=code
+    // 	&scope=email profile`;
     const handleOauthLogin = () => {
         location.replace(GOOGLE_URL); // 이동
         // window.open(GOOGLE_URL, '_blank', 'width=500,height=600,left=50,top=10'); // 새창
