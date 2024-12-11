@@ -79,15 +79,15 @@ export const DetailFeedModalPage = () => {
             ogTitle: `${feed?.store?.name} 리뷰`,
             ogDescription: `${feed?.review} '진짜'만 모은 맛잘알들의 맛집 컬렉션! 푸디무디에서 ${feed?.member.nickname}님의 맛집 리뷰를 확인하세요!`,
             ogImage: feed?.images[0]?.image.url,
-            ogUrl: `https://foodymoody.site/detail/feed/${feed?.id}`,
+            ogUrl: `https://foodymoody.store/detail/feed/${feed?.id}`,
             ogType: 'website',
             ogSiteName: '푸디무디',
             ogLocale: 'ko_KR',
             twitterTitle: `푸디무디 - ${feed?.store?.name} 리뷰`,
             twitterDescription: feed?.review,
             twitterImage: feed?.images[0]?.image.url,
-            twitterUrl: `https://foodymoody.site/detail/feed/${feed?.id}`,
-            canonical: `https://foodymoody.site/detail/feed/${feed?.id}`,
+            twitterUrl: `https://foodymoody.store/detail/feed/${feed?.id}`,
+            canonical: `https://foodymoody.store/detail/feed/${feed?.id}`,
           }}
         />
       )}

@@ -71,7 +71,7 @@ class S3StorageTest {
         @Test
         void whenGetKeyFromWrongUrl_thenError() {
 //            given
-            final String URL_WITH_INVALID_S3_ENDPOINT = "https://foodymoody.site/testtest";
+            final String URL_WITH_INVALID_S3_ENDPOINT = "https://foodymoody.store/testtest";
             final String URL_WITH_VALID_S3_ENDPOINT_AND_INVALID_ROOT_PREFIX = String.join("/", s3EndPoint, "test");
 
 //            when, then

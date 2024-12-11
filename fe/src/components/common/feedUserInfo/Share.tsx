@@ -27,7 +27,7 @@ export const Share: React.FC<Props> = ({
     }
   }, []);
 
-  const baseUrl = 'https://foodymoody.site';
+  const baseUrl = 'https://foodymoody.store';
 
   const urlMaps = {
     feed: `${baseUrl}/detail/feed/${targetId}`,

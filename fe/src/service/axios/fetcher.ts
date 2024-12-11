@@ -4,7 +4,7 @@ import {getAccessToken, getUserInfo} from 'utils/localStorage';
 
 const {MODE, VITE_API_URL} = import.meta.env;
 
-export const BASE_API_URL = MODE === 'development' ? `https://foodymoody.store/api` : VITE_API_URL;
+    export const BASE_API_URL = MODE === 'development' ? `https://foodymoody.store/api` : VITE_API_URL;
 
 
 
