@@ -80,7 +80,7 @@ public class GoogleClient implements OAuthClient {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("code", authorizationCode);
         formData.add("grant_type", "authorization_code");
-        formData.add("redirect_uri", "https://foodymoody.store/api/auth/oauth/google"); // 하드코딩
+        formData.add("redirect_uri", redirectUri); // 하드코딩
         formData.add("client_id", clientId);
         formData.add("client_secret", clientSecret);
         return formData;
