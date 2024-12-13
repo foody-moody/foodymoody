@@ -16,6 +16,7 @@ import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_204라
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_400이다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.전체_스토어_무드를_조회한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.전체_피드를_조회한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.피드_이미지_업로드_후_id_리스트를_반환한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_또_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_삭제한다;

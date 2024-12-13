@@ -1,5 +1,6 @@
 package com.foodymoody.be.acceptance.feed;
 
+import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -511,4 +512,13 @@ public class FeedSteps {
         );
 
     }
+
+    public static List<String> 피드_이미지_업로드_후_id_리스트를_반환한다(String token, RequestSpecification spec) {
+        var imageResponse1 = 피드_이미지를_업로드한다(token, spec);
+        String id1 = imageResponse1.jsonPath().getString("id");
+        var imageResponse2 = 피드_이미지를_업로드한다(token, spec);
+        String id2 = imageResponse2.jsonPath().getString("id");
+        return List.of(id1, id2);
+    }
+
 }

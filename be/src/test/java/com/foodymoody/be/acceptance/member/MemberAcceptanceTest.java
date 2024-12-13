@@ -1,6 +1,7 @@
 package com.foodymoody.be.acceptance.member;
 
 import static com.foodymoody.be.acceptance.auth.AuthSteps.로그인한다;
+import static com.foodymoody.be.acceptance.feed.FeedSteps.피드_이미지_업로드_후_id_리스트를_반환한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록하고_아이디를_받는다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_또_등록한다;
@@ -744,6 +745,10 @@ class MemberAcceptanceTest extends AcceptanceTest {
             String 아티_아이디 = jwtUtil.parseAccessToken(회원아티_액세스토큰).get("id");
             팔로우한다(회원아티_액세스토큰, 푸반_아이디, new RequestSpecBuilder().build());
             팔로우한다(회원푸반_액세스토큰, 아티_아이디, new RequestSpecBuilder().build());
+
+            // 피드 등록하는 부분 추가 (푸반이 탈퇴를 하니, 푸반 토큰으로 등록 안 하면 오류 안 생김)
+            피드를_등록한다(회원아티_액세스토큰, 피드_이미지_업로드_후_id_리스트를_반환한다(회원아티_액세스토큰, spec));
+            피드를_등록한다(회원푸반_액세스토큰, 피드_이미지_업로드_후_id_리스트를_반환한다(회원푸반_액세스토큰, spec));
 
             // when
             var response = 회원탈퇴한다(회원푸반_액세스토큰, spec);
