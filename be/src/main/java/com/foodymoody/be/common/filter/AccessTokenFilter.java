@@ -2,7 +2,7 @@ package com.foodymoody.be.common.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foodymoody.be.auth.application.service.TokenService;
-import com.foodymoody.be.auth.infra.JwtUtil;
+import com.foodymoody.be.auth.infra.util.JwtUtil;
 import com.foodymoody.be.common.exception.ErrorMessage;
 import com.foodymoody.be.common.exception.ErrorResponse;
 import com.foodymoody.be.common.exception.UnauthorizedException;

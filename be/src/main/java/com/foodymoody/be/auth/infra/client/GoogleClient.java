@@ -2,6 +2,7 @@ package com.foodymoody.be.auth.infra.client;
 
 import com.foodymoody.be.auth.application.dto.OAuthMemberDetails;
 import com.foodymoody.be.auth.infra.dto.OAuthTokenResponse;
+import com.foodymoody.be.auth.infra.util.UniqueNicknameGenerator;
 import com.foodymoody.be.common.exception.InvalidOAuthResponseException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -27,7 +28,6 @@ public class GoogleClient implements OAuthClient {
     private final String tokenUri;
     private final String userInfoUri;
     private final String emailFieldName;
-    private final String nicknameFieldName;
     private final String profileImageFieldName;
 
     public GoogleClient(
@@ -43,8 +43,6 @@ public class GoogleClient implements OAuthClient {
             String userInfoUri,
             @Value("${oauth2.google.email-field-name}")
             String emailFieldName,
-            @Value("${oauth2.google.nickname-field-name}")
-            String nicknameFieldName,
             @Value("${oauth2.google.profile-image-field-name}")
             String profileImageFieldName
     ) {
@@ -54,7 +52,6 @@ public class GoogleClient implements OAuthClient {
         this.tokenUri = tokenUri;
         this.userInfoUri = userInfoUri;
         this.emailFieldName = emailFieldName;
-        this.nicknameFieldName = nicknameFieldName;
         this.profileImageFieldName = profileImageFieldName;
     }
 
@@ -71,9 +68,13 @@ public class GoogleClient implements OAuthClient {
 
         return OAuthMemberDetails.of(
                 String.valueOf(userInfo.get(emailFieldName)),
-                String.valueOf(userInfo.get(nicknameFieldName)),
+                String.valueOf(userInfo.get(makeUniqueNicknameFieldName())),
                 String.valueOf(userInfo.get(profileImageFieldName)
                 ));
+    }
+
+    private String makeUniqueNicknameFieldName() {
+        return UniqueNicknameGenerator.generate();
     }
 
     private MultiValueMap<String, String> createTokenRequest(String authorizationCode) {

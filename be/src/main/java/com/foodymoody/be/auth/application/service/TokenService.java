@@ -2,7 +2,7 @@ package com.foodymoody.be.auth.application.service;
 
 import com.foodymoody.be.auth.application.dto.response.TokenIssueResponse;
 import com.foodymoody.be.auth.domain.RefreshTokenStorage;
-import com.foodymoody.be.auth.infra.JwtUtil;
+import com.foodymoody.be.auth.infra.util.JwtUtil;
 import com.foodymoody.be.common.exception.InvalidTokenException;
 import com.foodymoody.be.member.domain.Member;
 import java.util.Date;

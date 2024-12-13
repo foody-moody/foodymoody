@@ -46,7 +46,7 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.회원프로필을
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
-import com.foodymoody.be.auth.infra.JwtUtil;
+import com.foodymoody.be.auth.infra.util.JwtUtil;
 import com.foodymoody.be.auth.util.AuthFixture;
 import com.foodymoody.be.member.util.MemberFixture;
 import io.restassured.builder.RequestSpecBuilder;

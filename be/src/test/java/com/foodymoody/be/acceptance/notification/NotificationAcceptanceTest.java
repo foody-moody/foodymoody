@@ -26,7 +26,7 @@ import static com.foodymoody.be.acceptance.notification.NotificationSteps.회원
 import static com.foodymoody.be.acceptance.notification.NotificationSteps.회원의_모든_알림을_조회한다;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
-import com.foodymoody.be.auth.infra.JwtUtil;
+import com.foodymoody.be.auth.infra.util.JwtUtil;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

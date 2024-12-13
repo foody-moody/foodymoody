@@ -26,7 +26,7 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.팔로우한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.acceptance.AcceptanceTest;
-import com.foodymoody.be.auth.infra.JwtUtil;
+import com.foodymoody.be.auth.infra.util.JwtUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.foodymoody.be.auth.infra;
+package com.foodymoody.be.auth.infra.util;
 
 import com.foodymoody.be.common.exception.ClaimNotFoundException;
 import com.foodymoody.be.common.exception.InvalidTokenException;
