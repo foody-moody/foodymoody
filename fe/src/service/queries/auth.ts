@@ -68,7 +68,7 @@ export const useOAuthLogin = (code: string) => {
 
   const query = useQuery({
     queryKey: [QUERY_KEY.OAuth],
-    queryFn: () => fetchOAuthLogin(code),
+    queryFn: () => fetchOAuthLogin(code), // 이 코드로 백엔드 API 호출
     enabled: !!code,
   });
 
