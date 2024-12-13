@@ -1,6 +1,7 @@
 package com.foodymoody.be.feed.infra.persistence.jpa;
 
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.application.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed.domain.entity.Feed;
@@ -35,5 +36,9 @@ public interface FeedJpaRepository extends JpaRepository<Feed, FeedId> {
     @Modifying
     @Query("UPDATE Feed f SET f.likeCount = :likeCount WHERE f.id = :feedId")
     void updateLikeCount(@Param("likeCount") int likeCount, @Param("feedId") FeedId feedId);
+
+    @Modifying
+    @Query("DELETE FROM Feed f WHERE f.memberId = :memberId")
+    void deleteAllByMemberId(@Param("memberId") MemberId memberId);
 
 }

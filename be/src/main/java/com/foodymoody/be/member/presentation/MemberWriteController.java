@@ -2,6 +2,7 @@ package com.foodymoody.be.member.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
 import com.foodymoody.be.common.util.ids.MemberId;
+import com.foodymoody.be.feed.application.usecase.FeedUseCase;
 import com.foodymoody.be.member.application.dto.request.ChangePasswordRequest;
 import com.foodymoody.be.member.application.dto.request.SignupRequest;
 import com.foodymoody.be.member.application.dto.request.UpdateProfileRequest;

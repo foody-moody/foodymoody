@@ -1,10 +1,12 @@
 package com.foodymoody.be.feed.domain.repository;
 
 import com.foodymoody.be.common.util.ids.FeedId;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.application.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
+import com.foodymoody.be.member.domain.Member;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
@@ -31,5 +33,7 @@ public interface FeedRepository {
     Optional<List<MenuNameRatingPair>> fetchMenuNameRatingList(List<ImageMenu> imageMenus);
 
     void updateLikeCount(int heartCount, FeedId feedId);
+
+    void deleteAll(Member member);
 
 }
