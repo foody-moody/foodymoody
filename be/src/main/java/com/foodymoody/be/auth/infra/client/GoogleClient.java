@@ -80,7 +80,7 @@ public class GoogleClient implements OAuthClient {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("code", authorizationCode);
         formData.add("grant_type", "authorization_code");
-        formData.add("redirect_uri", redirectUri); // 하드코딩
+        formData.add("redirect_uri", redirectUri);
         formData.add("client_id", clientId);
         formData.add("client_secret", clientSecret);
         return formData;
@@ -89,9 +89,9 @@ public class GoogleClient implements OAuthClient {
     @Override
     public OAuthTokenResponse getOauthToken(String authorizationCode) {
         try {
-            log.info("Sending token request to: {}", tokenUri);
+            log.info("[GoogleClient] authorizationCode={}", authorizationCode);
             MultiValueMap<String, String> formData = createTokenRequest(authorizationCode);
-            log.info("Request form data: {}", formData);
+            log.info("[GoogleClient] formData={}", formData.toSingleValueMap());
 
             return WebClient.create()
                     .post()
