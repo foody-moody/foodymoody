@@ -63,7 +63,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, MemberId>, Me
     long countMyFeedById(MemberId id);
 
     @Modifying
-    @Query("UPDATE Member m SET m.deleted = false WHERE m.id = :id")
+    @Query("UPDATE Member m SET m.deleted = true WHERE m.id = :id")
     void softDeleteById(MemberId id);
 
 }
