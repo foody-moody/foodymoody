@@ -1,5 +1,8 @@
 package com.foodymoody.be.member.application.service;
 
+import com.foodymoody.be.auth.application.service.TokenService;
+import com.foodymoody.be.auth.application.usecase.LogoutUseCase;
+import com.foodymoody.be.auth.domain.RefreshTokenStorage;
 import com.foodymoody.be.common.auth.SupportedAuthProvider;
 import com.foodymoody.be.common.exception.DuplicateMemberEmailException;
 import com.foodymoody.be.common.exception.DuplicateNicknameException;
@@ -25,6 +28,9 @@ public class MemberWriteService {
 
     private final MemberRepository memberRepository;
     private final ImageService imageService;
+    private final RefreshTokenStorage refreshTokenStorage;
+    private final TokenService tokenService;
+    private final LogoutUseCase logoutUseCase;
 
     public Member create(MemberId id, SupportedAuthProvider authProvider, String email, String nickname,
                          String password, TasteMood tasteMood, ImageId profileImageId, String profileImageUrl,
@@ -48,7 +54,8 @@ public class MemberWriteService {
 
     public void delete(MemberId id) {
         Member member = findById(id);
-        memberRepository.delete(member);
+        memberRepository.softDelete(member);
+        logoutUseCase.logout(id);
     }
 
     private void validateNicknameDuplication(String nickname) {

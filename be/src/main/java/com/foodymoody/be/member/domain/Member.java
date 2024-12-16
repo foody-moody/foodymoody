@@ -31,6 +31,7 @@ public class Member {
     private String email;
     private String nickname;
     private String password;
+    private boolean deleted;
 
     @Embedded
     private MemberProfileImage profileImage;

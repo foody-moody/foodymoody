@@ -69,8 +69,8 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public void delete(Member member) {
-        jpaRepository.delete(member);
+    public void softDelete(Member member) {
+        jpaRepository.softDeleteById(member.getId());
     }
 
     @Override

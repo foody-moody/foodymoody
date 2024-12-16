@@ -27,7 +27,7 @@ public interface MemberRepository {
 
     Member save(Member member);
 
-    void delete(Member member);
+    void softDelete(Member member);
 
     boolean existsById(MemberId id);
 

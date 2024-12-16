@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface MemberJpaRepository extends JpaRepository<Member, MemberId>, MemberQueryDslRepository {
@@ -31,6 +32,7 @@ public interface MemberJpaRepository extends JpaRepository<Member, MemberId>, Me
             + "ORDER BY f.createdAt DESC")
     Slice<MyFeedPreviewResponse> fetchFeedPreviewResponsesById(MemberId id, Pageable pageable);
 
+    @Query("SELECT m FROM Member m WHERE m.email = :email AND m.deleted = false")
     Optional<Member> findByEmail(String email);
 
     Optional<Member> findByNickname(String nickname);
@@ -59,5 +61,9 @@ public interface MemberJpaRepository extends JpaRepository<Member, MemberId>, Me
             + "LEFT JOIN Feed f ON f.memberId = m.id "
             + "WHERE m.id = :id")
     long countMyFeedById(MemberId id);
+
+    @Modifying
+    @Query("UPDATE Member m SET m.deleted = false WHERE m.id = :id")
+    void softDeleteById(MemberId id);
 
 }
