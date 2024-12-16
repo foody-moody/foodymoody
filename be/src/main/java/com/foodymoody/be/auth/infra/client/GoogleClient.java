@@ -65,10 +65,12 @@ public class GoogleClient implements OAuthClient {
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
                 })
                 .block();
+        String nickname = makeUniqueNicknameFieldName();
+        log.info("[OAuth] nickname={}", nickname);
 
         return OAuthMemberDetails.of(
                 String.valueOf(userInfo.get(emailFieldName)),
-                String.valueOf(userInfo.get(makeUniqueNicknameFieldName())),
+                String.valueOf(userInfo.get(nickname)),
                 String.valueOf(userInfo.get(profileImageFieldName)
                 ));
     }
