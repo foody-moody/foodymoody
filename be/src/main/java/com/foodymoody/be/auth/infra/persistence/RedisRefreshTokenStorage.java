@@ -2,40 +2,35 @@ package com.foodymoody.be.auth.infra.persistence;
 
 import com.foodymoody.be.auth.domain.RefreshTokenStorage;
 import com.foodymoody.be.common.util.ids.MemberId;
-import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class RedisRefreshTokenStorage implements RefreshTokenStorage {
 
-    private static final String REFRESH_PREFIX = "jwt:refresh:";
-    private static final String BLACKLIST_PREFIX = "jwt:blacklist:";
-
-    private final RedisTemplate<String, String> template;
+    private final ConcurrentHashMap<String, String> refreshTokens = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Long> blacklist = new ConcurrentHashMap<>();
 
     @Override
     public void saveRefreshToken(MemberId memberId, String refreshToken) {
-        template.opsForValue().set(REFRESH_PREFIX + memberId.getValue(), refreshToken);
+        refreshTokens.put(memberId.getValue(), refreshToken);
     }
 
     @Override
     public String findByMemberId(String memberId) {
-        return template.opsForValue().get(REFRESH_PREFIX + memberId);
+        return refreshTokens.get(memberId);
     }
 
     @Override
     public void addBlacklist(String token, long exp) {
-        template.opsForValue().set(BLACKLIST_PREFIX + token, String.valueOf(exp));
+        blacklist.put(token, exp);
     }
 
     @Override
     public boolean isBlacklist(String token) {
-        return !Objects.isNull(template.opsForValue().get(BLACKLIST_PREFIX + token));
+        return blacklist.containsKey(token);
     }
 
 }
-
-
