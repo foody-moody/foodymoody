@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RedisRefreshTokenStorage implements RefreshTokenStorage {
+public class refreshTokenStorage implements RefreshTokenStorage {
 
     private final ConcurrentHashMap<String, String> refreshTokens = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, Long> blacklist = new ConcurrentHashMap<>();

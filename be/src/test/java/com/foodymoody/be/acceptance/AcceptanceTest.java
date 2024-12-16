@@ -35,14 +35,14 @@ import org.testcontainers.utility.DockerImageName;
 public abstract class AcceptanceTest {
 
     public static final DockerImageName MYSQL_IMAGE = DockerImageName.parse("mysql:8.0");
-    public static final DockerImageName REDIS_IMAGE = DockerImageName.parse("redis:7.2");
+//    public static final DockerImageName REDIS_IMAGE = DockerImageName.parse("redis:7.2");
     public static final MySQLContainer<?> MYSQL = new MySQLContainer<>(MYSQL_IMAGE)
             .withDatabaseName("foodymoody").withUsername("bono").withPassword("1111").withReuse(true);
-    public static final GenericContainer<?> REDIS = new GenericContainer<>(REDIS_IMAGE).withReuse(true);
+//    public static final GenericContainer<?> REDIS = new GenericContainer<>(REDIS_IMAGE).withReuse(true);
 
     static {
         MYSQL.setPortBindings(List.of("3306:3306"));
-        REDIS.setPortBindings(List.of("6379:6379"));
+//        REDIS.setPortBindings(List.of("6379:6379"));
     }
 
     @LocalServerPort
@@ -94,7 +94,7 @@ public abstract class AcceptanceTest {
     @BeforeAll
     static void startContainer() {
         MYSQL.start();
-        REDIS.start();
+//        REDIS.start();
     }
 
     private void initAccessToken() {
