@@ -140,7 +140,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
 
             // given
             var 푸반_로그인응답 = 푸반이_로그인한다(new RequestSpecBuilder().build());
-            String 푸반_액세스토큰= 푸반_로그인응답.jsonPath().getString("accessToken");
+            String 푸반_액세스토큰 = 푸반_로그인응답.jsonPath().getString("accessToken");
 
             // when
             var response = 로그아웃_한다(푸반_액세스토큰, spec);

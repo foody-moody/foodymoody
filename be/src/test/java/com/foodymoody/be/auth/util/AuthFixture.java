@@ -2,8 +2,8 @@ package com.foodymoody.be.auth.util;
 
 import static com.foodymoody.be.member.util.MemberFixture.사용자_보노;
 import static com.foodymoody.be.member.util.MemberFixture.사용자_설리;
-import static com.foodymoody.be.member.util.MemberFixture.사용자_알버트;
 import static com.foodymoody.be.member.util.MemberFixture.사용자_아티;
+import static com.foodymoody.be.member.util.MemberFixture.사용자_알버트;
 import static com.foodymoody.be.member.util.MemberFixture.사용자_푸반;
 
 import java.util.Map;
@@ -51,4 +51,5 @@ public class AuthFixture {
                 "email", 사용자_푸반.getEmail(),
                 "password", 수정된_비밀번호);
     }
+
 }

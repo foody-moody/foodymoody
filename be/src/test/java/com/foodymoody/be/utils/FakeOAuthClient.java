@@ -30,4 +30,5 @@ public class FakeOAuthClient implements OAuthClient {
             throw new RuntimeException(e);
         }
     }
+
 }

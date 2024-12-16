@@ -150,4 +150,5 @@ class FeedCollectionFeedCommentAcceptanceTest extends AcceptanceTest {
                 () -> assertThat(response.body().jsonPath().getList("content.author.profileImageUrl")).hasSize(3)
         );
     }
+
 }

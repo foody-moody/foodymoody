@@ -21,4 +21,5 @@ public class TableCleanup {
         entityManager.flush();
         entityManager.createNativeQuery("TRUNCATE TABLE " + tableName).executeUpdate();
     }
+
 }

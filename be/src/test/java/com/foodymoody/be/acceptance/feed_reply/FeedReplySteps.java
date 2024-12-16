@@ -26,7 +26,6 @@ public class FeedReplySteps {
                 .extract();
     }
 
-
     public static ExtractableResponse<Response> 댓글의_댓글을_조회한다(String commentId, String feedId) {
         return 댓글의_댓글을_조회한다(commentId, feedId, new RequestSpecBuilder().build());
     }

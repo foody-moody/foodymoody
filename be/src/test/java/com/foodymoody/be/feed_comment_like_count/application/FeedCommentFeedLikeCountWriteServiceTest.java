@@ -24,8 +24,10 @@ class FeedCommentFeedLikeCountWriteServiceTest {
 
     @Autowired
     private FeedCommentLikeCountWriteService feedCommentLikeCountWriteService;
+
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
+
     @Autowired
     private FeedCommentLikeCountJpaRepository feedCommentLikeCountJpaRepository;
 
@@ -96,4 +98,5 @@ class FeedCommentFeedLikeCountWriteServiceTest {
         assertThat(heartCount).isPresent();
         assertThat(heartCount.get()).hasFieldOrPropertyWithValue("count", 0L);
     }
+
 }

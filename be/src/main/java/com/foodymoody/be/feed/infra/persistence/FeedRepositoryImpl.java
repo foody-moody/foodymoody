@@ -1,14 +1,12 @@
 package com.foodymoody.be.feed.infra.persistence;
 
 import com.foodymoody.be.common.util.ids.FeedId;
-import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.feed.application.usecase.dto.ImageIdNamePair;
 import com.foodymoody.be.feed.application.usecase.dto.MenuNameRatingPair;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.entity.ImageMenu;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
 import com.foodymoody.be.feed.infra.persistence.jpa.FeedJpaRepository;
-import com.foodymoody.be.member.domain.Member;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -70,11 +68,6 @@ public class FeedRepositoryImpl implements FeedRepository {
     @Override
     public void updateLikeCount(int heartCount, FeedId feedId) {
         feedJpaRepository.updateLikeCount(heartCount, feedId);
-    }
-
-    @Override
-    public void deleteAll(Member member) {
-        feedJpaRepository.deleteAllByMemberId(member.getId());
     }
 
 }

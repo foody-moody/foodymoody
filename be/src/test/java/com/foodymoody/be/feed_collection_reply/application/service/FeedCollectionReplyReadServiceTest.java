@@ -23,7 +23,6 @@ class FeedCollectionReplyReadServiceTest {
     @Mock
     FeedCollectionReplyRepository repository;
 
-
     @DisplayName("컬렉션 대댓글 조회 시 존재하지 않으면 예외를 던진다")
     @Test
     void fetchByIdWithNotExists() {
@@ -35,4 +34,5 @@ class FeedCollectionReplyReadServiceTest {
         assertThatThrownBy(() -> service.fetchById(replyId))
                 .isInstanceOf(FeedCollectionReplyNotFoundException.class);
     }
+
 }

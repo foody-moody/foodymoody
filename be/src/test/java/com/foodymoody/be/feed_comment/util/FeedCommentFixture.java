@@ -33,7 +33,6 @@ public class FeedCommentFixture {
     public static final String IMAGE_URL = "image url";
     public static final FeedReplyId FEED_REPLY_ID = IdFactory.createFeedReplyId();
 
-
     public static Content space() {
         return new Content(SPACE);
     }
@@ -241,4 +240,5 @@ public class FeedCommentFixture {
             }
         };
     }
+
 }

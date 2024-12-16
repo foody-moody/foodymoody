@@ -29,7 +29,7 @@ public class ImageSteps {
     }
 
     public static ExtractableResponse<Response> 크기가_2_8MB를_넘는_회원_이미지를_업로드한다(byte[] file, String accessToken,
-            RequestSpecification spec) {
+                                                                            RequestSpecification spec) {
         return RestAssured.given().spec(spec).auth().oauth2(accessToken)
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE).multiPart("file", "myFile.png", file)
                 .log().all()
@@ -114,7 +114,7 @@ public class ImageSteps {
     }
 
     public static AbstractIntegerAssert<?> 상태코드를_검증한다(ExtractableResponse<Response> response,
-            HttpStatus expectedHttpStatus) {
+                                                      HttpStatus expectedHttpStatus) {
         return assertThat(response.statusCode()).isEqualTo(expectedHttpStatus.value());
     }
 
@@ -141,4 +141,5 @@ public class ImageSteps {
     private static AbstractStringAssert<?> 오류코드를_검증한다(ExtractableResponse<Response> response, String code) {
         return assertThat(response.jsonPath().getString("code")).isEqualTo(code);
     }
+
 }

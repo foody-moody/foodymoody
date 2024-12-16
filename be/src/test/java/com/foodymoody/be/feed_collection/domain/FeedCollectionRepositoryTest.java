@@ -18,6 +18,7 @@ class FeedCollectionRepositoryTest {
 
     @Autowired
     private FeedCollectionRepository feedCollectionRepository;
+
     @Autowired
     private FeedCollectionMoodJpaRepository moodRepository;
 
@@ -45,4 +46,5 @@ class FeedCollectionRepositoryTest {
         // then
         assertThat(save.getMoods()).hasSize(1);
     }
+
 }

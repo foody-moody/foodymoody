@@ -1,6 +1,5 @@
 package com.foodymoody.be.image.domain;
 
-
 import com.foodymoody.be.common.exception.InvalidImageFileException;
 import com.foodymoody.be.common.exception.UnsupportedImageFormatException;
 import java.io.IOException;
@@ -46,6 +45,7 @@ class ImageResourceTest {
                     Arguments.of(createMockMultipartFileByPath("images/potato.jpg", "    "))
             );
         }
+
     }
 
     @DisplayName("생성자 테스트")
@@ -74,7 +74,6 @@ class ImageResourceTest {
             Assertions.assertThrows(UnsupportedImageFormatException.class, () -> new ImageResource(mock));
         }
 
-
         @DisplayName("파일 혹은 파일이름이 null이거나 비어있으면, 예외가 발생한다")
         @ParameterizedTest
         @ArgumentsSource(EmptyOrNullFileProvider.class)
@@ -82,6 +81,7 @@ class ImageResourceTest {
 //        when, then
             Assertions.assertThrows(InvalidImageFileException.class, () -> new ImageResource(mock));
         }
+
     }
 
 }

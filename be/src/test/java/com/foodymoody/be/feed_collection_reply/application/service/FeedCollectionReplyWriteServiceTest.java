@@ -35,4 +35,5 @@ class FeedCollectionReplyWriteServiceTest {
                 .isInstanceOf(FeedCollectionReplyNotFoundException.class);
 
     }
+
 }

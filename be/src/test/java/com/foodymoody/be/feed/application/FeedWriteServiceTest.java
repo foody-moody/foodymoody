@@ -12,6 +12,7 @@ class FeedWriteServiceTest {
 
     @InjectMocks
     private FeedWriteService feedWriteService;
+
     @Mock
     private FeedRepositoryImpl feedRepository;
 

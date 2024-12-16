@@ -106,7 +106,6 @@ class NotificationAcceptanceTest extends AcceptanceTest {
             알림_아이디 = 회원의_모든_알림을_조회하고_첫번째_알림을_가져온다(회원아티_액세스토큰);
         }
 
-
         @DisplayName("개별 알림 요청 성공하면 응답코드 200과 알림을 받는다.")
         @Test
         void when_request_single_notification_if_success_return_200_and_receive_notification() {
@@ -158,5 +157,7 @@ class NotificationAcceptanceTest extends AcceptanceTest {
             // then
             응답코드가_204(response);
         }
+
     }
+
 }

@@ -31,4 +31,5 @@ public class FakeImageStorage implements ImageStorage {
     public String getKey(String url) {
         return "key";
     }
+
 }

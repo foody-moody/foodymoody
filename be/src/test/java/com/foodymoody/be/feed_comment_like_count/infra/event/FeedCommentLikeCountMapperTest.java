@@ -33,4 +33,5 @@ class FeedCommentLikeCountMapperTest {
                 .hasFieldOrPropertyWithValue("feedCommentId", event.getFeedCommentId())
                 .hasFieldOrPropertyWithValue("count", 0L);
     }
+
 }

@@ -51,4 +51,5 @@ class NotificationSettingTest {
                 .hasFieldOrPropertyWithValue("isFeedComment", false)
                 .hasFieldOrPropertyWithValue("isCollectionComment", false);
     }
+
 }

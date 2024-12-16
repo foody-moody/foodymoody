@@ -299,12 +299,6 @@ public class FeedUseCase {
         feedWriteService.deleteById(request.getId());
     }
 
-    @Transactional
-    public void delete(Member member) {
-        imageService.softDeleteAllByMember(member);
-        feedWriteService.deleteByMember(member);
-    }
-
     private void validateFeedMember(FeedId feedId, MemberId memberId) {
         Feed feed = feedReadService.findFeed(feedId);
         MemberId feedMemberId = feed.getMemberId();

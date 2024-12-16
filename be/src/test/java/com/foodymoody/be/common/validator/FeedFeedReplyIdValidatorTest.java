@@ -14,4 +14,5 @@ class FeedFeedReplyIdValidatorTest {
         assertThatThrownBy(() -> ReplyIdValidator.validate(null))
                 .isInstanceOf(InvalidReplyIdException.class);
     }
+
 }

@@ -1,6 +1,6 @@
 package com.foodymoody.be.store_like.application;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.common.util.ids.IdFactory;
 import com.foodymoody.be.common.util.ids.StoreId;
@@ -25,8 +25,10 @@ class StoreLikeWriteServiceTest {
 
     @Autowired
     private StoreLikeCountWriteService service;
+
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
+
     @Autowired
     private StoreLikeCountJpaRepository jpaRepository;
 

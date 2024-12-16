@@ -18,6 +18,7 @@ class FeedCollectionReplyLikeCountWriteServiceTest {
 
     @Autowired
     private FeedCollectionReplyLikeCountWriteService service;
+
     @Autowired
     private FeedCollectionReplyLikeCountJpaRepository repository;
 
@@ -30,7 +31,6 @@ class FeedCollectionReplyLikeCountWriteServiceTest {
     void tearDown() {
         repository.deleteAll();
     }
-
 
     @DisplayName("likeCount을 증가시킨다.")
     @Test
@@ -75,4 +75,5 @@ class FeedCollectionReplyLikeCountWriteServiceTest {
         var saved = repository.findById(id).orElseThrow();
         assertThat(saved).hasFieldOrPropertyWithValue("count", 0L);
     }
+
 }

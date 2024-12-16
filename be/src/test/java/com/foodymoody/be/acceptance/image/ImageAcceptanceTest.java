@@ -1,11 +1,9 @@
 package com.foodymoody.be.acceptance.image;
 
-import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_200이고_응답에_id와_url이_존재함을_검증한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_200임을_검증한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_400이고_오류코드가_i005임을_검증한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_400이고_오류코드가_i007임을_검증한다;
-import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_400임을_검증한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_401이고_오류코드가_a001임을_검증한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.상태코드가_404이고_오류코드가_i001임을_검증한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.이미지를_삭제한다;
@@ -95,6 +93,7 @@ class ImageAcceptanceTest extends AcceptanceTest {
             // then
             상태코드가_400이고_오류코드가_i005임을_검증한다(response);
         }
+
     }
 
     @DisplayName("이미지 삭제 테스트")
@@ -143,6 +142,7 @@ class ImageAcceptanceTest extends AcceptanceTest {
             // then
             상태코드가_404이고_오류코드가_i001임을_검증한다(response);
         }
+
     }
 
 }

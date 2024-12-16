@@ -20,4 +20,5 @@ class ImageCategoryTest {
     void whenGetMemberPrefix_thenSuccess() {
         assertThat(ImageCategory.MEMBER.getPrefix(new MemberId("memberId"))).isEqualTo("members/memberId");
     }
+
 }

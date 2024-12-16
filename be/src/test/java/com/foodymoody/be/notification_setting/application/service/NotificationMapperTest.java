@@ -29,4 +29,5 @@ class NotificationMapperTest {
                 .hasFieldOrPropertyWithValue("isFeedComment", true)
                 .hasFieldOrPropertyWithValue("isCollectionComment", true);
     }
+
 }

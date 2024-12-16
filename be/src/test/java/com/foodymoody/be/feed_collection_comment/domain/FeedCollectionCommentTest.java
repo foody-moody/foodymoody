@@ -104,4 +104,5 @@ class FeedCollectionCommentTest {
         assertThat(feedCollectionComment).hasFieldOrPropertyWithValue("content", updatedContent)
                 .hasFieldOrPropertyWithValue("updatedAt", updatedAt);
     }
+
 }

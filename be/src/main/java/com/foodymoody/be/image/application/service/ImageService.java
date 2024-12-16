@@ -13,7 +13,6 @@ import com.foodymoody.be.image.domain.ImageRepository;
 import com.foodymoody.be.image.domain.ImageResource;
 import com.foodymoody.be.image.domain.ImageStorage;
 import com.foodymoody.be.image.presentation.dto.response.ImageUploadResponse;
-import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberProfileImage;
 import java.util.List;
 import java.util.UUID;
@@ -69,10 +68,6 @@ public class ImageService {
         List<Image> images = imageRepository.findAllByIdInAndDeletedFalse(ids);
         images.forEach(image -> image.validateIsUploader(currentMemberId));
         imageRepository.setDeletedTrueInBatch(images);
-    }
-
-    public void softDeleteAllByMember(Member member) {
-        imageRepository.setDeletedTrueAll(member);
     }
 
     @Transactional(readOnly = true)

@@ -16,12 +16,10 @@ import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_204라
 import static com.foodymoody.be.acceptance.feed.FeedSteps.응답코드가_400이다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.전체_스토어_무드를_조회한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.전체_피드를_조회한다;
-import static com.foodymoody.be.acceptance.feed.FeedSteps.피드_이미지_업로드_후_id_리스트를_반환한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_또_등록한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_삭제한다;
 import static com.foodymoody.be.acceptance.feed.FeedSteps.피드를_수정한다;
-import static com.foodymoody.be.acceptance.feed_comment.FeedCommentSteps.댓글을_삭제한다;
 import static com.foodymoody.be.acceptance.feed_comment.FeedCommentSteps.피드에_댓글을_등록한다;
 import static com.foodymoody.be.acceptance.feed_like.FeedLikeSteps.좋아요를_한다;
 import static com.foodymoody.be.acceptance.image.ImageSteps.피드_이미지를_업로드한다;

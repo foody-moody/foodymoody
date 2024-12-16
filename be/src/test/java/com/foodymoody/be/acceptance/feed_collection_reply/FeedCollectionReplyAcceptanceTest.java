@@ -108,4 +108,5 @@ class FeedCollectionReplyAcceptanceTest extends AcceptanceTest {
         // then
         assertThat(response.statusCode()).isEqualTo(200);
     }
+
 }

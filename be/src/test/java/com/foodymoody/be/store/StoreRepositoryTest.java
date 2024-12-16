@@ -54,4 +54,5 @@ class StoreRepositoryTest {
         assertThat(findById).isEmpty();
 
     }
+
 }

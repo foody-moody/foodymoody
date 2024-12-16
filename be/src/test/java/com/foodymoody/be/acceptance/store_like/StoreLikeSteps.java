@@ -13,7 +13,8 @@ import org.springframework.http.MediaType;
 
 public class StoreLikeSteps {
 
-    public static ExtractableResponse<Response> 가게_좋아요를_등록한다(String accessToken, String storeId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 가게_좋아요를_등록한다(String accessToken, String storeId,
+                                                             RequestSpecification spec) {
         return RestAssured.given().log().all().spec(spec)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessToken)
@@ -35,7 +36,8 @@ public class StoreLikeSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 가게_좋아요를_취소한다(String accessToken, String storeId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 가게_좋아요를_취소한다(String accessToken, String storeId,
+                                                             RequestSpecification spec) {
         return RestAssured.given().log().all().spec(spec)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessToken)
@@ -47,7 +49,7 @@ public class StoreLikeSteps {
     }
 
     public static AbstractIntegerAssert<?> 상태코드를_검증한다(ExtractableResponse<Response> response,
-            HttpStatus expectedHttpStatus) {
+                                                      HttpStatus expectedHttpStatus) {
         return assertThat(response.statusCode()).isEqualTo(expectedHttpStatus.value());
     }
 

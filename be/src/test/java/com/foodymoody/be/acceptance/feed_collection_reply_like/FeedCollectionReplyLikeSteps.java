@@ -31,7 +31,7 @@ public class FeedCollectionReplyLikeSteps {
                 .auth().oauth2(accessToken)
                 .when()
                 .post("/api/feed_collections/{feedCollectionId}/comments/{commentId}/replies/{replyId}/likes",
-                      feedCollectionId, commentId, replyId
+                        feedCollectionId, commentId, replyId
                 )
                 .then().log().all()
                 .extract();
@@ -72,4 +72,5 @@ public class FeedCollectionReplyLikeSteps {
                 .then().log().all()
                 .extract();
     }
+
 }

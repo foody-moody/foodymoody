@@ -39,7 +39,6 @@ class NotificationSettingAcceptanceTest extends AcceptanceTest {
         응답코드_204(response);
     }
 
-
     @DisplayName("모든 알림 설정을 off으로 수정 요청 성공 하면 204를 반환한다.")
     @Test
     void when_request_update_all_notification_setting_if_success_then_return_code_204() {
@@ -52,4 +51,5 @@ class NotificationSettingAcceptanceTest extends AcceptanceTest {
         // then
         응답코드_204(response);
     }
+
 }

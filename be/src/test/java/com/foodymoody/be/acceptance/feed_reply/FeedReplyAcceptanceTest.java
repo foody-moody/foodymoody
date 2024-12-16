@@ -123,4 +123,5 @@ class FeedReplyAcceptanceTest extends AcceptanceTest {
         // then
         응답코드_200을_반환한다(response);
     }
+
 }

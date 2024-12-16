@@ -42,7 +42,6 @@ class FeedLikeAcceptanceTest extends AcceptanceTest {
         응답코드가_200이고_id가_존재하면_정상적으로_좋아요_가능(response);
     }
 
-
     @DisplayName("이미 좋아요 된 피드라면 테스트에 실패한다.")
     @Test
     void when_then_like_already_exists() {

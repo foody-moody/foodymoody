@@ -69,4 +69,5 @@ class FeedReplyFeedLikeAcceptanceTest extends AcceptanceTest {
         List<String> imageIds = List.of(id1, id2);
         return imageIds;
     }
+
 }

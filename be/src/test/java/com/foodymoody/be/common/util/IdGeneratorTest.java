@@ -85,4 +85,5 @@ class IdGeneratorTest {
         // then
         assertThat(generatedIds).size().isEqualTo(count);
     }
+
 }

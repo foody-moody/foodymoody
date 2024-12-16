@@ -112,7 +112,6 @@ public class FeedCommentSteps {
         return 댓글_수정_요청한다(commentId, feedId, body, accessToken, spec);
     }
 
-
     public static ExtractableResponse<Response> 댓글_없이_댓글_수정한다(
             String commentId,
             String feedId,
@@ -258,4 +257,5 @@ public class FeedCommentSteps {
                 .then().log().all()
                 .extract();
     }
+
 }

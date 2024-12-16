@@ -77,7 +77,6 @@ class NotificationSettingReadUseCaseMapperTest {
         assertThat(result).isFalse();
     }
 
-
     class NotificationSettingSummaryImpl implements NotificationSettingSummary {
 
         private boolean feedLike;
@@ -132,5 +131,7 @@ class NotificationSettingReadUseCaseMapperTest {
         public boolean isCollectionComment() {
             return collectionComment;
         }
+
     }
+
 }

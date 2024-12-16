@@ -18,7 +18,8 @@ import org.springframework.http.MediaType;
 
 public class StoreSteps {
 
-    public static ExtractableResponse<Response> 가게_상세정보를_조회한다(String accessToken, String id, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 가게_상세정보를_조회한다(String accessToken, String id,
+                                                              RequestSpecification spec) {
         return RestAssured.given().log().all().spec(spec)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessToken)
@@ -74,11 +75,11 @@ public class StoreSteps {
                 List.of(
                         MenuFixture.getFeedRegisterRequestMenuWithRating(3),
                         MenuFixture.getFeedRegisterRequestMenuWithRating(2)
-                        ));
+                ));
     }
 
     public static AbstractIntegerAssert<?> 상태코드를_검증한다(ExtractableResponse<Response> response,
-            HttpStatus expectedHttpStatus) {
+                                                      HttpStatus expectedHttpStatus) {
         return assertThat(response.statusCode()).isEqualTo(expectedHttpStatus.value());
     }
 

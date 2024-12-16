@@ -10,4 +10,5 @@ public class FakeAuthClientManager implements OAuthClientManager {
     public OAuthClient getByProviderType(AuthProvider providerType) {
         return new FakeOAuthClient();
     }
+
 }

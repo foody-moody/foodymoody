@@ -47,7 +47,6 @@ class FeedCollectionReplyMapperTest {
         );
     }
 
-
     class FeedCollectionReplySummaryImpl implements FeedCollectionReplySummary {
 
         FeedCollectionReplyId id;
@@ -120,5 +119,7 @@ class FeedCollectionReplyMapperTest {
         public long getLikeCount() {
             return likeCount;
         }
+
     }
+
 }

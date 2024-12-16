@@ -68,7 +68,6 @@ public class FeedLikeSteps {
                 .extract();
     }
 
-
     public static ExtractableResponse<Response> 좋아요_취소를_한다(
             String feedId, String accessToken,
             RequestSpecification spec

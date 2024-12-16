@@ -38,7 +38,7 @@ public class SqlFileExecutor {
     private String readResourceFile(String path) throws IOException {
         Resource resource = new ClassPathResource(path);
         try (InputStream inputStream = resource.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             return reader.lines().collect(StringBuilder::new, StringBuilder::append, StringBuilder::append).toString();
         }
     }

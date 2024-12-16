@@ -14,4 +14,5 @@ class ContentValidatorTest {
         assertThatThrownBy(() -> ContentValidator.validate(null))
                 .isInstanceOf(ContentNotExistsException.class);
     }
+
 }

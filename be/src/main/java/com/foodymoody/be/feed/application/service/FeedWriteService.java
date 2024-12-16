@@ -3,7 +3,6 @@ package com.foodymoody.be.feed.application.service;
 import com.foodymoody.be.common.util.ids.FeedId;
 import com.foodymoody.be.feed.domain.entity.Feed;
 import com.foodymoody.be.feed.domain.repository.FeedRepository;
-import com.foodymoody.be.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,10 +20,6 @@ public class FeedWriteService {
 
     public void deleteById(FeedId feedId) {
         feedRepository.deleteById(feedId);
-    }
-
-    public void deleteByMember(Member member) {
-        feedRepository.deleteAll(member);
     }
 
 }

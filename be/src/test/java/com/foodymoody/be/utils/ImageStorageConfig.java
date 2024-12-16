@@ -11,4 +11,5 @@ public class ImageStorageConfig {
     public ImageStorage imageStorage() {
         return new FakeImageStorage();
     }
+
 }

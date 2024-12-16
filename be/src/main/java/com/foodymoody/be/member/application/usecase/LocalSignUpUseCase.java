@@ -10,7 +10,6 @@ import com.foodymoody.be.member.application.service.MemberWriteService;
 import com.foodymoody.be.member.application.service.TasteMoodReadService;
 import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberMapper;
-import com.foodymoody.be.member.domain.MemberProfileImage;
 import com.foodymoody.be.member.domain.TasteMood;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;

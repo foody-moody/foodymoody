@@ -1,6 +1,5 @@
 package com.foodymoody.be.feed.application;
 
-
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
@@ -24,6 +23,7 @@ class FeedReadServiceTest {
 
     @InjectMocks
     private FeedReadService feedReadService;
+
     @Mock
     private FeedRepositoryImpl feedRepository;
 

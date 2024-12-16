@@ -104,4 +104,5 @@ class FeedCommentValidatorTest {
         ))
                 .isInstanceOf(InvalidCommentIdException.class);
     }
+
 }

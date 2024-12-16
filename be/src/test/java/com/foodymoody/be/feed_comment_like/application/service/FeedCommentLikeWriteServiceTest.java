@@ -24,7 +24,6 @@ class FeedCommentLikeWriteServiceTest {
     @Mock
     private FeedCommentLikeRepository feedCommentLikeRepository;
 
-
     @DisplayName("댓글 하트를 등록된 상태에서 다시 등록하면 예외가 발생한다.")
     @Test
     void register() {
@@ -52,4 +51,5 @@ class FeedCommentLikeWriteServiceTest {
         Assertions.assertThatThrownBy(() -> feedCommentLikeWriteService.delete(feedCommentId, memberId))
                 .isInstanceOf(FeedCommentIsNotLikedException.class);
     }
+
 }

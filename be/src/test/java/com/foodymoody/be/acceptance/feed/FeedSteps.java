@@ -45,7 +45,6 @@ public class FeedSteps {
         assertThat(sort).containsKeys("unsorted", "sorted", "empty");
     }
 
-
     public static ExtractableResponse<Response> 피드를_등록한다(String accessToken, List<String> imageIds) {
         return 피드를_등록한다(accessToken, new RequestSpecBuilder().build(), imageIds);
     }
@@ -370,7 +369,9 @@ public class FeedSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 특정_가게의_피드를_등록한다(String accessToken, String storeId, List<String> imageIds, List<FeedRegisterRequestMenu> menus) {
+    public static ExtractableResponse<Response> 특정_가게의_피드를_등록한다(String accessToken, String storeId,
+                                                                List<String> imageIds,
+                                                                List<FeedRegisterRequestMenu> menus) {
         Map<String, Object> body = Map.of(
                 "storeId", storeId,
                 "review", "맛있어요!",
@@ -490,7 +491,6 @@ public class FeedSteps {
     public static void 응답코드가_204라면_정상적으로_수정_삭제된_피드(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(204);
     }
-
 
     public static ExtractableResponse<Response> 전체_스토어_무드를_조회한다(RequestSpecification spec) {
         return RestAssured

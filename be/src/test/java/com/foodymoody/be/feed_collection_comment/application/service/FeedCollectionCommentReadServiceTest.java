@@ -46,4 +46,5 @@ class FeedCollectionCommentReadServiceTest {
         assertThatThrownBy(() -> service.findById(commentId))
                 .isInstanceOf(FeedCollectionCommentNotFoundException.class);
     }
+
 }

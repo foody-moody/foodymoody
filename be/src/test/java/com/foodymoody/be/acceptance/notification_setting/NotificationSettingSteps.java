@@ -61,4 +61,5 @@ public class NotificationSettingSteps {
                 () -> assertThat(response.body().jsonPath().getBoolean("follow")).isTrue()
         );
     }
+
 }

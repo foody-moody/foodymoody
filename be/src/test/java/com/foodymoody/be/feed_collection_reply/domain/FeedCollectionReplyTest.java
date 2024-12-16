@@ -20,7 +20,6 @@ class FeedCollectionReplyTest {
     LocalDateTime updatedAt;
     Content newContent;
 
-
     @BeforeEach
     void setUp() {
         memberId = IdFactory.createMemberId();
@@ -79,4 +78,5 @@ class FeedCollectionReplyTest {
                 LocalDateTime.now()
         );
     }
+
 }

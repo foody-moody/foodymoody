@@ -49,10 +49,13 @@ public abstract class AcceptanceTest {
     public int port;
     public String 회원아티_액세스토큰;
     public String 회원푸반_액세스토큰;
+
     @Autowired
     protected DatabaseCleanup databaseCleanup;
+
     @Autowired
     protected TableCleanup tableCleanup;
+
     @Autowired
     protected SqlFileExecutor sqlFileExecutor;
     protected RequestSpecification spec;
@@ -108,4 +111,5 @@ public abstract class AcceptanceTest {
         아티_회원가입한다();
         return 로그인한다(AuthFixture.아티_로그인_요청(), new RequestSpecBuilder().build()).jsonPath().getString("accessToken");
     }
+
 }

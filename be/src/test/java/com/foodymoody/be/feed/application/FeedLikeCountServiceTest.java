@@ -31,12 +31,16 @@ class FeedLikeCountServiceTest {
 
     @Autowired
     private FeedLikeCountService feedLikeCountService;
+
     @Autowired
     private StoreMoodReadService storeMoodReadService;
+
     @Autowired
     private FeedLikeCountRepository feedLikeCountRepository;
+
     @Autowired
     private FeedRepository feedRepository;
+
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
 

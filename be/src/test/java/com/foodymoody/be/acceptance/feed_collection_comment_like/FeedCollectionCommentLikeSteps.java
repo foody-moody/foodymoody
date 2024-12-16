@@ -53,4 +53,5 @@ public class FeedCollectionCommentLikeSteps {
                 .then().log().all()
                 .extract();
     }
+
 }

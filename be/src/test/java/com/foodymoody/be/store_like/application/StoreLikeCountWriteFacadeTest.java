@@ -19,8 +19,10 @@ class StoreLikeCountWriteFacadeTest {
 
     @Autowired
     private StoreLikeCountWriteFacade facade;
+
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
+
     @Autowired
     private StoreLikeCountJpaRepository jpaRepository;
 

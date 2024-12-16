@@ -82,7 +82,7 @@ public class FeedCollectionReplySteps {
                 .body(body).contentType("application/json")
                 .when()
                 .put("/api/feed_collections/{feedCollectionId}/comments/{commentId}/replies/{replyId}",
-                     feedCollectionId, commentId, replyId
+                        feedCollectionId, commentId, replyId
                 )
                 .then().log().all()
                 .extract();
@@ -106,4 +106,5 @@ public class FeedCollectionReplySteps {
                 .then().log().all()
                 .extract();
     }
+
 }

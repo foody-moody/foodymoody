@@ -22,13 +22,13 @@ import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_회원푸반의_닉네임으로_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.비회원보노가_회원푸반의_이메일로_회원가입한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_빈_리스트를_응답하는지_검증한다;
-import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_201이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_전체_테이스트_무드가_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_200이고_중복되는_닉네임임을_검증한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_201이고_응답에_id가_존재하며_회원가입한_보노의_회원프로필이_조회되는지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_g001이고_errors에_email과_nickname과_password가_존재하는지_검증한다;
+import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_g001인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m002인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_m003인지_검증한다;
-import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드가_400이고_오류코드가_g001인지_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.상태코드를_검증한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.언팔로우한다;
 import static com.foodymoody.be.acceptance.member.MemberSteps.오류코드를_검증한다;
@@ -308,7 +308,8 @@ class MemberAcceptanceTest extends AcceptanceTest {
             String 무드3_아이디 = 피드_컬렉션_무드를_등록하고_아이디를_가져온다(회원아티_액세스토큰);
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디, 무드2_아이디), 회원아티_액세스토큰, List.of(피드1_아이디, 피드2_아이디));
-            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디, 무드2_아이디, 무드3_아이디), 회원아티_액세스토큰, List.of(피드1_아이디, 피드2_아이디, 피드3_아이디));
+            피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디, 무드2_아이디, 무드3_아이디), 회원아티_액세스토큰,
+                    List.of(피드1_아이디, 피드2_아이디, 피드3_아이디));
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
             피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
             String 컬렉션1_아이디 = 피드_컬렉션_등록하고_피드_리스트도_추가한다(List.of(무드1_아이디), 회원아티_액세스토큰, List.of(피드1_아이디));
@@ -442,6 +443,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             );
 
         }
+
     }
 
     @Nested
@@ -480,10 +482,12 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     () -> 상태코드를_검증한다(response, HttpStatus.OK),
                     () -> assertThat(response.jsonPath().getList(""))
                             .extracting("containsFeed")
-                            .containsExactly(Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE)
+                            .containsExactly(Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE,
+                                    Boolean.TRUE, Boolean.FALSE)
             );
 
         }
+
     }
 
     @Nested
@@ -521,6 +525,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             상태코드가_200이고_중복되는_닉네임임을_검증한다(response);
 
         }
+
     }
 
     @Nested
@@ -580,6 +585,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
             // then
             상태코드를_검증한다(response, HttpStatus.BAD_REQUEST);
         }
+
     }
 
     @Nested
@@ -858,6 +864,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     () -> 오류코드를_검증한다(response, "g001")
             );
         }
+
     }
 
     @DisplayName("회원 언팔로우 인수테스트")

@@ -132,7 +132,8 @@ public enum MemberFixture {
                 사용자_보노.getEmail(),
                 사용자_보노.getNickname(),
                 사용자_보노.getPassword(),
-                MemberProfileImage.of(MemberProfileImage.defaultBasicProfileId, "http://dummyimage.com/236x100.png/5fa2dd/ffffff", new ImageDefaultProfileData()),
+                MemberProfileImage.of(MemberProfileImage.defaultBasicProfileId,
+                        "http://dummyimage.com/236x100.png/5fa2dd/ffffff", new ImageDefaultProfileData()),
                 null,
                 LocalDateTime.now()
         );

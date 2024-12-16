@@ -43,7 +43,8 @@ public class AuthSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> OAuth_로그인한다(String provider, String authorizationCode, RequestSpecification spec) {
+    public static ExtractableResponse<Response> OAuth_로그인한다(String provider, String authorizationCode,
+                                                            RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -146,4 +147,5 @@ public class AuthSteps {
     ) {
         return assertThat(response.statusCode()).isEqualTo(expectedHttpStatus.value());
     }
+
 }

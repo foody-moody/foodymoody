@@ -36,4 +36,5 @@ class FeedCollectionCommentMapperTest {
         assertThat(comment.getContent()).isEqualTo(content);
         assertThat(comment).hasFieldOrPropertyWithValue("createdAt", createdAt);
     }
+
 }

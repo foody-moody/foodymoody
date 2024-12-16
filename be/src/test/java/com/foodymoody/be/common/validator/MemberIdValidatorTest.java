@@ -13,4 +13,5 @@ class MemberIdValidatorTest {
     void validate_when_member_id_is_null_then_throw_exception() {
         assertThatThrownBy(() -> MemberIdValidator.validate(null)).isInstanceOf(InvalidMemberIdException.class);
     }
+
 }

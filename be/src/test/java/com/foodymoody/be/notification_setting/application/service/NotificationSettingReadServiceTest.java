@@ -35,4 +35,5 @@ class NotificationSettingReadServiceTest {
         assertThatThrownBy(() -> notificationSettingReadService.fetchByMemberId(memberId))
                 .isInstanceOf(NotificationSettingNotFoundException.class);
     }
+
 }

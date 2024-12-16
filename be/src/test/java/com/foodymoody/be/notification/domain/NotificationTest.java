@@ -23,7 +23,7 @@ class NotificationTest {
 
         // when
         notification.changeStatus(isRead, NotificationFixture.notification().getToMemberId(),
-                                  NotificationFixture.UPDATE_AT
+                NotificationFixture.UPDATE_AT
         );
 
         // then
@@ -40,11 +40,10 @@ class NotificationTest {
         // when,then
         Assertions.assertThatThrownBy(
                         () -> notification.changeStatus(true, notExistMemberId,
-                                                        NotificationFixture.UPDATE_AT
+                                NotificationFixture.UPDATE_AT
                         ))
                 .isInstanceOf(PermissionDeniedAccessException.class);
     }
-
 
     @DisplayName("알람을 삭제한다.")
     @Test
@@ -71,4 +70,5 @@ class NotificationTest {
                         () -> notification.delete(notExistMemberId, NotificationFixture.UPDATE_AT))
                 .isInstanceOf(PermissionDeniedAccessException.class);
     }
+
 }

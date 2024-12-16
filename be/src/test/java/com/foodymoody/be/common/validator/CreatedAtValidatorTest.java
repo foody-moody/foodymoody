@@ -14,4 +14,5 @@ class CreatedAtValidatorTest {
         assertThatThrownBy(() -> CreatedAtValidator.validate(null))
                 .isInstanceOf(CreateTimeIsNullException.class);
     }
+
 }

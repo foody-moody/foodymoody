@@ -52,4 +52,5 @@ class FeedReplyCommentsTest {
         // then
         assertThat(feedReplyComments.getCommentList()).isEmpty();
     }
+
 }

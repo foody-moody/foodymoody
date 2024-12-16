@@ -212,7 +212,8 @@ public class MemberSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 로그인시_팔로잉_목록을_조회한다(String accessToken, String id, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 로그인시_팔로잉_목록을_조회한다(String accessToken, String id,
+                                                                  RequestSpecification spec) {
         return RestAssured.given().log().all().spec(spec)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessToken)
@@ -233,7 +234,8 @@ public class MemberSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 로그인시_팔로워_목록을_조회한다(String accessToken, String id, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 로그인시_팔로워_목록을_조회한다(String accessToken, String id,
+                                                                  RequestSpecification spec) {
         return RestAssured.given().log().all().spec(spec)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .auth().oauth2(accessToken)
@@ -258,8 +260,8 @@ public class MemberSteps {
     }
 
     public static ExtractableResponse<Response> 비밀번호를_수정한다(String accessToken,
-            Map<String, Object> request,
-            RequestSpecification spec) {
+                                                           Map<String, Object> request,
+                                                           RequestSpecification spec) {
         return RestAssured.given().log().all()
                 .spec(spec)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -272,7 +274,8 @@ public class MemberSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 회원가입한다(Map<String, Object> memberRegisterRequest, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 회원가입한다(Map<String, Object> memberRegisterRequest,
+                                                       RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -299,7 +302,8 @@ public class MemberSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 로그인시_회원프로필을_조회한다(String accessToken, String memberId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 로그인시_회원프로필을_조회한다(String accessToken, String memberId,
+                                                                 RequestSpecification spec) {
         return RestAssured
                 .given().spec(spec)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -312,7 +316,8 @@ public class MemberSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 테이스트무드를_설정한다(String accessToken, String tasteMoodId, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 테이스트무드를_설정한다(String accessToken, String tasteMoodId,
+                                                             RequestSpecification spec) {
         return RestAssured
                 .given()
                 .log().all()
@@ -327,7 +332,6 @@ public class MemberSteps {
                 .extract();
     }
 
-
     public static ExtractableResponse<Response> 회원탈퇴한다(String accessToken, RequestSpecification spec) {
         return RestAssured
                 .given()
@@ -341,7 +345,6 @@ public class MemberSteps {
                 .log().all()
                 .extract();
     }
-
 
     public static ExtractableResponse<Response> 회원프로필을_수정한다(
             String accessToken,
@@ -361,7 +364,8 @@ public class MemberSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 피드목록을_조회한다(String memberId, int page, int size, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 피드목록을_조회한다(String memberId, int page, int size,
+                                                           RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -375,7 +379,8 @@ public class MemberSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션_목록을_조회한다(String accessToken, String id, int page, int size, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션_목록을_조회한다(String accessToken, String id, int page,
+                                                                        int size, RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -390,7 +395,8 @@ public class MemberSteps {
                 .extract();
     }
 
-    public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션_목록을_조회한다(String id, int page, int size, RequestSpecification spec) {
+    public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션_목록을_조회한다(String id, int page, int size,
+                                                                        RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -405,7 +411,7 @@ public class MemberSteps {
     }
 
     public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션_제목_목록을_조회한다(String accessToken,
-            RequestSpecification spec) {
+                                                                           RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -420,7 +426,7 @@ public class MemberSteps {
     }
 
     public static ExtractableResponse<Response> 회원이_작성한_피드_컬렉션들의_특정_피드_포함_여부를_조회한다(String accessToken, String feedId,
-            RequestSpecification spec) {
+                                                                                   RequestSpecification spec) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -435,11 +441,12 @@ public class MemberSteps {
     }
 
     public static AbstractIntegerAssert<?> 상태코드를_검증한다(ExtractableResponse<Response> response,
-            HttpStatus expectedHttpStatus) {
+                                                      HttpStatus expectedHttpStatus) {
         return assertThat(response.statusCode()).isEqualTo(expectedHttpStatus.value());
     }
 
     public static AbstractStringAssert<?> 오류코드를_검증한다(ExtractableResponse<Response> response, String code) {
         return assertThat(response.jsonPath().getString("code")).isEqualTo(code);
     }
+
 }

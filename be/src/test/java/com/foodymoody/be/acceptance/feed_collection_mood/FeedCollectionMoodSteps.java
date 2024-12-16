@@ -84,4 +84,5 @@ public class FeedCollectionMoodSteps {
                 .then().log().all()
                 .extract();
     }
+
 }

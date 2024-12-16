@@ -183,4 +183,5 @@ class FeedCommentTest {
                 () -> assertThat(comment.getUpdatedAt()).isEqualTo(updatedAt)
         );
     }
+
 }

@@ -108,4 +108,5 @@ class FeedReplyTest {
         assertThatThrownBy(() -> reply.delete(otherMemberId, newUpdatedAt))
                 .isInstanceOf(PermissionDeniedAccessException.class);
     }
+
 }

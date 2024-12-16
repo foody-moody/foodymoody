@@ -44,4 +44,5 @@ class FeedReplyLikeCountMapperTest {
                 FeedReplyLikeCountMapper.INIT_COUNT
         );
     }
+
 }

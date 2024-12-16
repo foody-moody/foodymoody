@@ -72,4 +72,5 @@ class FeedCollectionCommentLikeCountWriteServiceTest {
         var savedLickCount = repository.findById(id).orElseThrow();
         assertThat(savedLickCount).hasFieldOrPropertyWithValue("count", 0L);
     }
+
 }

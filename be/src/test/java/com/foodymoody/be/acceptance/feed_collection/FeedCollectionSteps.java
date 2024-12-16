@@ -18,7 +18,6 @@ public class FeedCollectionSteps {
         return 피드_컬렉션_등록한다(moodIds, accessToken, new RequestSpecBuilder().build());
     }
 
-
     public static ExtractableResponse<Response> 피드_컬렉션_등록한다(
             List<String> moodIds,
             String accessToken,
@@ -257,4 +256,5 @@ public class FeedCollectionSteps {
                 .then().log().all()
                 .extract();
     }
+
 }

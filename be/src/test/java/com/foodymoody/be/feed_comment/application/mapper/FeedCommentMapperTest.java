@@ -107,4 +107,5 @@ class FeedCommentMapperTest {
                 () -> assertThat(response.isLiked()).isEqualTo(memberFeedReplySummary.isLiked())
         );
     }
+
 }

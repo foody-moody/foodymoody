@@ -14,4 +14,5 @@ class FeedIdValidatorTest {
         assertThatThrownBy(() -> FeedIdValidator.validate(null))
                 .isInstanceOf(InvalidFeedIdException.class);
     }
+
 }

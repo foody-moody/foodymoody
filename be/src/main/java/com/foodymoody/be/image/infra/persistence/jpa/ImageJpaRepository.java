@@ -1,7 +1,6 @@
 package com.foodymoody.be.image.infra.persistence.jpa;
 
 import com.foodymoody.be.common.util.ids.ImageId;
-import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.image.domain.Image;
 import java.util.List;
 import java.util.Optional;
@@ -16,10 +15,6 @@ public interface ImageJpaRepository extends JpaRepository<Image, ImageId> {
             + "SET i.deleted = true "
             + "WHERE i IN :images")
     void setDeletedTrueInBatch(List<Image> images);
-
-    @Modifying
-    @Query("UPDATE Image i SET i.deleted = true WHERE i.uploaderId = :memberId")
-    void setDeletedTrueAll(MemberId memberId);
 
     Optional<Image> findByIdAndDeletedFalse(ImageId id);
 

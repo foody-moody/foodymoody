@@ -60,4 +60,5 @@ class FeedCommentFeedLikeAcceptanceTest extends AcceptanceTest {
         // then
         assertThat(response.statusCode()).isEqualTo(204);
     }
+
 }

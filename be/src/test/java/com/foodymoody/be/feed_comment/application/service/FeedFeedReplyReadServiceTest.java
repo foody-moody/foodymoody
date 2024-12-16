@@ -26,7 +26,6 @@ class FeedFeedReplyReadServiceTest {
     @Mock
     FeedReplyRepository feedReplyRepository;
 
-
     @DisplayName("대댓글 조회 시 대댓글이 없으면 에외를 던진다")
     @Test
     void fetch_by_id_if_not_exists() {
@@ -73,4 +72,5 @@ class FeedFeedReplyReadServiceTest {
         // when,then
         feedReplyReadService.validate(FeedCommentFixture.feedReplyId());
     }
+
 }

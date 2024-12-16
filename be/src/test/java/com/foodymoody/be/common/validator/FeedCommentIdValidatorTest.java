@@ -14,4 +14,5 @@ class FeedCommentIdValidatorTest {
         assertThatThrownBy(() -> CommentIdValidator.validate(null))
                 .isInstanceOf(InvalidCommentIdException.class);
     }
+
 }

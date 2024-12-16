@@ -13,7 +13,6 @@ import com.foodymoody.be.member.domain.Member;
 import com.foodymoody.be.member.domain.MemberProfileImage;
 import com.foodymoody.be.member.domain.TasteMood;
 import java.util.Objects;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

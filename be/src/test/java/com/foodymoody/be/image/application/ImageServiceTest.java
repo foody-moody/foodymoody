@@ -36,8 +36,10 @@ class ImageServiceTest {
 
     @InjectMocks
     ImageService imageService;
+
     @Mock
     S3Storage imageStorage;
+
     @Mock
     ImageRepository imageRepository;
 
@@ -62,12 +64,13 @@ class ImageServiceTest {
         void whenUploadFeedImageSuccess_thenReturnIdAndS3Url() {
 //        given
             when(imageStorage.generateKey(any(), any(), any(), any())).thenCallRealMethod();
-            when(imageStorage.upload(any(String.class), any())).thenAnswer(invocation -> "https://s3Url/" + invocation.getArgument(0));
+            when(imageStorage.upload(any(String.class), any())).thenAnswer(
+                    invocation -> "https://s3Url/" + invocation.getArgument(0));
             when(imageRepository.save(any(Image.class))).thenAnswer(invocation -> invocation.getArgument(0));
             MockMultipartFile file = createMockMultipartFileByPath("images/potato.jpg", "images/potato.jpg");
 
 //        when
-            ImageUploadResponse response = imageService.uploadFeedImage(new MemberId( "memberId"), file);
+            ImageUploadResponse response = imageService.uploadFeedImage(new MemberId("memberId"), file);
 
 //        then
             Assertions.assertAll(
@@ -87,12 +90,13 @@ class ImageServiceTest {
         void whenUploadMemberImageSuccess_thenReturnIdAndS3Url() {
 //        given
             when(imageStorage.generateKey(any(), any(), any(), any())).thenCallRealMethod();
-            when(imageStorage.upload(any(String.class), any())).thenAnswer(invocation -> "https://s3Url/" + invocation.getArgument(0));
+            when(imageStorage.upload(any(String.class), any())).thenAnswer(
+                    invocation -> "https://s3Url/" + invocation.getArgument(0));
             when(imageRepository.save(any(Image.class))).thenAnswer(invocation -> invocation.getArgument(0));
             MockMultipartFile file = createMockMultipartFileByPath("images/potato.jpg", "images/potato.jpg");
 
 //        when
-            ImageUploadResponse response = imageService.uploadMemberImage(new MemberId( "memberId"), file);
+            ImageUploadResponse response = imageService.uploadMemberImage(new MemberId("memberId"), file);
 
 //        then
             Assertions.assertAll(
@@ -117,7 +121,8 @@ class ImageServiceTest {
             );
 
 //        when, then
-            Assertions.assertDoesNotThrow(() -> imageService.softDelete(new MemberId("testMemberId"), new ImageId("testId")));
+            Assertions.assertDoesNotThrow(
+                    () -> imageService.softDelete(new MemberId("testMemberId"), new ImageId("testId")));
         }
 
         @DisplayName("이미지 업로더의 id와 매개변수로 받은 회원 id가 다르면, 예외가 발생한다")

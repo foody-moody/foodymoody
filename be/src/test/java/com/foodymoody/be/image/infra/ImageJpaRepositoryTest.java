@@ -1,6 +1,5 @@
 package com.foodymoody.be.image.infra;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.foodymoody.be.common.config.AppConfig;

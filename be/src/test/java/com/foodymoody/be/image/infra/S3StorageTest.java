@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-
 @SpringBootTest
 @ContextConfiguration(classes = S3Storage.class)
 @DisplayName("S3 저장소 테스트")
@@ -23,6 +22,7 @@ class S3StorageTest {
 
     private final String s3EndPoint;
     private final String rootPrefix;
+
     @Autowired
     private S3Storage s3Storage;
 
@@ -41,7 +41,8 @@ class S3StorageTest {
         @Test
         void whenGenerateKey_thenSuccess() {
 //            given, when
-            String memberImageUrl = s3Storage.generateKey(ImageCategory.MEMBER, new MemberId("1"), "uuid", "fileName.jpg");
+            String memberImageUrl = s3Storage.generateKey(ImageCategory.MEMBER, new MemberId("1"), "uuid",
+                    "fileName.jpg");
             String feedImageUrl = s3Storage.generateKey(ImageCategory.FEED, null, "uuid", "fileName.jpg");
 
 //            then

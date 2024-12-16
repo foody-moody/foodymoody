@@ -32,9 +32,9 @@ public class NotificationFixture {
 
     public static Notification notification(NotificationId id) {
         return new Notification(id, getFromMemberId(), getToMemberId(), notificationDetails(),
-                                NotificationType.FEED_ADDED_EVENT,
-                                false, false,
-                                CREATE_AT, UPDATE_AT
+                NotificationType.FEED_ADDED_EVENT,
+                false, false,
+                CREATE_AT, UPDATE_AT
         );
     }
 
@@ -61,4 +61,5 @@ public class NotificationFixture {
     public static MemberId getNotExistMemberId() {
         return IdFactory.createMemberId(NOT_EXIST_MEMBER_ID);
     }
+
 }

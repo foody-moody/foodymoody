@@ -53,4 +53,5 @@ class FeedReplyLikeWriteUseCaseTest {
         // then
         verify(feedReplyLikeService, never()).delete(any(), any());
     }
+
 }
