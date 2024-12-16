@@ -65,7 +65,7 @@ public interface NotificationJpaRepository extends JpaRepository<Notification, N
             "FROM Notification _notification " +
             "JOIN Member _fromMember ON _notification.fromMemberId = _fromMember.id " +
             "JOIN Image _memberImage ON _fromMember.profileImage.id = _memberImage.id " +
-            "WHERE _notification.toMemberId = :memberId AND _notification.isDeleted = false AND _fromMember.deleted = false " +
+            "WHERE _fromMember.deleted = false AND _notification.toMemberId = :memberId AND _notification.isDeleted = false " +
             "ORDER BY _notification.createdAt DESC")
     Slice<NotificationSummary> findAllSummaryByMemberId(MemberId memberId, Pageable pageable);
 

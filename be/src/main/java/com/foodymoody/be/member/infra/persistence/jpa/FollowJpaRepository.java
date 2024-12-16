@@ -14,7 +14,7 @@ public interface FollowJpaRepository extends JpaRepository<Follow, Long> {
             + "FROM Follow f "
             + "INNER JOIN Member following ON f.followed = following "
             + "INNER JOIN Image i ON i.id = following.profileImage.id "
-            + "WHERE f.follower = :member "
+            + "WHERE following.deleted = false AND f.follower = :member "
             + "ORDER BY f.createdAt DESC ")
     Slice<FollowMemberSummary> fetchMyFollowingSummariesByMember(Member member, Pageable pageable);
 
@@ -22,7 +22,7 @@ public interface FollowJpaRepository extends JpaRepository<Follow, Long> {
             + "FROM Follow f "
             + "INNER JOIN Member follower ON f.follower = follower "
             + "INNER JOIN Image i ON i.id = follower.profileImage.id "
-            + "WHERE f.followed = :member "
+            + "WHERE follower.deleted = false AND f.followed = :member "
             + "ORDER BY f.createdAt DESC ")
     Slice<FollowMemberSummary> fetchMyFollowerSummariesByMember(Member member, Pageable pageable);
 
