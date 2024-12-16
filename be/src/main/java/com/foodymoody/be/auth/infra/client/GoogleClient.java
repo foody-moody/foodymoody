@@ -29,6 +29,7 @@ public class GoogleClient implements OAuthClient {
     private final String userInfoUri;
     private final String emailFieldName;
     private final String profileImageFieldName;
+    private final String nickname;
 
     public GoogleClient(
             @Value("${oauth2.google.client-id}")
@@ -53,6 +54,7 @@ public class GoogleClient implements OAuthClient {
         this.userInfoUri = userInfoUri;
         this.emailFieldName = emailFieldName;
         this.profileImageFieldName = profileImageFieldName;
+        this.nickname = makeUniqueNicknameFieldName();
     }
 
     @Override
@@ -65,8 +67,6 @@ public class GoogleClient implements OAuthClient {
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
                 })
                 .block();
-        String nickname = makeUniqueNicknameFieldName();
-        log.info("[OAuth] nickname={}", nickname);
 
         return OAuthMemberDetails.of(
                 String.valueOf(userInfo.get(emailFieldName)),
