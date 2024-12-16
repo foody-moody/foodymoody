@@ -30,6 +30,6 @@ jobs:
       - name: 어플리케이션을 빌드한다
         run: |
           chmod +x gradlew
-          ./gradlew build -x test
+          ./gradlew build
         working-directory: ${{ env.ROOT_PATH }}
 
