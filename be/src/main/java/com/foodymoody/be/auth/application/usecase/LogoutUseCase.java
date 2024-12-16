@@ -18,11 +18,8 @@ public class LogoutUseCase {
     }
 
     public void logout(MemberId memberId) {
-        String refreshToken = refreshTokenStorage.findByMemberId(memberId.getValue());
-        if (refreshToken != null) {
-            String accessToken = tokenService.issueAccessTokenByRefreshToken(refreshToken);
-            tokenService.revoke(accessToken);
-        }
+        String accessToken = tokenService.issueAccessTokenByMemberId(memberId);
+        tokenService.revoke(accessToken);
     }
 
 }

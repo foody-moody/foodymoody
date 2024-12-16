@@ -4,7 +4,7 @@ import com.foodymoody.be.auth.application.dto.response.TokenIssueResponse;
 import com.foodymoody.be.auth.domain.RefreshTokenStorage;
 import com.foodymoody.be.auth.infra.util.JwtUtil;
 import com.foodymoody.be.common.exception.InvalidTokenException;
-import com.foodymoody.be.common.util.ids.IdFactory;
+import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.service.MemberReadService;
 import com.foodymoody.be.member.domain.Member;
 import java.util.Date;
@@ -37,9 +37,8 @@ public class TokenService {
         }
     }
 
-    public String issueAccessTokenByRefreshToken(String refreshToken) {
-        String memberId = jwtUtil.parseRefreshToken(refreshToken);
-        Member member = memberReadService.findById(IdFactory.createMemberId(memberId));
+    public String issueAccessTokenByMemberId(MemberId memberId) {
+        Member member = memberReadService.findById(memberId);
         Date now = new Date();
         return jwtUtil.createAccessToken(now, member.getId().getValue(), member.getEmail());
     }
