@@ -52,10 +52,10 @@ public class MemberWriteService {
         member.changePassword(request.getOldPassword(), request.getPassword());
     }
 
-    public void delete(MemberId id) {
+    public void delete(MemberId id, String accessToken) {
+        logoutUseCase.logout(accessToken);
         Member member = findById(id);
         memberRepository.softDelete(member);
-        logoutUseCase.logout(id);
     }
 
     private void validateNicknameDuplication(String nickname) {

@@ -37,10 +37,4 @@ public class TokenService {
         }
     }
 
-    public String issueAccessTokenByMemberId(MemberId memberId) {
-        Member member = memberReadService.findById(memberId);
-        Date now = new Date();
-        return jwtUtil.createAccessToken(now, member.getId().getValue(), member.getEmail());
-    }
-
 }

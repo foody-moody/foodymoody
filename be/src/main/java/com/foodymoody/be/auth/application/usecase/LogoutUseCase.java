@@ -11,14 +11,8 @@ import org.springframework.stereotype.Component;
 public class LogoutUseCase {
 
     private final TokenService tokenService;
-    private final RefreshTokenStorage refreshTokenStorage;
 
     public void logout(String accessToken) {
-        tokenService.revoke(accessToken);
-    }
-
-    public void logout(MemberId memberId) {
-        String accessToken = tokenService.issueAccessTokenByMemberId(memberId);
         tokenService.revoke(accessToken);
     }
 

@@ -1,6 +1,8 @@
 package com.foodymoody.be.member.presentation;
 
 import com.foodymoody.be.common.annotation.CurrentMemberId;
+import com.foodymoody.be.common.util.HttpHeaderParser;
+import com.foodymoody.be.common.util.HttpHeaderType;
 import com.foodymoody.be.common.util.ids.MemberId;
 import com.foodymoody.be.member.application.dto.request.ChangePasswordRequest;
 import com.foodymoody.be.member.application.dto.request.SignupRequest;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,8 +61,10 @@ public class MemberWriteController {
 
     @DeleteMapping("/me")
     public ResponseEntity<Void> delete(
-            @CurrentMemberId MemberId currentMemberId) {
-        memberWriteService.delete(currentMemberId);
+            @CurrentMemberId MemberId currentMemberId,
+            @RequestHeader("Authorization") String authorizationHeader) {
+        String accessToken = HttpHeaderParser.parse(authorizationHeader, HttpHeaderType.AUTHORIZATION);
+        memberWriteService.delete(currentMemberId, accessToken);
         return ResponseEntity.noContent().build();
     }
 
