@@ -42,6 +42,7 @@ public enum ErrorMessage {
     MEMBER_INCORRECT_PASSWORD("사용자 정보와 비밀번호가 일치하지 않습니다", "a005"),
     UNSUPPORTED_OAUTH_PROVIDER("지원되지 않는 OAuth입니다.", "a006"),
     INVALID_OAUTH_RESPONSE("OAuth 클라이언트로부터의 응답이 유효하지 않습니다", "a007"),
+    EXPIRED_TOKEN("세션이 만료되었습니다. 다시 로그인해 주세요.", "a008"),
     // mood
     DUPLICATE_MOOD("이미 존재하는 무드입니다", "o001"),
     MOOD_NOT_FOUND("존재하지 않는 무드입니다", "o002"),

@@ -12,4 +12,6 @@ public interface RefreshTokenStorage {
 
     boolean isBlacklist(String token);
 
+    void deleteByMemberId(String memberId);
+
 }

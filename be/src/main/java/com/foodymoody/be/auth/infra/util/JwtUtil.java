@@ -1,6 +1,7 @@
 package com.foodymoody.be.auth.infra.util;
 
 import com.foodymoody.be.common.exception.ClaimNotFoundException;
+import com.foodymoody.be.common.exception.ExpiredTokenException;
 import com.foodymoody.be.common.exception.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.IncorrectClaimException;
@@ -101,6 +102,8 @@ public class JwtUtil {
             return parser.parseClaimsJws(token).getBody();
         } catch (JwtException e) {
             throw new InvalidTokenException();
+        } catch (ExpiredTokenException e) {
+            throw new ExpiredTokenException(); // 자동 로그아웃을 위한 별도 예외
         }
     }
 

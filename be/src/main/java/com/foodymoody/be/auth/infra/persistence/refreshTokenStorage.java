@@ -33,4 +33,9 @@ public class refreshTokenStorage implements RefreshTokenStorage {
         return blacklist.containsKey(token);
     }
 
+    @Override
+    public void deleteByMemberId(String memberId) {
+        refreshTokens.remove(memberId);
+    }
+
 }
